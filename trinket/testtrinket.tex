@@ -1,0 +1,219 @@
+\documentclass[12pt]{book}
+
+\title{Think Java}
+\author{Allen B. Downey and Chris Mayfield}
+
+\newcommand{\thetitle}{Think Java}
+\newcommand{\thesubtitle}{How to Think Like a Computer Scientist}
+\newcommand{\theauthors}{Allen B. Downey and Chris Mayfield}
+\newcommand{\theversion}{6.1.2}
+
+%%%% Both LATEX and PLASTEX
+
+\usepackage{graphicx}
+\usepackage{hevea}
+\usepackage{makeidx}
+\usepackage{setspace}
+
+\makeindex
+
+% automatically index glossary terms
+\newcommand{\term}[1]{%
+\item[#1:]\index{#1}}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+% format end of chapter excercises
+\newtheoremstyle{exercise}
+  {12pt}        % space above
+  {12pt}        % space below
+  {}            % body font
+  {}            % indent amount
+  {\bfseries}   % head font
+  {}            % punctuation
+  {12pt}        % head space
+  {}            % custom head
+\theoremstyle{exercise}
+\newtheorem{exercise}{Exercise}[chapter]
+
+\newif\ifplastex
+\plastexfalse
+
+%%%% PLASTEX ONLY
+\ifplastex
+
+\usepackage{localdef}
+
+\usepackage{url}
+
+\newcount\anchorcnt
+\newcommand*{\Anchor}[1]{%
+  \@bsphack%
+    \Hy@GlobalStepCount\anchorcnt%
+    \edef\@currentHref{anchor.\the\anchorcnt}%
+    \Hy@raisedlink{\hyper@anchorstart{\@currentHref}\hyper@anchorend}%
+    \M@gettitle{}\label{#1}%
+    \@esphack%
+}
+
+% code listing environments:
+% we don't need these for plastex because they get replaced
+% by preprocess.py
+%\newenvironment{code}{\begin{verbatim}}{\end{verbatim}}
+%\newenvironment{stdout}{\begin{verbatim}}{\end{verbatim}}
+
+% inline syntax formatting
+\newcommand{\java}{\verb}%}
+
+%%%% LATEX ONLY
+\else
+
+\input{latexonly}
+
+\fi
+
+%%%% END OF PREAMBLE
+\begin{document}
+
+\frontmatter
+
+%%%% PLASTEX ONLY
+\ifplastex
+
+\maketitle
+
+%%%% LATEX ONLY
+\else
+
+\begin{latexonly}
+
+%--half title-------------------------------------------------
+\thispagestyle{empty}
+
+\begin{flushright}
+\vspace*{2.0in}
+
+\begin{spacing}{3}
+{\huge \thetitle} \\
+{\Large \thesubtitle}
+\end{spacing}
+
+\vspace{0.25in}
+
+Version \theversion
+
+\vfill
+\end{flushright}
+
+%--verso------------------------------------------------------
+\newpage
+\thispagestyle{empty}
+
+\quad
+
+%--title page-------------------------------------------------
+\newpage
+\thispagestyle{empty}
+
+\begin{flushright}
+\vspace*{2.0in}
+
+\begin{spacing}{3}
+{\huge \thetitle} \\
+{\Large \thesubtitle}
+\end{spacing}
+
+\vspace{0.25in}
+
+Version \theversion
+
+\vspace{1in}
+
+{\Large \theauthors}
+
+\vspace{0.5in}
+
+{\Large Green Tea Press}
+
+{\small Needham, Massachusetts}
+
+\vfill
+\end{flushright}
+
+%--copyright--------------------------------------------------
+\newpage
+\thispagestyle{empty}
+
+Copyright \copyright ~2016 \theauthors.
+
+\vspace{0.2in}
+
+\begin{flushleft}
+Green Tea Press \\
+9 Washburn Ave \\
+Needham, MA 02492
+\end{flushleft}
+
+Permission is granted to copy, distribute, and/or modify this work under the terms of the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License, which is available at \url{http://creativecommons.org/licenses/by-nc-sa/3.0/}.
+
+The original form of this book is \LaTeX\ source code.
+Compiling this code has the effect of generating a device-independent representation of the book, which can be converted to other formats and printed.
+
+The \LaTeX\ source for this book is available from \url{http://thinkjava.org}.
+
+%--table of contents------------------------------------------
+
+\cleardoublepage
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+\end{latexonly}
+
+%--HTML title page--------------------------------------------
+
+\begin{htmlonly}
+
+\vspace{1em}
+
+{\Large \thetitle: \thesubtitle}
+
+{\large \theauthors}
+
+Version \theversion
+
+\vspace{1em}
+
+Copyright \copyright ~2016 \theauthors.
+
+Permission is granted to copy, distribute, and/or modify this work under the terms of the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License, which is available at \url{http://creativecommons.org/licenses/by-nc-sa/3.0/}.
+
+\vspace{1em}
+
+\end{htmlonly}
+
+%-------------------------------------------------------------
+
+% END OF THE PART WE SKIP FOR PLASTEX
+\fi
+
+
+\chapter*{Preface}
+\label{preface}
+
+\markboth{PREFACE}{PREFACE}
+\addcontentsline{toc}{chapter}{Preface}
+
+% Basic test file for easy debugging
+
+\begin{trinket}{Hello.java}
+public class Hello {
+
+    public static void main(String[] args) {
+        // generate some simple output
+        System.out.println("Hello, World!");
+    }
+}
+\end{trinket}
+
+\end{document}
