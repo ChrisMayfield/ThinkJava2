@@ -11,9 +11,10 @@ Compiling the LaTeX source has the effect of generating a device-independent rep
 
 To compile the PDF version from source:
 
-    pdflatex thinkjava
-    makeindex thinkjava
-    pdflatex thinkjava
-    pdflatex thinkjava
+    pdflatex thinkjava.tex
+    pdflatex thinkjava.tex
+    makeindex thinkjava.idx
+    pdflatex thinkjava.tex
+    pdflatex thinkjava.tex
 
 The source code includes a Makefile that automates this process. On Linux, you will need to install texlive-latex-extra and hevea.

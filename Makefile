@@ -1,10 +1,11 @@
 F=thinkjava
 
 all:
-	pdflatex $(F)
+	pdflatex $(F).tex
+	pdflatex $(F).tex
 	makeindex $(F).idx        # shouldn't need .idx here, but we do
-	pdflatex $(F)
-	pdflatex $(F)
+	pdflatex $(F).tex
+	pdflatex $(F).tex
 
 clean:
 	rm -f $(F).aux $(F).idx $(F).ilg $(F).ind $(F).log $(F).out $(F).toc
