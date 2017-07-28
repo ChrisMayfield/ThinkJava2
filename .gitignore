@@ -1,20 +1,22 @@
-# LaTeX output
-thinkjava.aux
-thinkjava.dvi
-thinkjava.idx
-thinkjava.ilg
-thinkjava.ind
-thinkjava.log
-thinkjava.out
-thinkjava.pdf
-thinkjava.synctex.gz
-thinkjava.toc
-
 # Java examples
 *.class
 checkstyle*.jar
 
-# HTML output
-comment.cut
+# LaTeX output
+*.aux
+*.cut
+*.idx
+*.ilg
+*.ind
+*.log
+*.out
+*.synctex.gz
+*.toc
+
+# PDF builds
+onechap.pdf
+thinkjava.pdf
+
+# HTML builds
 heveahtml/*
 trinkethtml/*

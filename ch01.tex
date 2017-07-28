@@ -11,24 +11,57 @@ And like scientists, they observe the behavior of complex systems, form hypothes
 
 The single most important skill for a computer scientist is {\bf problem solving}.
 It involves the ability to formulate problems, think creatively about solutions, and express solutions clearly and accurately.
-As it turns out, the process of learning to program is an excellent opportunity to develop problem solving skills.
-That's why this chapter is called, ``The way of the program''.
-
-On one level you will be learning to program, a useful skill by itself.
+As it turns out, the process of learning to program computers is an excellent opportunity to develop problem solving skills.
+%That's why this chapter is called, ``The way of the program''.
+On one level you will be learning to write code, a useful skill by itself.
 But on another level you will use programming as a means to an end.
 As we go along, that end will become clearer.
 %Learning how to think in terms of computation is much more valuable than just learning how to write code.
+
+
+\section{What is a computer?}
+
+Usually when people hear the word computer, they think of a desktop or laptop.
+Not surprisingly, searching for ``computer'' on \url{images.google.com} displays rows and rows of these types of machines.
+However, in a more general sense, a computer can be any type of device that stores and processes data.
+
+\href{http://www.dictionary.com/browse/computer}{Dictionary.com} defines a computer as ``a programmable electronic device designed to accept data, perform prescribed mathematical and logical operations at high speed, and display the results of these operations. Mainframes, desktop and laptop computers, tablets, and smartphones are some of the different types of computers.''
+
+\index{hardware}
+\index{processor}
+\index{memory}
+\index{CPU}
+\index{RAM}
+
+Each type of computer has its own design, but internally they all share the same type of {\bf hardware}.
+The two most important hardware components are {\bf processors} (or CPUs) that perform simple calculations and {\bf memory} (or RAM) that temporarily stores information.
+Figure~\ref{fig.cpuram} shows what these components look like.
+
+\begin{figure}[!ht]
+\begin{center}
+%https://commons.wikimedia.org/wiki/File:Intel_80486DX2_top.jpg
+\includegraphics[height=11em]{figs/CPU.jpg}
+\hspace{2em}
+%https://commons.wikimedia.org/wiki/File:Memory_module_DDRAM_20-03-2006.jpg
+\includegraphics[height=11em]{figs/RAM.jpg}
+\caption{Example processor and memory hardware.}
+\label{fig.cpuram}
+\end{center}
+\end{figure}
+
+Users generally see and interact with touchscreens, microphones, keyboards, and monitors, but it's the processors and memory that perform the actual computation.
+Nowadays it's not uncommon, even for a smartphone, to have eight processors and four gigabytes (four billion cells) of memory.
 
 
 \section{What is programming?}
 
 \index{program}
 
-A {\bf program} is a sequence of instructions that specifies how to perform a computation.
-%\footnote{This definition does not apply to all programming languages; for alternatives, see \url{https://en.wikipedia.org/wiki/Declarative_programming}.}
+A {\bf program} is a sequence of instructions that specifies how to perform a computation on computer hardware.
 The computation might be something mathematical, like solving a system of equations or finding the roots of a polynomial.
-It can also be a symbolic computation, like searching and replacing text in a document or (strangely enough) compiling a program.
-The details look different in different languages, but a few basic instructions appear in just about every language.
+It could also be a symbolic computation, like searching and replacing text in a document or (strangely enough) compiling a program.
+
+The details look different in different languages, but a few basic instructions appear in just about every language:
 
 \begin{description}
 \item[input:] Get data from the keyboard, a file, a sensor, or some other device.
@@ -43,23 +76,22 @@ The details look different in different languages, but a few basic instructions 
 Believe it or not, that's pretty much all there is to it.
 Every program you've ever used, no matter how complicated, is made up of small instructions that look much like these.
 So you can think of {\bf programming} as the process of breaking down a large, complex task into smaller and smaller subtasks.
-The process continues until the subtasks are simple enough to be performed with the basic instructions provided by the computer.
+The process continues until the subtasks are simple enough to be performed with the basic electronic circuits provided by the computer.
 
 
 \section{What is computer science?}
 
 One of the most interesting aspects of writing programs is deciding how to solve a particular problem, especially when there are multiple solutions.
 For example, there are numerous ways to sort a list of numbers, and each way has its advantages.
-%(see \url{http://www.sorting-algorithms.com/})
-In order to determine which way is best for a given situation, we need techniques for describing and analyzing solutions formally.
-%That is where computer science comes in.
+\href{https://www.toptal.com/developers/sorting-algorithms/}{Sorting-algorithms.com} provides animations and descriptions for eight of the most common ways.
 
-\index{computer science}
 \index{algorithm}
+\index{computer science}
 
-{\bf Computer science} is the science of algorithms, including their discovery and analysis.
+In order to determine which way is best for a given situation, we need techniques for describing and analyzing solutions formally.
 An {\bf algorithm} is a sequence of steps that specifies how to solve a problem.
 Some algorithms are faster than others, and some use less space in computer memory.
+{\bf Computer science} is the science of algorithms, including their discovery and analysis.
 As you learn to develop algorithms for problems you haven't solved before, you also learn to think like a computer scientist.
 %It's much more fun to discover new algorithms than to write the code for solutions that other people came up with!
 
@@ -82,7 +114,7 @@ Thinking about how to correct programs and improve their performance sometimes e
 \index{high-level language}
 \index{language!high-level}
 
-The programming language you will learn is Java, which is a {\bf high-level language}.
+The programming language you will learn in this book is Java, which is a {\bf high-level language}.
 Other high-level languages you may have heard of include Python, C and C++, Ruby, and JavaScript.
 
 \index{low-level language}
@@ -90,7 +122,7 @@ Other high-level languages you may have heard of include Python, C and C++, Ruby
 
 Before they can run, programs in high-level languages have to be translated into a {\bf low-level language}, also called ``machine language''.
 This translation takes some time, which is a small disadvantage of high-level languages.
-But high-level languages have two advantages:
+But high-level languages have two major advantages:
 
 \begin{itemize}
 
@@ -305,7 +337,7 @@ Notice that there is a space at the end of the first string, which appears in th
 
 \section{Escape sequences}
 
-It is possible to display multiple lines of output in just one line of code.
+It's possible to display multiple lines of output in just one line of code.
 You just have to tell Java where to put the line breaks.
 
 \begin{trinket}[220]{Hello.java}
@@ -381,7 +413,7 @@ publicclassGoodbye{
 \end{code}
 
 But most other spaces are optional.
-For example, this program is legal:
+For example, this program {\em is} legal:
 
 \begin{trinket}[220]{Goodbye.java}
 public class Goodbye {
@@ -421,7 +453,7 @@ For example, in DrJava (see Appendix~\ref{development}) you can indent the code 
 \index{Google style}
 
 Organizations that do a lot of software development usually have strict guidelines on how to format source code.
-For example, Google publishes its Java coding standards for use in open-source projects: \url{http://google.github.io/styleguide/javaguide.html}.
+For example, Google publishes its Java coding standards for use in open-source projects: \url{https://google.github.io/styleguide/javaguide.html}.
 %It is easier to understand a large codebase when all the source code is formatted consistently.
 %Plus following style guidelines helps you to avoid common programming mistakes that are difficult to debug.
 
@@ -481,7 +513,7 @@ This later evolved to Linux.''
 
 Finally, programming sometimes brings out strong emotions.
 If you are struggling with a difficult bug, you might feel angry, despondent, or embarrassed.
-Remember that you are not alone, and most if not all programmers have had similar experiences.
+Remember that you are not alone, and virtually every programmer has had similar experiences.
 Don't hesitate to reach out to a friend and ask questions!
 
 
@@ -496,17 +528,28 @@ If you spend some time learning this vocabulary, you will have an easier time re
 \term{problem solving}
 The process of formulating a problem, finding a solution, and expressing the solution.
 
+\term{hardware}
+The electronic and mechanical components of a computer, such as CPUs, RAM, and hard disks.
+
+\term{processor}
+A computer chip that performs simple instructions like basic arithmetic and logic.
+
+\term{memory}
+Circuits that store data as long as the computer is turn on.
+Not to be confused with permanent storage devices like hard disks and flash.
+
 \term{program}
 A sequence of instructions that specifies how to perform tasks on a computer.
+Also known as software.
 
 \term{programming}
 The application of problem solving to creating executable computer programs.
 
-\term{computer science}
-The scientific and practical approach to computation and its applications.
-
 \term{algorithm}
 A procedure or formula for solving a problem, with or without a computer.
+
+\term{computer science}
+The scientific and practical approach to computation and its applications.
 
 \term{bug}
 An error in a program.
@@ -554,7 +597,7 @@ A named sequence of statements.
 
 \term{class}
 For now, a collection of related methods.
-(We will see later that there is more to it.)
+(We will see later that there is a lot more to it.)
 
 \term{comment}
 A part of a program that contains information about the program but has no effect when the program runs.
