@@ -1,812 +1,784 @@
-\chapter{Loops}
+\chapter{Arrays}
+\label{arrays}
 
-Computers are often used to automate repetitive tasks.
-Repeating tasks without making errors is something that computers do well and people do poorly.
+%NOTE: DW liked the previous version where strings come before arrays
+% CSM: the transition is better from strings to things to objects
+% Plus we moved command-line arguments to the strings chapter
 
-\index{iteration}
-
-Running the same code multiple times is called {\bf iteration}.
-We have seen methods, like \java{countdown} and \java{factorial}, that use recursion to iterate.
-Although recursion is elegant and powerful, it takes some getting used to.
-Java provides language features that make iteration much easier:
-the \java{while} and \java{for} statements.
+Up to this point, the only variables we have used were for individual values such as numbers or strings.
+In this chapter, we'll learn how to store multiple values of the same type using a single variable.
+This language feature will enable you to write programs that manipulate larger amounts of data.
 
 
-\section{The while statement}
-\label{while}
+\section{Creating arrays}
 
-\index{while}
-\index{loop!while}
-\index{statement!while}
+\index{array}
+\index{element}
 
-Using a \java{while} statement, we can rewrite \java{countdown} like this:
+An {\bf array} is a sequence of values; the values in the array are called {\bf elements}.
+You can make an array of \java{int}s, \java{double}s, or any other type, but all the values in an array must have the same type.
+
+\index{type!array}
+
+To create an array, you have to declare a variable with an {\em array type} and then create the array itself.
+Array types look like other Java types, except they are followed by square brackets (\java{[]}).
+For example, the following lines declare that \java{counts} is an ``integer array'' and \java{values} is a ``double array'':
 
 \begin{code}
-public static void countdown(int n) {
-    while (n > 0) {
-        System.out.println(n);
-        n = n - 1;
-    }
-    System.out.println("Blastoff!");
+int[] counts;
+double[] values;
+\end{code}
+
+\index{new}
+\index{operator!new}
+
+To create the array itself, you have to use the \java{new} operator, which we first saw in Section~\ref{scanner}:
+
+\begin{code}
+counts = new int[4];
+values = new double[size];
+\end{code}
+
+The first assignment makes \java{count} refer to an array of four integers.
+The second makes \java{values} refer to an array of \java{double}, where the number of elements in \java{values} depends on the value of \java{size}.
+
+Of course, you can also declare the variable and create the array in a single line of code:
+
+\begin{code}
+int[] counts = new int[4];
+double[] values = new double[size];
+\end{code}
+
+\index{NegativeArraySizeException}
+\index{exception!NegativeArraySize}
+
+You can use any integer expression for the size of an array, as long as the value is nonnegative.
+If you try to create an array with $-4$ elements, for example, you will get a \java{NegativeArraySizeException}.
+An array with zero elements is allowed, and there are special uses for such arrays that we'll see later on.
+
+
+\section{Accessing elements}
+\label{elements}
+
+\index{state diagram}
+\index{diagram!state}
+
+When you create an array of \java{int}s, the elements are initialized to zero.
+Figure~\ref{fig.array} shows a state diagram of the \java{counts} array so far.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics{figs/array.pdf}
+\caption{State diagram of an \java{int} array.}
+\label{fig.array}
+\end{center}
+\end{figure}
+
+\index{reference}
+
+The arrow indicates that the value of \java{counts} is a {\bf reference} to the array.
+You should think of {\em the array} and {\em the variable} that refers to it as two different things.
+As we'll soon see, we can assign a different variable to refer to the same array, and we can change the value of \java{counts} to refer to a different array.
+
+\index{element}
+\index{index}
+\index{array!element}
+\index{array!index}
+
+The large numbers inside the boxes are the elements of the array.
+The small numbers outside the boxes are the {\bf indexes} (or indices) used to identify each location in the array.
+Notice that the index of the first element is 0, not 1, as you might have expected.
+
+The \java{[]} operator selects elements from an array:
+
+\begin{code}
+System.out.println("The zeroth element is " + counts[0]);
+\end{code}
+
+You can use the \java{[]} operator anywhere in an expression:
+
+\begin{code}
+counts[0] = 7;
+counts[1] = counts[0] * 2;
+counts[2]++;
+counts[3] -= 60;
+\end{code}
+
+Figure~\ref{fig.array2} shows the result of these statements.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics{figs/array2.pdf}
+\caption{State diagram after several assignment statements.}
+\label{fig.array2}
+\end{center}
+\end{figure}
+
+You can use any expression as an index, as long as it has type \java{int}.
+One of the most common ways to index an array is with a loop variable.
+For example:
+
+\begin{code}
+int i = 0;
+while (i < 4) {
+    System.out.println(counts[i]);
+    i++;
 }
 \end{code}
 
-You can almost read the \java{while} statement like English:
-``While \java{n} is greater than zero, print the value of \java{n} and then reduce the value of \java{n} by 1.
-When you get to zero, print Blastoff!''
-
-\index{loop body}
-
-The expression in parentheses is called the condition.
-The statements in braces are called the {\bf body}.
-The flow of execution for a \java{while} statement is:
-
-\begin{enumerate}
-
-\item Evaluate the condition, yielding \java{true} or \java{false}.
-
-\item If the condition is \java{false}, skip the body and go to the next statement.
-
-\item If the condition is \java{true}, execute the body and go back to step 1.
-
-\end{enumerate}
-
-\index{loop}
-
-This type of flow is called a {\bf loop}, because the last step loops back around to the first.
-
-\index{infinite loop}
-\index{loop!infinite}
-
-The body of the loop should change the value of one or more variables so that, eventually, the condition becomes \java{false} and the loop terminates.
-Otherwise the loop will repeat forever, which is called an {\bf infinite loop}.
-An endless source of amusement for computer scientists is the observation that the directions on shampoo, ``Lather, rinse, repeat,'' are an infinite loop.
-
-In the case of \java{countdown}, we can prove that the loop terminates when \java{n} is positive.
-But in general, it is not so easy to tell whether a loop terminates.
-For example, this loop continues until \java{n} is 1 (which makes the condition \java{false}):
-
-\begin{code}
-public static void sequence(int n) {
-    while (n != 1) {
-        System.out.println(n);
-        if (n % 2 == 0) {         // n is even
-            n = n / 2;
-        } else {                  // n is odd
-            n = n * 3 + 1;
-        }
-    }
-}
-\end{code}
-
-Each time through the loop, the program displays the value of \java{n} and then checks whether it is even or odd.
-If it is even, the value of \java{n} is divided by two.
-If it is odd, the value is replaced by $3n+1$.
-For example, if the starting value (the argument passed to \java{sequence}) is 3, the resulting sequence is 3, 10, 5, 16, 8, 4, 2, 1.
-
-Since \java{n} sometimes increases and sometimes decreases, there is no obvious proof that \java{n} will ever reach 1 and that the program will ever terminate.
-For some values of \java{n}, we can prove that it terminates.
-For example, if the starting value is a power of two, then the value of \java{n} will be even every time through the loop until we get to 1.
-The previous example ends with such a sequence, starting when \java{n} is 16.
-
-The hard question is whether this program terminates for {\em all} values of n.
-So far, no one has been able to prove it {\em or} disprove it!
-For more information, see \url{https://en.wikipedia.org/wiki/Collatz_conjecture}.
-%The field of computer science is interested in these types of questions, because their answers give insight to the limits of what computers can and cannot do.
-
-
-\section{Generating tables}
-
-\index{table}
-\index{logarithm}
-
-Loops are good for generating and displaying tabular data.
-Before computers were readily available, people had to calculate logarithms, sines and cosines, and other common mathematical functions by hand.
-To make that easier, there were books of tables where you could look up values of various functions.
-Creating these tables by hand was slow and boring, and the results were often full of errors.
-
-When computers appeared on the scene, one of the initial reactions was: ``This is great!
-We can use a computer to generate the tables, so there will be no errors.''
-That turned out to be true (mostly), but shortsighted.
-Not much later, computers were so pervasive that printed tables became obsolete.
-
-\index{division!floating-point}
-
-Even so, for some operations, computers use tables of values to get an approximate answer, and then perform computations to improve the approximation.
-In some cases, there have been errors in the underlying tables, most famously in the table the original Intel Pentium used to perform floating-point division (see \url{https://en.wikipedia.org/wiki/Pentium_FDIV_bug}).
-
-Although a ``log table'' is not as useful as it once was, it still makes a good example of iteration.
-The following loop displays a table with a sequence of values in the left column and their logarithms in the right column:
-
-\begin{code}
-int i = 1;
-while (i < 10) {
-    double x = i;
-    System.out.println(x + "   " + Math.log(x));
-    i = i + 1;
-}
-\end{code}
-
-The output of this program is:
-
-\begin{stdout}
-1.0   0.0
-2.0   0.6931471805599453
-3.0   1.0986122886681098
-4.0   1.3862943611198906
-5.0   1.6094379124341003
-6.0   1.791759469228055
-7.0   1.9459101490553132
-8.0   2.0794415416798357
-9.0   2.1972245773362196
-\end{stdout}
-
-\java{Math.log} computes natural logarithms, that is, logarithms base $e$.
-For computer science applications, we often want logarithms with respect to base 2.
-To compute them, we can apply this equation:
-%
-\[ \log_2 x = \frac{log_e x}{log_e 2} \]
-%
-We can modify the loop as follows:
-
-\begin{code}
-int i = 1;
-while (i < 10) {
-    double x = i;
-    System.out.println(x + "   " + Math.log(x) / Math.log(2));
-    i = i + 1;
-}
-\end{code}
-
-And here are the results:
-
-\begin{stdout}
-1.0   0.0
-2.0   1.0
-3.0   1.5849625007211563
-4.0   2.0
-5.0   2.321928094887362
-6.0   2.584962500721156
-7.0   2.807354922057604
-8.0   3.0
-9.0   3.1699250014423126
-\end{stdout}
-
-Each time through the loop, we add one to \java{x}, so the result is an arithmetic sequence.
-If we multiply \java{x} by something instead, we get a geometric sequence:
-
-\begin{code}
-final double LOG2 = Math.log(2);
-int i = 1;
-while (i < 100) {
-    double x = i;
-    System.out.println(x + "   " + Math.log(x) / LOG2);
-    i = i * 2;
-}
-\end{code}
-
-\index{final}
-
-The first line stores \java{Math.log(2)} in a \java{final} variable to avoid computing that value over and over again.
-The last line multiplies \java{x} by 2.
-The result is:
-
-\begin{stdout}
-1.0   0.0
-2.0   1.0
-4.0   2.0
-8.0   3.0
-16.0   4.0
-32.0   5.0
-64.0   6.0
-\end{stdout}
-
-This table shows the powers of two and their logarithms, base 2.
-Log tables may not be useful anymore, but for computer scientists, knowing the powers of two helps a lot!
-%When you have an idle moment, you should memorize the powers of two up to 65536 (that's $2^{16}$).
-
-
-\section{Encapsulation and generalization}
-\label{encapsulation}
-
-\index{table!two-dimensional}
-\index{program development}
-
-In Section~\ref{distance}, we presented a way of writing programs called incremental development.
-In this section we present another {\bf program development} process called ``encapsulation and generalization''.
-The steps are:
-
-\begin{enumerate}
-
-\item Write a few lines of code in \java{main} or another method, and test them.
-
-\item When they are working, wrap them in a new method, and test again.
-
-\item If it's appropriate, replace literal values with variables and parameters.
-
-\end{enumerate}
-
-\index{encapsulate}
-\index{generalize}
-
-The second step is called {\bf encapsulation}; the third step is {\bf generalization}.
-
-To demonstrate this process, we'll develop methods that display multiplication tables.
-Here is a loop that displays the multiples of two, all on one line:
-
-\begin{code}
-int i = 1;
-while (i <= 6) {
-    System.out.printf("%4d", 2 * i);
-    i = i + 1;
-}
-System.out.println();
-\end{code}
+This \java{while} loop counts from 0 up to 4.
+When \java{i} is 4, the condition fails and the loop terminates.
+So the body of the loop is only executed when \java{i} is 0, 1, 2, and 3.
 
 \index{loop variable}
 \index{variable!loop}
 
-The first line initializes a variable named \java{i}, which is going to act as a {\bf loop variable}: as the loop executes, the value of \java{i} increases from 1 to 6; when \java{i} is 7, the loop terminates.
+Each time through the loop we use \java{i} as an index into the array, displaying the \java{i}th element.
+This type of array processing is often written using a \java{for} loop.
 
-Each time through the loop, we display the value \java{2 * i} padded with spaces so it's four characters wide.
-Since we use \java{System.out.printf}, the output appears on a single line.
+\begin{code}
+for (int i = 0; i < 4; i++) {
+    System.out.println(counts[i]);
+}
+\end{code}
 
-After the loop, we call \java{println} to print a newline and complete the line.
-Remember that in some environments, none of the output is displayed until the line is complete.
+\index{ArrayIndexOutOfBoundsException}
+\index{exception!ArrayIndexOutOfBounds}
 
-The output of the code so far is:
+For the \java{counts} array, the only legal indexes are 0, 1, 2, and 3.
+If the index is negative or greater than 3, the result is an \java{ArrayIndexOutOfBoundsException}.
+
+
+\section{Displaying arrays}
+\label{printarray}
+
+You can use \java{println} to display an array, but it probably doesn't do what you would like.
+For example, the following fragment (1) declares an array variable, (2) makes it refer to an array of four elements, and (3) attempts to display the contents of the array using \java{println}:
+
+\begin{code}
+int[] a = {1, 2, 3, 4};
+System.out.println(a);
+\end{code}
+
+Unfortunately, the output is something like:
 
 \begin{stdout}
-   2   4   6   8  10  12
+[I@bf3f7e0
 \end{stdout}
 
-The next step is to ``encapsulate'' this code in a new method.
-Here's what it looks like:
+The bracket indicates that the value is an array, \java{I} stands for ``integer'', and the rest represents the address of the array.
+If we want to display the elements of the array, we can do it ourselves:
 
 \begin{code}
-public static void printRow() {
-    int i = 1;
-    while (i <= 6) {
-        System.out.printf("%4d", 2 * i);
-        i = i + 1;
+public static void printArray(int[] a) {
+    System.out.print("{" + a[0]);
+    for (int i = 1; i < a.length; i++) {
+        System.out.print(", " + a[i]);
     }
-    System.out.println();
+    System.out.println("}");
 }
 \end{code}
 
-\index{generalization}
-
-Next we replace the constant value, \java{2}, with a parameter, \java{n}.
-This step is called ``generalization'' because it makes the method more general (less specific).
-
-\begin{code}
-public static void printRow(int n) {
-    int i = 1;
-    while (i <= 6) {
-        System.out.printf("%4d", n * i);
-        i = i + 1;
-    }
-    System.out.println();
-}
-\end{code}
-
-Invoking this method with the argument 2 yields the same output as before.
-With the argument 3, the output is:
+Given the previous array, the output of this method is:
 
 \begin{stdout}
-   3   6   9  12  15  18
+{1, 2, 3, 4}
 \end{stdout}
 
-And with argument 4, the output is:
+\index{utility class}
+\index{Arrays class}
+
+The Java library provides a utility class \java{java.util.Arrays} that provides methods for working with arrays.
+One of them, \java{toString}, returns a string representation of an array.
+We can invoke it like this:
+
+\begin{code}
+System.out.println(Arrays.toString(a));
+\end{code}
+
+And the output is:
 
 \begin{stdout}
-   4   8  12  16  20  24
+[1, 2, 3, 4]
 \end{stdout}
 
-By now you can probably guess how we are going to display a multiplication table: we'll invoke \java{printRow} repeatedly with different arguments.
-In fact, we'll use another loop to iterate through the rows.
+As usual, we have to import \java{java.util.Arrays} before we can use it.
+Notice that the string format is slightly different: it uses square brackets instead of curly braces.
+But it beats having to write the \java{printArray} method.
+
+
+\section{Copying arrays}
+\label{copyarray}
+
+\index{array!copying}
+
+As explained in Section~\ref{elements}, array variables contain {\em references} to arrays.
+When you make an assignment to an array variable, it simply copies the reference.
+But it doesn't copy the array itself!
+For example:
 
 \begin{code}
-int i = 1;
-while (i <= 6) {
-    printRow(i);
-    i = i + 1;
+double[] a = new double[3];
+double[] b = a;
+\end{code}
+
+These statements create an array of three \java{double}s and make two different variables refer to it, as shown in Figure~\ref{fig.array3}.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics{figs/array3.pdf}
+\caption{State diagram showing two variables that refer to the same array.}
+\label{fig.array3}
+\end{center}
+\end{figure}
+
+\index{alias}
+
+Any changes made through either variable will be seen by the other.
+For example, if we set \java{a[0] = 17.0}, and then display \java{b[0]}, the result is {\tt 17.0}.
+Because \java{a} and \java{b} are different names for the same thing, they are sometimes called {\bf aliases}.
+
+If you actually want to copy the array, not just a reference, you have to create a new array and copy the elements from the old to the new, like this:
+
+\begin{code}
+double[] b = new double[3];
+for (int i = 0; i < 3; i++) {
+    b[i] = a[i];
 }
 \end{code}
 
-And the output looks like this:
+\index{Arrays class}
+
+Another option is to use \java{java.util.Arrays}, which provides a method named \java{copyOf} that copies an array.
+You can invoke it like this:
+
+\begin{code}
+double[] b = Arrays.copyOf(a, 3);
+\end{code}
+
+The second parameter is the number of elements you want to copy, so you can also use \java{copyOf} to copy just part of an array.
+
+
+\section{Array length}
+
+\index{length!array}
+\index{array!length}
+
+The examples in the previous section only work if the array has three elements.
+It would be better to generalize the code to work with arrays of any size.
+We can do that by replacing the magic number, \java{3}, with \java{a.length}:
+
+\begin{code}
+double[] b = new double[a.length];
+for (int i = 0; i < a.length; i++) {
+    b[i] = a[i];
+}
+\end{code}
+
+All arrays have a built-in constant, \java{length}, that stores the number of elements.
+The expression \java{a.length} may look like a method invocation, but there are no parentheses and no arguments.
+%\java{length} is actually an {\bf attribute} of the array, not a method.
+%We will learn more about attributes in Section~\ref{attribute}.
+
+The last time this loop gets executed, \java{i} is \java{a.length - 1}, which is the index of the last element.
+When \java{i} is equal to \java{a.length}, the condition fails and the body is not executed -- which is a good thing, because trying to access \java{a[a.length]} would throw an exception.
+
+You can also use \java{a.length} with \java{Arrays.copyOf}:
+
+\begin{code}
+double[] b = Arrays.copyOf(a, a.length);
+\end{code}
+
+
+\section{Array traversal}
+\label{traversal}
+
+Many computations can be implemented by looping through the elements of an array and performing an operation on each element.
+For example, the following loop squares the elements of a \java{double} array:
+
+\begin{code}
+for (int i = 0; i < a.length; i++) {
+    a[i] = Math.pow(a[i], 2.0);
+}
+\end{code}
+
+\index{traversal}
+\index{search}
+
+Looping through the elements of an array is called a {\bf traversal}.
+Another common pattern is a {\bf search}, which involves traversing an array looking for a particular element.
+For example, the following method takes an \java{int} array and an integer value, and it returns the index where the value appears:
+
+\begin{code}
+public static int search(double[] a, double target) {
+    for (int i = 0; i < a.length; i++) {
+        if (a[i] == target) {
+            return i;
+        }
+    }
+    return -1;
+}
+\end{code}
+
+If we find the target value in the array, we return its index immediately.
+If the loop exits without finding the target, it returns \java{-1}, a special value chosen to indicate a failed search.
+
+\index{reduce}
+
+Another common traversal is a {\bf reduce} operation, which ``reduces'' an array of values down to a single value.
+Examples include the sum or product of the elements, the minimum, and the maximum.
+The following method takes a \java{double} array and returns the sum of the elements:
+
+\begin{code}
+public static double sum(double[] a) {
+    double total = 0.0;
+    for (int i = 0; i < a.length; i++) {
+        total += a[i];
+    }
+    return total;
+}
+\end{code}
+
+\index{accumulator}
+
+Before the loop, we initialize \java{total} to zero.
+Each time through the loop, we update \java{total} by adding one element from the array.
+At the end of the loop, \java{total} contains the sum of the elements.
+A variable used this way is sometimes called an {\bf accumulator}.
+
+
+\section{Random numbers}
+\label{random}
+
+\index{deterministic}
+
+Most computer programs do the same thing every time they run; programs like that are {\bf deterministic}.
+Usually determinism is a good thing, since we expect the same calculation to yield the same result.
+But for some applications, we want the computer to be unpredictable.
+Games are an obvious example, but there are many others.
+
+%Technically speaking, all computer programs are deterministic: they simply execute the source code.
+
+\index{nondeterministic}
+\index{pseudorandom}
+
+Making a program {\bf nondeterministic} turns out to be hard, because it's hard for a computer to generate truly random numbers.
+But there are algorithms that generate unpredictable sequences called {\bf pseudorandom} numbers.
+For most applications, they are as good as random.
+
+%Nondeterminism is a theoretical concept for analyzing the complexity of algorithms.
+
+\index{Random}
+\index{nextInt!Random}
+
+If you did Exercise~\ref{guess}, you have already seen \java{java.util.Random}, which generates pseudorandom numbers.
+The method \java{nextInt} takes an integer argument, \java{n}, and returns a random integer between \java{0} and \java{n - 1} (inclusive).
+
+If you generate a long series of random numbers, every value should appear, at least approximately, the same number of times.
+One way to test this behavior of \java{nextInt} is to generate a large number of values, store them in an array, and count the number of times each value occurs.
+
+The following method creates an \java{int} array and fills it with random numbers between 0 and 99.
+The argument specifies the size of the array, and the return value is a reference to the new array.
+
+\begin{code}
+public static int[] randomArray(int size) {
+    Random random = new Random();
+    int[] a = new int[size];
+    for (int i = 0; i < a.length; i++) {
+        a[i] = random.nextInt(100);
+    }
+    return a;
+}
+\end{code}
+
+The following fragment generates an array and displays it using \java{printArray} from Section~\ref{printarray}:
+
+\begin{code}
+int numValues = 8;
+int[] array = randomArray(numValues);
+printArray(array);
+\end{code}
+
+The output looks like this:
 
 \begin{stdout}
-   1   2   3   4   5   6
-   2   4   6   8  10  12
-   3   6   9  12  15  18
-   4   8  12  16  20  24
-   5  10  15  20  25  30
-   6  12  18  24  30  36
+{15, 62, 46, 74, 67, 52, 51, 10}
 \end{stdout}
 
-The format specifier \java{\%4d} in \java{printRow} causes the output to align vertically, regardless of whether the numbers are one or two digits.
+If you run it, you will probably get different values.
 
-Finally, we encapsulate the second loop in a method:
+
+\section{Traverse and count}
+
+\index{histogram}
+\index{counter}
+
+If these values were exam scores -- and they would be pretty bad exam scores -- the teacher might present them to the class in the form of a {\bf histogram}.
+In statistics, a histogram is a set of counters that keeps track of the number of times each value appears.
+
+For exam scores, we might have ten counters to keep track of how many students scored in the 90s, the 80s, etc.
+To do that, we can traverse the array and count the number of elements that fall in a given range.
+
+The following method takes an array and two integers, \java{low} and \java{high}.
+It returns the number of elements that fall in the range from  \java{low} to \java{high}.
 
 \begin{code}
-public static void printTable() {
-    int i = 1;
-    while (i <= 6) {
-        printRow(i);
-        i = i + 1;
+public static int inRange(int[] a, int low, int high) {
+    int count = 0;
+    for (int i = 0; i < a.length; i++) {
+        if (a[i] >= low && a[i] < high) {
+            count++;
+        }
     }
+    return count;
 }
 \end{code}
 
-One of the challenges of programming, especially for beginners, is figuring out how to divide up a program into methods.
-The process of encapsulation and generalization allows you to design as you go along.
+\index{reduce}
 
+This pattern should look familiar: it is another reduce operation.
+Notice that \java{low} is included in the range (\java{>=}), but \java{high} is excluded (\java{<}).
+This detail keeps us from counting any scores twice.
 
-\section{More generalization}
-
-\index{generalization}
-
-The previous version of \java{printTable} always displays six rows.
-We can generalize it by replacing the literal \java{6} with a parameter:
+Now we can count the number of scores in each grade range:
 
 \begin{code}
-public static void printTable(int rows) {
-    int i = 1;
-    while (i <= rows) {
-        printRow(i);
-        i = i + 1;
-    }
+int[] scores = randomArray(30);
+int a = inRange(scores, 90, 100);
+int b = inRange(scores, 80, 90);
+int c = inRange(scores, 70, 80);
+int d = inRange(scores, 60, 70);
+int f = inRange(scores, 0, 60);
+\end{code}
+
+
+\section{Building a histogram}
+
+The previous code is repetitious, but it is acceptable as long as the number of ranges is small.
+But suppose we wanted to keep track of the number of times each score appears.
+We would have to write 100 lines of code:
+
+\begin{code}
+int count0 = inRange(scores, 0, 1);
+int count1 = inRange(scores, 1, 2);
+int count2 = inRange(scores, 2, 3);
+...
+int count99 = inRange(scores, 99, 100);
+\end{code}
+
+What we need is a way to store 100 counters, preferably so we can use an index to access them.
+In other words, we need another array!
+
+The following fragment creates an array of 100 counters, one for each possible score.
+It loops through the scores and uses \java{inRange} to count how many times each score appears.
+Then it stores the results in the array:
+
+\begin{code}
+int[] counts = new int[100];
+for (int i = 0; i < counts.length; i++) {
+    counts[i] = inRange(scores, i, i + 1);
 }
 \end{code}
 
-Here is the output with the argument 7:
+Notice that we are using the loop variable \java{i} three times: as an index into the \java{counts} array, and as two arguments for \java{inRange}.
+%
+%\section{A single-pass solution}
+%\label{singlepass}
+%
+The code works, but it is not as efficient as it could be.
+Every time the loop invokes \java{inRange}, it traverses the entire array.
 
-\begin{stdout}
-   1   2   3   4   5   6
-   2   4   6   8  10  12
-   3   6   9  12  15  18
-   4   8  12  16  20  24
-   5  10  15  20  25  30
-   6  12  18  24  30  36
-   7  14  21  28  35  42
-\end{stdout}
+\index{efficiency}
 
-That's better, but it still has a problem: it always displays the same number of columns.
-We can generalize more by adding a parameter to \java{printRow}:
+It would be better to make a single pass through the array, and for each score, compute which range it falls in and increment the corresponding counter.
+This code traverses the array of scores {\em only once} to generate the histogram:
 
 \begin{code}
-public static void printRow(int n, int cols) {
-    int i = 1;
-    while (i <= cols) {
-        System.out.printf("%4d", n * i);
-        i = i + 1;
-    }
-    System.out.println();
+int[] counts = new int[100];
+for (int i = 0; i < scores.length; i++) {
+    int index = scores[i];
+    counts[index]++;
 }
 \end{code}
 
-Now \java{printRow} takes two parameters: \java{n} is the value whose multiples should be displayed, and \java{cols} is the number of columns.
-Since we added a parameter to \java{printRow}, we also have to change the line in \java{printTable} where it is invoked:
+Each time through the loop, it selects one element from \java{scores} and uses it as an index to increment the corresponding element of \java{counts}.
+Because this code only traverses the array of scores once, it is much more efficient.
+
+
+\section{The enhanced for loop}
+\label{enhanced}
+
+Since traversing arrays is so common, Java provides an alternative syntax that makes the code more compact.
+For example, consider a \java{for} loop that displays the elements of an array on separate lines:
 
 \begin{code}
-public static void printTable(int rows) {
-    int i = 1;
-    while (i <= rows) {
-        printRow(i, rows);
-        i = i + 1;
-    }
+for (int i = 0; i < values.length; i++) {
+    int value = values[i];
+    System.out.println(value);
 }
 \end{code}
 
-When this line executes, it evaluates \java{rows} and passes the value, which is 7 in this example, as an argument.
-In \java{printRow}, this value is assigned to \java{cols}.
-As a result, the number of columns equals the number of rows, so we get a square 7x7 table:
-
-\begin{stdout}
-   1   2   3   4   5   6   7
-   2   4   6   8  10  12  14
-   3   6   9  12  15  18  21
-   4   8  12  16  20  24  28
-   5  10  15  20  25  30  35
-   6  12  18  24  30  36  42
-   7  14  21  28  35  42  49
-\end{stdout}
-
-When you generalize a method appropriately, you often find that it has capabilities you did not plan.
-For example, you might notice that the multiplication table is symmetric; since $ab = ba$, all the entries in the table appear twice.
-You could save ink by printing half of the table, and you would only have to change one line of \java{printTable}:
+We could rewrite the loop like this:
 
 \begin{code}
-printRow(i, i);
-\end{code}
-
-In words, the length of each row is the same as its row number.
-The result is a triangular multiplication table.
-
-\begin{stdout}
-   1
-   2   4
-   3   6   9
-   4   8  12  16
-   5  10  15  20  25
-   6  12  18  24  30  36
-   7  14  21  28  35  42  49
-\end{stdout}
-
-Generalization makes code more versatile, more likely to be reused, and sometimes easier to write.
-
-%Even though the second parameter in \java{printRow} is named \java{size} and we have a variable with the same name, we can still use any value or expression we want for the argument.
-
-%Remember, you do not pass {\em variables} to methods; you pass their current {\em values}.
-%In this last example, the value of \java{i} in \java{printTable} is assigned to both \java{n} and \java{cols} in \java{printRow}.
-
-
-\section{The for statement}
-\label{for}
-
-\index{for}
-\index{loop!for}
-\index{statement!for}
-
-The loops we have written so far have several elements in common.
-They start by initializing a variable, they have a condition that depends on that variable, and inside the loop they do something to update that variable.
-This type of loop is so common that there is another statement, the \java{for} loop, that expresses it more concisely.
-
-For example, we could rewrite \java{printTable} like this:
-
-\begin{code}
-public static void printTable(int rows) {
-    for (int i = 1; i <= rows; i = i + 1) {
-        printRow(i, rows);
-    }
+for (int value : values) {
+    System.out.println(value);
 }
 \end{code}
 
-\java{for} loops have three components in parentheses, separated by semicolons: the initializer, the condition, and the update.
+\index{enhanced for loop}
 
-\begin{enumerate}
+This statement is called an {\bf enhanced for loop}.
+You can read it as, ``for each \java{value} in \java{values}''.
+It's conventional to use plural nouns for array variables and singular nouns for element variables.
 
-\item The {\em initializer} runs once at the very beginning of the loop.
+Notice how the single line \java{for (int value : values)} replaces the first two lines of the standard \java{for} loop.
+It hides the details of iterating each index of the array, and instead, focuses on the values themselves.
 
-\item The {\em condition} is checked each time through the loop.
-If it is \java{false}, the loop ends.
-Otherwise, the body of the loop is executed (again).
-
-\item At the end of each iteration, the {\em update} runs, and we go back to step 2.
-
-\end{enumerate}
-
-The \java{for} loop is often easier to read because it puts all the loop-related statements at the top of the loop.
-
-There is one difference between \java{for} loops and \java{while} loops: if you declare a variable in the initializer, it only exists inside the \java{for} loop.
-For example, here is a version of \java{printRow} that uses a \java{for} loop:
+Using the enhanced \java{for} loop, and removing the temporary variable, we can write the histogram code from the previous section more concisely:
 
 \begin{code}
-public static void printRow(int n, int cols) {
-    for (int i = 1; i <= cols; i = i + 1) {
-        System.out.printf("%4d", n * i);
-    }
-    System.out.println(i);  // compiler error
+int[] counts = new int[100];
+for (int score : scores) {
+    counts[score]++;
 }
 \end{code}
 
-The last line tries to display \java{i} (for no reason other than demonstration) but it won't work.
-If you need to use a loop variable outside the loop, you have to declare it outside the loop, like this:
+Enhanced \java{for} loops often make the code more readable, especially for accumulating values.
+But they are not helpful when you need to refer to the index, as in search operations.
 
 \begin{code}
-public static void printRow(int n, int cols) {
-    int i;
-    for (i = 1; i <= cols; i = i + 1) {
-        System.out.printf("%4d", n * i);
+for (double d : array) {
+    if (d == target) {
+        // array contains d, but we don't know the index
     }
-    System.out.println(i);
 }
 \end{code}
-
-\index{increment}
-\index{decrement}
-
-Assignments like \java{i = i + 1} don't often appear in \java{for} loops, because Java provides a more concise way to add and subtract by one.
-Specifically, \java{++} is the {\bf increment} operator; it has the same effect as \java{i = i + 1}.
-And \java{--} is the {\bf decrement} operator; it has the same effect as \java{i = i - 1}.
-
-If you want to increment or decrement a variable by an amount other than \java{1}, you can use \java{+=} and \java{-=}.
-For example, \java{i += 2} increments \java{i} by \java{2}.
-
-
-\section{The do-while loop}
-
-\index{pretest loop}
-
-The \java{while} and \java{for} statements are {\bf pretest loops}; that is, they test the condition first and at the beginning of each pass through the loop.
-
-\index{posttest loop}
-\index{do-while}
-
-Java also provides a {\bf posttest loop}: the \java{do}-\java{while} statement.
-This type of loop is useful when you need to run the body of the loop at least once.
-
-%NOTE: can we find an example that's better using do-while than using while-break?
-
-For example, in Section~\ref{validate} we used the \java{return} statement to avoid reading invalid input from the user.
-We can use a \java{do}-\java{while} loop to keep reading input until it's valid:
-
-\begin{code}
-Scanner in = new Scanner(System.in);
-boolean okay;
-do {
-    System.out.print("Enter a number: ");
-    if (in.hasNextDouble()) {
-        okay = true;
-    } else {
-        okay = false;
-        String word = in.next();
-        System.err.println(word + " is not a number");
-    }
-} while (!okay);
-double x = in.nextDouble();
-\end{code}
-
-Although this code looks complicated, it is essentially only three steps:
-
-\begin{enumerate}
-\item Display a prompt.
-\item Check the input; if invalid, display an error and start over.
-\item Read the input.
-\end{enumerate}
-
-\index{System.err}
-
-The code uses a flag variable, \java{okay}, to indicate whether we need to repeat the loop body.
-If \java{hasNextDouble()} returns \java{false}, we consume the invalid input by calling \java{next()}.
-We then display an error message via \java{System.err}.
-The loop terminates when \java{hasNextDouble()} return \java{true}.
-
-
-\section{Break and continue}
-
-Sometimes neither a pretest nor a posttest loop will provide exactly what you need.
-In the previous example, the ``test'' needed to happen in the middle of the loop.
-As a result, we used a flag variable and a nested \java{if}-\java{else} statement.
-
-\index{break}
-
-A simpler way to solve this problem is to use a \java{break} statement.
-When a program reaches a \java{break} statement, it exits the current loop.
-
-\begin{code}
-Scanner in = new Scanner(System.in);
-while (true) {
-    System.out.print("Enter a number: ");
-    if (in.hasNextDouble()) {
-        break;
-    }
-    String word = in.next();
-    System.err.println(word + " is not a number");
-}
-double x = in.nextDouble();
-\end{code}
-
-Using \java{true} as a conditional in a \java{while} loop is an idiom that means ``loop forever'', or in this case ``loop until you get to a \java{break} statement.''
-
-\index{continue}
-
-In addition to the \java{break} statement, which exits the loop, Java provides a \java{continue} statement that moves on to the next iteration.
-For example, the following code reads integers from the keyboard and computes a running total.
-The \java{continue} statement causes the program to skip over any negative values.
-
-\begin{code}
-Scanner in = new Scanner(System.in);
-int x = -1;
-int sum = 0;
-while (x != 0) {
-    x = in.nextInt();
-    if (x <= 0) {
-        continue;
-    }
-    System.out.println("Adding " + x);
-    sum += x;
-}
-\end{code}
-
-Although \java{break} and \java{continue} statements give you more control of the loop execution, they can make code difficult to understand and debug.
-Use them sparingly.
-
 
 \section{Vocabulary}
 
 \begin{description}
 
-\term{iteration}
-Executing a sequence of statements repeatedly.
+\term{array}
+A collection of values, where all the values have the same type, and each value is identified by an index.
 
-\term{loop}
-A statement that executes a sequence of statements repeatedly.
+\term{element}
+One of the values in an array.
+The \java{[]} operator selects elements.
 
-\term{loop body}
-The statements inside the loop.
+\term{index}
+An integer variable or value used to indicate an element of an array.
 
-\term{infinite loop}
-A loop whose condition is always true.
+\term{reference}
+A value that indicates another value, like an array.
+In a state diagram, a reference appears as an arrow.
 
-\term{program development}
-A process for writing programs.
-So far we have seen ``incremental development'' and ``encapsulation and generalization''.
+\term{alias}
+A variable that refers to the same object as another variable.
 
-\term{encapsulate}
-To wrap a sequence of statements in a method.
+\term{traversal}
+Looping through the elements of an array (or other collection).
 
-\term{generalize}
-To replace something unnecessarily specific (like a constant value) with something appropriately general (like a variable or parameter).
+\term{search}
+A traversal pattern used to find a particular element of an array.
 
-\term{loop variable}
-A variable that is initialized, tested, and updated in order to control a loop.
+\term{reduce}
+A traversal pattern that combines the elements of an array into a single value.
 
-\term{increment}
-Increase the value of a variable.
+\term{accumulator}
+A variable used to accumulate results during a traversal.
 
-\term{decrement}
-Decrease the value of a variable.
+\term{deterministic}
+A program that does the same thing every time it is invoked.
 
-\term{pretest loop}
-A loop that tests the condition before each iteration.
+\term{nondeterministic}
+A program that always behaves differently, even when run multiple times with the same input.
 
-\term{posttest loop}
-A loop that tests the condition after each iteration.
+\term{pseudorandom}
+A sequence of numbers that appear to be random, but which are actually the product of a deterministic computation.
+
+\term{histogram}
+An array of integers where each integer counts the number of values that fall into a certain range.
+
+\term{enhanced for loop}
+An alternative syntax for traversing the elements (values) of an array.
 
 \end{description}
 
 
 \section{Exercises}
 
-The code for this chapter is in the {\tt ch07} directory of {\tt ThinkJavaCode}.
+The code for this chapter is in the {\tt ch08} directory of {\tt ThinkJavaCode}.
 See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
 
-If you have not already read Appendix~\ref{checkstyle}, now might be a good time.
-It describes Checkstyle, a tool that analyzes many aspects of your source code.
+\begin{exercise}
+The goal of this exercise is to practice encapsulation with some of the examples in this chapter.
+
+\begin{enumerate}
+
+\item Starting with the code in Section~\ref{traversal}, write a method called \java{powArray} that takes a \java{double} array, \java{a}, and returns a new array that contains the elements of \java{a} squared.
+Generalize it to take a second argument and raise the elements of \java{a} to the given power.
+
+\item Starting with the code in Section~\ref{enhanced}, write a method called \java{histogram} that takes an \java{int} array of scores from 0 to (but not including) 100, and returns a histogram of 100 counters.
+Generalize it to take the number of counters as an argument.
+
+\end{enumerate}
+
+\end{exercise}
 
 
 \begin{exercise}
+The purpose of this exercise is to practice reading code and recognizing the traversal patterns in this chapter.
+The following methods are hard to read, because instead of using meaningful names for the variables and methods, they use names of fruit.
 
-Consider the following methods:
+For each method, write one sentence that describes what the method does, without getting into the details of how it works.
+For each variable, identify the role it plays.
 
 \begin{code}
-public static void main(String[] args) {
-    loop(10);
+public static int banana(int[] a) {
+    int kiwi = 1;
+    int i = 0;
+    while (i < a.length) {
+        kiwi = kiwi * a[i];
+        i++;
+    }
+    return kiwi;
 }
+\end{code}
 
-public static void loop(int n) {
-    int i = n;
-    while (i > 1) {
-        System.out.println(i);
-        if (i % 2 == 0) {
-            i = i / 2;
-        } else {
-            i = i + 1;
+\begin{code}
+public static int grapefruit(int[] a, int grape) {
+    for (int i = 0; i < a.length; i++) {
+        if (a[i] == grape) {
+            return i;
         }
+    }
+    return -1;
+}
+\end{code}
+
+\begin{code}
+public static int pineapple(int[] a, int apple) {
+    int pear = 0;
+    for (int pine: a) {
+        if (pine == apple) {
+            pear++;
+        }
+    }
+    return pear;
+}
+\end{code}
+
+\end{exercise}
+
+
+\begin{exercise}
+What is the output of the following program?
+Describe in a few words what \java{mus} does.
+Draw a stack diagram just before \java{mus} returns.
+%that shows the state of the program
+
+\begin{code}
+public static int[] make(int n) {
+    int[] a = new int[n];
+    for (int i = 0; i < n; i++) {
+        a[i] = i + 1;
+    }
+    return a;
+}
+\end{code}
+
+\begin{code}
+public static void dub(int[] jub) {
+    for (int i = 0; i < jub.length; i++) {
+        jub[i] *= 2;
     }
 }
 \end{code}
 
-\begin{enumerate}
+\begin{code}
+public static int mus(int[] zoo) {
+    int fus = 0;
+    for (int i = 0; i < zoo.length; i++) {
+        fus += zoo[i];
+    }
+    return fus;
+}
+\end{code}
 
-\item Draw a table that shows the value of the variables \java{i} and \java{n} during the execution of \java{loop}.
-The table should contain one column for each variable and one line for each iteration.
-
-\item What is the output of this program?
-
-\item Can you prove that this loop terminates for any positive value of \java{n}?
-
-% If i is odd and we increment by 1, the result is even.  So the second
-% branch is always followed by the first branch.
-% If i is even and we divide by 2, the result might be odd.  So in the
-% worst case, we might alternate between the branches.
-% But we can't do more of the second branch than the first.
-% So we divide at least as often as we add.
-
-% If i is 1, we're done.
-% If i is 2, we divide by 2 and we're done.
-% If i is greater than 2, the first branch decreases more than the
-% second branch increases.
-% So if we do one of each, the net effect is a decrease.
-% Therefore, the value of i has to decrease after any two steps.
-
-\end{enumerate}
-
+\begin{code}
+public static void main(String[] args) {
+    int[] bob = make(5);
+    dub(bob);
+    System.out.println(mus(bob));
+}
+\end{code}
 \end{exercise}
 
 
 \begin{exercise}
-
-Let's say you are given a number, $a$, and you want to find its square root.
-One way to do that is to start with a rough guess about the answer, $x_0$, and then improve the guess using this formula:
-%
-\[ x_1 =(x_0 + a/x_0) / 2 \]
-%
-For example, if we want to find the square root of 9, and we start with $x_0 = 6$, then $x_1 = (6 + 9/6) / 2 = 3.75$, which is closer.
-We can repeat the procedure, using $x_1$ to calculate $x_2$, and so on.
-In this case, $x_2 = 3.075$ and $x_3 = 3.00091$.
-So it converges quickly on the correct answer.
-
-Write a method called \java{squareRoot} that takes a \java{double} and returns an approximation of the square root of the parameter, using this technique.
-You should not use \java{Math.sqrt}.
-
-As your initial guess, you should use $a/2$.
-Your method should iterate until it gets two consecutive estimates that differ by less than 0.0001.
-%In other words, return when the absolute value of $x_n - x_{n-1}$ is less than 0.0001.
-You can use \java{Math.abs} to calculate the absolute value of the difference.
-
+Write a method called \java{indexOfMax} that takes an array of integers and returns the index of the largest element.
+Can you write this method using an enhanced \java{for} loop?
+Why or why not?
 \end{exercise}
 
 
 \begin{exercise}
+The Sieve of Eratosthenes is ``a simple, ancient algorithm for finding all prime numbers up to any given limit,'' which you can read about at \url{https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes}.
 
-In Exercise~\ref{ex.power} we wrote a recursive version of \java{power}, which takes a double \java{x} and an integer \java{n} and returns $x^n$.
-Now write an iterative method to perform the same calculation.
-
+Write a method called \java{sieve} that takes an integer parameter, \java{n}, and returns a \java{boolean} array that indicates, for each number from \java{0} to \java{n - 1}, whether the number is prime.
 \end{exercise}
 
 
 \begin{exercise}
-
-Section~\ref{factorial} presents a recursive method that computes the factorial function.
-Write an iterative version of \java{factorial}.
-
+Write a method named \java{areFactors} that takes an integer \java{n} and an array of integers, and that returns \java{true} if the numbers in the array are all factors of \java{n} (which is to say that \java{n} is divisible by all of them).
+%{\it Hint:} See Exercise~\ref{ex.isdiv}.
 \end{exercise}
 
 
 \begin{exercise}
+Write a method named \java{arePrimeFactors} that takes an integer \java{n} and an array of integers, and that returns \java{true} if the numbers in the array are all prime {\it and} their product is \java{n}.
+\end{exercise}
 
-One way to calculate $e^x$ is to use the infinite series expansion:
-%
-\[ e^x = 1 + x + x^2 / 2! + x^3 / 3! + x^4 / 4! + \ldots \]
-%
-The $i$th term in the series is $x^i / i!$.
+
+\begin{exercise}
+Many of the patterns we have seen for traversing arrays can also be written recursively.
+It is not common, but it is a useful exercise.
 
 \begin{enumerate}
 
-\item Write a method called \java{myexp} that takes \java{x} and \java{n} as parameters and estimates $e^x$ by adding the first \java{n} terms of this series.
-You can use the \java{factorial} method from Section~\ref{factorial} or your iterative version from the previous exercise.
+\item Write a method called \java{maxInRange} that takes an array of integers and two indexes, \java{lowIndex} and \java{highIndex}, and finds the maximum value in the array, but only considering the elements between \java{lowIndex} and \java{highIndex}, including both.
 
-\index{efficiency}
+This method should be recursive.
+If the length of the range is 1, that is, if \java{lowIndex == highIndex}, we know immediately that the sole element in the range must be the maximum.
+So that's the base case.
 
-\item You can make this method more efficient if you realize that the numerator of each term is the same as its predecessor multiplied by \java{x}, and the denominator is the same as its predecessor multiplied by \java{i}.
-Use this observation to eliminate the use of \java{Math.pow} and \java{factorial}, and check that you get the same result.
+If there is more than one element in the range, we can break the array into two pieces, find the maximum in each of the pieces, and then find the maximum of the maxima.
 
-\item Write a method called \java{check} that takes a parameter, \java{x}, and displays \java{x}, \java{myexp(x)}, and \java{Math.exp(x)}.
-The output should look something like:
+\item Methods like \java{maxInRange} can be awkward to use.
+To find the largest element in an array, we have to provide the range for the entire array.
 
-\begin{stdout}
-1.0     2.708333333333333     2.718281828459045
-\end{stdout}
+\begin{code}
+double max = maxInRange(a, 0, a.length - 1);
+\end{code}
 
-You can use the escape sequence \java{"\\t"} to put a tab character between columns of a table.
-
-\item Vary the number of terms in the series (the second argument that \java{check} sends to \java{myexp}) and see the effect on the accuracy of the result.
-Adjust this value until the estimated value agrees with the correct answer when \java{x} is 1.
-
-\item Write a loop in \java{main} that invokes \java{check} with the values 0.1, 1.0, 10.0, and 100.0.
-How does the accuracy of the result vary as \java{x} varies?
-Compare the number of digits of agreement rather than the difference between the actual and estimated values.
-
-\item Add a loop in \java{main} that checks \java{myexp} with the values -0.1, -1.0, -10.0, and -100.0.
-Comment on the accuracy.
+Write a method called \java{max} that takes an array and uses \java{maxInRange} to find and return the largest element.
 
 \end{enumerate}
-
 \end{exercise}
 
 
-\begin{exercise}
+% CSM: we now discuss binary search in Chapter 12
 
-One way to evaluate $\exp(-x^2)$ is to use the infinite series expansion:
+%\begin{exercise}
 %
-\[ \exp(-x^2) = 1 - x^2 + x^4/2 - x^6/6 + \ldots \]
+%In Section~\ref{traversal} we wrote a method called \java{search} that traverses an array and returns the index of a given value, or -1 if the value is not in the array.
 %
-The $i$th term in this series is $(-1)^i x^{2i} / i!$.
-Write a method named \java{gauss} that takes \java{x} and \java{n} as arguments and returns the sum of the first \java{n} terms of the series.
-You should not use \java{factorial} or \java{pow}.
-
-\end{exercise}
+%If the elements of the array are sorted, we can make this method more efficient using a ``binary search''.
+%You can read about it at \url{https://en.wikipedia.org/wiki/Binary_search_algorithm}.
+%
+%Write a method called \java{binarySearch} that implements this algorithm.
+%{\it Hint:} You might find it easier to write this method recursively.
+%
+%\end{exercise}

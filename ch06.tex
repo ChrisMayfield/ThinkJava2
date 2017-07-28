@@ -1,862 +1,717 @@
-\chapter{Value methods}
+\chapter{Loops}
 
-\index{method!value}
-\index{method!void}
-\index{value method}
-\index{void method}
+Computers are often used to automate repetitive tasks.
+Repeating tasks without making errors is something that computers do well and people do poorly.
 
-Some of the methods we have used, like the \java{Math} methods, return values.
-But all the methods we have {\em written} so far have been \java{void}; that is, they don't return values.
-In this chapter, we'll write methods that return values, which we call {\bf value methods}.
+\index{iteration}
+
+Running the same code multiple times is called {\bf iteration}.
+We have seen methods, like \java{countdown} and \java{factorial}, that use recursion to iterate.
+Although recursion is elegant and powerful, it takes some getting used to.
+Java provides language features that make iteration much easier:
+the \java{while} and \java{for} statements.
 
 
-\section{Return values}
+\section{The while statement}
+\label{while}
 
-\index{void}
+\index{while}
+\index{loop!while}
+\index{statement!while}
 
-When you invoke a void method, the invocation is usually on a line all by itself.
-For example, here is the \java{countup} method from Section~\ref{recursion}:
+Using a \java{while} statement, we can rewrite \java{countdown} like this:
 
 \begin{code}
-public static void countup(int n) {
-    if (n == 0) {
-        System.out.println("Blastoff!");
-    } else {
-        countup(n - 1);
+public static void countdown(int n) {
+    while (n > 0) {
         System.out.println(n);
+        n = n - 1;
+    }
+    System.out.println("Blastoff!");
+}
+\end{code}
+
+You can almost read the \java{while} statement like English:
+``While \java{n} is greater than zero, print the value of \java{n} and then reduce the value of \java{n} by 1.
+When you get to zero, print Blastoff!''
+
+\index{loop body}
+
+The expression in parentheses is called the condition.
+The statements in braces are called the {\bf body}.
+The flow of execution for a \java{while} statement is:
+
+\begin{enumerate}
+
+\item Evaluate the condition, yielding \java{true} or \java{false}.
+
+\item If the condition is \java{false}, skip the body and go to the next statement.
+
+\item If the condition is \java{true}, execute the body and go back to step 1.
+
+\end{enumerate}
+
+\index{loop}
+
+This type of flow is called a {\bf loop}, because the last step loops back around to the first.
+
+\index{infinite loop}
+\index{loop!infinite}
+
+The body of the loop should change the value of one or more variables so that, eventually, the condition becomes \java{false} and the loop terminates.
+Otherwise the loop will repeat forever, which is called an {\bf infinite loop}.
+An endless source of amusement for computer scientists is the observation that the directions on shampoo, ``Lather, rinse, repeat,'' are an infinite loop.
+
+In the case of \java{countdown}, we can prove that the loop terminates when \java{n} is positive.
+But in general, it is not so easy to tell whether a loop terminates.
+For example, this loop continues until \java{n} is 1 (which makes the condition \java{false}):
+
+\begin{code}
+public static void sequence(int n) {
+    while (n != 1) {
+        System.out.println(n);
+        if (n % 2 == 0) {         // n is even
+            n = n / 2;
+        } else {                  // n is odd
+            n = n * 3 + 1;
+        }
     }
 }
 \end{code}
 
-And here is how it is invoked:
+Each time through the loop, the program displays the value of \java{n} and then checks whether it is even or odd.
+If it is even, the value of \java{n} is divided by two.
+If it is odd, the value is replaced by $3n+1$.
+For example, if the starting value (the argument passed to \java{sequence}) is 3, the resulting sequence is 3, 10, 5, 16, 8, 4, 2, 1.
+
+Since \java{n} sometimes increases and sometimes decreases, there is no obvious proof that \java{n} will ever reach 1 and that the program will ever terminate.
+For some values of \java{n}, we can prove that it terminates.
+For example, if the starting value is a power of two, then the value of \java{n} will be even every time through the loop until we get to 1.
+The previous example ends with such a sequence, starting when \java{n} is 16.
+
+The hard question is whether this program terminates for {\em all} values of n.
+So far, no one has been able to prove it {\em or} disprove it!
+For more information, see \url{https://en.wikipedia.org/wiki/Collatz_conjecture}.
+%The field of computer science is interested in these types of questions, because their answers give insight to the limits of what computers can and cannot do.
+
+
+\section{Generating tables}
+
+\index{table}
+\index{logarithm}
+
+Loops are good for generating and displaying tabular data.
+Before computers were readily available, people had to calculate logarithms, sines and cosines, and other common mathematical functions by hand.
+To make that easier, there were books of tables where you could look up values of various functions.
+Creating these tables by hand was slow and boring, and the results were often full of errors.
+
+When computers appeared on the scene, one of the initial reactions was: ``This is great!
+We can use a computer to generate the tables, so there will be no errors.''
+That turned out to be true (mostly), but shortsighted.
+Not much later, computers were so pervasive that printed tables became obsolete.
+
+\index{division!floating-point}
+
+Even so, for some operations, computers use tables of values to get an approximate answer, and then perform computations to improve the approximation.
+In some cases, there have been errors in the underlying tables, most famously in the table the original Intel Pentium used to perform floating-point division (see \url{https://en.wikipedia.org/wiki/Pentium_FDIV_bug}).
+
+Although a ``log table'' is not as useful as it once was, it still makes a good example of iteration.
+The following loop displays a table with a sequence of values in the left column and their logarithms in the right column:
 
 \begin{code}
-countup(3);
-System.out.println("Have a nice day.");
-\end{code}
-
-On the other hand, when you invoke a value method, you have to do something with the return value.
-We usually assign it to a variable or use it as part of an expression, like this:
-
-\begin{code}
-double error = Math.abs(expected - actual);
-double height = radius * Math.sin(angle);
-\end{code}
-
-\index{value method}
-\index{method!value}
-
-Compared to void methods, value methods differ in two ways:
-
-\index{return type}
-\index{return value}
-
-\begin{itemize}
-
-\item They declare the type of the return value (the {\bf return type});
-
-\item They use at least one \java{return} statement to provide a {\bf return value}.
-
-\end{itemize}
-
-Here's an example: \java{calculateArea} takes a \java{double} as a parameter and returns the area of a circle with that radius:
-
-\begin{code}
-public static double calculateArea(double radius) {
-    double result = Math.PI * radius * radius;
-    return result;
+int i = 1;
+while (i < 10) {
+    double x = i;
+    System.out.println(x + "   " + Math.log(x));
+    i = i + 1;
 }
 \end{code}
 
-As usual, this method is \java{public} and \java{static}.
-But in the place where we are used to seeing \java{void}, we see \java{double}, which means that the return value from this method is a \java{double}.
+The output of this program is:
 
-\index{return}
-\index{statement!return}
+\begin{stdout}
+1.0   0.0
+2.0   0.6931471805599453
+3.0   1.0986122886681098
+4.0   1.3862943611198906
+5.0   1.6094379124341003
+6.0   1.791759469228055
+7.0   1.9459101490553132
+8.0   2.0794415416798357
+9.0   2.1972245773362196
+\end{stdout}
 
-The last line is a new form of the \java{return} statement that includes a return value.
-This statement means, ``return immediately from this method and use the following expression as the return value.''
-The expression you provide can be arbitrarily complex, so we could have written this method more concisely:
+\java{Math.log} computes natural logarithms, that is, logarithms base $e$.
+For computer science applications, we often want logarithms with respect to base 2.
+To compute them, we can apply this equation:
+%
+\[ \log_2 x = \frac{log_e x}{log_e 2} \]
+%
+We can modify the loop as follows:
 
 \begin{code}
-public static double calculateArea(double radius) {
-    return Math.PI * radius * radius;
+int i = 1;
+while (i < 10) {
+    double x = i;
+    System.out.println(x + "   " + Math.log(x) / Math.log(2));
+    i = i + 1;
 }
 \end{code}
 
-\index{temporary variable}
-\index{variable!temporary}
+And here are the results:
 
-On the other hand, {\bf temporary variables} like \java{result} often make debugging easier, especially when you are stepping through code using an interactive debugger (see Appendix~\ref{debugger}).
+\begin{stdout}
+1.0   0.0
+2.0   1.0
+3.0   1.5849625007211563
+4.0   2.0
+5.0   2.321928094887362
+6.0   2.584962500721156
+7.0   2.807354922057604
+8.0   3.0
+9.0   3.1699250014423126
+\end{stdout}
 
-The type of the expression in the \java{return} statement must match the return type of the method.
-When you declare that the return type is \java{double}, you are making a promise that this method will eventually produce a \java{double} value.
-If you try to \java{return} with no expression, or an expression with the wrong type, the compiler will generate an error.
-
-Sometimes it is useful to have multiple return statements, for example, one in each branch of a conditional:
+Each time through the loop, we add one to \java{x}, so the result is an arithmetic sequence.
+If we multiply \java{x} by something instead, we get a geometric sequence:
 
 \begin{code}
-public static double absoluteValue(double x) {
-    if (x < 0) {
-        return -x;
-    } else {
-        return x;
-    }
+final double LOG2 = Math.log(2);
+int i = 1;
+while (i < 100) {
+    double x = i;
+    System.out.println(x + "   " + Math.log(x) / LOG2);
+    i = i * 2;
 }
 \end{code}
 
-Since these \java{return} statements are in a conditional statement, only one will be executed.
-As soon as either of them executes, the method terminates without executing any more statements.
+\index{final}
 
-\index{dead code}
+The first line stores \java{Math.log(2)} in a \java{final} variable to avoid computing that value over and over again.
+The last line multiplies \java{x} by 2.
+The result is:
 
-Code that appears after a \java{return} statement (in the same block), or any place else where it can never be executed, is called {\bf dead code}.
-The compiler will give you an ``unreachable statement'' error if part of your code is dead.
-For example, this method contains dead code:
+\begin{stdout}
+1.0   0.0
+2.0   1.0
+4.0   2.0
+8.0   3.0
+16.0   4.0
+32.0   5.0
+64.0   6.0
+\end{stdout}
 
-\begin{code}
-public static double absoluteValue(double x) {
-    if (x < 0) {
-        return -x;
-    } else {
-        return x;
-    }
-    System.out.println("This line is dead.");
-}
-\end{code}
-
-If you put \java{return} statements inside a conditional statement, you have to make sure that {\em every possible path} through the program reaches a \java{return} statement.
-The compiler will let you know if that's not the case.
-For example, the following method is incomplete:
-
-\begin{code}
-public static double absoluteValue(double x) {
-    if (x < 0) {
-        return -x;
-    } else if (x > 0) {
-        return x;
-    }
-    // syntax error
-}
-\end{code}
-
-When \java{x} is 0, neither condition is true, so the method ends without hitting a return statement.
-The error message in this case might be something like ``missing return statement'', which is confusing since there are already two of them.
-But hopefully you will know what it means.
+This table shows the powers of two and their logarithms, base 2.
+Log tables may not be useful anymore, but for computer scientists, knowing the powers of two helps a lot!
+%When you have an idle moment, you should memorize the powers of two up to 65536 (that's $2^{16}$).
 
 
-\section{Writing methods}
-\label{distance}
+\section{Encapsulation and generalization}
+\label{encapsulation}
 
-\index{incremental development}
+\index{table!two-dimensional}
 \index{program development}
 
-Beginners often make the mistake of writing a lot of code before they try to compile and run it.
-Then they spend way too much time debugging.
-A better approach is what we call {\bf incremental development}.
-The key aspects of incremental development are:
+In Section~\ref{distance}, we presented a way of writing programs called incremental development.
+In this section we present another {\bf program development} process called ``encapsulation and generalization''.
+The steps are:
 
-\begin{itemize}
+\begin{enumerate}
 
-\item Start with a working program and make small, incremental changes.
-At any point, if there is an error, you will know where to look.
+\item Write a few lines of code in \java{main} or another method, and test them.
 
-\item Use variables to hold intermediate values so you can check them, either with print statements or by using a debugger.
+\item When they are working, wrap them in a new method, and test again.
 
-\item Once the program is working, you can consolidate multiple statements into compound expressions (but only if it does not make the program more difficult to read).
+\item If it's appropriate, replace literal values with variables and parameters.
 
-\end{itemize}
+\end{enumerate}
 
-As an example, suppose you want to find the distance between two points, given by the coordinates $(x_1, y_1)$ and $(x_2, y_2)$.
-By the usual definition:
+\index{encapsulate}
+\index{generalize}
 
-\[ distance = \sqrt{(x_2 - x_1)^2 +(y_2 - y_1)^2} \]
+The second step is called {\bf encapsulation}; the third step is {\bf generalization}.
 
-The first step is to consider what a \java{distance} method should look like in Java.
-In other words, what are the inputs (parameters) and what is the output (return value)?
-In this case, the two points are the parameters, and it is natural to represent them using four \java{double} values.
-%, although we will see later that there is a \java{Point} object in Java that we could use.
-The return value is the distance, which should also have type \java{double}.
-
-\index{stub}
-
-Already we can write an outline for the method, which is sometimes called a {\bf stub}.
-The stub includes the method signature and a \java{return} statement:
+To demonstrate this process, we'll develop methods that display multiplication tables.
+Here is a loop that displays the multiples of two, all on one line:
 
 \begin{code}
-public static double distance
-        (double x1, double y1, double x2, double y2) {
-    return 0.0;
+int i = 1;
+while (i <= 6) {
+    System.out.printf("%4d", 2 * i);
+    i = i + 1;
+}
+System.out.println();
+\end{code}
+
+\index{loop variable}
+\index{variable!loop}
+
+The first line initializes a variable named \java{i}, which is going to act as a {\bf loop variable}: as the loop executes, the value of \java{i} increases from 1 to 6; when \java{i} is 7, the loop terminates.
+
+Each time through the loop, we display the value \java{2 * i} padded with spaces so it's four characters wide.
+Since we use \java{System.out.printf}, the output appears on a single line.
+
+After the loop, we call \java{println} to print a newline and complete the line.
+Remember that in some environments, none of the output is displayed until the line is complete.
+
+The output of the code so far is:
+
+\begin{stdout}
+   2   4   6   8  10  12
+\end{stdout}
+
+The next step is to ``encapsulate'' this code in a new method.
+Here's what it looks like:
+
+\begin{code}
+public static void printRow() {
+    int i = 1;
+    while (i <= 6) {
+        System.out.printf("%4d", 2 * i);
+        i = i + 1;
+    }
+    System.out.println();
 }
 \end{code}
 
-The return statement is a placeholder that is necessary for the program to compile.
-At this stage the program doesn't do anything useful, but it is good to compile it so we can find any syntax errors before we add more code.
+\index{generalization}
 
-It's usually a good idea to think about testing {\em before} you develop new methods; doing so can help you figure out how to implement them.
-To test the method, we can invoke it from \java{main} using sample values:
-
-\begin{code}
-double dist = distance(1.0, 2.0, 4.0, 6.0);
-\end{code}
-
-With these values, the horizontal distance is 3.0 and the vertical distance is 4.0.
-So the result should be 5.0, the hypotenuse of a 3-4-5 triangle.
-When you are testing a method, it is helpful to know the right answer.
-
-Once we have compiled the stub, we can start adding lines of code one at a time.
-After each incremental change, we recompile and run the program.
-If there is an error at any point, we have a good idea where to look: the last line we added.
-
-The next step is to find the differences $x_2 - x_1$ and $y_2 - y_1$.
-We store those values in temporary variables named \java{dx} and \java{dy}.
+Next we replace the constant value, \java{2}, with a parameter, \java{n}.
+This step is called ``generalization'' because it makes the method more general (less specific).
 
 \begin{code}
-public static double distance
-        (double x1, double y1, double x2, double y2) {
-    double dx = x2 - x1;
-    double dy = y2 - y1;
-    System.out.println("dx is " + dx);
-    System.out.println("dy is " + dy);
-    return 0.0;
+public static void printRow(int n) {
+    int i = 1;
+    while (i <= 6) {
+        System.out.printf("%4d", n * i);
+        i = i + 1;
+    }
+    System.out.println();
 }
 \end{code}
 
-\index{scaffolding}
+Invoking this method with the argument 2 yields the same output as before.
+With the argument 3, the output is:
 
-The print statements allows us to check the intermediate values before proceeding.
-They should be 3.0 and 4.0.
-We will remove the print statements when the method is finished.
-Code like that is called {\bf scaffolding}, because it is helpful for building the program, but it is not part of the final product.
+\begin{stdout}
+   3   6   9  12  15  18
+\end{stdout}
 
-The next step is to square \java{dx} and \java{dy}.
-We could use the \java{Math.pow} method, but it is simpler to multiply each term by itself.
+And with argument 4, the output is:
+
+\begin{stdout}
+   4   8  12  16  20  24
+\end{stdout}
+
+By now you can probably guess how we are going to display a multiplication table: we'll invoke \java{printRow} repeatedly with different arguments.
+In fact, we'll use another loop to iterate through the rows.
 
 \begin{code}
-public static double distance
-        (double x1, double y1, double x2, double y2) {
-    double dx = x2 - x1;
-    double dy = y2 - y1;
-    double dsquared = dx * dx + dy * dy;
-    System.out.println("dsquared is " + dsquared);
-    return 0.0;
+int i = 1;
+while (i <= 6) {
+    printRow(i);
+    i = i + 1;
 }
 \end{code}
 
-Again, you should compile and run the program at this stage and check the intermediate value, which should be 25.0.
-Finally, we can use \java{Math.sqrt} to compute and return the result.
+And the output looks like this:
+
+\begin{stdout}
+   1   2   3   4   5   6
+   2   4   6   8  10  12
+   3   6   9  12  15  18
+   4   8  12  16  20  24
+   5  10  15  20  25  30
+   6  12  18  24  30  36
+\end{stdout}
+
+The format specifier \java{\%4d} in \java{printRow} causes the output to align vertically, regardless of whether the numbers are one or two digits.
+
+Finally, we encapsulate the second loop in a method:
 
 \begin{code}
-public static double distance
-        (double x1, double y1, double x2, double y2) {
-    double dx = x2 - x1;
-    double dy = y2 - y1;
-    double dsquared = dx * dx + dy * dy;
-    double result = Math.sqrt(dsquared);
-    return result;
+public static void printTable() {
+    int i = 1;
+    while (i <= 6) {
+        printRow(i);
+        i = i + 1;
+    }
 }
 \end{code}
 
-%In \java{main}, we can print and check the value of the result.
-
-As you gain more experience programming, you might write and debug more than one line at a time.
-Nevertheless, incremental development can save you a lot of time.
+One of the challenges of programming, especially for beginners, is figuring out how to divide up a program into methods.
+The process of encapsulation and generalization allows you to design as you go along.
 
 
-\section{Method composition}
+\section{More generalization}
 
-\index{composition}
+\index{generalization}
 
-Once you define a new method, you can use it as part of an expression, or build new methods using existing methods.
-For example, suppose someone gave you two points, the center of the circle and a point on the perimeter, and asked for the area of the circle.
-Let's say the center point is stored in the variables \java{xc} and \java{yc}, and the perimeter point is in \java{xp} and \java{yp}.
-
-The first step is to find the radius of the circle, which is the distance between the two points.
-Fortunately, we have a method that does just that (\java{distance}).
+The previous version of \java{printTable} always displays six rows.
+We can generalize it by replacing the literal \java{6} with a parameter:
 
 \begin{code}
-double radius = distance(xc, yc, xp, yp);
-\end{code}
-
-The second step is to find the area of a circle with that radius.
-We have a method for that computation too (\java{calculateArea}).
-
-\begin{code}
-double area = calculateArea(radius);
-return area;
-\end{code}
-
-Putting everything together in a new method, we get:
-
-\begin{code}
-public static double circleArea
-        (double xc, double yc, double xp, double yp) {
-    double radius = distance(xc, yc, xp, yp);
-    double area = calculateArea(radius);
-    return area;
+public static void printTable(int rows) {
+    int i = 1;
+    while (i <= rows) {
+        printRow(i);
+        i = i + 1;
+    }
 }
 \end{code}
 
-The temporary variables \java{radius} and \java{area} are useful for development and debugging, but once the program is working we can make it more concise by composing the method calls:
+Here is the output with the argument 7:
+
+\begin{stdout}
+   1   2   3   4   5   6
+   2   4   6   8  10  12
+   3   6   9  12  15  18
+   4   8  12  16  20  24
+   5  10  15  20  25  30
+   6  12  18  24  30  36
+   7  14  21  28  35  42
+\end{stdout}
+
+That's better, but it still has a problem: it always displays the same number of columns.
+We can generalize more by adding a parameter to \java{printRow}:
 
 \begin{code}
-public static double circleArea
-        (double xc, double yc, double xp, double yp) {
-    return calculateArea(distance(xc, yc, xp, yp));
+public static void printRow(int n, int cols) {
+    int i = 1;
+    while (i <= cols) {
+        System.out.printf("%4d", n * i);
+        i = i + 1;
+    }
+    System.out.println();
 }
 \end{code}
 
-\index{functional decomposition}
-
-This example demonstrates a process called {\bf functional decomposition}; that is, breaking a complex computation into simple methods, testing the methods in isolation, and then composing the methods to perform the computation.
-This process reduces debugging time and yields code that is more likely to be correct and easier to maintain.
-
-%Computer scientists deal with the complexity of large programs by breaking down computations into simple methods (which in turn may call other methods).
-%Data is passed around the program via method parameters and return statements.
-%By using incremental development, scaffolding, and testing, you can be confident that your code is correct.
-
-
-\section{Overloading}
-\label{overloading}
-
-You might have noticed that \java{circleArea} and \java{calculateArea} perform similar functions.
-They both find the area of a circle, but they take different parameters.
-For \java{calculateArea}, we have to provide the radius; for \java{circleArea} we provide two points.
-
-\index{overload}
-
-If two methods do the same thing, it is natural to give them the same name.
-Having more than one method with the same name is called {\bf overloading}, and it is legal in Java as long as each version takes different parameters.
-So we could rename \java{circleArea} to \java{calculateArea}:
+Now \java{printRow} takes two parameters: \java{n} is the value whose multiples should be displayed, and \java{cols} is the number of columns.
+Since we added a parameter to \java{printRow}, we also have to change the line in \java{printTable} where it is invoked:
 
 \begin{code}
-public static double calculateArea
-        (double xc, double yc, double xp, double yp) {
-    return calculateArea(distance(xc, yc, xp, yp));
+public static void printTable(int rows) {
+    int i = 1;
+    while (i <= rows) {
+        printRow(i, rows);
+        i = i + 1;
+    }
 }
 \end{code}
 
-Note that this new \java{calculateArea} method is {\em not} recursive.
-When you invoke an overloaded method, Java knows which version you want by looking at the arguments that you provide.
-If you write:
+When this line executes, it evaluates \java{rows} and passes the value, which is 7 in this example, as an argument.
+In \java{printRow}, this value is assigned to \java{cols}.
+As a result, the number of columns equals the number of rows, so we get a square 7x7 table:
+
+\begin{stdout}
+   1   2   3   4   5   6   7
+   2   4   6   8  10  12  14
+   3   6   9  12  15  18  21
+   4   8  12  16  20  24  28
+   5  10  15  20  25  30  35
+   6  12  18  24  30  36  42
+   7  14  21  28  35  42  49
+\end{stdout}
+
+When you generalize a method appropriately, you often find that it has capabilities you did not plan.
+For example, you might notice that the multiplication table is symmetric; since $ab = ba$, all the entries in the table appear twice.
+You could save ink by printing half of the table, and you would only have to change one line of \java{printTable}:
 
 \begin{code}
-double x = calculateArea(3.0);
+printRow(i, i);
 \end{code}
 
-Java looks for a method named \java{calculateArea} that takes one \java{double} as an argument, and so it uses the first version, which interprets the argument as a radius.
-If you write:
+In words, the length of each row is the same as its row number.
+The result is a triangular multiplication table.
+
+\begin{stdout}
+   1
+   2   4
+   3   6   9
+   4   8  12  16
+   5  10  15  20  25
+   6  12  18  24  30  36
+   7  14  21  28  35  42  49
+\end{stdout}
+
+Generalization makes code more versatile, more likely to be reused, and sometimes easier to write.
+
+%Even though the second parameter in \java{printRow} is named \java{size} and we have a variable with the same name, we can still use any value or expression we want for the argument.
+
+%Remember, you do not pass {\em variables} to methods; you pass their current {\em values}.
+%In this last example, the value of \java{i} in \java{printTable} is assigned to both \java{n} and \java{cols} in \java{printRow}.
+
+
+\section{The for statement}
+\label{for}
+
+\index{for}
+\index{loop!for}
+\index{statement!for}
+
+The loops we have written so far have several elements in common.
+They start by initializing a variable, they have a condition that depends on that variable, and inside the loop they do something to update that variable.
+This type of loop is so common that there is another statement, the \java{for} loop, that expresses it more concisely.
+
+For example, we could rewrite \java{printTable} like this:
 
 \begin{code}
-double y = calculateArea(1.0, 2.0, 4.0, 6.0);
+public static void printTable(int rows) {
+    for (int i = 1; i <= rows; i = i + 1) {
+        printRow(i, rows);
+    }
+}
 \end{code}
 
-Java uses the second version of \java{calculateArea}, which interprets the arguments as two points.
-In this example, the second version actually invokes the first version.
+\java{for} loops have three components in parentheses, separated by semicolons: the initializer, the condition, and the update.
 
-Many Java methods are overloaded, meaning that there are different versions that accept different numbers or types of parameters.
-For example, there are versions of \java{print} and \java{println} that accept a single parameter of any data type.
-In the \java{Math} class, there is a version of \java{abs} that works on \java{double}s, and there is also a version for \java{int}s.
+\begin{enumerate}
 
-Although overloading is a useful feature, it should be used with caution.
-You might get yourself nicely confused if you are trying to debug one version of a method while accidentally invoking a different one.
+\item The {\em initializer} runs once at the very beginning of the loop.
 
+\item The {\em condition} is checked each time through the loop.
+If it is \java{false}, the loop ends.
+Otherwise, the body of the loop is executed (again).
 
-\section{Boolean methods}
-\label{boolean}
+\item At the end of each iteration, the {\em update} runs, and we go back to step 2.
 
-\index{boolean}
-\index{method!boolean}
+\end{enumerate}
 
-Methods can return \java{boolean} values, just like any other type, which is often convenient for hiding tests inside methods.
-For example:
+The \java{for} loop is often easier to read because it puts all the loop-related statements at the top of the loop.
+
+There is one difference between \java{for} loops and \java{while} loops: if you declare a variable in the initializer, it only exists inside the \java{for} loop.
+For example, here is a version of \java{printRow} that uses a \java{for} loop:
 
 \begin{code}
-public static boolean isSingleDigit(int x) {
-    if (x > -10 && x < 10) {
-        return true;
+public static void printRow(int n, int cols) {
+    for (int i = 1; i <= cols; i = i + 1) {
+        System.out.printf("%4d", n * i);
+    }
+    System.out.println(i);  // compiler error
+}
+\end{code}
+
+The last line tries to display \java{i} (for no reason other than demonstration) but it won't work.
+If you need to use a loop variable outside the loop, you have to declare it outside the loop, like this:
+
+\begin{code}
+public static void printRow(int n, int cols) {
+    int i;
+    for (i = 1; i <= cols; i = i + 1) {
+        System.out.printf("%4d", n * i);
+    }
+    System.out.println(i);
+}
+\end{code}
+
+\index{increment}
+\index{decrement}
+
+Assignments like \java{i = i + 1} don't often appear in \java{for} loops, because Java provides a more concise way to add and subtract by one.
+Specifically, \java{++} is the {\bf increment} operator; it has the same effect as \java{i = i + 1}.
+And \java{--} is the {\bf decrement} operator; it has the same effect as \java{i = i - 1}.
+
+If you want to increment or decrement a variable by an amount other than \java{1}, you can use \java{+=} and \java{-=}.
+For example, \java{i += 2} increments \java{i} by \java{2}.
+
+
+\section{The do-while loop}
+
+\index{pretest loop}
+
+The \java{while} and \java{for} statements are {\bf pretest loops}; that is, they test the condition first and at the beginning of each pass through the loop.
+
+\index{posttest loop}
+\index{do-while}
+
+Java also provides a {\bf posttest loop}: the \java{do}-\java{while} statement.
+This type of loop is useful when you need to run the body of the loop at least once.
+
+%NOTE: can we find an example that's better using do-while than using while-break?
+
+For example, in Section~\ref{validate} we used the \java{return} statement to avoid reading invalid input from the user.
+We can use a \java{do}-\java{while} loop to keep reading input until it's valid:
+
+\begin{code}
+Scanner in = new Scanner(System.in);
+boolean okay;
+do {
+    System.out.print("Enter a number: ");
+    if (in.hasNextDouble()) {
+        okay = true;
     } else {
-        return false;
+        okay = false;
+        String word = in.next();
+        System.err.println(word + " is not a number");
     }
-}
+} while (!okay);
+double x = in.nextDouble();
 \end{code}
 
-The name of this method is \java{isSingleDigit}.
-It is common to give \java{boolean} methods names that sound like yes/no questions.
-Since the return type is \java{boolean}, the return statement has to provide a boolean expression.
+Although this code looks complicated, it is essentially only three steps:
 
-The code itself is straightforward, although it is longer than it needs to be.
-Remember that the expression \java{x > -10 && x < 10} has type \java{boolean}, so there is nothing wrong with returning it directly (without the \java{if} statement):
+\begin{enumerate}
+\item Display a prompt.
+\item Check the input; if invalid, display an error and start over.
+\item Read the input.
+\end{enumerate}
 
-\begin{code}
-public static boolean isSingleDigit(int x) {
-    return x > -10 && x < 10;
-}
-\end{code}
+\index{System.err}
 
-In \java{main}, you can invoke the method in the usual ways:
-
-\begin{code}
-System.out.println(isSingleDigit(2));
-boolean bigFlag = !isSingleDigit(17);
-\end{code}
-
-The first line displays \java{true} because 2 is a single-digit number.
-The second line sets \java{bigFlag} to \java{true}, because 17 is {\em not} a single-digit number.
-
-Conditional statements often invoke \java{boolean} methods and use the result as the condition:
-
-\begin{code}
-if (isSingleDigit(z)) {
-    System.out.println("z is small");
-} else {
-    System.out.println("z is big");
-}
-\end{code}
-
-Examples like this one almost read like English:
-``If is single digit z, print ... else print ...''.
+The code uses a flag variable, \java{okay}, to indicate whether we need to repeat the loop body.
+If \java{hasNextDouble()} returns \java{false}, we consume the invalid input by calling \java{next()}.
+We then display an error message via \java{System.err}.
+The loop terminates when \java{hasNextDouble()} return \java{true}.
 
 
-\section{Javadoc tags}
+\section{Break and continue}
 
-In Section~\ref{sec:javadoc}, we discussed how to write documentation comments using \java{/**}.
-It's generally a good idea to document each class and method, so that other programmers can understand what they do without having to read the code.
+Sometimes neither a pretest nor a posttest loop will provide exactly what you need.
+In the previous example, the ``test'' needed to happen in the middle of the loop.
+As a result, we used a flag variable and a nested \java{if}-\java{else} statement.
 
-\index{tag}
-\index{param tag}
-\index{return tag}
-\index{documentation!Javadoc tags}
+\index{break}
 
-To organize the documentation into sections, Javadoc supports optional {\bf tags} that begin with the at sign (\java{@}).
-For example, we can use \java{@param} and \java{@return} to provide additional information about parameters and return values.
+A simpler way to solve this problem is to use a \java{break} statement.
+When a program reaches a \java{break} statement, it exits the current loop.
 
 \begin{code}
-/**
- * Tests whether x is a single digit integer.
- *
- * @param x the integer to test
- * @return true if x has one digit, false otherwise
- */
-public static boolean isSingleDigit(int x) {
-\end{code}
-
-\index{HTML}
-\index{Javadoc}
-
-Figure~\ref{fig.javadoc} shows part of the resulting HTML page generated by Javadoc.
-Notice the relationship between the source code and the documentation.
-
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics[scale=0.8]{figs/javadoc.pdf}
-\caption{HTML documentation for \java{isSingleDigit}.}
-\label{fig.javadoc}
-\end{center}
-\end{figure}
-
-Methods with multiple parameters should have separate \java{@param} tags that describe each one.
-Void methods should have no \java{@return} tag, since they do not return a value.
-
-
-\section{More recursion}
-\label{factorial}
-
-\index{Turing complete}
-\index{language!complete}
-
-\index{Turing, Alan}
-\index{Church, Alonzo}
-
-Now that we have methods that return values, we have a {\bf Turing complete} programming language.
-That means Java can compute anything computable, for any reasonable definition of ``computable''.
-This idea was developed by Alonzo Church and Alan Turing, so it is known as the Church-Turing thesis.
-%You can read more about it at \url{https://en.wikipedia.org/wiki/Turing_thesis}.
-
-\index{recursion}
-
-To give you an idea of what you can do with the tools we have learned, let's look at some methods for evaluating recursively-defined mathematical functions.
-A recursive definition is similar to a circular definition, in the sense that the definition refers to the thing being defined.
-
-Of course, a truly circular definition is not very useful:
-
-\begin{description}
-\term{recursive} An adjective used to describe a method that is recursive.
-\end{description}
-
-If you saw that definition in the dictionary, you might be annoyed.
-But if you search for recursion on Google, it displays ``Did you mean: recursion'' as an inside joke.
-
-\index{factorial}
-
-Many mathematical functions are defined recursively, because that is often the simplest way.
-For example, the {\bf factorial} of an integer $n$, which is written $n!$, is defined like this:
-%
-\begin{eqnarray*}
-&&  0! = 1 \\
-&&  n! = n \cdot(n-1)!
-\end{eqnarray*}
-
-Don't confuse the mathematical symbol $!$, which means {\em factorial}, with the Java operator \java{!}, which means {\em not}.
-This definition says that \java{factorial(0)} is \java{1}, and that \java{factorial(n)} is \java{n * factorial(n - 1)}.
-
-So \java{factorial(3)} is \java{3 * factorial(2)}; \java{factorial(2)} is \java{2 * factorial(1)}; \java{factorial(1)} is \java{1 * factorial(0)}; and \java{factorial(0)} is \java{1}.
-Putting it all together, we get \java{3 * 2 * 1 * 1}, which is 6.
-
-If you can formulate a recursive definition of something, you can easily write a Java method to evaluate it.
-The first step is to decide what the parameters and return type are.
-Since factorial is defined for integers, the method takes an \java{int} as a parameter and returns an \java{int}.
-So here's a good starting place:
-
-\begin{code}
-public static int factorial(int n) {
-    return 0;
-}
-\end{code}
-
-Next, we think about the base case.
-If the argument happens to be zero, we return 1.
-
-\begin{code}
-public static int factorial(int n) {
-    if (n == 0) {
-        return 1;
+Scanner in = new Scanner(System.in);
+while (true) {
+    System.out.print("Enter a number: ");
+    if (in.hasNextDouble()) {
+        break;
     }
-    return 0;
+    String word = in.next();
+    System.err.println(word + " is not a number");
 }
+double x = in.nextDouble();
 \end{code}
 
-Otherwise, and this is the interesting part, we have to make a recursive call to find the factorial of $n-1$, and then multiply it by $n$.
+Using \java{true} as a conditional in a \java{while} loop is an idiom that means ``loop forever'', or in this case ``loop until you get to a \java{break} statement.''
+
+\index{continue}
+
+In addition to the \java{break} statement, which exits the loop, Java provides a \java{continue} statement that moves on to the next iteration.
+For example, the following code reads integers from the keyboard and computes a running total.
+The \java{continue} statement causes the program to skip over any negative values.
 
 \begin{code}
-public static int factorial(int n) {
-    if (n == 0) {
-        return 1;
+Scanner in = new Scanner(System.in);
+int x = -1;
+int sum = 0;
+while (x != 0) {
+    x = in.nextInt();
+    if (x <= 0) {
+        continue;
     }
-    int recurse = factorial(n - 1);
-    int result = n * recurse;
-    return result;
+    System.out.println("Adding " + x);
+    sum += x;
 }
 \end{code}
 
-The flow of execution for this program is similar to \java{countdown} from Section~\ref{recursion}.
-If we invoke \java{factorial} with the value 3:
-
-\vspace{-1ex}
-\begin{quote}
-Since 3 is not zero, we take the second branch and calculate the factorial of $n-1$...
-\begin{quote}
-Since 2 is not zero, we take the second branch and calculate the factorial of $n-1$...
-\begin{quote}
-Since 1 is not zero, we take the second branch and calculate the factorial of $n-1$...
-\begin{quote}
-Since 0 {\em is} zero, we take the first branch and return the value 1 immediately.
-% without making any more recursive invocations.
-\end{quote}
-The return value (1) gets multiplied by \java{n}, which is 1, and the result is returned.
-\end{quote}
-The return value (1) gets multiplied by \java{n}, which is 2, and the result is returned.
-\end{quote}
-The return value (2) gets multiplied by \java{n}, which is 3, and the result, 6, is returned to whatever invoked \java{factorial(3)}.
-\end{quote}
-\vspace{-1ex}
-
-\index{stack}
-\index{diagram!stack}
-
-Figure~\ref{fig.stack3} shows what the stack diagram looks like for this sequence of method invocations.
-The return values are shown being passed back up the stack.
-Notice that \java{recurse} and \java{result} do not exist in the last frame, because when \java{n == 0} the code that declares them does not execute.
-
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics{figs/stack3.pdf}
-\caption{Stack diagram for the \java{factorial} method.}
-\label{fig.stack3}
-\end{center}
-\end{figure}
-
-
-\section{Leap of faith}
-\label{leap of faith}
-
-\index{leap of faith}
-
-Following the flow of execution is one way to read programs, but it can quickly become overwhelming.
-An alternative is the {\bf leap of faith}:
-when you come to a method invocation, instead of following the flow of execution, you {\em assume} that the method works correctly and returns the appropriate value.
-
-In fact, you are already practicing a leap of faith when you use methods in the Java library.
-When you invoke \java{Math.cos} or \java{System.out.println}, you don't examine the implementations of those methods.
-You just assume that they work properly.
-
-You should apply the same reasoning to your own methods.
-For example, in Section~\ref{boolean} we wrote a method called \java{isSingleDigit} that determines whether a number is between 0 and 9.
-Once we convince ourselves that this method is correct -- by testing and examination of the code -- we can use the method without ever looking at the implementation again.
-
-The same is true of recursive methods.
-When you get to the recursive call, instead of following the flow of execution you should {\em assume} that the recursive invocation works.
-For example, ``Assuming that I can find the factorial of $n-1$, can I compute the factorial of $n$?''
-Yes you can, by multiplying by $n$.
-
-Of course, it is strange to assume that the method works correctly when you have not finished writing it, but that's why it's called a leap of faith!
-
-
-\section{One more example}
-\label{fibonacci}
-
-\index{fibonacci}
-
-Another common recursively-defined mathematical function is the Fibonacci sequence, which has the following definition:
-%
-\begin{eqnarray*}
-&& fibonacci(1) = 1 \\
-&& fibonacci(2) = 1 \\
-&& fibonacci(n) = fibonacci(n-1) + fibonacci(n-2)
-\end{eqnarray*}
-
-Translated into Java, this function is:
-
-\begin{code}
-public static int fibonacci(int n) {
-    if (n == 1 || n == 2) {
-        return 1;
-    }
-    return fibonacci(n - 1) + fibonacci(n - 2);
-}
-\end{code}
-
-If you try to follow the flow of execution here, even for small values of \java{n}, your head will explode.
-But if we take a leap of faith and assume that the two recursive invocations work correctly, it is clear that their sum is the result.
+Although \java{break} and \java{continue} statements give you more control of the loop execution, they can make code difficult to understand and debug.
+Use them sparingly.
 
 
 \section{Vocabulary}
 
 \begin{description}
 
-\term{void method}
-A method that does not return a value.
+\term{iteration}
+Executing a sequence of statements repeatedly.
 
-\term{value method}
-A method that returns a value.
+\term{loop}
+A statement that executes a sequence of statements repeatedly.
 
-%\term{void}
-%A special return type indicating the method does not return a value.
+\term{loop body}
+The statements inside the loop.
 
-\term{return type}
-The type of value a method returns.
+\term{infinite loop}
+A loop whose condition is always true.
 
-\term{return value}
-The value provided as the result of a method invocation.
+\term{program development}
+A process for writing programs.
+So far we have seen ``incremental development'' and ``encapsulation and generalization''.
 
-\term{temporary variable}
-A short-lived variable, often used for debugging.
+\term{encapsulate}
+To wrap a sequence of statements in a method.
 
-\term{dead code}
-Part of a program that can never be executed, often because it appears after a \java{return} statement.
+\term{generalize}
+To replace something unnecessarily specific (like a constant value) with something appropriately general (like a variable or parameter).
 
-\term{incremental development}
-A process for creating programs by writing a few lines at a time, compiling, and testing.
+\term{loop variable}
+A variable that is initialized, tested, and updated in order to control a loop.
 
-\term{stub}
-A placeholder for an incomplete method so that the class will compile.
+\term{increment}
+Increase the value of a variable.
 
-\term{scaffolding}
-Code that is used during program development but is not part of the final version.
+\term{decrement}
+Decrease the value of a variable.
 
-\term{functional decomposition}
-A process for breaking down a complex computation into simple methods, then composing the methods to perform the computation.
+\term{pretest loop}
+A loop that tests the condition before each iteration.
 
-\term{overload}
-To define more than one method with the same name but different parameters.
-%When you invoke an overloaded method, Java knows which version to use by looking at the arguments you provide.
-
-\term{tag}
-A label that begins with an at sign (\java{@}) and is used by Javadoc to organize documentation into sections.
-
-\term{Turing complete}
-A programming language that can implement any theoretically possible algorithm.
-
-\term{factorial}
-The product of all the integers up to and including a given integer.
-
-\term{leap of faith}
-A way to read recursive programs by assuming that the recursive call works, rather than following the flow of execution.
+\term{posttest loop}
+A loop that tests the condition after each iteration.
 
 \end{description}
 
 
 \section{Exercises}
 
-The code for this chapter is in the {\tt ch06} directory of {\tt ThinkJavaCode}.
+The code for this chapter is in the {\tt ch07} directory of {\tt ThinkJavaCode}.
 See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
 
-If you have not already read Appendix~\ref{JUnit}, now might be a good time.
-It describes JUnit, a tool for efficiently testing value methods.
+If you have not already read Appendix~\ref{checkstyle}, now might be a good time.
+It describes Checkstyle, a tool that analyzes many aspects of your source code.
 
 
 \begin{exercise}
 
-If you have a question about whether something is legal, and what happens if it is not, a good way to find out is to ask the compiler.
-Answer the following questions by trying them out.
-
-\begin{enumerate}
-
-\item What happens if you invoke a value method and don't do anything with the result; that is, if you don't assign it to a variable or use it as part of a larger expression?
-
-\item What happens if you use a void method as part of an expression?
-For example, try \java{System.out.println("boo!") + 7;}
-
-\end{enumerate}
-
-\end{exercise}
-
-
-\begin{exercise}
-\label{ex.isdiv}
-
-Write a method named \java{isDivisible} that takes two integers, \java{n} and \java{m}, and that returns \java{true} if \java{n} is divisible by \java{m}, and \java{false} otherwise.
-
-\end{exercise}
-
-
-\begin{exercise}
-
-If you are given three sticks, you may or may not be able to arrange them in a triangle.
-For example, if one of the sticks is 12 inches long and the other two are one inch long, you will not be able to get the short sticks to meet in the middle.
-For any three lengths, there is a simple test to see if it is possible to form a triangle:
-
-\begin{quotation}
-\noindent
-If any of the three lengths is greater than the sum of the other two, you cannot form a triangle.
-\end{quotation}
-
-Write a method named \java{isTriangle} that takes three integers as arguments and returns either \java{true} or \java{false}, depending on whether you can or cannot form a triangle from sticks with the given lengths.
-The point of this exercise is to use conditional statements to write a value method.
-
-\end{exercise}
-
-
-\begin{exercise}
-\label{ex.multadd}
-
-Many computations can be expressed more concisely using the ``multadd'' operation, which takes three operands and computes \java{a * b + c}.
-Some processors even provide a hardware implementation of this operation for floating-point numbers.
-
-\begin{enumerate}
-
-\item Create a new program called {\tt Multadd.java}.
-
-\item Write a method called \java{multadd} that takes three \java{doubles} as parameters and that returns \java{a * b + c}.
-
-\item Write a \java{main} method that tests \java{multadd} by invoking it with a few simple parameters, like \java{1.0, 2.0, 3.0}.
-
-\item Also in \java{main}, use \java{multadd} to compute the following values:
-%
-\begin{eqnarray*}
-& \sin \frac{\pi}{4} + \frac{\cos \frac{\pi}{4}}{2} & \\
-& \log 10 + \log 20 &
-\end{eqnarray*}
-
-\item Write a method called \java{expSum} that takes a double as a parameter and that uses \java{multadd} to calculate:
-%
-\begin{eqnarray*}
-x e^{-x} + \sqrt{1 - e^{-x}}
-\end{eqnarray*}
-%
-{\it Hint:} The method for raising $e$ to a power is \java{Math.exp}.
-
-\end{enumerate}
-
-In the last part of this exercise, you need to write a method that invokes another method you wrote.
-Whenever you do that, it is a good idea to test the first method carefully before working on the second.
-Otherwise, you might find yourself debugging two methods at the same time, which can be difficult.
-
-One of the purposes of this exercise is to practice pattern-matching: the ability to recognize a specific problem as an instance of a general category of problems.
-
-\end{exercise}
-
-
-\begin{exercise}
-
-What is the output of the following program?
+Consider the following methods:
 
 \begin{code}
 public static void main(String[] args) {
-    boolean flag1 = isHoopy(202);
-    boolean flag2 = isFrabjuous(202);
-    System.out.println(flag1);
-    System.out.println(flag2);
-    if (flag1 && flag2) {
-        System.out.println("ping!");
-    }
-    if (flag1 || flag2) {
-        System.out.println("pong!");
-    }
-}
-\end{code}
-
-\begin{code}
-public static boolean isHoopy(int x) {
-    boolean hoopyFlag;
-    if (x % 2 == 0) {
-        hoopyFlag = true;
-    } else {
-        hoopyFlag = false;
-    }
-    return hoopyFlag;
-}
-\end{code}
-
-\begin{code}
-public static boolean isFrabjuous(int x) {
-    boolean frabjuousFlag;
-    if (x > 0) {
-        frabjuousFlag = true;
-    } else {
-        frabjuousFlag = false;
-    }
-    return frabjuousFlag;
-}
-\end{code}
-
-The purpose of this exercise is to make sure you understand logical operators and the flow of execution through value methods.
-
-\end{exercise}
-
-
-\begin{exercise}
-
-In this exercise, you will use a stack diagram to understand the execution of the following recursive program.
-
-\begin{code}
-public static void main(String[] args) {
-    System.out.println(prod(1, 4));
+    loop(10);
 }
 
-public static int prod(int m, int n) {
-    if (m == n) {
-        return n;
-    } else {
-        int recurse = prod(m, n - 1);
-        int result = n * recurse;
-        return result;
+public static void loop(int n) {
+    int i = n;
+    while (i > 1) {
+        System.out.println(i);
+        if (i % 2 == 0) {
+            i = i / 2;
+        } else {
+            i = i + 1;
+        }
     }
 }
 \end{code}
 
 \begin{enumerate}
 
-\item Draw a stack diagram showing the state of the program just before the last invocation of \java{prod} completes.
+\item Draw a table that shows the value of the variables \java{i} and \java{n} during the execution of \java{loop}.
+The table should contain one column for each variable and one line for each iteration.
 
 \item What is the output of this program?
-(Try to answer this question on paper first, then run the code to check your answer.)
 
-\item Explain in a few words what \java{prod} does (without getting into the details of how it works).
+\item Can you prove that this loop terminates for any positive value of \java{n}?
 
-\item Rewrite \java{prod} without the temporary variables \java{recurse} and \java{result}.
-{\it Hint:} You only need one line for the \java{else} branch.
+% If i is odd and we increment by 1, the result is even.  So the second
+% branch is always followed by the first branch.
+% If i is even and we divide by 2, the result might be odd.  So in the
+% worst case, we might alternate between the branches.
+% But we can't do more of the second branch than the first.
+% So we divide at least as often as we add.
+
+% If i is 1, we're done.
+% If i is 2, we divide by 2 and we're done.
+% If i is greater than 2, the first branch decreases more than the
+% second branch increases.
+% So if we do one of each, the net effect is a decrease.
+% Therefore, the value of i has to decrease after any two steps.
 
 \end{enumerate}
 
@@ -864,41 +719,94 @@ public static int prod(int m, int n) {
 
 
 \begin{exercise}
-Write a recursive method named \java{oddSum} that takes a positive odd integer \java{n} and returns the sum of odd integers from 1 to n.
-Start with a base case, and use temporary variables to debug your solution.
-You might find it helpful to print the value of \java{n} each time \java{oddSum} is invoked.
-\end{exercise}
 
+Let's say you are given a number, $a$, and you want to find its square root.
+One way to do that is to start with a rough guess about the answer, $x_0$, and then improve the guess using this formula:
+%
+\[ x_1 =(x_0 + a/x_0) / 2 \]
+%
+For example, if we want to find the square root of 9, and we start with $x_0 = 6$, then $x_1 = (6 + 9/6) / 2 = 3.75$, which is closer.
+We can repeat the procedure, using $x_1$ to calculate $x_2$, and so on.
+In this case, $x_2 = 3.075$ and $x_3 = 3.00091$.
+So it converges quickly on the correct answer.
 
-\begin{exercise}
+Write a method called \java{squareRoot} that takes a \java{double} and returns an approximation of the square root of the parameter, using this technique.
+You should not use \java{Math.sqrt}.
 
-The goal of this exercise is to translate a recursive definition into a Java method.
-The Ackermann function is defined for non-negative integers as follows:
-\begin{eqnarray*}
-A(m, n) = \begin{cases}
-              n+1 & \mbox{if } m = 0 \\
-        A(m-1, 1) & \mbox{if } m > 0 \mbox{ and } n = 0 \\
-A(m-1, A(m, n-1)) & \mbox{if } m > 0 \mbox{ and } n > 0
-\end{cases}
-\end{eqnarray*}
-
-Write a method called \java{ack} that takes two \java{int}s as parameters and that computes and returns the value of the Ackermann function.
-
-Test your implementation of Ackermann by invoking it from \java{main} and displaying the return value.
-Note the return value gets very big very quickly.
-You should try it only for small values of $m$ and $n$ (not bigger than 3).
+As your initial guess, you should use $a/2$.
+Your method should iterate until it gets two consecutive estimates that differ by less than 0.0001.
+%In other words, return when the absolute value of $x_n - x_{n-1}$ is less than 0.0001.
+You can use \java{Math.abs} to calculate the absolute value of the difference.
 
 \end{exercise}
 
 
 \begin{exercise}
-\label{ex.power}
 
-Write a recursive method called \java{power} that takes a double \java{x} and an integer \java{n} and returns $x^n$.
+In Exercise~\ref{ex.power} we wrote a recursive version of \java{power}, which takes a double \java{x} and an integer \java{n} and returns $x^n$.
+Now write an iterative method to perform the same calculation.
 
-{\it Hint:} A recursive definition of this operation is $x^n = x \cdot x^{n-1}$.
-Also, remember that anything raised to the zeroth power is 1.
+\end{exercise}
 
-Optional challenge: you can make this method more efficient, when \java{n} is even, using $x^n = \left( x^{n/2} \right)^2$.
+
+\begin{exercise}
+
+Section~\ref{factorial} presents a recursive method that computes the factorial function.
+Write an iterative version of \java{factorial}.
+
+\end{exercise}
+
+
+\begin{exercise}
+
+One way to calculate $e^x$ is to use the infinite series expansion:
+%
+\[ e^x = 1 + x + x^2 / 2! + x^3 / 3! + x^4 / 4! + \ldots \]
+%
+The $i$th term in the series is $x^i / i!$.
+
+\begin{enumerate}
+
+\item Write a method called \java{myexp} that takes \java{x} and \java{n} as parameters and estimates $e^x$ by adding the first \java{n} terms of this series.
+You can use the \java{factorial} method from Section~\ref{factorial} or your iterative version from the previous exercise.
+
+\index{efficiency}
+
+\item You can make this method more efficient if you realize that the numerator of each term is the same as its predecessor multiplied by \java{x}, and the denominator is the same as its predecessor multiplied by \java{i}.
+Use this observation to eliminate the use of \java{Math.pow} and \java{factorial}, and check that you get the same result.
+
+\item Write a method called \java{check} that takes a parameter, \java{x}, and displays \java{x}, \java{myexp(x)}, and \java{Math.exp(x)}.
+The output should look something like:
+
+\begin{stdout}
+1.0     2.708333333333333     2.718281828459045
+\end{stdout}
+
+You can use the escape sequence \java{"\\t"} to put a tab character between columns of a table.
+
+\item Vary the number of terms in the series (the second argument that \java{check} sends to \java{myexp}) and see the effect on the accuracy of the result.
+Adjust this value until the estimated value agrees with the correct answer when \java{x} is 1.
+
+\item Write a loop in \java{main} that invokes \java{check} with the values 0.1, 1.0, 10.0, and 100.0.
+How does the accuracy of the result vary as \java{x} varies?
+Compare the number of digits of agreement rather than the difference between the actual and estimated values.
+
+\item Add a loop in \java{main} that checks \java{myexp} with the values -0.1, -1.0, -10.0, and -100.0.
+Comment on the accuracy.
+
+\end{enumerate}
+
+\end{exercise}
+
+
+\begin{exercise}
+
+One way to evaluate $\exp(-x^2)$ is to use the infinite series expansion:
+%
+\[ \exp(-x^2) = 1 - x^2 + x^4/2 - x^6/6 + \ldots \]
+%
+The $i$th term in this series is $(-1)^i x^{2i} / i!$.
+Write a method named \java{gauss} that takes \java{x} and \java{n} as arguments and returns the sum of the first \java{n} terms of the series.
+You should not use \java{factorial} or \java{pow}.
 
 \end{exercise}
