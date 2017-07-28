@@ -17,4 +17,4 @@ To compile the PDF version from source:
     pdflatex thinkjava.tex
     pdflatex thinkjava.tex
 
-The source code includes a Makefile that automates this process. On Linux, you will need to install texlive-latex-extra and hevea.
+The source code includes a Makefile that automates this process. On Linux, you may need to install texlive-latex-extra. To build the HTML version, the hevea package is required.

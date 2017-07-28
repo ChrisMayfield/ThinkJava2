@@ -8,7 +8,7 @@ all:
 	pdflatex $(F).tex
 
 clean:
-	rm -f $(F).aux $(F).idx $(F).ilg $(F).ind $(F).log $(F).out $(F).toc
+	rm -f comment.cut $(F).aux $(F).idx $(F).ilg $(F).ind $(F).log $(F).out $(F).toc
 
 # a bug (in ocaml?) causes "make hevea" to fail; use "make -i hevea" instead
 .PHONY: hevea

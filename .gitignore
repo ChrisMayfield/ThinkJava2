@@ -15,5 +15,6 @@ thinkjava.toc
 checkstyle*.jar
 
 # HTML output
+comment.cut
 heveahtml/*
 trinkethtml/*

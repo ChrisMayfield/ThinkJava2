@@ -11,11 +11,16 @@
 %%%% Both LATEX and PLASTEX
 
 \usepackage{graphicx}
-\usepackage{hevea}
 \usepackage{makeidx}
 \usepackage{setspace}
 
 \makeindex
+
+%BEGIN LATEX
+\usepackage{comment}
+\excludecomment{htmlonly}
+\includecomment{latexonly}
+%END LATEX
 
 % automatically index glossary terms
 \newcommand{\term}[1]{%
