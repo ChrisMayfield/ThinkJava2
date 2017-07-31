@@ -137,17 +137,18 @@ Or we can create the array and initialize the elements at the same time, as we s
 String[] suits = {"Clubs", "Diamonds", "Hearts", "Spades"};
 \end{code}
 
-\index{state diagram}
+\index{memory diagram}
+\index{diagram!memory}
 \index{reference}
 \index{string!reference to}
 
-The state diagram in Figure~\ref{fig.stringarray} shows the result.
+The memory diagram in Figure~\ref{fig.stringarray} shows the result.
 Each element of the array is a reference to a \java{String}.
 
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/stringarray.pdf}
-\caption{State diagram of an array of strings.}
+\caption{Memory diagram of an array of strings.}
 \label{fig.stringarray}
 \end{center}
 \end{figure}
@@ -382,12 +383,12 @@ The following statement creates an array of 52 cards:
 Card[] cards = new Card[52];
 \end{code}
 
-Figure~\ref{fig.cardarray} shows the state diagram for this array.
+Figure~\ref{fig.cardarray} shows the memory diagram for this array.
 
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/cardarray.pdf}
-\caption{State diagram of an unpopulated \java{Card} array.}
+\caption{Memory diagram of an unpopulated \java{Card} array.}
 \label{fig.cardarray}
 \end{center}
 \end{figure}
@@ -441,7 +442,7 @@ Figure~\ref{fig.cardarray2} shows what the array looks like after the first two 
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/cardarray2.pdf}
-\caption{State diagram of a \java{Card} array with two cards.}
+\caption{Memory diagram of a \java{Card} array with two cards.}
 \label{fig.cardarray2}
 \end{center}
 \end{figure}

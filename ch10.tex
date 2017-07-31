@@ -57,13 +57,13 @@ The result of the \java{new} operator is a {\em reference} to the new object.
 So \java{blank} contains a reference to the new \java{Point} object.
 Figure~\ref{fig.reference} shows the result.
 
-\index{state diagram}
-\index{diagram!state}
+\index{memory diagram}
+\index{diagram!memory}
 
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/reference.pdf}
-\caption{State diagram showing a variable that refers to a \java{Point} object.}
+\caption{Memory diagram showing a variable that refers to a \java{Point} object.}
 \label{fig.reference}
 \end{center}
 \end{figure}
@@ -167,7 +167,7 @@ Figure~\ref{fig.rectangle} shows the effect of this assignment.
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/rectangle.pdf}
-\caption{State diagram showing a \java{Rectangle} object.}
+\caption{Memory diagram showing a \java{Rectangle} object.}
 \label{fig.rectangle}
 \end{center}
 \end{figure}
@@ -217,7 +217,7 @@ The result is shown in Figure~\ref{fig.rectangle2}.
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/rectangle2.pdf}
-\caption{State diagram showing updated attributes.}
+\caption{Memory diagram showing updated attributes.}
 \label{fig.rectangle2}
 \end{center}
 \end{figure}
@@ -271,7 +271,7 @@ Rather than write methods like \java{moveRect} that modify one or more parameter
 
 Remember that when you assign an object to a variable, you are assigning a {\em reference} to an object.
 It is possible to have multiple variables that refer to the same object.
-The state diagram in Figure~\ref{fig.aliasing} shows the result.
+The memory diagram in Figure~\ref{fig.aliasing} shows the result.
 
 \begin{code}
 Rectangle box1 = new Rectangle(0, 0, 100, 200);
@@ -281,7 +281,7 @@ Rectangle box2 = box1;
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/aliasing.pdf}
-\caption{State diagram showing two variables that refer to the same object.}
+\caption{Memory diagram showing two variables that refer to the same object.}
 \label{fig.aliasing}
 \end{center}
 \end{figure}
@@ -304,7 +304,7 @@ The effect is shown in Figure~\ref{fig.aliasing2}.
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/aliasing2.pdf}
-\caption{State diagram showing the effect of invoking \java{grow}.}
+\caption{Memory diagram showing the effect of invoking \java{grow}.}
 \label{fig.aliasing2}
 \end{center}
 \end{figure}
@@ -329,12 +329,12 @@ You can declare and initialize object variables this way:
 Point blank = null;
 \end{code}
 
-The value \java{null} is represented in state diagrams by a small box with no arrow, as in Figure~\ref{fig.reference2}.
+The value \java{null} is represented in memory diagrams by a small box with no arrow, as in Figure~\ref{fig.reference2}.
 
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/reference2.pdf}
-\caption{State diagram showing a variable that contains a \java{null} reference.}
+\caption{Memory diagram showing a variable that contains a \java{null} reference.}
 \label{fig.reference2}
 \end{center}
 \end{figure}
@@ -367,12 +367,12 @@ blank = null;
 
 The first line creates a new \java{Point} object and makes \java{blank} refer to it.
 The second line changes \java{blank} so that instead of referring to the object, it refers to nothing.
-In the state diagram, we remove the arrow between them, as in Figure~\ref{fig.reference3}.
+In the memory diagram, we remove the arrow between them, as in Figure~\ref{fig.reference3}.
 
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/reference3.pdf}
-\caption{State diagram showing the effect of setting a variable to \java{null}.}
+\caption{Memory diagram showing the effect of setting a variable to \java{null}.}
 \label{fig.reference3}
 \end{center}
 \end{figure}
@@ -418,7 +418,7 @@ As shown in Figure~\ref{fig.umlPoint}, a {\bf class diagram} is divided into two
 The top half lists the attributes, and the bottom half lists the methods.
 UML uses a language-independent format, so rather than showing \java{int x}, the diagram uses {\tt x:~int}.
 
-In contrast to state diagrams, which visualize objects (and variables) at run-time, a class diagram visualizes the source code at compile-time.
+In contrast to memory diagrams, which visualize objects (and variables) at run-time, a class diagram visualizes the source code at compile-time.
 
 Both \java{Point} and \java{Rectangle} have additional methods; we are only showing the ones introduced in this chapter.
 See the documentation for these classes to learn more about what they can do.

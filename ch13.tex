@@ -35,7 +35,8 @@ public class Deck {
 \end{code}
 
 \index{constructor}
-\index{state diagram}
+\index{memory diagram}
+\index{diagram!memory}
 
 The constructor initializes the instance variable with an array of \java{n} cards, but it doesn't create any card objects.
 Figure~\ref{fig.deckobject} shows what a \java{Deck} looks like with no cards.
@@ -43,7 +44,7 @@ Figure~\ref{fig.deckobject} shows what a \java{Deck} looks like with no cards.
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/deckobject.pdf}
-\caption{State diagram of an unpopulated \java{Deck} object.}
+\caption{Memory diagram of an unpopulated \java{Deck} object.}
 \label{fig.deckobject}
 \end{center}
 \end{figure}
@@ -233,13 +234,13 @@ Drawing a picture is usually the best way to avoid them.
 \index{constructor}
 \index{overload}
 
-Figure~\ref{fig.subdeck} is a state diagram of a subdeck with \java{low = 0} and \java{high = 4}.
+Figure~\ref{fig.subdeck} is a memory diagram of a subdeck with \java{low = 0} and \java{high = 4}.
 The result is a hand with five cards that are {\em shared} with the original deck; that is, they are aliased.
 
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/subdeck.pdf}
-\caption{State diagram showing the effect of \java{subdeck}.}
+\caption{Memory diagram showing the effect of \java{subdeck}.}
 \label{fig.subdeck}
 \end{center}
 \end{figure}

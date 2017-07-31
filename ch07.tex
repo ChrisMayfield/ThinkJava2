@@ -60,16 +60,16 @@ An array with zero elements is allowed, and there are special uses for such arra
 \section{Accessing elements}
 \label{elements}
 
-\index{state diagram}
-\index{diagram!state}
+\index{memory diagram}
+\index{diagram!memory}
 
 When you create an array of \java{int}s, the elements are initialized to zero.
-Figure~\ref{fig.array} shows a state diagram of the \java{counts} array so far.
+Figure~\ref{fig.array} shows a memory diagram of the \java{counts} array so far.
 
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/array.pdf}
-\caption{State diagram of an \java{int} array.}
+\caption{Memory diagram of an \java{int} array.}
 \label{fig.array}
 \end{center}
 \end{figure}
@@ -109,7 +109,7 @@ Figure~\ref{fig.array2} shows the result of these statements.
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/array2.pdf}
-\caption{State diagram after several assignment statements.}
+\caption{Memory diagram after several assignment statements.}
 \label{fig.array2}
 \end{center}
 \end{figure}
@@ -227,7 +227,7 @@ These statements create an array of three \java{double}s and make two different 
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/array3.pdf}
-\caption{State diagram showing two variables that refer to the same array.}
+\caption{Memory diagram showing two variables that refer to the same array.}
 \label{fig.array3}
 \end{center}
 \end{figure}
@@ -571,7 +571,7 @@ An integer variable or value used to indicate an element of an array.
 
 \term{reference}
 A value that indicates another value, like an array.
-In a state diagram, a reference appears as an arrow.
+In a memory diagram, a reference appears as an arrow.
 
 \term{alias}
 A variable that refers to the same object as another variable.
