@@ -20,7 +20,7 @@ We also explain three kinds of programming errors and offer additional debugging
 \index{value}
 
 One of the most powerful features of a programming language is the ability to define and manipulate {\bf variables}.
-A variable is a named location that stores a {\bf value}.
+A variable is a named location (in memory) that stores a {\bf value}.
 Values may be numbers, text, images, sounds, and other types of data.
 %They can be printed, and as we'll see later, operated on.
 To store a value, you first have to declare a variable.
@@ -90,7 +90,7 @@ Most programming editors provide ``syntax highlighting'', which makes different 
 \index{assignment}
 \index{statement!assignment}
 
-Now that we have declared variables, we want to use them to store values.
+Now that we have declared some variables, we can use them to store values.
 We do that with an {\bf assignment} statement.
 
 \begin{code}
@@ -151,7 +151,7 @@ int minute = 59;
 %In this example, there is no reason to make two assignments, but in many programs it is useful to reassign, or {\bf update}, variables.
 
 
-\section{State diagrams}
+\section{Memory diagrams}
 \label{state}
 
 Because Java uses the \java{=} symbol for assignment, it is tempting to interpret the statement \java{a = b} as a statement of equality.
@@ -182,23 +182,23 @@ Figure~\ref{fig.state} shows the state of the program after these assignment sta
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/state.pdf}
-\caption{State diagram of the variables \java{a} and \java{b}.}
+\caption{Memory diagram of the variables \java{a} and \java{b}.}
 \label{fig.state}
 \end{center}
 \end{figure}
 
-\index{state diagram}
-\index{diagram!state}
+\index{memory diagram}
+\index{diagram!memory}
 
-Diagrams like this one that show the state of the program are called {\bf state diagrams}.
+Diagrams like this one that show the state of the program are called {\bf memory diagrams}.
 Each variable is represented with a box showing the name of the variable on the outside and the value inside.
-As the program runs, the state changes, so you should think of a state diagram as a snapshot of a particular point in time.
+As the program runs, the state of memory changes, so you should think of a state diagram as a snapshot of a particular point in time.
 
 
 \section{Printing variables}
 \label{sec:printvar}
 
-You can display the value of a variable using \java{print} or \java{println}.
+You can display the current value of a variable using \java{print} or \java{println}.
 The following statements declare a variable named \java{firstLine}, assign it the value \java{"Hello, again!"}, and display that value.
 
 \begin{code}
@@ -275,24 +275,24 @@ System.out.print("Number of minutes since midnight: ");
 System.out.println(hour * 60 + minute);
 \end{code}
 
-\index{expression}
-\index{operand}
-
-In this program, \java{hour * 60 + minute} is an {\bf expression}, which represents a single value to be computed.
-When the program runs, each variable is replaced by its current value, and then the operators are applied.
-The values operators work with are called {\bf operands}.
-
-The result of the previous example is:
+The output is:
 
 \begin{stdout}
 Number of minutes since midnight: 719
 \end{stdout}
 
+\index{expression}
+\index{operand}
+
+In this program, \java{hour * 60 + minute} is an {\bf expression}, which represents a single value to be computed (\java{719}).
+When the program runs, each variable is replaced by its current value, and then the operators are applied.
+The values that operators work with are called {\bf operands}.
+
 Expressions are generally a combination of numbers, variables, and operators.
 When compiled and executed, they become a single value.
-
 For example, the expression \java{1 + 1} has the value \java{2}.
 In the expression \java{hour - 1}, Java replaces the variable with its value, yielding \java{11 - 1}, which has the value \java{10}.
+
 In the expression \java{hour * 60 + minute}, both variables get replaced, yielding \java{11 * 60 + 59}.
 The multiplication happens first, yielding \java{660 + 59}.
 Then the addition yields \java{719}.
@@ -378,7 +378,7 @@ The following is illegal because the variable on the left is an \java{int} and t
 int x = 1.1;  // compiler error
 \end{code}
 
-It is easy to forget this rule because in many cases Java {\em automatically} converts from one type to another:
+It is easy to forget this rule, because in many cases Java {\em automatically} converts from one type to another:
 
 \begin{code}
 double y = 1;  // legal, but bad style
@@ -492,7 +492,7 @@ The \java{+} operator works with strings, but it might not do what you expect.
 For strings, the \java{+} operator performs {\bf concatenation}, which means joining end-to-end.
 So \java{"Hello, " + "World!"} yields the string \java{"Hello, World!"}.
 
-Or if you have a variable called \java{name} that has type \java{String}, the expression \java{"Hello, " + name} appends the value of \java{name} to the hello string, which creates a personalized greeting.
+Likewise if you have a variable called \java{name} that has type \java{String}, the expression \java{"Hello, " + name} appends the value of \java{name} to the hello string, which creates a personalized greeting.
 
 Since addition is defined for both numbers and strings, Java performs automatic conversions you may not expect:
 
@@ -514,7 +514,7 @@ But in the second line, \java{"Hello" + 1} is \java{"Hello1"}, and \java{"Hello1
 \index{order of operations}
 \index{precedence}
 
-When more than one operator appears in an expression, they are evaluated according to {\bf order of operations}.
+When more than one operator appears in an expression, they are evaluated according to the {\bf order of operations}.
 Generally speaking, Java evaluates operators from left to right (as we saw in the previous section).
 But for numeric operators, Java follows mathematical conventions:
 
@@ -628,10 +628,10 @@ Error: ';' expected
 That's pretty good: the location of the error is correct, and the error message tells you what's wrong.
 
 But error messages are not always easy to understand.
-Sometimes the compiler reports the place in the program where the error was detected, not where it actually occurred.
+Sometimes the compiler reports the place in the program where the error was {\em detected}, not where it actually occurred.
 And sometimes the description of the problem is more confusing than helpful.
 
-For example, if you leave out the closing brace at the end of \java{main} (line 6), you might get a message like this:
+For example, if you forget the closing brace at the end of \java{main} (line 6), you might get a message like this:
 
 \begin{stdout}
 File: Hello.java  [line: 7]
@@ -649,9 +649,8 @@ The compiler discovers the error at the end of the program (line 7), but the mis
 
 Error messages contain useful information, so you should make an effort to read and understand them.
 But don't take them too literally.
-
 During the first few weeks of your programming career, you will probably spend a lot of time tracking down compile-time errors.
-But as you gain experience, you will make fewer mistakes and find them more quickly.
+As you gain experience, you will make fewer mistakes and find them more quickly.
 
 %\subsection{Run-time errors}
 
@@ -661,12 +660,11 @@ But as you gain experience, you will make fewer mistakes and find them more quic
 
 The second type of error is a {\bf run-time error}, so-called because it does not appear until after the program has started running.
 In Java, these errors occur while the interpreter is executing byte code and something goes wrong.
-These errors are also called ``exceptions'' because they usually indicate that something exceptional (and bad) has happened.
+These errors are also called ``exceptions'' because they usually indicate that something unexpected has happened.
 
 Run-time errors are rare in the simple programs you will see in the first few chapters, so it might be a while before you encounter one.
 When a run-time error occurs, the interpreter displays an error message that explains what happened and where.
-
-For example, if you accidentally divide by zero you will get a message like this:
+For example, if you accidentally divide by zero you will get a message like:
 
 \begin{small}
 \begin{stdout}
@@ -678,21 +676,21 @@ Exception in thread "main" java.lang.ArithmeticException: / by zero
 \index{ArithmeticException}
 \index{exception!Arithmetic}
 
-Some parts of this output are useful for debugging.
+Error messages are very useful for debugging.
 The first line includes the name of the exception, \java{java.lang.ArithmeticException}, and a message that indicates more specifically what happened, \java{/ by zero}.
 The next line shows the method where the error occurred; \java{Hello.main} indicates the method \java{main} in the class \java{Hello}.
 It also reports the file where the method is defined, {\tt Hello.java}, and the line number where the error occurred, \java{5}.
 
-Error messages sometimes contain additional information that won't make sense yet.
-So one of the challenges is to figure out where to find the useful parts without being overwhelmed by extraneous information.
-Also, keep in mind that the line where the program crashed may not be the line that needs to be corrected.
+Sometimes error messages contain additional information that doesn't make sense.
+It can be a challenge to figure out where to find the useful parts without being overwhelmed by extraneous information.
+Keep in mind that the line where the program crashed may not be the line that needs to be corrected.
 
 %\subsection{Logic errors}
 
 \index{logic error}
 \index{error!logic}
 
-The third type of error is the {\bf logic error}.
+The third type of error is a {\bf logic error}.
 %{\bf Semantics} pertains to the meaning of a program; that is, what it does when it runs.
 If your program has a logic error, it will compile and run without generating error messages, but it will not do the right thing.
 Instead, it will do exactly what you told it to do.
@@ -721,8 +719,8 @@ The problem is that the first line uses \java{println}, when we probably meant t
 Identifying logic errors can be hard because you have to work backwards, looking at the output of the program, trying to figure out why it is doing the wrong thing, and how to make it do the right thing.
 Usually the compiler and the interpreter can't help you, since they don't know what the right thing is.
 
-Now that you know about the three kinds of errors, you might want to read Appendix~\ref{debugappendix}, where we've collected some of our favorite debugging advice.
-It refers to language features we haven't talked about yet, so you might want to re-read it from time to time.
+Now that you know about the three kinds of errors, you might want to preview Appendix~\ref{debugappendix} where we've collected some of our favorite debugging advice.
+It refers to language features we haven't talked about yet, so you will want to re-read it from time to time.
 
 
 \section{Vocabulary}
@@ -763,7 +761,7 @@ To assign a variable for the first time.
 \term{state}
 The variables in a program and their current values.
 
-\term{state diagram}
+\term{memory diagram}
 A graphical representation of the state of a program at a point in time.
 
 \term{operator}
