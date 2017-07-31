@@ -1,9 +1,12 @@
 \chapter{Variables and operators}
 
-This chapter describes how to write statements using variables, which store values like numbers and words, and operators, which are symbols that perform a computation.
+This chapter describes how to write statements using {\em variables}, which store values like numbers and words, and {\em operators}, which are symbols that perform a computation.
 We also explain three kinds of programming errors and offer additional debugging advice.
 %Understanding what can go wrong will help you get it right.
 %Finally we discuss the rules of code style, which helps make programs easier to read and debug.
+
+To run the examples in this chapter, you will need to create a new Java class with a \java{main} method (see Section~\ref{hello}).
+We often omit the class and method definitions to keep the examples concise.
 
 
 \section{Declaring variables}
@@ -20,7 +23,7 @@ We also explain three kinds of programming errors and offer additional debugging
 \index{value}
 
 One of the most powerful features of a programming language is the ability to define and manipulate {\bf variables}.
-A variable is a named location (in memory) that stores a {\bf value}.
+A variable is a named location in memory that stores a {\bf value}.
 Values may be numbers, text, images, sounds, and other types of data.
 %They can be printed, and as we'll see later, operated on.
 To store a value, you first have to declare a variable.
@@ -36,7 +39,7 @@ String message;
 \index{type!char}
 \index{type!String}
 
-This statement is a {\bf declaration}, because it declares that the variable named \java{message} has the type \java{String}.
+This statement is called a {\bf declaration}, because it declares that the variable named \java{message} has the type \java{String}.
 Each variable has a {\bf type} that determines what kind of values it can store.
 For example, the \java{int} type can store integers, and the \java{char} type can store characters.
 
@@ -53,7 +56,7 @@ int x;
 
 Note that \java{x} is an arbitrary name for the variable.
 In general, you should use names that indicate what the variables mean.
-For example, if you saw these declarations, you could probably guess what values would be stored:
+%For example, if you saw these declarations, you could probably guess what values would be stored:
 
 \begin{code}
 String firstName;
@@ -61,17 +64,17 @@ String lastName;
 int hour, minute;
 \end{code}
 
-\index{case-sensitive}
-
-This example declares two variables with type \java{String} and two with type \java{int}.
-When a variable name contains more than one word, like \java{firstName}, it is conventional to capitalize the first letter of each word except the first.
-Variable names are case-sensitive, so \java{firstName} is not the same as \java{firstname} or \java{FirstName}.
-
-\index{syntax}
 \index{semicolon}
 
-This example also demonstrates the {\bf syntax} for declaring multiple variables with the same type on one line: \java{hour} and \java{minute} are both integers.
-Note that each declaration statement ends with a semicolon.
+This example declares two variables with type \java{String} and two with type \java{int}.
+The last line shows how to declare multiple variables with the same type: \java{hour} and \java{minute} are both integers.
+Note that each declaration statement ends with a semicolon (\java{;}).
+
+\index{case-sensitive}
+
+Variable names usually begin with a lowercase letter, in contrast to class names (like \java{Hello}) that start with a capital letter.
+When a variable name contains more than one word (like \java{firstName}), it is conventional to capitalize the first letter of each subsequent word.
+Variable names are case-sensitive, so \java{firstName} is not the same as \java{firstname} or \java{FirstName}.
 
 \index{keyword}
 
@@ -85,7 +88,7 @@ Most programming editors provide ``syntax highlighting'', which makes different 
 %If you type a variable name and it turns blue, watch out!
 
 
-\section{Assignment}
+\section{Assigning variables}
 
 \index{assignment}
 \index{statement!assignment}
@@ -227,7 +230,7 @@ For this example, the output is:
 The value of firstLine is Hello, again!
 \end{stdout}
 
-Conveniently, the syntax for displaying a variable is the same regardless of its type.
+Conveniently, the code for displaying a variable is the same regardless of its type.
 For example:
 
 \begin{code}
@@ -346,7 +349,7 @@ Again the result is rounded down, but at least now it's approximately correct.
 A more general solution is to use {\bf floating-point} numbers, which can represent fractions as well as integers.
 %As the name implies, the decimal point floats around (i.e., you can have as many decimal places as you want).
 In Java, the default floating-point type is called \java{double}, which is short for double-precision.
-You can create \java{double} variables and assign values to them using the same syntax we used for the other types:
+You can create \java{double} variables and assign values to them the same way we did for the other types:
 
 \begin{code}
 double pi;
@@ -533,60 +536,61 @@ You can also use parentheses to make an expression easier to read, as in \java{(
 
 \end{itemize}
 
-Don't work too hard to remember the order of operations, especially for other operators.
-If it's not obvious by looking at the expression, use parentheses to make it clear.
+See the Java tutorials for a complete table of operator precedence: \url{https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html}.
+If the order of operations is not obvious when looking at an expression, you can always add parentheses to make it more clear.
+But over time, you should internalize these kinds of details about the Java language.
 
 
-\section{Composition}
+%\section{Composition}
+%
+%\index{composition}
+%
+%So far we have looked at the elements of a programming language -- variables, expressions, and statements -- in isolation, without talking about how to put them together.
+%
+%One of the most useful features of programming languages is their ability to take small building blocks and {\bf compose} them.
+%For example, we know how to multiply numbers and we know how to display values.
+%We can combine these operations into a single statement:
+%
+%\begin{code}
+%System.out.println(17 * 3);
+%\end{code}
+%
+%Any arithmetic expression can be used inside a print statement.
+%We've already seen one example:
+%
+%\begin{code}
+%System.out.println(hour * 60 + minute);
+%\end{code}
+%
+%You can also put arbitrary expressions on the right side of an assignment:
+%
+%\begin{code}
+%int percentage;
+%percentage = (minute * 100) / 60;
+%\end{code}
+%
+%The left side of an assignment must be a variable name, not an expression.
+%That's because the left side indicates where the result will be stored, and expressions do not represent storage locations.
+%
+%\begin{code}
+%hour = minute + 1;  // correct
+%minute + 1 = hour;  // compiler error
+%\end{code}
+%
+%\index{readability}
+%
+%The ability to compose operations may not seem impressive now, but we will see examples later on that allow us to write complex computations neatly and concisely.
+%But don't get too carried away.
+%Large, complex expressions can be hard to read and debug.
+%
+%%Before you get too carried away with composition, keep in mind that other people will be reading your source code.
+%%In practice, software developers spend the vast majority of their time {\em understanding} and {\em modifying} existing code.
+%%Thus it's far more important to write code that is readable than to write code that is (or appears to be) optimal.
+%%There is much beauty in simplicity.
+%%In general, each line of code should be a single step of the algorithm.
 
-\index{composition}
 
-So far we have looked at the elements of a programming language -- variables, expressions, and statements -- in isolation, without talking about how to put them together.
-
-One of the most useful features of programming languages is their ability to take small building blocks and {\bf compose} them.
-For example, we know how to multiply numbers and we know how to display values.
-We can combine these operations into a single statement:
-
-\begin{code}
-System.out.println(17 * 3);
-\end{code}
-
-Any arithmetic expression can be used inside a print statement.
-We've already seen one example:
-
-\begin{code}
-System.out.println(hour * 60 + minute);
-\end{code}
-
-You can also put arbitrary expressions on the right side of an assignment:
-
-\begin{code}
-int percentage;
-percentage = (minute * 100) / 60;
-\end{code}
-
-The left side of an assignment must be a variable name, not an expression.
-That's because the left side indicates where the result will be stored, and expressions do not represent storage locations.
-
-\begin{code}
-hour = minute + 1;  // correct
-minute + 1 = hour;  // compiler error
-\end{code}
-
-\index{readability}
-
-The ability to compose operations may not seem impressive now, but we will see examples later on that allow us to write complex computations neatly and concisely.
-But don't get too carried away.
-Large, complex expressions can be hard to read and debug.
-
-%Before you get too carried away with composition, keep in mind that other people will be reading your source code.
-%In practice, software developers spend the vast majority of their time {\em understanding} and {\em modifying} existing code.
-%Thus it's far more important to write code that is readable than to write code that is (or appears to be) optimal.
-%There is much beauty in simplicity.
-%In general, each line of code should be a single step of the algorithm.
-
-
-\section{Types of errors}
+\section{Compiler error messages}
 
 \index{error!message}
 
@@ -596,7 +600,7 @@ It is useful to distinguish among them in order to track them down more quickly.
 \index{compile-time error}
 \index{error!compile-time}
 
-{\bf Compile-time} errors occur when you violate the syntax rules of the Java language.
+{\bf Compile-time} errors occur when you violate the rules of the Java language.
 For example, parentheses and braces have to come in matching pairs.
 So \java{(1 + 2)} is legal, but \java{8)} is not.
 In the latter case, the program cannot be compiled, and the compiler displays an error.
@@ -626,7 +630,6 @@ Error: ';' expected
 \end{stdout}
 
 That's pretty good: the location of the error is correct, and the error message tells you what's wrong.
-
 But error messages are not always easy to understand.
 Sometimes the compiler reports the place in the program where the error was {\em detected}, not where it actually occurred.
 And sometimes the description of the problem is more confusing than helpful.
@@ -652,6 +655,8 @@ But don't take them too literally.
 During the first few weeks of your programming career, you will probably spend a lot of time tracking down compile-time errors.
 As you gain experience, you will make fewer mistakes and find them more quickly.
 
+
+\section{Other types of errors}
 %\subsection{Run-time errors}
 
 \index{run-time error}
@@ -719,8 +724,8 @@ The problem is that the first line uses \java{println}, when we probably meant t
 Identifying logic errors can be hard because you have to work backwards, looking at the output of the program, trying to figure out why it is doing the wrong thing, and how to make it do the right thing.
 Usually the compiler and the interpreter can't help you, since they don't know what the right thing is.
 
-Now that you know about the three kinds of errors, you might want to preview Appendix~\ref{debugappendix} where we've collected some of our favorite debugging advice.
-It refers to language features we haven't talked about yet, so you will want to re-read it from time to time.
+%Now that you know about the three kinds of errors, take a quick look at Appendix~\ref{debugappendix} where we've collected some of our favorite debugging advice.
+%It refers to language features we haven't yet covered, but it's good for you to know what's available when you need it.
 
 
 \section{Vocabulary}
@@ -735,15 +740,12 @@ All variables have a type, which is declared when the variable is created.
 A number, string, or other data that can be stored in a variable.
 Every value belongs to a type (for example, \java{int} or \java{String}).
 
-\term{declaration}
-A statement that creates a new variable and specifies its type.
-
 \term{type}
 Mathematically speaking, a set of values.
 The type of a variable determines which values it can have.
 
-\term{syntax}
-The structure of a program; the arrangement of the words and symbols it contains.
+\term{declaration}
+A statement that creates a new variable and specifies its type.
 
 \term{keyword}
 A reserved word used by the compiler to analyze programs.
@@ -786,10 +788,11 @@ The difference between the number we want to represent and the nearest floating-
 To join two values, often strings, end-to-end.
 
 \term{order of operations}
-The rules that determine in what order operations are evaluated.
+The rules that determine in what order expressions are evaluated.
+Also known as ``operator precedence''.
 
-\term{composition}
-The ability to combine simple expressions and statements into compound expressions and statements.
+%\term{composition}
+%The ability to combine simple expressions and statements into compound expressions and statements.
 
 \term{compile-time error}
 An error in the source code that makes it impossible to compile.
@@ -804,6 +807,9 @@ Also called an ``exception''.
 
 \term{logic error}
 An error in a program that makes it do something other than what the programmer intended.
+
+%\term{syntax}
+%The structure of a program; the arrangement of the words and symbols it contains.
 
 %\term{semantics}
 %The meaning of a program; the low-level instructions it should perform.
@@ -846,10 +852,10 @@ Copy or type in something like the hello world program and make sure you can com
 
 \item Following the example in Section~\ref{sec:printvar}, write a program that creates variables named \java{day}, \java{date}, \java{month}, and \java{year}.
 The variable \java{day} will contain the day of the week (like Friday), and \java{date} will contain the day of the month (like the 13th).
-What type is each variable?
+%What type is each variable?
 Assign values to those variables that represent today's date.
 
-\item Display (print out) the value of each variable on a line by itself.
+\item Display the value of each variable on a line by itself.
 This is an intermediate step that is useful for checking that everything is working so far.
 Compile and run your program before moving on.
 
