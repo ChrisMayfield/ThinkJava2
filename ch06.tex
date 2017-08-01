@@ -12,6 +12,22 @@ Java provides language features that make iteration much easier:
 the \java{while} and \java{for} statements.
 
 
+\section{TODO: String methods}
+
+Most relational operators don't work with strings.
+But confusingly, \java{==} and \java{!=} do work with strings -- they just don't do what you expect.
+We'll explain what they do later; in the meantime, don't use them with strings.
+Instead, you should use the \java{equals} method:
+
+\begin{code}
+String fruit1 = "Apple";
+String fruit2 = "Orange";
+System.out.println(fruit1.equals(fruit2));
+\end{code}
+
+The result of \java{fruit1.equals(fruit2)} is the boolean value \java{false}.
+
+
 \section{The while statement}
 \label{while}
 
