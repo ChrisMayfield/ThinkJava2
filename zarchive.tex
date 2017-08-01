@@ -1,0 +1,49 @@
+%%% Section 2.9
+\section{Composition}
+
+\index{composition}
+
+So far we have looked at the elements of a programming language -- variables, expressions, and statements -- in isolation, without talking about how to put them together.
+
+One of the most useful features of programming languages is their ability to take small building blocks and {\bf compose} them.
+For example, we know how to multiply numbers and we know how to display values.
+We can combine these operations into a single statement:
+
+\begin{code}
+System.out.println(17 * 3);
+\end{code}
+
+Any arithmetic expression can be used inside a print statement.
+We've already seen one example:
+
+\begin{code}
+System.out.println(hour * 60 + minute);
+\end{code}
+
+You can also put arbitrary expressions on the right side of an assignment:
+
+\begin{code}
+int percentage;
+percentage = (minute * 100) / 60;
+\end{code}
+
+The left side of an assignment must be a variable name, not an expression.
+That's because the left side indicates where the result will be stored, and expressions do not represent storage locations.
+
+\begin{code}
+hour = minute + 1;  // correct
+minute + 1 = hour;  // compiler error
+\end{code}
+
+\index{readability}
+
+The ability to compose operations may not seem impressive now, but we will see examples later on that allow us to write complex computations neatly and concisely.
+But don't get too carried away.
+Large, complex expressions can be hard to read and debug.
+
+%Before you get too carried away with composition, keep in mind that other people will be reading your source code.
+%In practice, software developers spend the vast majority of their time {\em understanding} and {\em modifying} existing code.
+%Thus it's far more important to write code that is readable than to write code that is (or appears to be) optimal.
+%There is much beauty in simplicity.
+%In general, each line of code should be a single step of the algorithm.
+
