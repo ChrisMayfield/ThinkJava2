@@ -353,213 +353,123 @@ If not, we display an error message and return.
 %Since the \java{hasNextDouble} method returns a boolean result, it is already a condition.
 
 
-\section{Recursive methods}
-\label{recursion}
+\section{Math methods}
 
-\index{recursion}
+\index{expression}
+\index{argument}
 
-Now that we have conditional statements, we can explore one of the most magical things a program can do: {\bf recursion}.
-Consider the following example:
+In mathematics, you have probably seen functions like $\sin$ and $\log$, and you have learned to evaluate expressions like $\sin(\pi/2)$ and $\log(1/x)$.
+First, you evaluate the expression in parentheses, which is called the {\bf argument} of the function.
+Then you can evaluate the function itself, maybe by punching it into a calculator.
+
+This process can be applied repeatedly to evaluate more complex expressions like $\log(1/\sin(\pi/2))$.
+First we evaluate the argument of the innermost function, then evaluate the function itself, and so on.
+
+\index{Math class}
+\index{class!Math}
+\index{invoke}
+
+The Java library includes a \java{Math} class that provides common mathematical operations.
+\java{Math} is in the \java{java.lang} package, so you don't have to import it.
+You can use, or {\bf invoke}, \java{Math} methods like this:
 
 \begin{code}
-public static void countdown(int n) {
-    if (n == 0) {
-        System.out.println("Blastoff!");
-    } else {
-        System.out.println(n);
-        countdown(n - 1);
-    }
-}
+double root = Math.sqrt(17.0);
+double angle = 1.5;
+double height = Math.sin(angle);
 \end{code}
 
-\index{recursive}
+The first line sets \java{root} to the square root of 17.
+The third line finds the sine of 1.5 (the value of \java{angle}).
 
-The name of the method is \java{countdown}; it takes a single integer as a parameter.
-If the parameter is zero, it displays the word ``Blastoff''.
-Otherwise, it displays the number and then invokes {\em itself}, passing \java{n - 1} as the argument.
-A method that invokes itself is called {\bf recursive}.
+\index{degrees}
+\index{radians}
+\index{pi}
 
-What happens if we invoke \java{countdown(3)} from \java{main}?
+Arguments of the trigonometric functions -- \java{sin}, \java{cos}, and \java{tan} -- should be in {\em radians}.
+To convert from degrees to radians, you can divide by 180 and multiply by $\pi$.
+Conveniently, the \java{Math} class provides a constant double named \java{PI} that contains an approximation of $\pi$:
 
-\vspace{-1ex}
-\begin{quote}
-The execution of \java{countdown} begins with \java{n == 3}, and since \java{n} is not zero, it displays the value 3, and then invokes itself...
-\begin{quote}
-The execution of \java{countdown} begins with \java{n == 2}, and since \java{n} is not zero, it displays the value 2, and then invokes itself...
-\begin{quote}
-The execution of \java{countdown} begins with \java{n == 1}, and since \java{n} is not zero, it displays the value 1, and then invokes itself...
-\begin{quote}
-The execution of \java{countdown} begins with \java{n == 0}, and since \java{n} is zero, it displays the word ``Blastoff!'' and then returns.
-\end{quote}
-The \java{countdown} that got \java{n == 1} returns.
-\end{quote}
-The \java{countdown} that got \java{n == 2} returns.
-\end{quote}
-The \java{countdown} that got \java{n == 3} returns.
-\end{quote}
-\vspace{-1ex}
+\begin{code}
+double degrees = 90;
+double angle = degrees / 180.0 * Math.PI;
+\end{code}
 
-And then you're back in \java{main}.
-So the total output looks like:
+Notice that \java{PI} is in capital letters.
+Java does not recognize \java{Pi}, \java{pi}, or \java{pie}.
+Also, \java{PI} is the name of a variable, not a method, so it doesn't have parentheses.
+The same is true for the constant \java{Math.E}, which approximates Euler's number.
+
+Converting to and from radians is a common operation, so the \java{Math} class provides methods that do it for you.
+
+\begin{code}
+double radians = Math.toRadians(180.0);
+double degrees = Math.toDegrees(Math.PI);
+\end{code}
+
+\index{long}
+\index{type!long}
+
+Another useful method is \java{round}, which rounds a floating-point value to the nearest integer and returns a \java{long}.
+A \java{long} is like an \java{int}, but bigger.
+More specifically, an \java{int} uses 32 bits; the largest value it can hold is $2^{31}-1$, which is about 2 billion.
+A \java{long} uses 64 bits, so the largest value is $2^{63}-1$, which is about 9 quintillion.
+
+\begin{code}
+long x = Math.round(Math.PI * 20.0);
+\end{code}
+
+The result is 63 (rounded up from 62.8319).
+
+Take a minute to read the documentation for these and other methods in the \java{Math} class.
+The easiest way to find documentation for Java classes is to do a web search for ``Java'' and the name of the class.
+
+
+\section{Composition revisited}
+
+\index{composition}
+\index{expression}
+
+Just as with mathematical functions, Java methods can be {\em composed}.
+That means you can use one expression as part of another.
+For example, you can use any expression as an argument to a method:
+
+\begin{code}
+double x = Math.cos(angle + Math.PI / 2.0);
+\end{code}
+
+This statement divides \java{Math.PI} by two, adds the result to \java{angle}, and computes the cosine of the sum.
+You can also take the result of one method and pass it as an argument to another:
+
+\begin{code}
+double x = Math.exp(Math.log(10.0));
+\end{code}
+
+In Java, the \java{log} method always uses base $e$.
+So this statement finds the log base $e$ of 10, and then raises $e$ to that power.
+The result gets assigned to \java{x}.
+
+Some math methods take more than one argument.
+For example, \java{Math.pow} takes two arguments and raises the first to the power of the second.
+This line of code assigns the value \java{1024.0} to the variable \java{x}:
+
+\begin{code}
+double x = Math.pow(2.0, 10.0);
+\end{code}
+
+When using \java{Math} methods, it is a common error to forget the \java{Math}.
+For example, if you try to invoke \java{pow(2.0, 10.0)}, you get an error message like:
 
 \begin{stdout}
-3
-2
-1
-Blastoff!
+File: Test.java  [line: 5]
+Error: cannot find symbol
+  symbol:   method pow(double,double)
+  location: class Test
 \end{stdout}
 
-As a second example, we'll rewrite the methods \java{newLine} and \java{threeLine} from Section~\ref{adding_methods}.
-
-\begin{code}
-public static void newLine() {
-    System.out.println();
-}
-
-public static void threeLine() {
-    newLine();
-    newLine();
-    newLine();
-}
-\end{code}
-
-\index{newline}
-
-Although these methods work, they would not help if we wanted to display two newlines, or maybe 100.
-A better alternative would be:
-
-\begin{code}
-public static void nLines(int n) {
-    if (n > 0) {
-        System.out.println();
-        nLines(n - 1);
-    }
-}
-\end{code}
-
-This method takes an integer, \java{n}, as a parameter and displays \java{n} newlines.
-The structure is similar to \java{countdown}.
-As long as $n$ is greater than zero, it displays a newline and then invokes itself to display $(n-1)$ additional newlines.
-The total number of newlines is $1 + (n - 1)$, which is just what we wanted: $n$.
-
-
-\section{Recursive stack diagrams}
-
-\index{stack diagram}
-\index{diagram!stack}
-
-In the previous chapter, we used a stack diagram to represent the state of a program during a method invocation.
-The same kind of diagram can make it easier to interpret a recursive method.
-
-Remember that every time a method gets called, Java creates a new frame that contains the current method's parameters and variables.
-Figure~\ref{fig.stack2} is a stack diagram for \java{countdown}, called with \java{n == 3}.
-
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics{figs/stack2.pdf}
-\caption{Stack diagram for the \java{countdown} program.}
-\label{fig.stack2}
-\end{center}
-\end{figure}
-
-By convention, the stack for \java{main} is at the top and the stack grows down.
-The frame for \java{main} is empty because \java{main} does not have any variables.
-(It has the parameter \java{args}, but since we're not using it, we left it out of the diagram.)
-
-\index{base case}
-
-There are four frames for \java{countdown}, each with a different value for the parameter \java{n}.
-The last frame, with \java{n == 0}, is called the {\bf base case}.
-It does not make a recursive call, so there are no more frames below it.
-
-If there is no base case in a recursive method, or if the base case is never reached, the stack would grow forever, at least in theory.
-In practice, the size of the stack is limited; if you exceed the limit, you get a \java{StackOverflowError}.
-
-For example, here is a recursive method without a base case:
-
-\begin{code}
-public static void forever(String s) {
-    System.out.println(s);
-    forever(s);
-}
-\end{code}
-
-\index{call stack}
-\index{stack overflow}
-
-This method displays the string until the stack overflows, at which point it throws an exception.
-
-
-\section{Binary numbers}
-
-The \java{countdown} example has three parts: (1) it checks the base case, (2) displays something, and (3) makes a recursive call.
-What do you think happens if you reverse steps 2 and 3, making the recursive call {\em before} displaying?
-
-\begin{code}
-public static void countup(int n) {
-    if (n == 0) {
-        System.out.println("Blastoff!");
-    } else {
-        countup(n - 1);
-        System.out.println(n);
-    }
-}
-\end{code}
-
-The stack diagram is the same as before, and the method is still called $n$ times.
-But now the \java{System.out.println} happens just before each recursive call returns.
-As a result, it counts up instead of down:
-
-\begin{stdout}
-Blastoff!
-1
-2
-3
-\end{stdout}
-
-\index{binary}
-
-This behavior comes in handy when it is easier to compute results in reverse order.
-For example, to convert a decimal integer into its {\bf binary} representation, you repeatedly divide the number by two:
-
-\begin{stdout}
-23 / 2 is 11 remainder 1
-11 / 2 is  5 remainder 1
- 5 / 2 is  2 remainder 1
- 2 / 2 is  1 remainder 0
- 1 / 2 is  0 remainder 1
-\end{stdout}
-
-Reading these remainders from bottom to top, 23 in binary is 10111.
-For more background about binary numbers, see \url{http://www.mathsisfun.com/binary-number-system.html}.
-
-Here is a recursive method that displays the binary representation of any positive integer:
-
-\begin{code}
-public static void displayBinary(int value) {
-    if (value > 0) {
-        displayBinary(value / 2);
-        System.out.print(value % 2);
-    }
-}
-\end{code}
-
-If \java{value} is zero, \java{displayBinary} does nothing (that's the base case).
-If the argument is positive, the method divides it by two and calls \java{displayBinary} recursively.
-When the recursive call returns, the method displays one digit of the result and returns (again).
-
-The leftmost digit is at the bottom of the stack, so it gets displayed first.
-The rightmost digit, at the top of the stack, gets displayed last.
-After invoking \java{displayBinary}, we use \java{println} to complete the output.
-
-\begin{code}
-displayBinary(23);
-System.out.println();
-// output is 10111
-\end{code}
-
-Learning to think recursively is an important aspect of learning to think like a computer scientist.
-Many algorithms can be written concisely with recursive methods that perform computations on the way down, on the way up, or both.
+The message ``cannot find symbol'' is confusing, but the last line provides a useful hint.
+The compiler is looking for \java{pow} in the same class where it is used, which is \java{Test}.
+If you don't specify a class name, the compiler looks in the current class.
 
 
 \section{Vocabulary}

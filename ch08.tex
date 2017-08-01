@@ -10,12 +10,147 @@ But all the methods we have {\em written} so far have been \java{void}; that is,
 In this chapter, we'll write methods that return values, which we call {\bf value methods}.
 
 
-\section{Return values}
+\section{Recursive methods}
+\label{recursion}
 
-\index{void}
+\index{recursion}
 
-When you invoke a void method, the invocation is usually on a line all by itself.
-For example, here is the \java{countup} method from Section~\ref{recursion}:
+Now that we have conditional statements, we can explore one of the most magical things a program can do: {\bf recursion}.
+Consider the following example:
+
+\begin{code}
+public static void countdown(int n) {
+    if (n == 0) {
+        System.out.println("Blastoff!");
+    } else {
+        System.out.println(n);
+        countdown(n - 1);
+    }
+}
+\end{code}
+
+\index{recursive}
+
+The name of the method is \java{countdown}; it takes a single integer as a parameter.
+If the parameter is zero, it displays the word ``Blastoff''.
+Otherwise, it displays the number and then invokes {\em itself}, passing \java{n - 1} as the argument.
+A method that invokes itself is called {\bf recursive}.
+
+What happens if we invoke \java{countdown(3)} from \java{main}?
+
+\vspace{-1ex}
+\begin{quote}
+The execution of \java{countdown} begins with \java{n == 3}, and since \java{n} is not zero, it displays the value 3, and then invokes itself...
+\begin{quote}
+The execution of \java{countdown} begins with \java{n == 2}, and since \java{n} is not zero, it displays the value 2, and then invokes itself...
+\begin{quote}
+The execution of \java{countdown} begins with \java{n == 1}, and since \java{n} is not zero, it displays the value 1, and then invokes itself...
+\begin{quote}
+The execution of \java{countdown} begins with \java{n == 0}, and since \java{n} is zero, it displays the word ``Blastoff!'' and then returns.
+\end{quote}
+The \java{countdown} that got \java{n == 1} returns.
+\end{quote}
+The \java{countdown} that got \java{n == 2} returns.
+\end{quote}
+The \java{countdown} that got \java{n == 3} returns.
+\end{quote}
+\vspace{-1ex}
+
+And then you're back in \java{main}.
+So the total output looks like:
+
+\begin{stdout}
+3
+2
+1
+Blastoff!
+\end{stdout}
+
+As a second example, we'll rewrite the methods \java{newLine} and \java{threeLine} from Section~\ref{adding_methods}.
+
+\begin{code}
+public static void newLine() {
+    System.out.println();
+}
+
+public static void threeLine() {
+    newLine();
+    newLine();
+    newLine();
+}
+\end{code}
+
+\index{newline}
+
+Although these methods work, they would not help if we wanted to display two newlines, or maybe 100.
+A better alternative would be:
+
+\begin{code}
+public static void nLines(int n) {
+    if (n > 0) {
+        System.out.println();
+        nLines(n - 1);
+    }
+}
+\end{code}
+
+This method takes an integer, \java{n}, as a parameter and displays \java{n} newlines.
+The structure is similar to \java{countdown}.
+As long as $n$ is greater than zero, it displays a newline and then invokes itself to display $(n-1)$ additional newlines.
+The total number of newlines is $1 + (n - 1)$, which is just what we wanted: $n$.
+
+
+\section{Recursive stack diagrams}
+
+\index{stack diagram}
+\index{diagram!stack}
+
+In the previous chapter, we used a stack diagram to represent the state of a program during a method invocation.
+The same kind of diagram can make it easier to interpret a recursive method.
+
+Remember that every time a method gets called, Java creates a new frame that contains the current method's parameters and variables.
+Figure~\ref{fig.stack2} is a stack diagram for \java{countdown}, called with \java{n == 3}.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics{figs/stack2.pdf}
+\caption{Stack diagram for the \java{countdown} program.}
+\label{fig.stack2}
+\end{center}
+\end{figure}
+
+By convention, the stack for \java{main} is at the top and the stack grows down.
+The frame for \java{main} is empty because \java{main} does not have any variables.
+(It has the parameter \java{args}, but since we're not using it, we left it out of the diagram.)
+
+\index{base case}
+
+There are four frames for \java{countdown}, each with a different value for the parameter \java{n}.
+The last frame, with \java{n == 0}, is called the {\bf base case}.
+It does not make a recursive call, so there are no more frames below it.
+
+If there is no base case in a recursive method, or if the base case is never reached, the stack would grow forever, at least in theory.
+In practice, the size of the stack is limited; if you exceed the limit, you get a \java{StackOverflowError}.
+
+For example, here is a recursive method without a base case:
+
+\begin{code}
+public static void forever(String s) {
+    System.out.println(s);
+    forever(s);
+}
+\end{code}
+
+\index{call stack}
+\index{stack overflow}
+
+This method displays the string until the stack overflows, at which point it throws an exception.
+
+
+\section{Binary numbers}
+
+The \java{countdown} example has three parts: (1) it checks the base case, (2) displays something, and (3) makes a recursive call.
+What do you think happens if you reverse steps 2 and 3, making the recursive call {\em before} displaying?
 
 \begin{code}
 public static void countup(int n) {
@@ -28,435 +163,60 @@ public static void countup(int n) {
 }
 \end{code}
 
-And here is how it is invoked:
+The stack diagram is the same as before, and the method is still called $n$ times.
+But now the \java{System.out.println} happens just before each recursive call returns.
+As a result, it counts up instead of down:
+
+\begin{stdout}
+Blastoff!
+1
+2
+3
+\end{stdout}
+
+\index{binary}
+
+This behavior comes in handy when it is easier to compute results in reverse order.
+For example, to convert a decimal integer into its {\bf binary} representation, you repeatedly divide the number by two:
+
+\begin{stdout}
+23 / 2 is 11 remainder 1
+11 / 2 is  5 remainder 1
+ 5 / 2 is  2 remainder 1
+ 2 / 2 is  1 remainder 0
+ 1 / 2 is  0 remainder 1
+\end{stdout}
+
+Reading these remainders from bottom to top, 23 in binary is 10111.
+For more background about binary numbers, see \url{http://www.mathsisfun.com/binary-number-system.html}.
+
+Here is a recursive method that displays the binary representation of any positive integer:
 
 \begin{code}
-countup(3);
-System.out.println("Have a nice day.");
-\end{code}
-
-On the other hand, when you invoke a value method, you have to do something with the return value.
-We usually assign it to a variable or use it as part of an expression, like this:
-
-\begin{code}
-double error = Math.abs(expected - actual);
-double height = radius * Math.sin(angle);
-\end{code}
-
-\index{value method}
-\index{method!value}
-
-Compared to void methods, value methods differ in two ways:
-
-\index{return type}
-\index{return value}
-
-\begin{itemize}
-
-\item They declare the type of the return value (the {\bf return type});
-
-\item They use at least one \java{return} statement to provide a {\bf return value}.
-
-\end{itemize}
-
-Here's an example: \java{calculateArea} takes a \java{double} as a parameter and returns the area of a circle with that radius:
-
-\begin{code}
-public static double calculateArea(double radius) {
-    double result = Math.PI * radius * radius;
-    return result;
-}
-\end{code}
-
-As usual, this method is \java{public} and \java{static}.
-But in the place where we are used to seeing \java{void}, we see \java{double}, which means that the return value from this method is a \java{double}.
-
-\index{return}
-\index{statement!return}
-
-The last line is a new form of the \java{return} statement that includes a return value.
-This statement means, ``return immediately from this method and use the following expression as the return value.''
-The expression you provide can be arbitrarily complex, so we could have written this method more concisely:
-
-\begin{code}
-public static double calculateArea(double radius) {
-    return Math.PI * radius * radius;
-}
-\end{code}
-
-\index{temporary variable}
-\index{variable!temporary}
-
-On the other hand, {\bf temporary variables} like \java{result} often make debugging easier, especially when you are stepping through code using an interactive debugger (see Appendix~\ref{debugger}).
-
-The type of the expression in the \java{return} statement must match the return type of the method.
-When you declare that the return type is \java{double}, you are making a promise that this method will eventually produce a \java{double} value.
-If you try to \java{return} with no expression, or an expression with the wrong type, the compiler will generate an error.
-
-Sometimes it is useful to have multiple return statements, for example, one in each branch of a conditional:
-
-\begin{code}
-public static double absoluteValue(double x) {
-    if (x < 0) {
-        return -x;
-    } else {
-        return x;
+public static void displayBinary(int value) {
+    if (value > 0) {
+        displayBinary(value / 2);
+        System.out.print(value % 2);
     }
 }
 \end{code}
 
-Since these \java{return} statements are in a conditional statement, only one will be executed.
-As soon as either of them executes, the method terminates without executing any more statements.
+If \java{value} is zero, \java{displayBinary} does nothing (that's the base case).
+If the argument is positive, the method divides it by two and calls \java{displayBinary} recursively.
+When the recursive call returns, the method displays one digit of the result and returns (again).
 
-\index{dead code}
-
-Code that appears after a \java{return} statement (in the same block), or any place else where it can never be executed, is called {\bf dead code}.
-The compiler will give you an ``unreachable statement'' error if part of your code is dead.
-For example, this method contains dead code:
-
-\begin{code}
-public static double absoluteValue(double x) {
-    if (x < 0) {
-        return -x;
-    } else {
-        return x;
-    }
-    System.out.println("This line is dead.");
-}
-\end{code}
-
-If you put \java{return} statements inside a conditional statement, you have to make sure that {\em every possible path} through the program reaches a \java{return} statement.
-The compiler will let you know if that's not the case.
-For example, the following method is incomplete:
+The leftmost digit is at the bottom of the stack, so it gets displayed first.
+The rightmost digit, at the top of the stack, gets displayed last.
+After invoking \java{displayBinary}, we use \java{println} to complete the output.
 
 \begin{code}
-public static double absoluteValue(double x) {
-    if (x < 0) {
-        return -x;
-    } else if (x > 0) {
-        return x;
-    }
-    // syntax error
-}
+displayBinary(23);
+System.out.println();
+// output is 10111
 \end{code}
 
-When \java{x} is 0, neither condition is true, so the method ends without hitting a return statement.
-The error message in this case might be something like ``missing return statement'', which is confusing since there are already two of them.
-But hopefully you will know what it means.
-
-
-\section{Writing methods}
-\label{distance}
-
-\index{incremental development}
-\index{program development}
-
-Beginners often make the mistake of writing a lot of code before they try to compile and run it.
-Then they spend way too much time debugging.
-A better approach is what we call {\bf incremental development}.
-The key aspects of incremental development are:
-
-\begin{itemize}
-
-\item Start with a working program and make small, incremental changes.
-At any point, if there is an error, you will know where to look.
-
-\item Use variables to hold intermediate values so you can check them, either with print statements or by using a debugger.
-
-\item Once the program is working, you can consolidate multiple statements into compound expressions (but only if it does not make the program more difficult to read).
-
-\end{itemize}
-
-As an example, suppose you want to find the distance between two points, given by the coordinates $(x_1, y_1)$ and $(x_2, y_2)$.
-By the usual definition:
-
-\[ distance = \sqrt{(x_2 - x_1)^2 +(y_2 - y_1)^2} \]
-
-The first step is to consider what a \java{distance} method should look like in Java.
-In other words, what are the inputs (parameters) and what is the output (return value)?
-In this case, the two points are the parameters, and it is natural to represent them using four \java{double} values.
-%, although we will see later that there is a \java{Point} object in Java that we could use.
-The return value is the distance, which should also have type \java{double}.
-
-\index{stub}
-
-Already we can write an outline for the method, which is sometimes called a {\bf stub}.
-The stub includes the method signature and a \java{return} statement:
-
-\begin{code}
-public static double distance
-        (double x1, double y1, double x2, double y2) {
-    return 0.0;
-}
-\end{code}
-
-The return statement is a placeholder that is necessary for the program to compile.
-At this stage the program doesn't do anything useful, but it is good to compile it so we can find any syntax errors before we add more code.
-
-It's usually a good idea to think about testing {\em before} you develop new methods; doing so can help you figure out how to implement them.
-To test the method, we can invoke it from \java{main} using sample values:
-
-\begin{code}
-double dist = distance(1.0, 2.0, 4.0, 6.0);
-\end{code}
-
-With these values, the horizontal distance is 3.0 and the vertical distance is 4.0.
-So the result should be 5.0, the hypotenuse of a 3-4-5 triangle.
-When you are testing a method, it is helpful to know the right answer.
-
-Once we have compiled the stub, we can start adding lines of code one at a time.
-After each incremental change, we recompile and run the program.
-If there is an error at any point, we have a good idea where to look: the last line we added.
-
-The next step is to find the differences $x_2 - x_1$ and $y_2 - y_1$.
-We store those values in temporary variables named \java{dx} and \java{dy}.
-
-\begin{code}
-public static double distance
-        (double x1, double y1, double x2, double y2) {
-    double dx = x2 - x1;
-    double dy = y2 - y1;
-    System.out.println("dx is " + dx);
-    System.out.println("dy is " + dy);
-    return 0.0;
-}
-\end{code}
-
-\index{scaffolding}
-
-The print statements allows us to check the intermediate values before proceeding.
-They should be 3.0 and 4.0.
-We will remove the print statements when the method is finished.
-Code like that is called {\bf scaffolding}, because it is helpful for building the program, but it is not part of the final product.
-
-The next step is to square \java{dx} and \java{dy}.
-We could use the \java{Math.pow} method, but it is simpler to multiply each term by itself.
-
-\begin{code}
-public static double distance
-        (double x1, double y1, double x2, double y2) {
-    double dx = x2 - x1;
-    double dy = y2 - y1;
-    double dsquared = dx * dx + dy * dy;
-    System.out.println("dsquared is " + dsquared);
-    return 0.0;
-}
-\end{code}
-
-Again, you should compile and run the program at this stage and check the intermediate value, which should be 25.0.
-Finally, we can use \java{Math.sqrt} to compute and return the result.
-
-\begin{code}
-public static double distance
-        (double x1, double y1, double x2, double y2) {
-    double dx = x2 - x1;
-    double dy = y2 - y1;
-    double dsquared = dx * dx + dy * dy;
-    double result = Math.sqrt(dsquared);
-    return result;
-}
-\end{code}
-
-%In \java{main}, we can print and check the value of the result.
-
-As you gain more experience programming, you might write and debug more than one line at a time.
-Nevertheless, incremental development can save you a lot of time.
-
-
-\section{Method composition}
-
-\index{composition}
-
-Once you define a new method, you can use it as part of an expression, or build new methods using existing methods.
-For example, suppose someone gave you two points, the center of the circle and a point on the perimeter, and asked for the area of the circle.
-Let's say the center point is stored in the variables \java{xc} and \java{yc}, and the perimeter point is in \java{xp} and \java{yp}.
-
-The first step is to find the radius of the circle, which is the distance between the two points.
-Fortunately, we have a method that does just that (\java{distance}).
-
-\begin{code}
-double radius = distance(xc, yc, xp, yp);
-\end{code}
-
-The second step is to find the area of a circle with that radius.
-We have a method for that computation too (\java{calculateArea}).
-
-\begin{code}
-double area = calculateArea(radius);
-return area;
-\end{code}
-
-Putting everything together in a new method, we get:
-
-\begin{code}
-public static double circleArea
-        (double xc, double yc, double xp, double yp) {
-    double radius = distance(xc, yc, xp, yp);
-    double area = calculateArea(radius);
-    return area;
-}
-\end{code}
-
-The temporary variables \java{radius} and \java{area} are useful for development and debugging, but once the program is working we can make it more concise by composing the method calls:
-
-\begin{code}
-public static double circleArea
-        (double xc, double yc, double xp, double yp) {
-    return calculateArea(distance(xc, yc, xp, yp));
-}
-\end{code}
-
-\index{functional decomposition}
-
-This example demonstrates a process called {\bf functional decomposition}; that is, breaking a complex computation into simple methods, testing the methods in isolation, and then composing the methods to perform the computation.
-This process reduces debugging time and yields code that is more likely to be correct and easier to maintain.
-
-%Computer scientists deal with the complexity of large programs by breaking down computations into simple methods (which in turn may call other methods).
-%Data is passed around the program via method parameters and return statements.
-%By using incremental development, scaffolding, and testing, you can be confident that your code is correct.
-
-
-\section{Overloading}
-\label{overloading}
-
-You might have noticed that \java{circleArea} and \java{calculateArea} perform similar functions.
-They both find the area of a circle, but they take different parameters.
-For \java{calculateArea}, we have to provide the radius; for \java{circleArea} we provide two points.
-
-\index{overload}
-
-If two methods do the same thing, it is natural to give them the same name.
-Having more than one method with the same name is called {\bf overloading}, and it is legal in Java as long as each version takes different parameters.
-So we could rename \java{circleArea} to \java{calculateArea}:
-
-\begin{code}
-public static double calculateArea
-        (double xc, double yc, double xp, double yp) {
-    return calculateArea(distance(xc, yc, xp, yp));
-}
-\end{code}
-
-Note that this new \java{calculateArea} method is {\em not} recursive.
-When you invoke an overloaded method, Java knows which version you want by looking at the arguments that you provide.
-If you write:
-
-\begin{code}
-double x = calculateArea(3.0);
-\end{code}
-
-Java looks for a method named \java{calculateArea} that takes one \java{double} as an argument, and so it uses the first version, which interprets the argument as a radius.
-If you write:
-
-\begin{code}
-double y = calculateArea(1.0, 2.0, 4.0, 6.0);
-\end{code}
-
-Java uses the second version of \java{calculateArea}, which interprets the arguments as two points.
-In this example, the second version actually invokes the first version.
-
-Many Java methods are overloaded, meaning that there are different versions that accept different numbers or types of parameters.
-For example, there are versions of \java{print} and \java{println} that accept a single parameter of any data type.
-In the \java{Math} class, there is a version of \java{abs} that works on \java{double}s, and there is also a version for \java{int}s.
-
-Although overloading is a useful feature, it should be used with caution.
-You might get yourself nicely confused if you are trying to debug one version of a method while accidentally invoking a different one.
-
-
-\section{Boolean methods}
-\label{boolean}
-
-\index{boolean}
-\index{method!boolean}
-
-Methods can return \java{boolean} values, just like any other type, which is often convenient for hiding tests inside methods.
-For example:
-
-\begin{code}
-public static boolean isSingleDigit(int x) {
-    if (x > -10 && x < 10) {
-        return true;
-    } else {
-        return false;
-    }
-}
-\end{code}
-
-The name of this method is \java{isSingleDigit}.
-It is common to give \java{boolean} methods names that sound like yes/no questions.
-Since the return type is \java{boolean}, the return statement has to provide a boolean expression.
-
-The code itself is straightforward, although it is longer than it needs to be.
-Remember that the expression \java{x > -10 && x < 10} has type \java{boolean}, so there is nothing wrong with returning it directly (without the \java{if} statement):
-
-\begin{code}
-public static boolean isSingleDigit(int x) {
-    return x > -10 && x < 10;
-}
-\end{code}
-
-In \java{main}, you can invoke the method in the usual ways:
-
-\begin{code}
-System.out.println(isSingleDigit(2));
-boolean bigFlag = !isSingleDigit(17);
-\end{code}
-
-The first line displays \java{true} because 2 is a single-digit number.
-The second line sets \java{bigFlag} to \java{true}, because 17 is {\em not} a single-digit number.
-
-Conditional statements often invoke \java{boolean} methods and use the result as the condition:
-
-\begin{code}
-if (isSingleDigit(z)) {
-    System.out.println("z is small");
-} else {
-    System.out.println("z is big");
-}
-\end{code}
-
-Examples like this one almost read like English:
-``If is single digit z, print ... else print ...''.
-
-
-\section{Javadoc tags}
-
-In Section~\ref{sec:javadoc}, we discussed how to write documentation comments using \java{/**}.
-It's generally a good idea to document each class and method, so that other programmers can understand what they do without having to read the code.
-
-\index{tag}
-\index{param tag}
-\index{return tag}
-\index{documentation!Javadoc tags}
-
-To organize the documentation into sections, Javadoc supports optional {\bf tags} that begin with the at sign (\java{@}).
-For example, we can use \java{@param} and \java{@return} to provide additional information about parameters and return values.
-
-\begin{code}
-/**
- * Tests whether x is a single digit integer.
- *
- * @param x the integer to test
- * @return true if x has one digit, false otherwise
- */
-public static boolean isSingleDigit(int x) {
-\end{code}
-
-\index{HTML}
-\index{Javadoc}
-
-Figure~\ref{fig.javadoc} shows part of the resulting HTML page generated by Javadoc.
-Notice the relationship between the source code and the documentation.
-
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics[scale=0.8]{figs/javadoc.pdf}
-\caption{HTML documentation for \java{isSingleDigit}.}
-\label{fig.javadoc}
-\end{center}
-\end{figure}
-
-Methods with multiple parameters should have separate \java{@param} tags that describe each one.
-Void methods should have no \java{@return} tag, since they do not return a value.
+Learning to think recursively is an important aspect of learning to think like a computer scientist.
+Many algorithms can be written concisely with recursive methods that perform computations on the way down, on the way up, or both.
 
 
 \section{More recursion}
