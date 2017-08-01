@@ -412,18 +412,25 @@ In this example, \java{x} gets the value \java{3}.
 Like integer division, casting to an integer always rounds toward zero, even if the fraction part is \java{0.999999} (or \java{-0.999999}).
 In other words, it simply throws away the fractional part.
 
+In order to use a cast operator, the types must be compatible.
+For example, you can't cast a \java{String} to an \java{int} because a string is not a number.
+
+\begin{code}
+String str = "3";
+int x = (int) str;  // error: incompatible types
+\end{code}
+
 Type casting takes precedence over arithmetic operations.
 In the following example, the value of \java{pi} gets converted to an integer before the multiplication.
-So the result is 60.0, not 62.0.
 
 \begin{code}
 double pi = 3.14159;
-double x = (int) pi * 20.0;
+double x = (int) pi * 20.0;  // result is 60.0, not 62.0
 \end{code}
 
 %Operator precedence and integer truncation make type casting somewhat error-prone.
 
-Keeping that in mind, here's how we can convert a measurement in centimeters to inches:
+Keeping that in mind, here's how we can convert centimeters to inches:
 
 \begin{code}
 inch = (int) (cm / CM_PER_INCH);
