@@ -12,7 +12,7 @@ This chapter will show you how to read input from the keyboard, use that input t
 
 We have been using \java{System.out.println} for a while, but you might not have thought about what it means.
 \java{System} is a class that provides methods related to the ``system'' or environment where programs run.
-It also provides \java{System.out}, which is a special value that has additional methods for displaying output, including \java{println}.
+It also provides \java{System.out}, which is a special value that has additional methods (like \java{println}) for displaying output.
 
 \index{System.out}
 
@@ -38,14 +38,14 @@ A {\bf package} is a collection of related classes; \java{java.io} contains clas
 
 The numbers and letters after the {\tt @} sign are the {\bf address} of \java{System.out}, represented as a hexadecimal (base 16) number.
 The address of a value is its location in the computer's memory, which might be different on different computers.
-In this example the address is \java{685d72cd}, but if you run the same code you will likely get something different.
+In this example the address is \java{685d72cd}, but if you run the same code you will likely get something else.
 %You can think of the address as a unique identifier for the object.
 
 \index{library}
 
 As shown in Figure~\ref{fig.system}, \java{System} is defined in a file called {\tt System.java}, and \java{PrintStream} is defined in {\tt PrintStream.java}.
 These files are part of the Java {\bf library}, which is an extensive collection of classes that you can use in your programs.
-The source code for these classes is included with the compiler.
+The source code for these classes is usually included with the compiler (see Section~\ref{src.zip}).
 
 \begin{figure}[!ht]
 \begin{center}
@@ -71,7 +71,7 @@ The source code for these classes is included with the compiler.
 \index{System.in}
 
 The \java{System} class also provides the special value \java{System.in}, which is an \java{InputStream} that has methods for reading input from the keyboard.
-These methods are not easy to use, but fortunately Java provides other classes that make it easier to handle common input tasks.
+These methods are not convenient to use, but fortunately Java provides other classes that make it easy to handle common input tasks.
 
 \index{class!utility}
 \index{utility class}
@@ -88,23 +88,21 @@ import java.util.Scanner;
 \index{import statement}
 \index{statement!import}
 
-This {\bf import statement} tells the compiler that when you say \java{Scanner}, you mean the one defined in \java{java.util}.
+This {\bf import statement} tells the compiler that when you refer to \java{Scanner}, you mean the one defined in \java{java.util}.
 Using an import statement is necessary because there might be another class named \java{Scanner} in another package.
 %Using an import statement makes your code unambiguous.
-
 Import statements can't be inside a class definition.
 By convention, they are usually at the beginning of the file.
 
-Next you have to create a \java{Scanner}:
+Next you have to initialize the \java{Scanner}.
+This line declares a \java{Scanner} variable named \java{in} and creates a \java{Scanner} that reads input from \java{System.in}:
+%We'll explain the \java{new} operator in more detail in Section~\ref{point}.
 
 \begin{code}
 Scanner in = new Scanner(System.in);
 \end{code}
 
-This line declares a \java{Scanner} variable named \java{in} and creates a new \java{Scanner} that reads input from \java{System.in}.
-%We'll explain the \java{new} operator in more detail in Section~\ref{point}.
-
-\java{Scanner} provides a method called \java{nextLine} that reads a line of input from the keyboard and returns a \java{String}.
+The \java{Scanner} class provides a method called \java{nextLine} that reads a line of input from the keyboard and returns a \java{String}.
 The following example reads two lines and repeats them back to the user:
 
 \begin{trinket}{Echo.java}
@@ -127,7 +125,7 @@ public class Echo {
 }
 \end{trinket}
 
-If you omit the import statement and later refer to \java{Scanner}, you will get a compiler error saying ``cannot find symbol''.
+If you omit the import statement at the top of the file, you will get a compiler error saying ``cannot find symbol''.
 That means the compiler doesn't know where to find the definition for \java{Scanner}.
 
 You might wonder why we can use the \java{System} class without importing it.
@@ -152,32 +150,33 @@ Figure~\ref{fig.package} shows how these ``language elements'' are related.
 
 \index{token}
 
-Java applications are typically organized into packages (like \java{java.io} and \java{java.util}) that each include many classes (like \java{PrintStream} and \java{Scanner}).
+Java applications are typically organized into packages (like \java{java.io} and \java{java.util}) that include multiple classes (like \java{PrintStream} and \java{Scanner}).
 Each class defines its own methods (like \java{println} and \java{nextLine}), and each method is a sequence of statements.
 
 Each statement performs one or more computations, depending on how many expressions it has, and each expression represents a single value to compute.
 For example, the assignment statement \java{hours = minutes / 60.0;} contains a single expression: \java{minutes / 60.0}.
 
 {\bf Tokens} are the most basic elements of a program, including numbers, variable names, operators, keywords, parentheses, braces, and semicolons.
-In the previous example, the tokens are \java{hours}, \java{=}, \java{minutes}, \java{/}, \java{60.0}, and \java{;} (the spaces are ignored).
+In the previous example, the tokens are \java{hours}, \java{=}, \java{minutes}, \java{/}, \java{60.0}, and \java{;} (spaces are ignored).
 In comparison to English, statements are complete sentences, expressions are phrases, and tokens are individual words and punctuation marks.
-
-The standard edition of Java comes with {\em several thousand} classes you can \java{import}, which can be both exciting and intimidating.
-You can browse this library at \url{http://docs.oracle.com/javase/8/docs/api/}.
-Most of the Java library itself is written in Java.
 
 %\index{syntax}
 %\index{semantics}
 
+Knowing this terminology is helpful, because error messages often say things like ``not a statement'' or ``illegal start of expression'' or ``unexpected token''.
+
 Note there is a big difference between the Java {\em language}, which defines the elements in Figure~\ref{fig.package}, and the Java {\em library}, which provides the built-in classes that you can import.
 For example, the keywords \java{public} and \java{class} are part of the Java language, but the names \java{PrintStream} and \java{Scanner} are not.
+
+The standard edition of Java comes with {\em several thousand} classes you can use, which can be both exciting and intimidating.
+You can browse this library at \url{http://docs.oracle.com/javase/8/docs/api/}.
+Interestingly, most of the Java library is written in Java.
 
 
 \section{Inches to centimeters}
 
-Now let's work through an example that's a little more useful.
+%Now let's work through an example that's a little more useful.
 Although most of the world has adopted the metric system for weights and measures, some countries are stuck with English units.
-
 For example, when talking with friends in Europe about the weather, people in the United States might have to convert from Celsius to Fahrenheit and back.
 %And when making an international purchase online, you may have to convert your nation's currency into another based on the exchange rate.
 Or they might want to convert height in inches to centimeters.
@@ -230,12 +229,12 @@ For the benefit of others (and yourself in the future), it would be better to as
 A value that appears in a program, like the number 2.54, is called a {\bf literal}.
 In general, there's nothing wrong with literals.
 But when numbers like 2.54 appear in an expression with no explanation, they make the code hard to read.
-And if the same value appears many times and might have to change in the future, it makes the code hard to maintain.
+And if the same value appears many times and could change in the future, it makes the code hard to maintain.
 
 \index{magic number}
 
-Values like that are sometimes called {\bf magic numbers} (with the implication that being ``magic'' is not a good thing).
-A better practice is to assign magic numbers to variables with meaningful names, like this:
+Values like 2.54 are sometimes called {\bf magic numbers} (with the implication that being ``magic'' is not a good thing).
+A good practice is to assign magic numbers to variables with meaningful names, like this:
 
 \begin{code}
 double cmPerInch = 2.54;
@@ -243,9 +242,9 @@ cm = inch * cmPerInch;
 \end{code}
 
 This version is easier to read and less error-prone, but it still has a problem.
-Variables can vary (hence the name), but the number of centimeters in an inch does not.
+Variables can vary (hence the term), but the number of centimeters in an inch does not.
 Once we assign a value to \java{cmPerInch}, it should never change.
-Java provides a language feature that enforces that rule, the keyword \java{final}.
+Java provides the keyword \java{final}, a language feature that enforces this rule.
 
 \begin{code}
 final double CM_PER_INCH = 2.54;
@@ -255,7 +254,7 @@ final double CM_PER_INCH = 2.54;
 \index{constant}
 
 Declaring that a variable is \java{final} means that it cannot be reassigned once it has been initialized.
-If you try, the compiler reports an error.
+If you try, the compiler gives an error.
 Variables declared as \java{final} are called {\bf constants}.
 By convention, names for constants are all uppercase, with the underscore character (\java{_}) between words.
 
@@ -298,7 +297,7 @@ The result is:
 Four thirds = 1.333
 \end{stdout}
 
-The format string can contain any number of format specifiers; here's an example with two:
+The format string can contain any number of format specifiers; here's an example with two of them:
 
 \begin{code}
 int inch = 100;
@@ -315,7 +314,7 @@ The result is:
 Like \java{print}, \java{printf} does not append a newline.
 So format strings often end with a newline character.
 
-The format specifier \java{\%d} displays integer values (``d'' stands for ``decimal'').
+The format specifier \java{\%d} displays integer values (``d'' stands for ``decimal'', not double).
 The values are matched up with the format specifiers in order, so \java{inch} is displayed using \java{\%d}, and \java{cm} is displayed using \java{\%f}.
 
 Learning about format strings is like learning a sub-language within Java.
@@ -335,8 +334,8 @@ Table~\ref{tab:format} lists a few common uses, to give you an idea of how thing
 \java{\%f} & floating-point & 6.789000 \\
 \hline
 \java{\%.2f} & rounded to 2 decimal places & 6.79 \\
-%\hline
-%\java{\%s} & character string & \java{"Hello"} \\
+\hline
+\java{\%s} & string of characters & \java{"Hello"} \\
 \hline
 \end{tabular}
 \caption{Example format specifiers}
@@ -357,6 +356,9 @@ System.out.printf("%d in = %f cm\n" + inch + cm);  // error
 Unfortunately the compiler won't catch this kind of bug, because it's within a legal Java statement.
 However when you run the program, it will display:
 
+\index{MissingFormatArgumentException}
+\index{run-time error}
+
 \begin{small}
 \begin{stdout}
 Exception in thread "main" java.util.MissingFormatArgumentException:
@@ -373,8 +375,8 @@ Starting from the top, this one says ``missing format argument'' and ``format sp
 In order words, it doesn't know what value to substitute for the \%d.
 The bottom of the error indicates where to look: Example.java line 10.
 
-It might be difficult to see what's wrong, given that \java{inch} and \java{cm} are included in the \java{printf} statement.
-But remember that \java{printf} must use commas.
+It might be difficult to see what's wrong, given that \java{inch} and \java{cm} are at the end of the \java{printf} statement.
+But if \java{inch} is 1 and \java{cm} is 2.54, the actual format string would be \java{"\%d in = \%f cm\\n12.54"}.
 
 
 \section{Centimeters to inches}
@@ -387,7 +389,7 @@ It is tempting to write:
 inch = cm / CM_PER_INCH;  // syntax error
 \end{code}
 
-But the result is an error -- you get something like, ``Bad types in assignment: from double to int.''
+But the result is an error -- you get something like, ``incompatible types: possible lossy conversion from double to int.''
 The problem is that the value on the right is floating-point, and the variable on the left is an integer.
 
 Java converts an \java{int} to a \java{double} automatically, since no information is lost in the process.
@@ -407,11 +409,11 @@ int x = (int) pi;
 
 The \java{(int)} operator has the effect of converting what follows into an integer.
 In this example, \java{x} gets the value \java{3}.
-Like integer division, converting to an integer always rounds toward zero, even if the fraction part is \java{0.999999} (or \java{-0.999999}).
+Like integer division, casting to an integer always rounds toward zero, even if the fraction part is \java{0.999999} (or \java{-0.999999}).
 In other words, it simply throws away the fractional part.
 
 Type casting takes precedence over arithmetic operations.
-In this example, the value of \java{pi} gets converted to an integer before the multiplication.
+In the following example, the value of \java{pi} gets converted to an integer before the multiplication.
 So the result is 60.0, not 62.0.
 
 \begin{code}
@@ -449,13 +451,18 @@ Java also provides the {\bf modulo} operation (\java{\%}), which divides two num
 Using division and modulo, we can convert to feet and inches like this:
 
 \begin{code}
-quotient = 76 / 12;   // division
-remainder = 76 % 12;  // modulo
+feet = 76 / 12;    // quotient
+inches = 76 % 12;  // remainder
 \end{code}
 
 The first line yields 6.
 The second line, which is pronounced ``76 mod 12'', yields 4.
 So 76 inches is 6 feet, 4 inches.
+
+Many people (and textbooks) incorrectly refer to \java{\%} as the ``modulus operator''.
+In mathematics, however, {\bf modulus} is the number you're dividing by.
+In the previous example, the modulus is 12.
+The Java language specification refers to  \java{\%} as the ``remainder operator''.
 
 The remainder operator looks like a percent sign, but you might find it helpful to think of it as a division sign ($\div$) rotated to the left.
 
@@ -465,10 +472,10 @@ The remainder operator looks like a percent sign, but you might find it helpful 
 \index{divisible}
 \index{extract digits}
 
-The modulo operation turns out to be surprisingly useful.
+Modular arithmetic turns out to be surprisingly useful.
 For example, you can check whether one number is divisible by another: if \java{x \% y} is zero, then \java{x} is divisible by \java{y}.
 You can use remainder to ``extract'' digits from a number: \java{x \% 10} yields the rightmost digit of \java{x}, and \java{x \% 100} yields the last two digits.
-Also, many encryption algorithms use the remainder operator extensively.
+And many encryption algorithms use the remainder operator extensively.
 
 
 \section{Putting it all together}
@@ -513,7 +520,7 @@ Although not required, all variables and constants are declared at the top of \j
 This practice makes it easier to find their types later on, and it helps the reader know what data is involved in the algorithm.
 
 For readability, each major step of the algorithm is separated by a blank line and begins with a comment.
-It also includes a documentation comment (\java{/**}), which we'll learn more about in the next chapter.
+The class also includes a documentation comment (\java{/**}), which we'll learn more about in a later chapter.
 
 Many algorithms, including the \java{Convert} program, perform division and modulo together.
 In both steps, you divide by the same number (\java{IN_PER_FOOT}).
@@ -559,7 +566,7 @@ It doesn't let you input your name, and it immediately displays the output:
 What is your name? Hello , age 45
 \end{stdout}
 
-To understand what is happening, you have to understand that the \java{Scanner} doesn't see input as multiple lines, like we do.
+To understand what is happening, you need to realize that \java{Scanner} doesn't see input as multiple lines like we do.
 Instead, it gets a ``stream of characters'' as shown in Figure~\ref{fig.hopper1}.
 
 \begin{figure}[!ht]
@@ -609,7 +616,7 @@ First you read the number, and then you read the rest of the line, which is just
 \begin{description}
 
 \term{package}
-A group of classes that are related to each other.
+A directory of classes that are related to each other.
 %Java classes are organized into packages.
 
 \term{address}
@@ -636,7 +643,7 @@ A collection of packages and classes that are available for use in other program
 A statement that allows programs to use classes defined in other packages.
 
 \term{token}
-A basic element of a program, such as a word, space, symbol, or number.
+The smallest unit of source code, such as an individual word, literal value, or symbol.
 
 %\term{syntax}
 %The structure of a program; the arrangement of the words and symbols it contains.
@@ -646,17 +653,20 @@ A basic element of a program, such as a word, space, symbol, or number.
 
 \term{literal}
 A value that appears in source code.
-For example, \java{"Hello"} is a string literal and \java{74} is an integer literal.
+For example, \java{"Hello"} is a string literal, and \java{74} is an integer literal.
+
+\term{prompt}
+A brief message displayed in a print statement that asks the user for input.
 
 \term{magic number}
 A number that appears without explanation as part of an expression.
 It should generally be replaced with a constant.
 
 \term{constant}
-A variable, declared \java{final}, whose value cannot be changed.
+A variable, declared as \java{final}, whose value cannot be changed.
 
 \term{format string}
-A string passed to \java{printf} to specify the format of the output.
+The string in \java{System.out.printf} that specifies the format of the output.
 
 \term{format specifier}
 A special code that begins with a percent sign and specifies the data type and format of the corresponding value.
@@ -670,8 +680,12 @@ In Java it appears as a type name in parentheses, like \java{(int)}.
 %Casting a floating-point value to an integer simply removes the fractional part.
 
 \term{modulo}
-An operator that yields the remainder when one integer is divided by another.
-In Java, it is denoted with a percent sign; for example, \java{5 \% 2} is \java{1}.
+An operation that yields the remainder when one integer is divided by another.
+In Java, it is denoted with a percent sign: \java{5 \% 2} is \java{1}.
+
+\term{modulus}
+The value of \java{b} in the expression \java{a \% b}.
+It often represents unit conversions, such as 24 hours in a day, 60 minutes in an hour, etc.
 
 \end{description}
 
