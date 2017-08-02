@@ -793,10 +793,6 @@ Examples like this one almost read like English:
 %A named sequence of statements that performs a procedure or function.
 %Methods may or may not take parameters, and may or may not return a value.
 
-\term{argument}
-A value that you provide when you invoke a method.
-This value must have the same type as the corresponding parameter.
-
 \term{invoke}
 To cause a method to execute.
 Also known as ``calling'' a method.
@@ -943,6 +939,144 @@ Saturday, July 22, 2015
 \end{stdout}
 
 \item Once you have debugged \java{printAmerican}, write another method called \java{printEuropean} that displays the date in European format.
+
+\end{enumerate}
+
+\end{exercise}
+
+
+\begin{exercise}
+For the following program:
+
+\begin{enumerate}
+
+\item Draw a stack diagram that shows the state of the program the {\it second} time \java{zoop} is invoked.
+
+\item What is the complete output?
+
+\end{enumerate}
+
+\begin{code}
+public static void zoop(String fred, int bob) {
+    System.out.println(fred);
+    if (bob == 5) {
+        ping("not ");
+    } else {
+        System.out.println("!");
+    }
+}
+
+public static void main(String[] args) {
+    int bizz = 5;
+    int buzz = 2;
+    zoop("just for", bizz);
+    clink(2 * buzz);
+}
+\end{code}
+
+\begin{code}
+public static void clink(int fork) {
+    System.out.print("It's ");
+    zoop("breakfast ", fork);
+}
+
+public static void ping(String strangStrung) {
+    System.out.println("any " + strangStrung + "more ");
+}
+\end{code}
+\end{exercise}
+
+
+\begin{exercise}
+
+Draw a stack diagram that shows the state of the program in Section~\ref{recursion} after \java{main} invokes \java{nLines} with the parameter \java{n == 4}, just before the last invocation of \java{nLines} returns.
+
+\end{exercise}
+
+
+\begin{exercise}
+
+Fermat's Last Theorem says that there are no integers $a$, $b$, and $c$ such that $a^n + b^n = c^n$, except when $n \leq 2$.
+
+Write a method named \java{checkFermat} that takes four integers as parameters -- \java{a}, \java{b}, \java{c} and \java{n} -- and checks to see if Fermat's theorem holds.
+If $n$ is greater than 2 and $a^n + b^n = c^n$, the program should display ``Holy smokes, Fermat was wrong!''
+Otherwise the program should display ``No, that doesn't work.''
+
+{\it Hint:} You may want to use \java{Math.pow}.
+
+\end{exercise}
+
+
+\begin{exercise}
+
+The purpose of this exercise is to take a problem and break it into smaller problems, and to solve the smaller problems by writing simple methods.
+Consider the first verse of the song ``99 Bottles of Beer'':
+
+\begin{quote}
+99 bottles of beer on the wall,\\
+99 bottles of beer,\\
+ya' take one down, ya' pass it around,\\
+98 bottles of beer on the wall.
+\end{quote}
+
+Subsequent verses are identical except that the number of bottles gets smaller by one in each verse, until the last verse:
+
+\begin{quote}
+No bottles of beer on the wall,\\
+no bottles of beer,\\
+ya' can't take one down, ya' can't pass it around,\\
+'cause there are no more bottles of beer on the wall!
+\end{quote}
+
+And then the song (finally) ends.
+
+Write a program that displays the entire lyrics of ``99 Bottles of Beer''.
+Your program should include a recursive method that does the hard part, but you might want to write additional methods to separate other parts of the program.
+As you develop your code, test it with a small number of verses, like \java{3}.
+
+\end{exercise}
+
+
+\begin{exercise}
+
+This exercise reviews the flow of execution through a program with multiple methods.
+Read the following code and answer the questions.
+
+\begin{code}
+public class Buzz {
+
+    public static void baffle(String blimp) {
+        System.out.println(blimp);
+        zippo("ping", -5);
+    }
+
+    public static void zippo(String quince, int flag) {
+        if (flag < 0) {
+            System.out.println(quince + " zoop");
+        } else {
+            System.out.println("ik");
+            baffle(quince);
+            System.out.println("boo-wa-ha-ha");
+        }
+    }
+
+    public static void main(String[] args) {
+        zippo("rattle", 13);
+    }
+
+}
+\end{code}
+
+\begin{enumerate}
+
+\item Write the number {\tt 1} next to the first line of code in this program that will execute.
+
+\item Write the number {\tt 2} next to the second line of code, and so on until the end of the program.
+If a line is executed more than once, it might end up with more than one number next to it.
+
+\item What is the value of the parameter \java{blimp} when \java{baffle} gets invoked?
+
+\item What is the output of this program?
 
 \end{enumerate}
 
