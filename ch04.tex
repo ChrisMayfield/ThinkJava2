@@ -36,7 +36,7 @@ He developed an algebraic way of representing logic.
 \index{assignment}
 \index{operator!assignment}
 
-You are probably familiar with these operations, but notice that the Java operators are different from the mathematical symbols like $=$, $\neq$, and $\geq$.
+You are probably familiar with these operators, but notice how Java is different from mathematical symbols like $=$, $\neq$, and $\geq$.
 A common error is to use a single \java{=} instead of a double \java{==} when comparing values.
 Remember that \java{=} is the {\em assignment} operator, and \java{==} is a {\em relational} operator.
 In addition, the operators \java{=<} and \java{=>} do not exist.
@@ -85,7 +85,7 @@ if (x % 2 == 0) {
 }
 \end{code}
 
-If the remainder when \java{x} is divided by 2 is zero, we know that \java{x} is even, and this fragment displays a message to that effect.
+If the remainder when \java{x} is divided by 2 is zero, we know that \java{x} is even, and the program displays a message to that effect.
 If the condition is false, the second print statement is executed instead.
 Since the condition must be true or false, exactly one of the branches will run.
 
@@ -121,9 +121,9 @@ if (x > 0) {
 As a result, the second \java{println} runs no matter what.
 Even experienced programmers make this mistake; search the web for Apple's ``goto fail'' bug.
 
-In all previous examples, notice that there is no semicolon at the end of the \java{if} or \java{else} lines.
+In all previous examples, notice how there is no semicolon at the end of the \java{if} or \java{else} lines.
 Instead, a new block should be defined using curly braces.
-A common mistake is to put a semicolon after the condition, like this:
+Another common mistake is to put a semicolon after the condition, like this:
 
 \begin{code}
 int x = 1;
@@ -270,7 +270,7 @@ It can also avoid unnecessary errors, if \java{anything} might fail.
 
 \section{De Morgan's laws}
 
-Sometimes you need to negate an expression containing relational and logical operators.
+Sometimes you need to negate an expression containing a mix of relational and logical operators.
 For example, to test if \java{x} and \java{y} are both nonzero, you could write:
 
 \begin{code}
@@ -282,7 +282,7 @@ if (!(x == 0 || y == 0)) {
 \index{De Morgan's laws}
 
 This condition is difficult to read because of the \java{!} and parentheses.
-A better way to negate logic expressions is to apply one of {\bf De Morgan's laws}:
+A better way to negate logic expressions is to apply {\bf De Morgan's laws}:
 
 \begin{itemize}
 \item \java{!(A && B)} ~is the same as~ \java{!A || !B}
@@ -305,6 +305,7 @@ For instance, ``If I don't want the case where $x$ is less than 5 and $y$ is 3, 
 
 Returning to the previous example, here is the revised condition.
 In English, it reads ``if $x$ is not zero and $y$ is not zero.''
+The logic is the same, and the source code is easier to read.
 
 \begin{code}
 if (x != 0 && y != 0) {
@@ -319,7 +320,7 @@ if (x != 0 && y != 0) {
 
 To store a \java{true} or \java{false} value, you need a \java{boolean} variable.
 You can declare and assign them like other variables.
-The first line is a variable declaration, the second is an assignment, and the third is both:
+In this example, the first line is a variable declaration, the second is an assignment, and the third is both:
 
 \begin{code}
 boolean flag;
@@ -339,7 +340,7 @@ boolean positiveFlag = (x > 0);     // true if x is positive
 
 \index{flag}
 
-The parentheses are unnecessary, but they make the code easier to read.
+The parentheses are unnecessary, but they make the code easier to understand.
 A variable defined in this way is called a {\bf flag}, because it signals or ``flags'' the presence or absence of a condition.
 
 You can use flag variables as part of a conditional statement:
@@ -483,8 +484,6 @@ The compiler is looking for a method named \java{pow} in the file \java{Test.jav
 If you don't specify a class name when referring to a method, the compiler looks in the current class by default.
 
 
-
-
 \section{Validating input}
 \label{validate}
 
@@ -495,7 +494,7 @@ One of the most important tasks in any computer program is to {\bf validate} inp
 People often make mistakes while typing, especially on smartphones, and incorrect inputs may cause your program to fail.
 Even worse, someone (i.e., a {\bf hacker}) may intentionally try to break into your system by entering unexpected inputs.
 
-Consider for example a program that prompts the user for a number and computes its logarithm:
+Consider this simple program that prompts the user for a number and computes its logarithm:
 
 \begin{code}
 Scanner in = new Scanner(System.in);
@@ -506,7 +505,7 @@ System.out.println("The log is " + y);
 \end{code}
 
 In mathematics, the natural logarithm (base $e$) is undefined when $x < 0$.
-The \java{Math.log} method will return {\bf NaN} (not a number) in this case.
+If you ask for \java{Math.log(-1)}, it will return {\bf NaN} which stands for ``not a number''.
 Many users are confused when they see NaN; it often looks like a bug.
 We can use an \java{if} statement to make the output more user friendly.
 
@@ -538,9 +537,11 @@ Exception in thread "main" java.util.InputMismatchException
 
 \index{run-time error}
 
-We can prevent this potential run-time error by testing the input first.
+If the user inputs a \java{String} when we expect a \java{double}, Java reports an ``input mismatch'' exception.
+We can prevent this run-time error from happening by testing the input first.
+
 The \java{Scanner} class provides \java{hasNextDouble}, which checks whether the next input can be interpreted as a \java{double}.
-If so, then we can use \java{nextDouble} without getting an exception.
+If not, we can display an error message.
 
 \begin{code}
 if (!in.hasNextDouble()) {
@@ -550,26 +551,24 @@ if (!in.hasNextDouble()) {
 }
 \end{code}
 
-\index{return}
-\index{statement!return}
-
-This example checks if the next input is {\em not} a \java{double}, and if so, it displays an error message and quits.
-The \java{return} statement allows you to exit a method before you reach the end of it.
-Returning from \java{main} terminates the program.
-
 \index{next!Scanner}
 
 In contrast to \java{in.nextLine}, which returns an entire line of input, the \java{in.next} method returns only the next token of input.
 We can use \java{in.next} to show the user exactly which word they typed was not a number.
 
-
-Notice the use of the \java{!} operator, instead of \java{in.hasNextDouble() == false}.
-Since \java{hasNextDouble} returns a boolean result, there is no need to compare it to \java{false}; it is already a condition.
-
 \index{System.err}
 
 This example also uses \java{System.err}, which is an \java{OutputStream} for error messages and warnings.
 Some development environments display output to \java{System.err} with a different color or in a separate window.
+
+\index{return}
+\index{statement!return}
+
+The \java{return} statement allows you to exit a method before you reach the end of it.
+Returning from \java{main} terminates the program.
+
+Notice the use of the \java{!} operator before \java{in.hasNextDouble()}, instead of testing the condition \java{in.hasNextDouble() == false}.
+Since \java{hasNextDouble} returns a boolean, it is already a condition.
 
 \section{Putting it all together}
 
@@ -608,6 +607,13 @@ public class Logarithm {
     }
 }
 \end{trinket}
+
+What started as five lines of code at the beginning of Section~\ref{validate} is now a 30-line program.
+Making programs robust (and secure) often requires a lot of additional checking, as shown in this example.
+
+It's important to write comments every few lines to make your code easier to understand.
+Comments not only help other people read your code, they also help you document what you're trying to do.
+If there's a mistake the code, it's a lot easier to find when there are good comments.
 
 
 \section{Vocabulary}
@@ -677,14 +683,61 @@ The code for this chapter is in the {\tt ch04} directory of {\tt ThinkJava2Code}
 See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
 
-If you have not already read Appendix~\ref{debugger}, now might be a good time.
-It describes the DrJava debugger, which is a useful tool for tracing the flow of execution.
+If you have not already read Appendix~\ref{cltesting}, now might be a good time.
+It describes an efficient way to test programs that take input from the user and display specific output.
+
+
+\begin{exercise}
+Using the following variables, evaluate the logic expressions in the table below.
+Write your answers as true, false, or error.
+
+\begin{code}
+boolean yes = true;
+boolean no = false;
+int loVal = -999;
+int hiVal = 999;
+double grade = 87.5;
+double amount = 50.0;
+String hello = "world";
+\end{code}
+
+\vspace{1ex}
+
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+Expression & Result \\
+\hline
+\hline
+\java{yes == no || grade > amount} & \hspace{5em} \\
+\hline
+\java{amount == 40.0 || 50.0} &  \\
+\hline
+\java{hiVal != loVal || loVal < 0} &  \\
+\hline
+\java{True || hello.length() > 0} &  \\
+\hline
+\java{hello.isEmpty() && yes} &  \\
+\hline
+\java{grade <= 100 && !false} &  \\
+\hline
+\java{!yes || no} &  \\
+\hline
+\java{grade > 75 > amount} &  \\
+\hline
+\java{amount <= hiVal && amount >= loVal} &  \\
+\hline
+\java{no && !no || yes && !yes} &  \\
+\hline
+\end{tabular}
+\end{center}
+
+\end{exercise}
 
 
 \begin{exercise}
 
-Logical operators can simplify nested conditional statements.
-For example, can you rewrite this code using a single \java{if} statement?
+Rewrite the following code using a single \java{if} statement.
 
 \begin{code}
 if (x > 0) {
@@ -705,7 +758,24 @@ You should already have a program that chooses a random number, prompts the user
 
 Adding a small amount of code at a time, and testing as you go, modify the program so it tells the user whether the guess is too high or too low, and then prompts the user for another guess.
 
-%The program should continue until the user gets it right.
-%{\it Hint:} Use two methods, and make one of them recursive.
+The program should continue until the user gets it right or guesses incorrectly three times.
+If the user guesses the correct number, display a message and terminate the program.
+
+\end{exercise}
+
+
+\begin{exercise}
+
+Write a program that finds the roots of $ax^2 + bx + c = 0$ using the quadratic formula:
+$$ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
+Prompt the user to input integers for $a$, $b$, and $c$.
+Compute the two solutions for $x$, and display the results.
+
+Your program should handle inputs for which there is no solution.
+Specifically, it should not divide by zero or take the square root of a negative number.
+
+Be sure to validate all inputs.
+The user should never see an input mismatch exception.
+Display specific error messages.
 
 \end{exercise}
