@@ -149,7 +149,7 @@ As a general rule, each line of Java code should end with a semicolon or brace -
 
 The compiler won't complain if you omit optional braces or write empty statements.
 Doing so is allowed by the Java language, but it often results in bugs that are difficult to find.
-Development tools like Checkstyle (see Appendix~\ref{development}) can warn you about these and other kinds of programming mistakes.
+Development tools like Checkstyle (see Appendix~\ref{checkstyle}) can warn you about these and other kinds of programming mistakes.
 
 
 \section{Chaining and nesting}
@@ -771,11 +771,11 @@ $$ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
 Prompt the user to input integers for $a$, $b$, and $c$.
 Compute the two solutions for $x$, and display the results.
 
-Your program should handle inputs for which there is no solution.
+Your program should be able to handle inputs for which there is only one or no solution.
 Specifically, it should not divide by zero or take the square root of a negative number.
 
 Be sure to validate all inputs.
 The user should never see an input mismatch exception.
-Display specific error messages.
+Display specific error messages that include the invalid input.
 
 \end{exercise}
