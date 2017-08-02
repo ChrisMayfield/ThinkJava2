@@ -1,26 +1,25 @@
 \chapter{Methods and testing}
 \label{voidmeth}
 
-So far we've only written short programs that have a single class and a single method (\java{main}).
-In this chapter, we'll show you how to organize longer programs into multiple methods and classes.
+So far we've written programs that have only one method (\java{main}).
+In this chapter, we'll show you how to organize programs into multiple methods.
+We'll also learn how to trace the order in which a program runs.
 
-
-%We will also take a look at separate compilation.
-%At a conceptual level, a {\bf method} represents a mathematical {\em function} or a general {\em procedure}.
-%Some methods perform a computation and return a result.
-%For example, \java{Math.sqrt(25)} returns the value \java{5.0}.
-%Other methods (including \java{main}) carry out a sequence of actions without returning a result.
-%Java uses the keyword \java{void} to declare such methods.
-%Regardless whether they return a value or not, methods enable you to break down a complex program into smaller blocks of code.
-
+%At a conceptual level, a method represents a mathematical {\em function} or a general {\em procedure}.
+%Regardless whether they return a value or not, methods enable you to break down a complex program into smaller units of code.
 
 \section{Adding new methods}
 \label{adding_methods}
 
 \index{method!definition}
 
-You have probably guessed by now that you can define more than one method in a class.
-Here's an example:
+%You have probably guessed by now that you can define more than one method in a class.
+
+Some methods perform a computation and return a result.
+For example, \java{Math.sqrt(25)} returns the value \java{5.0}.
+Other methods (including \java{main}) carry out a sequence of actions, without returning a result.
+Java uses the keyword \java{void} to define such methods.
+Here's a trivial example:
 
 \begin{trinket}[310]{NewLine.java}
 public class NewLine {
@@ -51,11 +50,12 @@ Method names should begin with a lowercase letter and use ``camel case'', which 
 You can use any name you want for methods, except \java{main} or any of the Java keywords.
 
 \index{public}
+\index{invoke}
 \index{void}
 \index{type!void}
 
-\java{newLine} and \java{main} are \java{public}, which means they can be invoked from other classes.
-They are both \java{static}, but we can't explain what that means yet.
+\java{newLine} and \java{main} are \java{public}, which means they can be {\bf invoked} (or called) from other classes.
+They are both \java{static}, but we won't yet explain what that means.
 And they are both \java{void}, which means that they don't yield a result (unlike the \java{Math} methods, for example).
 
 \index{parameter}
@@ -65,8 +65,7 @@ The parentheses after the method name contain a list of variables, called {\bf p
 That means that whoever invokes \java{main} must provide an array of strings (we'll get to arrays in a later chapter).
 
 Since \java{newLine} has no parameters, it requires no arguments, as shown when it is invoked in \java{main}.
-And because \java{newLine} is in the same class as \java{main}, we don't have to specify the class name.
-
+And because \java{newLine} is in the same class as \java{main}, we don't have to specify the class name like \java{Newline.newLine()}.
 The output of this program is:
 
 \begin{stdout}
@@ -88,54 +87,7 @@ public static void main(String[] args) {
 }
 \end{code}
 
-Or we could write a new method that displays three blank lines:
-
-\begin{code}
-public static void threeLine() {
-    newLine();
-    newLine();
-    newLine();
-}
-
-public static void main(String[] args) {
-    System.out.println("First line.");
-    threeLine();
-    System.out.println("Second line.");
-}
-\end{code}
-
-You can invoke the same method more than once, and you can have one method invoke another.
-In this example, \java{main} invokes \java{threeLine}, and \java{threeLine} invokes \java{newLine}.
-
-Beginners often wonder why it is worth the trouble to create new methods.
-There are many reasons, but this example demonstrates a few of them:
-
-\begin{itemize}
-
-\item Creating a new method gives you an opportunity to give a name to a group of statements, which makes code easier to read and understand.
-%Methods simplify a program by hiding complex computations behind a single statement, and by using English words in place of arcane code.
-%Which is clearer, \java{newLine} or \java{System.out.println()}?
-
-\item Introducing new methods can make a program smaller by eliminating repetitive code.
-For example, to display nine consecutive new lines, you could invoke \java{threeLine} three times.
-
-\item A common problem solving technique is to break tasks down into sub-problems.
-Methods allow you to focus on each sub-problem in isolation, and then compose them into a complete solution.
-
-\end{itemize}
-
-%Perhaps most importantly, organizing your code into multiple methods allows you to test individual parts of your program separately.
-%It's easier to get a complex program working if you know that each sub-part works correctly.
-
-%In Section~\ref{methods} we will come back to this question and list some additional benefits of dividing programs into methods.
-
-
-\section{Flow of execution}
-
-\index{class}
-\index{method}
-
-Pulling together the code from the previous section, the complete program looks like this:
+Or we could even write a new method that displays three blank lines:
 
 \begin{trinket}{NewLine.java}
 public class NewLine {
@@ -157,6 +109,37 @@ public class NewLine {
     }
 }
 \end{trinket}
+
+You can invoke the same method more than once, and you can have one method invoke another.
+In this example, \java{main} invokes \java{threeLine}, and \java{threeLine} invokes \java{newLine} (which invokes \java{println}).
+
+Beginners often wonder why it is worth the trouble to create new methods.
+There are many reasons, and this example demonstrates a few of them:
+
+\begin{itemize}
+
+\item Creating a new method make it possible to name a sequence of statements, which makes code easier to read and understand.
+%Methods simplify a program by hiding complex computations behind a single statement, and by using English words in place of arcane code.
+%Which is clearer, \java{newLine} or \java{System.out.println()}?
+
+\item Introducing new methods can make a program smaller by eliminating repetitive code.
+For example, to display nine consecutive new lines, you could invoke \java{threeLine} three times.
+
+\item A common problem solving technique is to break tasks down into sub-problems.
+Methods allow you to focus on each sub-problem in isolation, and then compose them into a complete solution.
+
+\end{itemize}
+
+Perhaps most importantly, organizing your code into multiple methods allows you to test individual parts of your program separately.
+It's easier to get a complex program working if you know that each sub-part works correctly.
+
+
+\section{Flow of execution}
+
+\index{class}
+\index{method}
+
+%Pulling together the code from the previous section, the complete program looks like this:
 
 \index{flow of execution}
 
@@ -680,108 +663,6 @@ This process reduces debugging time and yields code that is more likely to be co
 %Computer scientists deal with the complexity of large programs by breaking down computations into simple methods (which in turn may call other methods).
 %Data is passed around the program via method parameters and return statements.
 %By using incremental development, scaffolding, and testing, you can be confident that your code is correct.
-
-
-\section{Overloading}
-\label{overloading}
-
-You might have noticed that \java{circleArea} and \java{calculateArea} perform similar functions.
-They both find the area of a circle, but they take different parameters.
-For \java{calculateArea}, we have to provide the radius; for \java{circleArea} we provide two points.
-
-\index{overload}
-
-If two methods do the same thing, it is natural to give them the same name.
-Having more than one method with the same name is called {\bf overloading}, and it is legal in Java as long as each version takes different parameters.
-So we could rename \java{circleArea} to \java{calculateArea}:
-
-\begin{code}
-public static double calculateArea
-        (double xc, double yc, double xp, double yp) {
-    return calculateArea(distance(xc, yc, xp, yp));
-}
-\end{code}
-
-Note that this new \java{calculateArea} method is {\em not} recursive.
-When you invoke an overloaded method, Java knows which version you want by looking at the arguments that you provide.
-If you write:
-
-\begin{code}
-double x = calculateArea(3.0);
-\end{code}
-
-Java looks for a method named \java{calculateArea} that takes one \java{double} as an argument, and so it uses the first version, which interprets the argument as a radius.
-If you write:
-
-\begin{code}
-double y = calculateArea(1.0, 2.0, 4.0, 6.0);
-\end{code}
-
-Java uses the second version of \java{calculateArea}, which interprets the arguments as two points.
-In this example, the second version actually invokes the first version.
-
-Many Java methods are overloaded, meaning that there are different versions that accept different numbers or types of parameters.
-For example, there are versions of \java{print} and \java{println} that accept a single parameter of any data type.
-In the \java{Math} class, there is a version of \java{abs} that works on \java{double}s, and there is also a version for \java{int}s.
-
-Although overloading is a useful feature, it should be used with caution.
-You might get yourself nicely confused if you are trying to debug one version of a method while accidentally invoking a different one.
-
-
-\section{Boolean methods}
-\label{boolean}
-
-\index{boolean}
-\index{method!boolean}
-
-Methods can return \java{boolean} values, just like any other type, which is often convenient for hiding tests inside methods.
-For example:
-
-\begin{code}
-public static boolean isSingleDigit(int x) {
-    if (x > -10 && x < 10) {
-        return true;
-    } else {
-        return false;
-    }
-}
-\end{code}
-
-The name of this method is \java{isSingleDigit}.
-It is common to give \java{boolean} methods names that sound like yes/no questions.
-Since the return type is \java{boolean}, the return statement has to provide a boolean expression.
-
-The code itself is straightforward, although it is longer than it needs to be.
-Remember that the expression \java{x > -10 && x < 10} has type \java{boolean}, so there is nothing wrong with returning it directly (without the \java{if} statement):
-
-\begin{code}
-public static boolean isSingleDigit(int x) {
-    return x > -10 && x < 10;
-}
-\end{code}
-
-In \java{main}, you can invoke the method in the usual ways:
-
-\begin{code}
-System.out.println(isSingleDigit(2));
-boolean bigFlag = !isSingleDigit(17);
-\end{code}
-
-The first line displays \java{true} because 2 is a single-digit number.
-The second line sets \java{bigFlag} to \java{true}, because 17 is {\em not} a single-digit number.
-
-Conditional statements often invoke \java{boolean} methods and use the result as the condition:
-
-\begin{code}
-if (isSingleDigit(z)) {
-    System.out.println("z is small");
-} else {
-    System.out.println("z is big");
-}
-\end{code}
-
-Examples like this one almost read like English:
-``If is single digit z, print ... else print ...''.
 
 
 \section{Vocabulary}

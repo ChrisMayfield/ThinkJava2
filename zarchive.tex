@@ -96,3 +96,107 @@ For example, the hand (Ace, 10, Jack, 3) has a total score of 1 + 10 + 10 + 3 = 
 Write a method called \java{handScore} that takes an array of cards as an argument and that returns the total score.
 
 \end{exercise}
+
+
+%%% Section 6.4
+\section{Overloading}
+\label{overloading}
+
+You might have noticed that \java{circleArea} and \java{calculateArea} perform similar functions.
+They both find the area of a circle, but they take different parameters.
+For \java{calculateArea}, we have to provide the radius; for \java{circleArea} we provide two points.
+
+\index{overload}
+
+If two methods do the same thing, it is natural to give them the same name.
+Having more than one method with the same name is called {\bf overloading}, and it is legal in Java as long as each version takes different parameters.
+So we could rename \java{circleArea} to \java{calculateArea}:
+
+\begin{code}
+public static double calculateArea
+        (double xc, double yc, double xp, double yp) {
+    return calculateArea(distance(xc, yc, xp, yp));
+}
+\end{code}
+
+Note that this new \java{calculateArea} method is {\em not} recursive.
+When you invoke an overloaded method, Java knows which version you want by looking at the arguments that you provide.
+If you write:
+
+\begin{code}
+double x = calculateArea(3.0);
+\end{code}
+
+Java looks for a method named \java{calculateArea} that takes one \java{double} as an argument, and so it uses the first version, which interprets the argument as a radius.
+If you write:
+
+\begin{code}
+double y = calculateArea(1.0, 2.0, 4.0, 6.0);
+\end{code}
+
+Java uses the second version of \java{calculateArea}, which interprets the arguments as two points.
+In this example, the second version actually invokes the first version.
+
+Many Java methods are overloaded, meaning that there are different versions that accept different numbers or types of parameters.
+For example, there are versions of \java{print} and \java{println} that accept a single parameter of any data type.
+In the \java{Math} class, there is a version of \java{abs} that works on \java{double}s, and there is also a version for \java{int}s.
+
+Although overloading is a useful feature, it should be used with caution.
+You might get yourself nicely confused if you are trying to debug one version of a method while accidentally invoking a different one.
+
+
+%%% Section 6.5
+\section{Boolean methods}
+\label{boolean}
+
+\index{boolean}
+\index{method!boolean}
+
+Methods can return \java{boolean} values, just like any other type, which is often convenient for hiding tests inside methods.
+For example:
+
+\begin{code}
+public static boolean isSingleDigit(int x) {
+    if (x > -10 && x < 10) {
+        return true;
+    } else {
+        return false;
+    }
+}
+\end{code}
+
+The name of this method is \java{isSingleDigit}.
+It is common to give \java{boolean} methods names that sound like yes/no questions.
+Since the return type is \java{boolean}, the return statement has to provide a boolean expression.
+
+The code itself is straightforward, although it is longer than it needs to be.
+Remember that the expression \java{x > -10 && x < 10} has type \java{boolean}, so there is nothing wrong with returning it directly (without the \java{if} statement):
+
+\begin{code}
+public static boolean isSingleDigit(int x) {
+    return x > -10 && x < 10;
+}
+\end{code}
+
+In \java{main}, you can invoke the method in the usual ways:
+
+\begin{code}
+System.out.println(isSingleDigit(2));
+boolean bigFlag = !isSingleDigit(17);
+\end{code}
+
+The first line displays \java{true} because 2 is a single-digit number.
+The second line sets \java{bigFlag} to \java{true}, because 17 is {\em not} a single-digit number.
+
+Conditional statements often invoke \java{boolean} methods and use the result as the condition:
+
+\begin{code}
+if (isSingleDigit(z)) {
+    System.out.println("z is small");
+} else {
+    System.out.println("z is big");
+}
+\end{code}
+
+Examples like this one almost read like English:
+``If is single digit z, print ... else print ...''.
