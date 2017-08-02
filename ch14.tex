@@ -788,7 +788,8 @@ The code for this chapter is in the {\tt ch14} directory of {\tt ThinkJava2Code}
 See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex14.1
+
 Design a better strategy for the \java{Player.play} method.
 For example, if there are multiple cards you can play, and one of them is an eight, you might want to play the eight.
 
@@ -796,24 +797,30 @@ For example, if there are multiple cards you can play, and one of them is an eig
 
 Think of other ways you can minimize penalty points, such as playing the highest ranking cards first.
 Write a new class that extends \java{Player} and overrides \java{play} to implement your strategy.
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex14.2
+
 Write a loop that plays the game 100 times and keeps track of how many times each player wins.
 If you implemented multiple strategies in the previous exercise, you can play them against each other to evaluate which one works best.
 
 {\it Hint:} Design a \java{Genius} class that extends \java{Player} and overrides the \java{play} method, and then replace one of the players with a \java{Genius} object.
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex14.3
+
 One limitation of the program we wrote in this chapter is that it only handles two players.
 Modify the \java{Eights} class to create an \java{ArrayList} of players, and modify \java{nextPlayer} to select the next player.
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex14.4
+
 When we designed the program for this chapter, we tried to minimize the number of classes.
 As a result, we ended up with a few awkward methods.
 For example, \java{cardMatches} is a static method in \java{Player}, but it would be more natural if it were an instance method in \java{Card}.
@@ -825,4 +832,5 @@ At the same time, you could create a new class, \java{EightsHand}, that extends 
 And while you're at it, you could add a method named \java{scoreCard} to \java{EightsCard}.
 
 Whether or not you actually make these changes, draw a UML class diagram that shows this alternative object hierarchy.
+
 \end{exercise}

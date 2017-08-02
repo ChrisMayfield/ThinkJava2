@@ -848,7 +848,7 @@ If you have not already read Appendix~\ref{debugger}, now might be a good time.
 It describes the DrJava debugger, which is a useful tool for tracing the flow of execution.
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex4.1
 
 The point of this exercise is to practice reading code and to make sure that you understand the flow of execution through a program with multiple methods.
 
@@ -892,24 +892,7 @@ public static void ping() {
 \end{exercise}
 
 
-%\begin{exercise}
-
-%What is the difference between a variable and a method?
-%In terms of their syntax, how does the Java compiler tell the difference between the two?
-
-%%A variable is a {\em location of data}, whereas a method is a {\em location of code}.
-%%In Java, methods always have parentheses, even if they have no arguments like \java{System.out.println()}.
-
-%\end{exercise}
-
-
-%ABD: We don't need this anymore since we used this as an example
-%\begin{exercise}
-%Draw a stack diagram that shows the state of the program in Section~\ref{time} when \java{main} invokes \java{printTime} with the arguments \java{11} and \java{59}.
-%\end{exercise}
-
-
-\begin{exercise}
+\begin{exercise}  %%V6 Ex4.2
 
 The point of this exercise is to make sure you understand how to write and invoke methods that take parameters.
 
@@ -922,7 +905,7 @@ The point of this exercise is to make sure you understand how to write and invok
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex4.3
 
 The purpose of this exercise is to take code from a previous exercise and encapsulate it in a method that takes parameters.
 You should start with a working solution to Exercise~\ref{ex:date}.
@@ -945,15 +928,13 @@ Saturday, July 22, 2015
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex5.2
+
 For the following program:
 
 \begin{enumerate}
-
 \item Draw a stack diagram that shows the state of the program the {\it second} time \java{zoop} is invoked.
-
 \item What is the complete output?
-
 \end{enumerate}
 
 \begin{code}
@@ -984,60 +965,11 @@ public static void ping(String strangStrung) {
     System.out.println("any " + strangStrung + "more ");
 }
 \end{code}
-\end{exercise}
-
-
-\begin{exercise}
-
-Draw a stack diagram that shows the state of the program in Section~\ref{recursion} after \java{main} invokes \java{nLines} with the parameter \java{n == 4}, just before the last invocation of \java{nLines} returns.
 
 \end{exercise}
 
 
-\begin{exercise}
-
-Fermat's Last Theorem says that there are no integers $a$, $b$, and $c$ such that $a^n + b^n = c^n$, except when $n \leq 2$.
-
-Write a method named \java{checkFermat} that takes four integers as parameters -- \java{a}, \java{b}, \java{c} and \java{n} -- and checks to see if Fermat's theorem holds.
-If $n$ is greater than 2 and $a^n + b^n = c^n$, the program should display ``Holy smokes, Fermat was wrong!''
-Otherwise the program should display ``No, that doesn't work.''
-
-{\it Hint:} You may want to use \java{Math.pow}.
-
-\end{exercise}
-
-
-\begin{exercise}
-
-The purpose of this exercise is to take a problem and break it into smaller problems, and to solve the smaller problems by writing simple methods.
-Consider the first verse of the song ``99 Bottles of Beer'':
-
-\begin{quote}
-99 bottles of beer on the wall,\\
-99 bottles of beer,\\
-ya' take one down, ya' pass it around,\\
-98 bottles of beer on the wall.
-\end{quote}
-
-Subsequent verses are identical except that the number of bottles gets smaller by one in each verse, until the last verse:
-
-\begin{quote}
-No bottles of beer on the wall,\\
-no bottles of beer,\\
-ya' can't take one down, ya' can't pass it around,\\
-'cause there are no more bottles of beer on the wall!
-\end{quote}
-
-And then the song (finally) ends.
-
-Write a program that displays the entire lyrics of ``99 Bottles of Beer''.
-Your program should include a recursive method that does the hard part, but you might want to write additional methods to separate other parts of the program.
-As you develop your code, test it with a small number of verses, like \java{3}.
-
-\end{exercise}
-
-
-\begin{exercise}
+\begin{exercise}  %%V6 Ex5.6
 
 This exercise reviews the flow of execution through a program with multiple methods.
 Read the following code and answer the questions.
@@ -1079,5 +1011,118 @@ If a line is executed more than once, it might end up with more than one number 
 \item What is the output of this program?
 
 \end{enumerate}
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex6.1
+
+If you have a question about whether something is legal, and what happens if it is not, a good way to find out is to ask the compiler.
+Answer the following questions by trying them out.
+
+\begin{enumerate}
+
+\item What happens if you invoke a value method and don't do anything with the result; that is, if you don't assign it to a variable or use it as part of a larger expression?
+
+\item What happens if you use a void method as part of an expression?
+For example, try \java{System.out.println("boo!") + 7;}
+
+\end{enumerate}
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex6.2
+\label{ex.isdiv}
+
+Write a method named \java{isDivisible} that takes two integers, \java{n} and \java{m}, and that returns \java{true} if \java{n} is divisible by \java{m}, and \java{false} otherwise.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex6.4
+\label{ex.multadd}
+
+Many computations can be expressed more concisely using the ``multadd'' operation, which takes three operands and computes \java{a * b + c}.
+Some processors even provide a hardware implementation of this operation for floating-point numbers.
+
+\begin{enumerate}
+
+\item Create a new program called {\tt Multadd.java}.
+
+\item Write a method called \java{multadd} that takes three \java{doubles} as parameters and that returns \java{a * b + c}.
+
+\item Write a \java{main} method that tests \java{multadd} by invoking it with a few simple parameters, like \java{1.0, 2.0, 3.0}.
+
+\item Also in \java{main}, use \java{multadd} to compute the following values:
+%
+\begin{eqnarray*}
+& \sin \frac{\pi}{4} + \frac{\cos \frac{\pi}{4}}{2} & \\
+& \log 10 + \log 20 &
+\end{eqnarray*}
+
+\item Write a method called \java{expSum} that takes a double as a parameter and that uses \java{multadd} to calculate:
+%
+\begin{eqnarray*}
+x e^{-x} + \sqrt{1 - e^{-x}}
+\end{eqnarray*}
+%
+{\it Hint:} The method for raising $e$ to a power is \java{Math.exp}.
+
+\end{enumerate}
+
+In the last part of this exercise, you need to write a method that invokes another method you wrote.
+Whenever you do that, it is a good idea to test the first method carefully before working on the second.
+Otherwise, you might find yourself debugging two methods at the same time, which can be difficult.
+
+One of the purposes of this exercise is to practice pattern-matching: the ability to recognize a specific problem as an instance of a general category of problems.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex6.5
+
+What is the output of the following program?
+
+\begin{code}
+public static void main(String[] args) {
+    boolean flag1 = isHoopy(202);
+    boolean flag2 = isFrabjuous(202);
+    System.out.println(flag1);
+    System.out.println(flag2);
+    if (flag1 && flag2) {
+        System.out.println("ping!");
+    }
+    if (flag1 || flag2) {
+        System.out.println("pong!");
+    }
+}
+\end{code}
+
+\begin{code}
+public static boolean isHoopy(int x) {
+    boolean hoopyFlag;
+    if (x % 2 == 0) {
+        hoopyFlag = true;
+    } else {
+        hoopyFlag = false;
+    }
+    return hoopyFlag;
+}
+\end{code}
+
+\begin{code}
+public static boolean isFrabjuous(int x) {
+    boolean frabjuousFlag;
+    if (x > 0) {
+        frabjuousFlag = true;
+    } else {
+        frabjuousFlag = false;
+    }
+    return frabjuousFlag;
+}
+\end{code}
+
+The purpose of this exercise is to make sure you understand logical operators and the flow of execution through value methods.
 
 \end{exercise}

@@ -612,7 +612,8 @@ The code for this chapter is in the {\tt ch07} directory of {\tt ThinkJava2Code}
 See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex8.1
+
 The goal of this exercise is to practice encapsulation with some of the examples in this chapter.
 
 \begin{enumerate}
@@ -628,7 +629,8 @@ Generalize it to take the number of counters as an argument.
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex8.2
+
 The purpose of this exercise is to practice reading code and recognizing the traversal patterns in this chapter.
 The following methods are hard to read, because instead of using meaningful names for the variables and methods, they use names of fruit.
 
@@ -673,7 +675,8 @@ public static int pineapple(int[] a, int apple) {
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex8.3
+
 What is the output of the following program?
 Describe in a few words what \java{mus} does.
 Draw a stack diagram just before \java{mus} returns.
@@ -714,35 +717,45 @@ public static void main(String[] args) {
     System.out.println(mus(bob));
 }
 \end{code}
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex8.4
+
 Write a method called \java{indexOfMax} that takes an array of integers and returns the index of the largest element.
 Can you write this method using an enhanced \java{for} loop?
 Why or why not?
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex8.5
+
 The Sieve of Eratosthenes is ``a simple, ancient algorithm for finding all prime numbers up to any given limit,'' which you can read about at \url{https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes}.
 
 Write a method called \java{sieve} that takes an integer parameter, \java{n}, and returns a \java{boolean} array that indicates, for each number from \java{0} to \java{n - 1}, whether the number is prime.
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex8.6
+
 Write a method named \java{areFactors} that takes an integer \java{n} and an array of integers, and that returns \java{true} if the numbers in the array are all factors of \java{n} (which is to say that \java{n} is divisible by all of them).
 %{\it Hint:} See Exercise~\ref{ex.isdiv}.
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex8.7
+
 Write a method named \java{arePrimeFactors} that takes an integer \java{n} and an array of integers, and that returns \java{true} if the numbers in the array are all prime {\it and} their product is \java{n}.
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex8.8
+
 Many of the patterns we have seen for traversing arrays can also be written recursively.
 It is not common, but it is a useful exercise.
 
@@ -766,19 +779,5 @@ double max = maxInRange(a, 0, a.length - 1);
 Write a method called \java{max} that takes an array and uses \java{maxInRange} to find and return the largest element.
 
 \end{enumerate}
+
 \end{exercise}
-
-
-% CSM: we now discuss binary search in Chapter 12
-
-%\begin{exercise}
-%
-%In Section~\ref{traversal} we wrote a method called \java{search} that traverses an array and returns the index of a given value, or -1 if the value is not in the array.
-%
-%If the elements of the array are sorted, we can make this method more efficient using a ``binary search''.
-%You can read about it at \url{https://en.wikipedia.org/wiki/Binary_search_algorithm}.
-%
-%Write a method called \java{binarySearch} that implements this algorithm.
-%{\it Hint:} You might find it easier to write this method recursively.
-%
-%\end{exercise}

@@ -47,3 +47,52 @@ Large, complex expressions can be hard to read and debug.
 %There is much beauty in simplicity.
 %In general, each line of code should be a single step of the algorithm.
 
+
+%%% Chapter 4 (commented out)
+\begin{exercise}
+
+What is the difference between a variable and a method?
+In terms of their syntax, how does the Java compiler tell the difference between the two?
+
+%A variable is a {\em location of data}, whereas a method is a {\em location of code}.
+%In Java, methods always have parentheses, even if they have no arguments like \java{System.out.println()}.
+
+\end{exercise}
+
+
+%%% Chapter 4 (commented out)
+%ABD: We don't need this anymore since we used this as an example
+\begin{exercise}
+
+Draw a stack diagram that shows the state of the program in Section~\ref{time} when \java{main} invokes \java{printTime} with the arguments \java{11} and \java{59}.
+
+\end{exercise}
+
+
+%%% Chapter 8 (commented out)
+% CSM: we now discuss binary search in Chapter 12
+\begin{exercise}
+
+In Section~\ref{traversal} we wrote a method called \java{search} that traverses an array and returns the index of a given value, or -1 if the value is not in the array.
+
+If the elements of the array are sorted, we can make this method more efficient using a ``binary search''.
+You can read about it at \url{https://en.wikipedia.org/wiki/Binary_search_algorithm}.
+
+Write a method called \java{binarySearch} that implements this algorithm.
+{\it Hint:} You might find it easier to write this method recursively.
+
+\end{exercise}
+
+
+%%% Chapter 12 (commented out)
+% NOTE: this is not a very good exercise
+\begin{exercise}
+
+In Blackjack the object of the game is to get a collection of cards with a score of 21.
+The score for a hand is the sum of scores for all cards.
+The score for an ace is 1, for all face cards is ten, and for all other cards the score is the same as the rank.
+For example, the hand (Ace, 10, Jack, 3) has a total score of 1 + 10 + 10 + 3 = 24.
+
+Write a method called \java{handScore} that takes an array of cards as an argument and that returns the total score.
+
+\end{exercise}

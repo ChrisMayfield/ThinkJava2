@@ -368,13 +368,16 @@ See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex13.1
+
 You can learn more about the sorting algorithms in this chapter, and others, at \url{http://www.sorting-algorithms.com/}.
 This site includes explanations of the algorithms, animations that show how they work, and analysis of their efficiency.
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex13.2
+
 The goal of this exercise is to implement the shuffling algorithm from this chapter.
 
 \begin{enumerate}
@@ -391,10 +394,12 @@ But you should avoid creating a \java{Random} object every time \java{randomInt}
 \item Write a method called \java{shuffle} that uses the algorithm in Section~\ref{shuffle}.
 
 \end{enumerate}
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex13.3
+
 The goal of this exercise is to implement the sorting algorithms from this chapter.
 Use the {\tt Deck.java} file from the previous exercise (or create a new one from scratch).
 
@@ -421,17 +426,21 @@ deck = deck.mergeSort();   // replaces old deck with new
 \end{code}
 
 \end{enumerate}
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex13.4
+
 The goal of this exercise is to practice top-down programming by implementing ``insertion sort''.
 Read about insertion sort at \url{http://www.sorting-algorithms.com/insertion-sort}.
 Write a method named \java{insertionSort} that implements this algorithm.
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex13.5
+
 Write a \java{toString} method for the \java{Deck} class.
 It should return a single string that represents the cards in the deck.
 When it's printed, this string should display the same results as the \java{print} method in Section~\ref{deck}.
@@ -441,4 +450,5 @@ When it's printed, this string should display the same results as the \java{prin
 
 {\it Hint:} You can use the \java{+} operator to concatenate strings, but it is not very efficient.
 Consider using \java{java.lang.StringBuilder}; you can find the documentation by doing a web search for ``Java StringBuilder''.
+
 \end{exercise}

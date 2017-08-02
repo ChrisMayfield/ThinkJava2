@@ -363,10 +363,10 @@ However when you run the program, it will display:
 \begin{stdout}
 Exception in thread "main" java.util.MissingFormatArgumentException:
 Format specifier '%d'
-	at java.util.Formatter.format(Formatter.java:2519)
-	at java.io.PrintStream.format(PrintStream.java:970)
-	at java.io.PrintStream.printf(PrintStream.java:871)
-	at Example.main(Example.java:10)
+    at java.util.Formatter.format(Formatter.java:2519)
+    at java.io.PrintStream.format(PrintStream.java:970)
+    at java.io.PrintStream.printf(PrintStream.java:871)
+    at Example.main(Example.java:10)
 \end{stdout}
 \end{small}
 
@@ -707,17 +707,20 @@ If you have not already read Appendix~\ref{commandline}, now might be a good tim
 It describes the command-line interface, which is a powerful and efficient way to interact with your computer.
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex3.1
+
 When you use \java{printf}, the Java compiler does not check your format string.
 See what happens if you try to display a value with type \java{int} using \java{\%f}.
 And what happens if you display a \java{double} using \java{\%d}?
 What if you use two format specifiers, but then only provide one value?
+
 \end{exercise}
 
 %If you try to print an integer with \java{\%f} or a floating-point number using \java{\%d}, you get an \java{IllegalFormatConversionException}.
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex3.2
+
 Write a program that converts a temperature from Celsius to Fahrenheit.
 It should (1) prompt the user for input, (2) read a \java{double} value from the keyboard, (3) calculate the result, and (4) format the output to one decimal place.
 For example, it should display {\tt "24.0 C = 75.2 F"}.
@@ -726,20 +729,24 @@ Here is the formula.
 Be careful not to use integer division!
 %
 \[ F = C \times \frac{9}{5} + 32 \]
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex3.3
+
 Write a program that converts a total number of seconds to hours, minutes, and seconds.
 It should (1) prompt the user for input, (2) read an integer from the keyboard, (3) calculate the result, and (4) use \java{printf} to display the output.
 For example, {\tt "5000 seconds = 1 hours, 23 minutes, and 20 seconds"}.
 
 {\it Hint:} Use the remainder operator.
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex3.4
 \label{guess}
+
 The goal of this exercise is to program a ``Guess My Number'' game.
 When it's finished, it will work like this:
 

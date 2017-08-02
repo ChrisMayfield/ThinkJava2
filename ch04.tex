@@ -528,10 +528,10 @@ What would happen if they typed the word ``hello'', either on accident or on pur
 \begin{small}
 \begin{stdout}
 Exception in thread "main" java.util.InputMismatchException
-	at java.util.Scanner.throwFor(Scanner.java:864)
-	at java.util.Scanner.next(Scanner.java:1485)
-	at java.util.Scanner.nextDouble(Scanner.java:2413)
-	at Logarithm.main(Logarithm.java:8)
+    at java.util.Scanner.throwFor(Scanner.java:864)
+    at java.util.Scanner.next(Scanner.java:1485)
+    at java.util.Scanner.nextDouble(Scanner.java:2413)
+    at Logarithm.main(Logarithm.java:8)
 \end{stdout}
 \end{small}
 
@@ -582,20 +582,20 @@ import java.util.Scanner;
  * Demonstrates input validation using if statements.
  */
 public class Logarithm {
-    
-    public static void main(String[] args) { 
-        
+
+    public static void main(String[] args) {
+
         // prompt for input
         Scanner in = new Scanner(System.in);
         System.out.print("Enter a number: ");
-        
+
         // check the format
         if (!in.hasNextDouble()) {
             String word = in.next();
             System.err.println(word + " is not a number");
             return;
         }
-        
+
         // check the range
         double x = in.nextDouble();
         if (x >= 0) {
@@ -687,7 +687,8 @@ If you have not already read Appendix~\ref{cltesting}, now might be a good time.
 It describes an efficient way to test programs that take input from the user and display specific output.
 
 
-\begin{exercise}
+\begin{exercise}  %%V6.5 NEW
+
 Using the following variables, evaluate the logic expressions in the table below.
 Write your answers as true, false, or error.
 
@@ -735,7 +736,7 @@ Expression & Result \\
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex5.1
 
 Rewrite the following code using a single \java{if} statement.
 
@@ -750,7 +751,20 @@ if (x > 0) {
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex5.4
+
+Fermat's Last Theorem says that there are no integers $a$, $b$, and $c$ such that $a^n + b^n = c^n$, except when $n \leq 2$.
+
+Write a program named \java{Fermat.java} that inputs four integers (\java{a}, \java{b}, \java{c}, and \java{n}) and checks to see if Fermat's theorem holds.
+If $n$ is greater than 2 and $a^n + b^n = c^n$, the program should display ``Holy smokes, Fermat was wrong!''
+Otherwise the program should display ``No, that doesn't work.''
+
+{\it Hint:} You may want to use \java{Math.pow}.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex5.7
 
 Now that we have conditional statements, we can get back to the ``Guess My Number'' game from Exercise~\ref{guess}.
 
@@ -764,9 +778,9 @@ If the user guesses the correct number, display a message and terminate the prog
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6.5 NEW
 
-Write a program that finds the roots of $ax^2 + bx + c = 0$ using the quadratic formula:
+Write a program named \java{Quadratic.java} that finds the roots of $ax^2 + bx + c = 0$ using the quadratic formula:
 $$ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
 Prompt the user to input integers for $a$, $b$, and $c$.
 Compute the two solutions for $x$, and display the results.
@@ -777,5 +791,24 @@ Specifically, it should not divide by zero or take the square root of a negative
 Be sure to validate all inputs.
 The user should never see an input mismatch exception.
 Display specific error messages that include the invalid input.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex6.3
+
+If you are given three sticks, you may or may not be able to arrange them in a triangle.
+For example, if one of the sticks is 12 inches long and the other two are one inch long, you will not be able to get the short sticks to meet in the middle.
+For any three lengths, there is a simple test to see if it is possible to form a triangle:
+
+\begin{quotation}
+\noindent
+If any of the three lengths is greater than the sum of the other two, you cannot form a triangle.
+\end{quotation}
+
+Write a program named \java{Triangle.java} that inputs three integers, and then outputs whether you can (or cannot) form a triangle from the given lengths.
+%The point of this exercise is to use conditional statements to write a value method.
+Reuse your code from the previous exercise to validate the inputs.
+Display an error if any of the lengths are negative or zero.
 
 \end{exercise}

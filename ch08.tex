@@ -469,137 +469,44 @@ If you have not already read Appendix~\ref{JUnit}, now might be a good time.
 It describes JUnit, a tool for efficiently testing value methods.
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex5.3
 
-If you have a question about whether something is legal, and what happens if it is not, a good way to find out is to ask the compiler.
-Answer the following questions by trying them out.
-
-\begin{enumerate}
-
-\item What happens if you invoke a value method and don't do anything with the result; that is, if you don't assign it to a variable or use it as part of a larger expression?
-
-\item What happens if you use a void method as part of an expression?
-For example, try \java{System.out.println("boo!") + 7;}
-
-\end{enumerate}
+Draw a stack diagram that shows the state of the program in Section~\ref{recursion} after \java{main} invokes \java{nLines} with the parameter \java{n == 4}, just before the last invocation of \java{nLines} returns.
 
 \end{exercise}
 
 
-\begin{exercise}
-\label{ex.isdiv}
+\begin{exercise}  %%V6 Ex5.5
 
-Write a method named \java{isDivisible} that takes two integers, \java{n} and \java{m}, and that returns \java{true} if \java{n} is divisible by \java{m}, and \java{false} otherwise.
+The purpose of this exercise is to take a problem and break it into smaller problems, and to solve the smaller problems by writing simple methods.
+Consider the first verse of the song ``99 Bottles of Beer'':
 
-\end{exercise}
+\begin{quote}
+99 bottles of beer on the wall,\\
+99 bottles of beer,\\
+ya' take one down, ya' pass it around,\\
+98 bottles of beer on the wall.
+\end{quote}
 
+Subsequent verses are identical except that the number of bottles gets smaller by one in each verse, until the last verse:
 
-\begin{exercise}
+\begin{quote}
+No bottles of beer on the wall,\\
+no bottles of beer,\\
+ya' can't take one down, ya' can't pass it around,\\
+'cause there are no more bottles of beer on the wall!
+\end{quote}
 
-If you are given three sticks, you may or may not be able to arrange them in a triangle.
-For example, if one of the sticks is 12 inches long and the other two are one inch long, you will not be able to get the short sticks to meet in the middle.
-For any three lengths, there is a simple test to see if it is possible to form a triangle:
+And then the song (finally) ends.
 
-\begin{quotation}
-\noindent
-If any of the three lengths is greater than the sum of the other two, you cannot form a triangle.
-\end{quotation}
-
-Write a method named \java{isTriangle} that takes three integers as arguments and returns either \java{true} or \java{false}, depending on whether you can or cannot form a triangle from sticks with the given lengths.
-The point of this exercise is to use conditional statements to write a value method.
-
-\end{exercise}
-
-
-\begin{exercise}
-\label{ex.multadd}
-
-Many computations can be expressed more concisely using the ``multadd'' operation, which takes three operands and computes \java{a * b + c}.
-Some processors even provide a hardware implementation of this operation for floating-point numbers.
-
-\begin{enumerate}
-
-\item Create a new program called {\tt Multadd.java}.
-
-\item Write a method called \java{multadd} that takes three \java{doubles} as parameters and that returns \java{a * b + c}.
-
-\item Write a \java{main} method that tests \java{multadd} by invoking it with a few simple parameters, like \java{1.0, 2.0, 3.0}.
-
-\item Also in \java{main}, use \java{multadd} to compute the following values:
-%
-\begin{eqnarray*}
-& \sin \frac{\pi}{4} + \frac{\cos \frac{\pi}{4}}{2} & \\
-& \log 10 + \log 20 &
-\end{eqnarray*}
-
-\item Write a method called \java{expSum} that takes a double as a parameter and that uses \java{multadd} to calculate:
-%
-\begin{eqnarray*}
-x e^{-x} + \sqrt{1 - e^{-x}}
-\end{eqnarray*}
-%
-{\it Hint:} The method for raising $e$ to a power is \java{Math.exp}.
-
-\end{enumerate}
-
-In the last part of this exercise, you need to write a method that invokes another method you wrote.
-Whenever you do that, it is a good idea to test the first method carefully before working on the second.
-Otherwise, you might find yourself debugging two methods at the same time, which can be difficult.
-
-One of the purposes of this exercise is to practice pattern-matching: the ability to recognize a specific problem as an instance of a general category of problems.
+Write a program that displays the entire lyrics of ``99 Bottles of Beer''.
+Your program should include a recursive method that does the hard part, but you might want to write additional methods to separate other parts of the program.
+As you develop your code, test it with a small number of verses, like \java{3}.
 
 \end{exercise}
 
 
-\begin{exercise}
-
-What is the output of the following program?
-
-\begin{code}
-public static void main(String[] args) {
-    boolean flag1 = isHoopy(202);
-    boolean flag2 = isFrabjuous(202);
-    System.out.println(flag1);
-    System.out.println(flag2);
-    if (flag1 && flag2) {
-        System.out.println("ping!");
-    }
-    if (flag1 || flag2) {
-        System.out.println("pong!");
-    }
-}
-\end{code}
-
-\begin{code}
-public static boolean isHoopy(int x) {
-    boolean hoopyFlag;
-    if (x % 2 == 0) {
-        hoopyFlag = true;
-    } else {
-        hoopyFlag = false;
-    }
-    return hoopyFlag;
-}
-\end{code}
-
-\begin{code}
-public static boolean isFrabjuous(int x) {
-    boolean frabjuousFlag;
-    if (x > 0) {
-        frabjuousFlag = true;
-    } else {
-        frabjuousFlag = false;
-    }
-    return frabjuousFlag;
-}
-\end{code}
-
-The purpose of this exercise is to make sure you understand logical operators and the flow of execution through value methods.
-
-\end{exercise}
-
-
-\begin{exercise}
+\begin{exercise}  %%V6 Ex6.6
 
 In this exercise, you will use a stack diagram to understand the execution of the following recursive program.
 
@@ -636,14 +543,16 @@ public static int prod(int m, int n) {
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex6.7
+
 Write a recursive method named \java{oddSum} that takes a positive odd integer \java{n} and returns the sum of odd integers from 1 to n.
 Start with a base case, and use temporary variables to debug your solution.
 You might find it helpful to print the value of \java{n} each time \java{oddSum} is invoked.
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex6.8
 
 The goal of this exercise is to translate a recursive definition into a Java method.
 The Ackermann function is defined for non-negative integers as follows:
@@ -664,7 +573,7 @@ You should try it only for small values of $m$ and $n$ (not bigger than 3).
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex6.9
 \label{ex.power}
 
 Write a recursive method called \java{power} that takes a double \java{x} and an integer \java{n} and returns $x^n$.

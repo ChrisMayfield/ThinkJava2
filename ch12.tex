@@ -694,29 +694,23 @@ Before you start the exercises, we recommend that you compile and run the exampl
 %TODO: make an exercise of validating the input to Card constructor?
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex12.1
+
 Encapsulate the deck-building code from Section~\ref{cardarray} in a method called \java{makeDeck} that takes no parameters and returns a fully-populated array of \java{Card}s.
+
 \end{exercise}
 
 
-\begin{exercise}
+\begin{exercise}  %%V6 Ex12.2
+
 In some card games, Aces are ranked higher than Kings.
 Modify the \java{compareTo} method to implement this ordering.
+
 \end{exercise}
 
 
-% NOTE: this is not a very good exercise
-%\begin{exercise}
-%In Blackjack the object of the game is to get a collection of cards with a score of 21.
-%The score for a hand is the sum of scores for all cards.
-%The score for an ace is 1, for all face cards is ten, and for all other cards the score is the same as the rank.
-%For example, the hand (Ace, 10, Jack, 3) has a total score of 1 + 10 + 10 + 3 = 24.
+\begin{exercise}  %%V6 Ex12.3
 
-%Write a method called \java{handScore} that takes an array of cards as an argument and that returns the total score.
-%\end{exercise}
-
-
-\begin{exercise}
 In Poker a ``flush'' is a hand that contains five or more cards of the same suit.
 A hand can contain any number of cards.
 
@@ -733,7 +727,8 @@ Your solution should only traverse the array once.
 
 \end{exercise}
 
-\begin{exercise}
+
+\begin{exercise}  %%V6 Ex12.4
 
 Working with cards is more interesting if you can display them on the screen.
 If you have not already read Appendix~\ref{graphics} about 2D graphics, you should read it before working on this exercise.
