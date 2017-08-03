@@ -173,7 +173,8 @@ You can browse this library at \url{http://docs.oracle.com/javase/8/docs/api/}.
 Interestingly, most of the Java library is written in Java.
 
 
-\section{Inches to centimeters}
+%\section{Inches to centimeters}
+\section{Literals and constants}
 
 %Now let's work through an example that's a little more useful.
 Although most of the world has adopted the metric system for weights and measures, some countries are stuck with English units.
@@ -220,7 +221,6 @@ This code works correctly, but it has a minor problem.
 If another programmer reads this code, they might wonder where 2.54 comes from.
 For the benefit of others (and yourself in the future), it would be better to assign this value to a variable with a meaningful name.
 %We'll demonstrate in the next section.
-
 
 %\section{Literals and constants}
 
@@ -379,8 +379,8 @@ It might be difficult to see what's wrong, given that \java{inch} and \java{cm} 
 But if \java{inch} is 1 and \java{cm} is 2.54, the actual format string would be \java{"\%d in = \%f cm\\n12.54"}.
 
 
-\section{Centimeters to inches}
-\label{sec:rounding}
+%\section{Centimeters to inches}
+\section{Type cast operators}
 
 Now suppose we have a measurement in centimeters, and we want to round it off to the nearest inch.
 It is tempting to write:

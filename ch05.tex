@@ -9,6 +9,7 @@ Finally, we'll discuss strategies for incrementally developing and testing your 
 %At a conceptual level, a method represents a mathematical {\em function} or a general {\em procedure}.
 %Regardless whether they return a value or not, methods enable you to break down a complex program into smaller units of code.
 
+
 \section{Defining new methods}
 \label{adding_methods}
 
@@ -115,10 +116,11 @@ Methods allow you to focus on each sub-problem in isolation, and then compose th
 
 \end{itemize}
 
-%Perhaps most importantly, organizing your code into multiple methods allows you to test individual parts of your program separately.
-%It's easier to get a complex program working if you know that each sub-part works correctly.
+Perhaps most importantly, organizing your code into multiple methods allows you to test individual parts of your program separately.
+It's easier to get a complex program working if you know that each method works correctly.
 
-%\section{Flow of execution}
+
+\section{Flow of execution}
 \index{flow of execution}
 
 When you look at a class definition that contains several methods, it is tempting to read it from top to bottom.
@@ -274,11 +276,7 @@ You wouldn't declare the types of the arguments if they were simply integers:
 printTime(int 11, int 59);  // syntax error
 \end{code}
 
-
-\section{Stack diagrams}
-\label{stack}
-
-Pulling together the code fragments from the previous section, here is a complete class definition:
+Pulling together the code fragments, here is the complete program:
 
 \begin{trinket}[340]{PrintTime.java}
 public class PrintTime {
@@ -297,11 +295,14 @@ public class PrintTime {
 }
 \end{trinket}
 
+
+\section{Stack diagrams}
+\label{stack}
+
 \java{printTime} has two parameters, named \java{hour} and \java{minute}.
 And \java{main} has two variables, also named \java{hour} and \java{minute}.
 Although they have the same names, these variables are not the same.
 The \java{hour} in \java{printTime} and the \java{hour} in \java{main} refer to different memory locations, and they can have different values.
-
 For example, you could invoke \java{printTime} like this:
 
 \begin{code}
@@ -333,6 +334,7 @@ The name of the method appears outside the frame; the variables and parameters a
 
 As with memory diagrams, stack diagrams show variables and methods at a particular point in time.
 Figure~\ref{fig.stack} is a stack diagram at the beginning of the \java{printTime} method.
+Notice that \java{main} is on top, because it executed first.
 
 %\index{scope}
 
@@ -793,7 +795,6 @@ If a line is executed more than once, it might end up with more than one number 
 \end{exercise}
 
 
-\newpage
 \begin{exercise}  %%V6 Ex4.1
 
 %The point of this exercise is to practice reading code and to make sure that you understand the flow of execution through a program with multiple methods.
@@ -845,7 +846,6 @@ public static void ping() {
 \end{exercise}
 
 
-\newpage
 \begin{exercise}  %%V6 Ex5.2
 
 Draw a stack diagram that shows the state of the program the {\it second} time \java{zoop} is invoked.
@@ -887,7 +887,23 @@ public static void ping(String strangStrung) {
 \end{exercise}
 
 
-\newpage
+\begin{exercise}  %%V6 Ex6.1
+
+If you have a question about whether something is legal, and what happens if it is not, a good way to find out is to ask the compiler.
+Answer the following questions by trying them out.
+
+\begin{enumerate}
+
+\item What happens if you invoke a value method and don't do anything with the result; that is, if you don't assign it to a variable or use it as part of a larger expression?
+
+\item What happens if you use a void method as part of an expression?
+For example, try \java{System.out.println("boo!") + 7;}
+
+\end{enumerate}
+
+\end{exercise}
+
+
 \begin{exercise}  %%V6 Ex6.5
 
 What is the output of the following program?
@@ -937,7 +953,6 @@ The purpose of this exercise is to make sure you understand logical operators an
 \end{exercise}
 
 
-\newpage
 \begin{exercise}  %%V6 Ex6.4
 \label{ex.multadd}
 
