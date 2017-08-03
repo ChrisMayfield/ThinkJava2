@@ -747,23 +747,70 @@ Saturday, July 22, 2015
 \end{exercise}
 
 
+\begin{exercise}  %%V6 Ex5.6
+
+This exercise reviews the flow of execution through a program with multiple methods.
+Read the following code and answer the questions.
+
+\begin{code}
+public static void baffle(String blimp) {
+    System.out.println(blimp);
+    zippo("ping", -5);
+}
+\end{code}
+
+\begin{code}
+public static void zippo(String quince, int flag) {
+    if (flag < 0) {
+        System.out.println(quince + " zoop");
+    } else {
+        System.out.println("ik");
+        baffle(quince);
+        System.out.println("boo-wa-ha-ha");
+    }
+}
+\end{code}
+
+\begin{code}
+public static void main(String[] args) {
+    zippo("rattle", 13);
+}
+\end{code}
+
+\begin{enumerate}
+
+\item Write the number {\tt 1} next to the first line of code in this program that will execute.
+
+\item Write the number {\tt 2} next to the second line of code, and so on until the end of the program.
+If a line is executed more than once, it might end up with more than one number next to it.
+
+\item What is the value of the parameter \java{blimp} when \java{baffle} gets invoked?
+
+\item What is the output of this program?
+
+\end{enumerate}
+
+\end{exercise}
+
+
+\newpage
 \begin{exercise}  %%V6 Ex4.1
 
 %The point of this exercise is to practice reading code and to make sure that you understand the flow of execution through a program with multiple methods.
+Answer the following questions without running the program on a computer.
 
-%\begin{enumerate}
+\begin{enumerate}
 
-What is output by the following program?
+\item Draw a stack diagram that shows the state of the program the first time \java{ping} is invoked.
+
+\item What is output by the following program?
 Be precise about where there are spaces and where there are newlines.
-Answer this question without running the program on a computer.
 
-{\it Hint:} Start by describing in words what \java{ping} and \java{baffle} output.
-
-%\item Draw a stack diagram that shows the state of the program the first time \java{ping} is invoked.
+%{\it Hint:} Start by describing in words what \java{ping} and \java{baffle} output.
 
 %\item What happens if you invoke \java{baffle();} at the end of the \java{ping} method? (We will see why in Section~\ref{recursion}.)
 
-%\end{enumerate}
+\end{enumerate}
 
 \begin{code}
 public static void zoop() {
@@ -771,19 +818,25 @@ public static void zoop() {
     System.out.print("You wugga ");
     baffle();
 }
+\end{code}
 
+\begin{code}
 public static void main(String[] args) {
     System.out.print("No, I ");
     zoop();
     System.out.print("I ");
     baffle();
 }
+\end{code}
 
+\begin{code}
 public static void baffle() {
     System.out.print("wug");
     ping();
 }
+\end{code}
 
+\begin{code}
 public static void ping() {
     System.out.println(".");
 }
@@ -807,19 +860,25 @@ public static void zoop(String fred, int bob) {
         System.out.println("!");
     }
 }
+\end{code}
 
+\begin{code}
 public static void main(String[] args) {
     int bizz = 5;
     int buzz = 2;
     zoop("just for", bizz);
     clink(2 * buzz);
 }
+\end{code}
 
+\begin{code}
 public static void clink(int fork) {
     System.out.print("It's ");
     zoop("breakfast ", fork);
 }
+\end{code}
 
+\begin{code}
 public static void ping(String strangStrung) {
     System.out.println("any " + strangStrung + "more ");
 }
@@ -829,52 +888,10 @@ public static void ping(String strangStrung) {
 
 
 \newpage
-\begin{exercise}  %%V6 Ex5.6
-
-This exercise reviews the flow of execution through a program with multiple methods.
-Read the following code and answer the questions.
-
-\begin{code}
-public static void baffle(String blimp) {
-    System.out.println(blimp);
-    zippo("ping", -5);
-}
-
-public static void zippo(String quince, int flag) {
-    if (flag < 0) {
-        System.out.println(quince + " zoop");
-    } else {
-        System.out.println("ik");
-        baffle(quince);
-        System.out.println("boo-wa-ha-ha");
-    }
-}
-
-public static void main(String[] args) {
-    zippo("rattle", 13);
-}
-\end{code}
-
-\begin{enumerate}
-
-\item Write the number {\tt 1} next to the first line of code in this program that will execute.
-
-\item Write the number {\tt 2} next to the second line of code, and so on until the end of the program.
-If a line is executed more than once, it might end up with more than one number next to it.
-
-\item What is the value of the parameter \java{blimp} when \java{baffle} gets invoked?
-
-\item What is the output of this program?
-
-\end{enumerate}
-
-\end{exercise}
-
-
-\newpage
 \begin{exercise}  %%V6 Ex6.5
 
 What is the output of the following program?
+Determine the answer without using a computer.
 
 \begin{code}
 public static void main(String[] args) {
