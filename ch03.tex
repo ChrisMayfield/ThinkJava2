@@ -157,13 +157,14 @@ Each statement performs one or more computations, depending on how many expressi
 For example, the assignment statement \java{hours = minutes / 60.0;} contains a single expression: \java{minutes / 60.0}.
 
 {\bf Tokens} are the most basic elements of a program, including numbers, variable names, operators, keywords, parentheses, braces, and semicolons.
-In the previous example, the tokens are \java{hours}, \java{=}, \java{minutes}, \java{/}, \java{60.0}, and \java{;} (spaces are ignored).
-In comparison to English, statements are complete sentences, expressions are phrases, and tokens are individual words and punctuation marks.
+In the previous example, the tokens are \java{hours}, \java{=}, \java{minutes}, \java{/}, \java{60.0}, and \java{;} (spaces are ignored by the compiler).
 
 %\index{syntax}
 %\index{semantics}
 
 Knowing this terminology is helpful, because error messages often say things like ``not a statement'' or ``illegal start of expression'' or ``unexpected token''.
+Comparing Java to English, statements are complete sentences, expressions are phrases, and tokens are individual words and punctuation marks.
+
 
 Note there is a big difference between the Java {\em language}, which defines the elements in Figure~\ref{fig.package}, and the Java {\em library}, which provides the built-in classes that you can import.
 For example, the keywords \java{public} and \java{class} are part of the Java language, but the names \java{PrintStream} and \java{Scanner} are not.
@@ -177,7 +178,7 @@ Interestingly, most of the Java library is written in Java.
 \section{Literals and constants}
 
 %Now let's work through an example that's a little more useful.
-Although most of the world has adopted the metric system for weights and measures, some countries are stuck with English units.
+Although most of the world has adopted the metric system for weights and measures, some countries are stuck with Imperial units.
 For example, when talking with friends in Europe about the weather, people in the United States might have to convert from Celsius to Fahrenheit and back.
 %And when making an international purchase online, you may have to convert your nation's currency into another based on the exchange rate.
 Or they might want to convert height in inches to centimeters.
