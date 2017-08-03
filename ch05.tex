@@ -423,7 +423,7 @@ When the \java{main} method invokes \java{calculateArea}, the value \java{5.0} i
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[height=14em]{figs/param.pdf}
+\includegraphics{figs/param.pdf}
 \caption{Passing a parameter and saving the return value.}
 \label{fig.param}
 \end{center}
@@ -432,61 +432,6 @@ When the \java{main} method invokes \java{calculateArea}, the value \java{5.0} i
 The type of the expression in the \java{return} statement must match the return type of the method itself.
 When you declare that the return type is \java{double}, you are making a promise that this method will eventually produce a \java{double} value.
 If you try to \java{return} with no expression, or \java{return} an expression with the wrong type, the compiler will give an error.
-
-Sometimes it is convenient to write multiple \java{return} statements, for example, one in each branch of a conditional:
-
-\begin{code}
-public static double absoluteValue(double x) {
-    if (x < 0) {
-        return -x;
-    } else {
-        return x;
-    }
-}
-\end{code}
-
-Since these \java{return} statements are in a conditional statement, only one will be executed.
-As soon as either of them executes, the method terminates without executing any more statements.
-
-\index{dead code}
-
-Code that appears after a \java{return} statement (in the same block), or any place else where it can never be executed, is called {\bf dead code}.
-The compiler will give you an ``unreachable statement'' error if part of your code is dead.
-For example, this method contains two lines of dead code:
-
-\begin{code}
-public static double absoluteValue(double x) {
-    if (x < 0) {
-        return -x;
-        System.out.println("This line is dead.");  // error
-    } else {
-        return x;
-    }
-    System.out.println("So is this one.");  // error
-}
-\end{code}
-
-If you put \java{return} statements inside a conditional statement, you have to make sure that {\em every possible path} through the method reaches a \java{return} statement.
-The compiler will let you know if that's not the case.
-For example, the following method is incomplete:
-
-\begin{code}
-public static double absoluteValue(double x) {
-    if (x < 0) {
-        return -x;
-    } else if (x > 0) {
-        return x;
-    }
-    // error: missing return statement
-}
-\end{code}
-
-When \java{x} is 0, neither condition is true, so the method ends without hitting a return statement.
-The error message in this case might be something like ``missing return statement'', which is confusing since there are already two.
-
-Compiler errors like ``unreachable statement'' and ``missing return statement'' often indicate a problem with your algorithm, not the code.
-In the previous example, \java{if (x > 0)} is unnecessary because \java{x} will always be positive or zero at that point.
-Changing that \java{else if} to an \java{else} resolves the error.
 
 
 \section{Incremental development}
@@ -513,6 +458,7 @@ At any point, if there is an error, you will know where to look.
 
 As an example, suppose you want to find the distance between two points, given by the coordinates $(x_1, y_1)$ and $(x_2, y_2)$.
 By the usual definition:
+
 \[ distance = \sqrt{(x_2 - x_1)^2 +(y_2 - y_1)^2} \]
 
 The first step is to consider what a \java{distance} method should look like in Java.
@@ -529,7 +475,7 @@ The stub includes the method declaration and a \java{return} statement:
 \begin{code}
 public static double distance
         (double x1, double y1, double x2, double y2) {
-    return 0.0;
+    return 0.0;  // stub
 }
 \end{code}
 
@@ -547,9 +493,9 @@ With these values, the horizontal distance is 3.0 and the vertical distance is 4
 So the result should be 5.0, the hypotenuse of a 3-4-5 triangle.
 When you are testing a method, it is necessary to know the right answer.
 
-Once we have compiled the stub, we can start adding lines of code one at a time.
+Once we have compiled the stub, we can start adding code one line at a time.
 After each incremental change, we recompile and run the program.
-If there is an error at any point, we have a good idea where to look: the lines we just added.
+If there is an error, we have a good idea where to look: the lines we just added.
 
 The next step is to find the differences $x_2 - x_1$ and $y_2 - y_1$.
 We store those values in temporary variables named \java{dx} and \java{dy}, so that we can examine them with print statements before proceeding.
@@ -562,7 +508,7 @@ public static double distance
     double dy = y2 - y1;
     System.out.println("dx is " + dx);
     System.out.println("dy is " + dy);
-    return 0.0;
+    return 0.0;  // stub
 }
 \end{code}
 
@@ -581,7 +527,7 @@ public static double distance
     double dy = y2 - y1;
     double dsquared = dx * dx + dy * dy;
     System.out.println("dsquared is " + dsquared);
-    return 0.0;
+    return 0.0;  // stub
 }
 \end{code}
 
@@ -746,8 +692,8 @@ The value provided as the result of a method invocation.
 \term{temporary variable}
 A short-lived variable, often used for debugging.
 
-\term{dead code}
-Part of a program that can never be executed, often because it appears after a \java{return} statement.
+%\term{dead code}
+%Part of a program that can never be executed, often because it appears after a \java{return} statement.
 
 \term{incremental development}
 A process for creating programs by writing a few lines at a time, compiling, and testing.
