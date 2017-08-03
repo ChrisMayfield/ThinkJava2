@@ -21,7 +21,6 @@ They explain how to use your classes and methods in other programs.
 \index{HTML}
 \index{Javadoc}
 
-%It's important to document your classes and methods so that other programmers (including yourself in the future) will know how to use them.
 A nice feature of the Java language is the ability to embed documentation in the source code itself.
 That way, you can write it as you go, and as things change, it is easier to keep the documentation consistent with the code.
 
@@ -367,8 +366,23 @@ The \java{main} method has a similar documentation comment, except there is no \
 }
 \end{code}
 
+Here are two ways you can run the Javadoc tool on this example program:
+
+\begin{enumerate}
+
+\item From the command line, go to the location for {\tt Convert.java}.
+The {\tt -d} option of {\tt javadoc} indicates where to generate the HTML files.
+
+\begin{stdout}
+javadoc -d doc Convert.java
+\end{stdout}
+
+\item From DrJava, click the {\sf Javadoc} button on the toolbar.
+The IDE will then prompt you for a location to generate the HTML files.
+\end{enumerate}
+
 For more examples of what you can do with Javadoc comments, see the source code of any Java library class (e.g., {\tt Scanner.java}).
-Section~\ref{src.zip} explains how to find the source files for the Java library.
+Section~\ref{src.zip} explains how to find the source files for the Java library on your computer.
 
 
 \section{Vocabulary}
