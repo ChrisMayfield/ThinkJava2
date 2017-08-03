@@ -12,7 +12,7 @@ Instead, we provide this appendix with a brief introduction to DrJava -- an {\bf
 \label{drjava}
 
 The easiest way to start programming in Java is to use a website that compiles and runs Java code in the browser.
-Examples include \href{https://www.jdoodle.com/}{\tt jdoodle.com}, \href{https://www.compilejava.net/}{\tt compilejava.net}, \href{http://tutorialspoint.com/}{\tt tutorialspoint.com}, and others.
+Examples include \href{https://trinket.io/}{\tt trinket.io}, \href{https://repl.it/}{\tt repl.it}, \href{https://www.jdoodle.com/}{\tt jdoodle.com}, and others.
 
 If you are unable to install software on your computer (which is often the case in public schools and Internet caf\'{e}s), you can use these online development environments for almost everything in this book.
 
@@ -30,7 +30,7 @@ But if you want to compile and run Java programs on your own computer, you will 
 \index{text editor}
 \index{DrJava}
 
-\item A simple {\bf text editor} such as Notepad++ or Sublime Text, and/or an IDE such as DrJava, Eclipse, jGrasp, or NetBeans.
+\item A {\bf text editor} such as Atom, Notepad++, or Sublime Text, and/or an IDE such as DrJava, Eclipse, jGrasp, or NetBeans.
 
 \end{itemize}
 
@@ -118,7 +118,7 @@ We run the program using the {\tt java} command, which displays the output on th
 Note that the {\tt javac} command requires a {\em filename} (or multiple source files separated by spaces), whereas the {\tt java} command requires a single {\em class name}.
 If you use DrJava, it runs these commands for you behind the scenes and displays the output in the Interactions Pane.
 
-Taking time to learn this efficient and elegant way of interacting with your operating system will make you more productive.
+Taking time to learn this efficient and elegant way of interacting with the operating system will make you more productive.
 People who don't use the command line don't know what they're missing.
 
 
@@ -350,7 +350,8 @@ public class SeriesTest extends TestCase {
 }
 \end{code}
 
-This example uses the keyword \java{extends}, which indicates that the new class, \java{SeriesTest} is based on an existing class, \java{TestCase}, which is imported from the package \java{junit.framework}.
+This example uses the keyword \java{extends}, which indicates that the new class, \java{SeriesTest} is based on an existing class, \java{TestCase}.
+The \java{TestCase} class is imported from the package \java{junit.framework}.
 
 Many development environments can generate test classes and test methods automatically.
 In DrJava, you can select {\sf New JUnit Test Case} from the {\sf File} menu to generate an empty test class.
@@ -358,7 +359,7 @@ In DrJava, you can select {\sf New JUnit Test Case} from the {\sf File} menu to 
 \java{assertEquals} is provided by the \java{TestCase} class.
 It takes two arguments and checks whether they are equal.
 If so, it does nothing; otherwise it displays a detailed error message.
-Normally the first argument is the ``expected value'', which we consider correct, and the second argument is the ``actual value'' we want to check.
+The first argument is the ``expected value'', which we consider correct, and the second argument is the ``actual value'' we want to check.
 If they are not equal, the test fails.
 
 \index{System.err}

@@ -229,17 +229,22 @@ In this context, the high-level program is called the {\bf source code}, and the
 Once a program is compiled, you can execute it repeatedly without further translation.
 As a result, compiled programs often run faster than interpreted programs.
 
-
 \index{byte code}
-%\index{virtual machine}
-%\index{JVM}
 
 Java is {\em both} compiled and interpreted.
 Instead of translating programs directly into machine language, the Java compiler generates {\bf byte code}.
 Similar to object code, byte code is easy and fast to interpret.
 But it is also portable, so it is possible to compile a Java program on one machine, transfer the byte code to another machine, and run the byte code on the other machine.
-%This ability is an advantage of Java over some other high-level languages.
-%The interpreter that runs byte code is called a ``Java Virtual Machine'' (JVM).
+This ability is an advantage of Java over some other high-level languages.
+
+\index{javac}
+\index{virtual machine}
+\index{JVM}
+
+Figure~\ref{fig.compiler} shows the steps of the development process.
+The Java compiler is a program named {\tt javac}.
+It translates {\tt .java} files into {\tt .class} files that store the resulting byte code.
+The Java interpreter is a program named {\tt java}, which is short for ``Java Virtual Machine'' (JVM).
 
 \begin{figure}[!ht]
 \begin{center}
@@ -249,9 +254,8 @@ But it is also portable, so it is possible to compile a Java program on one mach
 \end{center}
 \end{figure}
 
-Figure~\ref{fig.compiler} shows the steps of this process.
-The programmer writes source code in the file {\tt Hello.java} and (periodically) uses {\tt javac} to compile it.
-If there are no errors, the compiler saves the corresponding byte code in the file {\tt Hello.class}.
+The programmer writes source code in the file {\tt Hello.java} and uses {\tt javac} to compile it.
+If there are no errors, the compiler saves the byte code in the file {\tt Hello.class}.
 To run the program, the programer uses {\tt java} to interpret the byte code.
 The result of the program is then displayed on the screen.
 
@@ -350,7 +354,7 @@ It still works, but the program is getting harder and harder to read.
 Newlines and spaces are important for organizing your program visually, making it easier to understand the program and find errors when they occur.
 
 Many editors will automatically format source code with consistent indenting and line breaks.
-For example, in DrJava (see Appendix~\ref{development}) you can indent your code by selecting all text ({\sf Ctrl+A}) and pressing the {\sf Tab} key.
+For example, in DrJava (see Appendix~\ref{drjava}) you can indent your code by selecting all text ({\sf Ctrl+A}) and pressing the {\sf Tab} key.
 
 %\section{Style guidelines}
 
@@ -372,7 +376,7 @@ For example, Google publishes its Java coding standards for use in open-source p
 You probably won't understand these guidelines now, because they refer to language features we haven't yet seen.
 But you might want to refer back to them periodically as you read this book.
 
-%In the meantime, there are many software tools that help programmers find and correct style issues.
+%In the meantime, there are software tools that help programmers find and correct style issues.
 %One of the most popular is Checkstyle, which enforces most of Google's guidelines.
 %Instructions for downloading and running Checkstyle are in Appendix~\ref{checkstyle}.
 
@@ -481,7 +485,6 @@ Thinking about how to correct programs and improve their performance sometimes e
 It is a good idea to read this book in front of a computer so you can try out the examples as you go.
 You can run many of the examples directly in DrJava's Interactions Pane (see Appendix~\ref{interactions}).
 But if you put the code in a source file, it will be easier to try out variations.
-%For more information on working with DrJava, see Appendix~\ref{development}.
 
 \index{error!message}
 
