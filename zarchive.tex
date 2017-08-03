@@ -48,6 +48,19 @@ Large, complex expressions can be hard to read and debug.
 %In general, each line of code should be a single step of the algorithm.
 
 
+\begin{exercise}  %%V6 Ex4.2
+
+The point of this exercise is to make sure you understand how to write and invoke methods that take parameters.
+
+\begin{enumerate}
+\item Write the first line of a method named \java{zool} that takes three parameters: an \java{int} and two \java{String}s.
+
+\item Write a line of code that calls \java{zool}, passing as arguments the value \java{11}, the name of your first pet, and the name of the street you grew up on.
+\end{enumerate}
+
+\end{exercise}
+
+
 %%% Chapter 4 (commented out)
 \begin{exercise}
 
@@ -64,7 +77,7 @@ In terms of their syntax, how does the Java compiler tell the difference between
 %ABD: We don't need this anymore since we used this as an example
 \begin{exercise}
 
-Draw a stack diagram that shows the state of the program in Section~\ref{time} when \java{main} invokes \java{printTime} with the arguments \java{11} and \java{59}.
+Draw a stack diagram that shows the state of the program in Section~\ref{stack} when \java{main} invokes \java{printTime} with the arguments \java{11} and \java{59}.
 
 \end{exercise}
 
@@ -96,53 +109,6 @@ For example, the hand (Ace, 10, Jack, 3) has a total score of 1 + 10 + 10 + 3 = 
 Write a method called \java{handScore} that takes an array of cards as an argument and that returns the total score.
 
 \end{exercise}
-
-
-%%% Section 6.4
-\section{Overloading}
-\label{overloading}
-
-You might have noticed that \java{circleArea} and \java{calculateArea} perform similar functions.
-They both find the area of a circle, but they take different parameters.
-For \java{calculateArea}, we have to provide the radius; for \java{circleArea} we provide two points.
-
-\index{overload}
-
-If two methods do the same thing, it is natural to give them the same name.
-Having more than one method with the same name is called {\bf overloading}, and it is legal in Java as long as each version takes different parameters.
-So we could rename \java{circleArea} to \java{calculateArea}:
-
-\begin{code}
-public static double calculateArea
-        (double xc, double yc, double xp, double yp) {
-    return calculateArea(distance(xc, yc, xp, yp));
-}
-\end{code}
-
-Note that this new \java{calculateArea} method is {\em not} recursive.
-When you invoke an overloaded method, Java knows which version you want by looking at the arguments that you provide.
-If you write:
-
-\begin{code}
-double x = calculateArea(3.0);
-\end{code}
-
-Java looks for a method named \java{calculateArea} that takes one \java{double} as an argument, and so it uses the first version, which interprets the argument as a radius.
-If you write:
-
-\begin{code}
-double y = calculateArea(1.0, 2.0, 4.0, 6.0);
-\end{code}
-
-Java uses the second version of \java{calculateArea}, which interprets the arguments as two points.
-In this example, the second version actually invokes the first version.
-
-Many Java methods are overloaded, meaning that there are different versions that accept different numbers or types of parameters.
-For example, there are versions of \java{print} and \java{println} that accept a single parameter of any data type.
-In the \java{Math} class, there is a version of \java{abs} that works on \java{double}s, and there is also a version for \java{int}s.
-
-Although overloading is a useful feature, it should be used with caution.
-You might get yourself nicely confused if you are trying to debug one version of a method while accidentally invoking a different one.
 
 
 %%% Section 6.5
@@ -200,3 +166,28 @@ if (isSingleDigit(z)) {
 
 Examples like this one almost read like English:
 ``If is single digit z, print ... else print ...''.
+
+
+\begin{exercise}  %%V6 Ex6.1
+
+If you have a question about whether something is legal, and what happens if it is not, a good way to find out is to ask the compiler.
+Answer the following questions by trying them out.
+
+\begin{enumerate}
+
+\item What happens if you invoke a value method and don't do anything with the result; that is, if you don't assign it to a variable or use it as part of a larger expression?
+
+\item What happens if you use a void method as part of an expression?
+For example, try \java{System.out.println("boo!") + 7;}
+
+\end{enumerate}
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex6.2
+\label{ex.isdiv}
+
+Write a method named \java{isDivisible} that takes two integers, \java{n} and \java{m}, and that returns \java{true} if \java{n} is divisible by \java{m}, and \java{false} otherwise.
+
+\end{exercise}
