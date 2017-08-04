@@ -242,7 +242,7 @@ Each tag should be on its own line in the source code.
 \section{Example source file}
 
 Now let's take a look at a more complete example.
-The code for this section is in the {\tt appd} directory of {\tt ThinkJavaCode2}.
+The code for this section is in the {\tt appb} directory of {\tt ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.
 
 Professional-grade source files often begin with a copyright statement.
@@ -302,67 +302,66 @@ This class has two constants and three methods.
 The constants are self-explanatory, so there is no need to write documentation for them.
 
 \begin{code}
-    public static final double CM_PER_INCH = 2.54;
+public static final double CM_PER_INCH = 2.54;
 
-    public static final int IN_PER_FOOT = 12;
+public static final int IN_PER_FOOT = 12;
 \end{code}
 
 The methods, on the other hand, could use some explanation.
 Each documentation comment includes a description, followed by a blank line, followed by a \java{@param} tag for each parameter, followed by a \java{@return} tag.
 
 \begin{code}
-    /**
-     * Converts a measurement in centimeters to inches.
-     *
-     * @param cm length in centimeters
-     * @return length in inches
-     */
-    public static double toImperial(double cm) {
-        return cm / CM_PER_INCH;
-    }
+/**
+ * Converts a measurement in centimeters to inches.
+ *
+ * @param cm length in centimeters
+ * @return length in inches
+ */
+public static double toImperial(double cm) {
+    return cm / CM_PER_INCH;
+}
 
-    /**
-     * Converts a length in feet and inches to centimeters.
-     *
-     * @param feet how many feet
-     * @param inches how many inches
-     * @return length in centimeters
-     */
-    public static double toMetric(int feet, int inches) {
-        int total = feet * IN_PER_FOOT + inches;
-        return total * CM_PER_INCH;
-    }
+/**
+ * Converts a length in feet and inches to centimeters.
+ *
+ * @param feet how many feet
+ * @param inches how many inches
+ * @return length in centimeters
+ */
+public static double toMetric(int feet, int inches) {
+    int total = feet * IN_PER_FOOT + inches;
+    return total * CM_PER_INCH;
+}
 \end{code}
 
 The \java{main} method has a similar documentation comment, except there is no \java{@return} tag since the method is \java{void}.
 %And because it's longer than a few lines, it includes end-of-line comments (\java{//}) as well.
 
 \begin{code}
-    /**
-     * Tests the conversion methods.
-     *
-     * @param args command-line arguments
-     */
-    public static void main(String[] args) {
-        double cm, result;
-        int feet, inches;
-        Scanner in = new Scanner(System.in);
+/**
+ * Tests the conversion methods.
+ *
+ * @param args command-line arguments
+ */
+public static void main(String[] args) {
+    double cm, result;
+    int feet, inches;
+    Scanner in = new Scanner(System.in);
 
-        // test the Imperial conversion
-        System.out.print("Exactly how many cm? ");
-        cm = in.nextDouble();
-        result = toImperial(cm);
-        System.out.printf("That's %.2f inches\n", result);
-        System.out.println();
+    // test the Imperial conversion
+    System.out.print("Exactly how many cm? ");
+    cm = in.nextDouble();
+    result = toImperial(cm);
+    System.out.printf("That's %.2f inches\n", result);
+    System.out.println();
 
-        // test the Metric conversion
-        System.out.print("Now how many feet? ");
-        feet = in.nextInt();
-        System.out.print("And how many inches? ");
-        inches = in.nextInt();
-        result = toMetric(feet, inches);
-        System.out.printf("That's %.2f cm\n", result);
-    }
+    // test the Metric conversion
+    System.out.print("Now how many feet? ");
+    feet = in.nextInt();
+    System.out.print("And how many inches? ");
+    inches = in.nextInt();
+    result = toMetric(feet, inches);
+    System.out.printf("That's %.2f cm\n", result);
 }
 \end{code}
 
