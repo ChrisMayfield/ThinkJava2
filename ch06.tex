@@ -1,20 +1,16 @@
 \chapter{Loops and strings}
 
-Computers are often used to automate repetitive tasks.
+Computers are often used to automate repetitive tasks, such as searching for text in documents.
 Repeating tasks without making errors is something that computers do well and people do poorly.
+In this chapter, we'll learn how to use \java{while} and \java{for} loops to add repetition to your code.
+We'll also take a closer look at \java{String} methods and solve some interesting problems.
 
-\index{iteration}
-
-Running the same code multiple times is called {\bf iteration}.
-We have seen methods, like \java{countdown} and \java{factorial}, that use recursion to iterate.
-Although recursion is elegant and powerful, it takes some getting used to.
-Java provides language features that make iteration much easier:
-the \java{while} and \java{for} statements.
-
-
-\section{Assignment revisited}
-
-TODO: ++, --, +=, -=
+%\index{iteration}
+%
+%Running the same code multiple times is called {\bf iteration}.
+%We have seen methods, like \java{countdown} and \java{factorial}, that use recursion to iterate.
+%Although recursion is elegant and powerful, it takes some getting used to.
+%Java provides language features that make iteration much easier: the \java{while} and \java{for} statements.
 
 
 \section{The while statement}
@@ -23,47 +19,70 @@ TODO: ++, --, +=, -=
 \index{loop!while}
 \index{statement!while}
 
-Using a \java{while} statement, we can rewrite \java{countdown} like this:
+Using a \java{while} statement, we can repeat the same code multiple times:
 
 \begin{code}
-public static void countdown(int n) {
-    while (n > 0) {
-        System.out.println(n);
-        n = n - 1;
-    }
-    System.out.println("Blastoff!");
+int n = 3;
+while (n > 0) {
+    System.out.println(n);
+    n = n - 1;
 }
+System.out.println("Blastoff!");
 \end{code}
 
-You can almost read the \java{while} statement like English:
-``While \java{n} is greater than zero, print the value of \java{n} and then reduce the value of \java{n} by 1.
+Reading the code in English sounds like: ``Start with \java{n} set to 3.
+While \java{n} is greater than zero, print the value of \java{n}, and reduce the value of \java{n} by 1.
 When you get to zero, print Blastoff!''
+So the output is:
 
-\index{loop body}
+\begin{stdout}
+3
+2
+1
+Blastoff!
+\end{stdout}
 
-The expression in parentheses is called the condition.
-The statements in braces are called the {\bf body}.
 The flow of execution for a \java{while} statement is:
 
 \begin{enumerate}
 
-\item Evaluate the condition, yielding \java{true} or \java{false}.
+\item Evaluate the condition in parentheses, yielding \java{true} or \java{false}.
 
-\item If the condition is \java{false}, skip the body and go to the next statement.
+\item If the condition is \java{false}, skip the following statements in braces.
 
-\item If the condition is \java{true}, execute the body and go back to step 1.
+\item If the condition is \java{true}, execute the statements and go back to step 1.
 
 \end{enumerate}
 
 \index{loop}
 
-This type of flow is called a {\bf loop}, because the last step loops back around to the first.
+This type of flow is called a {\bf loop}, because the last step ``loops back around'' to the first.
+Figure~\ref{fig.while} shows this idea using a flowchart.
 
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[scale=0.9]{figs/while.pdf}
+\caption{Flow of execution for a \java{while} loop.}
+\label{fig.while}
+\end{center}
+\end{figure}
+
+\index{loop body}
 \index{infinite loop}
 \index{loop!infinite}
 
-The body of the loop should change the value of one or more variables so that, eventually, the condition becomes \java{false} and the loop terminates.
+The {\bf body} of the loop should change the value of one or more variables so that, eventually, the condition becomes \java{false} and the loop terminates.
 Otherwise the loop will repeat forever, which is called an {\bf infinite loop}.
+
+\begin{code}
+int n = 3;
+while (n > 0) {
+    System.out.println(n);
+    // n never changes
+}
+\end{code}
+
+This example will print the number \java{3} forever, or at least until you terminate the program.
 An endless source of amusement for computer scientists is the observation that the directions on shampoo, ``Lather, rinse, repeat,'' are an infinite loop.
 
 In the case of \java{countdown}, we can prove that the loop terminates when \java{n} is positive.
@@ -71,14 +90,12 @@ But in general, it is not so easy to tell whether a loop terminates.
 For example, this loop continues until \java{n} is 1 (which makes the condition \java{false}):
 
 \begin{code}
-public static void sequence(int n) {
-    while (n != 1) {
-        System.out.println(n);
-        if (n % 2 == 0) {         // n is even
-            n = n / 2;
-        } else {                  // n is odd
-            n = n * 3 + 1;
-        }
+while (n != 1) {
+    System.out.println(n);
+    if (n % 2 == 0) {         // n is even
+        n = n / 2;
+    } else {                  // n is odd
+        n = n * 3 + 1;
     }
 }
 \end{code}
@@ -86,17 +103,57 @@ public static void sequence(int n) {
 Each time through the loop, the program displays the value of \java{n} and then checks whether it is even or odd.
 If it is even, the value of \java{n} is divided by two.
 If it is odd, the value is replaced by $3n+1$.
-For example, if the starting value (the argument passed to \java{sequence}) is 3, the resulting sequence is 3, 10, 5, 16, 8, 4, 2, 1.
+For example, if the starting value is 3, the resulting sequence is 3, 10, 5, 16, 8, 4, 2, 1.
 
 Since \java{n} sometimes increases and sometimes decreases, there is no obvious proof that \java{n} will ever reach 1 and that the program will ever terminate.
-For some values of \java{n}, we can prove that it terminates.
-For example, if the starting value is a power of two, then the value of \java{n} will be even every time through the loop until we get to 1.
-The previous example ends with such a sequence, starting when \java{n} is 16.
+For some values of \java{n}, such as the powers of two, we can prove that it terminates.
+The previous example ends with such a sequence, starting when \java{n} is 16 (or $2^4$).
 
 The hard question is whether this program terminates for {\em all} values of n.
 So far, no one has been able to prove it {\em or} disprove it!
 For more information, see \url{https://en.wikipedia.org/wiki/Collatz_conjecture}.
 %The field of computer science is interested in these types of questions, because their answers give insight to the limits of what computers can and cannot do.
+
+
+\section{Assignment revisited}
+
+Here is another \java{while} loop example that displays the numbers 1 to 5.
+
+\begin{code}
+int i = 1;
+while (i <= 5) {
+    System.out.println(i);
+    i++;
+}
+\end{code}
+
+\index{increment}
+\index{decrement}
+
+Assignments like \java{i = i + 1} don't often appear in loops, because Java provides a more concise way to add and subtract by one.
+Specifically, \java{++} is the {\bf increment} operator; it has the same effect as \java{i = i + 1}.
+And \java{--} is the {\bf decrement} operator; it has the same effect as \java{i = i - 1}.
+
+%So far in this book we have only used (\java{=}) to assign values to variables.
+%For convenience, Java provides other assignment operators that increase or decrease the value of a variable.
+
+If you want to increment or decrement a variable by an amount other than \java{1}, you can use \java{+=} and \java{-=}.
+For example, \java{i += 2} increments \java{i} by \java{2}.
+
+\begin{code}
+int i = 2;
+while (i <= 8) {
+    System.out.print(i + ", ");
+    i += 2;
+}
+System.out.println("Who do we appreciate?")
+\end{code}
+
+And the output is:
+
+\begin{stdout}
+2, 4, 6, 8, Who do we appreciate?
+\end{stdout}
 
 
 \section{The for statement}
@@ -159,16 +216,6 @@ public static void printRow(int n, int cols) {
     System.out.println(i);
 }
 \end{code}
-
-\index{increment}
-\index{decrement}
-
-Assignments like \java{i = i + 1} don't often appear in \java{for} loops, because Java provides a more concise way to add and subtract by one.
-Specifically, \java{++} is the {\bf increment} operator; it has the same effect as \java{i = i + 1}.
-And \java{--} is the {\bf decrement} operator; it has the same effect as \java{i = i - 1}.
-
-If you want to increment or decrement a variable by an amount other than \java{1}, you can use \java{+=} and \java{-=}.
-For example, \java{i += 2} increments \java{i} by \java{2}.
 
 
 \section{Nested Loops}
