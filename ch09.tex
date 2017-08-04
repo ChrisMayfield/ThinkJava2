@@ -19,69 +19,6 @@ Not everything in Java is an object: \java{int}, \java{double}, and \java{boolea
 We will explain some of the differences between object types and primitive types as we go along.
 
 
-\section{Characters}
-
-\index{charAt}
-\index{char}
-\index{type!char}
-
-Strings provide a method named \java{charAt}, which extracts a character.
-It returns a \java{char}, a primitive type that stores an individual character (as opposed to strings of them).
-
-\begin{code}
-String fruit = "banana";
-char letter = fruit.charAt(0);
-\end{code}
-
-The argument \java{0} means that we want the letter at position 0.
-Like array indexes, string indexes start at 0, so the character assigned to \java{letter} is \java{b}.
-
-Characters work like the other primitive types we have seen.
-You can compare them using relational operators:
-
-\begin{code}
-if (letter == 'a') {
-    System.out.println('?');
-}
-\end{code}
-
-\index{quote mark}
-\index{escape sequence}
-
-Character literals, like \java{'a'}, appear in single quotes.
-Unlike string literals, which appear in double quotes, character literals can only contain a single character.
-Escape sequences, like \java{'\\t'}, are legal because they represent a single character.
-
-The increment and decrement operators work with characters.
-So this loop displays the letters of the alphabet:
-
-\begin{code}
-System.out.print("Roman alphabet: ");
-for (char c = 'A'; c <= 'Z'; c++) {
-    System.out.print(c);
-}
-System.out.println();
-\end{code}
-
-\index{Unicode}
-
-Java uses {\bf Unicode} to represent characters, so strings can store text in other alphabets like Cyrillic and Greek, and non-alphabetic languages like Chinese.
-You can read more about it at \url{http://unicode.org/}.
-
-In Unicode, each character is represented by a ``code point'', which you can think of as an integer.
-The code points for uppercase Greek letters run from 913 to 937, so we can display the Greek alphabet like this:
-
-\begin{code}
-System.out.print("Greek alphabet: ");
-for (int i = 913; i <= 937; i++) {
-    System.out.print((char) i);
-}
-System.out.println();
-\end{code}
-
-This example uses a type cast to convert each integer (in the range) to the corresponding character.
-
-
 \section{Strings are immutable}
 \label{immutable}
 
@@ -126,257 +63,6 @@ This assignment is important; if you don't save the return value, invoking \java
 
 %Strings are immutable by design, because it simplifies passing them between methods as parameters and return values.
 %And since the contents of a string can never change, two variables can reference the same string without one accidentally corrupting the other.
-
-
-\section{String traversal}
-\label{stringtraverse}
-
-\index{traverse}
-
-The following loop traverses the characters in \java{fruit} and displays them, one on each line:
-
-\begin{code}
-for (int i = 0; i < fruit.length(); i++) {
-    char letter = fruit.charAt(i);
-    System.out.println(letter);
-}
-\end{code}
-
-\index{string!length}
-\index{length!string}
-
-Strings provide a method called \java{length} that returns the number of characters in the string.
-Because it is a method, you have to invoke it with the empty argument list, \java{()}.
-%Do not confuse \java{string.length()}, which is a method, with \java{array.length}, which is a constant.
-
-\index{loop variable}
-\index{variable!loop}
-
-The condition is \java{i < fruit.length()}, which means that when \java{i} is equal to the length of the string, the condition is \java{false} and the loop terminates.
-
-\index{toCharArray}
-
-Unfortunately, the enhanced \java{for} loop does not work with strings.
-But you can convert any string to a character array and iterate that:
-
-\begin{code}
-for (char letter : fruit.toCharArray()) {
-    System.out.println(letter);
-}
-\end{code}
-
-To find the last letter of a string, you might be tempted to try something like:
-
-\begin{code}
-int length = fruit.length();
-char last = fruit.charAt(length);      // wrong!
-\end{code}
-
-\index{StringIndexOutOfBoundsException}
-\index{exception!StringIndexOutOfBounds}
-
-This code compiles and runs, but invoking the \java{charAt} method throws a \java{StringIndexOutOfBoundsException}.
-The problem is that there is no sixth letter in \java{"banana"}.
-Since we started counting at 0, the 6 letters are indexed from 0 to 5.
-To get the last character, you have to subtract 1 from \java{length}.
-
-\begin{code}
-int length = fruit.length();
-char last = fruit.charAt(length - 1);  // correct
-\end{code}
-
-Many string traversals involve reading one string and creating another.
-For example, to reverse a string, we simply add one character at a time:
-
-\begin{code}
-public static String reverse(String s) {
-    String r = "";
-    for (int i = s.length() - 1; i >= 0; i--) {
-        r = r + s.charAt(i);
-    }
-    return r;
-}
-\end{code}
-
-\index{empty string}
-
-The initial value of \java{r} is \java{""}, which is the {\bf empty string}.
-The loop traverses the letters of \java{s} in reverse order.
-Each time through the loop, it creates a new string and assigns it to \java{r}.
-When the loop exits, \java{r} contains the letters from \java{s} in reverse order.
-So the result of \java{reverse("banana")} is \java{"ananab"}.
-
-
-\section{Substrings}
-
-The \java{substring} method returns a new string that copies letters from an existing string, starting at the given index.
-
-\begin{itemize}
-\item \java{fruit.substring(0)} returns \java{"banana"}
-\item \java{fruit.substring(2)} returns \java{"nana"}
-\item \java{fruit.substring(6)} returns \java{""}
-\end{itemize}
-
-The first example returns a copy of the entire string.
-The second example returns all but the first two characters.
-As the last example shows, \java{substring} returns the empty string if the argument is the length of the string.
-
-To visualize how the \java{substring} method works, it helps to draw a picture like Figure~\ref{fig.banana}.
-
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics{figs/banana.pdf}
-\caption{Memory diagram for a \java{String} of six characters.}
-\label{fig.banana}
-\end{center}
-\end{figure}
-
-%\begin{center}
-%\begin{tabular}{c|c|c|c|c|c}
-%%\hline
-%b & a & n & a & n & a \\
-%\hline
-%0 & 1 & 2 & 3 & 4 & 5 \\
-%%\hline
-%\end{tabular}
-%\end{center}
-
-Like most string methods, \java{substring} is overloaded.
-That is, there are other versions of \java{substring} that have different parameters.
-If it's invoked with two arguments, they are treated as a start and end index:
-
-\begin{itemize}
-\item \java{fruit.substring(0, 3)} returns \java{"ban"}
-\item \java{fruit.substring(2, 5)} returns \java{"nan"}
-\item \java{fruit.substring(6, 6)} returns \java{""}
-\end{itemize}
-
-Notice that the character indicated by the end index is not included.
-Defining \java{substring} this way simplifies some common operations.
-For example, to select a substring with length \java{len}, starting at index \java{i}, you could write \java{fruit.substring(i, i + len)}.
-
-
-\section{The indexOf method}
-
-\index{indexOf}
-
-The \java{indexOf} method searches for a character in a string.
-
-\begin{code}
-String fruit = "banana";
-int index = fruit.indexOf('a');
-\end{code}
-
-This example finds the index of \java{'a'} in the string.
-But the letter appears three times, so it's not obvious what \java{indexOf} should do.
-According to the documentation, it returns the index of the {\em first} appearance.
-
-To find subsequent appearances, you can use another version of \java{indexOf}, which takes a second argument that indicates where in the string to start looking.
-
-\begin{code}
-int index = fruit.indexOf('a', 2);
-\end{code}
-
-This code starts at index 2 (the first \java{'n'}) and finds the next \java{'a'}, which is at index 3.
-If the letter happens to appear at the starting index, the starting index is the answer.
-So \java{fruit.indexOf('a', 5)} returns \java{5}.
-
-If the character does not appear in the string, \java{indexOf} returns \java{-1}.
-Since indexes cannot be negative, this value indicates the character was not found.
-
-You can also use \java{indexOf} to search for a substring, not just a single character.
-For example, the expression \java{fruit.indexOf("nan")} returns \java{2}.
-
-
-\section{String comparison}
-\label{strcmp}
-
-\index{equals}
-\index{compareTo}
-
-To compare two strings, it may be tempting to use the \java{==} and \java{!=} operators.
-
-\begin{code}
-String name1 = "Alan Turing";
-String name2 = "Ada Lovelace";
-if (name1 == name2) {                 // wrong!
-    System.out.println("The names are the same.");
-}
-\end{code}
-
-This code compiles and runs, and most of the time it gets the answer right.
-But it is not correct, and sometimes it gets the answer wrong.
-The problem is that the \java{==} operator checks whether the two variables refer to the same object (by comparing the references).
-If you give it two different strings that contain the same letters, it yields \java{false}.
-
-The right way to compare strings is with the \java{equals} method, like this:
-
-\begin{code}
-if (name1.equals(name2)) {
-    System.out.println("The names are the same.");
-}
-\end{code}
-
-This example invokes \java{equals} on \java{name1} and passes \java{name2} as an argument.
-The \java{equals} method returns \java{true} if the strings contain the same characters; otherwise it returns \java{false}.
-
-If the strings differ, we can use \java{compareTo} to see which comes first in alphabetical order:
-
-\begin{code}
-int diff = name1.compareTo(name2);
-if (diff == 0) {
-    System.out.println("The names are the same.");
-} else if (diff < 0) {
-    System.out.println("name1 comes before name2.");
-} else if (diff > 0) {
-    System.out.println("name2 comes before name1.");
-}
-\end{code}
-
-The return value from \java{compareTo} is the difference between the first characters in the strings that differ.
-If the strings are equal, their difference is zero.
-If the first string (the one on which the method is invoked) comes first in the alphabet, the difference is negative.
-Otherwise, the difference is positive.
-
-In the preceding code, \java{compareTo} returns positive 8, because the second letter of \java{"Ada"} comes before the second letter of \java{"Alan"} by 8 letters.
-
-\index{case-sensitive}
-
-Both \java{equals} and \java{compareTo} are case-sensitive.
-The uppercase letters come before the lowercase letters, so \java{"Ada"} comes before \java{"ada"}.
-
-
-\section{String formatting}
-
-\index{printf}
-\index{utility method}
-
-In Section~\ref{printf}, we learned how to use \java{printf} to display formatted output.
-Sometimes programs need to create strings that are formatted a certain way, but not display them immediately, or ever.
-For example, the following method returns a time string in 12-hour format:
-
-\begin{code}
-public static String timeString(int hour, int minute) {
-    String ampm;
-    if (hour < 12) {
-        ampm = "AM";
-        if (hour == 0) {
-            hour = 12;  // midnight
-        }
-    } else {
-        ampm = "PM";
-        hour = hour - 12;
-    }
-    return String.format("%02d:%02d %s", hour, minute, ampm);
-}
-\end{code}
-
-\index{string!format}
-
-\java{String.format} takes the same arguments as \java{System.out.printf}: a format specifier followed by a sequence of values.
-The main difference is that \java{System.out.printf} displays the result on the screen; \java{String.format} creates a new string, but does not display anything.
-
-In this example, the format specifier \java{\%02d} means ``two digit integer padded with zeros'', so \java{timeString(19, 5)} returns the string \java{"07:05 PM"}.
 
 
 \section{Wrapper classes}
@@ -489,6 +175,457 @@ System.out.println("The max is " + max);
 
 The initial value of \java{max} is the smallest (most negative) number an \java{int} can represent, so any other value is greater.
 If \java{args} is empty, the result is \java{MIN_VALUE}.
+
+
+\section{Generating tables}
+
+\index{table}
+\index{logarithm}
+
+Loops are good for generating and displaying tabular data.
+Before computers were readily available, people had to calculate logarithms, sines and cosines, and other common mathematical functions by hand.
+To make that easier, there were books of tables where you could look up values of various functions.
+Creating these tables by hand was slow and boring, and the results were often full of errors.
+
+When computers appeared on the scene, one of the initial reactions was: ``This is great!
+We can use a computer to generate the tables, so there will be no errors.''
+That turned out to be true (mostly), but shortsighted.
+Not much later, computers were so pervasive that printed tables became obsolete.
+
+\index{division!floating-point}
+
+Even so, for some operations, computers use tables of values to get an approximate answer, and then perform computations to improve the approximation.
+In some cases, there have been errors in the underlying tables, most famously in the table the original Intel Pentium used to perform floating-point division (see \url{https://en.wikipedia.org/wiki/Pentium_FDIV_bug}).
+
+Although a ``log table'' is not as useful as it once was, it still makes a good example of iteration.
+The following loop displays a table with a sequence of values in the left column and their logarithms in the right column:
+
+\begin{code}
+int i = 1;
+while (i < 10) {
+    double x = i;
+    System.out.println(x + "   " + Math.log(x));
+    i = i + 1;
+}
+\end{code}
+
+The output of this program is:
+
+\begin{stdout}
+1.0   0.0
+2.0   0.6931471805599453
+3.0   1.0986122886681098
+4.0   1.3862943611198906
+5.0   1.6094379124341003
+6.0   1.791759469228055
+7.0   1.9459101490553132
+8.0   2.0794415416798357
+9.0   2.1972245773362196
+\end{stdout}
+
+\java{Math.log} computes natural logarithms, that is, logarithms base $e$.
+For computer science applications, we often want logarithms with respect to base 2.
+To compute them, we can apply this equation:
+%
+\[ \log_2 x = \frac{log_e x}{log_e 2} \]
+%
+We can modify the loop as follows:
+
+\begin{code}
+int i = 1;
+while (i < 10) {
+    double x = i;
+    System.out.println(x + "   " + Math.log(x) / Math.log(2));
+    i = i + 1;
+}
+\end{code}
+
+And here are the results:
+
+\begin{stdout}
+1.0   0.0
+2.0   1.0
+3.0   1.5849625007211563
+4.0   2.0
+5.0   2.321928094887362
+6.0   2.584962500721156
+7.0   2.807354922057604
+8.0   3.0
+9.0   3.1699250014423126
+\end{stdout}
+
+Each time through the loop, we add one to \java{x}, so the result is an arithmetic sequence.
+If we multiply \java{x} by something instead, we get a geometric sequence:
+
+\begin{code}
+final double LOG2 = Math.log(2);
+int i = 1;
+while (i < 100) {
+    double x = i;
+    System.out.println(x + "   " + Math.log(x) / LOG2);
+    i = i * 2;
+}
+\end{code}
+
+\index{final}
+
+The first line stores \java{Math.log(2)} in a \java{final} variable to avoid computing that value over and over again.
+The last line multiplies \java{x} by 2.
+The result is:
+
+\begin{stdout}
+1.0   0.0
+2.0   1.0
+4.0   2.0
+8.0   3.0
+16.0   4.0
+32.0   5.0
+64.0   6.0
+\end{stdout}
+
+This table shows the powers of two and their logarithms, base 2.
+Log tables may not be useful anymore, but for computer scientists, knowing the powers of two helps a lot!
+%When you have an idle moment, you should memorize the powers of two up to 65536 (that's $2^{16}$).
+
+
+\section{Encapsulation}
+\label{encapsulation}
+
+\index{table!two-dimensional}
+\index{program development}
+
+In Section~\ref{distance}, we presented a way of writing programs called incremental development.
+In this section we present another {\bf program development} process called ``encapsulation and generalization''.
+The steps are:
+
+\begin{enumerate}
+
+\item Write a few lines of code in \java{main} or another method, and test them.
+
+\item When they are working, wrap them in a new method, and test again.
+
+\item If it's appropriate, replace literal values with variables and parameters.
+
+\end{enumerate}
+
+\index{encapsulate}
+\index{generalize}
+
+The second step is called {\bf encapsulation}; the third step is {\bf generalization}.
+
+To demonstrate this process, we'll develop methods that display multiplication tables.
+Here is a loop that displays the multiples of two, all on one line:
+
+\begin{code}
+int i = 1;
+while (i <= 6) {
+    System.out.printf("%4d", 2 * i);
+    i = i + 1;
+}
+System.out.println();
+\end{code}
+
+\index{loop variable}
+\index{variable!loop}
+
+The first line initializes a variable named \java{i}, which is going to act as a {\bf loop variable}: as the loop executes, the value of \java{i} increases from 1 to 6; when \java{i} is 7, the loop terminates.
+
+Each time through the loop, we display the value \java{2 * i} padded with spaces so it's four characters wide.
+Since we use \java{System.out.printf}, the output appears on a single line.
+
+After the loop, we call \java{println} to print a newline and complete the line.
+Remember that in some environments, none of the output is displayed until the line is complete.
+
+The output of the code so far is:
+
+\begin{stdout}
+   2   4   6   8  10  12
+\end{stdout}
+
+The next step is to ``encapsulate'' this code in a new method.
+Here's what it looks like:
+
+\begin{code}
+public static void printRow() {
+    int i = 1;
+    while (i <= 6) {
+        System.out.printf("%4d", 2 * i);
+        i = i + 1;
+    }
+    System.out.println();
+}
+\end{code}
+
+\index{generalization}
+
+Next we replace the constant value, \java{2}, with a parameter, \java{n}.
+This step is called ``generalization'' because it makes the method more general (less specific).
+
+\begin{code}
+public static void printRow(int n) {
+    int i = 1;
+    while (i <= 6) {
+        System.out.printf("%4d", n * i);
+        i = i + 1;
+    }
+    System.out.println();
+}
+\end{code}
+
+Invoking this method with the argument 2 yields the same output as before.
+With the argument 3, the output is:
+
+\begin{stdout}
+   3   6   9  12  15  18
+\end{stdout}
+
+And with argument 4, the output is:
+
+\begin{stdout}
+   4   8  12  16  20  24
+\end{stdout}
+
+By now you can probably guess how we are going to display a multiplication table: we'll invoke \java{printRow} repeatedly with different arguments.
+In fact, we'll use another loop to iterate through the rows.
+
+\begin{code}
+int i = 1;
+while (i <= 6) {
+    printRow(i);
+    i = i + 1;
+}
+\end{code}
+
+And the output looks like this:
+
+\begin{stdout}
+   1   2   3   4   5   6
+   2   4   6   8  10  12
+   3   6   9  12  15  18
+   4   8  12  16  20  24
+   5  10  15  20  25  30
+   6  12  18  24  30  36
+\end{stdout}
+
+The format specifier \java{\%4d} in \java{printRow} causes the output to align vertically, regardless of whether the numbers are one or two digits.
+
+Finally, we encapsulate the second loop in a method:
+
+\begin{code}
+public static void printTable() {
+    int i = 1;
+    while (i <= 6) {
+        printRow(i);
+        i = i + 1;
+    }
+}
+\end{code}
+
+One of the challenges of programming, especially for beginners, is figuring out how to divide up a program into methods.
+The process of encapsulation and generalization allows you to design as you go along.
+
+
+\section{Generalization}
+
+\index{generalization}
+
+The previous version of \java{printTable} always displays six rows.
+We can generalize it by replacing the literal \java{6} with a parameter:
+
+\begin{code}
+public static void printTable(int rows) {
+    int i = 1;
+    while (i <= rows) {
+        printRow(i);
+        i = i + 1;
+    }
+}
+\end{code}
+
+Here is the output with the argument 7:
+
+\begin{stdout}
+   1   2   3   4   5   6
+   2   4   6   8  10  12
+   3   6   9  12  15  18
+   4   8  12  16  20  24
+   5  10  15  20  25  30
+   6  12  18  24  30  36
+   7  14  21  28  35  42
+\end{stdout}
+
+That's better, but it still has a problem: it always displays the same number of columns.
+We can generalize more by adding a parameter to \java{printRow}:
+
+\begin{code}
+public static void printRow(int n, int cols) {
+    int i = 1;
+    while (i <= cols) {
+        System.out.printf("%4d", n * i);
+        i = i + 1;
+    }
+    System.out.println();
+}
+\end{code}
+
+Now \java{printRow} takes two parameters: \java{n} is the value whose multiples should be displayed, and \java{cols} is the number of columns.
+Since we added a parameter to \java{printRow}, we also have to change the line in \java{printTable} where it is invoked:
+
+\begin{code}
+public static void printTable(int rows) {
+    int i = 1;
+    while (i <= rows) {
+        printRow(i, rows);
+        i = i + 1;
+    }
+}
+\end{code}
+
+When this line executes, it evaluates \java{rows} and passes the value, which is 7 in this example, as an argument.
+In \java{printRow}, this value is assigned to \java{cols}.
+As a result, the number of columns equals the number of rows, so we get a square 7x7 table:
+
+\begin{stdout}
+   1   2   3   4   5   6   7
+   2   4   6   8  10  12  14
+   3   6   9  12  15  18  21
+   4   8  12  16  20  24  28
+   5  10  15  20  25  30  35
+   6  12  18  24  30  36  42
+   7  14  21  28  35  42  49
+\end{stdout}
+
+When you generalize a method appropriately, you often find that it has capabilities you did not plan.
+For example, you might notice that the multiplication table is symmetric; since $ab = ba$, all the entries in the table appear twice.
+You could save ink by printing half of the table, and you would only have to change one line of \java{printTable}:
+
+\begin{code}
+printRow(i, i);
+\end{code}
+
+In words, the length of each row is the same as its row number.
+The result is a triangular multiplication table.
+
+\begin{stdout}
+   1
+   2   4
+   3   6   9
+   4   8  12  16
+   5  10  15  20  25
+   6  12  18  24  30  36
+   7  14  21  28  35  42  49
+\end{stdout}
+
+Generalization makes code more versatile, more likely to be reused, and sometimes easier to write.
+
+%Even though the second parameter in \java{printRow} is named \java{size} and we have a variable with the same name, we can still use any value or expression we want for the argument.
+
+%Remember, you do not pass {\em variables} to methods; you pass their current {\em values}.
+%In this last example, the value of \java{i} in \java{printTable} is assigned to both \java{n} and \java{cols} in \java{printRow}.
+
+
+\section{The do-while loop}
+
+\index{pretest loop}
+
+The \java{while} and \java{for} statements are {\bf pretest loops}; that is, they test the condition first and at the beginning of each pass through the loop.
+
+\index{posttest loop}
+\index{do-while}
+
+Java also provides a {\bf posttest loop}: the \java{do}-\java{while} statement.
+This type of loop is useful when you need to run the body of the loop at least once.
+
+%NOTE: can we find an example that's better using do-while than using while-break?
+
+For example, in Section~\ref{validate} we used the \java{return} statement to avoid reading invalid input from the user.
+We can use a \java{do}-\java{while} loop to keep reading input until it's valid:
+
+\begin{code}
+Scanner in = new Scanner(System.in);
+boolean okay;
+do {
+    System.out.print("Enter a number: ");
+    if (in.hasNextDouble()) {
+        okay = true;
+    } else {
+        okay = false;
+        String word = in.next();
+        System.err.println(word + " is not a number");
+    }
+} while (!okay);
+double x = in.nextDouble();
+\end{code}
+
+Although this code looks complicated, it is essentially only three steps:
+
+\begin{enumerate}
+\item Display a prompt.
+\item Check the input; if invalid, display an error and start over.
+\item Read the input.
+\end{enumerate}
+
+\index{System.err}
+
+The code uses a flag variable, \java{okay}, to indicate whether we need to repeat the loop body.
+If \java{hasNextDouble()} returns \java{false}, we consume the invalid input by calling \java{next()}.
+We then display an error message via \java{System.err}.
+The loop terminates when \java{hasNextDouble()} return \java{true}.
+
+
+\section{Break and continue}
+
+Sometimes neither a pretest nor a posttest loop will provide exactly what you need.
+In the previous example, the ``test'' needed to happen in the middle of the loop.
+As a result, we used a flag variable and a nested \java{if}-\java{else} statement.
+
+\index{break}
+
+A simpler way to solve this problem is to use a \java{break} statement.
+When a program reaches a \java{break} statement, it exits the current loop.
+
+\begin{code}
+Scanner in = new Scanner(System.in);
+while (true) {
+    System.out.print("Enter a number: ");
+    if (in.hasNextDouble()) {
+        break;
+    }
+    String word = in.next();
+    System.err.println(word + " is not a number");
+}
+double x = in.nextDouble();
+\end{code}
+
+Using \java{true} as a conditional in a \java{while} loop is an idiom that means ``loop forever'', or in this case ``loop until you get to a \java{break} statement.''
+
+\index{continue}
+
+In addition to the \java{break} statement, which exits the loop, Java provides a \java{continue} statement that moves on to the next iteration.
+For example, the following code reads integers from the keyboard and computes a running total.
+The \java{continue} statement causes the program to skip over any negative values.
+
+\begin{code}
+Scanner in = new Scanner(System.in);
+int x = -1;
+int sum = 0;
+while (x != 0) {
+    x = in.nextInt();
+    if (x <= 0) {
+        continue;
+    }
+    System.out.println("Adding " + x);
+    sum += x;
+}
+\end{code}
+
+Although \java{break} and \java{continue} statements give you more control of the loop execution, they can make code difficult to understand and debug.
+Use them sparingly.
+
+
+\section{The switch statement}
+
+TODO
 
 
 \section{Vocabulary}
