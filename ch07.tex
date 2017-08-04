@@ -1,5 +1,4 @@
 \chapter{Arrays and references}
-\label{arrays}
 
 %NOTE: DW liked the previous version where strings come before arrays
 % CSM: the transition is better from strings to things to objects
@@ -208,7 +207,6 @@ But it beats having to write the \java{printArray} method.
 
 
 \section{Copying arrays}
-\label{copyarray}
 
 \index{array!copying}
 
@@ -481,10 +479,7 @@ for (int i = 0; i < counts.length; i++) {
 \end{code}
 
 Notice that we are using the loop variable \java{i} three times: as an index into the \java{counts} array, and as two arguments for \java{inRange}.
-%
-%\section{A single-pass solution}
-%\label{singlepass}
-%
+
 The code works, but it is not as efficient as it could be.
 Every time the loop invokes \java{inRange}, it traverses the entire array.
 
@@ -746,7 +741,6 @@ Write a method called \java{sieve} that takes an integer parameter, \java{n}, an
 \begin{exercise}  %%V6 Ex8.6
 
 Write a method named \java{areFactors} that takes an integer \java{n} and an array of integers, and that returns \java{true} if the numbers in the array are all factors of \java{n} (which is to say that \java{n} is divisible by all of them).
-%{\it Hint:} See Exercise~\ref{ex.isdiv}.
 
 \end{exercise}
 
