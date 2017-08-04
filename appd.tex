@@ -453,7 +453,7 @@ This version is correct, and more readable for other people who haven't memorize
 If you have a return statement with a complex expression, you don't have a chance to display the value before returning.
 
 \begin{code}
-public static Rectangle intersection(Rectangle a, Rectangle b) {
+public Rectangle intersection(Rectangle a, Rectangle b) {
     return new Rectangle(
         Math.min(a.x, b.x), Math.min(a.y, b.y),
         Math.max(a.x + a.width, b.x + b.width)
@@ -466,7 +466,7 @@ public static Rectangle intersection(Rectangle a, Rectangle b) {
 Instead of writing everything in one statement, use temporary variables:
 
 \begin{code}
-public static Rectangle intersection(Rectangle a, Rectangle b) {
+public Rectangle intersection(Rectangle a, Rectangle b) {
     int x1 = Math.min(a.x, b.x);
     int y1 = Math.min(a.y, b.y);
     int x2 = Math.max(a.x + a.width, b.x + b.width);
