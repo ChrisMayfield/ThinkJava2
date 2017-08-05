@@ -565,3 +565,32 @@ Also, remember that anything raised to the zeroth power is 1.
 Optional challenge: you can make this method more efficient, when \java{n} is even, using $x^n = \left( x^{n/2} \right)^2$.
 
 \end{exercise}
+
+
+\begin{exercise}  %%V6 Ex8.8
+
+Many of the patterns we have seen for traversing arrays can also be written recursively.
+It is not common, but it is a useful exercise.
+
+\begin{enumerate}
+
+\item Write a method called \java{maxInRange} that takes an array of integers and two indexes, \java{lowIndex} and \java{highIndex}, and finds the maximum value in the array, but only considering the elements between \java{lowIndex} and \java{highIndex}, including both.
+
+This method should be recursive.
+If the length of the range is 1, that is, if \java{lowIndex == highIndex}, we know immediately that the sole element in the range must be the maximum.
+So that's the base case.
+
+If there is more than one element in the range, we can break the array into two pieces, find the maximum in each of the pieces, and then find the maximum of the maxima.
+
+\item Methods like \java{maxInRange} can be awkward to use.
+To find the largest element in an array, we have to provide the range for the entire array.
+
+\begin{code}
+double max = maxInRange(a, 0, a.length - 1);
+\end{code}
+
+Write a method called \java{max} that takes an array and uses \java{maxInRange} to find and return the largest element.
+
+\end{enumerate}
+
+\end{exercise}
