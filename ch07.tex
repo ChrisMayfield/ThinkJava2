@@ -17,7 +17,7 @@ for (char c = 'a'; c <= 'z'; c++) {
 
 This ``nested loops'' approach is inefficient, especially when the string is long (e.g., one billion characters).
 Another algorithm would initialize 26 variables to zero, loop through the string once, and use a giant \java{if} statement update the variable for each letter.
-But who wants to declare 26 variables?!
+But who wants to declare 26 variables?
 
 That's where arrays come in.
 We can declare a single variable that stores 26 integers.
@@ -46,6 +46,7 @@ double[] values;
 
 \index{new}
 \index{operator!new}
+\index{allocate}
 
 To create the array itself, you have to use the \java{new} operator, which we first saw in Section~\ref{scanner}.
 The \java{new} operator {\bf allocates} memory for the array and automatically initializes all of its elements to zero.
@@ -56,7 +57,7 @@ values = new double[size];
 \end{code}
 
 The first assignment makes \java{counts} refer to an array of four integers.
-The second makes \java{values} refer to an array of \java{double}s, but the number of elements depends on the value of \java{size} (at the time the array was created).
+The second makes \java{values} refer to an array of \java{double}s, but the number of elements depends on the value of \java{size} (at the time the array is created).
 
 Of course, you can also declare the variable and create the array with a single line of code:
 
@@ -79,7 +80,7 @@ An array with zero elements is allowed, and there are special uses for such arra
 \index{memory diagram}
 \index{diagram!memory}
 
-When you create an array of \java{int}s with \java{new}, the elements are initialized to zero.
+When you create an array with the \java{new} operator, the elements are initialized to zero.
 Figure~\ref{fig.array} shows a memory diagram of the \java{counts} array so far.
 
 \begin{figure}[!ht]
@@ -143,7 +144,7 @@ while (i < 4) {
 }
 \end{code}
 
-This \java{while} loop counts from 0 up to 4.
+This \java{while} loop counts up from 0 to 4.
 When \java{i} is 4, the condition fails and the loop terminates.
 So the body of the loop is only executed when \java{i} is 0, 1, 2, and 3.
 In this context, the variable name \java{i} is short for ``index''.
@@ -152,7 +153,7 @@ In this context, the variable name \java{i} is short for ``index''.
 \index{variable!loop}
 
 Each time through the loop we use \java{i} as an index into the array, displaying the \java{i}th element.
-This type of array processing is often written using a \java{for} loop.
+This type of array processing is usually written as a \java{for} loop.
 
 \begin{code}
 for (int i = 0; i < 4; i++) {
@@ -184,7 +185,7 @@ Unfortunately, the output is something like:
 [I@bf3f7e0
 \end{stdout}
 
-The bracket indicates that the value is an array, \java{I} stands for ``integer'', and the rest represents the address of the array.
+The bracket indicates that the value is an array, \java{I} stands for ``integer'', and the rest represents the address of the array in memory.
 If we want to display the elements of the array, we could do it ourselves:
 
 \begin{code}
@@ -197,7 +198,7 @@ public static void printArray(int[] a) {
 }
 \end{code}
 
-Given the previous array, the output of this method is:
+Given the previous array, the output of \java{printArray} is:
 
 \begin{stdout}
 {1, 2, 3, 4}
@@ -222,7 +223,7 @@ And the output is:
 
 As usual, we have to \java{import java.util.Arrays} before we can use it.
 Notice that the string format is slightly different: it uses square brackets instead of curly braces.
-But it beats having to write the \java{printArray} method.
+But it beats having to write your own \java{printArray} method.
 
 
 \section{Copying arrays}
@@ -231,7 +232,7 @@ But it beats having to write the \java{printArray} method.
 
 As explained in Section~\ref{elements}, array variables contain {\em references} to arrays.
 When you make an assignment to an array variable, it simply copies the reference.
-But it doesn't copy the array itself!
+But it doesn't copy the array itself.
 For example:
 
 \begin{code}
@@ -255,7 +256,7 @@ Any changes made through either variable will be seen by the other.
 For example, if we set \java{a[0] = 17.0}, and then display \java{b[0]}, the result is {\tt 17.0}.
 Because \java{a} and \java{b} are different names for the same thing, they are sometimes called {\bf aliases}.
 
-If you actually want to copy the array, not just the reference, you have to create a new array and copy the elements from the old to the new, like this:
+If you actually want to copy the array, not just the reference, you have to create a new array and copy the elements from one to the other, like this:
 
 \begin{code}
 double[] b = new double[3];
@@ -290,7 +291,7 @@ Figure~\ref{fig.array4} shows the state of the array variables after invoking \j
 \index{array!length}
 
 The examples so far only work if the array has three elements.
-It would be better to generalize the code to work with arrays of any size.
+It is better to generalize the code to work with arrays of any size.
 We can do that by replacing the magic number, \java{3}, with \java{a.length}:
 
 \begin{code}
@@ -310,7 +311,7 @@ The last time the loop gets executed, \java{i} is \java{a.length - 1}, which is 
 When \java{i} is equal to \java{a.length}, the condition fails and the body is not executed -- which is a good thing, because trying to access \java{a[a.length]} would throw an exception.
 
 Of course we can replace the loop altogether by using \java{Arrays.copyOf} and \java{a.length} for the second argument.
-This line produces the same result shown in Figure~\ref{fig.array4}.
+The following line produces the same result shown in Figure~\ref{fig.array4}.
 
 \begin{code}
 double[] b = Arrays.copyOf(a, a.length);
@@ -338,8 +339,8 @@ At the end of the loop, the array has the values \java{\{1, 4, 9, 16, 25\}}.
 \index{search}
 
 
-Another common pattern is a {\bf search}, which involves traversing an array ``searching'' for a particular element.
-For example, the following method takes an array and a target value, and it returns the index where the value appears:
+Another common pattern is a {\bf search}, which involves traversing an array and ``searching'' for a particular element.
+For example, the following method takes an array and a value, and it returns the index where the value appears:
 
 \begin{code}
 public static int search(double[] array, double target) {
@@ -348,7 +349,7 @@ public static int search(double[] array, double target) {
             return i;
         }
     }
-    return -1;
+    return -1;  // not found
 }
 \end{code}
 
@@ -356,7 +357,7 @@ If we find the target value in the array, we return its index immediately.
 If the loop exits without finding the target, it returns \java{-1}, a special value chosen to indicate a failed search.
 (This code is essentially what the \java{String.indexOf} method does.)
 
-For example, the following code searches an array for the value \java{1.23}, which is the third element.
+The following code searches an array for the value \java{1.23}, which is the third element.
 Because array indexes start at zero, the output is \java{2}.
 
 \begin{code}
@@ -395,10 +396,10 @@ A variable used this way is sometimes called an {\bf accumulator}, because it ``
 
 \index{deterministic}
 
-Most computer programs do the same thing every time they run; programs like that are {\bf deterministic}.
+Most computer programs do the same thing every time they run; programs like that are called {\bf deterministic}.
 Usually determinism is a good thing, since we expect the same calculation to yield the same result.
 But for some applications, we want the computer to be unpredictable.
-Games are an obvious example, but there are many others including scientific simulations.
+Games are an obvious example, but there are many others, like scientific simulations.
 
 %Technically speaking, all computer programs are deterministic: they simply execute the source code.
 
@@ -435,7 +436,7 @@ public static int[] randomArray(int size) {
 \end{code}
 
 The following \java{main} method generates an array and displays it using \java{printArray} from Section~\ref{printarray}.
-We could have used \java{Arrays.toString} instead, but we like seeing curly braces instead of square brackets.
+We could have used \java{Arrays.toString}, but we like seeing curly braces instead of square brackets.
 
 \begin{code}
 public static void main(String[] args) {
@@ -465,7 +466,7 @@ For exam scores, we might have ten counters to keep track of how many students s
 To do that, we can traverse the array and count the number of elements that fall in a given range.
 
 The following method takes an array and two integers.
-It returns the number of elements that fall in the range from  \java{low} to \java{high}.
+It returns the number of elements that fall in the range from \java{low} to \java{high - 1}.
 
 \begin{code}
 public static int inRange(int[] a, int low, int high) {
@@ -497,9 +498,9 @@ int d = inRange(scores, 60, 70);
 int f = inRange(scores, 0, 60);
 \end{code}
 
-The previous code is repetitive, but it is acceptable as long as the number of ranges is small.
-But suppose we wanted to keep track of the number of times each individual score appears.
-We would have to write 100 lines of code:
+This code is repetitive, but it is acceptable as long as the number of ranges is small.
+Suppose we wanted to keep track of the number of times each individual score appears.
+Then we would have to write 100 lines of code:
 
 \begin{code}
 int count0 = inRange(scores, 0, 1);
@@ -510,7 +511,7 @@ int count99 = inRange(scores, 99, 100);
 \end{code}
 
 What we need is a way to store 100 counters, preferably so we can use an index to access them.
-Wait a minute, we can use another array!
+Wait a minute, that's exactly what an array does.
 
 The following fragment creates an array of 100 counters, one for each possible score.
 It loops through the scores and uses \java{inRange} to count how many times each score appears.
@@ -523,16 +524,16 @@ for (int i = 0; i < counts.length; i++) {
 }
 \end{code}
 
-Notice that we are using the loop variable \java{i} three times: as an index into the \java{counts} array, and as two arguments for \java{inRange}.
-
-The code works, but it is not as efficient as it could be.
-Every time the loop invokes \java{inRange}, it traverses the entire array.
+Notice that we are using the loop variable \java{i} three times: as an index into the \java{counts} array, and in the last two arguments of \java{inRange}.
 
 \index{efficiency}
 
+The code works, but it is not as efficient as it could be.
+Every time the loop invokes \java{inRange}, it traverses the entire array.
 It would be better to make a single pass through the \java{scores} array.
-For each score, we can compute which range it falls in, and then increment the corresponding counter.
 
+For each score, we already know which range it falls in -- the score itself.
+We can use that value to increment the corresponding counter.
 This code traverses the array of scores {\em only once} to generate the histogram:
 
 \begin{code}
@@ -544,14 +545,14 @@ for (int i = 0; i < scores.length; i++) {
 \end{code}
 
 Each time through the loop, it selects one element from \java{scores} and uses it as an index to increment the corresponding element of \java{counts}.
-Because this code only traverses the array of scores once, it is much more efficient.
+Because this code traverses the array of scores only once, it is much more efficient.
 
 
 \section{The enhanced for loop}
 \label{enhanced}
 
 Since traversing arrays is so common, Java provides an alternative syntax that makes the code more compact.
-For example, consider a \java{for} loop that displays the elements of an array on separate lines:
+Consider a \java{for} loop that displays the elements of an array on separate lines:
 
 \begin{code}
 for (int i = 0; i < values.length; i++) {
@@ -570,8 +571,8 @@ for (int value : values) {
 
 \index{enhanced for loop}
 
-This statement is called an {\bf enhanced for loop}.
-You can read it as, ``for each \java{value} in \java{values}''.
+This statement is called an {\bf enhanced for loop}, also known as the ``for each'' loop.
+You can read the code as, ``for each \java{value} in \java{values}''.
 It's conventional to use plural nouns for array variables and singular nouns for element variables.
 
 Notice how the single line \java{for (int value : values)} replaces the first two lines of the standard \java{for} loop.
@@ -592,7 +593,7 @@ But they are not helpful when you need to refer to the index, as in search opera
 \begin{code}
 for (double d : array) {
     if (d == target) {
-        // array contains d, but we don't know the index
+        // array contains d, but we don't know where
     }
 }
 \end{code}
@@ -610,7 +611,7 @@ To ignore case, invoke the \java{toLowerCase} method before checking.
 \end{quote}
 
 Based on the approach from Section~\ref{singlepass}, we will create an array of 26 integers to count how many times each letter appears.
-We also convert the string to lowercase, so that we can treat \java{'A'} and \java{'a'} (for example) as the same latter.
+We convert the string to lowercase, so that we can treat \java{'A'} and \java{'a'} (for example) as the same latter.
 
 \begin{code}
 int[] counts = new int[26];
@@ -619,7 +620,7 @@ String lower = s.toLowerCase();
 
 We can use a \java{for} loop to iterate each character in the string.
 To update the \java{counts} array, we need to compute the index that corresponds to each character.
-Fortunately, Java allows you to perform arithmetic with characters.
+Fortunately, Java allows you to perform arithmetic on characters.
 
 \begin{code}
 for (int i = 0; i < lower.length(); i++) {
@@ -632,7 +633,7 @@ for (int i = 0; i < lower.length(); i++) {
 \index{toCharArray}
 
 To simplify the code, it would be nice to use an enhanced \java{for} loop.
-The enhanced \java{for} loop does not work with strings, but you can convert any string to a character array and iterate that instead:
+The enhanced \java{for} loop does not work with strings directly, but you can convert any string to a character array and iterate that instead:
 
 \begin{code}
 for (char letter : lower.toCharArray()) {
@@ -646,13 +647,13 @@ After counting all the characters in the \java{lower} string, we need one last \
 \begin{code}
 for (int count : counts) {
     if (count != 0 && count != 2) {
-        return false;
+        return false;  // not a doubloon
     }
 }
-return true;
+return true;  // is a doubloon
 \end{code}
 
-Like in Section~\ref{traversal}, we can return immediately as soon as we determine the result is invalid.
+Like in Section~\ref{traversal}, we can return immediately if the inner condition is true (which, in this example, means that the word is not a doubloon).
 If we make it all the way through the \java{for} loop, we know that all counts are 0 or 2.
 
 Pulling together the code fragments, and adding some comments and test cases, here is an entire program.
@@ -661,7 +662,7 @@ It's amazing to think about how much you've learned in just seven chapters!
 
 \begin{trinket}{Doubloon.java}
 public class Doubloon {
-    
+
     public static boolean isDoubloon(String s) {
         // count the number of times each letter appears
         int[] counts = new int[26];
@@ -678,8 +679,8 @@ public class Doubloon {
         }
         return true;
     }
-    
-    public static void main(String[] args) { 
+
+    public static void main(String[] args) {
         System.out.println(isDoubloon("Mama"));  // true
         System.out.println(isDoubloon("Lama"));  // false
     }
