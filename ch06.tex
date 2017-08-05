@@ -93,7 +93,7 @@ while (n != 1) {
     if (n % 2 == 0) {         // n is even
         n = n / 2;
     } else {                  // n is odd
-        n = n * 3 + 1;
+        n = 3 * n + 1;
     }
 }
 \end{code}
@@ -203,7 +203,7 @@ Figure~\ref{fig.for} illustrates \java{for} loops with a flowchart.
 \end{center}
 \end{figure}
 
-There is another difference between \java{for} loops and \java{while} loops: if you declare a variable in the initializer, it only exists inside the \java{for} loop.
+There is another difference between \java{for} loops and \java{while} loops: if you declare a variable in the initializer, it only exists {\em inside} the \java{for} loop.
 For example:
 
 \begin{code}
@@ -214,7 +214,7 @@ System.out.println("n is now " + n);  // compiler error
 \end{code}
 
 The last line tries to display \java{n} (for no reason other than demonstration) but it won't work.
-If you need to use a loop variable outside the loop, you have to declare it outside the loop, like this:
+If you need to use a loop variable outside the loop, you have to declare it {\em outside} the loop, like this:
 
 \begin{code}
 int n;
@@ -274,7 +274,7 @@ Doing so causes the output to align vertically, regardless of how many digits th
 \end{stdout}
 
 It's important to realize that the output is displayed row by row.
-The inner loop displays an entire row of output, followed by a newline.
+The inner loop displays a single row of output, followed by a newline.
 The outer loop iterates over the rows themselves.
 Another way to read nested loops, like the ones in this example, is ``for each row \java{x}, and for each column \java{y}, \ldots''
 
@@ -290,14 +290,14 @@ Although the examples are short, the techniques work the same whether you have o
 \index{type!char}
 
 Strings provide a method named \java{charAt}.
-It returns a \java{char}, a primitive type that stores an individual character (as opposed to strings of them).
+It returns a \java{char}, a data type that stores an individual character (as opposed to strings of them).
 
 \begin{code}
 String fruit = "banana";
 char letter = fruit.charAt(0);
 \end{code}
 
-The argument \java{0} means that we want the letter at {\bf index} 0.
+The argument \java{0} means that we want the character at {\bf index} 0.
 String indexes range from 0 to $n-1$, where $n$ is the length of the string.
 So the character assigned to \java{letter} is \java{b}.
 
@@ -311,7 +311,7 @@ So the character assigned to \java{letter} is \java{b}.
 \end{center}
 
 
-Characters work like the other primitive types we have seen.
+Characters work like the other data types we have seen.
 You can compare them using relational operators:
 
 \begin{code}
@@ -355,6 +355,7 @@ System.out.println();
 \end{code}
 
 This example uses a type cast to convert each integer (in the range) to the corresponding character.
+Try running the code and see what happens.
 
 
 \section{String iteration}
@@ -377,7 +378,7 @@ Strings provide a method called \java{length} that returns the number of charact
 Because it is a method, you have to invoke it with the empty argument list, \java{()}.
 When \java{i} is equal to the length of the string, the condition becomes \java{false} and the loop terminates.
 
-To find the last letter of a string, you might be tempted to try something like:
+To find the last letter of a string, you might be tempted to do something like:
 
 \begin{code}
 int length = fruit.length();
@@ -428,7 +429,7 @@ However, the \java{String} class already provides a method for doing just that.
 
 \begin{code}
 String fruit = "banana";
-int index = fruit.indexOf('a');
+int index = fruit.indexOf('a');     // returns 1
 \end{code}
 
 This example finds the index of \java{'a'} in the string.
@@ -442,7 +443,7 @@ int index = fruit.indexOf('a', 2);  // returns 3
 \end{code}
 
 To visualize how \java{indexOf} and other \java{String} methods work, it helps to draw a picture like Figure~\ref{fig.banana}.
-The code starts at index 2 (the first \java{'n'}) and finds the next \java{'a'}, which is at index 3.
+The previous code starts at index 2 (the first \java{'n'}) and finds the next \java{'a'}, which is at index 3.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -475,7 +476,6 @@ For example, the expression \java{fruit.indexOf("nan")} returns \java{2}.
 \label{strcmp}
 
 \index{equals}
-\index{compareTo}
 
 To compare two strings, it may be tempting to use the \java{==} and \java{!=} operators.
 
@@ -487,9 +487,9 @@ if (name1 == name2) {                 // wrong!
 }
 \end{code}
 
-This code compiles and runs, and most of the time it gets the answer right.
-But it is not correct, and sometimes it gets the answer wrong.
-If you give it two different strings that contain the same letters, the condition is \java{false}.
+This code compiles and runs, and sometimes it gets the answer right.
+But sometimes it gets the answer wrong.
+If you give it two different strings that contain the same letters, the condition will be \java{false}.
 
 The problem is that the \java{==} operator checks whether the two variables refer to the {\em same object} by comparing the references.
 We'll learn more about references in the next chapter.
@@ -503,6 +503,8 @@ if (name1.equals(name2)) {
 
 This example invokes \java{equals} on \java{name1} and passes \java{name2} as an argument.
 The \java{equals} method returns \java{true} if the strings contain the same characters; otherwise it returns \java{false}.
+
+\index{compareTo}
 
 If the strings differ, we can use \java{compareTo} to see which comes first in alphabetical order:
 
@@ -527,7 +529,7 @@ Otherwise, the difference is positive.
 \index{case-sensitive}
 
 Both \java{equals} and \java{compareTo} are case-sensitive.
-And in Unicode, uppercase letters come before lowercase letters.
+In Unicode, uppercase letters come before lowercase letters.
 So \java{"Ada"} comes before \java{"ada"}.
 
 
@@ -557,9 +559,10 @@ If it's invoked with two arguments, they are treated as a start and end index:
 \item \java{fruit.substring(6, 6)} returns \java{""}
 \end{itemize}
 
-Notice that the character indicated by the end index is not included.
+Notice that the character indicated by the end index is {\em not} included.
 Defining \java{substring} this way simplifies some common operations.
 For example, to select a substring with length \java{len}, starting at index \java{i}, you could write \java{fruit.substring(i, i + len)}.
+%So \java{fruit.substring(2, 2 + 3)} returns \java{"nan"}.
 
 
 \section{String formatting}
@@ -569,7 +572,7 @@ For example, to select a substring with length \java{len}, starting at index \ja
 
 In Section~\ref{printf}, we learned how to use \java{System.out.printf} to display formatted output.
 Sometimes programs need to create strings that are formatted a certain way, but not display them immediately, or ever.
-For example, the following method {\em returns} a time string in 12-hour format:
+For example, the following method returns a time string in 12-hour format:
 
 \begin{code}
 public static String timeString(int hour, int minute) {
@@ -594,6 +597,7 @@ The main difference is that \java{System.out.printf} displays the result on the 
 \java{String.format} creates a new string, but does not display anything.
 
 In this example, the format specifier \java{\%02d} means ``two digit integer padded with zeros'', so \java{timeString(19, 5)} returns the string \java{"07:05 PM"}.
+As an exercise, try writing two nested \java{for} loops (in \java{main}) that invoke \java{timeString} and display all possible times over a 24-hour period.
 
 At some point today, skim through the documentation for \java{String}.
 Knowing what other methods are there will help you avoid reinventing the wheel.
@@ -747,7 +751,7 @@ deinos, diluvy, dimpsy %\\
 \end{quote}
 
 Write a method called \java{isAbecedarian} that takes a \java{String} and returns a \java{boolean} indicating whether the word is abecedarian.
-Your method can be iterative or recursive.
+%Your method can be iterative or recursive.
 
 \end{exercise}
 
@@ -765,16 +769,6 @@ Abba, Anna, appall, appearer, appeases, arraigning, beriberi, bilabial, boob, Ca
 
 Write a method called \java{isDoubloon} that takes a string and checks whether it is a doubloon.
 To ignore case, invoke the \java{toLowerCase} method before checking.
-\end{exercise}
-
-
-\begin{exercise}  %%V6 Ex9.7
-\index{anagram}
-
-Two words are anagrams if they contain the same letters and the same number of each letter.
-For example, ``stop'' is an anagram of ``pots'' and ``allen downey'' is an anagram of ``well annoyed''.
-
-Write a method that takes two strings and checks whether they are anagrams of each other.
 \end{exercise}
 
 
