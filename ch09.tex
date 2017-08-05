@@ -635,9 +635,6 @@ A collection of related data that comes with a set of methods that operate on it
 \term{primitive}
 A data type that stores a single value and provides no methods.
 
-\term{Unicode}
-A standard for representing characters in most of the world's languages.
-
 %\term{traverse}
 %To iterate through the elements of a set performing a similar operation on each.
 
@@ -660,9 +657,6 @@ A standard for representing characters in most of the world's languages.
 An object that, once created, cannot be modified.
 Strings are immutable by design.
 
-\term{empty string}
-The string \java{""}, which contains no characters and has a length of zero.
-
 %\term{utility method}
 %A method that provides commonly needed functionality.
 
@@ -674,6 +668,22 @@ To read a string and interpret or translate it.
 
 \term{empty array}
 An array with no elements and a length of zero.
+
+\term{program development}
+A process for writing programs.
+So far we have seen ``incremental development'' and ``encapsulation and generalization''.
+
+\term{encapsulate}
+To wrap a sequence of statements in a method.
+
+\term{generalize}
+To replace something unnecessarily specific (like a constant value) with something appropriately general (like a variable or parameter).
+
+\term{pretest loop}
+A loop that tests the condition before each iteration.
+
+\term{posttest loop}
+A loop that tests the condition after each iteration.
 
 \end{description}
 
@@ -860,61 +870,43 @@ Write a recursive method named \java{isPalindrome} that takes a \java{String} an
 \end{exercise}
 
 
-\begin{exercise}  %%V6 Ex9.5
+\begin{exercise}  %%V6 Ex7.5
 
-\index{abecedarian}
+One way to calculate $e^x$ is to use the infinite series expansion:
+%
+\[ e^x = 1 + x + x^2 / 2! + x^3 / 3! + x^4 / 4! + \ldots \]
+%
+The $i$th term in the series is $x^i / i!$.
 
-A word is said to be ``abecedarian'' if the letters in the word appear in alphabetical order.
-For example, the following are all six-letter English abecedarian words:
+\begin{enumerate}
 
-\begin{quote}
-abdest, acknow, acorsy, adempt, adipsy, agnosy, befist, behint, %\\
-beknow, bijoux, biopsy, cestuy, chintz, deflux, dehors, dehort, %\\
-deinos, diluvy, dimpsy %\\
-\end{quote}
+\item Write a method called \java{myexp} that takes \java{x} and \java{n} as parameters and estimates $e^x$ by adding the first \java{n} terms of this series.
+You can use the \java{factorial} method from Section~\ref{factorial} or your iterative version from the previous exercise.
 
-Write a method called \java{isAbecedarian} that takes a \java{String} and returns a \java{boolean} indicating whether the word is abecedarian.
-Your method can be iterative or recursive.
+\index{efficiency}
 
-\end{exercise}
+\item You can make this method more efficient if you realize that the numerator of each term is the same as its predecessor multiplied by \java{x}, and the denominator is the same as its predecessor multiplied by \java{i}.
+Use this observation to eliminate the use of \java{Math.pow} and \java{factorial}, and check that you get the same result.
 
+\item Write a method called \java{check} that takes a parameter, \java{x}, and displays \java{x}, \java{myexp(x)}, and \java{Math.exp(x)}.
+The output should look something like:
 
-\begin{exercise}  %%V6 Ex9.6
+\begin{stdout}
+1.0     2.708333333333333     2.718281828459045
+\end{stdout}
 
-\index{doubloon}
+You can use the escape sequence \java{"\\t"} to put a tab character between columns of a table.
 
-A word is said to be a ``doubloon'' if every letter that appears in the word appears exactly twice.
-Here are some example doubloons found in the dictionary:
+\item Vary the number of terms in the series (the second argument that \java{check} sends to \java{myexp}) and see the effect on the accuracy of the result.
+Adjust this value until the estimated value agrees with the correct answer when \java{x} is 1.
 
-\begin{quote}
-Abba, Anna, appall, appearer, appeases, arraigning, beriberi, bilabial, boob, Caucasus, coco, Dada, deed, Emmett, Hannah, horseshoer, intestines, Isis, mama, Mimi, murmur, noon, Otto, papa, peep, reappear, redder, sees, Shanghaiings, Toto
-\end{quote}
+\item Write a loop in \java{main} that invokes \java{check} with the values 0.1, 1.0, 10.0, and 100.0.
+How does the accuracy of the result vary as \java{x} varies?
+Compare the number of digits of agreement rather than the difference between the actual and estimated values.
 
-Write a method called \java{isDoubloon} that takes a string and checks whether it is a doubloon.
-To ignore case, invoke the \java{toLowerCase} method before checking.
-\end{exercise}
+\item Add a loop in \java{main} that checks \java{myexp} with the values -0.1, -1.0, -10.0, and -100.0.
+Comment on the accuracy.
 
-
-\begin{exercise}  %%V6 Ex9.7
-\index{anagram}
-
-Two words are anagrams if they contain the same letters and the same number of each letter.
-For example, ``stop'' is an anagram of ``pots'' and ``allen downey'' is an anagram of ``well annoyed''.
-
-Write a method that takes two strings and checks whether they are anagrams of each other.
-\end{exercise}
-
-
-\begin{exercise}  %%V6 Ex9.8
-\index{Scrabble}
-
-In Scrabble\footnote{Scrabble is a registered trademark owned in the USA and Canada by Hasbro Inc., and in the rest of the world by J.\ W.\ Spear \& Sons Limited of Maidenhead, Berkshire, England, a subsidiary of Mattel Inc.} each player has a set of tiles with letters on them.
-The object of the game is to use those letters to spell words.
-The scoring system is complex, but longer words are usually worth more than shorter words.
-
-Imagine you are given your set of tiles as a string, like \java{"quijibo"}, and you are given another string to test, like \java{"jib"}.
-
-Write a method called \java{canSpell} that takes two strings and checks whether the set of tiles can spell the word.
-You might have more than one tile with the same letter, but you can only use each tile once.
+\end{enumerate}
 
 \end{exercise}

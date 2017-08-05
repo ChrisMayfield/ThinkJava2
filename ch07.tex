@@ -550,6 +550,21 @@ for (double d : array) {
 }
 \end{code}
 
+\index{toCharArray}
+
+Unfortunately, the enhanced \java{for} loop does not work with strings.
+But you can convert any string to a character array and iterate that:
+
+\begin{code}
+for (char letter : fruit.toCharArray()) {
+    System.out.println(letter);
+}
+\end{code}
+
+%TODO put this somewhere
+Do not confuse \java{string.length()}, which is a method, with \java{array.length}, which is a constant.
+
+
 \section{Vocabulary}
 
 \begin{description}
@@ -561,8 +576,8 @@ A collection of values, where all the values have the same type, and each value 
 One of the values in an array.
 The \java{[]} operator selects elements.
 
-\term{index}
-An integer variable or value used to indicate an element of an array.
+%\term{index}
+%An integer variable or value used to indicate an element of an array.
 
 \term{reference}
 A value that indicates another value, like an array.

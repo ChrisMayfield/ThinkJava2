@@ -2,12 +2,10 @@
 
 Computers are often used to automate repetitive tasks, such as searching for text in documents.
 Repeating tasks without making errors is something that computers do well and people do poorly.
-In this chapter, we'll learn how to use \java{while} and \java{for} loops to add repetition to your code.
-We'll also take a closer look at \java{String} methods and solve some interesting problems.
 
-%\index{iteration}
-%
-%Running the same code multiple times is called {\bf iteration}.
+In this chapter, we'll learn how to use \java{while} and \java{for} loops to add repetition to your code.
+We'll also take a first look at \java{String} methods and solve some interesting problems.
+
 %We have seen methods, like \java{countdown} and \java{factorial}, that use recursion to iterate.
 %Although recursion is elegant and powerful, it takes some getting used to.
 %Java provides language features that make iteration much easier: the \java{while} and \java{for} statements.
@@ -85,7 +83,7 @@ while (n > 0) {
 This example will print the number \java{3} forever, or at least until you terminate the program.
 An endless source of amusement for computer scientists is the observation that the directions on shampoo, ``Lather, rinse, repeat,'' are an infinite loop.
 
-In the case of \java{countdown}, we can prove that the loop terminates when \java{n} is positive.
+In the first example, we can prove that the loop terminates when \java{n} is positive.
 But in general, it is not so easy to tell whether a loop terminates.
 For example, this loop continues until \java{n} is 1 (which makes the condition \java{false}):
 
@@ -115,15 +113,15 @@ For more information, see \url{https://en.wikipedia.org/wiki/Collatz_conjecture}
 %The field of computer science is interested in these types of questions, because their answers give insight to the limits of what computers can and cannot do.
 
 
-\section{Assignment revisited}
+\section{Increment and decrement}
 
-Here is another \java{while} loop example that displays the numbers 1 to 5.
+Here is another \java{while} loop example; this one displays the numbers 1 to 5.
 
 \begin{code}
 int i = 1;
 while (i <= 5) {
     System.out.println(i);
-    i++;
+    i++;  // add 1 to i
 }
 \end{code}
 
@@ -144,9 +142,9 @@ For example, \java{i += 2} increments \java{i} by \java{2}.
 int i = 2;
 while (i <= 8) {
     System.out.print(i + ", ");
-    i += 2;
+    i += 2;  // add 2 to i
 }
-System.out.println("Who do we appreciate?")
+System.out.println("Who do we appreciate?");
 \end{code}
 
 And the output is:
@@ -164,16 +162,18 @@ And the output is:
 
 The loops we have written so far have several elements in common.
 They start by initializing a variable, they have a condition that depends on that variable, and inside the loop they do something to update that variable.
-This type of loop is so common that there is another statement, the \java{for} loop, that expresses it more concisely.
 
-For example, we could rewrite \java{printTable} like this:
+\index{iteration}
+
+Running the same code multiple times is called {\bf iteration}.
+This type of loop is so common that there is another statement, the \java{for} loop, that expresses it more concisely.
+For example, we can rewrite the 2-4-6-8 loop this way:
 
 \begin{code}
-public static void printTable(int rows) {
-    for (int i = 1; i <= rows; i = i + 1) {
-        printRow(i, rows);
-    }
+for (int i = 2; i <= 8; i += 2) {
+    System.out.print(i + ", ");
 }
+System.out.println("Who do we appreciate?");
 \end{code}
 
 \java{for} loops have three components in parentheses, separated by semicolons: the initializer, the condition, and the update.
@@ -181,58 +181,115 @@ public static void printTable(int rows) {
 \begin{enumerate}
 
 \item The {\em initializer} runs once at the very beginning of the loop.
+(It is equivalent to the line before the \java{while} statement.)
 
 \item The {\em condition} is checked each time through the loop.
 If it is \java{false}, the loop ends.
 Otherwise, the body of the loop is executed (again).
 
-\item At the end of each iteration, the {\em update} runs, and we go back to step 2.
+\item At the end of each iteration, the {\em update} runs, and we go back to step~2.
 
 \end{enumerate}
 
 The \java{for} loop is often easier to read because it puts all the loop-related statements at the top of the loop.
+Doing so allows you to focus on the statements in the loop body.
+Figure~\ref{fig.for} illustrates \java{for} loops with a flowchart.
 
-There is one difference between \java{for} loops and \java{while} loops: if you declare a variable in the initializer, it only exists inside the \java{for} loop.
-For example, here is a version of \java{printRow} that uses a \java{for} loop:
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[scale=0.9]{figs/for.pdf}
+\caption{Flow of execution for a \java{for} loop.}
+\label{fig.for}
+\end{center}
+\end{figure}
+
+There is another difference between \java{for} loops and \java{while} loops: if you declare a variable in the initializer, it only exists inside the \java{for} loop.
+For example:
 
 \begin{code}
-public static void printRow(int n, int cols) {
-    for (int i = 1; i <= cols; i = i + 1) {
-        System.out.printf("%4d", n * i);
-    }
-    System.out.println(i);  // compiler error
+for (int n = 3; n > 0; n--) {
+    System.out.println(n);
 }
+System.out.println("n is now " + n);  // compiler error
 \end{code}
 
-The last line tries to display \java{i} (for no reason other than demonstration) but it won't work.
+The last line tries to display \java{n} (for no reason other than demonstration) but it won't work.
 If you need to use a loop variable outside the loop, you have to declare it outside the loop, like this:
 
 \begin{code}
-public static void printRow(int n, int cols) {
-    int i;
-    for (i = 1; i <= cols; i = i + 1) {
-        System.out.printf("%4d", n * i);
-    }
-    System.out.println(i);
+int n;
+for (n = 3; n > 0; n--) {
+    System.out.println(n);
 }
+System.out.println("n is now " + n);
 \end{code}
+
+Notice that the \java{for} statement does not say \java{int n = 3}.
+Rather, it simply initializes the existing variable \java{n}.
 
 
 \section{Nested Loops}
 
-TODO
+Like conditional statements, loops can be nested one inside the other.
+Nested loops allow you to iterate over two variables.
+For example, we can generate a ``multiplication table'' like this:
 
+\begin{code}
+for (int x = 1; x <= 10; x++) {
+    for (int y = 1; y <= 10; y++) {
+        System.out.printf("%4d", x * y);
+    }
+    System.out.println();
+}
+\end{code}
 
-\newpage
+\index{loop variable}
+\index{variable!loop}
+\index{inner loop}
+\index{outer loop}
+
+Variables like \java{x} and \java{y} are called {\bf loop variables}, because they control the execution of a loop.
+In this example, the first loop (\java{for x}) is known as the ``outer loop'', and the second loop (\java{for y}) is known as the ``inner loop''.
+
+Each loop repeats their corresponding statements 10 times.
+The outer loop iterates from 1 to 10 only once, but the inner loop iterates from 1 to 10 each of those 10 times.
+As a result, the \java{printf} method is invoked 100 times.
+
+\index{format specifier}
+
+The format specifier \java{\%4d} displays the value of \java{x * y} padded with spaces so it's four characters wide.
+Doing so causes the output to align vertically, regardless of how many digits the numbers have:
+
+\begin{stdout}
+   1   2   3   4   5   6   7   8   9  10
+   2   4   6   8  10  12  14  16  18  20
+   3   6   9  12  15  18  21  24  27  30
+   4   8  12  16  20  24  28  32  36  40
+   5  10  15  20  25  30  35  40  45  50
+   6  12  18  24  30  36  42  48  54  60
+   7  14  21  28  35  42  49  56  63  70
+   8  16  24  32  40  48  56  64  72  80
+   9  18  27  36  45  54  63  72  81  90
+  10  20  30  40  50  60  70  80  90 100
+\end{stdout}
+
+It's important to realize that the output is displayed row by row.
+The inner loop displays an entire row of output, followed by a newline.
+The outer loop iterates over the rows themselves.
+Another way to read nested loops, like the ones in this example, is ``for each row \java{x}, and for each column \java{y}, \ldots''
 
 
 \section{Characters}
+
+Some of the most interesting problems in computer science involve searching and manipulating text.
+In the next few sections, we'll discuss how to apply loops to strings.
+Although the examples are short, the techniques work the same whether you have one word or one million words.
 
 \index{charAt}
 \index{char}
 \index{type!char}
 
-Strings provide a method named \java{charAt}, which extracts a character.
+Strings provide a method named \java{charAt}.
 It returns a \java{char}, a primitive type that stores an individual character (as opposed to strings of them).
 
 \begin{code}
@@ -240,8 +297,19 @@ String fruit = "banana";
 char letter = fruit.charAt(0);
 \end{code}
 
-The argument \java{0} means that we want the letter at position 0.
-Like array indexes, string indexes start at 0, so the character assigned to \java{letter} is \java{b}.
+The argument \java{0} means that we want the letter at {\bf index} 0.
+String indexes range from 0 to $n-1$, where $n$ is the length of the string.
+So the character assigned to \java{letter} is \java{b}.
+
+\begin{center}
+\ttfamily
+\begin{tabular}{cccccc}
+\hline
+\multicolumn{1}{|l|}{b} & \multicolumn{1}{l|}{a} & \multicolumn{1}{l|}{n} & \multicolumn{1}{l|}{a} & \multicolumn{1}{l|}{n} & \multicolumn{1}{l|}{a} \\ \hline
+0                       & 1                      & 2                      & 3                      & 4                      & 5                     
+\end{tabular}
+\end{center}
+
 
 Characters work like the other primitive types we have seen.
 You can compare them using relational operators:
@@ -259,7 +327,7 @@ Character literals, like \java{'a'}, appear in single quotes.
 Unlike string literals, which appear in double quotes, character literals can only contain a single character.
 Escape sequences, like \java{'\\t'}, are legal because they represent a single character.
 
-The increment and decrement operators work with characters.
+The increment and decrement operators also work with characters.
 So this loop displays the letters of the alphabet:
 
 \begin{code}
@@ -289,11 +357,11 @@ System.out.println();
 This example uses a type cast to convert each integer (in the range) to the corresponding character.
 
 
-\section{String traversal}
+\section{String iteration}
 
-\index{traverse}
+\index{iteration}
 
-The following loop traverses the characters in \java{fruit} and displays them, one on each line:
+The following loop iterates the characters in \java{fruit} and displays them, one on each line:
 
 \begin{code}
 for (int i = 0; i < fruit.length(); i++) {
@@ -307,23 +375,7 @@ for (int i = 0; i < fruit.length(); i++) {
 
 Strings provide a method called \java{length} that returns the number of characters in the string.
 Because it is a method, you have to invoke it with the empty argument list, \java{()}.
-%Do not confuse \java{string.length()}, which is a method, with \java{array.length}, which is a constant.
-
-\index{loop variable}
-\index{variable!loop}
-
-The condition is \java{i < fruit.length()}, which means that when \java{i} is equal to the length of the string, the condition is \java{false} and the loop terminates.
-
-\index{toCharArray}
-
-Unfortunately, the enhanced \java{for} loop does not work with strings.
-But you can convert any string to a character array and iterate that:
-
-\begin{code}
-for (char letter : fruit.toCharArray()) {
-    System.out.println(letter);
-}
-\end{code}
+When \java{i} is equal to the length of the string, the condition becomes \java{false} and the loop terminates.
 
 To find the last letter of a string, you might be tempted to try something like:
 
@@ -345,14 +397,14 @@ int length = fruit.length();
 char last = fruit.charAt(length - 1);  // correct
 \end{code}
 
-Many string traversals involve reading one string and creating another.
-For example, to reverse a string, we simply add one character at a time:
+Many string algorithms involve reading one string and building another.
+For example, to reverse a string, we can add one character at a time:
 
 \begin{code}
 public static String reverse(String s) {
     String r = "";
     for (int i = s.length() - 1; i >= 0; i--) {
-        r = r + s.charAt(i);
+        r += s.charAt(i);
     }
     return r;
 }
@@ -361,27 +413,36 @@ public static String reverse(String s) {
 \index{empty string}
 
 The initial value of \java{r} is \java{""}, which is the {\bf empty string}.
-The loop traverses the letters of \java{s} in reverse order.
+The loop iterates the letters of \java{s} in reverse order.
 Each time through the loop, it creates a new string and assigns it to \java{r}.
 When the loop exits, \java{r} contains the letters from \java{s} in reverse order.
 So the result of \java{reverse("banana")} is \java{"ananab"}.
 
 
-\section{Substrings}
+\section{The indexOf method}
 
-The \java{substring} method returns a new string that copies letters from an existing string, starting at the given index.
+\index{indexOf}
 
-\begin{itemize}
-\item \java{fruit.substring(0)} returns \java{"banana"}
-\item \java{fruit.substring(2)} returns \java{"nana"}
-\item \java{fruit.substring(6)} returns \java{""}
-\end{itemize}
+To search for a specific character in a string, you could write a \java{for} loop and use \java{charAt} like in the previous section.
+However, the \java{String} class already provides a method for doing just that.
 
-The first example returns a copy of the entire string.
-The second example returns all but the first two characters.
-As the last example shows, \java{substring} returns the empty string if the argument is the length of the string.
+\begin{code}
+String fruit = "banana";
+int index = fruit.indexOf('a');
+\end{code}
 
-To visualize how the \java{substring} method works, it helps to draw a picture like Figure~\ref{fig.banana}.
+This example finds the index of \java{'a'} in the string.
+But the letter appears three times, so it's not obvious what \java{indexOf} should do.
+According to the documentation, it returns the index of the {\em first} appearance.
+
+To find subsequent appearances, you can use another version of \java{indexOf}, which takes a second argument that indicates where in the string to start looking.
+
+\begin{code}
+int index = fruit.indexOf('a', 2);  // returns 3
+\end{code}
+
+To visualize how \java{indexOf} and other \java{String} methods work, it helps to draw a picture like Figure~\ref{fig.banana}.
+The code starts at index 2 (the first \java{'n'}) and finds the next \java{'a'}, which is at index 3.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -401,50 +462,12 @@ To visualize how the \java{substring} method works, it helps to draw a picture l
 %\end{tabular}
 %\end{center}
 
-Like most string methods, \java{substring} is overloaded.
-That is, there are other versions of \java{substring} that have different parameters.
-If it's invoked with two arguments, they are treated as a start and end index:
-
-\begin{itemize}
-\item \java{fruit.substring(0, 3)} returns \java{"ban"}
-\item \java{fruit.substring(2, 5)} returns \java{"nan"}
-\item \java{fruit.substring(6, 6)} returns \java{""}
-\end{itemize}
-
-Notice that the character indicated by the end index is not included.
-Defining \java{substring} this way simplifies some common operations.
-For example, to select a substring with length \java{len}, starting at index \java{i}, you could write \java{fruit.substring(i, i + len)}.
-
-
-\section{The indexOf method}
-
-\index{indexOf}
-
-The \java{indexOf} method searches for a character in a string.
-
-\begin{code}
-String fruit = "banana";
-int index = fruit.indexOf('a');
-\end{code}
-
-This example finds the index of \java{'a'} in the string.
-But the letter appears three times, so it's not obvious what \java{indexOf} should do.
-According to the documentation, it returns the index of the {\em first} appearance.
-
-To find subsequent appearances, you can use another version of \java{indexOf}, which takes a second argument that indicates where in the string to start looking.
-
-\begin{code}
-int index = fruit.indexOf('a', 2);
-\end{code}
-
-This code starts at index 2 (the first \java{'n'}) and finds the next \java{'a'}, which is at index 3.
-If the letter happens to appear at the starting index, the starting index is the answer.
+If the character happens to appear at the starting index, the starting index is the answer.
 So \java{fruit.indexOf('a', 5)} returns \java{5}.
-
 If the character does not appear in the string, \java{indexOf} returns \java{-1}.
 Since indexes cannot be negative, this value indicates the character was not found.
 
-You can also use \java{indexOf} to search for a substring, not just a single character.
+You can also use \java{indexOf} to search for an entire string, not just a single character.
 For example, the expression \java{fruit.indexOf("nan")} returns \java{2}.
 
 
@@ -466,10 +489,11 @@ if (name1 == name2) {                 // wrong!
 
 This code compiles and runs, and most of the time it gets the answer right.
 But it is not correct, and sometimes it gets the answer wrong.
-The problem is that the \java{==} operator checks whether the two variables refer to the same object (by comparing the references).
-If you give it two different strings that contain the same letters, it yields \java{false}.
+If you give it two different strings that contain the same letters, the condition is \java{false}.
 
-The right way to compare strings is with the \java{equals} method, like this:
+The problem is that the \java{==} operator checks whether the two variables refer to the {\em same object} by comparing the references.
+We'll learn more about references in the next chapter.
+The correct way to compare strings is with the \java{equals} method, like this:
 
 \begin{code}
 if (name1.equals(name2)) {
@@ -493,17 +517,49 @@ if (diff == 0) {
 }
 \end{code}
 
-The return value from \java{compareTo} is the difference between the first characters in the strings that differ.
+The return value from \java{compareTo} is the difference between the first characters in the strings that are not the same.
+In the preceding code, \java{compareTo} returns positive 8, because the second letter of \java{"Ada"} comes before the second letter of \java{"Alan"} by 8 letters.
+
 If the strings are equal, their difference is zero.
 If the first string (the one on which the method is invoked) comes first in the alphabet, the difference is negative.
 Otherwise, the difference is positive.
 
-In the preceding code, \java{compareTo} returns positive 8, because the second letter of \java{"Ada"} comes before the second letter of \java{"Alan"} by 8 letters.
-
 \index{case-sensitive}
 
 Both \java{equals} and \java{compareTo} are case-sensitive.
-The uppercase letters come before the lowercase letters, so \java{"Ada"} comes before \java{"ada"}.
+And in Unicode, uppercase letters come before lowercase letters.
+So \java{"Ada"} comes before \java{"ada"}.
+
+
+\section{Substrings}
+
+\index{substring}
+
+The \java{substring} method returns a new string that copies letters from an existing string, starting at the given index.
+
+\begin{itemize}
+\item \java{fruit.substring(0)} returns \java{"banana"}
+\item \java{fruit.substring(2)} returns \java{"nana"}
+\item \java{fruit.substring(6)} returns \java{""}
+\end{itemize}
+
+The first example returns a copy of the entire string.
+The second example returns all but the first two characters.
+As the last example shows, \java{substring} returns the empty string if the argument is the length of the string.
+
+Like most string methods, \java{substring} is overloaded.
+That is, there are other versions of \java{substring} that have different parameters.
+If it's invoked with two arguments, they are treated as a start and end index:
+
+\begin{itemize}
+\item \java{fruit.substring(0, 3)} returns \java{"ban"}
+\item \java{fruit.substring(2, 5)} returns \java{"nan"}
+\item \java{fruit.substring(6, 6)} returns \java{""}
+\end{itemize}
+
+Notice that the character indicated by the end index is not included.
+Defining \java{substring} this way simplifies some common operations.
+For example, to select a substring with length \java{len}, starting at index \java{i}, you could write \java{fruit.substring(i, i + len)}.
 
 
 \section{String formatting}
@@ -511,9 +567,9 @@ The uppercase letters come before the lowercase letters, so \java{"Ada"} comes b
 \index{printf}
 \index{utility method}
 
-In Section~\ref{printf}, we learned how to use \java{printf} to display formatted output.
+In Section~\ref{printf}, we learned how to use \java{System.out.printf} to display formatted output.
 Sometimes programs need to create strings that are formatted a certain way, but not display them immediately, or ever.
-For example, the following method returns a time string in 12-hour format:
+For example, the following method {\em returns} a time string in 12-hour format:
 
 \begin{code}
 public static String timeString(int hour, int minute) {
@@ -534,17 +590,19 @@ public static String timeString(int hour, int minute) {
 \index{string!format}
 
 \java{String.format} takes the same arguments as \java{System.out.printf}: a format specifier followed by a sequence of values.
-The main difference is that \java{System.out.printf} displays the result on the screen; \java{String.format} creates a new string, but does not display anything.
+The main difference is that \java{System.out.printf} displays the result on the screen.
+\java{String.format} creates a new string, but does not display anything.
 
 In this example, the format specifier \java{\%02d} means ``two digit integer padded with zeros'', so \java{timeString(19, 5)} returns the string \java{"07:05 PM"}.
+
+At some point today, skim through the documentation for \java{String}.
+Knowing what other methods are there will help you avoid reinventing the wheel.
+The easiest way to find documentation for Java classes is to do a web search for ``Java'' and the name of the class.
 
 
 \section{Vocabulary}
 
 \begin{description}
-
-\term{iteration}
-Executing a sequence of statements repeatedly.
 
 \term{loop}
 A statement that executes a sequence of statements repeatedly.
@@ -555,30 +613,26 @@ The statements inside the loop.
 \term{infinite loop}
 A loop whose condition is always true.
 
-\term{program development}
-A process for writing programs.
-So far we have seen ``incremental development'' and ``encapsulation and generalization''.
-
-\term{encapsulate}
-To wrap a sequence of statements in a method.
-
-\term{generalize}
-To replace something unnecessarily specific (like a constant value) with something appropriately general (like a variable or parameter).
-
-\term{loop variable}
-A variable that is initialized, tested, and updated in order to control a loop.
-
 \term{increment}
 Increase the value of a variable.
 
 \term{decrement}
 Decrease the value of a variable.
 
-\term{pretest loop}
-A loop that tests the condition before each iteration.
+\term{iteration}
+Executing a sequence of statements repeatedly.
 
-\term{posttest loop}
-A loop that tests the condition after each iteration.
+\term{loop variable}
+A variable that is initialized, tested, and updated in order to control a loop.
+
+\term{index}
+An integer variable or value used to indicate a character in a string.
+
+\term{Unicode}
+An international standard for representing characters in most of the world's languages.
+
+\term{empty string}
+The string \java{""}, which contains no characters and has a length of zero.
 
 \end{description}
 
@@ -666,64 +720,6 @@ You can use \java{Math.abs} to calculate the absolute value of the difference.
 \end{exercise}
 
 
-\begin{exercise}  %%V6 Ex7.3
-
-In Exercise~\ref{ex.power} we wrote a recursive version of \java{power}, which takes a double \java{x} and an integer \java{n} and returns $x^n$.
-Now write an iterative method to perform the same calculation.
-
-\end{exercise}
-
-
-\begin{exercise}  %%V6 Ex7.4
-
-Section~\ref{factorial} presents a recursive method that computes the factorial function.
-Write an iterative version of \java{factorial}.
-
-\end{exercise}
-
-
-\begin{exercise}  %%V6 Ex7.5
-
-One way to calculate $e^x$ is to use the infinite series expansion:
-%
-\[ e^x = 1 + x + x^2 / 2! + x^3 / 3! + x^4 / 4! + \ldots \]
-%
-The $i$th term in the series is $x^i / i!$.
-
-\begin{enumerate}
-
-\item Write a method called \java{myexp} that takes \java{x} and \java{n} as parameters and estimates $e^x$ by adding the first \java{n} terms of this series.
-You can use the \java{factorial} method from Section~\ref{factorial} or your iterative version from the previous exercise.
-
-\index{efficiency}
-
-\item You can make this method more efficient if you realize that the numerator of each term is the same as its predecessor multiplied by \java{x}, and the denominator is the same as its predecessor multiplied by \java{i}.
-Use this observation to eliminate the use of \java{Math.pow} and \java{factorial}, and check that you get the same result.
-
-\item Write a method called \java{check} that takes a parameter, \java{x}, and displays \java{x}, \java{myexp(x)}, and \java{Math.exp(x)}.
-The output should look something like:
-
-\begin{stdout}
-1.0     2.708333333333333     2.718281828459045
-\end{stdout}
-
-You can use the escape sequence \java{"\\t"} to put a tab character between columns of a table.
-
-\item Vary the number of terms in the series (the second argument that \java{check} sends to \java{myexp}) and see the effect on the accuracy of the result.
-Adjust this value until the estimated value agrees with the correct answer when \java{x} is 1.
-
-\item Write a loop in \java{main} that invokes \java{check} with the values 0.1, 1.0, 10.0, and 100.0.
-How does the accuracy of the result vary as \java{x} varies?
-Compare the number of digits of agreement rather than the difference between the actual and estimated values.
-
-\item Add a loop in \java{main} that checks \java{myexp} with the values -0.1, -1.0, -10.0, and -100.0.
-Comment on the accuracy.
-
-\end{enumerate}
-
-\end{exercise}
-
-
 \begin{exercise}  %%V6 Ex7.6
 
 One way to evaluate $\exp(-x^2)$ is to use the infinite series expansion:
@@ -733,5 +729,65 @@ One way to evaluate $\exp(-x^2)$ is to use the infinite series expansion:
 The $i$th term in this series is $(-1)^i x^{2i} / i!$.
 Write a method named \java{gauss} that takes \java{x} and \java{n} as arguments and returns the sum of the first \java{n} terms of the series.
 You should not use \java{factorial} or \java{pow}.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex9.5
+
+\index{abecedarian}
+
+A word is said to be ``abecedarian'' if the letters in the word appear in alphabetical order.
+For example, the following are all six-letter English abecedarian words:
+
+\begin{quote}
+abdest, acknow, acorsy, adempt, adipsy, agnosy, befist, behint, %\\
+beknow, bijoux, biopsy, cestuy, chintz, deflux, dehors, dehort, %\\
+deinos, diluvy, dimpsy %\\
+\end{quote}
+
+Write a method called \java{isAbecedarian} that takes a \java{String} and returns a \java{boolean} indicating whether the word is abecedarian.
+Your method can be iterative or recursive.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex9.6
+
+\index{doubloon}
+
+A word is said to be a ``doubloon'' if every letter that appears in the word appears exactly twice.
+Here are some example doubloons found in the dictionary:
+
+\begin{quote}
+Abba, Anna, appall, appearer, appeases, arraigning, beriberi, bilabial, boob, Caucasus, coco, Dada, deed, Emmett, Hannah, horseshoer, intestines, Isis, mama, Mimi, murmur, noon, Otto, papa, peep, reappear, redder, sees, Shanghaiings, Toto
+\end{quote}
+
+Write a method called \java{isDoubloon} that takes a string and checks whether it is a doubloon.
+To ignore case, invoke the \java{toLowerCase} method before checking.
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex9.7
+\index{anagram}
+
+Two words are anagrams if they contain the same letters and the same number of each letter.
+For example, ``stop'' is an anagram of ``pots'' and ``allen downey'' is an anagram of ``well annoyed''.
+
+Write a method that takes two strings and checks whether they are anagrams of each other.
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex9.8
+\index{Scrabble}
+
+In Scrabble\footnote{Scrabble is a registered trademark owned in the USA and Canada by Hasbro Inc., and in the rest of the world by J.\ W.\ Spear \& Sons Limited of Maidenhead, Berkshire, England, a subsidiary of Mattel Inc.} each player has a set of tiles with letters on them.
+The object of the game is to use those letters to spell words.
+The scoring system is complex, but longer words are usually worth more than shorter words.
+
+Imagine you are given your set of tiles as a string, like \java{"quijibo"}, and you are given another string to test, like \java{"jib"}.
+
+Write a method called \java{canSpell} that takes two strings and checks whether the set of tiles can spell the word.
+You might have more than one tile with the same letter, but you can only use each tile once.
 
 \end{exercise}
