@@ -1,14 +1,14 @@
-\chapter{Recursive algorithms}
+\chapter{Recursive methods}
 
 \index{iterative}
 \index{recursive}
 
 Up to this point, we've been using \java{while} and \java{for} loops whenever we've needed to repeat something.
-Algorithms that use iteration are called {\bf iterative}.
+Methods that use iteration are called {\bf iterative}.
 They are straight-forward, but sometimes there are more elegant solutions.
 
-In this chapter, we will explore one of the most magical things that an algorithm can do: invoke itself to solve a smaller version of the same problem.
-An algorithm that invokes (or refers to) itself is called {\bf recursive}.
+In this chapter, we will explore one of the most magical things that a method can do: invoke {\em itself} to solve a smaller version of the {\em same} problem.
+A method that invokes itself is called {\bf recursive}.
 
 
 \section{Recursive void methods}
@@ -29,7 +29,7 @@ public static void countdown(int n) {
 
 The name of the method is \java{countdown}; it takes a single integer as a parameter.
 If the parameter is zero, it displays the word ``Blastoff''.
-Otherwise, it displays the number and then invokes {\em itself}, passing \java{n - 1} as the argument.
+Otherwise, it displays the number and then invokes itself, passing \java{n - 1} as the argument.
 
 What happens if we invoke \java{countdown(3)} from \java{main}?
 
@@ -115,7 +115,7 @@ Figure~\ref{fig.stack2} is a stack diagram for \java{countdown}, called with \ja
 \end{center}
 \end{figure}
 
-By convention, the frame for \java{main} is at the top, and the stack grows down.
+By convention, the frame for \java{main} is at the top, and the stack of other frames grows down.
 That way, we can draw stack diagrams on paper without needing to guess how far they will grow.
 The frame for \java{main} is empty because \java{main} does not have any variables.
 (It has the parameter \java{args}, but since we're not using it, we left it out of the diagram.)
@@ -125,6 +125,9 @@ The frame for \java{main} is empty because \java{main} does not have any variabl
 There are four frames for \java{countdown}, each with a different value for the parameter \java{n}.
 The last frame, with \java{n == 0}, is called the {\bf base case}.
 It does not make a recursive call, so there are no more frames below it.
+
+\index{StackOverflowError}
+\index{exception!StackOverflow}
 
 If there is no base case in a recursive method, or if the base case is never reached, the stack would grow forever -- at least in theory.
 In practice, the size of the stack is limited.
@@ -142,8 +145,8 @@ public static void forever(String s) {
 \index{call stack}
 \index{stack overflow}
 
-This method displays the string until the stack overflows, at which point it throws an exception.
-Try this example on your computer -- you might be surprised by all the output!
+This method displays the string until the stack overflows, at which point it throws an error.
+Try this example on your computer -- you might be surprised by how long the error message is!
 
 
 \section{Value returning methods}
@@ -162,14 +165,13 @@ Try this example on your computer -- you might be surprised by all the output!
 
 To give you an idea of what you can do with the tools we have learned, let's look at methods that evaluate recursively-defined mathematical functions.
 
-A recursive definition is similar to a circular definition, in the sense that the definition refers to the thing being defined.
+A recursive definition is similar to a ``circular'' definition, in the sense that the definition refers to the thing being defined.
 Of course, a truly circular definition is not very useful:
 
-\begin{small}
 \begin{quote}
-{\bf recursive:} An adjective used to describe a method that is recursive.
+{\bf recursive:} \\
+An adjective used to describe a method that is recursive.
 \end{quote}
-\end{small}
 
 \index{recursion}
 
@@ -196,7 +198,7 @@ Putting it all together, we get \java{3 * 2 * 1 * 1}, which is 6.
 If you can formulate a recursive definition of something, you can easily write a Java method to evaluate it.
 The first step is to decide what the parameters and return type are.
 Since factorial is defined for integers, the method takes an \java{int} as a parameter and returns an \java{int}.
-So here's a good starting place:
+%So here's a good starting place:
 
 \begin{code}
 public static int factorial(int n) {
@@ -258,7 +260,7 @@ The return value (2) gets multiplied by \java{n}, which is 3, and the result, 6,
 \index{diagram!stack}
 
 Figure~\ref{fig.stack3} shows what the stack diagram looks like for this sequence of method invocations.
-The return values are shown being passed back up the stack.
+The return values are shown being passed up the stack.
 Notice that \java{recurse} and \java{result} do not exist in the last frame, because when \java{n == 0} the code that declares them does not execute.
 
 \begin{figure}[!ht]
@@ -472,8 +474,8 @@ Blastoff!
 3
 \end{stdout}
 
-We can apply this idea to solve our problem.
-Here is a recursive method that displays the binary representation of any positive integer:
+We can apply this idea to solve our binary conversion problem.
+Here is a recursive method that displays the binary value of any positive integer:
 
 \begin{code}
 public static void displayBinary(int value) {
@@ -511,12 +513,12 @@ System.out.println();
 \section{CodingBat problems}
 
 In the past several chapters of this book, you've seen conditions, methods, loops, strings, arrays, and recursion.
-A great resource for practicing all of these techniques is \href{http://codingbat.com/java}{CodingBat.com}.
+A great resource for practicing all of these concepts is \href{http://codingbat.com/java}{CodingBat.com}.
 
 \index{CodingBat}
 
 CodingBat is a free website of live programming problems developed by Nick Parlante, a Computer Science lecturer at Stanford.
-As you work on these problems, CodingBat will save your code if you create an account.
+As you work on these problems, CodingBat will save your progress (if you create an account).
 
 To conclude this chapter, we will look at two problems in the {\sf Recursion-1} section of CodingBat.
 One of them deals with strings, and the other deals with arrays.
@@ -550,7 +552,7 @@ To solve a problem recursively, you need to think of a simper instance of the sa
 For noX, it's removing all the x's from a shorter string.
 
 To find an x, we only need to look at one character.
-So we will recursively call noX on the substring beginning at index 1.
+So we can recursively call noX on the rest of the string (the substring at index 1).
 Here is the solution:
 
 \begin{code}
@@ -578,7 +580,6 @@ array11([11, 11], 0) $\rightarrow$ 2 \\
 array11([1, 2, 3, 4], 0) $\rightarrow$ 0
 \end{quote}
 
-Like in the noX problem, we will only look at one integer at a time.
 This problem uses the convention of passing the index as an argument.
 So the base case is when we've reached the end of the array.
 At that point, we know there are no more 11's.
@@ -591,6 +592,7 @@ if (index >= nums.length) {
 
 Next we look at the current number (based on the given index), and check if it's  an 11.
 After that, we can recursively check the rest of the array.
+Similar to the noX problem, we only look at one integer per method call.
 
 \begin{code}
 if (nums[index] == 11) {
@@ -606,7 +608,7 @@ But don't forget to paste both parts: the base case, and the recursive step.
 \index{Java Tutor}
 
 To see how these solutions actually work, you might need to step through them with a debugger (see Appendix~\ref{debugger}) or Java Tutor (\url{http://pythontutor.com/java.html}).
-Now go and solve several more CodingBat problems of your own.
+Then try to solve several CodingBat problems of your own.
 
 Learning to think recursively is an important aspect of learning to think like a computer scientist.
 Many algorithms can be written concisely with recursive methods that perform computations on the way down, on the way up, or both.
