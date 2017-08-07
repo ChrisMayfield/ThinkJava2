@@ -1,0 +1,228 @@
+\chapter{Extras}
+\label{extras}
+
+This appendix contains sections of previous versions of the book.
+We chose to remove them from this edition, because they were not essential to meet the chapter goals.
+However you may still find this material useful.
+
+
+%%% Section 6.1 (second half)
+\section{Unreachable code}
+
+Sometimes it is convenient to write multiple \java{return} statements, for example, one in each branch of a conditional:
+
+\begin{code}
+public static double absoluteValue(double x) {
+    if (x < 0) {
+        return -x;
+    } else {
+        return x;
+    }
+}
+\end{code}
+
+Since these \java{return} statements are in a conditional statement, only one will be executed.
+As soon as either of them executes, the method terminates without executing any more statements.
+
+\index{dead code}
+
+Code that appears after a \java{return} statement (in the same block), or any place else where it can never be executed, is called {\bf dead code}.
+The compiler will give you an ``unreachable statement'' error if part of your code is dead.
+For example, this method contains two lines of dead code:
+
+\begin{code}
+public static double absoluteValue(double x) {
+    if (x < 0) {
+        return -x;
+        System.out.println("This line is dead.");  // error
+    } else {
+        return x;
+    }
+    System.out.println("So is this one.");  // error
+}
+\end{code}
+
+If you put \java{return} statements inside a conditional statement, you have to make sure that {\em every possible path} through the method reaches a \java{return} statement.
+The compiler will let you know if that's not the case.
+For example, the following method is incomplete:
+
+\begin{code}
+public static double absoluteValue(double x) {
+    if (x < 0) {
+        return -x;
+    } else if (x > 0) {
+        return x;
+    }
+    // error: missing return statement
+}
+\end{code}
+
+When \java{x} is 0, neither condition is true, so the method ends without hitting a return statement.
+The error message in this case might be something like ``missing return statement'', which is confusing since there are already two.
+
+Compiler errors like ``unreachable statement'' and ``missing return statement'' often indicate a problem with your algorithm, not the code.
+In the previous example, \java{if (x > 0)} is unnecessary because \java{x} will always be positive or zero at that point.
+Changing that \java{else if} to an \java{else} resolves the error.
+
+
+%%% Section 6.5
+\section{Boolean methods}
+
+\index{boolean}
+\index{method!boolean}
+
+Methods can return \java{boolean} values, just like any other type, which is often convenient for hiding tests inside methods.
+For example:
+
+\begin{code}
+public static boolean isSingleDigit(int x) {
+    if (x > -10 && x < 10) {
+        return true;
+    } else {
+        return false;
+    }
+}
+\end{code}
+
+The name of this method is \java{isSingleDigit}.
+It is common to give \java{boolean} methods names that sound like yes/no questions.
+Since the return type is \java{boolean}, the return statement has to provide a boolean expression.
+
+The code itself is straightforward, although it is longer than it needs to be.
+Remember that the expression \java{x > -10 && x < 10} has type \java{boolean}, so there is nothing wrong with returning it directly (without the \java{if} statement):
+
+\begin{code}
+public static boolean isSingleDigit(int x) {
+    return x > -10 && x < 10;
+}
+\end{code}
+
+In \java{main}, you can invoke the method in the usual ways:
+
+\begin{code}
+System.out.println(isSingleDigit(2));
+boolean bigFlag = !isSingleDigit(17);
+\end{code}
+
+The first line displays \java{true} because 2 is a single-digit number.
+The second line sets \java{bigFlag} to \java{true}, because 17 is {\em not} a single-digit number.
+
+Conditional statements often invoke \java{boolean} methods and use the result as the condition:
+
+\begin{code}
+if (isSingleDigit(z)) {
+    System.out.println("z is small");
+} else {
+    System.out.println("z is big");
+}
+\end{code}
+
+Examples like this one almost read like English:
+``If is single digit z, print ... else print ...''.
+
+
+%%% Section 7.6
+\section{The do-while loop}
+
+\index{pretest loop}
+
+The \java{while} and \java{for} statements are {\bf pretest loops}; that is, they test the condition first and at the beginning of each pass through the loop.
+
+\index{posttest loop}
+\index{do-while}
+
+Java also provides a {\bf posttest loop}: the \java{do}-\java{while} statement.
+This type of loop is useful when you need to run the body of the loop at least once.
+
+%NOTE: can we find an example that's better using do-while than using while-break?
+
+For example, in Section~\ref{validate} we used the \java{return} statement to avoid reading invalid input from the user.
+We can use a \java{do}-\java{while} loop to keep reading input until it's valid:
+
+\begin{code}
+Scanner in = new Scanner(System.in);
+boolean okay;
+do {
+    System.out.print("Enter a number: ");
+    if (in.hasNextDouble()) {
+        okay = true;
+    } else {
+        okay = false;
+        String word = in.next();
+        System.err.println(word + " is not a number");
+    }
+} while (!okay);
+double x = in.nextDouble();
+\end{code}
+
+Although this code looks complicated, it is essentially only three steps:
+
+\begin{enumerate}
+\item Display a prompt.
+\item Check the input; if invalid, display an error and start over.
+\item Read the input.
+\end{enumerate}
+
+\index{System.err}
+
+The code uses a flag variable, \java{okay}, to indicate whether we need to repeat the loop body.
+If \java{hasNextDouble()} returns \java{false}, we consume the invalid input by calling \java{next()}.
+We then display an error message via \java{System.err}.
+The loop terminates when \java{hasNextDouble()} return \java{true}.
+
+
+%%% Section 7.7
+\section{Break and continue}
+
+Sometimes neither a pretest nor a posttest loop will provide exactly what you need.
+In the previous example, the ``test'' needed to happen in the middle of the loop.
+As a result, we used a flag variable and a nested \java{if}-\java{else} statement.
+
+\index{break}
+
+A simpler way to solve this problem is to use a \java{break} statement.
+When a program reaches a \java{break} statement, it exits the current loop.
+
+\begin{code}
+Scanner in = new Scanner(System.in);
+while (true) {
+    System.out.print("Enter a number: ");
+    if (in.hasNextDouble()) {
+        break;
+    }
+    String word = in.next();
+    System.err.println(word + " is not a number");
+}
+double x = in.nextDouble();
+\end{code}
+
+Using \java{true} as a conditional in a \java{while} loop is an idiom that means ``loop forever'', or in this case ``loop until you get to a \java{break} statement.''
+
+\index{continue}
+
+In addition to the \java{break} statement, which exits the loop, Java provides a \java{continue} statement that moves on to the next iteration.
+For example, the following code reads integers from the keyboard and computes a running total.
+The \java{continue} statement causes the program to skip over any negative values.
+
+\begin{code}
+Scanner in = new Scanner(System.in);
+int x = -1;
+int sum = 0;
+while (x != 0) {
+    x = in.nextInt();
+    if (x <= 0) {
+        continue;
+    }
+    System.out.println("Adding " + x);
+    sum += x;
+}
+\end{code}
+
+Although \java{break} and \java{continue} statements give you more control of the loop execution, they can make code difficult to understand and debug.
+Use them sparingly.
+
+
+%%% was going to be in Ch07
+\section{The switch statement}
+
+TODO explain other use of \java{break}

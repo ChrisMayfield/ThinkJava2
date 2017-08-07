@@ -2,6 +2,7 @@
 % NOTE: all chapter, section, and exercise numbers in this file refer to V6
 %
 
+
 %%% Section 2.9
 \section{Composition}
 
@@ -50,19 +51,6 @@ Large, complex expressions can be hard to read and debug.
 %Thus it's far more important to write code that is readable than to write code that is (or appears to be) optimal.
 %There is much beauty in simplicity.
 %In general, each line of code should be a single step of the algorithm.
-
-
-\begin{exercise}  %%V6 Ex4.2
-
-The point of this exercise is to make sure you understand how to write and invoke methods that take parameters.
-
-\begin{enumerate}
-\item Write the first line of a method named \java{zool} that takes three parameters: an \java{int} and two \java{String}s.
-
-\item Write a line of code that calls \java{zool}, passing as arguments the value \java{11}, the name of your first pet, and the name of the street you grew up on.
-\end{enumerate}
-
-\end{exercise}
 
 
 %%% Chapter 4 (commented out)
@@ -115,122 +103,27 @@ Write a method called \java{handScore} that takes an array of cards as an argume
 \end{exercise}
 
 
-%%% Section 6.1 (second half)
-Sometimes it is convenient to write multiple \java{return} statements, for example, one in each branch of a conditional:
+\begin{exercise}  %%V6 Ex4.2
 
-\begin{code}
-public static double absoluteValue(double x) {
-    if (x < 0) {
-        return -x;
-    } else {
-        return x;
-    }
-}
-\end{code}
+The point of this exercise is to make sure you understand how to write and invoke methods that take parameters.
 
-Since these \java{return} statements are in a conditional statement, only one will be executed.
-As soon as either of them executes, the method terminates without executing any more statements.
+\begin{enumerate}
+\item Write the first line of a method named \java{zool} that takes three parameters: an \java{int} and two \java{String}s.
 
-\index{dead code}
+\item Write a line of code that calls \java{zool}, passing as arguments the value \java{11}, the name of your first pet, and the name of the street you grew up on.
+\end{enumerate}
 
-Code that appears after a \java{return} statement (in the same block), or any place else where it can never be executed, is called {\bf dead code}.
-The compiler will give you an ``unreachable statement'' error if part of your code is dead.
-For example, this method contains two lines of dead code:
-
-\begin{code}
-public static double absoluteValue(double x) {
-    if (x < 0) {
-        return -x;
-        System.out.println("This line is dead.");  // error
-    } else {
-        return x;
-    }
-    System.out.println("So is this one.");  // error
-}
-\end{code}
-
-If you put \java{return} statements inside a conditional statement, you have to make sure that {\em every possible path} through the method reaches a \java{return} statement.
-The compiler will let you know if that's not the case.
-For example, the following method is incomplete:
-
-\begin{code}
-public static double absoluteValue(double x) {
-    if (x < 0) {
-        return -x;
-    } else if (x > 0) {
-        return x;
-    }
-    // error: missing return statement
-}
-\end{code}
-
-When \java{x} is 0, neither condition is true, so the method ends without hitting a return statement.
-The error message in this case might be something like ``missing return statement'', which is confusing since there are already two.
-
-Compiler errors like ``unreachable statement'' and ``missing return statement'' often indicate a problem with your algorithm, not the code.
-In the previous example, \java{if (x > 0)} is unnecessary because \java{x} will always be positive or zero at that point.
-Changing that \java{else if} to an \java{else} resolves the error.
+\end{exercise}
 
 
-%%% Section 6.5
-\section{Boolean methods}
-\label{boolean}
+\begin{exercise}  %%V6 Ex5.3
 
-\index{boolean}
-\index{method!boolean}
+Draw a stack diagram that shows the state of the program in Section~\ref{recursion} after \java{main} invokes \java{nLines} with the parameter \java{n == 4}, just before the last invocation of \java{nLines} returns.
 
-Methods can return \java{boolean} values, just like any other type, which is often convenient for hiding tests inside methods.
-For example:
-
-\begin{code}
-public static boolean isSingleDigit(int x) {
-    if (x > -10 && x < 10) {
-        return true;
-    } else {
-        return false;
-    }
-}
-\end{code}
-
-The name of this method is \java{isSingleDigit}.
-It is common to give \java{boolean} methods names that sound like yes/no questions.
-Since the return type is \java{boolean}, the return statement has to provide a boolean expression.
-
-The code itself is straightforward, although it is longer than it needs to be.
-Remember that the expression \java{x > -10 && x < 10} has type \java{boolean}, so there is nothing wrong with returning it directly (without the \java{if} statement):
-
-\begin{code}
-public static boolean isSingleDigit(int x) {
-    return x > -10 && x < 10;
-}
-\end{code}
-
-In \java{main}, you can invoke the method in the usual ways:
-
-\begin{code}
-System.out.println(isSingleDigit(2));
-boolean bigFlag = !isSingleDigit(17);
-\end{code}
-
-The first line displays \java{true} because 2 is a single-digit number.
-The second line sets \java{bigFlag} to \java{true}, because 17 is {\em not} a single-digit number.
-
-Conditional statements often invoke \java{boolean} methods and use the result as the condition:
-
-\begin{code}
-if (isSingleDigit(z)) {
-    System.out.println("z is small");
-} else {
-    System.out.println("z is big");
-}
-\end{code}
-
-Examples like this one almost read like English:
-``If is single digit z, print ... else print ...''.
+\end{exercise}
 
 
 \begin{exercise}  %%V6 Ex6.2
-\label{ex.isdiv}
 
 Write a method named \java{isDivisible} that takes two integers, \java{n} and \java{m}, and that returns \java{true} if \java{n} is divisible by \java{m}, and \java{false} otherwise.
 
@@ -249,12 +142,5 @@ Now write an iterative method to perform the same calculation.
 
 Section~\ref{factorial} presents a recursive method that computes the factorial function.
 Write an iterative version of \java{factorial}.
-
-\end{exercise}
-
-
-\begin{exercise}  %%V6 Ex5.3
-
-Draw a stack diagram that shows the state of the program in Section~\ref{recursion} after \java{main} invokes \java{nLines} with the parameter \java{n == 4}, just before the last invocation of \java{nLines} returns.
 
 \end{exercise}
