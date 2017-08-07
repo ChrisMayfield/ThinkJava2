@@ -16,8 +16,8 @@ For example, \java{Scanner}, which we saw in Section~\ref{scanner}, is an object
 
 Strings are objects, too.
 They contain characters and provide methods for manipulating character data.
-Other data types, like \java{Integer}, represent numbers and provide methods for manipulating them.
-We explore some of those methods in this chapter.
+Other data types, like \java{Integer}, contain numbers and provide methods for manipulating numeric data.
+We will explore some of those methods in this chapter.
 
 
 \section{Primitives vs objects}
@@ -26,7 +26,7 @@ We explore some of those methods in this chapter.
 
 Not everything in Java is an object: \java{int}, \java{double}, \java{char}, and \java{boolean} are examples of {\bf primitive} types.
 %We will explain some of the differences between object types and primitive types as we go along.
-When you declare a variable with a primitive type, Java reserves a small amount of memory to store its {\em value}.
+When you declare a variable with a primitive type, Java reserves a small amount of memory to store its value.
 Figure~\ref{fig.mem1} shows how the following values are stored memory.
 
 \begin{code}
@@ -54,12 +54,12 @@ For example, \java{char[] array = \{'c', 'a', 't'\}} contains three characters.
 \end{center}
 \end{figure}
 
-When drawing memory diagrams, we use an arrow to represent the location of the array (see Figure~\ref{fig.mem2}).
-The actual memory location is an integer chosen by Java at run-time.
+When drawing memory diagrams, we use an arrow to represent the location of the array, as in Figure~\ref{fig.mem2}.
+The actual memory location (the {\em value} of the array variable) is an integer chosen by Java at run-time.
 
 Objects work in a similar way.
 When you declare an object variable, it will store a reference to an object.
-The difference is that an object {\bf encapsulates} other data.
+In contrast to arrays, objects may {\bf encapsulate} different types of data.
 We will learn more about this concept in Chapter~\ref{mutable}.
 
 For example, a \java{String} object encapsulates a character array.
@@ -80,10 +80,12 @@ To test whether two integers (or other primitive types) are equal, you simply us
 But as we learned in Section~\ref{strcmp}, you need to use the \java{equals} method to compare strings.
 The \java{==} operator, when applied to strings, only compares their references.
 
+%\section{The null keyword}
+
 \index{null}
 
 In Java, the keyword \java{null} is a special value that means ``no object''.
-You can initialize array and object variables this way:
+You can initialize object (and array) variables this way:
 
 \begin{code}
 String name = null;
@@ -91,7 +93,7 @@ int[] combo = null;
 \end{code}
 
 The value \java{null} is represented in memory diagrams by a small box with no arrow, as in Figure~\ref{fig.mem4}.
-In other words, they do not reference anything.
+In other words, the variables do not reference anything.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -105,15 +107,15 @@ In other words, they do not reference anything.
 \index{NullPointerException}
 \index{run-time error}
 
-If you try to use a variable that is \java{null}, either by invoking a method or accessing an element, Java throws a \java{NullPointerException}.
+If you try to use a variable that is \java{null} by invoking a method or accessing an element, Java throws a \java{NullPointerException}.
 
 \begin{code}
 System.out.println(name.length());  // NullPointerException
 System.out.println(combo[0]);       // NullPointerException
 \end{code}
 
-On the other hand, it is legal to pass a \java{null} reference as an argument or receive one as a return value.
-\java{null} is often used to represent a special condition or indicate an error.
+On the other hand, it is perfectly fine to pass a \java{null} reference as an argument to a method, or to receive one as a return value.
+In these situations, \java{null} is often used to represent a special condition or indicate an error.
 
 
 \section{Strings are immutable}
@@ -126,11 +128,11 @@ Fortunately, Java has a built-in \java{String} class that provides these and oth
 \index{toLowerCase}
 \index{immutable}
 
-For example, the methods \java{toUpperCase} and \java{toLowerCase} convert from uppercase to lowercase and vice versa.
+For example, the methods \java{toLowerCase} and \java{toUpperCase} convert uppercase letters to lowercase, and vice versa.
 These methods are often a source of confusion, because it sounds like they modify strings.
-Neither these methods nor any others can change a string, because strings are designed to be {\bf immutable}.
+But neither these methods nor any others can change a string, because strings are {\bf immutable}.
 
-When you invoke \java{toUpperCase} on a string, you get a {\em new} \java{String} object as a result.
+When you invoke \java{toUpperCase} on a string, you get another \java{String} object as a result.
 For example:
 
 \begin{code}
@@ -151,7 +153,7 @@ System.out.println(name);
 \end{code}
 
 The previous code displays \java{"Alan Turing"}, because the value of \java{name} (i.e., the reference to the original \java{String} object) never changes.
-If you want to change \java{name} to be uppercase, then you need to assign the return value:
+If you want to change \java{name} to be uppercase, then you need to assign the return value to it:
 
 \begin{code}
 String name = "Alan Turing";
@@ -161,7 +163,7 @@ System.out.println(name);
 
 \index{replace}
 
-Another useful method is \java{replace}, which finds and replaces instances of one string within another.
+A similar method is \java{replace}, which finds and replaces instances of one string within another.
 This example replaces \java{"Computer Science"} with \java{"CS"}:
 
 \begin{code}
@@ -173,7 +175,7 @@ text = text.replace("Computer Science", "CS");
 %It invokes \java{text.replace}, which returns a reference to a new string, \java{"CS is fun!"}.
 %Then it assigns the new string to \java{text}, replacing the old string.
 
-As with \java{toUpperCase}, assigning the return value (to \java{text}) is important.
+As with \java{toUpperCase}, assigning the return value to \java{text} is important.
 If you don't assign the return value, invoking \java{text.replace} has no effect.
 
 % ABD: Too many new ideas here: the most important one is that you have to do something with the return value. It's not a good time to appreciate the glory of immutability.
@@ -190,7 +192,7 @@ And since the contents of a string can never change, two variables can reference
 \section{Wrapper classes}
 
 Primitive values (like \java{int}s, \java{double}s, and \java{char}s) cannot be \java{null}, and they do not provide methods.
-For example, you can't call \java{equals} on an \java{int}:
+For example, you can't invoke \java{equals} on an \java{int}:
 
 \begin{code}
 int i = 5;
@@ -203,17 +205,24 @@ System.out.println(i.equals(5));  // compiler error
 \index{Double}
 
 But for each primitive type, there is a corresponding {\bf wrapper class} in the Java library.
-The wrapper class for \java{char} is \java{Character}; for \java{int} it's \java{Integer}.
-Other wrapper classes include \java{Boolean}, \java{Long}, and \java{Double}.
-They are in the \java{java.lang} package, so you can use them without importing them.
+The wrapper class for \java{int} is named \java{Integer}, with a capital \java{I}.
 
-Each wrapper class defines constants \java{MIN_VALUE} and \java{MAX_VALUE}.
+\begin{code}
+Integer i = new Integer(5);
+System.out.println(i.equals(5));  // displays true
+\end{code}
+
+Other wrapper classes include \java{Boolean}, \java{Character}, \java{Double}, and \java{Long}.
+They are in the \java{java.lang} package, so you can use them without importing them.
+By design, all of these classes create immutable objects.
+
+Each wrapper class defines the constants \java{MIN_VALUE} and \java{MAX_VALUE}.
 For example, \java{Integer.MIN_VALUE} is \java{-2147483648}, and \java{Integer.MAX_VALUE} is \java{2147483647}.
-Because these constants are available in wrapper classes, you don't have to remember them, and you don't have to include them in your programs.
+Because these constants are available in wrapper classes, you don't have to remember them, and you don't have to write them yourself.
 
 \index{parse}
 
-Wrapper classes provide methods for converting strings to primitive types.
+Wrapper classes also provide methods for converting strings to and from primitive types.
 For example, \java{Integer.parseInt} converts a string to (you guessed it) an integer.
 In this context, {\bf parse} means ``read and translate''.
 
@@ -245,8 +254,8 @@ int num = Integer.parseInt(str);  // NumberFormatException
 
 \section{Command-line arguments}
 
-Now that you know about strings, arrays, and wrapper classes, we can {\em finally} explain the \java{args} parameter (of the \java{main} method) that we have been ignoring since Chapter~\ref{theway}.
-If you are unfamiliar with the command-line interface, please read or review Appendix~\ref{commandline}.
+Now that you know about strings, arrays, and wrapper classes, we can {\em finally} explain the \java{args} parameter of the \java{main} method, which we have been ignoring since Chapter~\ref{theway}.
+If you are unfamiliar with the command-line interface, please read Appendix~\ref{commandline}.
 
 Let's write a program to find the maximum value in a sequence of numbers.
 Rather than read the numbers from \java{System.in} using a \java{Scanner}, we'll pass them as command-line arguments.
@@ -287,11 +296,11 @@ The output is:
 [10, -3, 55, 0, 14]
 \end{stdout}
 
-It's unclear from the output, but the elements of \java{args} are strings.
+It's not clear from the output, but the elements of \java{args} are strings.
 So \java{args} is the array \java{\{"10", "-3", "55", "0", "14"\}}.
 To find the maximum number, we have to convert the arguments to integers.
 
-The following fragment uses an enhanced \java{for} loop to parse the arguments (using the \java{Integer} wrapper class) and find the largest value:
+The following code uses an enhanced \java{for} loop to parse the arguments (using the \java{Integer} wrapper class) and find the largest value:
 
 \begin{code}
 int max = Integer.MIN_VALUE;
@@ -309,7 +318,7 @@ That way, the first value we parse will replace \java{max}.
 As we find larger values, they will replace \java{max} as well.
 
 If \java{args} is empty, the result will be \java{MIN_VALUE}.
-We can prevent this situation by checking \java{args} at the beginning of the program:
+We can prevent this situation from happening by checking \java{args} at the beginning of the program:
 
 \begin{code}
 if (args.length == 0) {
@@ -318,9 +327,8 @@ if (args.length == 0) {
 }
 \end{code}
 
-The \java{return} statement causes the program to terminate.
-It's customary for programs that require command-line arguments to display a ``usage'' message when there are none.
-For example, if you run {\tt javac} or {\tt java} (from the command line) without any arguments, you will get a very long message.
+It's customary for programs that require command-line arguments to display a ``usage'' message when there are no arguments given.
+For example, if you run {\tt javac} or {\tt java} from the command line without any arguments, you will get a very long message.
 
 
 
@@ -328,33 +336,54 @@ For example, if you run {\tt javac} or {\tt java} (from the command line) withou
 \section{BigInteger arithmetic}
 % CSM based on text from V6 Exercise 10.4
 
+It might not be clear at this point why you would ever need an integer object when you can just use an \java{int} or \java{long}.
+One advantage is the variety of methods that \java{Integer} and \java{Long} provide.
+But there is another reason: when you need very large integers that exceed \java{Long.MAX_VALUE}.
+
 \index{BigInteger}
 
 \java{BigInteger} is a Java class that can represent arbitrarily big integers.
 There is no upper bound except the limitations of memory size and processing speed.
 Take a minute to read the documentation, which you can find by doing a web search for ``Java BigInteger''.
 
-To use BigIntegers, you have to import \java{java.math.BigInteger} at the beginning of your program.
-
+To use BigIntegers, you have to \java{import java.math.BigInteger} at the beginning of your program.
 There are several ways to create a BigInteger, but the simplest uses \java{valueOf}.
-The following code converts an integer to a BigInteger:
+The following code converts a \java{long} to a BigInteger:
 
 \begin{code}
-int x = 17;
+long x = 17;
 BigInteger big = BigInteger.valueOf(x);
 \end{code}
 
-Since BigIntegers are not primitive types, the usual math operators don't work.
-Instead, we have to use methods like \java{add}.
-To add two BigIntegers, invoke \java{add} on one and pass the other as an argument.
+You can also create BigIntegers from strings.
+For example, here is a 20-digit integer that is too bit to store using a \java{long}.
 
 \begin{code}
-BigInteger small = BigInteger.valueOf(17);
-BigInteger big = BigInteger.valueOf(1700000000);
-BigInteger total = small.add(big);
+String s = "12345678901234567890";
+BigInteger big = new BigInteger(s);
 \end{code}
 
-Try out some of the other methods, like \java{multiply} and \java{pow}.
+Notice the difference in the previous two examples: you use \java{valueOf} to convert integers, and \java{new} to convert strings.
+
+Since BigIntegers are not primitive types, the usual math operators don't work.
+Instead, we have to use methods like \java{add}.
+To add two BigIntegers, we invoke \java{add} on one and pass the other as an argument.
+
+\begin{code}
+BigInteger x = BigInteger.valueOf(17);
+BigInteger y = BigInteger.valueOf(1700000000);
+BigInteger z = x.add(y);
+\end{code}
+
+Like strings, \java{BigInteger} objects are immutable.
+Methods like \java{add}, \java{multiply}, and \java{pow} all return new BigIntegers, rather than modify an existing one.
+
+Internally, a BigInteger encapsulates an array of \java{int}s, similar to the way a string encapsulates an array of \java{char}s.
+Each \java{int} in the array stores a portion of the BigInteger.
+The methods of \java{BigInteger} traverse this array to perform addition, multiplication, etc.
+
+For very long floating-point values, take a look at \java{java.math.BigDecimal}.
+Interestingly, \java{BigDecimal} objects represent floating-point numbers internally by encapsulating a \java{BigInteger}!
 
 
 \section{Program development}
