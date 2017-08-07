@@ -121,6 +121,118 @@ Examples like this one almost read like English:
 ``If is single digit z, print ... else print ...''.
 
 
+%%% Section 7.2
+\section{Generating tables}
+
+\index{table}
+\index{logarithm}
+
+Loops are good for generating and displaying tabular data.
+Before computers were readily available, people had to calculate logarithms, sines and cosines, and other common mathematical functions by hand.
+To make that easier, there were books of tables where you could look up values of various functions.
+Creating these tables by hand was slow and boring, and the results were often full of errors.
+
+When computers appeared on the scene, one of the initial reactions was: ``This is great!
+We can use a computer to generate the tables, so there will be no errors.''
+That turned out to be true (mostly), but shortsighted.
+Not much later, computers were so pervasive that printed tables became obsolete.
+
+\index{division!floating-point}
+
+Even so, for some operations, computers use tables of values to get an approximate answer, and then perform computations to improve the approximation.
+In some cases, there have been errors in the underlying tables, most famously in the table the original Intel Pentium used to perform floating-point division (see \url{https://en.wikipedia.org/wiki/Pentium_FDIV_bug}).
+
+Although a ``log table'' is not as useful as it once was, it still makes a good example of iteration.
+The following loop displays a table with a sequence of values in the left column and their logarithms in the right column:
+
+\begin{code}
+int i = 1;
+while (i < 10) {
+    double x = i;
+    System.out.println(x + "   " + Math.log(x));
+    i = i + 1;
+}
+\end{code}
+
+The output of this program is:
+
+\begin{stdout}
+1.0   0.0
+2.0   0.6931471805599453
+3.0   1.0986122886681098
+4.0   1.3862943611198906
+5.0   1.6094379124341003
+6.0   1.791759469228055
+7.0   1.9459101490553132
+8.0   2.0794415416798357
+9.0   2.1972245773362196
+\end{stdout}
+
+\java{Math.log} computes natural logarithms, that is, logarithms base $e$.
+For computer science applications, we often want logarithms with respect to base 2.
+To compute them, we can apply this equation:
+%
+\[ \log_2 x = \frac{log_e x}{log_e 2} \]
+%
+We can modify the loop as follows:
+
+\begin{code}
+int i = 1;
+while (i < 10) {
+    double x = i;
+    System.out.println(x + "   " + Math.log(x) / Math.log(2));
+    i = i + 1;
+}
+\end{code}
+
+And here are the results:
+
+\begin{stdout}
+1.0   0.0
+2.0   1.0
+3.0   1.5849625007211563
+4.0   2.0
+5.0   2.321928094887362
+6.0   2.584962500721156
+7.0   2.807354922057604
+8.0   3.0
+9.0   3.1699250014423126
+\end{stdout}
+
+Each time through the loop, we add one to \java{x}, so the result is an arithmetic sequence.
+If we multiply \java{x} by something instead, we get a geometric sequence:
+
+\begin{code}
+final double LOG2 = Math.log(2);
+int i = 1;
+while (i < 100) {
+    double x = i;
+    System.out.println(x + "   " + Math.log(x) / LOG2);
+    i = i * 2;
+}
+\end{code}
+
+\index{final}
+
+The first line stores \java{Math.log(2)} in a \java{final} variable to avoid computing that value over and over again.
+The last line multiplies \java{x} by 2.
+The result is:
+
+\begin{stdout}
+1.0   0.0
+2.0   1.0
+4.0   2.0
+8.0   3.0
+16.0   4.0
+32.0   5.0
+64.0   6.0
+\end{stdout}
+
+This table shows the powers of two and their logarithms, base 2.
+Log tables may not be useful anymore, but for computer scientists, knowing the powers of two helps a lot!
+%When you have an idle moment, you should memorize the powers of two up to 65536 (that's $2^{16}$).
+
+
 %%% Section 7.6
 \section{The do-while loop}
 
