@@ -1,11 +1,6 @@
 \chapter{Immutable objects}
 \label{immutable}
 
-\begin{quote}
-\bfseries
-\textcolor{red}{WARNING: This chapter is currently a dumping ground for sections and exercises that didn't make it into Chapters~6--8. It will flow a lot better after I'm done with it. Read at your own risk.}
-\end{quote}
-
 \index{object}
 \index{System.in}
 \index{System.out}
@@ -18,10 +13,48 @@ Strings are objects, too.
 They contain characters and provide methods for manipulating character data.
 We explore some of those methods in this chapter.
 
+
+\section{Primitive vs reference}
+
 \index{primitive}
 
 Not everything in Java is an object: \java{int}, \java{double}, and \java{boolean} are so-called {\bf primitive} types.
 We will explain some of the differences between object types and primitive types as we go along.
+
+\index{null}
+
+When you create an object variable, remember that you are storing a reference to an object.
+In Java, the keyword \java{null} is a special value that means ``no object''.
+You can declare and initialize object variables this way:
+
+\begin{code}
+Point blank = null;
+\end{code}
+
+The value \java{null} is represented in memory diagrams by a small box with no arrow, as in Figure~\ref{fig.reference2}.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics{figs/reference2.pdf}
+\caption{Memory diagram showing a variable that contains a \java{null} reference.}
+\label{fig.reference2}
+\end{center}
+\end{figure}
+
+\index{exception!NullPointer}
+\index{NullPointerException}
+\index{run-time error}
+
+If you try to use a \java{null} value, either by accessing an attribute or invoking a method, Java throws a \java{NullPointerException}.
+
+\begin{code}
+Point blank = null;
+int x = blank.x;              // NullPointerException
+blank.translate(50, 50);      // NullPointerException
+\end{code}
+
+On the other hand, it is legal to pass a null reference as an argument or receive one as a return value.
+For example, \java{null} is often used to represent a special condition or indicate an error.
 
 
 \section{Strings are immutable}
@@ -180,7 +213,143 @@ The initial value of \java{max} is the smallest (most negative) number an \java{
 If \java{args} is empty, the result is \java{MIN_VALUE}.
 
 
-\section{Generating tables}
+\section{BigInteger arithmetic}
+% CSM based on text from V6 Exercise 10.4
+
+\index{BigInteger}
+
+\java{BigInteger} is a Java class that can represent arbitrarily big integers.
+There is no upper bound except the limitations of memory size and processing speed.
+Take a minute to read the documentation, which you can find by doing a web search for ``Java BigInteger''.
+
+To use BigIntegers, you have to import \java{java.math.BigInteger} at the beginning of your program.
+
+There are several ways to create a BigInteger, but the simplest uses \java{valueOf}.
+The following code converts an integer to a BigInteger:
+
+\begin{code}
+int x = 17;
+BigInteger big = BigInteger.valueOf(x);
+\end{code}
+
+Since BigIntegers are not primitive types, the usual math operators don't work.
+Instead, we have to use methods like \java{add}.
+To add two BigIntegers, invoke \java{add} on one and pass the other as an argument.
+
+\begin{code}
+BigInteger small = BigInteger.valueOf(17);
+BigInteger big = BigInteger.valueOf(1700000000);
+BigInteger total = small.add(big);
+\end{code}
+
+Try out some of the other methods, like \java{multiply} and \java{pow}.
+
+
+\section{The do-while loop}
+
+\index{pretest loop}
+
+The \java{while} and \java{for} statements are {\bf pretest loops}; that is, they test the condition first and at the beginning of each pass through the loop.
+
+\index{posttest loop}
+\index{do-while}
+
+Java also provides a {\bf posttest loop}: the \java{do}-\java{while} statement.
+This type of loop is useful when you need to run the body of the loop at least once.
+
+%NOTE: can we find an example that's better using do-while than using while-break?
+
+For example, in Section~\ref{validate} we used the \java{return} statement to avoid reading invalid input from the user.
+We can use a \java{do}-\java{while} loop to keep reading input until it's valid:
+
+\begin{code}
+Scanner in = new Scanner(System.in);
+boolean okay;
+do {
+    System.out.print("Enter a number: ");
+    if (in.hasNextDouble()) {
+        okay = true;
+    } else {
+        okay = false;
+        String word = in.next();
+        System.err.println(word + " is not a number");
+    }
+} while (!okay);
+double x = in.nextDouble();
+\end{code}
+
+Although this code looks complicated, it is essentially only three steps:
+
+\begin{enumerate}
+\item Display a prompt.
+\item Check the input; if invalid, display an error and start over.
+\item Read the input.
+\end{enumerate}
+
+\index{System.err}
+
+The code uses a flag variable, \java{okay}, to indicate whether we need to repeat the loop body.
+If \java{hasNextDouble()} returns \java{false}, we consume the invalid input by calling \java{next()}.
+We then display an error message via \java{System.err}.
+The loop terminates when \java{hasNextDouble()} return \java{true}.
+
+
+\section{Break and continue}
+
+Sometimes neither a pretest nor a posttest loop will provide exactly what you need.
+In the previous example, the ``test'' needed to happen in the middle of the loop.
+As a result, we used a flag variable and a nested \java{if}-\java{else} statement.
+
+\index{break}
+
+A simpler way to solve this problem is to use a \java{break} statement.
+When a program reaches a \java{break} statement, it exits the current loop.
+
+\begin{code}
+Scanner in = new Scanner(System.in);
+while (true) {
+    System.out.print("Enter a number: ");
+    if (in.hasNextDouble()) {
+        break;
+    }
+    String word = in.next();
+    System.err.println(word + " is not a number");
+}
+double x = in.nextDouble();
+\end{code}
+
+Using \java{true} as a conditional in a \java{while} loop is an idiom that means ``loop forever'', or in this case ``loop until you get to a \java{break} statement.''
+
+\index{continue}
+
+In addition to the \java{break} statement, which exits the loop, Java provides a \java{continue} statement that moves on to the next iteration.
+For example, the following code reads integers from the keyboard and computes a running total.
+The \java{continue} statement causes the program to skip over any negative values.
+
+\begin{code}
+Scanner in = new Scanner(System.in);
+int x = -1;
+int sum = 0;
+while (x != 0) {
+    x = in.nextInt();
+    if (x <= 0) {
+        continue;
+    }
+    System.out.println("Adding " + x);
+    sum += x;
+}
+\end{code}
+
+Although \java{break} and \java{continue} statements give you more control of the loop execution, they can make code difficult to understand and debug.
+Use them sparingly.
+
+
+\section{The switch statement}
+
+TODO
+
+
+\section{Program development}
 
 \index{table}
 \index{logarithm}
@@ -291,7 +460,7 @@ Log tables may not be useful anymore, but for computer scientists, knowing the p
 %When you have an idle moment, you should memorize the powers of two up to 65536 (that's $2^{16}$).
 
 
-\section{Encapsulation}
+\section{Method encapsulation}
 \label{encapsulation}
 
 \index{table!two-dimensional}
@@ -428,7 +597,7 @@ One of the challenges of programming, especially for beginners, is figuring out 
 The process of encapsulation and generalization allows you to design as you go along.
 
 
-\section{Generalization}
+\section{Method generalization}
 
 \index{generalization}
 
@@ -525,110 +694,6 @@ Generalization makes code more versatile, more likely to be reused, and sometime
 
 %Remember, you do not pass {\em variables} to methods; you pass their current {\em values}.
 %In this last example, the value of \java{i} in \java{printTable} is assigned to both \java{n} and \java{cols} in \java{printRow}.
-
-
-\section{The do-while loop}
-
-\index{pretest loop}
-
-The \java{while} and \java{for} statements are {\bf pretest loops}; that is, they test the condition first and at the beginning of each pass through the loop.
-
-\index{posttest loop}
-\index{do-while}
-
-Java also provides a {\bf posttest loop}: the \java{do}-\java{while} statement.
-This type of loop is useful when you need to run the body of the loop at least once.
-
-%NOTE: can we find an example that's better using do-while than using while-break?
-
-For example, in Section~\ref{validate} we used the \java{return} statement to avoid reading invalid input from the user.
-We can use a \java{do}-\java{while} loop to keep reading input until it's valid:
-
-\begin{code}
-Scanner in = new Scanner(System.in);
-boolean okay;
-do {
-    System.out.print("Enter a number: ");
-    if (in.hasNextDouble()) {
-        okay = true;
-    } else {
-        okay = false;
-        String word = in.next();
-        System.err.println(word + " is not a number");
-    }
-} while (!okay);
-double x = in.nextDouble();
-\end{code}
-
-Although this code looks complicated, it is essentially only three steps:
-
-\begin{enumerate}
-\item Display a prompt.
-\item Check the input; if invalid, display an error and start over.
-\item Read the input.
-\end{enumerate}
-
-\index{System.err}
-
-The code uses a flag variable, \java{okay}, to indicate whether we need to repeat the loop body.
-If \java{hasNextDouble()} returns \java{false}, we consume the invalid input by calling \java{next()}.
-We then display an error message via \java{System.err}.
-The loop terminates when \java{hasNextDouble()} return \java{true}.
-
-
-\section{Break and continue}
-
-Sometimes neither a pretest nor a posttest loop will provide exactly what you need.
-In the previous example, the ``test'' needed to happen in the middle of the loop.
-As a result, we used a flag variable and a nested \java{if}-\java{else} statement.
-
-\index{break}
-
-A simpler way to solve this problem is to use a \java{break} statement.
-When a program reaches a \java{break} statement, it exits the current loop.
-
-\begin{code}
-Scanner in = new Scanner(System.in);
-while (true) {
-    System.out.print("Enter a number: ");
-    if (in.hasNextDouble()) {
-        break;
-    }
-    String word = in.next();
-    System.err.println(word + " is not a number");
-}
-double x = in.nextDouble();
-\end{code}
-
-Using \java{true} as a conditional in a \java{while} loop is an idiom that means ``loop forever'', or in this case ``loop until you get to a \java{break} statement.''
-
-\index{continue}
-
-In addition to the \java{break} statement, which exits the loop, Java provides a \java{continue} statement that moves on to the next iteration.
-For example, the following code reads integers from the keyboard and computes a running total.
-The \java{continue} statement causes the program to skip over any negative values.
-
-\begin{code}
-Scanner in = new Scanner(System.in);
-int x = -1;
-int sum = 0;
-while (x != 0) {
-    x = in.nextInt();
-    if (x <= 0) {
-        continue;
-    }
-    System.out.println("Adding " + x);
-    sum += x;
-}
-\end{code}
-
-Although \java{break} and \java{continue} statements give you more control of the loop execution, they can make code difficult to understand and debug.
-Use them sparingly.
-
-
-\section{The switch statement}
-
-TODO
 
 
 \section{Vocabulary}
@@ -749,11 +814,61 @@ For example, you can assign an \java{int} to a \java{double} but not vice versa.
 \end{exercise}
 
 
-\begin{exercise}  %%V6 Ex9.2
+\begin{exercise}  %%V6 Ex7.5
 
-Write a method called \java{letterHist} that takes a string as a parameter and returns a histogram of the letters in the string.
-The zeroth element of the histogram should contain the number of a's in the string (upper- and lowercase); the 25th element should contain the number of z's.
-Your solution should only traverse the string once.
+One way to calculate $e^x$ is to use the infinite series expansion:
+%
+\[ e^x = 1 + x + x^2 / 2! + x^3 / 3! + x^4 / 4! + \ldots \]
+%
+The $i$th term in the series is $x^i / i!$.
+
+\begin{enumerate}
+
+\item Write a method called \java{myexp} that takes \java{x} and \java{n} as parameters and estimates $e^x$ by adding the first \java{n} terms of this series.
+You can use the \java{factorial} method from Section~\ref{factorial} or your iterative version from the previous exercise.
+
+\index{efficiency}
+
+\item You can make this method more efficient if you realize that the numerator of each term is the same as its predecessor multiplied by \java{x}, and the denominator is the same as its predecessor multiplied by \java{i}.
+Use this observation to eliminate the use of \java{Math.pow} and \java{factorial}, and check that you get the same result.
+
+\item Write a method called \java{check} that takes a parameter, \java{x}, and displays \java{x}, \java{myexp(x)}, and \java{Math.exp(x)}.
+The output should look something like:
+
+\begin{stdout}
+1.0     2.708333333333333     2.718281828459045
+\end{stdout}
+
+You can use the escape sequence \java{"\\t"} to put a tab character between columns of a table.
+
+\item Vary the number of terms in the series (the second argument that \java{check} sends to \java{myexp}) and see the effect on the accuracy of the result.
+Adjust this value until the estimated value agrees with the correct answer when \java{x} is 1.
+
+\item Write a loop in \java{main} that invokes \java{check} with the values 0.1, 1.0, 10.0, and 100.0.
+How does the accuracy of the result vary as \java{x} varies?
+Compare the number of digits of agreement rather than the difference between the actual and estimated values.
+
+\item Add a loop in \java{main} that checks \java{myexp} with the values -0.1, -1.0, -10.0, and -100.0.
+Comment on the accuracy.
+
+\end{enumerate}
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex8.1
+
+The goal of this exercise is to practice encapsulation and generalization using some of the examples in previous chapters.
+
+\begin{enumerate}
+
+\item Starting with the code in Section~\ref{traversal}, write a method called \java{powArray} that takes a \java{double} array, \java{a}, and returns a new array that contains the elements of \java{a} squared.
+Generalize it to take a second argument and raise the elements of \java{a} to the given power.
+
+\item Starting with the code in Section~\ref{enhanced}, write a method called \java{histogram} that takes an \java{int} array of scores from 0 to (but not including) 100, and returns a histogram of 100 counters.
+Generalize it to take the number of counters as an argument.
+
+\end{enumerate}
 
 \end{exercise}
 
@@ -870,75 +985,6 @@ A single letter is a palindrome, a two-letter word is a palindrome if the letter
 \end{quotation}
 
 Write a recursive method named \java{isPalindrome} that takes a \java{String} and returns a \java{boolean} indicating whether the word is a palindrome.
-
-\end{enumerate}
-
-\end{exercise}
-
-
-\begin{exercise}  %%V6 Ex9.7
-\index{anagram}
-
-Two words are anagrams if they contain the same letters and the same number of each letter.
-For example, ``stop'' is an anagram of ``pots'' and ``allen downey'' is an anagram of ``well annoyed''.
-
-Write a method that takes two strings and checks whether they are anagrams of each other.
-\end{exercise}
-
-
-\begin{exercise}  %%V6 Ex7.5
-
-One way to calculate $e^x$ is to use the infinite series expansion:
-%
-\[ e^x = 1 + x + x^2 / 2! + x^3 / 3! + x^4 / 4! + \ldots \]
-%
-The $i$th term in the series is $x^i / i!$.
-
-\begin{enumerate}
-
-\item Write a method called \java{myexp} that takes \java{x} and \java{n} as parameters and estimates $e^x$ by adding the first \java{n} terms of this series.
-You can use the \java{factorial} method from Section~\ref{factorial} or your iterative version from the previous exercise.
-
-\index{efficiency}
-
-\item You can make this method more efficient if you realize that the numerator of each term is the same as its predecessor multiplied by \java{x}, and the denominator is the same as its predecessor multiplied by \java{i}.
-Use this observation to eliminate the use of \java{Math.pow} and \java{factorial}, and check that you get the same result.
-
-\item Write a method called \java{check} that takes a parameter, \java{x}, and displays \java{x}, \java{myexp(x)}, and \java{Math.exp(x)}.
-The output should look something like:
-
-\begin{stdout}
-1.0     2.708333333333333     2.718281828459045
-\end{stdout}
-
-You can use the escape sequence \java{"\\t"} to put a tab character between columns of a table.
-
-\item Vary the number of terms in the series (the second argument that \java{check} sends to \java{myexp}) and see the effect on the accuracy of the result.
-Adjust this value until the estimated value agrees with the correct answer when \java{x} is 1.
-
-\item Write a loop in \java{main} that invokes \java{check} with the values 0.1, 1.0, 10.0, and 100.0.
-How does the accuracy of the result vary as \java{x} varies?
-Compare the number of digits of agreement rather than the difference between the actual and estimated values.
-
-\item Add a loop in \java{main} that checks \java{myexp} with the values -0.1, -1.0, -10.0, and -100.0.
-Comment on the accuracy.
-
-\end{enumerate}
-
-\end{exercise}
-
-
-\begin{exercise}  %%V6 Ex8.1
-
-The goal of this exercise is to practice encapsulation with some of the examples in this chapter.
-
-\begin{enumerate}
-
-\item Starting with the code in Section~\ref{traversal}, write a method called \java{powArray} that takes a \java{double} array, \java{a}, and returns a new array that contains the elements of \java{a} squared.
-Generalize it to take a second argument and raise the elements of \java{a} to the given power.
-
-\item Starting with the code in Section~\ref{enhanced}, write a method called \java{histogram} that takes an \java{int} array of scores from 0 to (but not including) 100, and returns a histogram of 100 counters.
-Generalize it to take the number of counters as an argument.
 
 \end{enumerate}
 

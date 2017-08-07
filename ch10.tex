@@ -317,44 +317,6 @@ Thus, the value displayed by the third line is {\tt 200}, the width of the expan
 %In general, aliasing should be avoided or used with care.
 
 
-\section{The null keyword}
-
-\index{null}
-
-When you create an object variable, remember that you are storing a reference to an object.
-In Java, the keyword \java{null} is a special value that means ``no object''.
-You can declare and initialize object variables this way:
-
-\begin{code}
-Point blank = null;
-\end{code}
-
-The value \java{null} is represented in memory diagrams by a small box with no arrow, as in Figure~\ref{fig.reference2}.
-
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics{figs/reference2.pdf}
-\caption{Memory diagram showing a variable that contains a \java{null} reference.}
-\label{fig.reference2}
-\end{center}
-\end{figure}
-
-\index{exception!NullPointer}
-\index{NullPointerException}
-\index{run-time error}
-
-If you try to use a \java{null} value, either by accessing an attribute or invoking a method, Java throws a \java{NullPointerException}.
-
-\begin{code}
-Point blank = null;
-int x = blank.x;              // NullPointerException
-blank.translate(50, 50);      // NullPointerException
-\end{code}
-
-On the other hand, it is legal to pass a null reference as an argument or receive one as a return value.
-For example, \java{null} is often used to represent a special condition or indicate an error.
-
-
 \section{Garbage collection}
 
 In Section~\ref{aliasing}, we saw what happens when more than one variable refers to the same object.
@@ -647,37 +609,6 @@ You might be sick of the factorial method by now, but we're going to do one more
 \item Display a table of the integers from 0 to 30 along with their factorials.
 At some point around 15, you will probably see that the answers are not right anymore.
 Why not?
-
-\index{BigInteger}
-
-\item \java{BigInteger} is a Java class that can represent arbitrarily big integers.
-There is no upper bound except the limitations of memory size and processing speed.
-Take a minute to read the documentation, which you can find by doing a web search for ``Java BigInteger''.
-
-\item To use BigIntegers, you have to import \java{java.math.BigInteger} at the beginning of your program.
-
-\item There are several ways to create a BigInteger, but the simplest uses \java{valueOf}.
-The following code converts an integer to a BigInteger:
-
-\begin{code}
-int x = 17;
-BigInteger big = BigInteger.valueOf(x);
-\end{code}
-
-%Type in this code and try it out.
-%Try displaying a BigInteger.
-
-\item Since BigIntegers are not primitive types, the usual math operators don't work.
-Instead, we have to use methods like \java{add}.
-To add two BigIntegers, invoke \java{add} on one and pass the other as an argument.
-
-\begin{code}
-BigInteger small = BigInteger.valueOf(17);
-BigInteger big = BigInteger.valueOf(1700000000);
-BigInteger total = small.add(big);
-\end{code}
-
-Try out some of the other methods, like \java{multiply} and \java{pow}.
 
 \item Convert \java{factorial} so that it performs its calculation using BigIntegers and returns a BigInteger as a result.
 You can leave the parameter alone; it will still be an integer.
