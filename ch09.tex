@@ -1,43 +1,103 @@
 \chapter{Immutable objects}
 \label{immutable}
 
+\index{object-oriented}
+
+Java is an ``object-oriented'' language, which means that it uses objects to represent data {\em and} provide methods related to them.
+This way of organizing programs is a powerful design concept, and we will introduce it gradually throughout the remainder of the book.
+
 \index{object}
 \index{System.in}
 \index{System.out}
 
-In Java and other object-oriented languages, an {\bf object} is a collection of data that provides a set of methods.
+An {\bf object} is a collection of data that provides a set of methods.
 For example, \java{Scanner}, which we saw in Section~\ref{scanner}, is an object that provides methods for parsing input.
 \java{System.out} and \java{System.in} are also objects.
 
 Strings are objects, too.
 They contain characters and provide methods for manipulating character data.
+Other data types, like \java{Integer}, represent numbers and provide methods for manipulating them.
 We explore some of those methods in this chapter.
 
 
-\section{Primitive vs reference}
+\section{Primitives vs objects}
 
 \index{primitive}
 
-Not everything in Java is an object: \java{int}, \java{double}, and \java{boolean} are so-called {\bf primitive} types.
-We will explain some of the differences between object types and primitive types as we go along.
-
-\index{null}
-
-When you create an object variable, remember that you are storing a reference to an object.
-In Java, the keyword \java{null} is a special value that means ``no object''.
-You can declare and initialize object variables this way:
+Not everything in Java is an object: \java{int}, \java{double}, \java{char}, and \java{boolean} are examples of {\bf primitive} types.
+%We will explain some of the differences between object types and primitive types as we go along.
+When you declare a variable with a primitive type, Java reserves a small amount of memory to store its {\em value}.
+Figure~\ref{fig.mem1} shows how the following values are stored memory.
 
 \begin{code}
-Point blank = null;
+int number = -2;
+char symbol = '!';
 \end{code}
-
-The value \java{null} is represented in memory diagrams by a small box with no arrow, as in Figure~\ref{fig.reference2}.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/reference2.pdf}
-\caption{Memory diagram showing a variable that contains a \java{null} reference.}
-\label{fig.reference2}
+\includegraphics[scale=0.85]{figs/mem1.pdf}
+\caption{Memory diagram of two primitive variables.}
+\label{fig.mem1}
+\end{center}
+\end{figure}
+
+As we learned in Section~\ref{elements}, an array variable stores a {\em reference} to an array.
+That's because the array itself is too large to fit in the variable's memory.
+For example, \java{char[] array = \{'c', 'a', 't'\}} contains three characters.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[scale=0.85]{figs/mem2.pdf}
+\caption{Memory diagram of an array of characters.}
+\label{fig.mem2}
+\end{center}
+\end{figure}
+
+When drawing memory diagrams, we use an arrow to represent the location of the array (see Figure~\ref{fig.mem2}).
+The actual memory location is an integer chosen by Java at run-time.
+
+Objects work in a similar way.
+When you declare an object variable, it will store a reference to an object.
+The difference is that an object {\bf encapsulates} other data.
+We will learn more about this concept in Chapter~\ref{mutable}.
+
+For example, a \java{String} object encapsulates a character array.
+Figure~\ref{fig.mem3} illustrates how strings are stored in memory.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[scale=0.85]{figs/mem3.pdf}
+\caption{Memory diagram of a \java{String} object.}
+\label{fig.mem3}
+\end{center}
+\end{figure}
+
+Behind the scenes, the code \java{String word = "dog";} creates an array of the characters \java{'d'}, \java{'o'}, and \java{'g'}, and stores the reference to that array in a \java{String} object.
+The variable \java{word} contains the reference to the string.
+
+To test whether two integers (or other primitive types) are equal, you simply use the \java{==} operator.
+But as we learned in Section~\ref{strcmp}, you need to use the \java{equals} method to compare strings.
+The \java{==} operator, when applied to strings, only compares their references.
+
+\index{null}
+
+In Java, the keyword \java{null} is a special value that means ``no object''.
+You can initialize array and object variables this way:
+
+\begin{code}
+String name = null;
+int[] combo = null;
+\end{code}
+
+The value \java{null} is represented in memory diagrams by a small box with no arrow, as in Figure~\ref{fig.mem4}.
+In other words, they do not reference anything.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[scale=0.85]{figs/mem4.pdf}
+\caption{Memory diagram showing variables that are \java{null}.}
+\label{fig.mem4}
 \end{center}
 \end{figure}
 
@@ -45,29 +105,32 @@ The value \java{null} is represented in memory diagrams by a small box with no a
 \index{NullPointerException}
 \index{run-time error}
 
-If you try to use a \java{null} value, either by accessing an attribute or invoking a method, Java throws a \java{NullPointerException}.
+If you try to use a variable that is \java{null}, either by invoking a method or accessing an element, Java throws a \java{NullPointerException}.
 
 \begin{code}
-Point blank = null;
-int x = blank.x;              // NullPointerException
-blank.translate(50, 50);      // NullPointerException
+System.out.println(name.length());  // NullPointerException
+System.out.println(combo[0]);       // NullPointerException
 \end{code}
 
-On the other hand, it is legal to pass a null reference as an argument or receive one as a return value.
-For example, \java{null} is often used to represent a special condition or indicate an error.
+On the other hand, it is legal to pass a \java{null} reference as an argument or receive one as a return value.
+\java{null} is often used to represent a special condition or indicate an error.
 
 
 \section{Strings are immutable}
+
+If the Java library did not have a \java{String} class, we would have to use character arrays to store and manipulate text.
+Operations like concatenation (\java{+}), \java{indexOf}, and \java{substring} would be difficult and inconvenient.
+Fortunately, Java has a built-in \java{String} class that provides these and other methods.
 
 \index{toUpperCase}
 \index{toLowerCase}
 \index{immutable}
 
-Strings provide methods, \java{toUpperCase} and \java{toLowerCase}, that convert from uppercase to lowercase and back.
+For example, the methods \java{toUpperCase} and \java{toLowerCase} convert from uppercase to lowercase and vice versa.
 These methods are often a source of confusion, because it sounds like they modify strings.
-But neither these methods nor any others can change a string, because strings are {\bf immutable}.
+Neither these methods nor any others can change a string, because strings are designed to be {\bf immutable}.
 
-When you invoke \java{toUpperCase} on a string, you get a new string object as a return value.
+When you invoke \java{toUpperCase} on a string, you get a {\em new} \java{String} object as a result.
 For example:
 
 \begin{code}
@@ -79,6 +142,22 @@ String upperName = name.toUpperCase();
 
 After these statements run, \java{upperName} refers to the string \java{"ALAN TURING"}.
 But \java{name} still refers to \java{"Alan Turing"}.
+A common mistake is to assume that \java{toUpperCase} somehow affects the original string:
+
+\begin{code}
+String name = "Alan Turing";
+name.toUpperCase();           // ignores the return value
+System.out.println(name);
+\end{code}
+
+The previous code displays \java{"Alan Turing"}, because the value of \java{name} (i.e., the reference to the original \java{String} object) never changes.
+If you want to change \java{name} to be uppercase, then you need to assign the return value:
+
+\begin{code}
+String name = "Alan Turing";
+name = name.toUpperCase();    // references the new string
+System.out.println(name);
+\end{code}
 
 \index{replace}
 
@@ -90,21 +169,27 @@ String text = "Computer Science is fun!";
 text = text.replace("Computer Science", "CS");
 \end{code}
 
-This example demonstrates a common way to work with string methods.
-It invokes \java{text.replace}, which returns a reference to a new string, \java{"CS is fun!"}.
-Then it assigns the new string to \java{text}, replacing the old string.
+%This example demonstrates a common way to work with string methods.
+%It invokes \java{text.replace}, which returns a reference to a new string, \java{"CS is fun!"}.
+%Then it assigns the new string to \java{text}, replacing the old string.
 
-This assignment is important; if you don't save the return value, invoking \java{text.replace} has no effect.
+As with \java{toUpperCase}, assigning the return value (to \java{text}) is important.
+If you don't assign the return value, invoking \java{text.replace} has no effect.
 
-% ABD: Too many new ideas here: the most important one is that you have to do something with the return value.  It's not a good time to appreciate the glory of immutability.
+% ABD: Too many new ideas here: the most important one is that you have to do something with the return value. It's not a good time to appreciate the glory of immutability.
+% CSM: Now that strings were introduced previously, I would like to make this chapter say more about immutability. But we won't get to the full glory until the next chapter.
 
-%Strings are immutable by design, because it simplifies passing them between methods as parameters and return values.
-%And since the contents of a string can never change, two variables can reference the same string without one accidentally corrupting the other.
+Strings are immutable by design, because it simplifies passing them between methods as parameters and return values.
+And since the contents of a string can never change, two variables can reference the same string without one accidentally corrupting the other.
+
+%Immutable objects have a number of advantages that help improve the performance and reliability of programs.
+%For example, two strings that contain the same contents can be stored in memory only once.
+%Because neither variable can change the \java{String} object, you don't have to worry about one area of the program accidentally corrupting another area.
 
 
 \section{Wrapper classes}
 
-Primitive values (like \java{int}s, \java{double}s, and \java{char}s) do not provide methods.
+Primitive values (like \java{int}s, \java{double}s, and \java{char}s) cannot be \java{null}, and they do not provide methods.
 For example, you can't call \java{equals} on an \java{int}:
 
 \begin{code}
@@ -117,8 +202,8 @@ System.out.println(i.equals(5));  // compiler error
 \index{Integer}
 \index{Double}
 
-But for each primitive type, there is a corresponding class in the Java library, called a {\bf wrapper class}.
-The wrapper class for \java{char} is called \java{Character}; for \java{int} it's called \java{Integer}.
+But for each primitive type, there is a corresponding {\bf wrapper class} in the Java library.
+The wrapper class for \java{char} is \java{Character}; for \java{int} it's \java{Integer}.
 Other wrapper classes include \java{Boolean}, \java{Long}, and \java{Double}.
 They are in the \java{java.lang} package, so you can use them without importing them.
 
@@ -126,17 +211,16 @@ Each wrapper class defines constants \java{MIN_VALUE} and \java{MAX_VALUE}.
 For example, \java{Integer.MIN_VALUE} is \java{-2147483648}, and \java{Integer.MAX_VALUE} is \java{2147483647}.
 Because these constants are available in wrapper classes, you don't have to remember them, and you don't have to include them in your programs.
 
-Wrapper classes provide methods for converting strings to other types.
-For example, \java{Integer.parseInt} converts a string to (you guessed it) an integer:
+\index{parse}
+
+Wrapper classes provide methods for converting strings to primitive types.
+For example, \java{Integer.parseInt} converts a string to (you guessed it) an integer.
+In this context, {\bf parse} means ``read and translate''.
 
 \begin{code}
 String str = "12345";
 int num = Integer.parseInt(str);
 \end{code}
-
-\index{parse}
-
-In this context, {\bf parse} means something like ``read and translate''.
 
 The other wrapper classes provide similar methods, like \java{Double.parseDouble} and \java{Boolean.parseBoolean}.
 They also provide \java{toString}, which returns a string representation of a value:
@@ -146,16 +230,26 @@ int num = 12345;
 String str = Integer.toString(num);
 \end{code}
 
-The result is the string \java{"12345"}.
+The result is the string \java{"12345"}, which as you now know, is stored internally in a character array \java{\{'1', '2', '3', '4', '5'\}}.
+
+\index{NumberFormatException}
+
+It's always possible to convert a primitive value to a string, but not the other way around.
+The following code throws a \java{NumberFormatException}.
+
+\begin{code}
+String str = "five";
+int num = Integer.parseInt(str);  // NumberFormatException
+\end{code}
 
 
 \section{Command-line arguments}
 
-Now that you know about arrays and strings, we can {\em finally} explain the \java{args} parameter for \java{main} that we have been ignoring since Chapter~\ref{theway}.
+Now that you know about strings, arrays, and wrapper classes, we can {\em finally} explain the \java{args} parameter (of the \java{main} method) that we have been ignoring since Chapter~\ref{theway}.
 If you are unfamiliar with the command-line interface, please read or review Appendix~\ref{commandline}.
 
-Continuing an earlier example, let's write a program to find the largest value in a sequence of numbers.
-Rather than read the numbers from \java{System.in}, we'll pass them as command-line arguments.
+Let's write a program to find the maximum value in a sequence of numbers.
+Rather than read the numbers from \java{System.in} using a \java{Scanner}, we'll pass them as command-line arguments.
 Here is a starting point:
 
 \begin{code}
@@ -180,8 +274,8 @@ The output indicates that \java{args} is an {\bf empty array}; that is, it has n
 []
 \end{stdout}
 
-But if you provide additional values on the command line, they are passed as arguments to \java{main}.
-For example, if you run it like this:
+If you provide additional values on the command line, they are passed as arguments to \java{main}.
+For example, if you run the program like this:
 
 \begin{stdout}
 java Max 10 -3 55 0 14
@@ -193,7 +287,8 @@ The output is:
 [10, -3, 55, 0, 14]
 \end{stdout}
 
-But remember that the elements of \java{args} are strings.
+It's unclear from the output, but the elements of \java{args} are strings.
+So \java{args} is the array \java{\{"10", "-3", "55", "0", "14"\}}.
 To find the maximum number, we have to convert the arguments to integers.
 
 The following fragment uses an enhanced \java{for} loop to parse the arguments (using the \java{Integer} wrapper class) and find the largest value:
@@ -209,8 +304,25 @@ for (String arg : args) {
 System.out.println("The max is " + max);
 \end{code}
 
-The initial value of \java{max} is the smallest (most negative) number an \java{int} can represent, so any other value is greater.
-If \java{args} is empty, the result is \java{MIN_VALUE}.
+We begin by initializing \java{max} to the smallest (most negative) number an \java{int} can represent.
+That way, the first value we parse will replace \java{max}.
+As we find larger values, they will replace \java{max} as well.
+
+If \java{args} is empty, the result will be \java{MIN_VALUE}.
+We can prevent this situation by checking \java{args} at the beginning of the program:
+
+\begin{code}
+if (args.length == 0) {
+    System.err.println("Usage: java Max <numbers>");
+    return;
+}
+\end{code}
+
+The \java{return} statement causes the program to terminate.
+It's customary for programs that require command-line arguments to display a ``usage'' message when there are none.
+For example, if you run {\tt javac} or {\tt java} (from the command line) without any arguments, you will get a very long message.
+
+
 
 
 \section{BigInteger arithmetic}
