@@ -799,3 +799,84 @@ Write a method called \java{max} that takes an array and uses \java{maxInRange} 
 \end{enumerate}
 
 \end{exercise}
+
+
+\begin{exercise}  %%V6 Ex9.4
+
+Create a program called {\tt Recurse.java} and type in the following methods:
+
+\begin{code}
+/**
+ * Returns the first character of the given String.
+ */
+public static char first(String s) {
+    return s.charAt(0);
+}
+\end{code}
+
+\begin{code}
+/**
+ * Returns all but the first letter of the given String.
+ */
+public static String rest(String s) {
+    return s.substring(1);
+}
+\end{code}
+
+\begin{code}
+/**
+ * Returns all but the first and last letter of the String.
+ */
+public static String middle(String s) {
+    return s.substring(1, s.length() - 1);
+}
+\end{code}
+
+\begin{code}
+/**
+ * Returns the length of the given String.
+ */
+public static int length(String s) {
+    return s.length();
+}
+\end{code}
+
+\begin{enumerate}
+
+\item Write some code in \java{main} that tests each of these methods.
+Make sure they work, and you understand what they do.
+
+\item Using these methods, and without using any other \java{String} methods, write a method called \java{printString} that takes a string as a parameter and that displays the letters of the string, one on each line.
+It should be a void method.
+
+\item Again using only these methods, write a method called \java{printBackward} that does the same thing as \java{printString} but that displays the string backward (again, one character per line).
+
+\item Now write a method called \java{reverseString} that takes a string as a parameter and that returns a new string as a return value.
+The new string should contain the same letters as the parameter, but in reverse order.
+
+\begin{code}
+String backwards = reverseString("coffee");
+System.out.println(backwards);
+\end{code}
+
+The output of this example code should be:
+
+\begin{stdout}
+eeffoc
+\end{stdout}
+
+\index{palindrome}
+
+\item A palindrome is a word that reads the same both forward and backward, like ``otto'' and ``palindromeemordnilap''.
+Here's one way to test whether a string is a palindrome:
+
+\begin{quotation}
+\noindent
+A single letter is a palindrome, a two-letter word is a palindrome if the letters are the same, and any other word is a palindrome if the first letter is the same as the last and the middle is a palindrome.
+\end{quotation}
+
+Write a recursive method named \java{isPalindrome} that takes a \java{String} and returns a \java{boolean} indicating whether the word is a palindrome.
+
+\end{enumerate}
+
+\end{exercise}

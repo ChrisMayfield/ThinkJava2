@@ -304,8 +304,6 @@ for (int i = 0; i < a.length; i++) {
 All arrays have a built-in constant, \java{length}, that stores the number of elements.
 In contrast to \java{String.length()}, which is a method, \java{a.length} is a constant.
 The expression \java{a.length} may look like a method invocation, but there are no parentheses and no arguments.
-%\java{length} is actually an {\bf attribute} of the array, not a method.
-%We will learn more about attributes in Section~\ref{attribute}.
 
 The last time the loop gets executed, \java{i} is \java{a.length - 1}, which is the index of the last element.
 When \java{i} is equal to \java{a.length}, the condition fails and the body is not executed -- which is a good thing, because trying to access \java{a[a.length]} would throw an exception.

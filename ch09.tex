@@ -780,6 +780,38 @@ How high can you make it go?
 \end{exercise}
 
 
+\begin{exercise}  %%V6 Ex10.5
+
+Many encryption algorithms depend on the ability to raise large integers to a power.
+Here is a method that implements an efficient algorithm for integer exponentiation:
+
+\begin{code}
+public static int pow(int x, int n) {
+    if (n == 0) return 1;
+
+    // find x to the n/2 recursively
+    int t = pow(x, n / 2);
+
+    // if n is even, the result is t squared
+    // if n is odd, the result is t squared times x
+    if (n % 2 == 0) {
+        return t * t;
+    } else {
+        return t * t * x;
+    }
+}
+\end{code}
+
+The problem with this method is that it only works if the result is small enough to be represented by an \java{int}.
+Rewrite it so that the result is a \java{BigInteger}.
+The parameters should still be integers, though.
+
+You should use the \java{BigInteger} methods \java{add} and \java{multiply}.
+But don't use \java{BigInteger.pow}; that would spoil the fun.
+
+\end{exercise}
+
+
 \begin{exercise}  %%V6 Ex7.5
 
 %The purpose of this exercise is to practice using \java{BigInteger} and \java{BigDecimal}.
@@ -855,88 +887,6 @@ System.out.println(count);
 \item Test your method with multiple strings, including some that are balanced and some that are not.
 
 \item Generalized the code so that it works on any string. What could you do to generalize it more?
-
-\end{enumerate}
-
-\end{exercise}
-
-
-\newpage
-\begin{exercise}  %%V6 Ex9.4
-
-Create a program called {\tt Recurse.java} and type in the following methods:
-
-\begin{code}
-/**
- * Returns the first character of the given String.
- */
-public static char first(String s) {
-    return s.charAt(0);
-}
-\end{code}
-
-\begin{code}
-/**
- * Returns all but the first letter of the given String.
- */
-public static String rest(String s) {
-    return s.substring(1);
-}
-\end{code}
-
-\begin{code}
-/**
- * Returns all but the first and last letter of the String.
- */
-public static String middle(String s) {
-    return s.substring(1, s.length() - 1);
-}
-\end{code}
-
-\begin{code}
-/**
- * Returns the length of the given String.
- */
-public static int length(String s) {
-    return s.length();
-}
-\end{code}
-
-\begin{enumerate}
-
-\item Write some code in \java{main} that tests each of these methods.
-Make sure they work, and you understand what they do.
-
-\item Using these methods, and without using any other \java{String} methods, write a method called \java{printString} that takes a string as a parameter and that displays the letters of the string, one on each line.
-It should be a void method.
-
-\item Again using only these methods, write a method called \java{printBackward} that does the same thing as \java{printString} but that displays the string backward (again, one character per line).
-
-\item Now write a method called \java{reverseString} that takes a string as a parameter and that returns a new string as a return value.
-The new string should contain the same letters as the parameter, but in reverse order.
-
-\begin{code}
-String backwards = reverseString("coffee");
-System.out.println(backwards);
-\end{code}
-
-The output of this example code should be:
-
-\begin{stdout}
-eeffoc
-\end{stdout}
-
-\index{palindrome}
-
-\item A palindrome is a word that reads the same both forward and backward, like ``otto'' and ``palindromeemordnilap''.
-Here's one way to test whether a string is a palindrome:
-
-\begin{quotation}
-\noindent
-A single letter is a palindrome, a two-letter word is a palindrome if the letters are the same, and any other word is a palindrome if the first letter is the same as the last and the middle is a palindrome.
-\end{quotation}
-
-Write a recursive method named \java{isPalindrome} that takes a \java{String} and returns a \java{boolean} indicating whether the word is a palindrome.
 
 \end{enumerate}
 
