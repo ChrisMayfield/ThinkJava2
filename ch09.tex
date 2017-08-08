@@ -16,7 +16,7 @@ For example, \java{Scanner}, which we saw in Section~\ref{scanner}, is an object
 
 Strings are objects, too.
 They contain characters and provide methods for manipulating character data.
-Other data types, like \java{Integer}, contain numbers and provide methods for manipulating numeric data.
+Other data types, like \java{Integer}, contain numbers and provide methods for manipulating number data.
 We will explore some of those methods in this chapter.
 
 
@@ -59,8 +59,8 @@ The actual memory location (the {\em value} of the array variable) is an integer
 
 Objects work in a similar way.
 When you declare an object variable, it will store a reference to an object.
-In contrast to arrays, objects may {\bf encapsulate} different types of data.
-We will learn more about this concept in Chapter~\ref{mutable}.
+In contrast to arrays, which store multiple elements of the same data type, objects can be used to {\bf encapsulate} any type of data.
+%We will learn more about this concept in Chapter~\ref{mutable}.
 
 For example, a \java{String} object encapsulates a character array.
 Figure~\ref{fig.mem3} illustrates how strings are stored in memory.
@@ -74,18 +74,21 @@ Figure~\ref{fig.mem3} illustrates how strings are stored in memory.
 \end{figure}
 
 Behind the scenes, the code \java{String word = "dog";} creates an array of the characters \java{'d'}, \java{'o'}, and \java{'g'}, and stores the reference to that array in a \java{String} object.
-The variable \java{word} contains the reference to the string.
+The variable \java{word} contains a reference to the \java{String} object.
 
 To test whether two integers (or other primitive types) are equal, you simply use the \java{==} operator.
 But as we learned in Section~\ref{strcmp}, you need to use the \java{equals} method to compare strings.
-The \java{==} operator, when applied to strings, only compares their references.
+The \java{equals} method traverses the arrays and tests whether they contain the same characters.
+
+On the other hand, two \java{String} objects with the same characters would not be considered equal in the \java{==} sense.
+The \java{==} operator, when applied to string variables, only tests whether they refer to the {\em same} object.
 
 %\section{The null keyword}
 
 \index{null}
 
 In Java, the keyword \java{null} is a special value that means ``no object''.
-You can initialize object (and array) variables this way:
+You can initialize object and array variables this way:
 
 \begin{code}
 String name = null;
@@ -120,9 +123,9 @@ In these situations, \java{null} is often used to represent a special condition 
 
 \section{Strings are immutable}
 
-If the Java library did not have a \java{String} class, we would have to use character arrays to store and manipulate text.
+If the Java library didn't have a \java{String} class, we would have to use character arrays to store and manipulate text.
 Operations like concatenation (\java{+}), \java{indexOf}, and \java{substring} would be difficult and inconvenient.
-Fortunately, Java has a built-in \java{String} class that provides these and other methods.
+Fortunately, Java does have a \java{String} class that provides these and other methods.
 
 \index{toUpperCase}
 \index{toLowerCase}
@@ -140,7 +143,7 @@ String name = "Alan Turing";
 String upperName = name.toUpperCase();
 \end{code}
 
-\index{Turing, Alan}
+%\index{Turing, Alan}
 
 After these statements run, \java{upperName} refers to the string \java{"ALAN TURING"}.
 But \java{name} still refers to \java{"Alan Turing"}.
@@ -175,7 +178,7 @@ text = text.replace("Computer Science", "CS");
 %It invokes \java{text.replace}, which returns a reference to a new string, \java{"CS is fun!"}.
 %Then it assigns the new string to \java{text}, replacing the old string.
 
-As with \java{toUpperCase}, assigning the return value to \java{text} is important.
+As with \java{toUpperCase}, assigning the return value (to \java{text}) is important.
 If you don't assign the return value, invoking \java{text.replace} has no effect.
 
 % ABD: Too many new ideas here: the most important one is that you have to do something with the return value. It's not a good time to appreciate the glory of immutability.
@@ -214,7 +217,22 @@ System.out.println(i.equals(5));  // displays true
 
 Other wrapper classes include \java{Boolean}, \java{Character}, \java{Double}, and \java{Long}.
 They are in the \java{java.lang} package, so you can use them without importing them.
-By design, all of these classes create immutable objects.
+
+Like strings, objects from wrapper classes are immutable.
+And you need to use the \java{equals} method to compare them.
+
+\begin{code}
+Integer x = new Integer(123);
+Integer y = new Integer(123);
+if (x == y) {                           // false
+    System.out.print("x and y are the same object");
+}
+if (x.equals(y)) {                      // true
+    System.out.print("x and y have the same value");
+}
+\end{code}
+
+Because \java{x} and \java{y} refer to different \java{Integer} objects, the code only displays ``x and y have the same value''.
 
 Each wrapper class defines the constants \java{MIN_VALUE} and \java{MAX_VALUE}.
 For example, \java{Integer.MIN_VALUE} is \java{-2147483648}, and \java{Integer.MAX_VALUE} is \java{2147483647}.
@@ -232,14 +250,14 @@ int num = Integer.parseInt(str);
 \end{code}
 
 The other wrapper classes provide similar methods, like \java{Double.parseDouble} and \java{Boolean.parseBoolean}.
-They also provide \java{toString}, which returns a string representation of a value:
+They also each provide \java{toString}, which returns a string representation of a value:
 
 \begin{code}
 int num = 12345;
 String str = Integer.toString(num);
 \end{code}
 
-The result is the string \java{"12345"}, which as you now know, is stored internally in a character array \java{\{'1', '2', '3', '4', '5'\}}.
+The result is the string \java{"12345"}, which as you now understand, is stored internally in a character array \java{\{'1', '2', '3', '4', '5'\}}.
 
 \index{NumberFormatException}
 
@@ -253,6 +271,8 @@ int num = Integer.parseInt(str);  // NumberFormatException
 
 
 \section{Command-line arguments}
+
+\index{args}
 
 Now that you know about strings, arrays, and wrapper classes, we can {\em finally} explain the \java{args} parameter of the \java{main} method, which we have been ignoring since Chapter~\ref{theway}.
 If you are unfamiliar with the command-line interface, please read Appendix~\ref{commandline}.
@@ -342,7 +362,7 @@ But there is another reason: when you need very large integers that exceed \java
 
 \index{BigInteger}
 
-\java{BigInteger} is a Java class that can represent arbitrarily big integers.
+\java{BigInteger} is a Java class that can represent arbitrarily large integers.
 There is no upper bound except the limitations of memory size and processing speed.
 Take a minute to read the documentation, which you can find by doing a web search for ``Java BigInteger''.
 
@@ -356,14 +376,14 @@ BigInteger big = BigInteger.valueOf(x);
 \end{code}
 
 You can also create BigIntegers from strings.
-For example, here is a 20-digit integer that is too bit to store using a \java{long}.
+For example, here is a 20-digit integer that is too big to store using a \java{long}.
 
 \begin{code}
 String s = "12345678901234567890";
 BigInteger big = new BigInteger(s);
 \end{code}
 
-Notice the difference in the previous two examples: you use \java{valueOf} to convert integers, and \java{new} to convert strings.
+Notice the difference in the previous two examples: you use \java{valueOf} to convert integers, and \java{new BigInteger} to convert strings.
 
 Since BigIntegers are not primitive types, the usual math operators don't work.
 Instead, we have to use methods like \java{add}.
@@ -386,10 +406,10 @@ For very long floating-point values, take a look at \java{java.math.BigDecimal}.
 Interestingly, \java{BigDecimal} objects represent floating-point numbers internally by encapsulating a \java{BigInteger}!
 
 
-\section{Method encapsulation}
+\section{Program development}
 \label{encapsulation}
 
-This chapter has introduced two main concepts: objects encapsulate other types of data, and they can be designed to be immutable.
+This chapter introduces two main concepts: objects encapsulate other types of data, and they can be designed to be immutable.
 Applying these concepts helps us to manage the complexity of programs as they become large.
 
 \index{design process}
@@ -397,6 +417,9 @@ Applying these concepts helps us to manage the complexity of programs as they be
 Unfortunately, computer science has a lot of overloaded terms.
 Another use of the term ``encapsulation'' applies to methods.
 In this section, we present a {\bf design process} called ``encapsulation and generalization''.
+
+One challenge of programming, especially for beginners, is figuring out how to divide up a program into methods.
+The process of encapsulation and generalization allows you to design as you go along.
 The steps are:
 
 \begin{enumerate}
@@ -405,10 +428,7 @@ The steps are:
 \item If it's appropriate, replace literal values with variables and parameters.
 \end{enumerate}
 
-One of the challenges of programming, especially for beginners, is figuring out how to divide up a program into methods.
-The process of encapsulation and generalization (steps 2 and 3) allows you to design as you go along.
-
-Encapsulation and generalization is similar to ``incremental development'' (see Section~\ref{distance}), in the sense that you write a little code and test as you go.
+Encapsulation and generalization is similar to ``incremental development'' (see Section~\ref{distance}), in the sense that you write a little code, test it, and repeat.
 But you don't need to begin with an exact method definition and stub.
 
 \index{table!two-dimensional}
@@ -445,7 +465,7 @@ The output of the code so far is:
 
 \index{encapsulate}
 
-The next step is to {\bf encapsulate} this code in a new method.
+The next step is to {\bf encapsulate} or wrap this code in a method.
 Here's what it looks like:
 
 \begin{code}
@@ -459,14 +479,16 @@ public static void printRow() {
 }
 \end{code}
 
-Next we replace the constant value, \java{2}, with a parameter, \java{n}.
+\index{generalize}
+
+Next, we {\bf generalize} the method by replacing the constant value, \java{2}, with a parameter, \java{n}.
 This step is called ``generalization'' because it makes the method more general (less specific).
 
 \begin{code}
 public static void printRow(int n) {
     int i = 1;
     while (i <= 6) {
-        System.out.printf("%4d", n * i);
+        System.out.printf("%4d", n * i);  // generalized n
         i = i + 1;
     }
     System.out.println();
@@ -480,11 +502,11 @@ With the argument 3, the output is:
    3   6   9  12  15  18
 \end{stdout}
 
-And with argument 4, the output is:
-
-\begin{stdout}
-   4   8  12  16  20  24
-\end{stdout}
+%And with argument 4, the output is:
+%
+%\begin{stdout}
+%   4   8  12  16  20  24
+%\end{stdout}
 
 By now you can probably guess how we are going to display a multiplication table: we'll invoke \java{printRow} repeatedly with different arguments.
 In fact, we'll use another loop to iterate through the rows.
@@ -510,7 +532,10 @@ And the output looks like this:
 
 %The format specifier \java{\%4d} in \java{printRow} causes the output to align vertically, regardless of whether the numbers are one or two digits.
 
-This result is similar to the ``nested loops'' approach in Section~\ref{nested}.
+
+\section{More generalization}
+
+The previous result is similar to the ``nested loops'' approach in Section~\ref{nested}.
 However, the inner loop is now encapsulated in the \java{printRow} method.
 We can encapsulate the outer loop in a method too:
 
@@ -524,25 +549,20 @@ public static void printTable() {
 }
 \end{code}
 
-
-\section{More generalization}
-
-\index{generalize}
-
-The previous version of \java{printTable} always displays six rows.
-We can {\bf generalize} it by replacing the literal \java{6} with a parameter:
+The initial version of \java{printTable} always displays six rows.
+We can generalize it by replacing the literal \java{6} with a parameter:
 
 \begin{code}
 public static void printTable(int rows) {
     int i = 1;
-    while (i <= rows) {
+    while (i <= rows) {  // generalized rows
         printRow(i);
         i = i + 1;
     }
 }
 \end{code}
 
-Here is the output with the argument 7:
+Here is the output of \java{printTable(7)}:
 
 \begin{stdout}
    1   2   3   4   5   6
@@ -560,7 +580,7 @@ We can generalize more by adding a parameter to \java{printRow}:
 \begin{code}
 public static void printRow(int n, int cols) {
     int i = 1;
-    while (i <= cols) {     // generalized cols
+    while (i <= cols) {  // generalized cols
         System.out.printf("%4d", n * i);
         i = i + 1;
     }
@@ -583,24 +603,25 @@ public static void printTable(int rows) {
 
 When this line executes, it evaluates \java{rows} and passes the value, which is 7 in this example, as an argument.
 In \java{printRow}, this value is assigned to \java{cols}.
-As a result, the number of columns equals the number of rows, so we get a square 7x7 table:
+As a result, the number of columns equals the number of rows, so we get a square 7x7 table (instead of the previous 7x6 table):
 
-\begin{stdout}
-   1   2   3   4   5   6   7
-   2   4   6   8  10  12  14
-   3   6   9  12  15  18  21
-   4   8  12  16  20  24  28
-   5  10  15  20  25  30  35
-   6  12  18  24  30  36  42
-   7  14  21  28  35  42  49
-\end{stdout}
+%\begin{stdout}
+%   1   2   3   4   5   6   7
+%   2   4   6   8  10  12  14
+%   3   6   9  12  15  18  21
+%   4   8  12  16  20  24  28
+%   5  10  15  20  25  30  35
+%   6  12  18  24  30  36  42
+%   7  14  21  28  35  42  49
+%\end{stdout}
 
 When you generalize a method appropriately, you often find that it has capabilities you did not plan.
-For example, you might notice that the multiplication table is symmetric; since $ab = ba$, all the entries in the table appear twice.
-You could save ink by printing half of the table, and you would only have to change one line of \java{printTable}:
+For example, you might notice that the multiplication table is symmetric.
+Since $ab = ba$, all the entries in the table appear twice.
+You could save ink by printing half of the table, and you would only have to change {\em one line} of \java{printTable}:
 
 \begin{code}
-printRow(i, i);
+printRow(i, i);  // using i for both n and cols
 \end{code}
 
 In English, the length of each row is the same as its row number.
@@ -630,35 +651,14 @@ In this example, we started with a simple idea and ended with two general-purpos
 \begin{description}
 
 \term{object}
-A collection of related data that comes with a set of methods that operate on it.
+A collection of related data that comes with a set of methods that operate on the data.
 
 \term{primitive}
 A data type that stores a single value and provides no methods.
 
-%\term{traverse}
-%To iterate through the elements of a set performing a similar operation on each.
-
-%\term{index}
-%A variable or value used to indicate one of the members of a collection, like a character from a string.
-
-%\term{counter}
-%A variable used to count something, usually initialized to zero and then incremented.
-
-%\term{exception}
-%A runtime error like ArithmeticException or IndexOutOfBoundsException.
-
-%TODO: find a place to explain how to read a stack trace, ideally with a
-% non-trivial call stack (this one is important -- right now we have nothing)
-
-%\term{stack trace}
-%An error message that shows the state of a program when an exception occurs.
-
 \term{immutable}
 An object that, once created, cannot be modified.
 Strings are immutable by design.
-
-%\term{utility method}
-%A method that provides commonly needed functionality.
 
 \term{wrapper class}
 Classes in \java{java.lang} that provide constants and methods for working with primitive types.
@@ -670,20 +670,14 @@ To read a string and interpret or translate it.
 An array with no elements and a length of zero.
 
 \term{design process}
-A process for writing programs.
-So far we have seen ``incremental development'' and ``encapsulation and generalization''.
+A process for determining what methods a class or program should have.
+%So far we have seen ``incremental development'' and ``encapsulation and generalization''.
 
 \term{encapsulate}
-To wrap a sequence of statements in a method.
+To wrap data inside of an object, or to wrap statements inside of a method.
 
 \term{generalize}
 To replace something unnecessarily specific (like a constant value) with something appropriately general (like a variable or parameter).
-
-\term{pretest loop}
-A loop that tests the condition before each iteration.
-
-\term{posttest loop}
-A loop that tests the condition after each iteration.
 
 \end{description}
 
@@ -723,7 +717,7 @@ String  &           &          &           &          &         \\ \hline
 \end{tabular}
 \end{center}
 
-\item Think about some of the choices the designers of Java made when they filled in this table.
+\item Think about some of the choices the designers of Java made, based on this table.
 How many of the entries seem unavoidable, as if there was no other choice?
 How many seem like arbitrary choices from several equally reasonable possibilities?
 Which entries seem most problematic?
@@ -735,8 +729,51 @@ Try it out and see what the error message is, then see if you can figure out wha
 
 \item What happens when you add \java{""} (the empty string) to the other types, for example, \java{"" + 5}?
 
-\item For each data type, what types of values can you assign to it?
-For example, you can assign an \java{int} to a \java{double} but not vice versa.
+%\item For each data type, what types of values can you assign to it?
+%For example, you can assign an \java{int} to a \java{double} but not vice versa.
+
+\end{enumerate}
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex8.1
+
+The goal of this exercise is to practice encapsulation and generalization using some of the examples in previous chapters.
+
+\begin{enumerate}
+
+\item Starting with the code in Section~\ref{traversal}, write a method called \java{powArray} that takes a \java{double} array, \java{a}, and returns a new array that contains the elements of \java{a} squared.
+Generalize it to take a second argument and raise the elements of \java{a} to the given power.
+
+\item Starting with the code in Section~\ref{enhanced}, write a method called \java{histogram} that takes an \java{int} array of scores from 0 to (but not including) 100, and returns a histogram of 100 counters.
+Generalize it to take the number of counters as an argument.
+
+\end{enumerate}
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex10.4
+
+\index{factorial}
+
+You might be sick of the factorial method by now, but we're going to do one more version.
+
+\begin{enumerate}
+
+\item Create a new program called {\tt Big.java} and write an iterative version of \java{factorial} (using a \java{for} loop).
+
+\item Display a table of the integers from 0 to 30 along with their factorials.
+At some point around 15, you will probably see that the answers are not correct anymore.
+Why not?
+
+\item Convert \java{factorial} so that it performs its calculation using BigIntegers and returns a \java{BigInteger} as a result.
+You can leave the parameter alone; it will still be an integer.
+
+\item Try displaying the table again with your modified factorial method.
+Is it correct up to 30?
+How high can you make it go?
 
 \end{enumerate}
 
@@ -745,12 +782,13 @@ For example, you can assign an \java{int} to a \java{double} but not vice versa.
 
 \begin{exercise}  %%V6 Ex7.5
 
-One way to calculate $e^x$ is to use the infinite series expansion:
+%The purpose of this exercise is to practice using \java{BigInteger} and \java{BigDecimal}.
+
+One way to calculate $e^x$ is to use the following infinite series expansion.
+The $i$th term in the series is $x^i / i!$.
 %
 \[ e^x = 1 + x + x^2 / 2! + x^3 / 3! + x^4 / 4! + \ldots \]
 %
-The $i$th term in the series is $x^i / i!$.
-
 \begin{enumerate}
 
 \item Write a method called \java{myexp} that takes \java{x} and \java{n} as parameters and estimates $e^x$ by adding the first \java{n} terms of this series.
@@ -758,7 +796,8 @@ You can use the \java{factorial} method from Section~\ref{factorial} or your ite
 
 \index{efficiency}
 
-\item You can make this method more efficient if you realize that the numerator of each term is the same as its predecessor multiplied by \java{x}, and the denominator is the same as its predecessor multiplied by \java{i}.
+\item You can make this method more efficient by observing that the numerator of each term is the same as its predecessor multiplied by \java{x}, and the denominator is the same as its predecessor multiplied by \java{i}.
+
 Use this observation to eliminate the use of \java{Math.pow} and \java{factorial}, and check that you get the same result.
 
 \item Write a method called \java{check} that takes a parameter, \java{x}, and displays \java{x}, \java{myexp(x)}, and \java{Math.exp(x)}.
@@ -785,29 +824,12 @@ Comment on the accuracy.
 \end{exercise}
 
 
-\begin{exercise}  %%V6 Ex8.1
-
-The goal of this exercise is to practice encapsulation and generalization using some of the examples in previous chapters.
-
-\begin{enumerate}
-
-\item Starting with the code in Section~\ref{traversal}, write a method called \java{powArray} that takes a \java{double} array, \java{a}, and returns a new array that contains the elements of \java{a} squared.
-Generalize it to take a second argument and raise the elements of \java{a} to the given power.
-
-\item Starting with the code in Section~\ref{enhanced}, write a method called \java{histogram} that takes an \java{int} array of scores from 0 to (but not including) 100, and returns a histogram of 100 counters.
-Generalize it to take the number of counters as an argument.
-
-\end{enumerate}
-
-\end{exercise}
-
-
 \begin{exercise}  %%V6 Ex9.3
 
 \index{encapsulation}
 \index{generalization}
 
-The purpose of this exercise is to review encapsulation and generalization (see Section~\ref{encapsulation}).
+%The purpose of this exercise is to review encapsulation and generalization (see Section~\ref{encapsulation}).
 The following code fragment traverses a string and checks whether it has the same number of open and close parentheses:
 
 \begin{code}
@@ -830,15 +852,16 @@ System.out.println(count);
 
 \item Encapsulate this fragment in a method that takes a string argument and returns the final value of \java{count}.
 
-\item Now that you have generalized the code so that it works on any string, what could you do to generalize it more?
-
 \item Test your method with multiple strings, including some that are balanced and some that are not.
+
+\item Generalized the code so that it works on any string. What could you do to generalize it more?
 
 \end{enumerate}
 
 \end{exercise}
 
 
+\newpage
 \begin{exercise}  %%V6 Ex9.4
 
 Create a program called {\tt Recurse.java} and type in the following methods:
