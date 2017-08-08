@@ -187,10 +187,6 @@ If you don't assign the return value, invoking \java{text.replace} has no effect
 Strings are immutable by design, because it simplifies passing them between methods as parameters and return values.
 And since the contents of a string can never change, two variables can reference the same string without one accidentally corrupting the other.
 
-%Immutable objects have a number of advantages that help improve the performance and reliability of programs.
-%For example, two strings that contain the same contents can be stored in memory only once.
-%Because neither variable can change the \java{String} object, you don't have to worry about one area of the program accidentally corrupting another area.
-
 
 \section{Wrapper classes}
 
@@ -225,10 +221,10 @@ And you need to use the \java{equals} method to compare them.
 Integer x = new Integer(123);
 Integer y = new Integer(123);
 if (x == y) {                           // false
-    System.out.print("x and y are the same object");
+    System.out.println("x and y are the same object");
 }
 if (x.equals(y)) {                      // true
-    System.out.print("x and y have the same value");
+    System.out.println("x and y have the same value");
 }
 \end{code}
 
