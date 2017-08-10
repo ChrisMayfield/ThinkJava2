@@ -30,6 +30,10 @@ public class Deck {
     public Deck(int n) {
         this.cards = new Card[n];
     }
+    
+    public Card[] getCards() {
+        return this.cards;
+    }
 }
 \end{code}
 
@@ -340,7 +344,7 @@ public Deck almostMergeSort() {
 
 \section{Adding recursion}
 
-Now the real fun begins!
+Now that we have a way to \java{merge} two decks, the real fun begins!
 The magical thing about merge sort is that it is inherently recursive.
 Take another look at the pseudocode for \java{almostMergeSort} in the previous section.
 
@@ -379,14 +383,206 @@ You might have to give some thought to getting the base case right and making su
 But other than that, writing the recursive version should be no problem.
 
 
-\section{Hand of cards}
+\section{Static context}
 
-TODO
+Figure~\ref{fig.deck} lists the methods we have discussed.
+In UML diagrams, \java{private} methods begin with a minus sign (\java{-}), and \java{static} methods are underlined.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics{figs/deck.pdf}
+\caption{UML diagram for the \java{Deck} class.}
+\label{fig.deck}
+\end{center}
+\end{figure}
+
+The helper methods \java{randomInt} and \java{merge} are \java{static}, because they do not require \java{this.cards}.
+All other methods are instance methods, because they require a specific instance of \java{this.cards}.
+For example, you cannot invoke the \java{print} method this way:
+
+\begin{code}
+Deck.print();  // wrong!
+\end{code}
+
+\index{static context}
+\index{this}
+
+If you try to compile this code, you will get the error, ``non-static method print() cannot be referenced from a static context.''
+By {\bf static context}, the compiler means you are trying to invoke a method without \java{this}.
+To invoke an instance method, you need an instance:
+
+\begin{code}
+Deck deck = new Deck();
+deck.print();  // correct
+\end{code}
+
+Notice that \java{Deck} with a capital \java{D} is a class, and \java{deck} with a lowercase \java{d} is a variable.
+When you invoke \java{deck.print()}, the reference of \java{deck} becomes the reference \java{this}.
+Static methods cannot refer to \java{this}, because they are not bound to a specific object.
+
+\begin{code}
+private static Deck merge(Deck d1, Deck d2) {
+    return this.cards;  // wrong!
+}
+\end{code}
+
+If you refer to \java{this} in a static method, you will get the compiler error, ``non-static variable this cannot be referenced from a static context.''
+In static methods, there is no such thing as \java{this}.
+
+\index{sort!Arrays}
+\index{array!sorting}
+
+Normally, we wouldn't implement three different sorting algorithms in the same class.
+Our goal with \java{Deck} was to demonstrate different ways of solving the same problem.
+In practice, we could just write a single \java{sort} method that uses \java{java.util.Arrays}.
+
+\begin{code}
+public void sort() {
+    Arrays.sort(this.cards);
+}
+\end{code}
+
+%%V6 Ex13.1
+You can learn more about the sorting algorithms in this chapter, and others, at \href{http://www.sorting-algorithms.com/}{sorting-algorithms.com}.
+This site includes explanations of the algorithms, animations that show how they work, and analysis of their efficiency.
 
 
-\section{ArrayList}
+\section{Piles of cards}
 
-TODO
+Now that we have a working \java{Deck} class, let's use it to implement a simple card game.
+One of the simplest games that children often play is ``War'' (see \url{https://en.wikipedia.org/wiki/War_(card_game)}).
+
+In this game, the deck is divided into two or more piles.
+Players take turns revealing the top card of their pile.
+If there is a tie, players set aside three more cards and reveal their next card.
+Whoever has the highest ranking card takes all the cards that were played.
+The game continues until one player has won the entire deck.
+
+We could use the \java{Deck} class to represent the individual piles.
+However, our implementation of \java{Deck} uses a \java{Card} array, and the length of an array can't change.
+As the game progresses, we need to be able to add and remove cards from the piles.
+
+\index{ArrayList}
+\index{collection}
+
+We can solve this problem by using an \java{ArrayList}, which is in the \java{java.util} package.
+An \java{ArrayList} is a {\bf collection}, which is an object that contains other objects.
+It provides methods to add and remove elements, and it grows and shrinks automatically.
+
+%The Java library includes many other collections (see \url{https://docs.oracle.com/javase/8/docs/technotes/guides/collections/}).
+%For our purposes, \java{ArrayList} is a good choice because it provides methods to add and remove elements, and it grows and shrinks automatically.
+
+We will define a new class named \java{Pile} that represents a pile of cards.
+It uses an \java{ArrayList} (instead of an array) to store the \java{Card} objects.
+
+\begin{code}
+public class Pile {
+    private ArrayList<Card> cards;
+
+    public Pile() {
+        this.cards = new ArrayList<Card>();
+    }
+}
+\end{code}
+
+\index{angle brackets}
+
+When you declare an \java{ArrayList}, you specify the type it contains in angle brackets (\java{<>}).
+This declaration says that \java{cards} is not just an \java{ArrayList}, it's an \java{ArrayList} of \java{Card} objects.
+The constructor initializes \java{this.cards} with an empty \java{ArrayList}.
+
+%Java collections can only store objects, not primitives like \java{int}.
+%But you can use wrapper classes, for example \java{ArrayList<Integer>}.
+
+\java{ArrayList} provides a method, \java{add}, that adds an element to the collection.
+We will write a \java{Pile} method that does the same thing:
+
+\begin{code}
+public void addCard(Card card) {
+    this.cards.add(card);        // to the bottom of the pile
+}
+\end{code}
+
+\index{this}
+
+We also need to be able to remove cards from ``the top'' of the pile.
+If we use \java{ArrayList.remove}, it will automatically shift the remaining cards left to fill the gap.
+
+\begin{code}
+public Card popCard() {
+    return this.cards.remove(0);  // from the top of the pile
+}
+\end{code}
+
+In order to know when to stop the game, we need to know how many cards are in each pile.
+
+\begin{code}
+public int size() {
+    return this.cards.size();
+}
+\end{code}
+
+\index{wrapper method}
+
+Methods like \java{addCard}, \java{popCard}, and \java{size}, which invoke another method without doing much additional work, are called {\bf wrapper methods}.
+The last method we need adds an entire subdeck at the beginning of the game.
+
+\begin{code}
+public void addDeck(Deck deck) {
+    for (Card card : deck.getCards()) {
+        this.cards.add(card);
+    }
+}
+\end{code}
+
+Now we can use \java{Deck} and \java{Pile} to implement the game.
+In \java{War.java}, the \java{main} method begins like this:
+
+\begin{code}
+// create and shuffle the deck
+Deck deck = new Deck();
+deck.shuffle();
+
+// divide the deck into piles
+Pile p1 = new Pile();
+p1.addDeck(deck.subdeck(0, 25));
+Pile p2 = new Pile();
+p2.addDeck(deck.subdeck(26, 51));
+\end{code}
+
+The game itself is a loop that repeats until one of the piles is empty.
+At each iteration, we draw a card from each pile and compare their ranks.
+
+\begin{code}
+// while both piles are not empty
+while (p1.size() > 0 && p2.size() > 0) {
+    Card c1 = p1.popCard();
+    Card c2 = p2.popCard();
+    
+    // compare the cards
+    int diff = c1.getRank() - c2.getRank();
+    if (diff > 0) {
+        p1.addCard(c1);
+        p1.addCard(c2);
+    } else if (diff < 0) {
+        p2.addCard(c1);
+        p2.addCard(c2);
+    } else {  // it's a tie...draw three more cards
+\end{code}
+
+One of the exercises at the end of this chapter asks you to implement the \java{else} block when there's a tie.
+After the \java{while} loop ends, we display the winner based on which pile is not empty.
+
+\begin{code}
+if (p1.size() > 0) {
+    System.out.println("Player 1 wins!");
+} else {
+    System.out.println("Player 2 wins!");
+}
+\end{code}
+
+\java{ArrayList} provides many other methods that we didn't use for this example program.
+You can read about them in the documentation, which you can find by doing a web search for ``Java ArrayList''.
 
 
 \section{Vocabulary}
@@ -414,6 +610,15 @@ A common programming mistake that results in iterating one too few (or too many)
 %\term{insertion sort}
 %Another sorting algorithm that inserts elements into place, one at a time.
 
+\term{static context}
+The parts of a class that run without reference to a specific instance of the class.
+
+\term{collection}
+An object that contains other objects, or more specifically, one of the objects in the Java library, like \java{ArrayList}, that contains objects.
+
+\term{wrapper method}
+A method that calls another method without doing much additional work.
+
 \end{description}
 
 
@@ -422,10 +627,6 @@ A common programming mistake that results in iterating one too few (or too many)
 The code for this chapter is in the {\tt ch13} directory of {\tt ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
-
-%%V6 Ex13.1
-You can learn more about the sorting algorithms in this chapter, and others, at \href{http://www.sorting-algorithms.com/}{sorting-algorithms.com}.
-This site includes explanations of the algorithms, animations that show how they work, and analysis of their efficiency.
 
 
 \begin{exercise}  %%V6 Ex13.5
@@ -444,6 +645,7 @@ Consider using \java{java.lang.StringBuilder} instead; you can review the docume
 
 
 \begin{exercise}  %%V6 Ex13.2
+\label{ex.shuffle}
 
 The goal of this exercise is to implement the shuffling algorithm from this chapter.
 
@@ -505,5 +707,38 @@ The goal of this exercise is to practice top-down design.
 First read about ``insertion sort'' at \url{http://www.sorting-algorithms.com/insertion-sort}.
 Then write a method named \java{insertionSort} that implements this algorithm.
 Your method should use at least one helper method.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6.5 NEW
+
+Open the file \java{War.java} in the repository.
+The \java{main} method contains all the code from the last section of this chapter.
+Check that you can compile and run this code before proceeding.
+
+The program is incomplete; it does not handle the case when two cards have the same rank.
+Finish implementing the \java{main} method beginning at the line that says: \java{// it's a tie...draw three more cards}.
+
+When there's a tie, you need to draw three cards from each pile and store them in another collection.
+Then draw one more card from each pile and compare them.
+Whoever wins the tie will take all eight of these cards.
+
+If one pile does not have at least four cards, the game ends immediately.
+If a tie ends with a tie, flip a coin and give the cards to one of the players.
+
+Notice that the program depends on \java{Deck.shuffle}.
+If you haven't implemented the \java{shuffle} method (see Exercise~\ref{ex.shuffle}), every play will be a tie.
+Player 1 will have the Ace through King of the first two suits, and Player 2 will have the the Ace through King of the remaining two suits, all in the same order.
+As a result, the winner will be random.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6.5 NEW
+
+Extend your program from the previous exercise to handle the case when a tie ends with a tie.
+In other words, when the fourth cards have the same rank, add three more cards to the collection and try again.
+You will need to wrap your code in a loop, for example: \java{while (diff == 0)}.
 
 \end{exercise}
