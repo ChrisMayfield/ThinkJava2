@@ -421,9 +421,7 @@ deck.print();  // correct
 
 Notice that \java{Deck} with a capital \java{D} is a class, and \java{deck} with a lowercase \java{d} is a variable.
 When you invoke \java{deck.print()}, the reference of \java{deck} becomes the reference \java{this}.
-
-In static methods, there is no such thing as \java{this}.
-If you refer to \java{this} in a static method, you will get the compiler error, ``non-static variable this cannot be referenced from a static context.''
+For static methods, there is no such thing as \java{this}.
 
 \begin{code}
 private static Deck merge(Deck d1, Deck d2) {
@@ -431,22 +429,21 @@ private static Deck merge(Deck d1, Deck d2) {
 }
 \end{code}
 
-\index{sort!Arrays}
-\index{array!sorting}
+If you refer to \java{this} in a static method, you will get the compiler error, ``non-static variable this cannot be referenced from a static context.''
+The \java{merge} method needs to create and return a new \java{Deck} object.
 
-Normally we wouldn't implement three different sorting algorithms in the same class.
-Our goal with \java{Deck} was to demonstrate static methods and different ways of solving the same problem.
-In practice, we could just write a single \java{sort} method that uses \java{java.util.Arrays}.
+%\index{sort!Arrays}
+%\index{array!sorting}
 
-\begin{code}
-public void sort() {
-    Arrays.sort(this.cards);
-}
-\end{code}
-
-%%V6 Ex13.1
-You can learn more about the sorting algorithms in this chapter, and others, at \href{http://www.sorting-algorithms.com/}{sorting-algorithms.com}.
-This site includes explanations of the algorithms, animations that show how they work, and analysis of their efficiency.
+%Normally we wouldn't implement three different sorting algorithms in the same class.
+%Our goal with \java{Deck} was to demonstrate static methods and different ways of solving the same problem.
+%In practice, we could just write a single \java{sort} method that uses \java{java.util.Arrays}.
+%
+%\begin{code}
+%public void sort() {
+%    Arrays.sort(this.cards);
+%}
+%\end{code}
 
 
 \section{Piles of cards}
@@ -585,7 +582,7 @@ if (p1.size() > 0) {
 \end{code}
 
 \java{ArrayList} provides many other methods that we didn't use for this example program.
-You can read about them in the documentation, which you can find by doing a web search for ``Java ArrayList''.
+Take a minute to read about them in the Java documentation.
 
 
 \section{Vocabulary}
@@ -618,6 +615,9 @@ A Java library class (such as \java{ArrayList}) that represents a group of objec
 
 \term{wrapper method}
 A method that calls another method without doing much additional work.
+
+%\term{insertion sort}
+%Another sorting algorithm that inserts elements into place, one at a time.
 
 \end{description}
 
@@ -698,6 +698,26 @@ deck = deck.mergeSort();   // replaces old deck with new
 \end{code}
 
 \end{enumerate}
+
+\end{exercise}
+
+
+\begin{exercise}
+
+%%V6 Ex13.1
+You can learn more about the sorting algorithms in this chapter, and others, at \href{http://www.sorting-algorithms.com/}{sorting-algorithms.com}.
+This site provides explanations of the algorithms and animations that show how they work.
+It also includes an analysis of their efficiency.
+
+%%V6 Ex13.4
+For example, ``insertion sort'' is an algorithm that inserts elements into place, one at a time.
+Read about it at \url{http://www.sorting-algorithms.com/insertion-sort}.
+Then write a method named \java{insertionSort} that implements this algorithm.
+
+One goal of this exercise is to practice top-down design.
+Your solution should use a helper method, named \java{insert}, that implements the inner loop of the algorithm.
+\java{insertionSort} should invoke this method $n-1$ times.
+
 
 \end{exercise}
 

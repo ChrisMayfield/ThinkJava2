@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * A deck of playing cards (of fixed size).
+ * A deck of playing cards (of fixed length).
  */
 public class Deck {
 
@@ -163,6 +163,23 @@ public class Deck {
             }
         }
         return result;
+    }
+
+    /**
+     * Returns a sorted copy of the deck using selection sort.
+     */
+    public Deck almostMergeSort() {
+        
+        // cut the deck about in half
+        int len = this.cards.length;
+        int mid = len / 2;
+        Deck d1 = this.subdeck(0, mid - 1);
+        Deck d2 = this.subdeck(mid, len - 1);
+
+        // sort each half and merge
+        d1.selectionSort();
+        d2.selectionSort();
+        return merge(d1, d2);
     }
 
     /**
