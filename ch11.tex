@@ -616,9 +616,6 @@ Time endTime = startTime.add(runningTime);
 That's all there is to it.
 Static methods and instance methods do the same thing, and you can convert from one to the other with just a few changes.
 
-%TODO: DW suggests that at some point we should warn students about
-% using \java{this} in a static method
-
 There's only one problem: the addition code itself is not correct.
 For this example, it returns {\tt 20:66}, which is not a valid time.
 If \java{second} exceeds 59, we have to ``carry'' into the minutes column, and if \java{minute} exceeds 59, we have to carry into \java{hour}.
