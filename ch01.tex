@@ -91,6 +91,8 @@ In Java, it looks like this:
 % more precise, but also to reduce the number of times ``print'' appears,
 % which is a lot!
 
+\index{Hello.java}
+
 % height = 130 + 15 * num_lines
 \begin{trinket}[235]{Hello.java}
 public class Hello {
@@ -119,8 +121,8 @@ Notice that the output does not include the quotation marks.
 %In fact, we won't be able to explain all of them for several more chapters.
 %But we can start with the structure.
 
-\index{class!definition}
-\index{method!definition}
+\index{class!declaration}
+\index{method!declaration}
 \index{statement}
 \index{print statement}
 
@@ -297,6 +299,8 @@ Characters can be letters, numbers, punctuation marks, symbols, spaces, tabs, et
 \java{System.out.println} appends a special character, called a {\bf newline}, that moves to the beginning of the next line.
 If you don't want a newline at the end, you can use \java{print} instead of \java{println}:
 
+\index{Goodbye.java}
+
 \begin{trinket}[235]{Goodbye.java}
 public class Goodbye {
 
@@ -367,6 +371,7 @@ For example, in DrJava (see Appendix~\ref{drjava}) you can indent your code by s
 %However, with that freedom comes responsibility, both to yourself (when you look at the code in the future) and others who will be reading, understanding, and debugging it.
 
 \index{Google style}
+\index{style guide}
 
 Organizations that do a lot of software development usually have strict guidelines on how to format source code.
 For example, Google publishes its Java coding standards for use in open-source projects: \url{https://google.github.io/styleguide/javaguide.html}.

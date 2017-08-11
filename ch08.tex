@@ -14,6 +14,8 @@ A method that invokes itself is called {\bf recursive}.
 \section{Recursive void methods}
 \label{recursion}
 
+\index{countdown}
+
 Consider the following example:
 
 \begin{code}
@@ -256,7 +258,7 @@ The return value (2) gets multiplied by \java{n}, which is 3, and the result, 6,
 \end{quote}
 \vspace{-1ex}
 
-\index{stack}
+\index{stack diagram}
 \index{diagram!stack}
 
 Figure~\ref{fig.stack3} shows what the stack diagram looks like for this sequence of method invocations.
@@ -490,6 +492,9 @@ If \java{value} is zero, \java{displayBinary} does nothing (that's the base case
 If the argument is positive, the method divides it by two and calls \java{displayBinary} recursively.
 When the recursive call returns, the method displays one digit of the result and returns (again).
 Figure~\ref{fig.stack4} illustrates this process.
+
+\index{stack diagram}
+\index{diagram!stack}
 
 \begin{figure}[!ht]
 \begin{center}

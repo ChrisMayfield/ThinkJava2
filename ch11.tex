@@ -146,6 +146,9 @@ When the constructor is done, \java{new} returns a reference to the new object.
 In this example, the reference gets assigned to the variable \java{time}, which has type \java{Time}.
 Figure~\ref{fig.time} shows the result.
 
+\index{memory diagram}
+\index{diagram!memory}
+
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/time.pdf}
@@ -215,6 +218,8 @@ You can write them quickly just by looking at the list of instance variables.
 In fact, some IDEs can generate them for you.
 
 Pulling it all together, here is the complete class definition so far:
+
+\index{Time.java}
 
 \begin{trinket}{Time.java}
 public class Time {
@@ -480,6 +485,9 @@ Time time1 = new Time(9, 30, 0.0);
 Time time2 = time1;
 Time time3 = new Time(9, 30, 0.0);
 \end{code}
+
+\index{memory diagram}
+\index{diagram!memory}
 
 \begin{figure}[!ht]
 \begin{center}

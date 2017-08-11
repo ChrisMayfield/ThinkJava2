@@ -20,6 +20,9 @@ Finally, we introduce \java{ArrayList} from the Java library and use it to keep 
 \section{Decks of cards}
 \label{deck}
 
+\index{Deck}
+\index{class!Deck}
+
 The first goal of this chapter is to create a \java{Deck} class that encapsulates an array of \java{Card}s.
 The initial class definition looks like this:
 
@@ -30,7 +33,7 @@ public class Deck {
     public Deck(int n) {
         this.cards = new Card[n];
     }
-    
+
     public Card[] getCards() {
         return this.cards;
     }
@@ -302,6 +305,8 @@ It also saves a lot of memory, because we never have to create duplicate \java{C
 
 \section{Merging decks}
 
+\index{merge}
+
 The next helper method we need is \java{merge}, which takes two sorted subdecks and returns a new deck containing all cards from both decks, in order.
 Here's what the algorithm looks like in pseudocode, assuming the subdecks are named \java{d1} and \java{d2}:
 
@@ -388,6 +393,10 @@ The most difficult part of merge sort is the \java{merge} method, and that part 
 Figure~\ref{fig.deck} lists the \java{Deck} methods we have so far.
 In UML diagrams, \java{private} methods begin with a minus sign (\java{-}), and \java{static} methods are underlined.
 
+\index{UML}
+\index{class diagram}
+\index{diagram!class}
+
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/deck.pdf}
@@ -448,6 +457,8 @@ The \java{merge} method needs to create and return a new \java{Deck} object.
 
 \section{Piles of cards}
 
+\index{War (card game)}
+
 Now that we have classes that represent cards and decks, let's use them to make a game.
 One of the simplest card games that children play is called ``War'' (see \url{https://en.wikipedia.org/wiki/War_(card_game)}).
 
@@ -472,6 +483,9 @@ It provides methods to add and remove elements, and it grows and shrinks automat
 %The Java library includes many other collections (see \url{https://docs.oracle.com/javase/8/docs/technotes/guides/collections/}).
 %For our purposes, \java{ArrayList} is a good choice because it provides methods to add and remove elements, and it grows and shrinks automatically.
 
+\index{Pile}
+\index{class!Pile}
+
 We will define a new class named \java{Pile} that represents a pile of cards.
 It uses an \java{ArrayList} (instead of an array) to store the \java{Card} objects.
 
@@ -486,6 +500,7 @@ public class Pile {
 \end{code}
 
 \index{angle brackets}
+\index{\textless\textgreater}
 
 When you declare an \java{ArrayList}, you specify the type it contains in angle brackets (\java{<>}).
 This declaration says that \java{cards} is not just an \java{ArrayList}, it's an \java{ArrayList} of \java{Card} objects.
@@ -558,7 +573,7 @@ At each iteration, we draw a card from each pile and compare their ranks.
 while (p1.size() > 0 && p2.size() > 0) {
     Card c1 = p1.popCard();
     Card c2 = p2.popCard();
-    
+
     // compare the cards
     int diff = c1.getRank() - c2.getRank();
     if (diff > 0) {

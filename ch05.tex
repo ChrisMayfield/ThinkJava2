@@ -12,7 +12,7 @@ Finally, we'll discuss strategies for incrementally developing and testing your 
 \section{Defining new methods}
 \label{adding_methods}
 
-\index{method!definition}
+\index{method!declaration}
 
 %You have probably guessed by now that you can define more than one method in a class.
 
@@ -21,6 +21,8 @@ For example, \java{Math.sqrt(25)} returns the value \java{5.0}.
 Other methods (including \java{main}) carry out a sequence of actions, without returning a result.
 Java uses the keyword \java{void} to define such methods.
 Here's a simple example:
+
+\index{NewLine.java}
 
 \begin{trinket}[310]{NewLine.java}
 public class NewLine {
@@ -120,6 +122,7 @@ It's easier to get a complex program working if you know that each method works 
 
 
 \section{Flow of execution}
+
 \index{flow of execution}
 
 When you look at a class definition that contains several methods, it is tempting to read it from top to bottom.
@@ -161,6 +164,8 @@ To display a message, you have to provide the message: \java{System.out.println(
 When you invoke a method, you provide the arguments.
 When you define a method, you name the {\bf parameters}, which are variables that indicate what arguments are required.
 The following class shows an example:
+
+\index{PrintTwice.java}
 
 \begin{trinket}[295]{PrintTwice.java}
 public class PrintTwice {
@@ -277,6 +282,8 @@ printTime(int 11, int 59);  // syntax error
 
 Pulling together the code fragments, here is the complete program:
 
+\index{PrintTime.java}
+
 \begin{trinket}[340]{PrintTime.java}
 public class PrintTime {
 
@@ -340,6 +347,7 @@ Notice that \java{main} is on top, because it executed first.
 %Stack diagrams help you to visualize the {\bf scope} of a variable, which is the area of a program where a variable exists.
 
 \index{Java Tutor}
+\index{tracing}
 
 Stack diagrams are a good mental model for how variables and methods work at run-time.
 Learning to trace the execution of a program on paper (or on a whiteboard) is a useful skill for communicating with other programmers.
@@ -482,6 +490,8 @@ public static double distance
 
 The return statement is a placeholder that is only necessary for the program to compile.
 At this stage the program doesn't do anything useful, but it is good to compile it so we can find any syntax errors before we add more code.
+
+\index{testing}
 
 It's usually a good idea to think about testing {\em before} you develop new methods; doing so can help you figure out how to implement them.
 To test the method, we can invoke it from \java{main} using the sample values:

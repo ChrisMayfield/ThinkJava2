@@ -46,6 +46,9 @@ It would be helpful to combine their features into one class that meets the need
 We will define a class named \java{CardCollection} and add the code we want one step at a time.
 Since this class will represent different piles and hands of cards, we'll add a \java{label} attribute to tell them apart.
 
+\index{CardCollection}
+\index{class!CardCollection}
+
 \begin{code}
 public class CardCollection {
 
@@ -238,6 +241,9 @@ We could define two classes, one for hands and one for piles, but there is not m
 So we'll use one class, called \java{Hand}, for both hands and piles.
 Here's what the definition looks like:
 
+\index{Hand}
+\index{class!Hand}
+
 \begin{code}
 public class Hand extends CardCollection {
 
@@ -355,6 +361,9 @@ But now it's time to implement the rules.
 We'll use two classes: \java{Player}, which encapsulates player strategy, and \java{Eights}, which creates and maintains the state of the game.
 Here is the beginning of the \java{Player} definition:
 
+\index{Player}
+\index{class!Player}
+
 \begin{code}
 public class Player {
 
@@ -471,10 +480,10 @@ Finally, \java{Player} provides a \java{score} method, which computes penalty po
 
 In Section~\ref{shuffle} we introduced top-down development, which is a way of developing programs by identifying high-level goals, like shuffling a deck, and breaking them into smaller problems, like finding the lowest element in an array or swapping two elements.
 
-\index{bottom-up development}
+\index{bottom-up design}
 \index{design process}
 
-In this section we present {\bf bottom-up development}, which goes the other way around: first we identify simple pieces we need, then we assemble them into more complex algorithms.
+In this section we present {\bf bottom-up design}, which goes the other way around: first we identify simple pieces we need, then we assemble them into more complex algorithms.
 
 Looking at the rules of {\it Crazy Eights}, we can identify some of the methods we'll need:
 
@@ -496,6 +505,9 @@ Looking at the rules of {\it Crazy Eights}, we can identify some of the methods 
 
 Now we can start implementing the pieces.
 Here is the beginning of the class definition for \java{Eights}, which encapsulates the state of the game:
+
+\index{Eights}
+\index{class!Eights}
 
 \begin{code}
 public class Eights {
@@ -583,7 +595,7 @@ public Player nextPlayer(Player current) {
 }
 \end{code}
 
-The last method from our bottom-up list is \java{displayState}.
+The last method from our bottom-up design is \java{displayState}.
 It displays the hand of each player, the contents of the discard pile, and how many cards are in the draw pile.
 Finally, it waits for the user to press the {\sf Enter} key.
 
@@ -633,11 +645,13 @@ public void playGame() {
 \end{code}
 
 Done!
-Notice the result of bottom-up development is similar to top-down: we have a high-level method that calls helper methods.
+Notice the result of bottom-up design is similar to top-down: we have a high-level method that calls helper methods.
 The main difference is the order we used to arrive at this solution.
 
 
 \section{Class relationships}
+
+\index{class!relationships}
 
 This chapter demonstrates two common relationships between classes:
 
@@ -666,6 +680,8 @@ This vocabulary provides a concise way to talk about an object-oriented design.
 % with https://en.wikipedia.org/wiki/Class_diagram
 
 \index{UML}
+\index{class diagram}
+\index{diagram!class}
 
 There is also a standard way to represent these relationships graphically in UML class diagrams.
 As we saw in Section~\ref{UML}, the UML representation of a class is a box with three sections: the class name, the attributes, and the methods.
@@ -711,7 +727,7 @@ An existing class that is extended by another class.
 %\term{override}
 %To define a method in a subclass that replaces a method with the same name in a superclass.
 
-\term{bottom-up development}
+\term{bottom-up design}
 A way of developing programs by identifying simple pieces, implementing them, and then assembling them into more complex algorithms.
 
 \term{HAS-A}

@@ -231,6 +231,9 @@ Rather, it simply initializes the existing variable \java{n}.
 \section{Nested loops}
 \label{nested}
 
+\index{loop!nested}
+\index{nested!loops}
+
 Like conditional statements, loops can be nested one inside the other.
 Nested loops allow you to iterate over two variables.
 For example, we can generate a ``multiplication table'' like this:
@@ -446,6 +449,9 @@ int index = fruit.indexOf('a', 2);  // returns 3
 To visualize how \java{indexOf} and other \java{String} methods work, it helps to draw a picture like Figure~\ref{fig.banana}.
 The previous code starts at index 2 (the first \java{'n'}) and finds the next \java{'a'}, which is at index 3.
 
+\index{memory diagram}
+\index{diagram!memory}
+
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/banana.pdf}
@@ -477,6 +483,7 @@ For example, the expression \java{fruit.indexOf("nan")} returns \java{2}.
 \label{strcmp}
 
 \index{equals}
+\index{string!comparing}
 
 To compare two strings, it may be tempting to use the \java{==} and \java{!=} operators.
 

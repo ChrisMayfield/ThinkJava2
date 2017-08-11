@@ -211,6 +211,8 @@ The outer conditional has two branches.
 The first branch contains a \java{print} statement, and the second branch contains another conditional statement, which has two branches of its own.
 These two branches are also \java{print} statements, but they could have been conditional statements as well.
 
+\index{nested!conditions}
+
 These kinds of nested structures are common, but they can become difficult to read very quickly.
 Good indentation is essential to make the structure (or intended structure) apparent to the reader.
 
@@ -330,6 +332,7 @@ if (x != 0 && y != 0) {
 \section{Boolean variables}
 
 \index{expression!boolean}
+\index{type!boolean}
 
 To store a \java{true} or \java{false} value, you need a \java{boolean} variable.
 You can declare and assign them like other variables.
@@ -535,8 +538,8 @@ The output is better now, but there is another problem.
 What if the user doesn't enter a number at all?
 What would happen if they typed the word ``hello'', either on accident or on purpose?
 
-\index{exception!InputMismatch}
 \index{InputMismatchException}
+\index{exception!InputMismatch}
 
 \begin{small}
 \begin{stdout}
@@ -549,6 +552,7 @@ Exception in thread "main" java.util.InputMismatchException
 \end{small}
 
 \index{run-time error}
+\index{testing}
 
 If the user inputs a \java{String} when we expect a \java{double}, Java reports an ``input mismatch'' exception.
 We can prevent this run-time error from happening by testing the input first.
@@ -588,6 +592,8 @@ Since \java{hasNextDouble} returns a boolean, it is already a condition.
 
 In this chapter we have seen relational and logical operators, \java{if} statements, the \java{Math} class, and validating input.
 The following program shows how the individual code examples in the last section fit together.
+
+\index{Logarithm.java}
 
 \begin{trinket}{Logarithm.java}
 import java.util.Scanner;
@@ -639,11 +645,9 @@ If there's a mistake the code, it's a lot easier to find when there are good com
 \term{boolean}
 A data type with only two possible values, \java{true} and \java{false}.
 
-\index{operator!relational}
 \term{relational operator}
 An operator that compares two values and produces a \java{boolean} indicating the relationship between them.
 
-\index{statement!conditional}
 \term{conditional statement}
 A statement that uses a condition to determine which statements to execute.
 
@@ -660,7 +664,6 @@ A way of joining several conditional statements in sequence.
 \term{nesting}
 Putting a conditional statement inside one or both branches of another conditional statement.
 
-\index{operator!logical}
 \term{logical operator}
 An operator that combines boolean values and produces a boolean value.
 

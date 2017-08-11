@@ -104,6 +104,8 @@ Scanner in = new Scanner(System.in);
 The \java{Scanner} class provides a method called \java{nextLine} that reads a line of input from the keyboard and returns a \java{String}.
 The following example reads two lines and repeats them back to the user:
 
+\index{Echo.java}
+
 \begin{trinket}{Echo.java}
 import java.util.Scanner;
 
@@ -135,6 +137,8 @@ The \java{String} class is also part of the \java{java.lang} package.
 
 \section{Language elements}
 
+\index{language!elements}
+
 At this point, we have seen nearly all of the organizational units that make up Java programs.
 Figure~\ref{fig.package} shows how these ``language elements'' are related.
 
@@ -162,7 +166,6 @@ In the previous example, the tokens are \java{hours}, \java{=}, \java{minutes}, 
 
 Knowing this terminology is helpful, because error messages often say things like ``not a statement'' or ``illegal start of expression'' or ``unexpected token''.
 Comparing Java to English, statements are complete sentences, expressions are phrases, and tokens are individual words and punctuation marks.
-
 
 Note there is a big difference between the Java {\em language}, which defines the elements in Figure~\ref{fig.package}, and the Java {\em library}, which provides the built-in classes that you can import.
 For example, the keywords \java{public} and \java{class} are part of the Java language, but the names \java{PrintStream} and \java{Scanner} are not.
@@ -356,7 +359,7 @@ Unfortunately the compiler won't catch this kind of bug, because it's within a l
 However when you run the program, it will display:
 
 \index{MissingFormatArgumentException}
-\index{run-time error}
+\index{exception!MissingFormatArgument}
 
 \begin{small}
 \begin{stdout}
@@ -449,6 +452,7 @@ The goal is divide by 12 (the number of inches in a foot) and keep the remainder
 \index{modulo}
 \index{\% operator}
 \index{operator!remainder}
+\index{remainder}
 
 We have already seen the division operation (\java{/}), which computes the quotient of two numbers.
 If the numbers are integers, it performs integer division.
@@ -464,6 +468,8 @@ inches = 76 % 12;  // remainder
 The first line yields 6.
 The second line, which is pronounced ``76 mod 12'', yields 4.
 So 76 inches is 6 feet, 4 inches.
+
+\index{modulus}
 
 Many people (and textbooks) incorrectly refer to \java{\%} as the ``modulus operator''.
 In mathematics, however, {\bf modulus} is the number you're dividing by.
@@ -492,6 +498,8 @@ Now we will put everything together in a complete program:
 
 %Since we've looked at each of these topics in isolation, it's important to see how they fit together in a complete program.
 %If you've been working through the examples on your computer as you've been reading (like we recommended in Section~\ref{sec:examples}), then good job!
+
+\index{Convert.java}
 
 \begin{trinket}{Convert.java}
 import java.util.Scanner;
@@ -764,6 +772,8 @@ You were off by: 31
 
 To choose a random number, you can use the \java{Random} class in \java{java.util}.
 Here's how it works:
+
+\index{GuessStarter.java}
 
 \begin{trinket}{GuessStarter.java}
 import java.util.Random;

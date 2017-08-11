@@ -42,6 +42,9 @@ char symbol = '!';
 \end{center}
 \end{figure}
 
+\index{memory diagram}
+\index{diagram!memory}
+
 As we learned in Section~\ref{elements}, an array variable stores a {\em reference} to an array.
 That's because the array itself is too large to fit in the variable's memory.
 For example, \java{char[] array = \{'c', 'a', 't'\}} contains three characters.
@@ -76,6 +79,8 @@ Figure~\ref{fig.mem3} illustrates how strings are stored in memory.
 Behind the scenes, the code \java{String word = "dog";} creates an array of the characters \java{'d'}, \java{'o'}, and \java{'g'}, and stores the reference to that array in a \java{String} object.
 The variable \java{word} contains a reference to the \java{String} object.
 
+\index{string!comparing}
+
 To test whether two integers (or other primitive types) are equal, you simply use the \java{==} operator.
 But as we learned in Section~\ref{strcmp}, you need to use the \java{equals} method to compare strings.
 The \java{equals} method traverses the arrays and tests whether they contain the same characters.
@@ -106,9 +111,8 @@ In other words, the variables do not reference anything.
 \end{center}
 \end{figure}
 
-\index{exception!NullPointer}
 \index{NullPointerException}
-\index{run-time error}
+\index{exception!NullPointer}
 
 If you try to use a variable that is \java{null} by invoking a method or accessing an element, Java throws a \java{NullPointerException}.
 
@@ -199,6 +203,7 @@ System.out.println(i.equals(5));  // compiler error
 \end{code}
 
 \index{wrapper class}
+\index{class!wrapper}
 \index{Character}
 \index{Integer}
 \index{Double}
@@ -256,6 +261,7 @@ String str = Integer.toString(num);
 The result is the string \java{"12345"}, which as you now understand, is stored internally in a character array \java{\{'1', '2', '3', '4', '5'\}}.
 
 \index{NumberFormatException}
+\index{exception!NumberFormat}
 
 It's always possible to convert a primitive value to a string, but not the other way around.
 The following code throws a \java{NumberFormatException}.
@@ -269,6 +275,7 @@ int num = Integer.parseInt(str);  // NumberFormatException
 \section{Command-line arguments}
 
 \index{args}
+\index{command-line interface}
 
 Now that you know about strings, arrays, and wrapper classes, we can {\em finally} explain the \java{args} parameter of the \java{main} method, which we have been ignoring since Chapter~\ref{theway}.
 If you are unfamiliar with the command-line interface, please read Appendix~\ref{commandline}.
@@ -347,8 +354,6 @@ It's customary for programs that require command-line arguments to display a ``u
 For example, if you run {\tt javac} or {\tt java} from the command line without any arguments, you will get a very long message.
 
 
-
-
 \section{BigInteger arithmetic}
 % CSM based on text from V6 Exercise 10.4
 
@@ -409,6 +414,7 @@ This chapter introduces two main concepts: objects encapsulate other types of da
 Applying these concepts helps us to manage the complexity of programs as they become large.
 
 \index{design process}
+\index{encapsulation and generalization}
 
 Unfortunately, computer science has a lot of overloaded terms.
 Another use of the term ``encapsulation'' applies to methods.

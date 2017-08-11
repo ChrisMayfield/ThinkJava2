@@ -171,6 +171,8 @@ If the index is negative or greater than 3, the result is an \java{ArrayIndexOut
 \section{Displaying arrays}
 \label{printarray}
 
+\index{array!printing}
+
 You can use \java{println} to display an array, but it probably doesn't do what you would like.
 For example, the following fragment (1) declares an array variable, (2) makes it refer to an array of four elements, and (3) attempts to display the contents of the array using \java{println}:
 
@@ -241,6 +243,9 @@ double[] b = a;
 \end{code}
 
 These statements create an array of three \java{double}s and make two different variables refer to it, as shown in Figure~\ref{fig.array3}.
+
+\index{memory diagram}
+\index{diagram!memory}
 
 \begin{figure}[!ht]
 \begin{center}
@@ -568,6 +573,7 @@ for (int value : values) {
 \end{code}
 
 \index{enhanced for loop}
+\index{for!enhanced}
 
 This statement is called an {\bf enhanced for loop}, also known as the ``for each'' loop.
 You can read the code as, ``for each \java{value} in \java{values}''.
@@ -657,6 +663,8 @@ If we make it all the way through the \java{for} loop, we know that all counts a
 Pulling together the code fragments, and adding some comments and test cases, here is an entire program.
 %This example uses \java{if} statements, \java{for} loops, methods, strings, and arrays.
 It's amazing to think about how much you've learned in just seven chapters!
+
+\index{Doubloon.java}
 
 \begin{trinket}{Doubloon.java}
 public class Doubloon {

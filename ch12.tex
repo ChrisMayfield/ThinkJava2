@@ -29,13 +29,13 @@ Each card belongs to one of four suits and one of 13 ranks.
 The suits are Clubs, Diamonds, Hearts, and Spades.
 The ranks are Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, and King.
 
-\index{Card}
-\index{class!Card}
-
 If you are unfamiliar with traditional playing cards, now would be a good time to get a deck or read through \url{https://en.wikipedia.org/wiki/Standard_52-card_deck}.
 
 
 \section{Card objects}
+
+\index{Card}
+\index{class!Card}
 
 If we want to define a class to represent a playing card, it is pretty obvious what the instance variables should be: \java{rank} and \java{suit}.
 It is not as obvious what types they should be.
@@ -289,7 +289,7 @@ For example, we know that the 3 of Clubs is higher than the 2 of Clubs, and the 
 But which is better, the 3 of Clubs or the 2 of Diamonds?
 One has a higher rank, but the other has a higher suit.
 
-\index{comparable}
+\index{compareTo}
 
 To make cards comparable, we have to decide which is more important: rank or suit.
 The choice is arbitrary, and it might be different for different games.
@@ -585,6 +585,8 @@ We can apply this same code to any object that provides a \java{compareTo} metho
 
 \section{Tracing the code}
 
+\index{tracing}
+
 To see how binary search works, it's helpful to add the following print statement at the beginning of the loop:
 
 \begin{code}
@@ -671,12 +673,13 @@ Instead of a \java{while} loop, we have an \java{if} statement to terminate the 
 We call this \java{if} statement the base case.
 If \java{high} is less than \java{low}, there are no cards between them, and we conclude that the card is not in the array.
 
-\index{recursion!infinite}
 \index{infinite recursion}
+\index{recursion!infinite}
+\index{StackOverflowError}
 \index{exception!StackOverflow}
 
 Two common errors in recursive methods are (1) forgetting to include a base case, and (2) writing the recursive call so that the base case is never reached.
-Either error causes infinite recursion and a \java{StackOverflowException}.
+Either error causes infinite recursion and a \java{StackOverflowError}.
 
 
 \section{Vocabulary}
