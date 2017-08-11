@@ -64,6 +64,13 @@ Compiler errors like ``unreachable statement'' and ``missing return statement'' 
 In the previous example, \java{if (x > 0)} is unnecessary because \java{x} will always be positive or zero at that point.
 Changing that \java{else if} to an \java{else} resolves the error.
 
+\begin{description}
+
+\term{dead code}
+Part of a program that can never be executed, often because it appears after a \java{return} statement.
+
+\end{description}
+
 
 %%% Section 6.5
 \section{Boolean methods}
@@ -282,6 +289,16 @@ If \java{hasNextDouble()} returns \java{false}, we consume the invalid input by 
 We then display an error message via \java{System.err}.
 The loop terminates when \java{hasNextDouble()} return \java{true}.
 
+\begin{description}
+
+\term{pretest loop}
+A loop that tests the condition before each iteration.
+
+\term{posttest loop}
+A loop that tests the condition after each iteration.
+
+\end{description}
+
 
 %%% Section 7.7
 \section{Break and continue}
@@ -330,27 +347,10 @@ while (x != 0) {
 }
 \end{code}
 
-Although \java{break} and \java{continue} statements give you more control of the loop execution, they can make code difficult to understand and debug.
+Although \java{break} and \java{continue} statements give you more control of the loop execution, they can make code difficult to understand.
 Use them sparingly.
 
 
+%TODO explain other uses of \java{break}
+%\section{The switch statement}
 %%% was going to be in Ch07
-\section{The switch statement}
-
-TODO explain other use of \java{break}
-
-
-\section{Vocabulary}
-
-\begin{description}
-
-\term{dead code}
-Part of a program that can never be executed, often because it appears after a \java{return} statement.
-
-\term{pretest loop}
-A loop that tests the condition before each iteration.
-
-\term{posttest loop}
-A loop that tests the condition after each iteration.
-
-\end{description}

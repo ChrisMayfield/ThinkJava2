@@ -585,16 +585,16 @@ Instead, it gets a ``stream of characters'' as shown in Figure~\ref{fig.hopper1}
 \end{center}
 \end{figure}
 
-%TODO define invoke or use other term?
+%TODO define call/invoke or use other term?
 
 The arrow indicates the next character to be read by \java{Scanner}.
 When you call \java{nextInt}, it reads characters until it gets to a non-digit.
-Figure~\ref{fig.hopper2} shows the state of the stream after \java{nextInt} is invoked.
+Figure~\ref{fig.hopper2} shows the state of the stream after \java{nextInt} is called.
 
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/hopper2.pdf}
-\caption{A stream of characters after \java{nextInt} is invoked.}
+\caption{A stream of characters after \java{nextInt} is called.}
 \label{fig.hopper2}
 \end{center}
 \end{figure}
@@ -618,7 +618,7 @@ This technique is common when reading \java{int} or \java{double} values that ap
 First you read the number, and then you read the rest of the line, which is just a newline character.
 
 
-%TODO: DW suggests we also cover PrintWriter to write files
+% DW suggests we also cover PrintWriter to write files --
 % add an appendix on File I/O since it involves try/catch?
 
 \section{Vocabulary}
