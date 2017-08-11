@@ -3,7 +3,7 @@
 
 \index{Crazy Eights}
 
-Now that we have classes that represent cards and decks, let's use them to make a game!
+In this chapter, we will present a comprehensive example of object-oriented programming.
 {\it Crazy Eights} is a classic card game for two or more players.
 The main objective is to be the first player to get rid of all your cards.
 Here's how to play:
@@ -27,52 +27,24 @@ Eights are worth 20, face cards are worth 10, and all others are worth their ran
 
 You can read \url{https://en.wikipedia.org/wiki/Crazy_Eights} for more details, but we have enough to get started.
 
-The code for this chapter is in the directory {\tt ch14} in the repository for this book.
-Instructions for downloading this code are on page~\pageref{code}.
-
-
-\section{Decks and hands}
-
-To implement this game, we need to represent a deck of cards, a discard pile, a draw pile, and a hand for each player.
-And we need to be able to deal, draw, and discard cards.
-
-The \java{Deck} class from the previous chapter meets some of these requirements, but there are two problems:
-
-\begin{itemize}
-
-\item Hands and piles have different sizes, and their sizes change as the game progresses.
-Our implementation of \java{Deck} uses a \java{Card} array, and the size of an array can't change.
-
-\item It's not clear that a \java{Deck} object is the right way to represent hands and piles.
-We might want new classes for other collections of cards.
-
-\end{itemize}
-
-\index{ArrayList}
-\index{collection}
-
-We can solve the first problem by replacing the \java{Card} array with an \java{ArrayList}, which is in the \java{java.util} package.
-An \java{ArrayList} is a {\bf collection}, which is an object that contains other objects.
-
-The Java library provides a variety of collections.
-For our purposes, \java{ArrayList} is a good choice because it provides methods to add and remove elements, and it grows and shrinks automatically.
-
-\index{inheritance}
-
-To solve the second problem, we can use a language feature called {\bf inheritance}.
-We'll define a new class, \java{CardCollection}, to represent a collection of cards.
-Then we'll define \java{Deck} and \java{Hand} as subclasses of \java{CardCollection}.
-
-\index{subclass}
-\index{extends}
-
-A {\bf subclass} is a new class that ``extends'' an existing class; that is, it has the attributes and methods of the existing class, plus more.
-We'll see the details soon, but let's start with \java{CardCollection}:
+%The code for this chapter is in the directory {\tt ch14} in the repository for this book.
+%Instructions for downloading this code are on page~\pageref{code}.
 
 
 \section{CardCollection}
 
-Here's the beginning of a \java{CardCollection} class that uses \java{ArrayList} instead of a primitive array:
+To implement {\it Crazy Eights}, we need to represent a deck of cards, a discard pile, a draw pile, and a hand for each player.
+And we need to be able to deal, draw, and discard cards.
+
+The \java{Deck} and \java{Pile} classes from the previous chapter meet some of these requirements.
+But unless we make some changes, neither of them can be used to represent a hand of cards that well.
+
+Furthermore, \java{Deck} and \java{Pile} are essentially two versions of the same code: one based on arrays, and the other based on \java{ArrayList}.
+It would be helpful to combine their features into one class that meets the needs of both.
+%We could potentially use such a class for other collections of cards.
+
+We will define a class named \java{CardCollection} and add the code we want one step at a time.
+Since this class will represent different piles and hands of cards, we'll add a \java{label} attribute to tell them apart.
 
 \begin{code}
 public class CardCollection {
@@ -87,22 +59,11 @@ public class CardCollection {
 }
 \end{code}
 
-\index{angle brackets}
-
-When you declare an \java{ArrayList}, you specify the type it contains in angle brackets (\java{<>}).
-This declaration says that \java{cards} is not just an \java{ArrayList}, it's an \java{ArrayList} of \java{Card} objects.
-
-%Java collections can only store objects, not primitives like \java{int}.
-%But you can use wrapper classes, for example \java{ArrayList<Integer>}.
-
 %Both instance variables are \java{private}, so we will not be able to access them from other classes (including subclasses).
 %That will turn out to be too restrictive; in the next section we will have to change it.
 
-The constructor takes a string as an argument and assigns it to an instance variable, \java{label}.
-It also initializes \java{cards} with an empty \java{ArrayList}.
-
-\java{ArrayList} provides a method, \java{add}, that adds an element to the collection.
-We will write a \java{CardCollection} method that does the same thing:
+As with the \java{Pile} class, we need a way to add cards to the collection.
+Here is the \java{addCard} method from the previous chapter:
 
 \begin{code}
 public void addCard(Card card) {
@@ -122,7 +83,7 @@ public void addCard(Card card) {
 }
 \end{code}
 
-We also need to be able to remove cards from a collection.
+We also need to be able to remove cards from the collection.
 The following method takes an index, removes the card at that location, and shifts the following cards left to fill the gap:
 
 \begin{code}
@@ -134,12 +95,12 @@ public Card popCard(int i) {
 \index{efficiency}
 
 If we are dealing cards from a shuffled deck, we don't care which card gets removed.
-It is most efficient to choose the last one, so we don't have to shift any following cards.
+It is most efficient to choose the last one, so we don't have to shift any cards left.
 Here is an overloaded version of \java{popCard} that removes and returns the last card:
 
 \begin{code}
 public Card popCard() {
-    int i = size() - 1;
+    int i = size() - 1;     // from the end of the collection
     return popCard(i);
 }
 \end{code}
@@ -152,30 +113,13 @@ public int size() {
 }
 \end{code}
 
-For convenience, \java{CardCollection} also provides an \java{empty} method that returns \java{true} when \java{size} is zero:
+For convenience, \java{CardCollection} also provides an \java{empty} method that returns true when \java{size} is zero:
 
 \begin{code}
 public boolean empty() {
     return cards.size() == 0;
 }
 \end{code}
-
-\index{wrapper method}
-
-Methods like \java{addCard}, \java{popCard}, and \java{size}, which invoke another method without doing much additional work, are called {\bf wrapper methods}.
-We will use these wrapper methods to implement less trivial methods, like \java{deal}:
-
-\begin{code}
-public void deal(CardCollection that, int n) {
-    for (int i = 0; i < n; i++) {
-        Card card = popCard();
-        that.addCard(card);
-    }
-}
-\end{code}
-
-The \java{deal} method removes cards from the collection it is invoked on, \java{this}, and adds them to the collection it gets as a parameter, \java{that}.
-The second parameter, \java{n}, is the number of cards to deal.
 
 To access the elements of an \java{ArrayList}, you can't use the array \java{[]} operator.
 Instead, you have to use the methods \java{get} and \java{set}.
@@ -187,10 +131,10 @@ public Card getCard(int i) {
 }
 \end{code}
 
-The \java{last} method gets the last card (but doesn't remove it):
+The \java{lastCard} method gets the last card (but doesn't remove it):
 
 \begin{code}
-public Card last() {
+public Card lastCard() {
     int i = size() - 1;
     return cards.get(i);
 }
@@ -222,22 +166,27 @@ public void shuffle() {
 }
 \end{code}
 
-\java{ArrayList} provides additional methods we aren't using here.
-You can read about them in the documentation, which you can find by doing a web search for ``Java ArrayList''.
-
 
 \section{Inheritance}
 
 At this point we have a class that represents a collection of cards.
-Next we'll use it to define \java{Deck} and \java{Hand}.
-Here is the complete definition of \java{Deck}:
+It provides functionality common to decks of cards, piles of cards, hands of cards, and potentially other collections.
+
+\index{inheritance}
+\index{subclass}
+\index{extends}
+
+However, each kind of collection will be slightly different.
+Rather than add every possible feature to \java{CardCollection}, we can use {\bf inheritance} to define subclasses.
+A {\bf subclass} is a class that ``extends'' an existing class; that is, it has the attributes and methods of the existing class, plus more.
+
+Here is the complete definition of our new and improved \java{Deck} class:
 
 \begin{code}
 public class Deck extends CardCollection {
 
     public Deck(String label) {
         super(label);
-
         for (int suit = 0; suit <= 3; suit++) {
             for (int rank = 1; rank <= 13; rank++) {
                 cards.add(new Card(rank, suit));
@@ -275,7 +224,7 @@ Deck deck = new Deck("Deck");
 
 \index{super}
 
-The first line of the constructor uses something new, \java{super}, which is a keyword that refers to the superclass of the current class.
+The first line of the constructor uses \java{super}, which is a keyword that refers to the superclass of the current class.
 When \java{super} is used like a method, as in this example, it invokes the constructor of the superclass.
 
 %TODO: Blythe suggests a diagram here
@@ -306,8 +255,9 @@ public class Hand extends CardCollection {
 }
 \end{code}
 
-Like \java{Deck}, \java{Hand} extends \java{CardCollection}, so it inherits methods like \java{getLabel}, \java{size}, and \java{getCard}, which are used in \java{display}.
-\java{Hand} also provides a constructor, which invokes the constructor of \java{CardCollection} (and nothing else).
+Like \java{Deck}, the \java{Hand} class extends \java{CardCollection}.
+So it inherits methods like \java{getLabel}, \java{size}, and \java{getCard}, which are used in \java{display}.
+\java{Hand} also provides a constructor, which invokes the constructor of \java{CardCollection}.
 %But in this case the only thing the new constructor does is invoke the constructor from the superclass, using \java{super}.
 
 In summary, a \java{Deck} is just like a \java{CardCollection}, but it provides a different constructor.
@@ -315,6 +265,31 @@ And a \java{Hand} is just like a \java{CardCollection}, but it provides an addit
 
 
 \section{Dealing cards}
+\label{dealing}
+
+To begin the game, we need to deal cards to each of the players.
+And during the game, we need to move cards between hands and piles.
+If we add the following method to \java{CardCollection}, it can meet both of these requirements.
+
+\begin{code}
+public void deal(CardCollection that, int n) {
+    for (int i = 0; i < n; i++) {
+        Card card = popCard();
+        that.addCard(card);
+    }
+}
+\end{code}
+
+The \java{deal} method removes cards from the collection it is invoked on, \java{this}, and adds them to the collection it gets as a parameter, \java{that}.
+The second parameter, \java{n}, is the number of cards to deal.
+We will use this method to implement \java{dealAll}, which deals (or moves) all of the remaining cards.
+
+\begin{code}
+public void dealAll(CardCollection that) {
+    int n = size();
+    deal(that, n);
+}
+\end{code}
 
 At this point we can create a \java{Deck} and start dealing cards.
 Here's a simple example that deals five cards to a hand, and deals the rest into a draw pile:
@@ -326,17 +301,15 @@ deck.shuffle();
 Hand hand = new Hand("Hand");
 deck.deal(hand, 5);
 hand.display();
-\end{code}
 
-\begin{code}
 Hand drawPile = new Hand("Draw Pile");
 deck.dealAll(drawPile);
 System.out.printf("Draw Pile has %d cards.\n",
                   drawPile.size());
 \end{code}
 
-\java{CardCollection} provides \java{dealAll}, which deals all of the remaining cards.
-Here's the output of the previous example:
+Because the deck is shuffled randomly, you should get a different hand each time you run this example.
+The output will look something like:
 
 \begin{stdout}
 Hand:
@@ -349,20 +322,8 @@ Ace of Hearts
 Draw Pile has 47 cards.
 \end{stdout}
 
-Of course, if you run this example you will probably get a different hand, because the deck is shuffled randomly.
-
 If you are a careful reader, you might notice something strange about this example.
-Take another look at the definition of \java{deal}:
-
-\begin{code}
-public void deal(CardCollection that, int n) {
-    for (int i = 0; i < n; i++) {
-        Card card = popCard();
-        that.addCard(card);
-    }
-}
-\end{code}
-
+Take another look at the definition of \java{deal}.
 Notice that the first parameter is supposed to be a \java{CardCollection}.
 But we invoked it like this:
 
@@ -376,7 +337,7 @@ So why is this example legal?
 It's because \java{Hand} is a subclass of \java{CardCollection}, so a \java{Hand} object is also considered to be a \java{CardCollection} object.
 If a method expects a \java{CardCollection}, you can give it a \java{Hand}, a \java{Deck}, or a \java{CardCollection}.
 
-But it doesn't work the other way around: not every \java{CardCollection} is a \java{Hand}, so if a method expects a \java{Hand}, you have to give it a \java{Hand}, not a \java{CardCollection}.
+But it doesn't work the other way around: not every \java{CardCollection} is a \java{Hand}, so if a method expects a \java{Hand}, you have to give it a \java{Hand}, not a \java{CardCollection} or a \java{Deck}.
 
 If it seems strange that an object can belong to more than one type, remember that this happens in real life, too.
 Every cat is also a mammal, and every mammal is also an animal.
@@ -384,13 +345,10 @@ But not every animal is a mammal, and not every mammal is a cat.
 
 %TODO: Blythe suggests a diagram here
 
-%TODO introduce the term polymorphism?
-%ABD: I don't think we need it unless we write Chapter 15: Interfaces
-
 
 \section{The Player class}
 
-The classes we have defined so far could be used for any card game; we have not yet implemented any of the rules specific to {\it Crazy Eights}.
+The \java{Deck} and \java{Hand} classes we have defined so far could be used for any card game; we have not yet implemented any of the rules specific to {\it Crazy Eights}.
 And that's probably a good thing, since it makes it easy to reuse these classes if we want to make another game in the future.
 
 But now it's time to implement the rules.
@@ -431,8 +389,8 @@ The second parameter, \java{prev}, is the card on top of the discard pile.
 
 \index{top-down development}
 
-Using top-down development, we'll have \java{play} invoke two helper methods, \java{searchForMatch} and \java{drawForMatch}.
-\java{searchForMatch} looks in the player's hand for a card that matches the previously played card:
+Using top-down development, the \java{play} method invokes two helper methods, \java{searchForMatch} and \java{drawForMatch}.
+The first method looks in the player's hand for a card that matches the previously played card:
 
 \begin{code}
 public Card searchForMatch(Card prev) {
@@ -448,12 +406,12 @@ public Card searchForMatch(Card prev) {
 
 The strategy is pretty simple: the \java{for} loop searches for the first card that's legal to play and returns it.
 If there are no cards that match, it returns \java{null}.
-And in that case, we have to draw cards until we get a match:
+And in that case, we have to draw cards until we get a match.
 
 \begin{code}
 public Card drawForMatch(Eights eights, Card prev) {
     while (true) {
-        Card card = eights.draw();
+        Card card = eights.drawCard();
         System.out.println(name + " draws " + card);
         if (cardMatches(card, prev)) {
             return card;
@@ -466,10 +424,10 @@ public Card drawForMatch(Eights eights, Card prev) {
 The \java{while} loop runs until it finds a match (we'll assume for now that it always does).
 It uses the \java{Eights} object to draw a card.
 If it matches, it returns the card.
-Otherwise it adds the card to the player's hand and continues.
+Otherwise it adds the card to the player's hand and repeats.
 
 Both \java{searchForMatch} and \java{drawForMatch} use \java{cardMatches}, which is a static method, also defined in \java{Player}.
-\java{cardMatches} is a straightforward translation of the rules of the game:
+This method is a straightforward translation of the rules of the game:
 
 \begin{code}
 public static boolean cardMatches(Card card1, Card card2) {
@@ -486,25 +444,25 @@ public static boolean cardMatches(Card card1, Card card2) {
 }
 \end{code}
 
-Finally, \java{Player} provides \java{score}, which computes penalty points for cards left in a player's hand at the end of the game:
+Finally, \java{Player} provides a \java{score} method, which computes penalty points for cards left in a player's hand at the end of the game.
 
-\begin{code}
-public int score() {
-    int sum = 0;
-    for (int i = 0; i < hand.size(); i++) {
-        Card card = hand.getCard(i);
-        int rank = card.getRank();
-        if (rank == 8) {
-            sum -= 20;
-        } else if (rank > 10) {
-            sum -= 10;
-        } else {
-            sum -= rank;
-        }
-    }
-    return sum;
-}
-\end{code}
+%\begin{code}
+%public int score() {
+%    int sum = 0;
+%    for (int i = 0; i < hand.size(); i++) {
+%        Card card = hand.getCard(i);
+%        int rank = card.getRank();
+%        if (rank == 8) {
+%            sum -= 20;
+%        } else if (rank > 10) {
+%            sum -= 10;
+%        } else {
+%            sum -= rank;
+%        }
+%    }
+%    return sum;
+%}
+%\end{code}
 
 
 \section{The Eights class}
@@ -518,25 +476,21 @@ In Section~\ref{shuffle} we introduced top-down development, which is a way of d
 
 In this section we present {\bf bottom-up development}, which goes the other way around: first we identify simple pieces we need, then we assemble them into more complex algorithms.
 
-Looking at the rules of {\it Crazy Eights}, we can identify some methods we'll need:
+Looking at the rules of {\it Crazy Eights}, we can identify some of the methods we'll need:
 
 \begin{itemize}
 
-\item Create the deck, the discard and draw piles, and the player objects.
+\item Create the deck, the players, and the discard and draw piles. Deal the cards and set up the game. (\java{Eights} constructor)
 
-\item Deal the cards.
+\item Check whether the game is over. (\java{isDone})
 
-\item Check whether the game is over.
+\item If the draw pile is empty, shuffle the discard pile and move the cards into the draw pile. (\java{reshuffle})
 
-\item If the draw pile is empty, shuffle the discard pile and move the cards into the draw pile.
+\item Draw a card, reshuffling the discard pile if necessary. (\java{drawCard})
 
-\item Draw a card.
+\item Keep track of whose turn it is, and switch from one player to the next. (\java{nextPlayer})
 
-\item Keep track of whose turn it is and switch from one player to the next.
-
-\item Display the state of the game.
-
-\item Wait for the user before running the next turn.
+\item Display the state of the game, and wait for the user before running the next turn. (\java{displayState})
 
 \end{itemize}
 
@@ -555,32 +509,32 @@ public class Eights {
 
 In this version, there are always two players.
 One of the exercises at the end of the chapter asks you to modify this code to handle more players.
+The \java{Eights} class also includes a draw pile, a discard pile, and a \java{Scanner}, which we will use to prompt the user after each turn.
 
-The last instance variable is a \java{Scanner} that we'll use to prompt the user after each move.
-Here's a constructor that initializes the instance variables and deals the cards:
-
-\begin{code}
-public Eights() {
-    Deck deck = new Deck("Deck");
-    deck.shuffle();
-
-    int handSize = 5;
-    one = new Player("Allen");
-    deck.deal(one.getHand(), handSize);
-
-    two = new Player("Chris");
-    deck.deal(two.getHand(), handSize);
-
-    discardPile = new Hand("Discards");
-    deck.deal(discardPile, 1);
-
-    drawPile = new Hand("Draw pile");
-    deck.dealAll(drawPile);
-
-    in = new Scanner(System.in);
-}
-\end{code}
-
+The constructor for \java{Eights} initializes the instance variables and deals the cards, similar to Section~\ref{dealing}.
+%
+%\begin{code}
+%public Eights() {
+%    Deck deck = new Deck("Deck");
+%    deck.shuffle();
+%
+%    int handSize = 5;
+%    one = new Player("Allen");
+%    deck.deal(one.getHand(), handSize);
+%
+%    two = new Player("Chris");
+%    deck.deal(two.getHand(), handSize);
+%
+%    discardPile = new Hand("Discards");
+%    deck.deal(discardPile, 1);
+%
+%    drawPile = new Hand("Draw pile");
+%    deck.dealAll(drawPile);
+%
+%    in = new Scanner(System.in);
+%}
+%\end{code}
+%
 The next piece we'll need is a method that checks whether the game is over.
 If either hand is empty, we're done:
 
@@ -605,11 +559,10 @@ public void reshuffle() {
 The first line saves the top card from \java{discardPile}.
 The next line transfers the rest of the cards to \java{drawPile}.
 Then we put the saved card back into \java{discardPile} and shuffle \java{drawPile}.
-
-Now we can use \java{reshuffle} as part of \java{draw}:
+We can use \java{reshuffle} as part of the \java{draw} method:
 
 \begin{code}
-public Card draw() {
+public Card drawCard() {
     if (drawPile.empty()) {
         reshuffle();
     }
@@ -617,7 +570,8 @@ public Card draw() {
 }
 \end{code}
 
-We can switch from one player to the next like this:
+%We can switch from one player to the next like this:
+The \java{nextPlayer} method takes the current player as a parameter and returns the player who should go next.
 
 \begin{code}
 public Player nextPlayer(Player current) {
@@ -629,31 +583,28 @@ public Player nextPlayer(Player current) {
 }
 \end{code}
 
-The \java{nextPlayer} method takes the current player as a parameter and returns the player who should go next.
+The last method from our bottom-up list is \java{displayState}.
+It displays the hand of each player, the contents of the discard pile, and how many cards are in the draw pile.
+Finally, it waits for the user to press the {\sf Enter} key.
 
-The last two pieces are \java{displayState} and \java{waitForUser}:
+%\begin{code}
+%public void displayState() {
+%    one.display();
+%    two.display();
+%    discardPile.display();
+%    System.out.println("Draw pile:");
+%    System.out.println(drawPile.size() + " cards");
+%    in.nextLine();
+%}
+%\end{code}
 
-\begin{code}
-public void displayState() {
-    one.display();
-    two.display();
-    discardPile.display();
-    System.out.println("Draw pile:");
-    System.out.println(drawPile.size() + " cards");
-}
-\end{code}
-
-\begin{code}
-public void waitForUser() {
-    in.nextLine();
-}
-\end{code}
-
-Using these pieces, we can write \java{takeTurn}, which executes one player's turn:
+Using these pieces, we can write \java{takeTurn}, which executes one player's turn.
+It reads the top card off the discard pile and passes it to \java{player.play}, which we saw in the previous section.
+The result is the card the player chose, which is added to the discard pile.
 
 \begin{code}
 public void takeTurn(Player player) {
-    Card prev = discardPile.last();
+    Card prev = discardPile.lastCard();
     Card next = player.play(this, prev);
     discardPile.addCard(next);
 
@@ -661,9 +612,6 @@ public void takeTurn(Player player) {
     System.out.println();
 }
 \end{code}
-
-\java{takeTurn} reads the top card off the discard pile and passes it to \java{player.play}, which we saw in the previous section.
-The result is the card the player chose, which is added to the discard pile.
 
 Finally, we use \java{takeTurn} and the other methods to write \java{playGame}:
 
@@ -674,7 +622,6 @@ public void playGame() {
     // keep playing until there's a winner
     while (!isDone()) {
         displayState();
-        waitForUser();
         takeTurn(player);
         player = nextPlayer(player);
     }
@@ -735,7 +682,7 @@ Figure~\ref{fig.uml1} shows the classes defined in this chapter and the relation
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=0.9\textwidth]{figs/uml1.pdf}
+\includegraphics[width=0.8\textwidth]{figs/uml1.pdf}
 \caption{UML diagram for the classes in this chapter.}
 \label{fig.uml1}
 \end{center}
@@ -752,9 +699,6 @@ Congratulations on making it to the end!
 
 \begin{description}
 
-\term{collection}
-An object that contains other objects, or more specifically, one of the objects in the Java library, like \java{ArrayList}, that contains objects.
-
 \term{inheritance}
 The ability to define a new class that has the same instance variables and methods of an existing class.
 
@@ -766,9 +710,6 @@ An existing class that is extended by another class.
 
 %\term{override}
 %To define a method in a subclass that replaces a method with the same name in a superclass.
-
-\term{wrapper method}
-A method that calls another method without doing much additional work.
 
 \term{bottom-up development}
 A way of developing programs by identifying simple pieces, implementing them, and then assembling them into more complex algorithms.
