@@ -81,8 +81,6 @@ The process continues until the subtasks are simple enough to be performed with 
 \section{The hello world program}
 \label{hello}
 
-\index{hello world}
-
 Traditionally, the first program you write when learning a new programming language is called the hello world program.
 All it does is output the words ``Hello, World!''\ to the screen.
 In Java, it looks like this:
@@ -121,8 +119,6 @@ Notice that the output does not include the quotation marks.
 %In fact, we won't be able to explain all of them for several more chapters.
 %But we can start with the structure.
 
-\index{class!declaration}
-\index{method!declaration}
 \index{statement}
 \index{print statement}
 
@@ -136,6 +132,7 @@ System.out.println("Hello, World!");
 
 \index{println}
 \index{semicolon}
+\index{; semicolon}
 
 \java{System.out.println} displays results on the screen; the name \java{println} stands for ``print line''.
 Confusingly, {\em print} can mean both ``display on the screen'' and ``send to the printer''.
@@ -168,7 +165,10 @@ This program defines a class named \java{Hello}.
 You can give a class any name you like, but it is conventional to start with a capital letter.
 The name of the class has to match the name of the file it is in, so this class has to be in a file named {\tt Hello.java}.
 
-Java uses squiggly braces (\{ and \}) to group things together.
+\index{\{\} curly braces}
+\index{brackets!curly}
+
+Java uses curly braces (\{ and \}) to group things together.
 In {\tt Hello.java}, the outermost braces contain the class definition, and the inner braces contain the method definition.
 
 \index{comment!end-of-line}
@@ -431,8 +431,6 @@ If you add a space there, there will be a space at the beginning of the second l
 \label{tab:escape}
 \end{center}
 \end{table}
-
-\index{quote mark}
 
 Java has a total of eight escape sequences, and the four most commonly used ones are listed in Table~\ref{tab:escape}.
 For example, to write quotation marks inside of strings, you need to escape them with a backslash.
@@ -707,8 +705,8 @@ Starting with the hello world program, try out each of the following errors.
 After you make each change, compile the program, read the error message (if there is one), and then fix the error.
 
 \begin{enumerate}
-\item Remove one of the open squiggly braces.
-\item Remove one of the close squiggly braces.
+\item Remove one of the open curly braces.
+\item Remove one of the close curly braces.
 \item Instead of \java{main}, write \java{mian}.
 \item Remove the word \java{static}.
 \item Remove the word \java{public}.

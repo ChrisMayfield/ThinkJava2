@@ -39,6 +39,8 @@ And we need to be able to deal, draw, and discard cards.
 The \java{Deck} and \java{Pile} classes from the previous chapter meet some of these requirements.
 But unless we make some changes, neither of them can be used to represent a hand of cards that well.
 
+\index{ArrayList}
+
 Furthermore, \java{Deck} and \java{Pile} are essentially two versions of the same code: one based on arrays, and the other based on \java{ArrayList}.
 It would be helpful to combine their features into one class that meets the needs of both.
 %We could potentially use such a class for other collections of cards.
@@ -224,8 +226,6 @@ So you can create a \java{Deck} object like this:
 \begin{code}
 Deck deck = new Deck("Deck");
 \end{code}
-
-\index{super}
 
 The first line of the constructor uses \java{super}, which is a keyword that refers to the superclass of the current class.
 When \java{super} is used like a method, as in this example, it invokes the constructor of the superclass.

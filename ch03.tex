@@ -28,6 +28,7 @@ java.io.PrintStream@685d72cd
 \end{stdout}
 
 \index{package}
+\index{java.io}
 
 This output indicates that \java{System.out} is a \java{PrintStream}, which is defined in a package called \java{java.io}.
 A {\bf package} is a collection of related classes; \java{java.io} contains classes for ``I/O'' which stands for input and output.
@@ -128,6 +129,8 @@ public class Echo {
 
 If you omit the import statement at the top of the file, you will get a compiler error saying ``cannot find symbol''.
 That means the compiler doesn't know where to find the definition for \java{Scanner}.
+
+\index{java.lang}
 
 You might wonder why we can use the \java{System} class without importing it.
 \java{System} belongs to the \java{java.lang} package, which is imported automatically.
@@ -450,7 +453,7 @@ Let's take the example one step further: suppose you have a measurement in inche
 The goal is divide by 12 (the number of inches in a foot) and keep the remainder.
 
 \index{modulo}
-\index{\% operator}
+\index{\% remainder operator}
 \index{operator!remainder}
 \index{remainder}
 

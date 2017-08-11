@@ -64,8 +64,6 @@ String lastName;
 int hour, minute;
 \end{code}
 
-\index{semicolon}
-
 This example declares two variables with type \java{String} and two with type \java{int}.
 The last line shows how to declare multiple variables with the same type: \java{hour} and \java{minute} are both integers.
 Note that each declaration statement ends with a semicolon (\java{;}).
@@ -91,6 +89,7 @@ Most programming editors provide ``syntax highlighting'', which makes different 
 \section{Assigning variables}
 
 \index{assignment}
+\index{= assignment operator}
 \index{statement!assignment}
 
 Now that we have declared some variables, we can use them to store values.
@@ -315,7 +314,6 @@ Fraction of the hour that has passed: 0
 
 \index{division!integer}
 \index{integer division}
-\index{arithmetic!integer}
 
 This result often confuses people.
 The value of \java{minute} is 59, and 59 divided by 60 should be 0.98333, not 0.
@@ -396,7 +394,6 @@ double y = 1 / 3;  // common mistake
 
 \index{division!integer}
 \index{integer division}
-\index{arithmetic!integer}
 
 You might expect the variable \java{y} to get the value \java{0.333333}, which is a legal floating-point value.
 But instead it gets the value \java{0.0}.
@@ -431,7 +428,6 @@ To represent these numbers, computers have to round off to the nearest floating-
 
 \index{rounding error}
 \index{error!rounding}
-\index{arithmetic!floating-point}
 
 The difference between the number we want and the floating-point number we get is called {\bf rounding error}.
 For example, the following two statements should be equivalent:
@@ -530,6 +526,9 @@ So \java{1 + 2 * 3} yields 7, not 9, and \java{2 + 4 / 2} yields 4, not 3.
 So in the expression \java{minute * 100 / 60}, the multiplication happens first; if the value of \java{minute} is 59, we get \java{5900 / 60}, which yields \java{98}.
 If these same operations had gone from right to left, the result would have been \java{59 * 1}, which is incorrect.
 
+\index{parentheses}
+\index{( ) parentheses}
+
 \item Any time you want to override the order of operations (or you are not sure what it is) you can use parentheses.
 Expressions in parentheses are evaluated first, so \java{(1 + 2) * 3} is 9.
 You can also use parentheses to make an expression easier to read, as in \java{(minute * 100) / 60}, even though it doesn't change the result.
@@ -572,6 +571,7 @@ public class Hello {
 \end{trinket}
 
 \index{semicolon}
+\index{; semicolon}
 
 If you forget the semicolon at the end of the print statement, you might get an error message like this:
 
