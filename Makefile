@@ -3,8 +3,6 @@ F=thinkjava
 all:
 	pdflatex $(F).tex
 	pdflatex $(F).tex
-	makeindex $(F).idx        # shouldn't need .idx here, but we do
-	pdflatex $(F).tex
 	pdflatex $(F).tex
 
 clean:
