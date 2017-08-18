@@ -145,7 +145,6 @@ public static void forever(String s) {
 \end{code}
 
 \index{call stack}
-\index{stack overflow}
 
 This method displays the string until the stack overflows, at which point it throws an error.
 Try this example on your computer -- you might be surprised by how long the error message is!
@@ -287,7 +286,9 @@ In fact, you are already practicing this leap of faith when you use methods in t
 When you invoke \java{Math.cos} or \java{System.out.println}, you don't examine or think about the implementations of those methods.
 You just assume that they work properly.
 
-For example, this method determines whether an integer has only one digit.
+%TODO reference appendix B instead? or use a different example?
+
+For example, this method (from Appendix~\ref{extras}) determines whether an integer has only one digit.
 Once you convince yourself that this method is correct -- by testing and examination of the code -- you can use the method without ever looking at the implementation again.
 
 \begin{code}

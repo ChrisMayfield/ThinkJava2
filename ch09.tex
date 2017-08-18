@@ -47,7 +47,7 @@ char symbol = '!';
 
 As we learned in Section~\ref{elements}, an array variable stores a {\em reference} to an array.
 That's because the array itself is too large to fit in the variable's memory.
-For example, \java{char[] array = \{'c', 'a', 't'\}} contains three characters.
+For example, \java{char[] array = \{'c', 'a', 't'\};} contains three characters.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -384,7 +384,7 @@ For example, here is a 20-digit integer that is too big to store using a \java{l
 
 \begin{code}
 String s = "12345678901234567890";
-BigInteger big = new BigInteger(s);
+BigInteger bigger = new BigInteger(s);
 \end{code}
 
 Notice the difference in the previous two examples: you use \java{valueOf} to convert integers, and \java{new BigInteger} to convert strings.
@@ -394,9 +394,9 @@ Instead, we have to use methods like \java{add}.
 To add two BigIntegers, we invoke \java{add} on one and pass the other as an argument.
 
 \begin{code}
-BigInteger x = BigInteger.valueOf(17);
-BigInteger y = BigInteger.valueOf(1700000000);
-BigInteger z = x.add(y);
+BigInteger a = BigInteger.valueOf(17);
+BigInteger b = BigInteger.valueOf(1700000000);
+BigInteger c = a.add(b);
 \end{code}
 
 Like strings, \java{BigInteger} objects are immutable.

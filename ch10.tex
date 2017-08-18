@@ -651,32 +651,20 @@ public static void main(String[] args) {
 \begin{exercise}  %%V6 Ex10.2
 
 The point of this exercise is to make sure you understand the mechanism for returning new objects from methods.
+The following code uses \java{findCenter} and \java{distance} as defined in this chapter.
 
 \begin{enumerate}
 
-\item Draw a stack diagram showing the state of the program just before \java{distance} returns.
+\item Draw a stack diagram showing the state of the program just before \java{findCenter} returns.
 Include all variables and parameters, and show the objects those variables refer to.
+
+\item Draw a stack diagram showing the state of the program just before \java{distance} returns.
+Show all variables, parameters, and objects.
 
 \item What is the output of this program?
 (Can you tell without running it?)
 
 \end{enumerate}
-
-\begin{code}
-public static double distance(Point p1, Point p2) {
-    int dx = p2.x - p1.x;
-    int dy = p2.y - p1.y;
-    return Math.sqrt(dx * dx + dy * dy);
-}
-\end{code}
-
-\begin{code}
-public static Point findCenter(Rectangle box) {
-    int x = box.x + box.width / 2;
-    int y = box.y + box.height / 2;
-    return new Point(x, y);
-}
-\end{code}
 
 \begin{code}
 public static void main(String[] args) {
@@ -697,6 +685,7 @@ public static void main(String[] args) {
 
 This exercise is about aliasing.
 Recall that aliases are two variables that refer to the same object.
+The following code uses \java{findCenter} and \java{printPoint} as defined in this chapter.
 
 \begin{enumerate}
 
@@ -709,20 +698,6 @@ Include all local variables and the objects they refer to.
 Why or why not?
 
 \end{enumerate}
-
-\begin{code}
-public static void printPoint(Point p) {
-    System.out.println("(" + p.x + ", " + p.y + ")");
-}
-\end{code}
-
-\begin{code}
-public static Point findCenter(Rectangle box) {
-    int x = box.x + box.width / 2;
-    int y = box.y + box.height / 2;
-    return new Point(x, y);
-}
-\end{code}
 
 \begin{code}
 public static void main(String[] args) {
