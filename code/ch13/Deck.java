@@ -1,8 +1,10 @@
-import java.util.Arrays;
 import java.util.Random;
 
 /**
  * A deck of playing cards (of fixed length).
+ *
+ * @author Chris Mayfield
+ * @version 6.5.0
  */
 public class Deck {
 
@@ -169,7 +171,7 @@ public class Deck {
      * Returns a sorted copy of the deck using selection sort.
      */
     public Deck almostMergeSort() {
-        
+
         // cut the deck about in half
         int len = this.cards.length;
         int mid = len / 2;
