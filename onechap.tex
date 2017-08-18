@@ -16,13 +16,14 @@
 
 \usepackage{graphicx}
 \usepackage{setspace}
-\usepackage{imakeidx}
-\makeindex[options= -s headings.ist]
 
 %BEGIN LATEX
 \usepackage{comment}
 \excludecomment{htmlonly}
 \includecomment{latexonly}
+
+\usepackage{imakeidx}
+\makeindex[options= -s headings.ist]
 %END LATEX
 
 % automatically index glossary terms
@@ -84,11 +85,11 @@
 %%%% END OF PREAMBLE
 \begin{document}
 
-\setcounter{chapter}{13}
+\setcounter{chapter}{0}
 \setcounter{page}{0}
 
 \tableofcontents
 
-\input{ch14.tex}
+\input{ch01.tex}
 
 \end{document}
