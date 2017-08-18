@@ -30,7 +30,9 @@ with open(index_file) as index:
             15: "appendix-a.html",
             16: "appendix-b.html",
             17: "appendix-c.html",
-            18: "book-index.html"
+            18: "appendix-d.html",
+            19: "appendix-e.html",
+            20: "book-index.html"
         }
         # Create new output file for chapter
         if i == 0:
