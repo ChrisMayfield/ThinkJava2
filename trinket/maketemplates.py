@@ -81,7 +81,7 @@ with open(index_file) as index:
         with open(output_dir + newfile, 'w') as nf:
             template = """
 
-{% extends 'books/thinkjava/base.html' %}
+{% extends 'books/thinkjava2/base.html' %}
 {% block chaptercontent %}
 <div class="row">
 <div class="columns small-12">
@@ -110,7 +110,7 @@ $toc$
             # form valid iframes
             template = re.sub(r'<iframe(.*?)=""/>', '<iframe\g<1>></iframe>', template)
             # change image paths
-            template = re.sub(r'<img src="(.*?)"\w*?/?>', '<img src="https://trinket-app-assets.trinket.io/thinkjava/\g<1>"/>', template)
+            template = re.sub(r'<img src="(.*?)"\w*?/?>', '<img src="https://trinket-app-assets.trinket.io/thinkjava2/\g<1>"/>', template)
             #print(template)
 
             # replace tabs and newlines
