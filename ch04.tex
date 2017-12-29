@@ -727,12 +727,12 @@ To define more than one method with the same name but with different parameters.
 
 \section{Exercises}
 
-The code for this chapter is in the {\tt ch05} directory of {\tt ThinkJavaCode2}.
+The code for this chapter is in the {\tt ch04} directory of {\tt ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
 
-If you have not already read Appendix~\ref{checkstyle}, now might be a good time.
-It describes Checkstyle, a tool that analyzes many aspects of your source code.
+If you have not already read Appendix~\ref{cltesting}, now might be a good time.
+It describes an efficient way to test programs that take input from the user and display specific output.
 
 
 \begin{exercise}  %%V6 Ex4.3
@@ -909,56 +909,6 @@ public static void ping(String strangStrung) {
     System.out.println("any " + strangStrung + "more ");
 }
 \end{code}
-
-\end{exercise}
-
-
-\newpage
-\begin{exercise}  %%V6 Ex6.5
-
-What is the output of the following program?
-Determine the answer without using a computer.
-
-\begin{code}
-public static void main(String[] args) {
-    boolean flag1 = isHoopy(202);
-    boolean flag2 = isFrabjuous(202);
-    System.out.println(flag1);
-    System.out.println(flag2);
-    if (flag1 && flag2) {
-        System.out.println("ping!");
-    }
-    if (flag1 || flag2) {
-        System.out.println("pong!");
-    }
-}
-\end{code}
-
-\begin{code}
-public static boolean isHoopy(int x) {
-    boolean hoopyFlag;
-    if (x % 2 == 0) {
-        hoopyFlag = true;
-    } else {
-        hoopyFlag = false;
-    }
-    return hoopyFlag;
-}
-\end{code}
-
-\begin{code}
-public static boolean isFrabjuous(int x) {
-    boolean frabjuousFlag;
-    if (x > 0) {
-        frabjuousFlag = true;
-    } else {
-        frabjuousFlag = false;
-    }
-    return frabjuousFlag;
-}
-\end{code}
-
-The purpose of this exercise is to make sure you understand logical operators and the flow of execution through value methods.
 
 \end{exercise}
 
