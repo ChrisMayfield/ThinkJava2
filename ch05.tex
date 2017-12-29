@@ -1,1002 +1,839 @@
-\chapter{Methods and testing}
+\chapter{Conditionals and logic}
 
-So far we've written programs that have only one method (\java{main}).
-In this chapter, we'll show you how to organize programs into multiple methods.
-We'll also learn how to trace the order in which a program runs.
-Finally, we'll discuss strategies for incrementally developing and testing your code.
+\index{boolean}
+\index{type!boolean}
 
-%At a conceptual level, a method represents a mathematical {\em function} or a general {\em procedure}.
-%Regardless whether they return a value or not, methods enable you to break down a complex program into smaller units of code.
+The programs we've seen in previous chapters do pretty much the same thing every time, regardless of the input.
+For more complex computations, programs usually react to inputs, check for certain conditions, and generate applicable results.
+This chapter introduces Java language features for expressing logic and making decisions.
+We'll also take a look at the \java{Math} class, which provides methods for common mathematical operations.
 
 
-\section{Defining new methods}
-\label{adding_methods}
+\section{Relational operators}
 
-\index{method!declaration}
+\index{operator!relational}
+\index{relational operator}
+\index{comparison operator}
 
-%You have probably guessed by now that you can define more than one method in a class.
+Java has six {\bf relational operators} that test the relationship between two values (e.g., whether they are equal, or whether one is greater than the other).
+The following expressions show how they are used:
 
-Some methods perform a computation and return a result.
-For example, \java{Math.sqrt(25)} returns the value \java{5.0}.
-Other methods (including \java{main}) carry out a sequence of actions, without returning a result.
-Java uses the keyword \java{void} to define such methods.
-Here's a simple example:
+\begin{code}
+x == y          // x is equal to y
+x != y          // x is not equal to y
+x > y           // x is greater than y
+x < y           // x is less than y
+x >= y          // x is greater than or equal to y
+x <= y          // x is less than or equal to y
+\end{code}
 
-\index{NewLine.java}
+\index{Boole, George}
 
-\begin{trinket}[310]{NewLine.java}
-public class NewLine {
+The result of a relational operator is one of two special values: \java{true} or \java{false}.
+These values belong to the data type \java{boolean}, named after the mathematician George Boole.
+He developed an algebraic way of representing logic.
 
-    public static void newLine() {
-        System.out.println();
-    }
+\index{assignment}
+\index{operator!assignment}
+\index{== equals operator}
 
-    public static void main(String[] args) {
-        System.out.println("First line.");
-        newLine();
-        System.out.println("Second line.");
+You are probably familiar with these operators, but notice how Java is different from mathematical symbols like $=$, $\neq$, and $\geq$.
+A common error is to use a single \java{=} instead of a double \java{==} when comparing values.
+Remember that \java{=} is the {\em assignment} operator, and \java{==} is a {\em relational} operator.
+In addition, the operators \java{=<} and \java{=>} do not exist.
+
+The two sides of a relational operator have to be compatible.
+For example, the expression \java{5 < "6"} is invalid because \java{5} is an \java{int} and \java{"6"} is a \java{String}.
+When comparing values of different numeric types, Java applies the same conversion rules we saw previously with the assignment operator.
+For example, when evaluating the expression \java{5 < 6.0}, Java automatically converts the \java{5} to \java{5.0}.
+
+%Most relational operators don't work with strings.
+%But confusingly, \java{==} and \java{!=} do work with strings -- they just don't do what you expect.
+%We'll explain what they do later; in the meantime, don't use them with strings.
+%Instead, you should use the \java{equals} method:
+%
+%\begin{code}
+%String fruit1 = "Apple";
+%String fruit2 = "Orange";
+%System.out.println(fruit1.equals(fruit2));
+%\end{code}
+%
+%The result of \java{fruit1.equals(fruit2)} is the boolean value \java{false}.
+
+
+\section{The if-else statement}
+
+\index{conditional statement}
+\index{statement!conditional}
+\index{if statement}
+\index{statement!if}
+
+To write useful programs, we almost always need to check conditions and react accordingly.
+{\bf Conditional statements} give us this ability.
+The simplest conditional statement in Java is the \java{if} statement:
+
+\begin{code}
+if (x > 0) {
+    System.out.println("x is positive");
+}
+\end{code}
+
+\index{block}
+
+The expression in parentheses is called the condition.
+If it is true, the statements in braces get executed.
+If the condition is false, execution skips over that {\bf block} of code.
+The condition in parentheses can be any \java{boolean} expression.
+
+\index{branch}
+\index{statement!else}
+
+A second form of conditional statement has two possibilities, indicated by \java{if} and \java{else}.
+The possibilities are called {\bf branches}, and the condition determines which one gets executed:
+
+\begin{code}
+if (x % 2 == 0) {
+    System.out.println("x is even");
+} else {
+    System.out.println("x is odd");
+}
+\end{code}
+
+If the remainder when \java{x} is divided by 2 is zero, we know that \java{x} is even, and the program displays a message to that effect.
+If the condition is false, the second print statement is executed instead.
+Since the condition must be true or false, exactly one of the branches will run.
+
+The braces are optional for branches that have only one statement.
+So we could have written the previous example this way:
+
+\begin{code}
+if (x % 2 == 0)
+    System.out.println("x is even");
+else
+    System.out.println("x is odd");
+\end{code}
+
+However, it's better to use braces -- even when they are optional -- to avoid making the mistake of adding statements to an \java{if} or \java{else} block and forgetting to add the braces.
+This code is misleading because it's not indented correctly:
+
+\begin{code}
+if (x > 0)
+    System.out.println("x is positive");
+    System.out.println("x is not zero");
+\end{code}
+
+Since there are no braces, only the first \java{println} is part of the \java{if} statement.
+Here is what the compiler actually sees:
+
+\begin{code}
+if (x > 0) {
+    System.out.println("x is positive");
+}
+    System.out.println("x is not zero");
+\end{code}
+
+As a result, the second \java{println} runs no matter what.
+Even experienced programmers make this mistake; search the web for Apple's ``goto fail'' bug.
+
+\index{\{\} curly braces}
+
+In all previous examples, notice how there is no semicolon at the end of the \java{if} or \java{else} lines.
+Instead, a new block should be defined using curly braces.
+Another common mistake is to put a semicolon after the condition, like this:
+
+\begin{code}
+int x = 1;
+if (x % 2 == 0); {  // incorrect semicolon
+    System.out.println("x is even");
+}
+\end{code}
+
+This code will compile, but the program will output \java{"x is even"} regardless what value \java{x} is.
+Here is the same incorrect code with better formatting:
+
+\begin{code}
+int x = 1;
+if (x % 2 == 0)
+    ;  // empty statement
+{
+    System.out.println("x is even");
+}
+\end{code}
+
+Because of the semicolon, the \java{if} statement compiles as if there are no braces, and the subsequent block runs independently.
+As a general rule, each line of Java code should end with a semicolon or brace -- but not both.
+
+The compiler won't complain if you omit optional braces or write empty statements.
+Doing so is allowed by the Java language, but it often results in bugs that are difficult to find.
+Development tools like Checkstyle (see Appendix~\ref{checkstyle}) can warn you about these and other kinds of programming mistakes.
+
+
+\section{Chaining and nesting}
+
+\index{chaining}
+
+Sometimes you want to check related conditions and choose one of several actions.
+One way to do this is by {\bf chaining} a series of \java{if} and \java{else} blocks:
+
+\begin{code}
+if (x > 0) {
+    System.out.println("x is positive");
+} else if (x < 0) {
+    System.out.println("x is negative");
+} else {
+    System.out.println("x is zero");
+}
+\end{code}
+
+These chains can be as long as you want, although they can be difficult to read if they get out of hand.
+One way to make them easier to read is to use standard indentation, as demonstrated in these examples.
+If you keep all the statements and braces lined up, you are less likely to make syntax errors.
+
+Notice that the last branch is simply \java{else}, not \java{else if (x == 0)}.
+At this point in the chain, we know that \java{x} is not positive and \java{x} is not negative.
+There is no need to test whether \java{x} is zero, because there is no other possibility.
+
+\index{nesting}
+
+In addition to chaining, you can also make complex decisions by {\bf nesting} one conditional statement inside another.
+We could have written the previous example as:
+
+\begin{code}
+if (x > 0) {
+    System.out.println("x is positive");
+} else {
+    if (x < 0) {
+        System.out.println("x is negative");
+    } else {
+        System.out.println("x is zero");
     }
 }
-\end{trinket}
+\end{code}
 
-\index{main}
-\index{case-sensitive}
+The outer conditional has two branches.
+The first branch contains a \java{print} statement, and the second branch contains another conditional statement, which has two branches of its own.
+These two branches are also \java{print} statements, but they could have been conditional statements as well.
 
-The name of the class is \java{NewLine}.
-By convention, class names begin with a capital letter.
-\java{NewLine} contains two methods, \java{newLine} and \java{main}.
-Remember that Java is case-sensitive, so \java{NewLine} and \java{newLine} are not the same.
+\index{nested!conditions}
 
-\index{camel case}
+These kinds of nested structures are common, but they can become difficult to read very quickly.
+Good indentation is essential to make the structure (or intended structure) apparent to the reader.
 
-Method names should begin with a lowercase letter and use ``camel case'', which is a cute name for \java{jammingWordsTogetherLikeThis}.
-You can use any name you want for methods, except \java{main} or any of the Java keywords.
 
-\index{public}
-\index{invoke}
-\index{void}
-\index{type!void}
+\section{Logical operators}
 
-\java{newLine} and \java{main} are \java{public}, which means they can be {\bf invoked} (or called) from other classes.
-%They are both \java{static}, but we won't yet explain what that means.
-And they are both \java{void}, which means that they don't return a result (unlike the \java{Math} methods, for example).
+\index{logical operator}
+\index{operator!logical}
+\index{and operator}
+\index{or operator}
+\index{not operator}
 
-The output of this program is:
+In addition to the relational operators, Java also has three {\bf logical operators}: \java{&&}, \java{||}, and \java{!}, which respectively stand for {\em and}, {\em or}, and {\em not}.
+The results of these operators are similar to their meanings in English.
 
-\begin{stdout}
-First line.
+For example, \java{x > 0 && x < 10} is true when \java{x} is both greater than zero {\em and} less than 10.
+The expression \java{evenFlag || n \% 3 == 0} is true if either condition is true, that is, if \java{evenFlag} is true {\em or} the number \java{n} is divisible by 3.
+Finally, the \java{!} operator inverts a boolean expression.
+So \java{!evenFlag} is true if \java{evenFlag} is false.
 
-Second line.
-\end{stdout}
+In order for an expression with \java{&&} to be true, both sides of the \java{&&} operator must be true.
+And in order for an expression with \java{||} to be false, both sides of the \java{||} operator must be false.
 
-Notice the extra space between the lines.
-If we wanted more space between them, we could invoke the same method repeatedly.
+The \java{&&} operator can be used to simplify nested \java{if} statements.
+For example, following code can be rewritten with a single condition.
 
-%Or we could write yet another method (named \java{threeLine}) that displays three blank lines:
-%Pulling together the code from the previous section, the complete program looks like this:
-
-\begin{trinket}{NewLine.java}
-public class NewLine {
-
-    public static void newLine() {
-        System.out.println();
-    }
-
-    public static void threeLine() {
-        newLine();
-        newLine();
-        newLine();
-    }
-
-    public static void main(String[] args) {
-        System.out.println("First line.");
-        threeLine();
-        System.out.println("Second line.");
+\begin{code}
+if (x == 0) {
+    if (y == 0) {
+        System.out.println("Both x and y are zero");
     }
 }
-\end{trinket}
+\end{code}
 
-In this example, \java{main} invokes \java{threeLine}, and \java{threeLine} invokes \java{newLine} three times.
-%Since \java{newLine} has no parameters, it requires no arguments, as shown when it is invoked in \java{main}.
-Because \java{newLine} is in the same class as \java{threeLine}, we don't have to specify the class name like \java{NewLine.newLine()}.
+\begin{code}
+// combined
+if (x == 0 && y == 0) {
+    System.out.println("Both x and y are zero");
+}
+\end{code}
 
-Beginners wonder why it's worth the trouble to write other methods, when they could just do everything in \java{main}.
-The \java{NewLine} example demonstrates a few reasons:
+Likewise, the \java{||} operator can simplify chained \java{if} statements.
+Since the branches are the same, there is no need to duplicate that code.
+
+\begin{code}
+if (x == 0) {
+    System.out.println("Either x or y is zero");
+} else if (y == 0) {
+    System.out.println("Either x or y is zero");
+}
+\end{code}
+
+\begin{code}
+// combined
+if (x == 0 || y == 0) {
+    System.out.println("Either x or y is zero");
+}
+\end{code}
+
+Of course if the statements in the branches were different, we could not combine them into one block.
+But it's useful to explore different ways of representing the same logic, especially when it's complex.
+
+\index{short circuit}
+
+Logical operators evaluate the second expression only when necessary.
+For example, \java{true || anything} is always true, so Java does not need to evaluate the expression \java{anything}.
+Likewise, \java{false && anything} is always false.
+
+Ignoring the second operand, when possible, is called {\bf short circuit} evaluation, by analogy with an electrical circuit.
+Short circuit evaluation can save time, especially if \java{anything} takes a long time to evaluate.
+It can also avoid unnecessary errors, if \java{anything} might fail.
+
+
+\section{De Morgan's laws}
+
+Sometimes you need to negate an expression containing a mix of relational and logical operators.
+For example, to test if \java{x} and \java{y} are both nonzero, you could write:
+
+\begin{code}
+if (!(x == 0 || y == 0)) {
+    System.out.println("Neither x nor y is zero");
+}
+\end{code}
+
+\index{De Morgan's laws}
+
+This condition is difficult to read because of the \java{!} and parentheses.
+A better way to negate logic expressions is to apply {\bf De Morgan's laws}:
 
 \begin{itemize}
-
-\item Creating a new method allows you to {\em name a block of statements}, which makes the code easier to read and understand.
-%Methods simplify a program by hiding complex computations behind a single statement, and by using English words in place of arcane code.
-%Which is clearer, \java{newLine} or \java{System.out.println()}?
-
-\item Introducing new methods can {\em make the program shorter} by eliminating repetitive code.
-For example, to display nine consecutive newlines, you could invoke \java{threeLine} three times.
-
-\item A common problem-solving technique is to {\em break problems down} into sub-problems.
-Methods allow you to focus on each sub-problem in isolation, and then compose them into a complete solution.
-
+\item \java{!(A && B)} ~is the same as~ \java{!A || !B}
+\item \java{!(A || B)} ~is the same as~ \java{!A && !B}
 \end{itemize}
 
-Perhaps most importantly, organizing your code into multiple methods allows you to test individual parts of your program separately.
-It's easier to get a complex program working if you know that each method works correctly.
+Negating a logical expression is the same as negating each term and changing the operator.
+The \java{!} operator takes precedence over \java{&&} and \java{||}, so you don't have to put parentheses around the individual terms \java{!A} and \java{!B}.
+
+De Morgan's laws also apply to the relational operators.
+In this case, negating each term means using the ``opposite'' relational operator.
+
+\begin{itemize}
+\item \java{!(x < 5 && y == 3)} ~is the same as~ \java{x >= 5 || y != 3}
+\item \java{!(x >= 1 || y != 7)} ~is the same as~ \java{x < 1 && y == 7}
+\end{itemize}
+
+It may help to read these examples out loud in English.
+For instance, ``If I don't want the case where $x$ is less than 5 and $y$ is 3, then I need $x$ to be greater than or equal to 5, or I need $y$ to be anything but 3.''
+
+Returning to the previous example, here is the revised condition.
+In English, it reads ``if $x$ is not zero and $y$ is not zero.''
+The logic is the same, and the source code is easier to read.
+
+\begin{code}
+if (x != 0 && y != 0) {
+    System.out.println("Neither x nor y is zero");
+}
+\end{code}
 
 
-\section{Flow of execution}
+\section{Boolean variables}
 
-\index{flow of execution}
+\index{expression}
+\index{type!boolean}
 
-When you look at a class definition that contains several methods, it is tempting to read it from top to bottom.
-But that is {\em not} the {\bf flow of execution}, or the order the program actually runs.
-The \java{NewLine} program runs methods in the opposite order than they are listed.
+To store a \java{true} or \java{false} value, you need a \java{boolean} variable.
+You can declare and assign them like other variables.
+In this example, the first line is a variable declaration, the second is an assignment, and the third is both:
 
-Programs always begin at the first statement of \java{main}, regardless of where it is in the source file.
-Statements are executed one at a time, in order, until you reach a method invocation, which you can think of as a detour.
-Instead of going to the next statement, you jump to the first line of the invoked method, execute all the statements there, and then come back and pick up exactly where you left off.
+\begin{code}
+boolean flag;
+flag = true;
+boolean testResult = false;
+\end{code}
 
-That sounds simple enough, but remember that one method can invoke another one.
-In the middle of \java{main}, the previous example goes off to execute the statements in \java{threeLine}.
-While in \java{threeLine}, it goes off to execute \java{newLine}.
-Then \java{newLine} invokes \java{println}, which causes yet another detour.
+\index{initialize}
+\index{statement!initialization}
 
-Fortunately, Java is good at keeping track of which methods are running.
-So when \java{println} completes, it picks up where it left off in \java{newLine}; when \java{newLine} completes, it goes back to \java{threeLine}; and when \java{threeLine} completes, it gets back to \java{main}.
+Since relational and logical operators evaluate to a \java{boolean} value, you can store the result of a comparison in a variable:
 
-%In summary, when you read a program, don't read from top to bottom.
-%Instead, follow the flow of execution.
+\begin{code}
+boolean evenFlag = (n % 2 == 0);    // true if n is even
+boolean positiveFlag = (x > 0);     // true if x is positive
+\end{code}
 
-%Technically, the program does not terminate at the end of \java{main}.
-%Instead, execution picks up where it left off in the program that invoked \java{main}, which is the Java interpreter.
-%The interpreter takes care of things like deleting windows and general cleanup, and {\em then} the program terminates.
+\index{flag}
+
+The parentheses are unnecessary, but they make the code easier to understand.
+A variable defined in this way is called a {\bf flag}, because it signals or ``flags'' the presence or absence of a condition.
+
+You can use flag variables as part of a conditional statement:
+
+\begin{code}
+if (evenFlag) {
+    System.out.println("n was even when I checked it");
+}
+\end{code}
+
+Flags may not seem that useful at this point, but they will help simplify complex conditions later on.
+Each part of a condition can be stored in a separate flag, and these flags can be combined with logical operators.
+
+Notice that you don't have to write ~\java{if (evenFlag == true)}.
+Since \java{evenFlag} is a \java{boolean}, it's already a condition.
+Furthermore, to check if a flag is \java{false}:
+
+\begin{code}
+if (!evenFlag) {
+    System.out.println("n was odd when I checked it");
+}
+\end{code}
 
 
-\section{Parameters and arguments}
+\section{Math methods}
 
-Some of the methods we have used require arguments, which are the values you provide in parentheses when you invoke the method.
+In the next two sections, we'll take a break from conditions and logic and discuss other areas of mathematics in Java.
 
-For example, the \java{Math.sin} method takes a \java{double} argument.
-To find the sine of a number, you have to provide the number: \java{Math.sin(0.0)}.
-Similarly, the \java{System.out.println} method takes a \java{String} argument.
-To display a message, you have to provide the message: \java{System.out.println("Hello")}.
+\index{Math class}
+\index{class!Math}
 
-\index{parameter}
+The Java library includes a \java{Math} class that provides common mathematical operations.
+\java{Math} is in the \java{java.lang} package, so you don't have to import it.
+
+\begin{code}
+double root = Math.sqrt(17.0);
+double angle = 1.5;
+double height = Math.sin(angle);
+\end{code}
+
+The first line sets \java{root} to the square root of 17.
+The third line finds the sine of 1.5 (the value of \java{angle}).
+
+\index{degrees}
+\index{radians}
+\index{pi}
+
+Values for the trigonometric functions -- \java{sin}, \java{cos}, and \java{tan} -- must be in {\em radians}.
+To convert from degrees to radians, you can divide by 180 and multiply by $\pi$.
+Conveniently, the \java{Math} class provides a constant double named \java{PI} that contains an approximation of $\pi$:
+
+\begin{code}
+double degrees = 90;
+double angle = degrees / 180.0 * Math.PI;
+\end{code}
+
+Notice that \java{PI} is in capital letters.
+Java does not recognize \java{Pi}, \java{pi}, or \java{pie}.
+Also, \java{PI} is the name of a variable, not a method, so it doesn't have parentheses.
+The same is true for the constant \java{Math.E}, which approximates Euler's number.
+
+Converting to and from radians is a common operation, so the \java{Math} class provides methods that do that for you.
+
+\begin{code}
+double radians = Math.toRadians(180.0);
+double degrees = Math.toDegrees(Math.PI);
+\end{code}
+
+\index{long}
+\index{type!long}
+
+Another useful method is \java{round}, which rounds a floating-point value to the nearest integer and returns a \java{long}.
+The following result is 63 (rounded up from 62.8319).
+
+\begin{code}
+long x = Math.round(Math.PI * 20.0);
+\end{code}
+
+A \java{long} is like an \java{int}, but bigger.
+More specifically, an \java{int} uses 32 bits of memory; the largest value it can hold is $2^{31}-1$, which is about 2 billion.
+A \java{long} uses 64 bits, so the largest value is $2^{63}-1$, which is about 9 quintillion.
+
+Take a minute to read the documentation for these and other methods in the \java{Math} class.
+The easiest way to find documentation for Java classes is to do a web search for ``Java'' and the name of the class.
+
+
+\section{Composition}
+
+\index{expression}
 \index{argument}
 
-When you invoke a method, you provide the arguments.
-When you define a method, you name the {\bf parameters}, which are variables that indicate what arguments are required.
-The following class shows an example:
+You have probably learned to evaluate simple expressions like $\sin(\pi/2)$ and $\log(1/x)$.
+First, you evaluate the expression in parentheses, which is called the {\bf argument} of the function.
+Then you can evaluate the function itself, either by hand or by punching it into a calculator.
 
-\index{PrintTwice.java}
+This process can be applied repeatedly to evaluate more complex expressions like $\log(1/\sin(\pi/2))$.
+First we evaluate the argument of the innermost function ($\pi/2 = 1.57$), then evaluate the function itself ($\sin(1.57) = 1.0$), and so on.
 
-\begin{trinket}[295]{PrintTwice.java}
-public class PrintTwice {
+\index{composition}
+\index{expression}
 
-    public static void printTwice(String s) {
-        System.out.println(s);
-        System.out.println(s);
-    }
-
-    public static void main(String[] args) {
-        printTwice("Don't make me say this twice!");
-    }
-}
-\end{trinket}
-
-The \java{printTwice} method has a parameter named \java{s} with type \java{String}.
-When you invoke \java{printTwice}, you have to provide an argument with type \java{String}.
-
-%\java{main} has a single parameter, called \java{args}, which has type \java{String[]}.
-%That means that whoever invokes \java{main} must provide an array of strings (we'll get to arrays in a later chapter).
-
-Before the method executes, the argument gets assigned to the parameter.
-In this example, the argument \java{"Don't make me say this twice!"} gets assigned to the parameter \java{s}.
-
-\index{parameter passing}
-
-This process is called {\bf parameter passing} because the value gets passed from outside the method to the inside.
-An argument can be any kind of expression, so if you have a \java{String} variable, you can use its value as an argument:
+Just as with mathematical functions, Java methods can be {\bf composed} to solve complex problems.
+That means you can use one method as part of another.
+In fact, you can use any expression as an argument to a method, as long as the resulting value has the correct type:
 
 \begin{code}
-String message = "Never say never.";
-printTwice(message);
+double x = Math.cos(angle + Math.PI / 2.0);
 \end{code}
 
-The value you provide as an argument must have the same (or compatible) type as the parameter.
-For example, if you try:
+This statement divides \java{Math.PI} by two, adds the result to \java{angle}, and computes the cosine of the sum.
+You can also take the result of one method and pass it as an argument to another:
 
 \begin{code}
-printTwice(17);  // syntax error
+double x = Math.exp(Math.log(10.0));
 \end{code}
 
-You will get an error message like this:
+In Java, the \java{log} method always uses base $e$.
+So this statement finds the log base $e$ of 10, and then raises $e$ to that power.
+The result gets assigned to \java{x}.
+
+Some math methods take more than one argument.
+For example, \java{Math.pow} takes two arguments and raises the first to the power of the second.
+This line computes $2^{10}$ and assigns the value \java{1024.0} to the variable \java{x}:
+
+\begin{code}
+double x = Math.pow(2.0, 10.0);
+\end{code}
+
+When using \java{Math} methods, beginners often forget the word \java{Math}.
+For example, if you just write \java{x = pow(2.0, 10.0)}, you will get a compiler error:
 
 \begin{stdout}
-File: Test.java  [line: 10]
-Error: method printTwice in class Test cannot be applied
-       to given types;
-  required: java.lang.String
-  found: int
-  reason: actual argument int cannot be converted to
-          java.lang.String by method invocation conversion
+File: Test.java  [line: 5]
+Error: cannot find symbol
+  symbol:   method pow(double,double)
+  location: class Test
 \end{stdout}
 
-Sometimes Java can convert an argument from one type to another automatically.
-For example, \java{Math.sqrt} requires a \java{double}, but if you invoke \java{Math.sqrt(25)}, the integer value \java{25} is automatically converted to the floating-point value \java{25.0}.
-But in the case of \java{printTwice}, Java can't (or won't) convert the integer \java{17} to a \java{String}.
-
-\index{local variable}
-\index{variable!local}
-
-Parameters and other variables only exist inside their own methods.
-Inside \java{main}, there is no such thing as \java{s}.
-If you try to use it there, you'll get a compiler error.
-Similarly, inside \java{printTwice} there is no such thing as \java{message}.
-That variable belongs to \java{main}.
-Because variables only exist inside the methods where they are defined, they are often called {\bf local variables}.
+The message ``cannot find symbol'' is confusing, but the last two lines provide a useful hint.
+The compiler is looking for a method named \java{pow} in the file \java{Test.java} (the file for this example).
+If you don't specify a class name when referring to a method, the compiler looks in the current class by default.
 
 
-%\section{Multiple parameters}
+\section{Validating input}
+\label{validate}
 
-\index{parameter!multiple}
-\index{method!parameters}
+\index{validate}
+\index{hacker}
 
-Here is an example of a method that takes two parameters:
+One of the most important tasks in any computer program is to {\bf validate} input from the user.
+People often make mistakes while typing, especially on smartphones, and incorrect inputs may cause your program to fail.
+Even worse, someone (i.e., a {\bf hacker}) may intentionally try to break into your system by entering unexpected inputs.
+
+Consider this simple program that prompts the user for a number and computes its logarithm:
 
 \begin{code}
-public static void printTime(int hour, int minute) {
-    System.out.print(hour);
-    System.out.print(":");
-    System.out.println(minute);
+Scanner in = new Scanner(System.in);
+System.out.print("Enter a number: ");
+double x = in.nextDouble();
+double y = Math.log(x);
+System.out.println("The log is " + y);
+\end{code}
+
+In mathematics, the natural logarithm (base $e$) is undefined when $x < 0$.
+If you ask for \java{Math.log(-1)}, it will return {\bf NaN} which stands for ``not a number''.
+Many users are confused when they see NaN; it often looks like a bug.
+We can use an \java{if} statement to make the output more user friendly.
+
+\begin{code}
+if (x >= 0) {
+    double y = Math.log(x);
+    System.out.println("The log is " + y);
+} else {
+    System.out.println("The log is undefined");
 }
 \end{code}
 
-In the parameter list, it may be tempting to write:
+The output is better now, but there is another problem.
+What if the user doesn't enter a number at all?
+What would happen if they typed the word ``hello'', either on accident or on purpose?
+
+\index{InputMismatchException}
+\index{exception!InputMismatch}
+
+\begin{small}
+\begin{stdout}
+Exception in thread "main" java.util.InputMismatchException
+    at java.util.Scanner.throwFor(Scanner.java:864)
+    at java.util.Scanner.next(Scanner.java:1485)
+    at java.util.Scanner.nextDouble(Scanner.java:2413)
+    at Logarithm.main(Logarithm.java:8)
+\end{stdout}
+\end{small}
+
+\index{run-time error}
+\index{testing}
+
+If the user inputs a \java{String} when we expect a \java{double}, Java reports an ``input mismatch'' exception.
+We can prevent this run-time error from happening by testing the input first.
+
+The \java{Scanner} class provides \java{hasNextDouble}, which checks whether the next input can be interpreted as a \java{double}.
+If not, we can display an error message.
 
 \begin{code}
-public static void printTime(int hour, minute) {  // error
-\end{code}
-
-But that format (without the second \java{int}) is only allowed for local variables.
-For parameters, you need to declare the type of each variable separately.
-
-To invoke this method, we have to provide two integers as arguments:
-
-\begin{code}
-int hour = 11;
-int minute = 59;
-printTime(hour, minute);
-\end{code}
-
-Beginners sometimes make the mistake of ``declaring'' the arguments:
-
-\begin{code}
-int hour = 11;
-int minute = 59;
-printTime(int hour, int minute);  // syntax error
-\end{code}
-
-That's a syntax error, because the compiler sees \java{int hour} and \java{int minute} as variable declarations, not expressions.
-You wouldn't declare the types of the arguments if they were simply integers:
-
-\begin{code}
-printTime(int 11, int 59);  // syntax error
-\end{code}
-
-Pulling together the code fragments, here is the complete program:
-
-\index{PrintTime.java}
-
-\begin{trinket}[340]{PrintTime.java}
-public class PrintTime {
-
-    public static void printTime(int hour, int minute) {
-        System.out.print(hour);
-        System.out.print(":");
-        System.out.println(minute);
-    }
-
-    public static void main(String[] args) {
-        int hour = 11;
-        int minute = 59;
-        printTime(hour, minute);
-    }
-}
-\end{trinket}
-
-
-\section{Stack diagrams}
-\label{stack}
-
-\java{printTime} has two parameters, named \java{hour} and \java{minute}.
-And \java{main} has two variables, also named \java{hour} and \java{minute}.
-Although they have the same names, these variables are not the same.
-The \java{hour} in \java{printTime} and the \java{hour} in \java{main} refer to different memory locations, and they can have different values.
-For example, you could invoke \java{printTime} like this:
-
-\begin{code}
-int hour = 11;
-int minute = 59;
-printTime(hour + 1, 0);
-\end{code}
-
-Before the method is invoked, Java evaluates the arguments; in this example, the results are \java{12} and \java{0}.
-Then it assigns those values to the parameters.
-Inside \java{printTime}, the value of \java{hour} is \java{12}, not \java{11}, and the value of \java{minute} is \java{0}, not \java{59}.
-Furthermore, if \java{printTime} modifies one of its parameters, that change has no effect on the variables in \java{main}.
-
-\index{stack diagram}
-\index{diagram!stack}
-\index{frame}
-
-One way to keep track of everything is to draw a {\bf stack diagram}, which is a memory diagram (see Section~\ref{state}) that shows currently running methods.
-For each method there is a box called a {\bf frame} that contains the method's parameters and local variables.
-The name of the method appears outside the frame; the variables and parameters appear inside.
-
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics[height=15em]{figs/stack1.pdf}
-\caption{Stack diagram for \java{printTime(hour + 1, 0)}.}
-\label{fig.stack}
-\end{center}
-\end{figure}
-
-As with memory diagrams, stack diagrams show variables and methods at a particular point in time.
-Figure~\ref{fig.stack} is a stack diagram at the beginning of the \java{printTime} method.
-Notice that \java{main} is on top, because it executed first.
-
-%\index{scope}
-
-%Stack diagrams help you to visualize the {\bf scope} of a variable, which is the area of a program where a variable exists.
-
-\index{Java Tutor}
-\index{tracing}
-
-Stack diagrams are a good mental model for how variables and methods work at run-time.
-Learning to trace the execution of a program on paper (or on a whiteboard) is a useful skill for communicating with other programmers.
-
-There are educational tools that automatically draw stack diagrams for you.
-For example, Java Tutor (\url{http://pythontutor.com/java.html}) allows you to step through an entire program, both forwards and backwards, and see the stack frames and variables at each step.
-If you haven't already, you should check out the Java examples on that website.
-
-%Or you can use a ``debugger'', like the one that comes with DrJava (see Appendix~\ref{debugger}).
-%These tools also allow you to visualize the flow of execution.
-
-
-\section{Return values}
-
-\index{void}
-
-When you invoke a \java{void} method, the invocation is usually on a line all by itself.
-For example:
-
-\begin{code}
-printTime(hour + 1, 0);
-\end{code}
-
-On the other hand, when you invoke a value-returning method, you have to do something with the return value.
-We usually assign it to a variable or use it as part of an expression, like this:
-
-\begin{code}
-double error = Math.abs(expect - actual);
-double height = radius * Math.sin(angle);
-\end{code}
-
-\index{value method}
-\index{method!value}
-
-Compared to \java{void} methods, value-returning methods differ in two ways:
-
-\index{return type}
-\index{return value}
-
-\begin{itemize}
-
-\item They declare the type of the return value (the {\bf return type});
-
-\item They use at least one \java{return} statement to provide a {\bf return value}.
-
-\end{itemize}
-
-Here's an example from a program named {\tt Circle.java}.
-The \java{calculateArea} method takes a \java{double} as a parameter and returns the area of a circle with that radius (i.e., $\pi r^2$).
-
-\begin{code}
-public static double calculateArea(double radius) {
-    double result = Math.PI * radius * radius;
-    return result;
+if (!in.hasNextDouble()) {
+    String word = in.next();
+    System.err.println(word + "is not a number");
+    return;
 }
 \end{code}
 
-As usual, this method is \java{public} and \java{static}.
-But in the place where we are used to seeing \java{void}, we see \java{double}, which means that the return value from this method is a \java{double}.
+\index{next!Scanner}
+
+In contrast to \java{in.nextLine}, which returns an entire line of input, the \java{in.next} method returns only the next token of input.
+We can use \java{in.next} to show the user exactly which word they typed was not a number.
+
+\index{System.err}
+
+This example also uses \java{System.err}, which is an \java{OutputStream} for error messages and warnings.
+Some development environments display output to \java{System.err} with a different color or in a separate window.
 
 \index{return}
 \index{statement!return}
 
-The last line is a new form of the \java{return} statement that means, ``return immediately from this method, and use the following expression as the return value.''
-The expression you provide can be arbitrarily complex, so we could have written this method more concisely:
+The \java{return} statement allows you to exit a method before you reach the end of it.
+Returning from \java{main} terminates the program.
 
-\begin{code}
-public static double calculateArea(double radius) {
-    return Math.PI * radius * radius;
+Notice the use of the \java{!} operator before \java{in.hasNextDouble()}, instead of testing the condition \java{in.hasNextDouble() == false}.
+Since \java{hasNextDouble} returns a boolean, it is already a condition.
+
+
+\section{Example program}
+
+In this chapter we have seen relational and logical operators, \java{if} statements, the \java{Math} class, and validating input.
+The following program shows how the individual code examples in the last section fit together.
+
+\index{Logarithm.java}
+
+\begin{trinket}{Logarithm.java}
+import java.util.Scanner;
+
+/**
+ * Demonstrates input validation using if statements.
+ */
+public class Logarithm {
+
+    public static void main(String[] args) {
+
+        // prompt for input
+        Scanner in = new Scanner(System.in);
+        System.out.print("Enter a number: ");
+
+        // check the format
+        if (!in.hasNextDouble()) {
+            String word = in.next();
+            System.err.println(word + " is not a number");
+            return;
+        }
+
+        // check the range
+        double x = in.nextDouble();
+        if (x >= 0) {
+            double y = Math.log(x);
+            System.out.println("The log is " + y);
+        } else {
+            System.out.println("The log is undefined");
+        }
+    }
 }
-\end{code}
+\end{trinket}
 
-\index{temporary variable}
-\index{variable!temporary}
+What started as five lines of code at the beginning of Section~\ref{validate} is now a 30-line program.
+Making programs robust (and secure) often requires a lot of additional checking, as shown in this example.
 
-On the other hand, {\bf temporary variables} like \java{result} often make debugging easier, especially when you are stepping through code using an interactive debugger (see Appendix~\ref{debugger}).
+\index{comment}
 
-Figure~\ref{fig.param} illustrates how data values flows through the program.
-When the \java{main} method invokes \java{calculateArea}, the value \java{5.0} is assigned to the parameter \java{radius}.
-\java{calculateArea} then returns the value \java{78.54}, which is assigned to the variable \java{area}.
-%Note that you don't ``pass variables'' as arguments and return values -- you copy their values.
-
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics{figs/param.pdf}
-\caption{Passing a parameter and saving the return value.}
-\label{fig.param}
-\end{center}
-\end{figure}
-
-The type of the expression in the \java{return} statement must match the return type of the method itself.
-When you declare that the return type is \java{double}, you are making a promise that this method will eventually produce a \java{double} value.
-If you try to \java{return} with no expression, or \java{return} an expression with the wrong type, the compiler will give an error.
-
-
-\section{Incremental development}
-\label{distance}
-
-\index{incremental development}
-\index{design process}
-
-People often make the mistake of writing a lot of code before they try to compile and run it.
-Then they spend way too much time debugging.
-A better approach is what we call {\bf incremental development}.
-The key aspects of incremental development are:
-
-\begin{itemize}
-
-\item Start with a working program and make small, incremental changes.
-At any point, if there is an error, you will know where to look.
-
-\item Use variables to hold intermediate values so you can check them, either with print statements or by using a debugger.
-
-\item Once the program is working, you can consolidate multiple statements into compound expressions (but only if it does not make the program more difficult to read).
-
-\end{itemize}
-
-As an example, suppose you want to find the distance between two points, given by the coordinates $(x_1, y_1)$ and $(x_2, y_2)$.
-By the usual definition:
-
-\[ distance = \sqrt{(x_2 - x_1)^2 +(y_2 - y_1)^2} \]
-
-The first step is to consider what a \java{distance} method should look like in Java.
-In other words, what are the inputs (parameters) and what is the output (return value)?
-For this method, the parameters are the two points, and it is natural to represent them using four \java{double} values.
-%, although we will see later that there is a \java{Point} object in Java that we could use.
-The return value is the distance, which should also have type \java{double}.
-
-\index{stub}
-
-Already we can write an outline for the method, which is sometimes called a {\bf stub}.
-The stub includes the method declaration and a \java{return} statement:
-
-\begin{code}
-public static double distance
-        (double x1, double y1, double x2, double y2) {
-    return 0.0;  // stub
-}
-\end{code}
-
-The return statement is a placeholder that is only necessary for the program to compile.
-At this stage the program doesn't do anything useful, but it is good to compile it so we can find any syntax errors before we add more code.
-
-\index{testing}
-
-It's usually a good idea to think about testing {\em before} you develop new methods; doing so can help you figure out how to implement them.
-To test the method, we can invoke it from \java{main} using the sample values:
-
-\begin{code}
-double dist = distance(1.0, 2.0, 4.0, 6.0);
-\end{code}
-
-With these values, the horizontal distance is 3.0 and the vertical distance is 4.0.
-So the result should be 5.0, the hypotenuse of a 3-4-5 triangle.
-When you are testing a method, it is necessary to know the right answer.
-
-Once we have compiled the stub, we can start adding code one line at a time.
-After each incremental change, we recompile and run the program.
-If there is an error, we have a good idea where to look: the lines we just added.
-
-The next step is to find the differences $x_2 - x_1$ and $y_2 - y_1$.
-We store those values in temporary variables named \java{dx} and \java{dy}, so that we can examine them with print statements before proceeding.
-They should be 3.0 and 4.0.
-
-\begin{code}
-public static double distance
-        (double x1, double y1, double x2, double y2) {
-    double dx = x2 - x1;
-    double dy = y2 - y1;
-    System.out.println("dx is " + dx);
-    System.out.println("dy is " + dy);
-    return 0.0;  // stub
-}
-\end{code}
-
-\index{scaffolding}
-
-We will remove the print statements when the method is finished.
-Code like that is called {\bf scaffolding}, because it is helpful for building the program, but it is not part of the final product.
-
-The next step is to square \java{dx} and \java{dy}.
-We could use the \java{Math.pow} method, but it is simpler (and more efficient) to multiply each term by itself.
-
-\begin{code}
-public static double distance
-        (double x1, double y1, double x2, double y2) {
-    double dx = x2 - x1;
-    double dy = y2 - y1;
-    double dsquared = dx * dx + dy * dy;
-    System.out.println("dsquared is " + dsquared);
-    return 0.0;  // stub
-}
-\end{code}
-
-Again, you should compile and run the program at this stage and check the intermediate value, which should be 25.0.
-Finally, we can use \java{Math.sqrt} to compute and return the result.
-
-\begin{code}
-public static double distance
-        (double x1, double y1, double x2, double y2) {
-    double dx = x2 - x1;
-    double dy = y2 - y1;
-    double dsquared = dx * dx + dy * dy;
-    double result = Math.sqrt(dsquared);
-    return result;
-}
-\end{code}
-
-%In \java{main}, we can print and check the value of the result.
-
-As you gain more experience programming, you might write and debug more than one line at a time.
-%Nevertheless, incremental development can save you a lot of time debugging.
-But by using incremental development, scaffolding, and testing, your code is more likely to be correct the first time.
-
-
-\section{Method composition}
-
-\index{composition}
-
-Once you define a method, you can use it to build other methods.
-For example, suppose someone gave you two points -- the center of a circle and a point on the perimeter -- and asked for the area of the circle.
-
-Let's say the center point is stored in the variables \java{xc} and \java{yc}, and the perimeter point is in \java{xp} and \java{yp}.
-The first step is to find the radius of the circle, which is the distance between the two points.
-Fortunately, we have a method that does just that.
-
-\begin{code}
-double radius = distance(xc, yc, xp, yp);
-\end{code}
-
-The second step is to find the area of a circle with that radius.
-We have a method for that computation too.
-
-\begin{code}
-double area = calculateArea(radius);
-\end{code}
-
-Putting everything together in a new method, we get:
-
-\begin{code}
-public static double circleArea
-        (double xc, double yc, double xp, double yp) {
-    double radius = distance(xc, yc, xp, yp);
-    double area = calculateArea(radius);
-    return area;
-}
-\end{code}
-
-Temporary variables like \java{radius} and \java{area} are useful for development and debugging, but once the program is working we can make it more concise by composing the method calls:
-
-\begin{code}
-public static double circleArea
-        (double xc, double yc, double xp, double yp) {
-    return calculateArea(distance(xc, yc, xp, yp));
-}
-\end{code}
-
-\index{functional decomposition}
-
-This example demonstrates a process known as {\bf functional decomposition}.
-We broke a complex computation into simple methods, tested the methods in isolation, and then composed the methods to perform the final computation.
-%This process reduces debugging time and yields code that is more likely to be correct and easier to maintain.
-
-%Computer scientists deal with the complexity of large programs by breaking down computations into simpler methods (which in turn may call other methods).
-%Data is passed around the program via parameters and return values.
-
-
-\section{Overloading methods}
-
-You might have noticed that \java{circleArea} and \java{calculateArea} perform similar functions.
-They both find the area of a circle, but they take different parameters.
-For \java{calculateArea}, we have to provide the radius; for \java{circleArea} we provide two points.
-
-\index{overload}
-
-If two methods do the same thing, it is natural to give them the same name.
-Having more than one method with the same name is called {\bf overloading}, and it is legal in Java as long as each version of the method takes different parameters.
-So we could rename \java{circleArea} to \java{calculateArea}:
-
-\begin{code}
-public static double calculateArea
-        (double xc, double yc, double xp, double yp) {
-    return calculateArea(distance(xc, yc, xp, yp));
-}
-\end{code}
-
-%Note that this new \java{calculateArea} method is {\em not} recursive.
-When you invoke an overloaded method, Java knows which version you want by looking at the arguments that you provide.
-
-\begin{itemize}
-
-\item For \java{calculateArea(3.0)}, Java uses the original \java{calculateArea} method that takes a \java{double} as an argument and interprets it as the radius.
-
-\item For \java{calculateArea(1.0, 2.0, 4.0, 6.0)}, Java uses the new version of \java{calculateArea} (renamed from \java{circleArea}), which interprets the arguments as two points.
-
-\end{itemize}
-
-In fact, the second version of \java{calculateArea} invokes the first version (after invoking the \java{distance} method).
-
-Many Java library methods are overloaded, meaning that there are different versions that accept different numbers or types of parameters.
-For example, there are variants of \java{print} and \java{println} that accept a single parameter of any data type.
-In the \java{Math} class, there is a version of \java{abs} that works on \java{double}s, and there is also a version for \java{int}s.
-
-Although overloading is a useful feature, it should be used with caution.
-You might get yourself nicely confused if you are trying to debug one version of a method while accidentally invoking a different one.
+It's important to write comments every few lines to make your code easier to understand.
+Comments not only help other people read your code, they also help you document what you're trying to do.
+If there's a mistake the code, it's a lot easier to find when there are good comments.
 
 
 \section{Vocabulary}
 
 \begin{description}
 
-% Note: expanded definition from Chapter 1
-%\term{method}
-%A named sequence of statements that performs a procedure or function.
-%Methods may or may not take parameters, and may or may not return a value.
+\term{boolean}
+A data type with only two possible values, \java{true} and \java{false}.
 
-%\term{void}
-%A special return type indicating the method does not return a value.
+\term{relational operator}
+An operator that compares two values and produces a \java{boolean} indicating the relationship between them.
 
-\term{invoke}
-To cause a method to execute.
-Also known as ``calling'' a method.
+\term{conditional statement}
+A statement that uses a condition to determine which statements to execute.
 
-\term{flow of execution}
-The order in which Java executes methods and statements.
-It may not necessarily be from top to bottom in the source file.
+\term{block}
+A sequence of statements, surrounded by braces, that generally runs as the result of a condition.
 
-\term{parameter}
-A piece of information that a method requires before it can run.
-Parameters are variables: they contain values and have types.
+\term{branch}
+One of the alternative blocks after a conditional statement.
+For example, an \java{if}-\java{else} statement has two branches.
 
-\term{parameter passing}
-The process of assigning an argument value to a parameter variable.
+\term{chaining}
+A way of joining several conditional statements in sequence.
 
-\term{local variable}
-A variable declared inside a method.
-Local variables cannot be accessed from outside their method.
+\term{nesting}
+Putting a conditional statement inside one or both branches of another conditional statement.
 
-\term{stack diagram}
-A graphical representation of the variables belonging to each method.
-The method calls are ``stacked'' from top to bottom, in the flow of execution.
+\term{logical operator}
+An operator that combines boolean values and produces a boolean value.
 
-\term{frame}
-In a stack diagram, a representation of the variables and parameters for a method, along with their current values.
+\term{short circuit}
+A way of evaluating logical operators that only evaluates the second operand if necessary.
 
-%\term{scope}
-%The area of a program where a variable exists.
+\term{De Morgan's laws}
+Mathematical rules that show how to negate a logical expression.
 
-\term{return type}
-The type of value a method returns.
+\term{flag}
+A variable (usually \java{boolean}) that represents a condition or status.
 
-\term{return value}
-The value provided as the result of a method invocation.
+\term{argument}
+A value that you provide when you call a method.
+This value must have the type that the method expects.
 
-\term{temporary variable}
-A short-lived variable, often used for debugging.
+\term{composition}
+The ability to combine simple expressions and statements into compound expressions and statements.
 
-\term{incremental development}
-A process for creating programs by writing a few lines at a time, compiling, and testing.
+\term{validate}
+To confirm that an input value is of the correct type and within the expected range.
 
-\term{stub}
-A placeholder for an incomplete method so that the class will compile.
+\term{hacker}
+A programmer who breaks into computer systems.
+The term hacker may also apply to someone who enjoys writing code.
 
-\term{scaffolding}
-Code that is used during program development but is not part of the final version.
-
-\term{functional decomposition}
-A process for breaking down a complex computation into simple methods, then composing the methods to perform the computation.
-
-\term{overload}
-To define more than one method with the same name but with different parameters.
-%When you invoke an overloaded method, Java knows which version to use by looking at the arguments you provide.
+\term{NaN}
+A special floating-point value that stands for ``not a number''.
 
 \end{description}
 
 
 \section{Exercises}
 
-The code for this chapter is in the {\tt ch05} directory of {\tt ThinkJavaCode2}.
+The code for this chapter is in the {\tt ch04} directory of {\tt ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
 
-If you have not already read Appendix~\ref{checkstyle}, now might be a good time.
-It describes Checkstyle, a tool that analyzes many aspects of your source code.
+If you have not already read Appendix~\ref{cltesting}, now might be a good time.
+It describes an efficient way to test programs that take input from the user and display specific output.
 
 
-\begin{exercise}  %%V6 Ex4.3
+\begin{exercise}  %%V6.5 NEW
 
-The purpose of this exercise is to take code from a previous exercise and redesign it as a method that takes parameters.
-You should start with a working solution to Exercise~\ref{ex:date}.
+Using the following variables, evaluate the logic expressions in the table below.
+Write your answers as true, false, or error.
 
-\begin{enumerate}
+\begin{code}
+boolean yes = true;
+boolean no = false;
+int loVal = -999;
+int hiVal = 999;
+double grade = 87.5;
+double amount = 50.0;
+String hello = "world";
+\end{code}
 
-\item Write a method called \java{printAmerican} that takes the day, date, month and year as parameters and that displays them in American format.
+\vspace{1ex}
 
-\item Test your method by invoking it from \java{main} and passing appropriate arguments.
-The output should look something like this (except that the date might be different):
-
-\begin{stdout}
-Saturday, July 22, 2015
-\end{stdout}
-
-\item Once you have debugged \java{printAmerican}, write another method called \java{printEuropean} that displays the date in European format.
-
-\end{enumerate}
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+Expression & Result \\
+\hline
+\hline
+\java{yes == no || grade > amount} & \hspace{5em} \\
+\hline
+\java{amount == 40.0 || 50.0} &  \\
+\hline
+\java{hiVal != loVal || loVal < 0} &  \\
+\hline
+\java{True || hello.length() > 0} &  \\
+\hline
+\java{hello.isEmpty() && yes} &  \\
+\hline
+\java{grade <= 100 && !false} &  \\
+\hline
+\java{!yes || no} &  \\
+\hline
+\java{grade > 75 > amount} &  \\
+\hline
+\java{amount <= hiVal && amount >= loVal} &  \\
+\hline
+\java{no && !no || yes && !yes} &  \\
+\hline
+\end{tabular}
+\end{center}
 
 \end{exercise}
 
 
-\begin{exercise}  %%V6 Ex5.6
+\begin{exercise}  %%V6 Ex5.1
 
-This exercise reviews the flow of execution through a program with multiple methods.
-Read the following code and answer the questions.
-
-\begin{code}
-public static void baffle(String blimp) {
-    System.out.println(blimp);
-    zippo("ping", -5);
-}
-\end{code}
+Rewrite the following code using a single \java{if} statement.
 
 \begin{code}
-public static void zippo(String quince, int flag) {
-    if (flag < 0) {
-        System.out.println(quince + " zoop");
-    } else {
-        System.out.println("ik");
-        baffle(quince);
-        System.out.println("boo-wa-ha-ha");
+if (x > 0) {
+    if (x < 10) {
+        System.out.println("positive single digit number.");
     }
-}
-\end{code}
-
-\begin{code}
-public static void main(String[] args) {
-    zippo("rattle", 13);
-}
-\end{code}
-
-\begin{enumerate}
-
-\item Write the number {\tt 1} next to the first line of code in this program that will execute.
-
-\item Write the number {\tt 2} next to the second line of code, and so on until the end of the program.
-If a line is executed more than once, it might end up with more than one number next to it.
-
-\item What is the value of the parameter \java{blimp} when \java{baffle} gets invoked?
-
-\item What is the output of this program?
-
-\end{enumerate}
-
-\end{exercise}
-
-
-\begin{exercise}  %%V6 Ex4.1
-
-%The point of this exercise is to practice reading code and to make sure that you understand the flow of execution through a program with multiple methods.
-Answer the following questions without running the program on a computer.
-
-\begin{enumerate}
-
-\item Draw a stack diagram that shows the state of the program the first time \java{ping} is invoked.
-
-\item What is output by the following program?
-Be precise about where there are spaces and where there are newlines.
-
-%{\it Hint:} Start by describing in words what \java{ping} and \java{baffle} output.
-
-%\item What happens if you invoke \java{baffle();} at the end of the \java{ping} method? (We will see why in Section~\ref{recursion}.)
-
-\end{enumerate}
-
-\begin{code}
-public static void zoop() {
-    baffle();
-    System.out.print("You wugga ");
-    baffle();
-}
-\end{code}
-
-\begin{code}
-public static void main(String[] args) {
-    System.out.print("No, I ");
-    zoop();
-    System.out.print("I ");
-    baffle();
-}
-\end{code}
-
-\begin{code}
-public static void baffle() {
-    System.out.print("wug");
-    ping();
-}
-\end{code}
-
-\begin{code}
-public static void ping() {
-    System.out.println(".");
 }
 \end{code}
 
 \end{exercise}
 
 
-\begin{exercise}  %%V6 Ex6.1
+\begin{exercise}  %%V6 Ex5.4
 
-If you have a question about whether something is legal, and what happens if it is not, a good way to find out is to ask the compiler.
-Answer the following questions by trying them out.
+Fermat's Last Theorem says that there are no integers $a$, $b$, and $c$ such that $a^n + b^n = c^n$, except when $n \leq 2$.
 
-\begin{enumerate}
+Write a program named \java{Fermat.java} that inputs four integers (\java{a}, \java{b}, \java{c}, and \java{n}) and checks to see if Fermat's theorem holds.
+If $n$ is greater than 2 and $a^n + b^n = c^n$, the program should display ``Holy smokes, Fermat was wrong!''
+Otherwise the program should display ``No, that doesn't work.''
 
-\item What happens if you invoke a value method and don't do anything with the result; that is, if you don't assign it to a variable or use it as part of a larger expression?
-
-\item What happens if you use a void method as part of an expression?
-For example, try \java{System.out.println("boo!") + 7;}
-
-\end{enumerate}
+{\it Hint:} You may want to use \java{Math.pow}.
 
 \end{exercise}
 
 
-\begin{exercise}  %%V6 Ex5.2
+\begin{exercise}  %%V6 Ex5.7
 
-Draw a stack diagram that shows the state of the program the {\it second} time \java{zoop} is invoked.
-What is the complete output?
+Now that we have conditional statements, we can get back to the ``Guess My Number'' game from Exercise~\ref{guess}.
 
-\begin{code}
-public static void zoop(String fred, int bob) {
-    System.out.println(fred);
-    if (bob == 5) {
-        ping("not ");
-    } else {
-        System.out.println("!");
-    }
-}
-\end{code}
+You should already have a program that chooses a random number, prompts the user to guess it, and displays the difference between the guess and the chosen number.
 
-\begin{code}
-public static void main(String[] args) {
-    int bizz = 5;
-    int buzz = 2;
-    zoop("just for", bizz);
-    clink(2 * buzz);
-}
-\end{code}
+Adding a small amount of code at a time, and testing as you go, modify the program so it tells the user whether the guess is too high or too low, and then prompts the user for another guess.
 
-\begin{code}
-public static void clink(int fork) {
-    System.out.print("It's ");
-    zoop("breakfast ", fork);
-}
-\end{code}
-
-\begin{code}
-public static void ping(String strangStrung) {
-    System.out.println("any " + strangStrung + "more ");
-}
-\end{code}
+The program should continue until the user gets it right or guesses incorrectly three times.
+If the user guesses the correct number, display a message and terminate the program.
 
 \end{exercise}
 
 
-\newpage
-\begin{exercise}  %%V6 Ex6.5
+\begin{exercise}  %%V6.5 NEW
 
-What is the output of the following program?
-Determine the answer without using a computer.
+Write a program named \java{Quadratic.java} that finds the roots of $ax^2 + bx + c = 0$ using the quadratic formula:
+$$ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
+Prompt the user to input integers for $a$, $b$, and $c$.
+Compute the two solutions for $x$, and display the results.
 
-\begin{code}
-public static void main(String[] args) {
-    boolean flag1 = isHoopy(202);
-    boolean flag2 = isFrabjuous(202);
-    System.out.println(flag1);
-    System.out.println(flag2);
-    if (flag1 && flag2) {
-        System.out.println("ping!");
-    }
-    if (flag1 || flag2) {
-        System.out.println("pong!");
-    }
-}
-\end{code}
+Your program should be able to handle inputs for which there is only one or no solution.
+Specifically, it should not divide by zero or take the square root of a negative number.
 
-\begin{code}
-public static boolean isHoopy(int x) {
-    boolean hoopyFlag;
-    if (x % 2 == 0) {
-        hoopyFlag = true;
-    } else {
-        hoopyFlag = false;
-    }
-    return hoopyFlag;
-}
-\end{code}
-
-\begin{code}
-public static boolean isFrabjuous(int x) {
-    boolean frabjuousFlag;
-    if (x > 0) {
-        frabjuousFlag = true;
-    } else {
-        frabjuousFlag = false;
-    }
-    return frabjuousFlag;
-}
-\end{code}
-
-The purpose of this exercise is to make sure you understand logical operators and the flow of execution through value methods.
+Be sure to validate all inputs.
+The user should never see an input mismatch exception.
+Display specific error messages that include the invalid input.
 
 \end{exercise}
 
 
-\begin{exercise}  %%V6 Ex6.4
+\begin{exercise}  %%V6 Ex6.3
 
-Many computations can be expressed more concisely using the ``multadd'' operation, which takes three operands and computes \java{a * b + c}.
-Some processors even provide a hardware implementation of this operation for floating-point numbers.
+If you are given three sticks, you may or may not be able to arrange them in a triangle.
+For example, if one of the sticks is 12 inches long and the other two are one inch long, you will not be able to get the short sticks to meet in the middle.
+For any three lengths, there is a simple test to see if it is possible to form a triangle:
 
-\begin{enumerate}
+\begin{quotation}
+\noindent
+If any of the three lengths is greater than the sum of the other two, you cannot form a triangle.
+\end{quotation}
 
-\item Create a new program called {\tt Multadd.java}.
-
-\item Write a method called \java{multadd} that takes three \java{doubles} as parameters and that returns \java{a * b + c}.
-
-\item Write a \java{main} method that tests \java{multadd} by invoking it with a few simple parameters, like \java{1.0, 2.0, 3.0}.
-
-\item Also in \java{main}, use \java{multadd} to compute the following values:
-%
-\begin{eqnarray*}
-& \sin \frac{\pi}{4} + \frac{\cos \frac{\pi}{4}}{2} & \\
-& \log 10 + \log 20 &
-\end{eqnarray*}
-
-\item Write a method called \java{expSum} that takes a double as a parameter and that uses \java{multadd} to calculate:
-%
-\begin{eqnarray*}
-x e^{-x} + \sqrt{1 - e^{-x}}
-\end{eqnarray*}
-%
-{\it Hint:} The method for raising $e$ to a power is \java{Math.exp}.
-
-\end{enumerate}
-
-In the last part of this exercise, you need to write a method that invokes another method you wrote.
-Whenever you do that, it is a good idea to test the first method carefully before working on the second.
-Otherwise, you might find yourself debugging two methods at the same time, which can be difficult.
-
-One of the purposes of this exercise is to practice pattern-matching: the ability to recognize a specific problem as an instance of a general category of problems.
+Write a program named \java{Triangle.java} that inputs three integers, and then outputs whether you can (or cannot) form a triangle from the given lengths.
+%The point of this exercise is to use conditional statements to write a value method.
+Reuse your code from the previous exercise to validate the inputs.
+Display an error if any of the lengths are negative or zero.
 
 \end{exercise}
