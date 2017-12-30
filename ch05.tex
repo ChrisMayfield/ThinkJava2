@@ -387,6 +387,61 @@ if (!evenFlag) {
 \end{code}
 
 
+\section{Boolean methods}
+
+\index{boolean}
+\index{method!boolean}
+
+Methods can return \java{boolean} values, just like any other type, which is often convenient for hiding tests inside methods.
+For example:
+
+\begin{code}
+public static boolean isSingleDigit(int x) {
+    if (x > -10 && x < 10) {
+        return true;
+    } else {
+        return false;
+    }
+}
+\end{code}
+
+The name of this method is \java{isSingleDigit}.
+It is common to give \java{boolean} methods names that sound like yes/no questions.
+Since the return type is \java{boolean}, the return statement has to provide a boolean expression.
+
+The code itself is straightforward, although it is longer than it needs to be.
+Remember that the expression \java{x > -10 && x < 10} has type \java{boolean}, so there is nothing wrong with returning it directly (without the \java{if} statement):
+
+\begin{code}
+public static boolean isSingleDigit(int x) {
+    return x > -10 && x < 10;
+}
+\end{code}
+
+In \java{main}, you can invoke the method in the usual ways:
+
+\begin{code}
+System.out.println(isSingleDigit(2));
+boolean bigFlag = !isSingleDigit(17);
+\end{code}
+
+The first line displays {\tt true} because 2 is a single-digit number.
+The second line sets \java{bigFlag} to \java{true}, because 17 is {\em not} a single-digit number.
+
+Conditional statements often invoke \java{boolean} methods and use the result as the condition:
+
+\begin{code}
+if (isSingleDigit(z)) {
+    System.out.println("z is small");
+} else {
+    System.out.println("z is big");
+}
+\end{code}
+
+Examples like this one almost read like English:
+``If is single digit z, print ... else print ...''.
+
+
 \section{Validating input}
 \label{validate}
 
