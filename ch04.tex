@@ -218,26 +218,6 @@ public class NewLine {
 }
 \end{trinket}
 
-Beginners often wonder why it's worth the trouble to write other methods, when they could just do everything in \java{main}.
-The \java{NewLine} example demonstrates a few reasons:
-
-\begin{itemize}
-
-\item Creating a new method allows you to {\em name a block of statements}, which makes the code easier to read and understand.
-%Methods simplify a program by hiding complex computations behind a single statement, and by using English words in place of arcane code.
-%Which is clearer, \java{newLine} or \java{System.out.println()}?
-
-\item Introducing new methods can {\em make the program shorter} by eliminating repetitive code.
-For example, to display nine consecutive newlines, you could invoke \java{threeLine} three times.
-
-\item A common problem-solving technique is to {\em break problems down} into sub-problems.
-Methods allow you to focus on each sub-problem in isolation, and then compose them into a complete solution.
-
-\end{itemize}
-
-Perhaps most importantly, organizing your code into multiple methods allows you to test individual parts of your program separately.
-It's easier to get a complex program working if you know that each method works correctly.
-
 
 \section{Flow of execution}
 
@@ -265,6 +245,26 @@ So when \java{println} completes, it picks up where it left off in \java{newLine
 %Technically, the program does not terminate at the end of \java{main}.
 %Instead, execution picks up where it left off in the program that invoked \java{main}, which is the Java interpreter.
 %The interpreter takes care of things like deleting windows and general cleanup, and {\em then} the program terminates.
+
+Beginners often wonder why it's worth the trouble to write other methods, when they could just do everything in \java{main}.
+The \java{NewLine} example demonstrates a few reasons:
+
+\begin{itemize}
+
+\item Creating a new method allows you to {\em name a block of statements}, which makes the code easier to read and understand.
+%Methods simplify a program by hiding complex computations behind a single statement, and by using English words in place of arcane code.
+%Which is clearer, \java{newLine} or \java{System.out.println()}?
+
+\item Introducing new methods can {\em make the program shorter} by eliminating repetitive code.
+For example, to display nine consecutive newlines, you could invoke \java{threeLine} three times.
+
+\item A common problem-solving technique is to {\em break problems down} into sub-problems.
+Methods allow you to focus on each sub-problem in isolation, and then compose them into a complete solution.
+
+\end{itemize}
+
+Perhaps most importantly, organizing your code into multiple methods allows you to test individual parts of your program separately.
+It's easier to get a complex program working if you know that each method works correctly.
 
 
 \section{Parameters and arguments}

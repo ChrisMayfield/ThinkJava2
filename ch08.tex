@@ -286,8 +286,8 @@ In fact, you are already practicing this leap of faith when you use methods in t
 When you invoke \java{Math.cos} or \java{System.out.println}, you don't examine or think about the implementations of those methods.
 You just assume that they work properly.
 
-For example, this method (from Section~\ref{boolmeth}) determines whether an integer has only one digit.
-Once you convince yourself that this method is correct -- by testing and examination of the code -- you can use the method without ever looking at the implementation again.
+The same is true of other methods.
+For example, consider the method from Section~\ref{boolmeth} that determines whether an integer has only one digit:
 
 \begin{code}
 public static boolean isSingleDigit(int x) {
@@ -295,8 +295,11 @@ public static boolean isSingleDigit(int x) {
 }
 \end{code}
 
-The same is true of recursive methods.
-When you get to the recursive call, instead of following the flow of execution you should {\em assume} that the recursive invocation works.
+Once you convince yourself that this method is correct -- by examining and testing the code -- you can just use the method without ever looking at the implementation again.
+
+Recursive methods are no different.
+When you get to a recursive call, don't try to follow the flow of execution.
+Instead, you should {\em assume} that the recursive call produces the desired result.
 
 For example, ``Assuming that I can find the factorial of $n-1$, can I compute the factorial of $n$?''
 Yes you can, by multiplying by $n$.
@@ -322,7 +325,7 @@ Of course, it is strange to assume that the method works correctly when you have
 But that's why it's called the leap of faith!
 
 
-\section{Fibonacci sequence}
+%\section{Fibonacci sequence}
 \label{fibonacci}
 
 \index{fibonacci}
@@ -696,6 +699,15 @@ As you develop your code, test it with a small number of verses, like \java{3}.
 \end{exercise}
 
 
+\begin{exercise}  %%V6 Ex6.7
+
+Write a recursive method named \java{oddSum} that takes a positive odd integer \java{n} and returns the sum of odd integers from 1 to n.
+Start with a base case, and use temporary variables to debug your solution.
+You might find it helpful to print the value of \java{n} each time \java{oddSum} is invoked.
+
+\end{exercise}
+
+
 \begin{exercise}  %%V6 Ex6.6
 
 In this exercise, you will use a stack diagram to understand the execution of the following recursive method.
@@ -729,15 +741,6 @@ public static int prod(int m, int n) {
 {\it Hint:} You only need one line for the \java{else} branch.
 
 \end{enumerate}
-
-\end{exercise}
-
-
-\begin{exercise}  %%V6 Ex6.7
-
-Write a recursive method named \java{oddSum} that takes a positive odd integer \java{n} and returns the sum of odd integers from 1 to n.
-Start with a base case, and use temporary variables to debug your solution.
-You might find it helpful to print the value of \java{n} each time \java{oddSum} is invoked.
 
 \end{exercise}
 
@@ -805,6 +808,7 @@ Write a method called \java{max} that takes an array and uses \java{maxInRange} 
 \end{exercise}
 
 
+\newpage
 \begin{exercise}  %%V6 Ex9.4
 
 Create a program called {\tt Recurse.java} and type in the following methods:
