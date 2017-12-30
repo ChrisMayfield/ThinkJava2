@@ -47,18 +47,18 @@ For example, the expression \java{5 < "6"} is invalid because \java{5} is an \ja
 When comparing values of different numeric types, Java applies the same conversion rules we saw previously with the assignment operator.
 For example, when evaluating the expression \java{5 < 6.0}, Java automatically converts the \java{5} to \java{5.0}.
 
-%Most relational operators don't work with strings.
-%But confusingly, \java{==} and \java{!=} do work with strings -- they just don't do what you expect.
-%We'll explain what they do later; in the meantime, don't use them with strings.
-%Instead, you should use the \java{equals} method:
-%
-%\begin{code}
-%String fruit1 = "Apple";
-%String fruit2 = "Orange";
-%System.out.println(fruit1.equals(fruit2));
-%\end{code}
-%
-%The result of \java{fruit1.equals(fruit2)} is the boolean value \java{false}.
+Most relational operators don't work with strings.
+But confusingly, \java{==} and \java{!=} \emph{seem} to work with strings -- they just don't do what you expect.
+We'll explain what they do later, but in the meantime, don't use them with strings.
+Instead, you should use the \java{equals} method:
+
+\begin{code}
+String fruit1 = "Apple";
+String fruit2 = "Orange";
+System.out.println(fruit1.equals(fruit2));
+\end{code}
+
+The result of \java{fruit1.equals(fruit2)} is the boolean value \java{false}.
 
 
 \section{The if-else statement}
@@ -388,6 +388,7 @@ if (!evenFlag) {
 
 
 \section{Boolean methods}
+\label{boolmeth}
 
 \index{boolean}
 \index{method!boolean}
@@ -450,7 +451,9 @@ Examples like this one almost read like English:
 
 One of the most important tasks in any computer program is to {\bf validate} input from the user.
 People often make mistakes while typing, especially on smartphones, and incorrect inputs may cause your program to fail.
+
 Even worse, someone (i.e., a {\bf hacker}) may intentionally try to break into your system by entering unexpected inputs.
+You should never assume that users will input the right kind of data.
 
 Consider this simple program that prompts the user for a number and computes its logarithm:
 

@@ -11,7 +11,7 @@ Finally, we'll discuss strategies for incrementally developing and testing your 
 
 \section{Math methods}
 
-In the next two sections, we'll take a break from conditions and logic and discuss other areas of mathematics in Java.
+%In the next two sections, we'll take a break from conditions and logic and discuss other areas of mathematics in Java.
 
 \index{Math class}
 \index{class!Math}
@@ -190,9 +190,12 @@ Second line.
 
 Notice the extra space between the lines.
 If we wanted more space between them, we could invoke the same method repeatedly.
-
-%Or we could write yet another method (named \java{threeLine}) that displays three blank lines:
+Or we could write yet another method (named \java{threeLine}) that displays three blank lines.
 %Pulling together the code from the previous section, the complete program looks like this:
+
+In the following program, \java{main} invokes \java{threeLine}, and \java{threeLine} invokes \java{newLine} three times.
+%Since \java{newLine} has no parameters, it requires no arguments, as shown when it is invoked in \java{main}.
+Because \java{newLine} is in the same class as \java{threeLine}, we don't have to specify the class name like \java{NewLine.newLine()}.
 
 \begin{trinket}{NewLine.java}
 public class NewLine {
@@ -215,11 +218,7 @@ public class NewLine {
 }
 \end{trinket}
 
-In this example, \java{main} invokes \java{threeLine}, and \java{threeLine} invokes \java{newLine} three times.
-%Since \java{newLine} has no parameters, it requires no arguments, as shown when it is invoked in \java{main}.
-Because \java{newLine} is in the same class as \java{threeLine}, we don't have to specify the class name like \java{NewLine.newLine()}.
-
-Beginners wonder why it's worth the trouble to write other methods, when they could just do everything in \java{main}.
+Beginners often wonder why it's worth the trouble to write other methods, when they could just do everything in \java{main}.
 The \java{NewLine} example demonstrates a few reasons:
 
 \begin{itemize}
@@ -791,6 +790,12 @@ This exercise reviews the flow of execution through a program with multiple meth
 Read the following code and answer the questions.
 
 \begin{code}
+public static void main(String[] args) {
+    zippo("rattle", 13);
+}
+\end{code}
+
+\begin{code}
 public static void baffle(String blimp) {
     System.out.println(blimp);
     zippo("ping", -5);
@@ -806,12 +811,6 @@ public static void zippo(String quince, int flag) {
         baffle(quince);
         System.out.println("boo-wa-ha-ha");
     }
-}
-\end{code}
-
-\begin{code}
-public static void main(String[] args) {
-    zippo("rattle", 13);
 }
 \end{code}
 
