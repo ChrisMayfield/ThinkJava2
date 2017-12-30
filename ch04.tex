@@ -683,98 +683,6 @@ As you gain more experience programming, you might write and debug more than one
 But by using incremental development, scaffolding, and testing, your code is more likely to be correct the first time.
 
 
-\section{Method composition}
-
-\index{composition}
-
-Once you define a method, you can use it to build other methods.
-For example, suppose someone gave you two points -- the center of a circle and a point on the perimeter -- and asked for the area of the circle.
-
-Let's say the center point is stored in the variables \java{xc} and \java{yc}, and the perimeter point is in \java{xp} and \java{yp}.
-The first step is to find the radius of the circle, which is the distance between the two points.
-Fortunately, we have a method that does just that.
-
-\begin{code}
-double radius = distance(xc, yc, xp, yp);
-\end{code}
-
-The second step is to find the area of a circle with that radius.
-We have a method for that computation too.
-
-\begin{code}
-double area = calculateArea(radius);
-\end{code}
-
-Putting everything together in a new method, we get:
-
-\begin{code}
-public static double circleArea
-        (double xc, double yc, double xp, double yp) {
-    double radius = distance(xc, yc, xp, yp);
-    double area = calculateArea(radius);
-    return area;
-}
-\end{code}
-
-Temporary variables like \java{radius} and \java{area} are useful for development and debugging, but once the program is working we can make it more concise by composing the method calls:
-
-\begin{code}
-public static double circleArea
-        (double xc, double yc, double xp, double yp) {
-    return calculateArea(distance(xc, yc, xp, yp));
-}
-\end{code}
-
-\index{functional decomposition}
-
-This example demonstrates a process known as {\bf functional decomposition}.
-We broke a complex computation into simple methods, tested the methods in isolation, and then composed the methods to perform the final computation.
-%This process reduces debugging time and yields code that is more likely to be correct and easier to maintain.
-
-%Computer scientists deal with the complexity of large programs by breaking down computations into simpler methods (which in turn may call other methods).
-%Data is passed around the program via parameters and return values.
-
-
-\section{Overloading methods}
-
-You might have noticed that \java{circleArea} and \java{calculateArea} perform similar functions.
-They both find the area of a circle, but they take different parameters.
-For \java{calculateArea}, we have to provide the radius; for \java{circleArea} we provide two points.
-
-\index{overload}
-
-If two methods do the same thing, it is natural to give them the same name.
-Having more than one method with the same name is called {\bf overloading}, and it is legal in Java as long as each version of the method takes different parameters.
-So we could rename \java{circleArea} to \java{calculateArea}:
-
-\begin{code}
-public static double calculateArea
-        (double xc, double yc, double xp, double yp) {
-    return calculateArea(distance(xc, yc, xp, yp));
-}
-\end{code}
-
-%Note that this new \java{calculateArea} method is {\em not} recursive.
-When you invoke an overloaded method, Java knows which version you want by looking at the arguments that you provide.
-
-\begin{itemize}
-
-\item For \java{calculateArea(3.0)}, Java uses the original \java{calculateArea} method that takes a \java{double} as an argument and interprets it as the radius.
-
-\item For \java{calculateArea(1.0, 2.0, 4.0, 6.0)}, Java uses the new version of \java{calculateArea} (renamed from \java{circleArea}), which interprets the arguments as two points.
-
-\end{itemize}
-
-In fact, the second version of \java{calculateArea} invokes the first version (after invoking the \java{distance} method).
-
-Many Java library methods are overloaded, meaning that there are different versions that accept different numbers or types of parameters.
-For example, there are variants of \java{print} and \java{println} that accept a single parameter of any data type.
-In the \java{Math} class, there is a version of \java{abs} that works on \java{double}s, and there is also a version for \java{int}s.
-
-Although overloading is a useful feature, it should be used with caution.
-You might get yourself nicely confused if you are trying to debug one version of a method while accidentally invoking a different one.
-
-
 \section{Vocabulary}
 
 \begin{description}
@@ -840,13 +748,6 @@ A placeholder for an incomplete method so that the class will compile.
 
 \term{scaffolding}
 Code that is used during program development but is not part of the final version.
-
-\term{functional decomposition}
-A process for breaking down a complex computation into simple methods, then composing the methods to perform the computation.
-
-\term{overload}
-To define more than one method with the same name but with different parameters.
-%When you invoke an overloaded method, Java knows which version to use by looking at the arguments you provide.
 
 \end{description}
 
