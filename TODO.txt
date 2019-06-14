@@ -1,0 +1,103 @@
+Chapter 1:
+  many students confused about byte code -- revise? add javap example?
+
+Chapter 2:
+  introduce floating-point numbers more carefully  [Issue #3]
+  make it more clear that syntax errors are a type of compiler error
+  crash = run-time error, bug = logic error (give more examples)
+  memory diagrams are not program output; explain more about them
+  should there be a small operator precedence table like in Act02?
+
+Chapter 3:
+  simplify the paragraph about the import statement (extra details)
+  better explanations / table of examples about format specifiers
+  "decimal integer" is confusing; add more explanation  [Issue #7]
+  add %x/%X (hexadecimal) and %e/%E (exponential) to format specs?
+  should there be a table of primitive data types like in Act03?
+
+Chapter 4:
+  add examples of writing methods to compute values (do void second?)
+  the first example should be something better than threeLine/println
+  talk more about arguments (how to count them) and return values
+  should there be a table of common math methods like in Act04?
+
+Chapter 5:
+  venn diagram to illustrate the meaning of if, else, &&, ||
+  Math.log only if (x > 0) (not >=, it returns -Infinity at 0)
+  add if-else-if example that uses a single return statement?
+  write the switch statement section? (or put in Chapter 6?)
+
+Chapter 6:
+  discuss while (as long as) vs do-while (repeat until) vs for (iterate each)
+    ** concrete example of each loop, in the context of solving a problem **
+  explain substring(a, b) before substring(a) -- instead of substring(a, N-1)
+  add example: if (input == "yes") is always false, regardless of user input
+  6.8 strcmp: change else-if in last branch to else; make == the else case
+
+Chapter 7:
+  not much from SII, except a few questions about enhanced for loops
+  what happened to Arrays.sort? we should show an example of this method
+
+Chapter 8:
+  perhaps explain Fibonacci numbers before showing the definition
+
+Chapter 9:
+  what is even the point of objects in the first place?
+  talk more about the design process (book as a whole, not just ch09)
+  argument validation? purpose for short circuit (e.g., null vs empty)
+  explain more about BigInteger (how they work and what they are for)
+
+Chapter 10:
+  confused when the book said attributes might refer to as "fields" in the documentation
+  split 10.9 into two sections (create 10.10 about StringBuilder)
+  could 10.6 Java library source be moved into Chapter 9?
+  need to introduce Object before Act11 (somewhere in Ch9 or 10)
+  new section on variable scope (static, instance, parameter, local)  [Issue #9]
+
+Chapter 11:
+  need more explanation of "this." (and "that." isn't helpful)
+  explain the terms default constructor and value constructor? -- need more on constructors
+  show an example of calling each method after it's defined (constructor, equals, toString)
+  Time.java should not be a Trinket -- running it doesn't "do" anything (are there others?)
+
+Chapter 12:
+  include a Trinket somewhere? maybe with printing out the cards?
+
+Chapter 13:
+  add more details about UML diagrams (static methods, final attributes)
+
+Chapter 14:
+  talk more about packages somewhere near the end of the book?
+
+Chapter 15:
+  advanced object-oriented: interfaces, abstract classes, List, simulation?
+  instanceof so that assertEquals works if you write your own equals method
+
+Chapter 16:
+  working with data: 2D arrays, file I/O, exception handling (e.g., IllegalArgumentException)
+
+Appendix A:
+  update JUnit to Version 4 or 5; explain what deprecated means? (for assertEquals on double)
+  move JUnit to Chapter 9 and expand? instead of program development and generalization?
+  new section about JaCoCo?
+
+Appendix B:
+
+Appendix C:
+  remove duplicate figure/text in Chapter 10
+
+Appendix D:
+  stack trace (how to read)
+
+Appendix E:
+  try to eliminate by integrating content back into the main chapters
+
+# spell check main text; ignore code/output/trinket blocks
+detex -e code,stdout,trinket thinkjava.tex > thinkjava.txt
+
+# search for URLs; make sure they all work
+grep -o '\\url{[^}]*}' *.tex
+grep -o '\\href{[^}]*}{[^}]*}' *.tex
+
+# search for escapes in \java; remove from Atlas
+grep -no 'java{[^}]*}' *.tex | grep '\\'
