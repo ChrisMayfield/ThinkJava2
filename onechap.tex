@@ -10,7 +10,7 @@
 \newcommand{\thetitle}{Think Java}
 \newcommand{\thesubtitle}{How to Think Like a Computer Scientist}
 \newcommand{\theauthors}{Allen B. Downey and Chris Mayfield}
-\newcommand{\theversion}{7.0.0 DRAFT}
+\newcommand{\theversion}{2nd Edition, Version 7.0.0 DRAFT}
 
 %%%% Both LATEX and PLASTEX
 
@@ -18,10 +18,6 @@
 \usepackage{setspace}
 
 %BEGIN LATEX
-\usepackage{comment}
-\excludecomment{htmlonly}
-\includecomment{latexonly}
-
 \usepackage{imakeidx}
 \makeindex[options= -s headings.ist]
 %END LATEX
@@ -77,6 +73,10 @@
 
 %%%% LATEX ONLY
 \else
+
+\usepackage{comment}
+\excludecomment{htmlonly}
+\includecomment{latexonly}
 
 \input{latexonly.tex}
 
