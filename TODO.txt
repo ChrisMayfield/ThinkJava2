@@ -75,11 +75,13 @@ Chapter 15:
 
 Chapter 16:
   working with data: 2D arrays, file I/O, exception handling (e.g., IllegalArgumentException)
+  bring back Conway's Game of Life material from V5? or Langton's ant?
 
 Appendix A:
+  remove DrJava? (move to online setup instructions)
   update JUnit to Version 4 or 5; explain what deprecated means? (for assertEquals on double)
   move JUnit to Chapter 9 and expand? instead of program development and generalization?
-  new section about JaCoCo?
+  new section about JaCoCo? new section about JShell?
 
 Appendix B:
 

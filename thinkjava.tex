@@ -14,10 +14,6 @@
 \usepackage{setspace}
 
 %BEGIN LATEX
-\usepackage{comment}
-\excludecomment{htmlonly}
-\includecomment{latexonly}
-
 \usepackage{imakeidx}
 \makeindex[options= -s headings.ist]
 %END LATEX
@@ -73,6 +69,10 @@
 
 %%%% LATEX ONLY
 \else
+
+\usepackage{comment}
+\excludecomment{htmlonly}
+\includecomment{latexonly}
 
 \input{latexonly.tex}
 
