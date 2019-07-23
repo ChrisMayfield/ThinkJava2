@@ -13,8 +13,6 @@
 \usepackage{graphicx}
 \usepackage{setspace}
 
-\makeindex
-
 % automatically index glossary terms
 \newcommand{\term}[1]{%
 \item[#1:]\index{#1}}
@@ -41,9 +39,12 @@
 %%%% PLASTEX ONLY
 \ifplastex
 
+\makeindex
+
 \usepackage{localdef}
 
 \usepackage{url}
+\renewcommand{\href}[2]{\url{#1}}
 
 \newcount\anchorcnt
 \newcommand*{\Anchor}[1]{%
