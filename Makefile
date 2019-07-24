@@ -8,6 +8,27 @@ all:
 clean:
 	rm -f comment.cut $(F).aux $(F).idx $(F).ilg $(F).ind $(F).log $(F).out $(F).toc
 
+plastex:
+	# Before running plastex, we need the current directory in PYTHONPATH
+	# export PYTHONPATH=$PYTHONPATH:.
+	python2 preprocess.py $(F).tex > $(F).plastex
+	plastex --renderer=DocBook --theme=book --image-resolution=300 --filename=$(F).xml $(F).plastex
+	cd $(F); python2 ../postprocess.py $(F).xml > temp; mv temp $(F).xml
+
+xxe:
+	xmlcopyeditor ~/ThinkJava/$(F)/$(F).xml &
+
+lint:
+	xmllint -noout $(F)/$(F).xml
+
+oreilly:
+	rsync -a thinkjava/thinkjava.xml atlas
+	rsync -a figs/*.pdf atlas/figs/
+	rsync -a figs/*.png atlas/figs/
+	cd atlas; git add thinkjava.xml figs/*
+	cd atlas; git commit -m "Automated check in."
+	cd atlas; git push
+
 # a bug (in ocaml?) causes "make hevea" to fail; use "make -i hevea" instead
 .PHONY: hevea
 hevea:
