@@ -11,7 +11,8 @@ clean:
 plastex:
 	# Before running plastex, we need the current directory in PYTHONPATH
 	# export PYTHONPATH=$PYTHONPATH:.
-	python2 preprocess.py $(F).tex > $(F).plastex
+	latexpand --keep-comments $(F).tex > $(F).expand
+	python2 preprocess.py $(F).expand > $(F).plastex
 	plastex --renderer=DocBook --theme=book --image-resolution=300 --filename=$(F).xml $(F).plastex
 	cd $(F); python2 ../postprocess.py $(F).xml > temp; mv temp $(F).xml
 
