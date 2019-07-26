@@ -50,6 +50,7 @@
 \usepackage{url}
 \renewcommand{\href}[2]{\url{#1}}
 
+\makeatletter
 \newcount\anchorcnt
 \newcommand*{\Anchor}[1]{%
   \@bsphack%
@@ -59,6 +60,7 @@
     \M@gettitle{}\label{#1}%
     \@esphack%
 }
+\makeatother
 
 % code listing environments:
 % we don't need these for plastex because they get replaced
@@ -68,8 +70,9 @@
 
 % inline syntax formatting
 \newcommand{\java}{\verb}%}
+\newcommand{\textcolor}[1]{\relax}
 
-%%%% LATEX ONLY
+%%%% LATEX/HTML ONLY
 \else
 
 \usepackage{comment}
