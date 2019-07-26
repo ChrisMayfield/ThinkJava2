@@ -20,3 +20,10 @@ thinkjava.pdf
 # HTML builds
 heveahtml/*
 trinkethtml/*
+
+# plasTeX builds
+thinkjava/*
+thinkjava.expand
+thinkjava.plastex
+thinkjava.paux
+*.pyc
