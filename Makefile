@@ -23,9 +23,10 @@ lint:
 	xmllint -noout $(F)/$(F).xml
 
 oreilly:
-	rsync -a thinkjava/thinkjava.xml atlas
+	rsync -a thinkjava/thinkjava.xml atlas/
 	rsync -a figs/*.pdf atlas/figs/
 	rsync -a figs/*.png atlas/figs/
+	rsync -a figs/*.jpg atlas/figs/
 	cd atlas; git add thinkjava.xml figs/*
 	cd atlas; git commit -m "Automated check in."
 	cd atlas; git push
