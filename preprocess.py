@@ -19,6 +19,7 @@ def main(name, filename, *argv):
     ft.sub_lines(r'Figure~\\ref', r'~\\ref')
     ft.sub_lines(r'Exercise~\\ref', r'~\\ref')
     ft.sub_lines(r'\\java{\\%', r'\\java{%')
+    ft.sub_lines(r'\\textless\\textgreater\\', r'plasTeXangle')
     print ft
 
 if __name__ == '__main__':
