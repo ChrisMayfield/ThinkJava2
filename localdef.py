@@ -57,7 +57,7 @@ class index(Base.Command):
 
     def invoke(self, tex):
         Base.Command.invoke(self, tex)
-        self.ownerDocument.context.label(idgen.next(), self)
+        self.ownerDocument.context.label(next(idgen), self)
         p0,p1,s0,s1 = self.setEntry(self.attributes['termstring'])
         if p0:
             self.prisort = '%s' % p0
