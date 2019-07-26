@@ -17,7 +17,7 @@ plastex:
 	cd $(F); python2 ../postprocess.py $(F).xml > temp; mv temp $(F).xml
 
 xxe:
-	xmlcopyeditor ~/ThinkJava/$(F)/$(F).xml &
+	xmlcopyeditor ~/ThinkJava2/$(F)/$(F).xml &
 
 lint:
 	xmllint -noout $(F)/$(F).xml
