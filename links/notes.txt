@@ -10,19 +10,18 @@ python get_urls.py > urls2.csv; localc urls2.csv &
 
 3) Replace the long URLs with the short ones:
 
-python set_urls.py > book.tex
-meld ../book.tex book.tex
- 
+python set_urls.py  # copies tex files to this directory
+
 4) Generate the htaccess lines
 
 python gen_htaccess.py > htaccess
 
 5) Paste the htaccess lines into ~/public_html/greent/.htaccess
 
-6) Commit the latest version of book.tex, then replace it
+6) Replace the latest version of *.tex, then commit them
 
-python set_urls.py > book.tex
-mv book.tex ..
+mv *.tex ..
+meld ..
 
 7) Get the URLs again and test them
 
