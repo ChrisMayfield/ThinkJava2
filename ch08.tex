@@ -1,4 +1,4 @@
-\chapter{Recursive methods}
+\chapter{Recursive Methods}
 
 \index{iterative}
 \index{recursive}
@@ -11,7 +11,7 @@ In this chapter, we will explore one of the most magical things that a method ca
 A method that invokes itself is called {\bf recursive}.
 
 
-\section{Recursive void methods}
+\section{Recursive Void Methods}
 \label{recursion}
 
 \index{countdown}
@@ -98,7 +98,7 @@ As long as $n$ is greater than zero, it displays a newline and then invokes itse
 The total number of newlines is $1 + (n - 1)$, which is just what we wanted: $n$.
 
 
-\section{Recursive stack diagrams}
+\section{Recursive Stack Diagrams}
 
 \index{stack diagram}
 \index{diagram!stack}
@@ -150,7 +150,7 @@ This method displays the string until the stack overflows, at which point it thr
 Try this example on your computer -- you might be surprised by how long the error message is!
 
 
-\section{Value returning methods}
+\section{Value Returning Methods}
 \label{factorial}
 
 %\index{Turing complete}
@@ -273,7 +273,7 @@ Notice that \java{recurse} and \java{result} do not exist in the last frame, bec
 \end{figure}
 
 
-\section{The leap of faith}
+\section{The Leap of Faith}
 \label{leap_of_faith}
 
 \index{leap of faith}
@@ -325,7 +325,7 @@ Of course, it is strange to assume that the method works correctly when you have
 But that's why it's called the leap of faith!
 
 
-%\section{Fibonacci sequence}
+%\section{Fibonacci Sequence}
 \label{fibonacci}
 
 \index{fibonacci}
@@ -353,7 +353,7 @@ If you try to follow the flow of execution here, even for small values of \java{
 But if we take a leap of faith and assume that the two recursive invocations work correctly, then it is clear, looking at the definition, that our implementation is correct.
 
 
-\section{Binary number system}
+\section{Binary Number System}
 
 Before introducing the next recursive example, we need to discuss how integers are represented by a computer.
 
@@ -448,7 +448,7 @@ If you keep track of the remainders, you'll have your binary number.
 Reading these remainders from bottom to top, 23 in binary is 10111.
 
 
-\section{Recursive binary method}
+\section{Recursive Binary Method}
 
 We can write a recursive method to convert decimal to binary.
 Doing so will demonstrate how to compute results in reverse order.
@@ -517,7 +517,7 @@ System.out.println();
 \end{code}
 
 
-\section{CodingBat problems}
+\section{CodingBat Problems}
 
 In the past several chapters of this book, you've seen conditions, methods, loops, strings, arrays, and recursion.
 A great resource for practicing all of these concepts is \url{https://codingbat.com/}.

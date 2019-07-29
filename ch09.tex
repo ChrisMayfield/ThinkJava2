@@ -1,4 +1,4 @@
-\chapter{Immutable objects}
+\chapter{Immutable Objects}
 \label{immutable}
 
 \index{object-oriented}
@@ -20,7 +20,7 @@ Other data types, like \java{Integer}, contain numbers and provide methods for m
 We will explore some of those methods in this chapter.
 
 
-\section{Primitives vs objects}
+\section{Primitives vs Objects}
 
 \index{primitive}
 
@@ -89,7 +89,7 @@ On the other hand, two \java{String} objects with the same characters would not 
 The \java{==} operator, when applied to string variables, only tests whether they refer to the {\em same} object.
 
 
-%\section{The null keyword}
+%\section{The null Keyword}
 
 \index{null}
 
@@ -126,7 +126,7 @@ On the other hand, it is perfectly fine to pass a \java{null} reference as an ar
 In these situations, \java{null} is often used to represent a special condition or indicate an error.
 
 
-\section{Strings are immutable}
+\section{Strings are Immutable}
 
 If the Java library didn't have a \java{String} class, we would have to use character arrays to store and manipulate text.
 Operations like concatenation (\java{+}), \java{indexOf}, and \java{substring} would be difficult and inconvenient.
@@ -193,7 +193,7 @@ Strings are immutable by design, because it simplifies passing them between meth
 And since the contents of a string can never change, two variables can reference the same string without one accidentally corrupting the other.
 
 
-\section{Wrapper classes}
+\section{Wrapper Classes}
 
 Primitive values (like \java{int}s, \java{double}s, and \java{char}s) cannot be \java{null}, and they do not provide methods.
 For example, you can't invoke \java{equals} on an \java{int}:
@@ -273,7 +273,7 @@ int num = Integer.parseInt(str);  // NumberFormatException
 \end{code}
 
 
-\section{Command-line arguments}
+\section{Command-Line Arguments}
 
 \index{args}
 \index{command-line interface}
@@ -355,7 +355,7 @@ It's customary for programs that require command-line arguments to display a ``u
 For example, if you run {\tt javac} or {\tt java} from the command line without any arguments, you will get a very long message.
 
 
-\section{BigInteger arithmetic}
+\section{BigInteger Arithmetic}
 % CSM based on text from V6 Exercise 10.4
 
 It might not be clear at this point why you would ever need an integer object when you can just use an \java{int} or \java{long}.
@@ -410,7 +410,7 @@ For very long floating-point values, take a look at \java{java.math.BigDecimal}.
 Interestingly, \java{BigDecimal} objects represent floating-point numbers internally by encapsulating a \java{BigInteger}!
 
 
-\section{Program development}
+\section{Program Development}
 \label{encapsulation}
 
 This chapter introduces two main concepts: objects encapsulate other types of data, and they can be designed to be immutable.
@@ -538,7 +538,7 @@ And the output looks like this:
 %The format specifier \java{\%4d} in \java{printRow} causes the output to align vertically, regardless of whether the numbers are one or two digits.
 
 
-\section{More generalization}
+\section{More Generalization}
 
 The previous result is similar to the ``nested loops'' approach in Section~\ref{nested}.
 However, the inner loop is now encapsulated in the \java{printRow} method.

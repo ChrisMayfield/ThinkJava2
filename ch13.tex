@@ -1,4 +1,4 @@
-\chapter{Objects of arrays}
+\chapter{Objects of Arrays}
 
 \index{array!of cards}
 
@@ -17,7 +17,7 @@ Finally, we introduce \java{ArrayList} from the Java library and use it to keep 
 %Instructions for downloading this code are on page~\pageref{code}.
 
 
-\section{Decks of cards}
+\section{Decks of Cards}
 \label{deck}
 
 \index{Deck}
@@ -103,7 +103,7 @@ Notice that when we transform a static method into an instance method, the code 
 We can simply type \java{deck.print()} to invoke this method.
 
 
-\section{Shuffling decks}
+\section{Shuffling Decks}
 \label{shuffle}
 
 \index{shuffle}
@@ -166,7 +166,7 @@ It is similar to ``incremental development'' and ``encapsulation and generalizat
 One of the exercises at the end of the chapter asks you to write the helper methods \java{randomInt} and \java{swapCards}, and use them to implement \java{shuffle}.
 
 
-\section{Selection sort}
+\section{Selection Sort}
 \label{sorting}
 
 \index{selection sort}
@@ -202,7 +202,7 @@ private int indexLowest(int low, int high) {
 One of the exercises at the end of the chapter asks you to write \java{indexLowest}, and then use it and \java{swapCards} to implement \java{selectionSort}.
 
 
-\section{Merge sort}
+\section{Merge Sort}
 \label{mergesort}
 
 \index{efficiency}
@@ -303,7 +303,7 @@ But since \java{Card} objects are immutable, this kind of aliasing is not a prob
 It also saves a lot of memory, because we never have to create duplicate \java{Card} objects.
 
 
-\section{Merging decks}
+\section{Merging Decks}
 
 \index{merge}
 
@@ -346,7 +346,7 @@ public Deck almostMergeSort() {
 \end{code}
 
 
-\section{Adding recursion}
+\section{Adding Recursion}
 
 Now that we have a way to \java{merge} two decks, the real fun begins!
 The magical thing about merge sort is that it is inherently recursive.
@@ -388,7 +388,7 @@ But other than that, writing the recursive version should be no problem.
 The most difficult part of merge sort is the \java{merge} method, and that part is not recursive.
 
 
-\section{Static context}
+\section{Static Context}
 
 Figure~\ref{fig.deck} lists the \java{Deck} methods we have so far.
 In UML diagrams, \java{private} methods begin with a minus sign (\java{-}), and \java{static} methods are underlined.
@@ -455,7 +455,7 @@ The \java{merge} method needs to create and return a new \java{Deck} object.
 %\end{code}
 
 
-\section{Piles of cards}
+\section{Piles of Cards}
 
 \index{War (card game)}
 

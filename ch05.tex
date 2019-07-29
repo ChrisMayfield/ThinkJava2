@@ -1,4 +1,4 @@
-\chapter{Conditionals and logic}
+\chapter{Conditionals and Logic}
 
 \index{boolean}
 \index{type!boolean}
@@ -9,7 +9,7 @@ This chapter introduces Java language features for expressing logic and making d
 We'll also take a look at the \java{Math} class, which provides methods for common mathematical operations.
 
 
-\section{Relational operators}
+\section{Relational Operators}
 
 \index{operator!relational}
 \index{relational operator}
@@ -61,7 +61,7 @@ For example, when evaluating the expression \java{5 < 6.0}, Java automatically c
 %The result of \java{fruit1.equals(fruit2)} is the boolean value \java{false}.
 
 
-\section{The if-else statement}
+\section{The if-else Statement}
 
 \index{conditional statement}
 \index{statement!conditional}
@@ -168,7 +168,7 @@ Doing so is allowed by the Java language, but it often results in bugs that are 
 Development tools like Checkstyle (see Appendix~\ref{checkstyle}) can warn you about these and other kinds of programming mistakes.
 
 
-\section{Chaining and nesting}
+\section{Chaining and Nesting}
 
 \index{chaining}
 
@@ -220,7 +220,7 @@ These kinds of nested structures are common, but they can become difficult to re
 Good indentation is essential to make the structure (or intended structure) apparent to the reader.
 
 
-\section{Logical operators}
+\section{Logical Operators}
 
 \index{logical operator}
 \index{operator!logical}
@@ -289,7 +289,7 @@ Short circuit evaluation can save time, especially if \java{anything} takes a lo
 It can also avoid unnecessary errors, if \java{anything} might fail.
 
 
-\section{De Morgan's laws}
+\section{De Morgan's Laws}
 
 Sometimes you need to negate an expression containing a mix of relational and logical operators.
 For example, to test if \java{x} and \java{y} are both nonzero, you could write:
@@ -335,7 +335,7 @@ if (x != 0 && y != 0) {
 \end{code}
 
 
-\section{Boolean variables}
+\section{Boolean Variables}
 
 \index{expression}
 \index{type!boolean}
@@ -387,7 +387,7 @@ if (!evenFlag) {
 \end{code}
 
 
-\section{Boolean methods}
+\section{Boolean Methods}
 \label{boolmeth}
 
 \index{boolean}
@@ -443,7 +443,7 @@ Examples like this one almost read like English:
 ``If is single digit z, print ... else print ...''.
 
 
-\section{Validating input}
+\section{Validating Input}
 \label{validate}
 
 \index{validate}
@@ -533,7 +533,7 @@ Notice the use of the \java{!} operator before \java{in.hasNextDouble()}, instea
 Since \java{hasNextDouble} returns a boolean, it is already a condition.
 
 
-\section{Example program}
+\section{Example Program}
 
 In this chapter we have seen relational and logical operators, \java{if} statements, the \java{Math} class, and validating input.
 The following program shows how the individual code examples in the last section fit together.

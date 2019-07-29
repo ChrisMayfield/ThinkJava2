@@ -1,4 +1,4 @@
-\chapter{Arrays of objects}
+\chapter{Arrays of Objects}
 
 During the next three chapters, we will develop programs that work with playing cards and decks of cards.
 Here is an outline of the road ahead:
@@ -32,7 +32,7 @@ The ranks are Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, and King.
 If you are unfamiliar with traditional playing cards, now would be a good time to get a deck or read through \url{https://en.wikipedia.org/wiki/Standard_52-card_deck}.
 
 
-\section{Card objects}
+\section{Card Objects}
 
 \index{Card}
 \index{class!Card}
@@ -194,7 +194,7 @@ System.out.println(card);
 \end{code}
 
 
-\section{Class variables}
+\section{Class Variables}
 \label{classvar}
 
 \index{class variable}
@@ -252,7 +252,7 @@ They may also be needed in other methods and classes, so it's helpful to make th
 Since the array variables are \java{final}, and the strings they reference are immutable, there is no danger in making them \java{public}.
 
 
-\section{The compareTo method}
+\section{The compareTo Method}
 
 \index{equivalent}
 
@@ -321,7 +321,7 @@ If the suits are the same, it compares ranks.
 If the ranks are also the same, it returns 0.
 
 
-\section{Cards are immutable}
+\section{Cards are Immutable}
 
 The instance variables of \java{Card} are \java{private}, so they can't be accessed from other classes.
 We can provide getters to allow other classes to read the \java{rank} and \java{suit} values:
@@ -363,7 +363,7 @@ But if someone writes a method that tries to modify these variables, they'll get
 Putting these kinds of safeguards into the code helps prevent future mistakes and hours of debugging.
 
 
-\section{Arrays of cards}
+\section{Arrays of Cards}
 \label{cardarray}
 
 %\index{composition}
@@ -475,7 +475,7 @@ So \java{println} invokes the \java{toString} method in the \java{Card} class.
 This method is similar to invoking \java{System.out.println(Arrays.toString(cards))}.
 
 
-\section{Sequential search}
+\section{Sequential Search}
 
 \index{sequential search}
 
@@ -515,7 +515,7 @@ If you pay the price to keep them sorted, finding elements becomes much easier.
 Especially for large arrays, sequential search is rather inefficient.
 
 
-\section{Binary search}
+\section{Binary Search}
 
 \index{binary search}
 
@@ -582,7 +582,7 @@ Notice that this algorithm only depends on the \java{compareTo} method of the ob
 We can apply this same code to any object that provides a \java{compareTo} method.
 
 
-\section{Tracing the code}
+\section{Tracing the Code}
 
 \index{tracing}
 
@@ -640,7 +640,7 @@ More generally, if the array contains $n$ elements, binary search requires $\log
 For large values of $n$, binary search can be much faster.
 
 
-\section{Recursive version}
+\section{Recursive Version}
 
 \index{recursion}
 

@@ -1,4 +1,4 @@
-\chapter{Designing classes}
+\chapter{Designing Classes}
 
 \index{object!type}
 \index{type!object}
@@ -39,7 +39,7 @@ Here are the main ideas:
 %Think of a class like a blueprint for a house: you can use the same blueprint to build any number of houses.
 
 
-\section{The Time class}
+\section{The Time Class}
 
 \index{data encapsulation}
 \index{encapsulation!data}
@@ -177,7 +177,7 @@ public Time() {
 %The default constructor takes no arguments and initializes all attributes to zero (or an equivalent value like \java{false} or \java{null}).
 
 
-\section{More constructors}
+\section{More Constructors}
 
 \index{overload}
 
@@ -242,7 +242,7 @@ public class Time {
 \end{trinket}
 
 
-\section{Getters and setters}
+\section{Getters and Setters}
 
 Recall that the instance variables of \java{Time} are \java{private}.
 We can access them from within the \java{Time} class, but if we try to access them from another class, the compiler reports an error.
@@ -338,7 +338,7 @@ The naming convention is similar; the method that sets \java{something} is usual
 Writing getters and setters can get boring, but many IDEs can generate them for you based on the instance variables.
 
 
-\section{Displaying objects}
+\section{Displaying Objects}
 
 If you create a \java{Time} object and display it with \java{println}:
 
@@ -397,7 +397,7 @@ The \java{02} option means ``total width 2, with leading zeros if necessary'', a
 The output is the same: {\tt 11:59:59.9}.
 
 
-\section{The toString method}
+\section{The toString Method}
 
 \index{toString}
 \index{method!toString}
@@ -453,7 +453,7 @@ In this example, \java{this} in \java{toString} refers to the same object as \ja
 The return value is \java{"11:59:59.9"}.
 
 
-\section{The equals method}
+\section{The equals Method}
 \label{equals}
 
 \index{== equals operator}
@@ -545,7 +545,7 @@ The \java{equals} method is now overloaded.
 If we invoke \java{time1.equals(time3)}, the first method will be used; \java{time1.equals("09:30:00.0")} uses the second.
 
 
-\section{Adding times}
+\section{Adding Times}
 
 Suppose you are going to a movie that starts at 18:50 (or 6:50 PM), and the running time is 2 hours 16 minutes.
 What time does the movie end?
@@ -651,7 +651,7 @@ It's still possible that \java{hour} may exceed 23, but there's no \java{days} a
 In that case, \java{sum.hour -= 24} would yield the correct result.
 
 
-\section{Pure methods}
+\section{Pure Methods}
 
 This implementation of \java{add} does not modify either of the parameters.
 Instead, it creates and returns a new \java{Time} object.

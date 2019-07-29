@@ -1,4 +1,4 @@
-\chapter{Methods and testing}
+\chapter{Methods and Testing}
 
 So far we've written programs that have only one method (\java{main}).
 In this chapter, we'll show you how to organize programs into multiple methods.
@@ -9,7 +9,7 @@ Finally, we'll discuss strategies for incrementally developing and testing your 
 %Regardless whether they return a value or not, methods enable you to break down a complex program into smaller units of code.
 
 
-\section{Math methods}
+\section{Math Methods}
 
 %In the next two sections, we'll take a break from conditions and logic and discuss other areas of mathematics in Java.
 
@@ -128,7 +128,7 @@ The compiler is looking for a method named \java{pow} in the file \java{Test.jav
 If you don't specify a class name when referring to a method, the compiler looks in the current class by default.
 
 
-\section{Defining new methods}
+\section{Defining New Methods}
 \label{adding_methods}
 
 \index{method!declaration}
@@ -219,7 +219,7 @@ public class NewLine {
 \end{trinket}
 
 
-\section{Flow of execution}
+\section{Flow of Execution}
 
 \index{flow of execution}
 
@@ -267,7 +267,7 @@ Perhaps most importantly, organizing your code into multiple methods allows you 
 It's easier to get a complex program working if you know that each method works correctly.
 
 
-\section{Parameters and arguments}
+\section{Parameters and Arguments}
 
 Some of the methods we have used require arguments, which are the values you provide in parentheses when you invoke the method.
 
@@ -352,7 +352,7 @@ That variable belongs to \java{main}.
 Because variables only exist inside the methods where they are defined, they are often called {\bf local variables}.
 
 
-%\section{Multiple parameters}
+%\section{Multiple Parameters}
 
 \index{parameter!multiple}
 \index{method!parameters}
@@ -421,7 +421,7 @@ public class PrintTime {
 \end{trinket}
 
 
-\section{Stack diagrams}
+\section{Stack Diagrams}
 \label{stack}
 
 \java{printTime} has two parameters, named \java{hour} and \java{minute}.
@@ -479,7 +479,7 @@ If you haven't already, you should check out the Java examples on that website.
 %These tools also allow you to visualize the flow of execution.
 
 
-\section{Return values}
+\section{Return Values}
 
 \index{void}
 
@@ -562,7 +562,7 @@ When you declare that the return type is \java{double}, you are making a promise
 If you try to \java{return} with no expression, or \java{return} an expression with the wrong type, the compiler will give an error.
 
 
-\section{Incremental development}
+\section{Incremental Development}
 \label{distance}
 
 \index{incremental development}

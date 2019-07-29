@@ -35,7 +35,7 @@ Example: an expression may not be evaluated in the order you expect.
 The following sections are organized by error type; some techniques are useful for more than one type.
 
 
-\section{Compile-time errors}
+\section{Compile-Time Errors}
 
 The best kind of debugging is the kind you don't have to do because you avoid making errors in the first place.
 Incremental development, which we presented in Section~\ref{distance}, can help.
@@ -169,7 +169,7 @@ Don't let the compiler lead you by the nose.
 Error messages give you evidence that something is wrong, but the remedies they suggest are unreliable.
 
 
-\section{Run-time errors}
+\section{Run-Time Errors}
 
 It's not always clear what causes a run-time error, but you can often figure things out by adding print statements to your program.
 
@@ -204,7 +204,7 @@ Go to the section titled ``Flow of execution''.% on page~\pageref{flowexec}.
 \end{itemize}
 
 
-\subsubsection*{Infinite loop}
+\subsubsection*{Infinite Loop}
 \label{infloop}
 
 If you think you have an infinite loop and you know which loop it is, add a print statement at the end of the loop that displays the values of the variables in the condition, and the value of the condition.
@@ -227,7 +227,7 @@ The last time through the loop, the condition should be \java{false}.
 If the loop keeps going, you will see the values of \java{x} and \java{y}, and you might figure out why they are not getting updated correctly.
 
 
-\subsubsection*{Infinite recursion}
+\subsubsection*{Infinite Recursion}
 \label{infrec}
 
 \index{recursion!infinite}
@@ -245,7 +245,7 @@ Now when you run the program you see a few lines of output every time the method
 If the parameters are not moving toward the base case, you might see why not.
 
 
-\subsubsection*{Flow of execution}
+\subsubsection*{Flow of Execution}
 \label{flowexec}
 
 \index{flow of execution}
@@ -336,7 +336,7 @@ Reorganizing the program can help you find subtle bugs.
 If you make a change that you think doesn't affect the program, and it does, that can tip you off.
 
 
-\section{Logic errors}
+\section{Logic Errors}
 
 
 \subsection*{My program doesn't work.}

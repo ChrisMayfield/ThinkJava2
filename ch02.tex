@@ -1,4 +1,4 @@
-\chapter{Variables and operators}
+\chapter{Variables and Operators}
 
 This chapter describes how to write statements using {\em variables}, which store values like numbers and words, and {\em operators}, which are symbols that perform a computation.
 We also explain three kinds of programming errors and offer additional debugging advice.
@@ -9,7 +9,7 @@ To run the examples in this chapter, you will need to create a new Java class wi
 We often omit the class and method definitions to keep the examples concise.
 
 
-\section{Declaring variables}
+\section{Declaring Variables}
 
 %NOTE: in response to review comments, I am cleaning up the use of
 % ``memory''.  I would like to avoid talking about hardware, or being
@@ -86,7 +86,7 @@ Most programming editors provide ``syntax highlighting'', which makes different 
 %If you type a variable name and it turns blue, watch out!
 
 
-\section{Assigning variables}
+\section{Assigning Variables}
 
 \index{assignment}
 \index{= assignment operator}
@@ -153,7 +153,7 @@ int minute = 59;
 %In this example, there is no reason to make two assignments, but in many programs it is useful to reassign, or {\bf update}, variables.
 
 
-\section{Memory diagrams}
+\section{Memory Diagrams}
 \label{state}
 
 Because Java uses the \java{=} symbol for assignment, it is tempting to interpret the statement \java{a = b} as a statement of equality.
@@ -197,7 +197,7 @@ Each variable is represented with a box showing the name of the variable on the 
 As the program runs, the state of memory changes, so memory diagrams only show a particular point in time.
 
 
-\section{Printing variables}
+\section{Printing Variables}
 \label{sec:printvar}
 
 You can display the current value of a variable using \java{print} or \java{println}.
@@ -254,7 +254,7 @@ On many computers, the output from \java{print} is stored without being displaye
 If you omit the \java{println}, the program might display the stored output at unexpected times or even terminate without displaying anything.
 
 
-\section{Arithmetic operators}
+\section{Arithmetic Operators}
 
 %Recall that Java programs are organized into {\em classes}, each of which has one or more {\em methods}, each of which has one or more {\em statements}.
 %Most statements consist of one or more {\bf expressions}.
@@ -337,7 +337,7 @@ Again the result is rounded down, but at least now it's approximately correct.
 %To get a more precise answer, we can use a different type of variable that can store fractional values.
 
 
-\section{Floating-point numbers}
+\section{Floating-Point Numbers}
 
 \index{floating-point}
 \index{double}
@@ -411,7 +411,7 @@ As a matter of style, you should always assign floating-point values to floating
 The compiler won't make you do it, but you never know when a simple mistake will come back and haunt you.
 
 
-\section{Rounding errors}
+\section{Rounding Errors}
 
 %The operations we have seen so far -- addition, subtraction, multiplication, and division -- also work on floating-point values, although you might be interested to know that the underlying mechanism is completely different.
 %In fact, most processors have special circuitry just for performing floating-point operations.
@@ -472,7 +472,7 @@ This solution works as long as the number of cents doesn't exceed the largest in
 %Hopefully nobody will ever need that much money!
 
 
-\section{Operators for strings}
+\section{Operators for Strings}
 
 \index{string!operator}
 \index{operator!string}
@@ -508,7 +508,7 @@ In the first line, \java{1 + 2} is \java{3}, and \java{3 + "Hello"} is \java{"3H
 But in the second line, \java{"Hello" + 1} is \java{"Hello1"}, and \java{"Hello1" + 2} is \java{"Hello12"}.
 
 
-%\section{Order of operations}
+%\section{Order of Operations}
 
 \index{order of operations}
 \index{precedence}
@@ -540,7 +540,7 @@ If the order of operations is not obvious when looking at an expression, you can
 But over time, you should internalize these kinds of details about the Java language.
 
 
-\section{Compiler error messages}
+\section{Compiler Error Messages}
 
 \index{error!message}
 
@@ -607,8 +607,8 @@ During the first few weeks of your programming career, you will probably spend a
 As you gain experience, you will make fewer mistakes and find them more quickly.
 
 
-\section{Other types of errors}
-%\subsection{Run-time errors}
+\section{Other Types of Errors}
+%\subsection{Run-time Errors}
 
 \index{run-time error}
 \index{error!run-time}
@@ -641,7 +641,7 @@ Sometimes error messages contain additional information that doesn't make sense.
 It can be a challenge to figure out where to find the useful parts without being overwhelmed by extraneous information.
 Keep in mind that the line where the program crashed may not be the line that needs to be corrected.
 
-%\subsection{Logic errors}
+%\subsection{Logic Errors}
 
 \index{logic error}
 \index{error!logic}

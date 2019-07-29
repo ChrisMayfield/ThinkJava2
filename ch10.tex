@@ -1,4 +1,4 @@
-\chapter{Mutable objects}
+\chapter{Mutable Objects}
 \label{mutable}
 
 \index{String class}
@@ -13,7 +13,7 @@ We'll see how to write methods that take objects as parameters and produce objec
 We will also take a first look at the source code for the Java library.
 
 
-\section{Point objects}
+\section{Point Objects}
 \label{point}
 
 In math, points are often written in parentheses with a comma separating the coordinates.
@@ -98,7 +98,7 @@ The first line displays \java{3, 4}.
 The second line calculates the value \java{25}.
 
 
-\section{Objects as parameters}
+\section{Objects as Parameters}
 
 \index{parameter}
 \index{object!as parameter}
@@ -150,7 +150,7 @@ When you call \java{println} with objects, it automatically calls \java{toString
 In this case, it shows the name of the type (\java{java.awt.Point}) and the names and values of the attributes.
 
 
-\section{Objects as return types}
+\section{Objects as Return Values}
 
 \index{Rectangle}
 \index{class!Rectangle}
@@ -228,7 +228,7 @@ The \java{Rectangle} we created using the arguments \java{(0, 0, 100, 200)} has 
 The center of this rectangle is \java{(50, 100)}, which is 50 pixels to the right and 100 pixels down from the origin.
 
 
-\section{Rectangles are mutable}
+\section{Rectangles are Mutable}
 
 \index{mutable}
 \index{object!mutable}
@@ -293,7 +293,7 @@ This example is a further illustration of {\bf object-oriented} programming.
 Rather than write methods like \java{moveRect} that modify one or more parameters, we apply methods to objects themselves using dot notation.
 
 
-\section{Aliasing revisited}
+\section{Aliasing Revisited}
 \label{aliasing}
 
 \index{reference}
@@ -348,7 +348,7 @@ Thus, the value displayed by the third line is {\tt 200}, the width of the expan
 %In general, aliasing should be avoided or used with care.
 
 
-\section{Java library source}
+\section{Java Library Source}
 \label{src.zip}
 
 \index{library}
@@ -399,7 +399,7 @@ Object-oriented programming makes it possible to hide messy details so that you 
 %1) Objects encapsulate data and provide methods to access and modify the data directly.
 
 
-\section{Class diagrams}
+\section{Class Diagrams}
 \label{UML}
 
 To summarize what we've learned so far, \java{Point} and \java{Rectangle} objects each have their own attributes and methods.
@@ -439,7 +439,7 @@ Both \java{Point} and \java{Rectangle} have additional methods; we are only show
 See the documentation for these classes to learn more about what they can do.
 
 
-\section{Garbage collection}
+\section{Garbage Collection}
 
 In Section~\ref{aliasing}, we saw what happens when more than one variable refers to the same object.
 What happens when {\em no} variables refer to an object?
@@ -475,7 +475,7 @@ You don't have to do anything to make garbage collection happen, and in general 
 But in high-performance applications, you may notice a slight delay every now and then when Java reclaims space from discarded objects.
 
 
-\section{Mutable vs immutable}
+\section{Mutable vs Immutable}
 
 \index{mutable}
 \index{immutable}

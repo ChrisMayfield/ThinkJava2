@@ -1,11 +1,11 @@
-\chapter{Input and output}
+\chapter{Input and Output}
 
 The programs we've looked at so far simply display messages, which doesn't really involve that much computation.
 This chapter will show you how to read input from the keyboard, use that input to calculate a result, and then format that result for output.
 %We will also look at some technical details about how operating systems work.
 
 
-\section{The System class}
+\section{The System Class}
 
 \index{class!System}
 
@@ -56,7 +56,7 @@ The source code for these classes is usually included with the compiler (see Sec
 \end{figure}
 
 
-\section{The Scanner class}
+\section{The Scanner Class}
 \label{scanner}
 
 \index{Scanner}
@@ -138,7 +138,7 @@ According to the documentation, \java{java.lang} ``provides classes that are fun
 The \java{String} class is also part of the \java{java.lang} package.
 
 
-\section{Language elements}
+\section{Language Elements}
 
 \index{language!elements}
 
@@ -178,8 +178,8 @@ You can browse this library at \url{https://thinkjava.org/apidoc}.
 Interestingly, most of the Java library is written in Java.
 
 
-%\section{Inches to centimeters}
-\section{Literals and constants}
+%\section{Inches to Centimeters}
+\section{Literals and Constants}
 
 %Now let's work through an example that's a little more useful.
 Although most of the world has adopted the metric system for weights and measures, some countries are stuck with Imperial units.
@@ -228,7 +228,7 @@ For the benefit of others (and yourself in the future), it would be better to as
 %We'll demonstrate in the next section.
 
 
-%\section{Literals and constants}
+%\section{Literals and Constants}
 
 \index{literal}
 
@@ -265,7 +265,7 @@ Variables declared as \java{final} are called {\bf constants}.
 By convention, names for constants are all uppercase, with the underscore character (\java{_}) between words.
 
 
-\section{Formatting output}
+\section{Formatting Output}
 \label{printf}
 
 When you output a \java{double} using \java{print} or \java{println}, it displays up to 16 decimal places:
@@ -385,8 +385,8 @@ It might be difficult to see what's wrong, given that \java{inch} and \java{cm} 
 But if \java{inch} is 1 and \java{cm} is 2.54, the actual format string would be \java{"\%d in = \%f cm\\n12.54"}.
 
 
-%\section{Centimeters to inches}
-\section{Type cast operators}
+%\section{Centimeters to Inches}
+\section{Type Cast Operators}
 
 Now suppose we have a measurement in centimeters, and we want to round it off to the nearest inch.
 It is tempting to write:
@@ -448,7 +448,7 @@ And the result is rounded toward zero.
 We will see in the next chapter how to round floating-point numbers to the closest integer.
 
 
-\section{Remainder operator}
+\section{Remainder Operator}
 
 Let's take the example one step further: suppose you have a measurement in inches and you want to convert to feet and inches.
 The goal is divide by 12 (the number of inches in a foot) and keep the remainder.
@@ -494,7 +494,7 @@ You can use remainder to ``extract'' digits from a number: \java{x \% 10} yields
 And many encryption algorithms use the remainder operator extensively.
 
 
-\section{Putting it all together}
+\section{Putting It All Together}
 
 At this point, you have seen enough Java to write useful programs that solve everyday problems.
 You can (1) import Java library classes, (2) create a \java{Scanner}, (3) get input from the keyboard, (4) format output with \java{printf}, and (5) divide and mod integers.
@@ -549,7 +549,7 @@ When statements including \java{System.out.printf} get long (generally wider tha
 The reader should never have to scroll horizontally.
 
 
-\section{The Scanner bug}
+\section{The Scanner Bug}
 
 Now that you've had some experience with \java{Scanner}, there is an unexpected behavior we want to warn you about.
 The following code fragment asks users for their name and age:

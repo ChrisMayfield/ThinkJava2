@@ -1,4 +1,4 @@
-\chapter{Arrays and references}
+\chapter{Arrays and References}
 
 Up to this point, the only variables we have used were for individual values such as numbers or strings.
 In this chapter, we'll learn how to store multiple values of the same type using a single variable.
@@ -24,7 +24,7 @@ Rather than use an \java{if} statement to update each value, we can use arithmet
 We will present this algorithm at the end of the chapter.
 
 
-\section{Creating arrays}
+\section{Creating Arrays}
 
 \index{array}
 \index{element}
@@ -75,7 +75,7 @@ If you try to create an array with \java{-4} elements, for example, you will get
 An array with zero elements is allowed, and there are special uses for such arrays that we'll see later on.
 
 
-\section{Accessing elements}
+\section{Accessing Elements}
 \label{elements}
 
 When you create an array with the \java{new} operator, the elements are initialized to zero.
@@ -166,7 +166,7 @@ For the \java{counts} array, the only legal indexes are 0, 1, 2, and 3.
 If the index is negative or greater than 3, the result is an \java{ArrayIndexOutOfBoundsException}.
 
 
-\section{Displaying arrays}
+\section{Displaying Arrays}
 \label{printarray}
 
 \index{array!printing}
@@ -226,7 +226,7 @@ Notice that the string format is slightly different: it uses square brackets ins
 But it beats having to write your own \java{printArray} method.
 
 
-\section{Copying arrays}
+\section{Copying Arrays}
 
 \index{array!copying}
 
@@ -289,7 +289,7 @@ Figure~\ref{fig.array4} shows the state of the array variables after invoking \j
 \end{figure}
 
 
-%\section{Array length}
+%\section{Array Length}
 
 \index{length!array}
 \index{array!length}
@@ -320,7 +320,7 @@ double[] b = Arrays.copyOf(a, a.length);
 \end{code}
 
 
-\section{Array traversal}
+\section{Array Traversal}
 \label{traversal}
 
 \index{traversal}
@@ -393,7 +393,7 @@ At the end of the loop, \java{total} contains the sum of the elements.
 A variable used this way is sometimes called an {\bf accumulator}, because it ``accumulates'' the running total.
 
 
-\section{Random numbers}
+\section{Random Numbers}
 \label{random}
 
 \index{deterministic}
@@ -455,7 +455,7 @@ The output will look something like this:
 \end{stdout}
 
 
-\section{Building a histogram}
+\section{Building a Histogram}
 \label{singlepass}
 
 \index{histogram}
@@ -550,7 +550,7 @@ Each time through the loop, it selects one element from \java{scores} and uses i
 Because this code traverses the array of scores only once, it is much more efficient.
 
 
-\section{The enhanced for loop}
+\section{The Enhanced for Loop}
 \label{enhanced}
 
 Since traversing arrays is so common, Java provides an alternative syntax that makes the code more compact.
@@ -602,7 +602,7 @@ for (double d : array) {
 \end{code}
 
 
-\section{Counting characters}
+\section{Counting Characters}
 
 We now return to the example from the beginning of the chapter and present a solution to Exercise~\ref{doubloon} using arrays.
 Here is the problem again:
