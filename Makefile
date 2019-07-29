@@ -15,6 +15,7 @@ plastex:
 	python2 preprocess.py $(F).expand > $(F).plastex
 	plastex --renderer=DocBook --theme=book --image-resolution=300 --filename=$(F).xml $(F).plastex
 	cd $(F); python2 ../postprocess.py $(F).xml > temp; mv temp $(F).xml
+	cd $(F); python ../xmlsplit.py $(F).xml
 
 xxe:
 	xmlcopyeditor ~/ThinkJava2/$(F)/$(F).xml &
@@ -23,11 +24,12 @@ lint:
 	xmllint -noout $(F)/$(F).xml
 
 oreilly:
-	rsync -a thinkjava/thinkjava.xml atlas/
+	rsync -a thinkjava/ch*.xml atlas/
+	rsync -a thinkjava/ap*.xml atlas/
 	rsync -a figs/*.pdf atlas/figs/
 	rsync -a figs/*.png atlas/figs/
 	rsync -a figs/*.jpg atlas/figs/
-	cd atlas; git add thinkjava.xml figs/*
+	cd atlas; git add ch*.xml ap*.xml figs/*
 	cd atlas; git commit -m "Automated check in."
 	cd atlas; git push
 
