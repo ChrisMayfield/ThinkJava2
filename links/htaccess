@@ -1,8 +1,8 @@
-('Redirect', '/think-java-2e/apidoc', 'https://docs.oracle.com/en/java/javase/12/docs/api/')
-('Redirect', '/think-java-2e/collections', 'https://docs.oracle.com/javase/8/docs/technotes/guides/collections/overview.html')
-('Redirect', '/think-java-2e/tutorial', 'https://docs.oracle.com/javase/tutorial/')
-('Redirect', '/think-java-2e/java2d', 'https://docs.oracle.com/javase/tutorial/2d/')
-('Redirect', '/think-java-2e/keywords', 'https://docs.oracle.com/javase/tutorial/java/nutsandbolts/_keywords.html')
-('Redirect', '/think-java-2e/operators', 'https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html')
-('Redirect', '/think-java-2e/code2zip', 'https://github.com/ChrisMayfield/ThinkJavaCode2/archive/master.zip')
-('Redirect', '/think-java-2e/javatutor', 'http://pythontutor.com/java.html#mode=edit&heapPrimitives=true&textReferences=false')
+Redirect /thinkjava/apidoc https://docs.oracle.com/en/java/javase/12/docs/api/
+Redirect /thinkjava/collections https://docs.oracle.com/javase/8/docs/technotes/guides/collections/overview.html
+Redirect /thinkjava/tutorial https://docs.oracle.com/javase/tutorial/
+Redirect /thinkjava/java2d https://docs.oracle.com/javase/tutorial/2d/
+Redirect /thinkjava/keywords https://docs.oracle.com/javase/tutorial/java/nutsandbolts/_keywords.html
+Redirect /thinkjava/operators https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html
+Redirect /thinkjava/code2zip https://github.com/ChrisMayfield/ThinkJavaCode2/archive/master.zip
+Redirect /thinkjava/javatutor http://pythontutor.com/java.html#mode=edit&heapPrimitives=true&textReferences=false
