@@ -67,7 +67,7 @@ The details look different in different languages, but a few basic instructions 
 \item[input:] Get data from the keyboard, a file, a sensor, or some other device.
 \item[output:] Display data on the screen, or send data to a file or other device.
 \item[math:] Perform basic mathematical operations like addition and division.
-\item[decisions:] Check for certain conditions and execute the appropriate code.
+\item[decision:] Check for certain conditions and execute the appropriate code.
 \item[repetition:] Perform some action repeatedly, usually with some variation.
 \end{description}
 
@@ -125,7 +125,7 @@ Notice that the output does not include the quotation marks.
 
 Java programs are made up of {\em class} and {\em method} definitions, and methods are made up of {\em statements}.
 A {\bf statement} is a line of code that performs a basic action.
-In the hello world program, this line is a {\bf print statement} that displays a message on the screen:
+In the hello world program, this line is a {\bf print statement} that displays a message to the user:
 
 \begin{code}
 System.out.println("Hello, World!");
@@ -143,7 +143,7 @@ Like most statements, the print statement ends with a semicolon (\java{;}).
 \index{case-sensitive}
 
 Java is ``case-sensitive'', which means that uppercase and lowercase are not the same.
-In this example, \java{System} has to begin with an uppercase letter; \java{system} and \java{SYSTEM} won't work.
+In the hello world program, \java{System} has to begin with an uppercase letter; \java{system} and \java{SYSTEM} won't work.
 
 \index{method}
 
@@ -203,7 +203,7 @@ Programs take less time to write, they are shorter and easier to read, and they 
 \index{portable}
 
 \item High-level languages are {\bf portable}, meaning they can run on different kinds of computers with few or no modifications.
-Low-level programs can only run on one kind of computer, and have to be rewritten to run on another.
+Low-level programs can only run on one kind of computer. %, and have to be rewritten to run on another.
 
 \end{itemize}
 
@@ -212,6 +212,7 @@ Low-level programs can only run on one kind of computer, and have to be rewritte
 Two kinds of programs translate high-level languages into low-level languages: interpreters and compilers.
 An {\bf interpreter} reads a high-level program and executes it, meaning that it does what the program says.
 It processes the program a little at a time, alternately reading lines and performing computations.
+%Python and JavaScript are examples of interpreted languages.
 Figure~\ref{fig.interpreter} shows the structure of an interpreter.
 
 \begin{figure}[!ht]
@@ -228,26 +229,32 @@ Figure~\ref{fig.interpreter} shows the structure of an interpreter.
 \index{executable}
 
 In contrast, a {\bf compiler} reads the entire program and translates it completely before the program starts running.
-In this context, the high-level program is called the {\bf source code}, and the translated program is called the {\bf object code} or the {\bf executable}.
+In this context, the high-level program is called the {\bf source code}.
+The translated program is called the {\bf object code} or the {\bf executable}.
 Once a program is compiled, you can execute it repeatedly without further translation.
 As a result, compiled programs often run faster than interpreted programs.
 
-\index{byte code}
+Note that object code, as a low-level language, is not portable.
+You cannot run an executable compiled for a Windows laptop on an Android phone, for example.
+In order to run a program on different types of machines, it must be compiled multiple times.
+It can be difficult to write source code that compiles and runs correctly on different types of machines.
 
-Java is {\em both} compiled and interpreted.
-Instead of translating programs directly into machine language, the Java compiler generates {\bf byte code}.
-Similar to object code, byte code is easy and fast to interpret.
-But it is also portable, so it is possible to compile a Java program on one machine, transfer the byte code to another machine, and run the byte code on the other machine.
-This ability is an advantage of Java over some other high-level languages.
+\index{byte code}
+\index{virtual machine}
+
+To address this issue, Java is {\em both} compiled and interpreted.
+Instead of translating source code directly into an executable, the Java compiler generates code for a \textbf{virtual machine}.
+This ``imaginary'' machine has the functionality common to desktops, laptops, tablets, phones, etc.
+Its language, called Java \textbf{byte code}, looks like object code and is easy and fast to interpret.
 
 \index{javac}
-\index{virtual machine}
 \index{JVM}
 
+As a result, it's possible to compile a Java program on one machine, transfer the byte code to another machine, and run the byte code on the other machine.
 Figure~\ref{fig.compiler} shows the steps of the development process.
 The Java compiler is a program named {\tt javac}.
 It translates {\tt .java} files into {\tt .class} files that store the resulting byte code.
-The Java interpreter is a program named {\tt java}, which is short for ``Java Virtual Machine'' (JVM).
+The Java interpreter is another program, named {\tt java}, which is short for ``Java Virtual Machine'' (JVM).
 
 \begin{figure}[!ht]
 \begin{center}
@@ -262,8 +269,8 @@ If there are no errors, the compiler saves the byte code in the file {\tt Hello.
 To run the program, the programmer uses {\tt java} to interpret the byte code.
 The result of the program is then displayed on the screen.
 
-Although it might seem complicated, these steps are automated for you in most program development environments.
-Usually you only have to press a button or type a single command to compile and run your program.
+Although it might seem complicated, these steps are automated for you in most development environments.
+Usually you only have to press a button or type a single command to compile and interpret your program.
 On the other hand, it is important to know what steps are happening in the background, so if something goes wrong you can figure out what it is.
 
 
@@ -283,7 +290,7 @@ public class Hello2 {
 }
 \end{trinket}
 
-As this example shows, you can put comments at the end of a line as well as on lines all by themselves.
+As this example also shows, you can put comments at the end of a line as well as on lines all by themselves.
 
 \index{quote mark}
 \index{string}
@@ -584,7 +591,7 @@ A programming language that is designed to be easy for humans to read and write.
 
 \term{low-level language}
 A programming language that is designed to be easy for a computer to run.
-Also called ``machine language'' or ``assembly language''.
+Also called ``machine language''. % or ``assembly language''.
 
 \term{portable}
 The ability of a program to run on more than one kind of computer.
@@ -604,9 +611,12 @@ The output of the compiler, after translating the program.
 \term{executable}
 Another name for object code that is ready to run on specific hardware.
 
+\term{virtual machine}
+An emulation of a real machine. The Java Virtual Machine enables a computer to run Java programs.
+
 \term{byte code}
 A special kind of object code used for Java programs.
-Byte code is similar to a low-level language, but it is portable like a high-level language.
+Byte code is similar to object code, but it is portable like a high-level language.
 
 \term{string}
 A sequence of characters; the primary data type for text.

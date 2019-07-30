@@ -1,5 +1,4 @@
 Chapter 1:
-  many students confused about byte code -- revise? add javap example?
 
 Chapter 2:
   introduce floating-point numbers more carefully  [Issue #3]
