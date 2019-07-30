@@ -6,7 +6,7 @@ We also explain three kinds of programming errors and offer additional debugging
 %Finally we discuss the rules of code style, which helps make programs easier to read and debug.
 
 To run the examples in this chapter, you will need to create a new Java class with a \java{main} method (see Section~\ref{hello}).
-We often omit the class and method definitions to keep the examples concise.
+Throughout the book, we often omit class and method definitions to keep the examples concise.
 
 
 \section{Declaring Variables}
@@ -39,9 +39,9 @@ String message;
 \index{type!char}
 \index{type!String}
 
-This statement is called a {\bf declaration}, because it declares that the variable named \java{message} has the type \java{String}.
+This statement is called a {\bf declaration}, because it declares that the variable \java{message} has the type \java{String}.
 Each variable has a {\bf type} that determines what kind of values it can store.
-For example, the \java{int} type can store integers, and the \java{char} type can store characters.
+For example, the \java{int} type can store integers like {1} and \java{-5}, and the \java{char} type can store characters like \java{'A'} and \java{'z'}.
 
 Some types begin with a capital letter and some with lowercase.
 We will learn the significance of this distinction later, but for now you should take care to get it right.
@@ -193,8 +193,18 @@ Figure~\ref{fig.state} shows the state of the program after these assignment sta
 \index{diagram!memory}
 
 Diagrams like this one that show the state of the program are called {\bf memory diagrams}.
-Each variable is represented with a box showing the name of the variable on the outside and the value inside.
+Each variable is represented with a box showing the name of the variable on the outside and its current value inside.
+
 As the program runs, the state of memory changes, so memory diagrams only show a particular point in time.
+For example, if we added the line \java{int c = 0;} to the previous example, the memory diagram would look like Figure~\ref{fig.state2}.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics{figs/state2.pdf}
+\caption{Memory diagram of the variables \java{a}, \java{b}, and \java{c}.}
+\label{fig.state2}
+\end{center}
+\end{figure}
 
 
 \section{Printing Variables}
@@ -343,7 +353,7 @@ Again the result is rounded down, but at least now it's approximately correct.
 \index{double}
 \index{type!double}
 
-A more general solution is to use {\bf floating-point} numbers, which can represent fractions as well as integers.
+A more general solution is to use {\bf floating-point} numbers, which represent values with decimal places.
 %As the name implies, the decimal point floats around (i.e., you can have as many decimal places as you want).
 In Java, the default floating-point type is called \java{double}, which is short for double-precision.
 You can create \java{double} variables and assign values to them the same way we did for the other types:
@@ -445,8 +455,8 @@ But on many machines, the output is:
 0.9999999999999999
 \end{stdout}
 
-The problem is that \java{0.1}, which is a terminating fraction in decimal, is a repeating fraction in binary.
-So its floating-point representation is only approximate.
+The problem is that \java{0.1} is a repeating fraction when converted into binary.
+So its floating-point representation stored in memory is only approximate.
 When we add up the approximations, the rounding errors accumulate.
 
 For many applications, like computer graphics, encryption, statistical analysis, and multimedia rendering, floating-point arithmetic has benefits that outweigh the costs.
@@ -553,11 +563,12 @@ It is useful to distinguish among them in order to track them down more quickly.
 {\bf Compile-time} errors occur when you violate the rules of the Java language.
 For example, parentheses and braces have to come in matching pairs.
 So \java{(1 + 2)} is legal, but \java{8)} is not.
-In the latter case, the program cannot be compiled, and the compiler displays an error.
+In the latter case, the program cannot be compiled, and the compiler displays a ``syntax error''.
 
 \index{error!message}
 
-Error messages from the compiler usually indicate where in the program the error occurred, and sometimes they can tell you exactly what the error is.
+Error messages from the compiler usually indicate where in the program the error occurred.
+Sometimes they can tell you exactly what the error is.
 As an example, let's get back to the hello world program from Section~\ref{hello}.
 
 \begin{trinket}[235]{Hello.java}
@@ -603,7 +614,7 @@ The compiler discovers the error at the end of the program (line 7), but the mis
 
 Error messages contain useful information, so you should make an effort to read and understand them.
 But don't take them too literally.
-During the first few weeks of your programming career, you will probably spend a lot of time tracking down compile-time errors.
+During the first few weeks of your programming career, you will probably spend a lot of time tracking down syntax and other compile-time errors.
 As you gain experience, you will make fewer mistakes and find them more quickly.
 
 
@@ -619,7 +630,7 @@ In Java, these errors occur while the interpreter is executing byte code and som
 These errors are also called ``exceptions'' because they usually indicate that something unexpected has happened.
 
 Run-time errors are rare in the simple programs you will see in the first few chapters, so it might be a while before you encounter one.
-When a run-time error occurs, the interpreter displays an error message that explains what happened and where.
+When a run-time error occurs, the program ``crashes'' (terminates) and displays an error message that explains what happened and where.
 For example, if you accidentally divide by zero you will get a message like:
 
 \begin{small}
@@ -633,13 +644,13 @@ Exception in thread "main" java.lang.ArithmeticException: / by zero
 \index{exception!Arithmetic}
 
 Error messages are very useful for debugging.
-The first line includes the name of the exception, \java{java.lang.ArithmeticException}, and a message that indicates more specifically what happened, \java{/ by zero}.
+The first line includes the name of the exception, \java{ArithmeticException}, and a message that indicates more specifically what happened, \java{/ by zero}.
 The next line shows the method where the error occurred; \java{Hello.main} indicates the method \java{main} in the class \java{Hello}.
 It also reports the file where the method is defined, {\tt Hello.java}, and the line number where the error occurred, \java{5}.
 
-Sometimes error messages contain additional information that doesn't make sense.
-It can be a challenge to figure out where to find the useful parts without being overwhelmed by extraneous information.
-Keep in mind that the line where the program crashed may not be the line that needs to be corrected.
+%Sometimes error messages contain additional information that doesn't make sense.
+%It can be a challenge to figure out where to find the useful parts without being overwhelmed by extraneous information.
+%Keep in mind that the line where the program crashed may not be the line that needs to be corrected.
 
 %\subsection{Logic Errors}
 

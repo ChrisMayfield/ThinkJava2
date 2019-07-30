@@ -1,11 +1,6 @@
 Chapter 1:
 
 Chapter 2:
-  introduce floating-point numbers more carefully  [Issue #3]
-  make it more clear that syntax errors are a type of compiler error
-  crash = run-time error, bug = logic error (give more examples)
-  memory diagrams are not program output; explain more about them
-  should there be a small operator precedence table like in Act02?
 
 Chapter 3:
   simplify the paragraph about the import statement (extra details)
