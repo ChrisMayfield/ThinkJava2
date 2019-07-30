@@ -91,8 +91,6 @@ import java.util.Scanner;
 This {\bf import statement} tells the compiler that when you refer to \java{Scanner}, you mean the one defined in \java{java.util}.
 Using an import statement is necessary because there might be another class named \java{Scanner} in another package.
 %Using an import statement makes your code unambiguous.
-Import statements can't be inside a class definition.
-By convention, they are usually at the beginning of the file.
 
 Next you have to initialize the \java{Scanner}.
 This line declares a \java{Scanner} variable named \java{in} and creates a \java{Scanner} that reads input from \java{System.in}:
@@ -127,6 +125,8 @@ public class Echo {
 }
 \end{trinket}
 
+Import statements can't be inside a class definition.
+By convention, they are usually at the beginning of the file.
 If you omit the import statement at the top of the file, you will get a compiler error saying ``cannot find symbol''.
 That means the compiler doesn't know where to find the definition for \java{Scanner}.
 
@@ -147,7 +147,7 @@ Figure~\ref{fig.package} shows how these ``language elements'' are related.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=4in]{figs/package.pdf}
+\includegraphics[width=3.95in]{figs/package.pdf}
 \caption{Elements of the Java language, from largest to smallest.}
 \label{fig.package}
 \end{center}
@@ -320,28 +320,32 @@ The result is:
 Like \java{print}, \java{printf} does not append a newline.
 So format strings often end with a newline character.
 
-The format specifier \java{\%d} displays integer values (``d'' stands for ``decimal'', not double).
+The format specifier \java{\%d} displays integer values (``d'' stands for ``decimal'', meaning base 10 integer).
 The values are matched up with the format specifiers in order, so \java{inch} is displayed using \java{\%d}, and \java{cm} is displayed using \java{\%f}.
 
 Learning about format strings is like learning a sub-language within Java.
 There are many options, and the details can be overwhelming.
 Table~\ref{tab:format} lists a few common uses, to give you an idea of how things work.
 
+\index{hexadecimal}
+
 \begin{table}[!ht]
 \begin{center}
 \begin{tabular}{|l|l|l|}
 \hline
-\java{\%d} & decimal integer & 12345 \\
+\java{\%d} & integer in base 10 (``decimal'') & \java{12345} \\
 \hline
-%\java{\%,d} & decimal integer with comma separators & 12,345 \\
-%\hline
-\java{\%08d} & padded with zeros, at least 8 digits wide & 00012345 \\
+\java{\%,d} & integer with comma separators & \java{12,345} \\
 \hline
-\java{\%f} & floating-point & 6.789000 \\
+\java{\%08d} & padded with zeros, at least 8 digits wide & \java{00012345} \\
 \hline
-\java{\%.2f} & rounded to 2 decimal places & 6.79 \\
+\java{\%f} & floating-point number & \java{6.789000} \\
+\hline
+\java{\%.2f} & rounded to 2 decimal places & \java{6.79} \\
 \hline
 \java{\%s} & string of characters & \java{"Hello"} \\
+\hline
+\java{\%x} & integer in base 16 (``hexadecimal'') & \java{bc614e} \\
 \hline
 \end{tabular}
 \caption{Example format specifiers}
@@ -359,8 +363,8 @@ The following line accidentally {\em concatenates} \java{inch} and \java{cm} to 
 System.out.printf("%d in = %f cm\n" + inch + cm);  // error
 \end{code}
 
-Unfortunately the compiler won't catch this kind of bug, because it's within a legal Java statement.
-However when you run the program, it will display:
+Unfortunately the compiler won't catch this kind of mistake, because it's within a legal Java statement.
+When you run the program, it will display:
 
 \index{MissingFormatArgumentException}
 \index{exception!MissingFormatArgument}
@@ -382,7 +386,7 @@ In order words, it doesn't know what value to substitute for the \%d.
 The bottom of the error indicates where to look: Example.java line 10.
 
 It might be difficult to see what's wrong, given that \java{inch} and \java{cm} are at the end of the \java{printf} statement.
-But if \java{inch} is 1 and \java{cm} is 2.54, the actual format string would be \java{"\%d in = \%f cm\\n12.54"}.
+But if \java{inch} is 1 and \java{cm} is 2.54, the resulting format string is \java{"\%d in = \%f cm\\n12.54"} after applying the \java{+} operators.
 
 
 %\section{Centimeters to Inches}
@@ -415,7 +419,7 @@ int x = (int) pi;
 
 The \java{(int)} operator has the effect of converting what follows into an integer.
 In this example, \java{x} gets the value \java{3}.
-Like integer division, casting to an integer always rounds toward zero, even if the fraction part is \java{0.999999} (or \java{-0.999999}).
+Like integer division, casting to an integer always rounds toward zero, even if the fractional part is \java{0.999999} (or \java{-0.999999}).
 In other words, it simply throws away the fractional part.
 
 In order to use a cast operator, the types must be compatible.
@@ -478,8 +482,8 @@ So 76 inches is 6 feet, 4 inches.
 Many people (and textbooks) incorrectly refer to \java{\%} as the ``modulus operator''.
 In mathematics, however, {\bf modulus} is the number you're dividing by.
 In the previous example, the modulus is 12.
-The Java language specification refers to  \java{\%} as the ``remainder operator''.
 
+The Java language specification refers to  \java{\%} as the ``remainder operator''.
 The remainder operator looks like a percent sign, but you might find it helpful to think of it as a division sign ($\div$) rotated to the left.
 
 %Note that both \java{/} and \java{\%} perform {\em integer division}, so the result always rounds down.

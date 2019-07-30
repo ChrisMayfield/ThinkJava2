@@ -3,11 +3,6 @@ Chapter 1:
 Chapter 2:
 
 Chapter 3:
-  simplify the paragraph about the import statement (extra details)
-  better explanations / table of examples about format specifiers
-  "decimal integer" is confusing; add more explanation  [Issue #7]
-  add %x/%X (hexadecimal) and %e/%E (exponential) to format specs?
-  should there be a table of primitive data types like in Act03?
 
 Chapter 4:
   add examples of writing methods to compute values (do void second?)
