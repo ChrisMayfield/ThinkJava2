@@ -9,11 +9,6 @@ Chapter 4:
 Chapter 5:
 
 Chapter 6:
-  discuss while (as long as) vs do-while (repeat until) vs for (iterate each)
-    ** concrete example of each loop, in the context of solving a problem **
-  explain substring(a, b) before substring(a) -- instead of substring(a, N-1)
-  add example: if (input == "yes") is always false, regardless of user input
-  6.8 strcmp: change else-if in last branch to else; make == the else case
 
 Chapter 7:
   not much from SII, except a few questions about enhanced for loops
