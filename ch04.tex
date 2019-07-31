@@ -9,178 +9,39 @@ Finally, we'll discuss strategies for incrementally developing and testing your 
 %Regardless whether they return a value or not, methods enable you to break down a complex program into smaller units of code.
 
 
-\section{Math Methods}
-
-%In the next two sections, we'll take a break from conditions and logic and discuss other areas of mathematics in Java.
-
-\index{Math class}
-\index{class!Math}
-
-The Java library includes a \java{Math} class that provides common mathematical operations.
-\java{Math} is in the \java{java.lang} package, so you don't have to import it.
-
-\begin{code}
-double root = Math.sqrt(17.0);
-double angle = 1.5;
-double height = Math.sin(angle);
-\end{code}
-
-The first line sets \java{root} to the square root of 17.
-The third line finds the sine of 1.5 (the value of \java{angle}).
-
-\index{degrees}
-\index{radians}
-\index{pi}
-
-Values for the trigonometric functions -- \java{sin}, \java{cos}, and \java{tan} -- must be in {\em radians}.
-To convert from degrees to radians, you can divide by 180 and multiply by $\pi$.
-Conveniently, the \java{Math} class provides a constant double named \java{PI} that contains an approximation of $\pi$:
-
-\begin{code}
-double degrees = 90;
-double angle = degrees / 180.0 * Math.PI;
-\end{code}
-
-Notice that \java{PI} is in capital letters.
-Java does not recognize \java{Pi}, \java{pi}, or \java{pie}.
-Also, \java{PI} is the name of a variable, not a method, so it doesn't have parentheses.
-The same is true for the constant \java{Math.E}, which approximates Euler's number.
-
-Converting to and from radians is a common operation, so the \java{Math} class provides methods that do that for you.
-
-\begin{code}
-double radians = Math.toRadians(180.0);
-double degrees = Math.toDegrees(Math.PI);
-\end{code}
-
-\index{long}
-\index{type!long}
-
-Another useful method is \java{round}, which rounds a floating-point value to the nearest integer and returns a \java{long}.
-The following result is 63 (rounded up from 62.8319).
-
-\begin{code}
-long x = Math.round(Math.PI * 20.0);
-\end{code}
-
-A \java{long} is like an \java{int}, but bigger.
-More specifically, an \java{int} uses 32 bits of memory; the largest value it can hold is $2^{31}-1$, which is about 2 billion.
-A \java{long} uses 64 bits, so the largest value is $2^{63}-1$, which is about 9 quintillion.
-
-Take a minute to read the documentation for these and other methods in the \java{Math} class.
-The easiest way to find documentation for Java classes is to do a web search for ``Java'' and the name of the class.
-
-
-\section{Composition}
-
-\index{expression}
-\index{argument}
-
-You have probably learned to evaluate simple expressions like $\sin(\pi/2)$ and $\log(1/x)$.
-First, you evaluate the expression in parentheses, which is called the {\bf argument} of the function.
-Then you can evaluate the function itself, either by hand or by punching it into a calculator.
-
-This process can be applied repeatedly to evaluate more complex expressions like $\log(1/\sin(\pi/2))$.
-First we evaluate the argument of the innermost function ($\pi/2 = 1.57$), then evaluate the function itself ($\sin(1.57) = 1.0$), and so on.
-
-\index{composition}
-\index{expression}
-
-Just as with mathematical functions, Java methods can be {\bf composed} to solve complex problems.
-That means you can use one method as part of another.
-In fact, you can use any expression as an argument to a method, as long as the resulting value has the correct type:
-
-\begin{code}
-double x = Math.cos(angle + Math.PI / 2.0);
-\end{code}
-
-This statement divides \java{Math.PI} by two, adds the result to \java{angle}, and computes the cosine of the sum.
-You can also take the result of one method and pass it as an argument to another:
-
-\begin{code}
-double x = Math.exp(Math.log(10.0));
-\end{code}
-
-In Java, the \java{log} method always uses base $e$.
-So this statement finds the log base $e$ of 10, and then raises $e$ to that power.
-The result gets assigned to \java{x}.
-
-Some math methods take more than one argument.
-For example, \java{Math.pow} takes two arguments and raises the first to the power of the second.
-This line computes $2^{10}$ and assigns the value \java{1024.0} to the variable \java{x}:
-
-\begin{code}
-double x = Math.pow(2.0, 10.0);
-\end{code}
-
-When using \java{Math} methods, beginners often forget the word \java{Math}.
-For example, if you just write \java{x = pow(2.0, 10.0)}, you will get a compiler error:
-
-\begin{stdout}
-File: Test.java  [line: 5]
-Error: cannot find symbol
-  symbol:   method pow(double,double)
-  location: class Test
-\end{stdout}
-
-The message ``cannot find symbol'' is confusing, but the last two lines provide a useful hint.
-The compiler is looking for a method named \java{pow} in the file \java{Test.java} (the file for this example).
-If you don't specify a class name when referring to a method, the compiler looks in the current class by default.
-
-
 \section{Defining New Methods}
 \label{adding_methods}
 
-\index{method!declaration}
-
-%You have probably guessed by now that you can define more than one method in a class.
-
 Some methods perform a computation and return a result.
-For example, \java{Math.sqrt(25)} returns the value \java{5.0}.
-Other methods (including \java{main}) carry out a sequence of actions, without returning a result.
+%For example, \java{Math.sqrt(25)} computes and returns the value \java{5.0}.
+For example, \java{nextDouble} reads input from the keyboard and returns it as a \java{double}.
+Other methods, like \java{println}, carry out a sequence of actions without returning a result.
 Java uses the keyword \java{void} to define such methods.
-Here's a simple example:
 
-\index{NewLine.java}
+%The \java{main} method always begins with the words \java{public static void}.
+%You can define other methods the same way:
 
-\begin{trinket}[310]{NewLine.java}
-public class NewLine {
-
-    public static void newLine() {
-        System.out.println();
-    }
-
-    public static void main(String[] args) {
-        System.out.println("First line.");
-        newLine();
-        System.out.println("Second line.");
-    }
+\begin{code}
+public static void newLine() {
+    System.out.println();
 }
-\end{trinket}
 
-\index{main}
-\index{case-sensitive}
-
-The name of the class is \java{NewLine}.
-By convention, class names begin with a capital letter.
-\java{NewLine} contains two methods, \java{newLine} and \java{main}.
-Remember that Java is case-sensitive, so \java{NewLine} and \java{newLine} are not the same.
-
-\index{camel case}
-
-Method names should begin with a lowercase letter and use ``camel case'', which is a cute name for \java{jammingWordsTogetherLikeThis}.
-You can use any name you want for methods, except \java{main} or any of the Java keywords.
+public static void main(String[] args) {
+    System.out.println("First line.");
+    newLine();
+    System.out.println("Second line.");
+}
+\end{code}
 
 \index{public}
 \index{invoke}
 \index{void}
 \index{type!void}
 
-\java{newLine} and \java{main} are \java{public}, which means they can be {\bf invoked} (or called) from other classes.
+In this example, the \java{newLine} and \java{main} methods are both \java{public}, which means they can be {\bf invoked} (or called) from other classes.
 %They are both \java{static}, but we won't yet explain what that means.
-And they are both \java{void}, which means that they don't return a result (unlike the \java{Math} methods, for example).
-
-The output of this program is:
+And they are both \java{void}, which means that they don't return a result (in contrast to \java{nextDouble}).
+The output of the program is:
 
 \begin{stdout}
 First line.
@@ -193,9 +54,7 @@ If we wanted more space between them, we could invoke the same method repeatedly
 Or we could write yet another method (named \java{threeLine}) that displays three blank lines.
 %Pulling together the code from the previous section, the complete program looks like this:
 
-In the following program, \java{main} invokes \java{threeLine}, and \java{threeLine} invokes \java{newLine} three times.
-%Since \java{newLine} has no parameters, it requires no arguments, as shown when it is invoked in \java{main}.
-Because \java{newLine} is in the same class as \java{threeLine}, we don't have to specify the class name like \java{NewLine.newLine()}.
+\index{NewLine.java}
 
 \begin{trinket}{NewLine.java}
 public class NewLine {
@@ -217,6 +76,23 @@ public class NewLine {
     }
 }
 \end{trinket}
+
+\index{main}
+\index{case-sensitive}
+
+In this example, the name of the class is \java{NewLine}.
+By convention, class names begin with a capital letter.
+\java{NewLine} contains three methods, \java{newLine}, \java{threeLine}, and \java{main}.
+Remember that Java is case-sensitive, so \java{NewLine} and \java{newLine} are not the same.
+
+\index{camel case}
+
+Method names should begin with a lowercase letter and use ``camel case'', which is a cute name for \java{jammingWordsTogetherLikeThis}.
+You can use any name you want for methods, except \java{main} or any of the Java keywords.
+
+%In the following program, \java{main} invokes \java{threeLine}, and \java{threeLine} invokes \java{newLine} three times.
+%Since \java{newLine} has no parameters, it requires no arguments, as shown when it is invoked in \java{main}.
+%Because \java{newLine} is in the same class as \java{threeLine}, we don't have to specify the class name like \java{NewLine.newLine()}.
 
 
 \section{Flow of Execution}
@@ -269,12 +145,16 @@ It's easier to get a complex program working if you know that each method works 
 
 \section{Parameters and Arguments}
 
-Some of the methods we have used require arguments, which are the values you provide in parentheses when you invoke the method.
+Some of the methods we have used require {\bf arguments}, which are the values you provide in parentheses when you invoke the method.
 
-For example, the \java{Math.sin} method takes a \java{double} argument.
-To find the sine of a number, you have to provide the number: \java{Math.sin(0.0)}.
-Similarly, the \java{System.out.println} method takes a \java{String} argument.
+%For example, the \java{Math.sin} method takes a \java{double} argument.
+%To find the sine of a number, you have to provide the number: \java{Math.sin(0.0)}.
+
+For example, the \java{println} method takes a \java{String} argument.
 To display a message, you have to provide the message: \java{System.out.println("Hello")}.
+Similarly, the \java{printf} method can take multiple arguments.
+The statement \java{System.out.printf("\%d in = \%f cm\\n", inch, cm)} has three arguments: the format string, the \java{inch} value, and the \java{cm} value.
+
 
 \index{parameter}
 \index{argument}
@@ -306,11 +186,11 @@ When you invoke \java{printTwice}, you have to provide an argument with type \ja
 %That means that whoever invokes \java{main} must provide an array of strings (we'll get to arrays in a later chapter).
 
 Before the method executes, the argument gets assigned to the parameter.
-In this example, the argument \java{"Don't make me say this twice!"} gets assigned to the parameter \java{s}.
+In the \java{printTwice} example, the argument \java{"Don't make me say this twice!"} gets assigned to the parameter \java{s}.
 
 \index{parameter passing}
 
-This process is called {\bf parameter passing} because the value gets passed from outside the method to the inside.
+This process is called {\bf parameter passing}, because the value gets passed from outside the method to the inside.
 An argument can be any kind of expression, so if you have a \java{String} variable, you can use its value as an argument:
 
 \begin{code}
@@ -337,22 +217,27 @@ Error: method printTwice in class Test cannot be applied
           java.lang.String by method invocation conversion
 \end{stdout}
 
+This error message says that it found an \java{int} argument, but the required parameter should be a \java{String}.
+In the case of \java{printTwice}, Java won't convert the integer \java{17} to the string \java{"17"} automatically.
+
+\index{automatic conversion}
+
 Sometimes Java can convert an argument from one type to another automatically.
 For example, \java{Math.sqrt} requires a \java{double}, but if you invoke \java{Math.sqrt(25)}, the integer value \java{25} is automatically converted to the floating-point value \java{25.0}.
-But in the case of \java{printTwice}, Java can't (or won't) convert the integer \java{17} to a \java{String}.
 
 \index{local variable}
 \index{variable!local}
 
 Parameters and other variables only exist inside their own methods.
-Inside \java{main}, there is no such thing as \java{s}.
+In the \java{printTwice} example, there is no such thing as \java{s} in the \java{main} method.
 If you try to use it there, you'll get a compiler error.
+
 Similarly, inside \java{printTwice} there is no such thing as \java{message}.
 That variable belongs to \java{main}.
 Because variables only exist inside the methods where they are defined, they are often called {\bf local variables}.
 
 
-%\section{Multiple Parameters}
+\section{Multiple Parameters}
 
 \index{parameter!multiple}
 \index{method!parameters}
@@ -367,14 +252,14 @@ public static void printTime(int hour, int minute) {
 }
 \end{code}
 
-In the parameter list, it may be tempting to write:
-
-\begin{code}
-public static void printTime(int hour, minute) {  // error
-\end{code}
-
-But that format (without the second \java{int}) is only allowed for local variables.
-For parameters, you need to declare the type of each variable separately.
+%In the parameter list, it may be tempting to write:
+%
+%\begin{code}
+%public static void printTime(int hour, minute) {  // error
+%\end{code}
+%
+%But that format (without the second \java{int}) is only allowed for local variables.
+%For parameters, you need to declare the type of each variable separately.
 
 To invoke this method, we have to provide two integers as arguments:
 
@@ -392,7 +277,7 @@ int minute = 59;
 printTime(int hour, int minute);  // syntax error
 \end{code}
 
-That's a syntax error, because the compiler sees \java{int hour} and \java{int minute} as variable declarations, not expressions.
+That's a syntax error, because the compiler sees \java{int hour} and \java{int minute} as variable declarations, not expressions (that represent values).
 You wouldn't declare the types of the arguments if they were simply integers:
 
 \begin{code}
@@ -420,13 +305,9 @@ public class PrintTime {
 }
 \end{trinket}
 
-
-\section{Stack Diagrams}
-\label{stack}
-
 \java{printTime} has two parameters, named \java{hour} and \java{minute}.
 And \java{main} has two variables, also named \java{hour} and \java{minute}.
-Although they have the same names, these variables are not the same.
+Although they have the same names, these variables are {\em not} the same.
 The \java{hour} in \java{printTime} and the \java{hour} in \java{main} refer to different memory locations, and they can have different values.
 For example, you could invoke \java{printTime} like this:
 
@@ -441,12 +322,16 @@ Then it assigns those values to the parameters.
 Inside \java{printTime}, the value of \java{hour} is \java{12}, not \java{11}, and the value of \java{minute} is \java{0}, not \java{59}.
 Furthermore, if \java{printTime} modifies one of its parameters, that change has no effect on the variables in \java{main}.
 
+
+\section{Stack Diagrams}
+\label{stack}
+
 \index{stack diagram}
 \index{diagram!stack}
 \index{frame}
 
-One way to keep track of everything is to draw a {\bf stack diagram}, which is a memory diagram (see Section~\ref{state}) that shows currently running methods.
-For each method there is a box called a {\bf frame} that contains the method's parameters and local variables.
+One way to keep track of variables is to draw a {\bf stack diagram}, which is a memory diagram (see Section~\ref{state}) that shows currently running methods.
+For each method there is a box, called a {\bf frame}, that contains the method's parameters and local variables.
 The name of the method appears outside the frame; the variables and parameters appear inside.
 
 \begin{figure}[!ht]
@@ -461,9 +346,9 @@ As with memory diagrams, stack diagrams show variables and methods at a particul
 Figure~\ref{fig.stack} is a stack diagram at the beginning of the \java{printTime} method.
 Notice that \java{main} is on top, because it executed first.
 
-%\index{scope}
+\index{scope}
 
-%Stack diagrams help you to visualize the {\bf scope} of a variable, which is the area of a program where a variable exists.
+Stack diagrams help you to visualize the {\bf scope} of a variable, which is the area of a program where a variable exists.
 
 \index{Java Tutor}
 \index{tracing}
@@ -477,6 +362,125 @@ If you haven't already, you should check out the Java examples on that website.
 
 %Or you can use a ``debugger'', like the one that comes with DrJava (see Appendix~\ref{debugger}).
 %These tools also allow you to visualize the flow of execution.
+
+
+\section{Math Methods}
+
+\index{Math class}
+\index{class!Math}
+
+You don't always have to write new methods to get work done.
+As a reminder, the Java library contains thousands of classes you can use.
+For example, the \java{Math} class provides common mathematical operations.
+
+\begin{code}
+double root = Math.sqrt(17.0);
+double angle = 1.5;
+double height = Math.sin(angle);
+\end{code}
+
+The first line sets \java{root} to the square root of 17.
+The third line finds the sine of 1.5 (the value of \java{angle}).
+\java{Math} is in the \java{java.lang} package, so you don't have to import it.
+
+\index{degrees}
+\index{radians}
+\index{pi}
+
+Values for the trigonometric functions -- \java{sin}, \java{cos}, and \java{tan} -- must be in {\em radians}.
+To convert from degrees to radians, you can divide by 180 and multiply by $\pi$.
+Conveniently, the \java{Math} class provides a constant named \java{PI} that contains an approximation of $\pi$:
+
+\begin{code}
+double degrees = 90;
+double angle = degrees / 180.0 * Math.PI;
+\end{code}
+
+Notice that \java{PI} is in capital letters.
+Java does not recognize \java{Pi}, \java{pi}, or \java{pie}.
+Also, \java{PI} is the name of a variable, not a method, so it doesn't have parentheses.
+The same is true for the constant \java{Math.E}, which approximates Euler's number.
+
+Converting to and from radians is a common operation, so the \java{Math} class provides methods that do that for you.
+
+\begin{code}
+double radians = Math.toRadians(180.0);
+double degrees = Math.toDegrees(Math.PI);
+\end{code}
+
+\index{long}
+\index{type!long}
+
+Another useful method is \java{round}, which rounds a floating-point value to the nearest integer and returns a \java{long}.
+The following result is 63 (rounded up from 62.8319).
+
+\begin{code}
+long x = Math.round(Math.PI * 20.0);
+\end{code}
+
+A \java{long} is like an \java{int}, but bigger.
+More specifically, an \java{int} uses 32 bits of memory; the largest value it can hold is $2^{31}-1$, which is about 2 billion.
+A \java{long} uses 64 bits, so the largest value is $2^{63}-1$, which is about 9 quintillion.
+
+Take a minute to read the documentation for these and other methods in the \java{Math} class.
+The easiest way to find documentation for Java classes is to do a web search for ``Java'' and the name of the class.
+
+
+\section{Composition}
+
+\index{expression}
+\index{argument}
+
+You have probably learned how to evaluate simple expressions like $\sin(\pi/2)$ and $\log(1/x)$.
+First, you evaluate the expression in parentheses, which is the argument of the function.
+Then you can evaluate the function itself, either by hand or by punching it into a calculator.
+
+This process can be applied repeatedly to evaluate more complex expressions like $\log(1/\sin(\pi/2))$.
+First we evaluate the argument of the innermost function ($\pi/2 = 1.57$), then evaluate the function itself ($\sin(1.57) = 1.0$), and so on.
+
+\index{composition}
+\index{expression}
+
+Just as with mathematical functions, Java methods can be {\bf composed} to solve complex problems.
+That means you can use one method as part of another.
+In fact, you can use any expression as an argument to a method, as long as the resulting value has the correct type:
+
+\begin{code}
+double x = Math.cos(angle + Math.PI / 2.0);
+\end{code}
+
+This statement divides \java{Math.PI} by two, adds the result to \java{angle}, and computes the cosine of the sum.
+You can also take the result of one method and pass it as an argument to another:
+
+\begin{code}
+double x = Math.exp(Math.log(10.0));
+\end{code}
+
+In Java, the \java{log} method always uses base $e$.
+So this statement finds the log base $e$ of 10, and then raises $e$ to that power.
+The result gets assigned to \java{x}.
+
+Some math methods take more than one argument.
+For example, \java{Math.pow} takes two arguments and raises the first to the power of the second.
+This line computes $2^{10}$ and assigns the value \java{1024.0} to the variable \java{x}:
+
+\begin{code}
+double x = Math.pow(2.0, 10.0);
+\end{code}
+
+When using \java{Math} methods, beginners often forget the word \java{Math}.
+For example, if you just write \java{x = pow(2.0, 10.0)}, you will get a compiler error:
+
+\begin{stdout}
+File: Test.java  [line: 5]
+Error: cannot find symbol
+  symbol:   method pow(double,double)
+  location: class Test
+\end{stdout}
+
+The message ``cannot find symbol'' is confusing, but the last two lines provide a useful hint.
+The compiler is looking for a method named \java{pow} in the file \java{Test.java} (the file for this example).
+If you don't specify a class name when referring to a method, the compiler looks in the current class by default.
 
 
 \section{Return Values}
@@ -691,15 +695,8 @@ But by using incremental development, scaffolding, and testing, your code is mor
 %A named sequence of statements that performs a procedure or function.
 %Methods may or may not take parameters, and may or may not return a value.
 
-%\term{void}
-%A special return type indicating the method does not return a value.
-
-\term{argument}
-A value that you provide when you call a method.
-This value must have the type that the method expects.
-
-\term{composition}
-The ability to combine simple expressions and statements into compound expressions and statements.
+\term{void}
+A special return type indicating the method does not return a value.
 
 \term{invoke}
 To cause a method to execute.
@@ -708,6 +705,10 @@ Also known as ``calling'' a method.
 \term{flow of execution}
 The order in which Java executes methods and statements.
 It may not necessarily be from top to bottom in the source file.
+
+\term{argument}
+A value that you provide when you call a method.
+This value must have the type that the method expects.
 
 \term{parameter}
 A piece of information that a method requires before it can run.
@@ -727,8 +728,11 @@ The method calls are ``stacked'' from top to bottom, in the flow of execution.
 \term{frame}
 In a stack diagram, a representation of the variables and parameters for a method, along with their current values.
 
-%\term{scope}
-%The area of a program where a variable exists.
+\term{scope}
+The area of a program where a variable exists.
+
+\term{composition}
+The ability to combine simple expressions and statements into compound expressions and statements.
 
 \term{return type}
 The type of value a method returns.
@@ -766,6 +770,7 @@ It describes an efficient way to test programs that take input from the user and
 The purpose of this exercise is to take code from a previous exercise and redesign it as a method that takes parameters.
 You should start with a working solution to Exercise~\ref{ex:date}.
 
+\vspace{-1em}
 \begin{enumerate}
 
 \item Write a method called \java{printAmerican} that takes the day, date, month and year as parameters and that displays them in American format.
@@ -780,6 +785,7 @@ Saturday, July 22, 2015
 \item Once you have debugged \java{printAmerican}, write another method called \java{printEuropean} that displays the date in European format.
 
 \end{enumerate}
+\vspace{1ex}
 
 \end{exercise}
 

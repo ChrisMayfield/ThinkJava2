@@ -5,10 +5,6 @@ Chapter 2:
 Chapter 3:
 
 Chapter 4:
-  add examples of writing methods to compute values (do void second?)
-  the first example should be something better than threeLine/println
-  talk more about arguments (how to count them) and return values
-  should there be a table of common math methods like in Act04?
 
 Chapter 5:
   venn diagram to illustrate the meaning of if, else, &&, ||
@@ -41,7 +37,7 @@ Chapter 10:
   split 10.9 into two sections (create 10.10 about StringBuilder)
   could 10.6 Java library source be moved into Chapter 9?
   need to introduce Object before Act11 (somewhere in Ch9 or 10)
-  new section on variable scope (static, instance, parameter, local)  [Issue #9]
+  new section on variable scope (static, instance, parameter, local)
 
 Chapter 11:
   need more explanation of "this." (and "that." isn't helpful)

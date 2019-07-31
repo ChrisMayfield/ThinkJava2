@@ -402,6 +402,8 @@ inch = cm / CM_PER_INCH;  // syntax error
 But the result is an error -- you get something like, ``incompatible types: possible lossy conversion from double to int.''
 The problem is that the value on the right is floating-point, and the variable on the left is an integer.
 
+\index{automatic conversion}
+
 Java converts an \java{int} to a \java{double} automatically, since no information is lost in the process.
 On the other hand, going from \java{double} to \java{int} would lose the decimal places.
 Java doesn't perform this operation automatically in order to ensure that you are aware of the loss of the fractional part of the number.

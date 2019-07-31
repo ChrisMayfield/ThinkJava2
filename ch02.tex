@@ -388,6 +388,8 @@ The following is illegal because the variable on the left is an \java{int} and t
 int x = 1.1;  // compiler error
 \end{code}
 
+\index{automatic conversion}
+
 It is easy to forget this rule, because in many cases Java {\em automatically} converts from one type to another:
 
 \begin{code}
@@ -662,8 +664,6 @@ The third type of error is a {\bf logic error}.
 If your program has a logic error, it will compile and run without generating error messages, but it will not do the right thing.
 Instead, it will do exactly what you told it to do.
 For example, here is a version of the hello world program with a logic error:
-
-\index{Hello.java}
 
 \begin{trinket}[235]{Hello.java}
 public class Hello {
