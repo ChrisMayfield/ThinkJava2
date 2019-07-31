@@ -5,7 +5,7 @@ from re import findall
 
 urls = set()
 
-for tex in glob('../????.tex'):
+for tex in glob('../book/????.tex'):
     for line in open(tex):
         matches = findall(r'\\url\{([^\}]*)', line)
         for match in matches:

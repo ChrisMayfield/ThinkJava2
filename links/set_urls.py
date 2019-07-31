@@ -9,7 +9,7 @@ with open('urls2.csv') as csvfile:
         slashtag, destination = row
         link_map[destination] = 'https://thinkjava.org/' + slashtag
 
-for tex in glob.glob('../????.tex'):
+for tex in glob.glob('../book/????.tex'):
     out = open(tex[3:], 'w')
     for line in open(tex):
         matches = re.findall(r'\\url\{([^\}]*)', line)

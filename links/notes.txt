@@ -20,8 +20,8 @@ python gen_htaccess.py > htaccess
 
 6) Replace the latest version of *.tex, then commit them
 
-mv *.tex ..
-meld ..
+mv *.tex ../book
+meld ../book
 
 7) Get the URLs again and test them
 
