@@ -7,10 +7,6 @@ Chapter 3:
 Chapter 4:
 
 Chapter 5:
-  venn diagram to illustrate the meaning of if, else, &&, ||
-  Math.log only if (x > 0) (not >=, it returns -Infinity at 0)
-  add if-else-if example that uses a single return statement?
-  write the switch statement section? (or put in Chapter 6?)
 
 Chapter 6:
   discuss while (as long as) vs do-while (repeat until) vs for (iterate each)

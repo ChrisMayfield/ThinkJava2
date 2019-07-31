@@ -41,6 +41,8 @@ A common error is to use a single \java{=} instead of a double \java{==} when co
 Remember that \java{=} is the {\em assignment} operator, and \java{==} is a {\em relational} operator.
 In addition, the operators \java{=<} and \java{=>} do not exist.
 
+\index{automatic conversion}
+
 The two sides of a relational operator have to be compatible.
 For example, the expression \java{5 < "6"} is invalid because \java{5} is an \java{int} and \java{"6"} is a \java{String}.
 When comparing values of different numeric types, Java applies the same conversion rules we saw previously with the assignment operator.
@@ -88,7 +90,7 @@ The condition in parentheses can be any \java{boolean} expression.
 \index{statement!else}
 
 A second form of conditional statement has two possibilities, indicated by \java{if} and \java{else}.
-The possibilities are called {\bf branches}, and the condition determines which one gets executed:
+The possibilities are called {\bf branches}, and the condition determines which branch gets executed:
 
 \begin{code}
 if (x % 2 == 0) {
@@ -219,6 +221,68 @@ These kinds of nested structures are common, but they can become difficult to re
 Good indentation is essential to make the structure (or intended structure) apparent to the reader.
 
 
+\section{The switch Statement}
+
+If you need to make a series of decisions, chaining \java{else if} blocks can get long and redundant.
+For example, consider a program that converts integers like \java{1}, \java{2}, and \java{3} into words like \java{"one"}, \java{"two"}, and \java{"three"}:
+
+\begin{code}
+if (number == 1) {
+    word = "one";
+} else if (number == 2) {
+    word = "two";
+} else if (number == 3) {
+    word = "three";
+} else {
+    word = "unknown";
+}
+\end{code}
+
+\index{switch statement}
+\index{statement!switch}
+
+This chain could go on and on, especially for banking programs that write numbers in long form (e.g., ``one hundred twenty-three and 45/100 dollars'').
+An alternative way to evaluate many possible values of an expression is to use a \java{switch} statement:
+
+\begin{code}
+switch (number) {
+    case 1:
+        word = "one";
+        break;
+    case 2:
+        word = "two";
+        break;
+    case 3:
+        word = "three";
+        break;
+    default:
+        word = "unknown";
+        break;
+}
+\end{code}
+
+The body of a \java{switch} statement is organized into one or more \java{case} blocks.
+Each \java{case} ends with a \java{break} statement, which exits the \java{switch} body.
+The \java{default} block is optional and executed only if none of the cases apply.
+
+Although \java{switch} statements appear longer than chained \java{else if} blocks, they are particularly useful when multiple cases can be grouped:
+
+\begin{code}
+switch (food) {
+    case "apple":
+    case "banana":
+    case "cherry":
+        System.out.println("Fruit!");
+        break;
+    case "asparagus":
+    case "broccoli":
+    case "carrot":
+        System.out.println("Vegetable!");
+        break;
+}\end{code}
+
+
+
 \section{Logical Operators}
 
 \index{logical operator}
@@ -231,7 +295,7 @@ In addition to the relational operators, Java also has three {\bf logical operat
 The results of these operators are similar to their meanings in English.
 
 For example, \java{x > 0 && x < 10} is true when \java{x} is both greater than zero {\em and} less than 10.
-The expression \java{evenFlag || n \% 3 == 0} is true if either condition is true, that is, if \java{evenFlag} is true {\em or} the number \java{n} is divisible by 3.
+The expression \java{evenFlag || n \% 3 == 0} is true if either condition is true, that is, if the variable \java{evenFlag} is true {\em or} the number \java{n} is divisible by 3.
 Finally, the \java{!} operator inverts a boolean expression.
 So \java{!evenFlag} is true if \java{evenFlag} is false.
 
@@ -274,7 +338,7 @@ if (x == 0 || y == 0) {
 }
 \end{code}
 
-Of course if the statements in the branches were different, we could not combine them into one block.
+Then again, if the statements in the branches were different, we could not combine them into one block.
 But it's useful to explore different ways of representing the same logic, especially when it's complex.
 
 \index{short circuit}
@@ -375,15 +439,18 @@ if (evenFlag) {
 Flags may not seem that useful at this point, but they will help simplify complex conditions later on.
 Each part of a condition can be stored in a separate flag, and these flags can be combined with logical operators.
 
-Notice that you don't have to write ~\java{if (evenFlag == true)}.
+Notice that we didn't have to write ~\java{if (evenFlag == true)}.
 Since \java{evenFlag} is a \java{boolean}, it's already a condition.
-Furthermore, to check if a flag is \java{false}:
+To check if a flag is \java{false}, we simply negate the flag:
 
 \begin{code}
 if (!evenFlag) {
     System.out.println("n was odd when I checked it");
 }
 \end{code}
+
+In general, you should never compare anything to true or false.
+Doing so makes the code more verbose and awkward to read out loud.
 
 
 \section{Boolean Methods}
@@ -439,7 +506,7 @@ if (isSingleDigit(z)) {
 \end{code}
 
 Examples like this one almost read like English:
-``If is single digit z, print ... else print ...''.
+``If is single digit z, print z is small else print z is big.''
 
 
 \section{Validating Input}
@@ -464,13 +531,13 @@ double y = Math.log(x);
 System.out.println("The log is " + y);
 \end{code}
 
-In mathematics, the natural logarithm (base $e$) is undefined when $x < 0$.
+In mathematics, the natural logarithm (base $e$) is undefined when $x <= 0$.
 If you ask for \java{Math.log(-1)}, it will return {\bf NaN} which stands for ``not a number''.
 Many users are confused when they see NaN; it often looks like a bug.
 We can use an \java{if} statement to make the output more user friendly.
 
 \begin{code}
-if (x >= 0) {
+if (x > 0) {
     double y = Math.log(x);
     System.out.println("The log is " + y);
 } else {
@@ -508,7 +575,6 @@ If not, we can display an error message.
 if (!in.hasNextDouble()) {
     String word = in.next();
     System.err.println(word + "is not a number");
-    return;
 }
 \end{code}
 
@@ -522,20 +588,14 @@ We can use \java{in.next} to show the user exactly which word they typed was not
 This example also uses \java{System.err}, which is an \java{OutputStream} for error messages and warnings.
 Some development environments display output to \java{System.err} with a different color or in a separate window.
 
-\index{return}
-\index{statement!return}
-
-The \java{return} statement allows you to exit a method before you reach the end of it.
-Returning from \java{main} terminates the program.
-
-Notice the use of the \java{!} operator before \java{in.hasNextDouble()}, instead of testing the condition \java{in.hasNextDouble() == false}.
-Since \java{hasNextDouble} returns a boolean, it is already a condition.
+%Notice the use of the \java{!} operator before \java{in.hasNextDouble()}, instead of testing the condition \java{in.hasNextDouble() == false}.
+%Since \java{hasNextDouble} returns a boolean, it is already a condition.
 
 
 \section{Example Program}
 
-In this chapter we have seen relational and logical operators, \java{if} statements, the \java{Math} class, and validating input.
-The following program shows how the individual code examples in the last section fit together.
+In this chapter we have seen relational and logical operators, \java{if} statements, boolean methods, and validating input.
+The following program shows how the individual code examples in the previous section fit together.
 
 \index{Logarithm.java}
 
@@ -562,7 +622,7 @@ public class Logarithm {
 
         // check the range
         double x = in.nextDouble();
-        if (x >= 0) {
+        if (x > 0) {
             double y = Math.log(x);
             System.out.println("The log is " + y);
         } else {
@@ -571,6 +631,12 @@ public class Logarithm {
     }
 }
 \end{trinket}
+
+\index{return}
+\index{statement!return}
+
+Notice how the \java{return} statement allows you to exit a method before you reach the end of it.
+Returning from \java{main} terminates the program.
 
 What started as five lines of code at the beginning of Section~\ref{validate} is now a 30-line program.
 Making programs robust (and secure) often requires a lot of additional checking, as shown in this example.
@@ -643,6 +709,48 @@ If you have not already read Appendix~\ref{checkstyle}, now might be a good time
 It describes Checkstyle, a tool that analyzes many aspects of your source code.
 
 
+\begin{exercise}  %%V6 Ex5.1
+
+Rewrite the following code using a single \java{if} statement.
+
+\begin{code}
+if (x > 0) {
+    if (x < 10) {
+        System.out.println("positive single digit number.");
+    }
+}
+\end{code}
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex5.7
+
+Now that we have conditional statements, we can get back to the ``Guess My Number'' game from Exercise~\ref{guess}.
+
+You should already have a program that chooses a random number, prompts the user to guess it, and displays the difference between the guess and the chosen number.
+
+Adding a small amount of code at a time, and testing as you go, modify the program so it tells the user whether the guess is too high or too low, and then prompts the user for another guess.
+
+The program should continue until the user gets it right or guesses incorrectly three times.
+If the user guesses the correct number, display a message and terminate the program.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex5.4
+
+Fermat's Last Theorem says that there are no integers $a$, $b$, and $c$ such that $a^n + b^n = c^n$, except when $n \leq 2$.
+
+Write a program named \java{Fermat.java} that inputs four integers (\java{a}, \java{b}, \java{c}, and \java{n}) and checks to see if Fermat's theorem holds.
+If $n$ is greater than 2 and $a^n + b^n = c^n$, the program should display ``Holy smokes, Fermat was wrong!''
+Otherwise the program should display ``No, that doesn't work.''
+
+{\it Hint:} You may want to use \java{Math.pow}.
+
+\end{exercise}
+
+
 \begin{exercise}  %%V6.5 NEW
 
 Using the following variables, evaluate the logic expressions in the table below.
@@ -692,7 +800,6 @@ Expression & Result \\
 \end{exercise}
 
 
-\newpage
 \begin{exercise}  %%V6 Ex6.5
 
 What is the output of the following program?
@@ -738,49 +845,6 @@ public static boolean isFrabjuous(int x) {
 \end{code}
 
 The purpose of this exercise is to make sure you understand logical operators and the flow of execution through methods.
-
-\end{exercise}
-
-
-\newpage
-\begin{exercise}  %%V6 Ex5.1
-
-Rewrite the following code using a single \java{if} statement.
-
-\begin{code}
-if (x > 0) {
-    if (x < 10) {
-        System.out.println("positive single digit number.");
-    }
-}
-\end{code}
-
-\end{exercise}
-
-
-\begin{exercise}  %%V6 Ex5.4
-
-Fermat's Last Theorem says that there are no integers $a$, $b$, and $c$ such that $a^n + b^n = c^n$, except when $n \leq 2$.
-
-Write a program named \java{Fermat.java} that inputs four integers (\java{a}, \java{b}, \java{c}, and \java{n}) and checks to see if Fermat's theorem holds.
-If $n$ is greater than 2 and $a^n + b^n = c^n$, the program should display ``Holy smokes, Fermat was wrong!''
-Otherwise the program should display ``No, that doesn't work.''
-
-{\it Hint:} You may want to use \java{Math.pow}.
-
-\end{exercise}
-
-
-\begin{exercise}  %%V6 Ex5.7
-
-Now that we have conditional statements, we can get back to the ``Guess My Number'' game from Exercise~\ref{guess}.
-
-You should already have a program that chooses a random number, prompts the user to guess it, and displays the difference between the guess and the chosen number.
-
-Adding a small amount of code at a time, and testing as you go, modify the program so it tells the user whether the guess is too high or too low, and then prompts the user for another guess.
-
-The program should continue until the user gets it right or guesses incorrectly three times.
-If the user guesses the correct number, display a message and terminate the program.
 
 \end{exercise}
 
