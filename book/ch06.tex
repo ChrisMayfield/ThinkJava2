@@ -370,9 +370,8 @@ Try running the code and see what happens.
 
 \section{Which Loop to Use}
 
-Java provides different kinds of loop statements for convenience.
-Any \java{for} loop can be rewritten as a \java{while} loop, and vice versa.
-We could have printed letters of the alphabet using a \java{while} loop:
+\java{for} and \java{while} loops have the same capabilities; any \java{for} loop can be rewritten as a \java{while} loop, and vice versa.
+For example, we could have printed letters of the alphabet using a \java{while} loop:
 
 \begin{code}
 System.out.print("Roman alphabet: ");
@@ -384,15 +383,15 @@ while (c <= 'Z') {
 System.out.println();
 \end{code}
 
-You might be wondering when to use \java{while} verses when to use \java{for}.
-In short, it depends on whether you know how many times you want to repeat.
+You might wonder when to use one or the other.  It depends on whether you know how many times the loop will repeat.
 
-Another term for ``\java{for} loop'' is ``definite loop'', meaning we know how many times to repeat.
-For example, there are 26 letters in the Roman alphabet.
-It's better to use a \java{for} loop to print the letters, because we can control the range of values on one line of code.
+A \java{for} loop is ``definite'', which means we know, at the beginning of the loop, how many times it will repeat.
+In the alphabet example, we know it will run 26 times.
+In that case, it's better to use a \java{for} loop, which puts all of the loop control code on one line.
 
-Another term for ``\java{while} loop'' is ``indefinite loop'', meaning we don't know how many times to repeat.
-When validating user input (see Section~\ref{validate}), it's impossible to know how many times the user will enter a wrong value.
+A \java{while} loop is ``indefinite'', which means we don't know how many times it will repeat.
+For example, when validating user input as in Section~\ref{validate}, it's impossible to know how many times the user will enter a wrong value.
+In this case, a \java{while} loop is more appropriate.
 
 \begin{code}
 System.out.print("Enter a number: ");
@@ -404,8 +403,7 @@ while (!in.hasNextDouble()) {
 double number = in.nextDouble();
 \end{code}
 
-In this case, a \java{while} loop is more appropriate.
-It's easier to read the \java{Scanner} method calls when they're not combined all on one line of code.
+It's easier to read the \java{Scanner} method calls when they're not all on one line of code.
 
 
 \section{String Iteration}
@@ -530,7 +528,7 @@ For example, the expression \java{fruit.indexOf("nan")} returns \java{2}.
 \index{substring}
 
 In addition to searching strings, we often need to extract parts of strings.
-The \java{substring} method returns a new string that copies letters from an existing string, given a range of indexes.
+The \java{substring} method returns a new string that copies letters from an existing string, given a pair of indexes.
 
 \begin{itemize}
 \item \java{fruit.substring(0, 3)} returns \java{"ban"}
@@ -538,7 +536,7 @@ The \java{substring} method returns a new string that copies letters from an exi
 \item \java{fruit.substring(6, 6)} returns \java{""}
 \end{itemize}
 
-Notice that the character indicated by the end index is {\em not} included.
+Notice that the character indicated by the second index is {\em not} included.
 Defining \java{substring} this way simplifies some common operations.
 For example, to select a substring with length \java{len}, starting at index \java{i}, you could write \java{fruit.substring(i, i + len)}.
 %So \java{fruit.substring(2, 2 + 3)} returns \java{"nan"}.
@@ -569,8 +567,8 @@ But calling \java{substring} with one argument is more convenient when you want 
 \index{equals}
 \index{string!comparing}
 
-When comparing strings, it may be tempting to use the \java{==} and \java{!=} operators.
-But doing so will almost never work.
+When comparing strings, it might be tempting to use the \java{==} and \java{!=} operators.
+But that will almost never work.
 The following code compiles and runs, but it always prints \java{"Goodbye!"} regardless what the user types.
 
 \begin{code}
@@ -586,6 +584,10 @@ if (answer == "yes") {                 // wrong!
 The problem is that the \java{==} operator checks whether the two operands refer to the {\em same object}.
 Even if answer is \java{"yes"}, it will refer to a different object in memory than the literal string \java{"yes"} in the code.
 We'll learn more about objects and references in the next chapter.
+
+%TODO: Have we talked about literal strings, and does the reader know
+% they are in the code segment, or do we need a more abstract explanation
+% here.
 
 The correct way to compare strings is with the \java{equals} method, like this:
 
@@ -702,7 +704,7 @@ An international standard for representing characters in most of the world's lan
 The string \java{""}, which contains no characters and has a length of zero.
 
 \term{overloading}
-A technique of defining two or more methods with the same name but different parameters.
+Defining two or more methods with the same name but different parameters.
 
 \end{description}
 
