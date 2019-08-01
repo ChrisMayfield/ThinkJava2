@@ -103,7 +103,7 @@ The total number of newlines is $1 + (n - 1)$, which is just what we wanted: $n$
 \index{stack diagram}
 \index{diagram!stack}
 
-In the Section~\ref{stack}, we used a stack diagram to represent the state of a program during a method invocation.
+In Section~\ref{stack}, we used a stack diagram to represent the state of a program during a method invocation.
 The same kind of diagram can make it easier to interpret a recursive method.
 
 Remember that every time a method gets called, Java creates a new frame that contains the current method's parameters and variables.
@@ -298,7 +298,7 @@ public static boolean isSingleDigit(int x) {
 Once you convince yourself that this method is correct -- by examining and testing the code -- you can just use the method without ever looking at the implementation again.
 
 Recursive methods are no different.
-When you get to a recursive call, don't try to follow the flow of execution.
+When you get to a recursive call, don't try to think about the flow of execution.
 Instead, you should {\em assume} that the recursive call produces the desired result.
 
 For example, ``Assuming that I can find the factorial of $n-1$, can I compute the factorial of $n$?''
@@ -338,6 +338,7 @@ Another common recursively-defined mathematical function is the Fibonacci sequen
 && fibonacci(n) = fibonacci(n-1) + fibonacci(n-2)
 \end{eqnarray*}
 %
+Notice that each Fibonacci number is the sum of the two preceding Fibonacci numbers.
 Translated into Java, this function is:
 
 \begin{code}
@@ -511,20 +512,19 @@ The rightmost digit, near the top of the stack, gets displayed last.
 After invoking \java{displayBinary}, we use \java{println} to complete the output.
 
 \begin{code}
-displayBinary(23);
+displayBinary(23);      // output is 10111
 System.out.println();
-// output is 10111
 \end{code}
 
 
 \section{CodingBat Problems}
 
-In the past several chapters of this book, you've seen conditions, methods, loops, strings, arrays, and recursion.
+In the past several chapters of this book, you've seen methods, conditions, loops, strings, arrays, and recursion.
 A great resource for practicing all of these concepts is \url{https://codingbat.com/}.
 
 \index{CodingBat}
 
-CodingBat is a free website of live programming problems developed by Nick Parlante, a Computer Science lecturer at Stanford.
+CodingBat is a free website of live programming problems developed by Nick Parlante, a Computer Science lecturer at Stanford University.
 As you work on these problems, CodingBat will save your progress (if you create an account).
 
 To conclude this chapter, we will look at two problems in the {\sf Recursion-1} section of CodingBat.
@@ -599,7 +599,7 @@ if (index >= nums.length) {
 
 Next we look at the current number (based on the given index), and check if it's an 11.
 After that, we can recursively check the rest of the array.
-Similar to the noX problem, we only look at one integer per method call.
+Similar to the noX problem, we look at only one integer per method call.
 
 \begin{code}
 if (nums[index] == 11) {

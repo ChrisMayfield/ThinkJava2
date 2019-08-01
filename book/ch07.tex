@@ -1,6 +1,6 @@
 \chapter{Arrays and References}
 
-Up to this point, the only variables we have used were for individual values such as numbers or strings.
+%Up to this point, the only variables we have used were for individual values such as numbers or strings.
 In this chapter, we'll learn how to store multiple values of the same type using a single variable.
 This language feature will enable you to write programs that manipulate larger amounts of data.
 
@@ -13,12 +13,11 @@ for (char c = 'a'; c <= 'z'; c++) {
     // inner loop: count how many times the letter appears
     for (int i = 0; i < str.length(); i++) {
         ...
-    // if the count is not 0 or 2, return false
 \end{code}
 
-This ``nested loops'' approach is inefficient, especially when the string is long.  For example, there are more than 3 million characters in {\it War and Peace}; to process the whole book, the nested loop would run about 80 million times.
+This ``nested loops'' approach is inefficient, especially when the string is long.  For example, there are more than three million characters in {\it War and Peace}; to process the whole book, the nested loop would run about 80 million times.
 
-Another algorithm would initialize 26 variables to zero, loop through the string {\em one time}, and use a giant \java{if} statement to update the variable for each letter.
+A better algorithm would initialize 26 variables to zero, loop through the string {\em one time}, and use a giant \java{if} statement to update the variable for each letter.
 But who wants to declare 26 variables?
 
 That's where arrays come in.

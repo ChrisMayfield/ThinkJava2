@@ -13,7 +13,6 @@ Chapter 6:
 Chapter 7:
 
 Chapter 8:
-  perhaps explain Fibonacci numbers before showing the definition
 
 Chapter 9:
   what is even the point of objects in the first place?
