@@ -8,14 +8,16 @@ For example, Exercise~\ref{doubloon} asked you to check whether every letter in 
 One algorithm (which hopefully you already discovered) is to loop through the string 26 times, once for each lowercase letter:
 
 \begin{code}
+// outer loop: for each lowercase letter
 for (char c = 'a'; c <= 'z'; c++) {
-    // count how many times the letter appears
+    // inner loop: count how many times the letter appears
+    for (int i = 0; i < str.length(); i++) {
+        ...
     // if the count is not 0 or 2, return false
-}
 \end{code}
 
-This ``nested loops'' approach is inefficient, especially when the string is long (e.g., one billion characters).
-Another algorithm would initialize 26 variables to zero, loop through the string once, and use a giant \java{if} statement update the variable for each letter.
+This ``nested loops'' approach is inefficient, especially when the string is long (e.g., one million characters).
+Another algorithm would initialize 26 variables to zero, loop through the string {\em one time}, and use a giant \java{if} statement to update the variable for each letter.
 But who wants to declare 26 variables?
 
 That's where arrays come in.
@@ -186,7 +188,7 @@ Unfortunately, the output is something like:
 \end{stdout}
 
 The bracket indicates that the value is an array, \java{I} stands for ``integer'', and the rest represents the address of the array in memory.
-If we want to display the elements of the array, we could do it ourselves:
+If we wanted to display the elements of the array, we could do it ourselves:
 
 \begin{code}
 public static void printArray(int[] a) {
@@ -318,6 +320,9 @@ The following line produces the same result shown in Figure~\ref{fig.array4}.
 \begin{code}
 double[] b = Arrays.copyOf(a, a.length);
 \end{code}
+
+The \java{Arrays} class provides many other useful methods like \java{Arrays.compare}, \java{Arrays.equals}, \java{Arrays.fill}, and \java{Arrays.sort}.
+Take a moment to read the documentation by searching the web for \java{java.util.Arrays}.
 
 
 \section{Array Traversal}

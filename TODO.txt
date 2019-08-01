@@ -11,8 +11,6 @@ Chapter 5:
 Chapter 6:
 
 Chapter 7:
-  not much from SII, except a few questions about enhanced for loops
-  what happened to Arrays.sort? we should show an example of this method
 
 Chapter 8:
   perhaps explain Fibonacci numbers before showing the definition
