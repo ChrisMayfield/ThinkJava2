@@ -16,12 +16,13 @@ for (char c = 'a'; c <= 'z'; c++) {
     // if the count is not 0 or 2, return false
 \end{code}
 
-This ``nested loops'' approach is inefficient, especially when the string is long (e.g., one million characters).
+This ``nested loops'' approach is inefficient, especially when the string is long.  For example, there are more than 3 million characters in {\it War and Peace}; to process the whole book, the nested loop would run about 80 million times.
+
 Another algorithm would initialize 26 variables to zero, loop through the string {\em one time}, and use a giant \java{if} statement to update the variable for each letter.
 But who wants to declare 26 variables?
 
 That's where arrays come in.
-We can declare a single variable that stores 26 integers.
+We can use a single variable to store 26 integers.
 Rather than use an \java{if} statement to update each value, we can use arithmetic to update the $n$th value directly.
 We will present this algorithm at the end of the chapter.
 
