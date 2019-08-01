@@ -15,16 +15,13 @@ Chapter 7:
 Chapter 8:
 
 Chapter 9:
-  what is even the point of objects in the first place?
-  talk more about the design process (book as a whole, not just ch09)
   argument validation? purpose for short circuit (e.g., null vs empty)
-  explain more about BigInteger (how they work and what they are for)
+  need to introduce Object before Act11 (somewhere in Ch9 or 10)
+  could 10.6 Java library source be moved into Chapter 9?
 
 Chapter 10:
   confused when the book said attributes might refer to as "fields" in the documentation
   split 10.9 into two sections (create 10.10 about StringBuilder)
-  could 10.6 Java library source be moved into Chapter 9?
-  need to introduce Object before Act11 (somewhere in Ch9 or 10)
   new section on variable scope (static, instance, parameter, local)
 
 Chapter 11:

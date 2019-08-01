@@ -3,7 +3,7 @@
 
 \index{object-oriented}
 
-Java is an ``object-oriented'' language, which means that it uses objects to represent data {\em and} provide methods related to them.
+Java is an ``object-oriented'' language, which means that it uses objects to (1)~represent data and (2)~provide methods related to them.
 This way of organizing programs is a powerful design concept, and we will introduce it gradually throughout the remainder of the book.
 
 \index{object}
@@ -17,7 +17,7 @@ For example, \java{Scanner}, which we saw in Section~\ref{scanner}, is an object
 Strings are objects, too.
 They contain characters and provide methods for manipulating character data.
 Other data types, like \java{Integer}, contain numbers and provide methods for manipulating number data.
-We will explore some of those methods in this chapter.
+We will explore some of these methods in this chapter.
 
 
 \section{Primitives vs Objects}
@@ -88,8 +88,16 @@ The \java{equals} method traverses the arrays and tests whether they contain the
 On the other hand, two \java{String} objects with the same characters would not be considered equal in the \java{==} sense.
 The \java{==} operator, when applied to string variables, only tests whether they refer to the {\em same} object.
 
+Objects and arrays are typically created with the \java{new} keyword, which allocates memory for them (see Section~\ref{allocate}).
+For convenience, you don't have to use \java{new} when creating strings:
 
-%\section{The null Keyword}
+\begin{code}
+String word = new String("dog");  // creates a string object
+String word = "dog";   // implicitly creates a string object
+\end{code}
+
+
+\section{The null Keyword}
 
 \index{null}
 
@@ -226,10 +234,10 @@ And you need to use the \java{equals} method to compare them.
 \begin{code}
 Integer x = new Integer(123);
 Integer y = new Integer(123);
-if (x == y) {                           // false
+if (x == y) {                     // false
     System.out.println("x and y are the same object");
 }
-if (x.equals(y)) {                      // true
+if (x.equals(y)) {                // true
     System.out.println("x and y have the same value");
 }
 \end{code}
@@ -252,7 +260,7 @@ int num = Integer.parseInt(str);
 \end{code}
 
 The other wrapper classes provide similar methods, like \java{Double.parseDouble} and \java{Boolean.parseBoolean}.
-They also each provide \java{toString}, which returns a string representation of a value:
+They also provide \java{toString}, which returns a string representation of a value:
 
 \begin{code}
 int num = 12345;
@@ -286,6 +294,7 @@ Rather than read the numbers from \java{System.in} using a \java{Scanner}, we'll
 Here is a starting point:
 
 \begin{code}
+import java.util.Arrays;
 public class Max {
     public static void main(String[] args) {
         System.out.println(Arrays.toString(args));
@@ -419,7 +428,7 @@ Applying these concepts helps us to manage the complexity of programs as they be
 \index{design process}
 \index{encapsulation!and generalization}
 
-Unfortunately, computer science has a lot of overloaded terms.
+%Unfortunately, computer science has a lot of overloaded terms.
 Another use of the term ``encapsulation'' applies to methods.
 In this section, we present a {\bf design process} called ``encapsulation and generalization''.
 
@@ -439,29 +448,27 @@ But you don't need to begin with an exact method definition and stub.
 \index{table!two-dimensional}
 
 To demonstrate this process, we'll develop methods that display multiplication tables.
+We begin by writing and testing a few lines of code.
 Here is a loop that displays the multiples of two, all on one line:
 
 \begin{code}
-int i = 1;
-while (i <= 6) {
+for (int i = 1; i <= 6; i++) {
     System.out.printf("%4d", 2 * i);
-    i = i + 1;
 }
 System.out.println();
 \end{code}
 
-\index{loop variable}
-\index{variable!loop}
-
-The first line initializes a variable named \java{i}, which is going to act as the loop variable.
-As the loop executes, the value of \java{i} increases from 1 to 6; when \java{i} is 7, the loop terminates.
+%\index{loop variable}
+%\index{variable!loop}
+%
+%The first line initializes a variable named \java{i}, which is going to act as the loop variable.
+%As the loop executes, the value of \java{i} increases from 1 to 6; when \java{i} is 7, the loop terminates.
 
 Each time through the loop, we display the value \java{2 * i} padded with spaces so it's four characters wide.
 Since we use \java{System.out.printf}, the output appears on a single line.
 
-After the loop, we call \java{println} to print a newline and complete the line.
+After the loop, we call \java{println} to print a newline character.
 Remember that in some environments, none of the output is displayed until the line is complete.
-
 The output of the code so far is:
 
 \begin{stdout}
@@ -470,15 +477,12 @@ The output of the code so far is:
 
 \index{encapsulate}
 
-The next step is to {\bf encapsulate} or wrap this code in a method.
-Here's what it looks like:
+The next step is to {\bf encapsulate} (or ``wrap'') this code in a method:
 
 \begin{code}
 public static void printRow() {
-    int i = 1;
-    while (i <= 6) {
+    for (int i = 1; i <= 6; i++) {
         System.out.printf("%4d", 2 * i);
-        i = i + 1;
     }
     System.out.println();
 }
@@ -486,22 +490,20 @@ public static void printRow() {
 
 \index{generalize}
 
-Next, we {\bf generalize} the method by replacing the constant value, \java{2}, with a parameter, \java{n}.
+Finally, we {\bf generalize} the method to print multiples of other numbers by replacing the constant value \java{2} with a parameter \java{n}.
 This step is called ``generalization'' because it makes the method more general (less specific).
 
 \begin{code}
 public static void printRow(int n) {
-    int i = 1;
-    while (i <= 6) {
+    for (int i = 1; i <= 6; i++) {
         System.out.printf("%4d", n * i);  // generalized n
-        i = i + 1;
     }
     System.out.println();
 }
 \end{code}
 
-Invoking this method with the argument 2 yields the same output as before.
-With the argument 3, the output is:
+Invoking this method with the argument \java{2} yields the same output as before.
+With the argument \java{3}, the output is:
 
 \begin{stdout}
    3   6   9  12  15  18
@@ -517,10 +519,8 @@ By now you can probably guess how we are going to display a multiplication table
 In fact, we'll use another loop to iterate through the rows.
 
 \begin{code}
-int i = 1;
-while (i <= 6) {
+for (int i = 1; i <= 6; i++) {
     printRow(i);
-    i = i + 1;
 }
 \end{code}
 
@@ -546,10 +546,8 @@ We can encapsulate the outer loop in a method too:
 
 \begin{code}
 public static void printTable() {
-    int i = 1;
-    while (i <= 6) {
+    for (int i = 1; i <= 6; i++) {
         printRow(i);
-        i = i + 1;
     }
 }
 \end{code}
@@ -559,10 +557,8 @@ We can generalize it by replacing the literal \java{6} with a parameter:
 
 \begin{code}
 public static void printTable(int rows) {
-    int i = 1;
-    while (i <= rows) {  // generalized rows
+    for (int i = 1; i <= rows; i++) {     // generalized rows
         printRow(i);
-        i = i + 1;
     }
 }
 \end{code}
@@ -579,15 +575,13 @@ Here is the output of \java{printTable(7)}:
    7  14  21  28  35  42
 \end{stdout}
 
-That's better, but it still has a problem: it always displays the same number of columns.
+That's better, but it always displays the same number of columns.
 We can generalize more by adding a parameter to \java{printRow}:
 
 \begin{code}
 public static void printRow(int n, int cols) {
-    int i = 1;
-    while (i <= cols) {  // generalized cols
+    for (int i = 1; i <= cols; i++) {     // generalized cols
         System.out.printf("%4d", n * i);
-        i = i + 1;
     }
     System.out.println();
 }
@@ -598,10 +592,8 @@ Since we added a parameter to \java{printRow}, we also have to change the line i
 
 \begin{code}
 public static void printTable(int rows) {
-    int i = 1;
-    while (i <= rows) {
-        printRow(i, rows);  // added rows argument
-        i = i + 1;
+    for (int i = 1; i <= rows; i++) {
+        printRow(i, rows);                // rows becomes cols
     }
 }
 \end{code}
