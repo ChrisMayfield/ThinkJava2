@@ -7,7 +7,7 @@ Up to this point, we've been using \java{while} and \java{for} loops whenever we
 Methods that use iteration are called {\bf iterative}.
 They are straight-forward, but sometimes there are more elegant solutions.
 
-In this chapter, we will explore one of the most magical things that a method can do: invoke {\em itself} to solve a smaller version of the {\em same} problem.
+In this chapter, we explore one of the most magical things that a method can do: invoke {\em itself} to solve a smaller version of the {\em same} problem.
 A method that invokes itself is called {\bf recursive}.
 
 
@@ -106,7 +106,7 @@ The total number of newlines is $1 + (n - 1)$, which is just what we wanted: $n$
 In Section~\ref{stack}, we used a stack diagram to represent the state of a program during a method invocation.
 The same kind of diagram can make it easier to interpret a recursive method.
 
-Remember that every time a method gets called, Java creates a new frame that contains the current method's parameters and variables.
+Remember that every time a method gets called, Java creates a new frame that contains the method's parameters and variables.
 Figure~\ref{fig.stack2} is a stack diagram for \java{countdown}, called with \java{n == 3}.
 
 \begin{figure}[!ht]
@@ -146,12 +146,14 @@ public static void forever(String s) {
 
 \index{call stack}
 
-This method displays the string until the stack overflows, at which point it throws an error.
+This method displays the given string until the stack overflows, at which point it throws an error.
 Try this example on your computer -- you might be surprised by how long the error message is!
 
 
 \section{Value Returning Methods}
 \label{factorial}
+
+%TODO: What do you think of hyphenating "value-returning" throughout?
 
 %\index{Turing complete}
 %\index{language!complete}
@@ -191,7 +193,7 @@ For example, the {\bf factorial} of an integer $n$, which is written $n!$, is de
 \end{eqnarray*}
 %
 Don't confuse the mathematical symbol $!$, which means {\em factorial}, with the Java operator \java{!}, which means {\em not}.
-This definition says that \java{factorial(0)} is \java{1}, and that \java{factorial(n)} is \java{n * factorial(n - 1)}.
+This definition says that \java{factorial(0)} is \java{1}, and \java{factorial(n)} is \java{n * factorial(n - 1)}.
 
 So \java{factorial(3)} is \java{3 * factorial(2)}; \java{factorial(2)} is \java{2 * factorial(1)}; \java{factorial(1)} is \java{1 * factorial(0)}; and \java{factorial(0)} is \java{1}.
 Putting it all together, we get \java{3 * 2 * 1 * 1}, which is 6.
@@ -279,11 +281,11 @@ Notice that \java{recurse} and \java{result} do not exist in the last frame, bec
 \index{leap of faith}
 
 Following the flow of execution is one way to read programs, but it can quickly become overwhelming.
-An alternative way to understand recursion is the {\bf leap of faith}:
+Another way to understand recursion is the {\bf leap of faith}:
 when you come to a method invocation, instead of following the flow of execution, you {\em assume} that the method works correctly and returns the appropriate value.
 
 In fact, you are already practicing this leap of faith when you use methods in the Java library.
-When you invoke \java{Math.cos} or \java{System.out.println}, you don't examine or think about the implementations of those methods.
+When you invoke \java{Math.cos} or \java{System.out.println}, you don't think about the implementations of those methods.
 You just assume that they work properly.
 
 The same is true of other methods.
@@ -298,11 +300,11 @@ public static boolean isSingleDigit(int x) {
 Once you convince yourself that this method is correct -- by examining and testing the code -- you can just use the method without ever looking at the implementation again.
 
 Recursive methods are no different.
-When you get to a recursive call, don't try to think about the flow of execution.
-Instead, you should {\em assume} that the recursive call produces the desired result.
+When you get to a recursive call, don't think about the flow of execution.
+Instead, {\em assume} that the recursive call produces the desired result.
 
 For example, ``Assuming that I can find the factorial of $n-1$, can I compute the factorial of $n$?''
-Yes you can, by multiplying by $n$.
+Yes you can, by multiplying by $n$.  Here's an implementation of \java{factorial} with the temporary variables removed:
 
 \begin{code}
 public static int factorial(int n) {
@@ -313,8 +315,8 @@ public static int factorial(int n) {
 }
 \end{code}
 
-Notice how similar this implementation (with the temporary variables removed) is to the original mathematical definition.
-There is essentially a one-to-one correspondence.
+Notice how similar this version is to the original mathematical definition.
+%There is essentially a one-to-one correspondence.
 %
 \begin{eqnarray*}
 &&  0! = 1 \\
@@ -322,7 +324,7 @@ There is essentially a one-to-one correspondence.
 \end{eqnarray*}
 %
 Of course, it is strange to assume that the method works correctly when you have not finished writing it.
-But that's why it's called the leap of faith!
+But that's why it's called a leap of faith!
 
 
 %\section{Fibonacci Sequence}
@@ -354,21 +356,52 @@ If you try to follow the flow of execution here, even for small values of \java{
 But if we take a leap of faith and assume that the two recursive invocations work correctly, then it is clear, looking at the definition, that our implementation is correct.
 
 
-\section{Binary Number System}
+\section{Counting up}
+\label{countup}
 
-Before introducing the next recursive example, we need to discuss how integers are represented by a computer.
+The \java{countdown} example in Section~\ref{recursion} has three parts: (1) it checks the base case, (2) it displays something, and (3) it makes a recursive call.
+What do you think happens if you reverse steps (2) and (3), making the recursive call {\em before} displaying?
+
+\begin{code}
+public static void countup(int n) {
+    if (n == 0) {
+        System.out.println("Blastoff!");
+    } else {
+        countup(n - 1);
+        System.out.println(n);
+    }
+}
+\end{code}
+
+The stack diagram is the same as before, and the method is still called $n$ times.
+But now the \java{System.out.println} happens just before each recursive call returns.
+As a result, it counts {\em up} instead of down:
+
+\begin{stdout}
+Blastoff!
+1
+2
+3
+\end{stdout}
+
+Keep this in mind for the next example, which displays numbers in binary.
+
+\section{Binary Number System}
+\label{binary}
 
 You are probably aware that computers can only store 1's and 0's.
-That's because, at the end of the day, processors and memory are made up of billions of tiny on-off switches.
+That's because processors and memory are made up of billions of tiny on-off switches.
 
 The value 1 means a switch is on; the value 0 means a switch is off.
-All types of data, whether integer, floating-point, text, audio, video, or something else, need to be represented by 1's and 0's.
+All types of data, whether integer, floating-point, text, audio, video, or something else, are represented by 1's and 0's.
 
 \index{binary}
 
-Fortunately, mathematicians solved this problem centuries ago.
-We can represent any integer as a {\bf binary} number.
-The following table shows the first eight numbers in binary and decimal (the number system we normally use).
+Fortunately, we can represent any integer as a {\bf binary} number.
+The following table shows the first eight numbers in binary and decimal.
+
+%NOTE: We have already talked about decimal numbers, so I'm inclined
+% to leave it unexplained here.
 
 \begin{table}[!ht]
 \begin{center}
@@ -398,16 +431,24 @@ Binary & Decimal \\
 \end{center}
 \end{table}
 
-In the decimal system, each part of a number is referred to as a ``digit''.
-For example, the number 456 has three digits.
-In the binary system, each part of a number is referred to as a ``bit''.
-The number 10111 in binary has five bits.
+%In the decimal system, each part of a number is referred to as a %``digit''.
+%For example, the number 456 has three digits.
+%In the binary system, each part of a number is referred to as a ``bit''.
+%The number 10111 in binary has five bits.
 
-When you hear the phrase ``64-bit computer'', it means that the processors and memory use 64 bits to store integers.
-That is where the limits for data types like \java{int} and \java{long} come from.
+%When you hear the phrase ``64-bit computer'', it means that the %processors and memory use 64 bits to store integers.
+%That is where the limits for data types like \java{int} and \java{long} %come from.
 
-Decimal numbers are based on powers of 10, because there are 10 possible values for each digit.
-For example, the number 456 has 6 in the 1's place, 5 in the 10's place, and 4 in the 100's place.
+% NOTE: I would say this differently:  the written representation
+% of numbers is made up of
+% digits, regardless of the base.  Decimal uses 10 digits; binary
+% uses 2.  
+
+% So I think we can leave bits out of the discussion, and just talk
+% about different written representations of the same number.
+
+In decimal there are 10 digits and the written representation of numbers is based on powers of 10.
+For example, the number 456 has 4 in the 100's place, 5 in the 10's place, and 6 in the 1's place.
 So the value is 400 + 50 + 6.
 
 \begin{center}
@@ -420,8 +461,8 @@ $10^2$ & $10^1$ & $10^0$ \\
 \end{tabular}
 \end{center}
 
-Binary numbers are based on powers of 2, because there are 2 possible values for each bit.
-For example, the number 10111 has 1 in the 1's place, 1 in the 2's place, 1 in the 4's place, 0 in the 8's place, and 1 in the 16's place.
+In binary there are 2 digits and the written representation of numbers is based on powers of 2.
+For example, the number 10111 has 1 in the 16's place, 0 in the 8's place, 1 in the 4's place, 1 in the 2's place, and 1 in the 16's place.
 So the value is 16 + 0 + 4 + 2 + 1, which is 23 in decimal.
 
 \begin{center}
@@ -434,9 +475,20 @@ $2^4$ & $2^3$ & $2^2$ & $2^1$ & $2^0$ \\
 \end{tabular}
 \end{center}
 
-To convert from decimal to binary, we simply need to divide the number by two repeatedly until we reach zero.
-When you divide by two, the remainder will be either 0 or 1.
-If you keep track of the remainders, you'll have your binary number.
+To get the digits of a decimal number, we can use repeated division.
+For example, if we divide 456 by 10, we get 45 with remainder 6.
+The remainder is the rightmost digit of 456.
+
+If we divide the result again, we get 4 with remainder 5.
+The remainder is the second rightmost digit of 456.
+
+And if we divide again, we get 0 with remainder 4.
+The remainder is the third rightmost digit of 456, and the result, 0, tells us that we're done.
+
+We can do the same thing in binary if we divide by two.
+When you divide by two, the remainder is the right-most digit, either 0 or 1.
+If you divide the result again, you get the second rightmost digit.
+If you keep going, and write down the remainders, you'll have your number in binary.
 
 \begin{stdout}
 23 / 2 is 11 remainder 1
@@ -451,36 +503,9 @@ Reading these remainders from bottom to top, 23 in binary is 10111.
 
 \section{Recursive Binary Method}
 
-We can write a recursive method to convert decimal to binary.
-Doing so will demonstrate how to compute results in reverse order.
+Now, to display a number in binary we can combine the algorithm from the previous section and the ``count up'' pattern from Section~\ref{countup}.
 
-At the start of the chapter, the \java{countdown} example had three parts: (1) it checked the base case, (2) displayed something, and (3) made a recursive call.
-What do you think happens if you reverse steps 2 and 3, making the recursive call {\em before} displaying?
-
-\begin{code}
-public static void countup(int n) {
-    if (n == 0) {
-        System.out.println("Blastoff!");
-    } else {
-        countup(n - 1);
-        System.out.println(n);
-    }
-}
-\end{code}
-
-The stack diagram is the same as before, and the method is still called $n$ times.
-But now the \java{System.out.println} happens just before each recursive call returns.
-As a result, it counts {\em up} instead of down:
-
-\begin{stdout}
-Blastoff!
-1
-2
-3
-\end{stdout}
-
-We can apply this idea to solve our binary conversion problem.
-Here is a recursive method that displays the binary value of any positive integer:
+Here is a recursive method that displays any positive integer in binary:
 
 \begin{code}
 public static void displayBinary(int value) {
@@ -519,15 +544,15 @@ System.out.println();
 
 \section{CodingBat Problems}
 
-In the past several chapters of this book, you've seen methods, conditions, loops, strings, arrays, and recursion.
+In the past several chapters you've seen methods, conditions, loops, strings, arrays, and recursion.
 A great resource for practicing all of these concepts is \url{https://codingbat.com/}.
 
 \index{CodingBat}
 
-CodingBat is a free website of live programming problems developed by Nick Parlante, a Computer Science lecturer at Stanford University.
-As you work on these problems, CodingBat will save your progress (if you create an account).
+CodingBat is a free website of programming problems developed by Nick Parlante, a Computer Science lecturer at Stanford University.
+As you work on these problems, CodingBat saves your progress (if you create an account).
 
-To conclude this chapter, we will look at two problems in the {\sf Recursion-1} section of CodingBat.
+To conclude this chapter, we consider two problems in the {\sf Recursion-1} section of CodingBat.
 One of them deals with strings, and the other deals with arrays.
 Both of them have the same recursive idea: check the base case, look at the current index, and recursively handle the rest.
 
@@ -536,7 +561,7 @@ The first problem is available at \url{https://codingbat.com/prob/p118230}:
 \begin{quote}
 \textbf{Recursion-1 ~noX}
 
-Given a string, compute recursively a new string where all the 'x' chars have been removed.
+Given a string, compute recursively a new string where all the \java{'x'} chars have been removed.
 
 \ttfamily
 noX("xaxb") $\rightarrow$ "ab" \\
@@ -545,34 +570,47 @@ noX("xx") $\rightarrow$ ""
 \end{quote}
 
 When solving recursive problems, it helps to think about the base case first.
-The base case is the easiest version of the problem; for noX, it's when you're given the empty string.
-If the string is empty, there are no x's to be removed.
+The base case is the easiest version of the problem; for \java{noX}, it's the empty string.
+If the argument is an empty string, there are no {\tt x}'s to be removed.
 
 \begin{code}
-if (str.length() == 0) {
-    return "";
-}
+    if (str.length() == 0) {
+        return "";
+    }
 \end{code}
+
+% NOTE: Some people like isEmpty(), but I think this is the right
+% idiom for our purposes
+% https://www.techiedelight.com/check-string-empty-or-null-java/
 
 Next comes the more difficult part.
-To solve a problem recursively, you need to think of a simper instance of the same problem.
-For noX, it's removing all the x's from a shorter string.
+To solve a problem recursively, you need to think of a simpler instance of the same problem.
+For \java{noX}, it's removing all the {\tt x}'s from a shorter string.
 
-To find an x, we only need to look at one character.
-So we can recursively call noX on the rest of the string (the substring at index 1).
-Here is the solution:
+So let's split the string into two parts, the first letter and the rest.
 
 \begin{code}
-char c = str.charAt(0);
-if (c == 'x') {
-    return noX(str.substring(1));
-} else {
-    return c + noX(str.substring(1));
-}
+    char first = str.charAt(0);
+    String rest = str.substring(1);
 \end{code}
 
-The \java{else} block ``saves'' the character if it's not an x.
-Otherwise, the x is ``removed'' by the first \java{return} statement.
+Now we can make a recursive call to remove the {\tt x}'s from {\tt rest}:
+
+\begin{code}
+    String recurse = noX(rest);
+\end{code}
+
+If {\tt first} happens to be an {\tt x}, we're done; we just have to return {\tt recurse}.  Otherwise, we have to concatenate {\tt first} and {\tt recurse}.  Here's the {\tt if} statement we need.
+
+\begin{code}
+    if (first == 'x') {
+        return recurse;
+    } else {
+        return first + recurse;
+    }
+\end{code}
+
+You can run this solution on CodingBat by pasting these snippets into the provided method definition.
 
 The second problem is available at \url{https://codingbat.com/prob/p135988}:
 
@@ -589,35 +627,36 @@ array11([1, 2, 3, 4], 0) $\rightarrow$ 0
 
 This problem uses the convention of passing the index as an argument.
 So the base case is when we've reached the end of the array.
-At that point, we know there are no more 11's.
+At that point, we know there are no more {\tt 11}'s.
 
 \begin{code}
-if (index >= nums.length) {
-    return 0;
-}
+    if (index >= nums.length) {
+        return 0;
+    }
 \end{code}
 
-Next we look at the current number (based on the given index), and check if it's an 11.
+Next we look at the current number (based on the given index), and check if it's an {\tt 11}.
 After that, we can recursively check the rest of the array.
 Similar to the noX problem, we look at only one integer per method call.
 
 \begin{code}
-if (nums[index] == 11) {
-    return 1 + array11(nums, index + 1);
-} else {
-    return array11(nums, index + 1);
-}
+    int recurse = array11(nums, index + 1);
+    if (nums[index] == 11) {
+        return recurse + 1;
+    } else {
+        return recurse;
+    }
 \end{code}
 
-You can run these solutions on CodingBat by pasting them into the provided method definition.
-But don't forget to paste both parts: the base case, and the recursive step.
+Again, you can run this solutions on CodingBat by pasting the snippets into the method definition.
+
 
 \index{Java Tutor}
 
-To see how these solutions actually work, you might need to step through them with a debugger (see Appendix~\ref{debugger}) or Java Tutor (\url{https://thinkjava.org/javatutor}).
-Then try to solve several CodingBat problems of your own.
+To see how these solutions actually work, you might find it helpful to step through them with a debugger (see Appendix~\ref{debugger}) or Java Tutor (\url{https://thinkjava.org/javatutor}).
+Then try solving other CodingBat problems on your own.
 
-Learning to think recursively is an important aspect of learning to think like a computer scientist.
+Learning to think recursively is an important part of learning to think like a computer scientist.
 Many algorithms can be written concisely with recursive methods that perform computations on the way down, on the way up, or both.
 
 
