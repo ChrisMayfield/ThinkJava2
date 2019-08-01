@@ -387,7 +387,7 @@ You might wonder when to use one or the other.  It depends on whether you know h
 
 A \java{for} loop is ``definite'', which means we know, at the beginning of the loop, how many times it will repeat.
 In the alphabet example, we know it will run 26 times.
-In that case, it's better to use a \java{for} loop, which puts all of the loop control code on one line.
+In that case, it's better to use a \java{for} loop, which puts all of the loop control code on one line: \java{for (char c = 'A'; c <= 'Z'; c++)}.
 
 A \java{while} loop is ``indefinite'', which means we don't know how many times it will repeat.
 For example, when validating user input as in Section~\ref{validate}, it's impossible to know how many times the user will enter a wrong value.
@@ -404,6 +404,7 @@ double number = in.nextDouble();
 \end{code}
 
 It's easier to read the \java{Scanner} method calls when they're not all on one line of code.
+And since there is nothing to initialize, a \java{for} loop would be more difficult to understand: \java{for (; !in.hasNextDouble(); word = in.next())}.
 
 
 \section{String Iteration}
@@ -582,12 +583,8 @@ if (answer == "yes") {                 // wrong!
 \end{code}
 
 The problem is that the \java{==} operator checks whether the two operands refer to the {\em same object}.
-Even if answer is \java{"yes"}, it will refer to a different object in memory than the literal string \java{"yes"} in the code.
+Even if \java{answer} is \java{"yes"}, it will refer to a different object in memory than the literal string \java{"yes"} from the source code.
 We'll learn more about objects and references in the next chapter.
-
-%TODO: Have we talked about literal strings, and does the reader know
-% they are in the code segment, or do we need a more abstract explanation
-% here.
 
 The correct way to compare strings is with the \java{equals} method, like this:
 
