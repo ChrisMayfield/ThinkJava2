@@ -150,10 +150,8 @@ This method displays the given string until the stack overflows, at which point 
 Try this example on your computer -- you might be surprised by how long the error message is!
 
 
-\section{Value Returning Methods}
+\section{Value-Returning Methods}
 \label{factorial}
-
-%TODO: What do you think of hyphenating "value-returning" throughout?
 
 %\index{Turing complete}
 %\index{language!complete}
@@ -304,7 +302,8 @@ When you get to a recursive call, don't think about the flow of execution.
 Instead, {\em assume} that the recursive call produces the desired result.
 
 For example, ``Assuming that I can find the factorial of $n-1$, can I compute the factorial of $n$?''
-Yes you can, by multiplying by $n$.  Here's an implementation of \java{factorial} with the temporary variables removed:
+Yes you can, by multiplying by $n$.
+Here's an implementation of \java{factorial} with the temporary variables removed:
 
 \begin{code}
 public static int factorial(int n) {
@@ -315,7 +314,7 @@ public static int factorial(int n) {
 }
 \end{code}
 
-Notice how similar this version is to the original mathematical definition.
+Notice how similar this version is to the original mathematical definition:
 %There is essentially a one-to-one correspondence.
 %
 \begin{eqnarray*}
@@ -356,7 +355,7 @@ If you try to follow the flow of execution here, even for small values of \java{
 But if we take a leap of faith and assume that the two recursive invocations work correctly, then it is clear, looking at the definition, that our implementation is correct.
 
 
-\section{Counting up}
+\section{Counting Up Recursively}
 \label{countup}
 
 The \java{countdown} example in Section~\ref{recursion} has three parts: (1) it checks the base case, (2) it displays something, and (3) it makes a recursive call.
@@ -400,9 +399,6 @@ All types of data, whether integer, floating-point, text, audio, video, or somet
 Fortunately, we can represent any integer as a {\bf binary} number.
 The following table shows the first eight numbers in binary and decimal.
 
-%NOTE: We have already talked about decimal numbers, so I'm inclined
-% to leave it unexplained here.
-
 \begin{table}[!ht]
 \begin{center}
 \begin{tabular}{|c|c|}
@@ -439,15 +435,10 @@ Binary & Decimal \\
 %When you hear the phrase ``64-bit computer'', it means that the %processors and memory use 64 bits to store integers.
 %That is where the limits for data types like \java{int} and \java{long} %come from.
 
-% NOTE: I would say this differently:  the written representation
-% of numbers is made up of
-% digits, regardless of the base.  Decimal uses 10 digits; binary
-% uses 2.  
-
-% So I think we can leave bits out of the discussion, and just talk
+% ABD: I think we can leave bits out of the discussion, and just talk
 % about different written representations of the same number.
 
-In decimal there are 10 digits and the written representation of numbers is based on powers of 10.
+In decimal there are 10 digits, and the written representation of numbers is based on powers of 10.
 For example, the number 456 has 4 in the 100's place, 5 in the 10's place, and 6 in the 1's place.
 So the value is 400 + 50 + 6.
 
@@ -461,7 +452,7 @@ $10^2$ & $10^1$ & $10^0$ \\
 \end{tabular}
 \end{center}
 
-In binary there are 2 digits and the written representation of numbers is based on powers of 2.
+In binary there are 2 digits, and the written representation of numbers is based on powers of 2.
 For example, the number 10111 has 1 in the 16's place, 0 in the 8's place, 1 in the 4's place, 1 in the 2's place, and 1 in the 16's place.
 So the value is 16 + 0 + 4 + 2 + 1, which is 23 in decimal.
 
@@ -481,7 +472,6 @@ The remainder is the rightmost digit of 456.
 
 If we divide the result again, we get 4 with remainder 5.
 The remainder is the second rightmost digit of 456.
-
 And if we divide again, we get 0 with remainder 4.
 The remainder is the third rightmost digit of 456, and the result, 0, tells us that we're done.
 
@@ -574,9 +564,9 @@ The base case is the easiest version of the problem; for \java{noX}, it's the em
 If the argument is an empty string, there are no {\tt x}'s to be removed.
 
 \begin{code}
-    if (str.length() == 0) {
-        return "";
-    }
+if (str.length() == 0) {
+    return "";
+}
 \end{code}
 
 % NOTE: Some people like isEmpty(), but I think this is the right
@@ -590,24 +580,24 @@ For \java{noX}, it's removing all the {\tt x}'s from a shorter string.
 So let's split the string into two parts, the first letter and the rest.
 
 \begin{code}
-    char first = str.charAt(0);
-    String rest = str.substring(1);
+char first = str.charAt(0);
+String rest = str.substring(1);
 \end{code}
 
 Now we can make a recursive call to remove the {\tt x}'s from {\tt rest}:
 
 \begin{code}
-    String recurse = noX(rest);
+String recurse = noX(rest);
 \end{code}
 
 If {\tt first} happens to be an {\tt x}, we're done; we just have to return {\tt recurse}.  Otherwise, we have to concatenate {\tt first} and {\tt recurse}.  Here's the {\tt if} statement we need.
 
 \begin{code}
-    if (first == 'x') {
-        return recurse;
-    } else {
-        return first + recurse;
-    }
+if (first == 'x') {
+    return recurse;
+} else {
+    return first + recurse;
+}
 \end{code}
 
 You can run this solution on CodingBat by pasting these snippets into the provided method definition.
@@ -630,9 +620,9 @@ So the base case is when we've reached the end of the array.
 At that point, we know there are no more {\tt 11}'s.
 
 \begin{code}
-    if (index >= nums.length) {
-        return 0;
-    }
+if (index >= nums.length) {
+    return 0;
+}
 \end{code}
 
 Next we look at the current number (based on the given index), and check if it's an {\tt 11}.
@@ -640,16 +630,15 @@ After that, we can recursively check the rest of the array.
 Similar to the noX problem, we look at only one integer per method call.
 
 \begin{code}
-    int recurse = array11(nums, index + 1);
-    if (nums[index] == 11) {
-        return recurse + 1;
-    } else {
-        return recurse;
-    }
+int recurse = array11(nums, index + 1);
+if (nums[index] == 11) {
+    return recurse + 1;
+} else {
+    return recurse;
+}
 \end{code}
 
 Again, you can run this solutions on CodingBat by pasting the snippets into the method definition.
-
 
 \index{Java Tutor}
 
