@@ -17,9 +17,6 @@ Chapter 8:
 Chapter 9:
 
 Chapter 10:
-  confused when the book said attributes might refer to as "fields" in the documentation
-  split 10.9 into two sections (create 10.10 about StringBuilder)
-  new section on variable scope (static, instance, parameter, local)
 
 Chapter 11:
   need more explanation of "this." (and "that." isn't helpful)
@@ -54,7 +51,6 @@ Appendix A:
 Appendix B:
 
 Appendix C:
-  remove duplicate figure/text in Chapter 10
 
 Appendix D:
   stack trace (how to read)

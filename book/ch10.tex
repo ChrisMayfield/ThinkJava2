@@ -16,7 +16,9 @@ We will also take a first look at the source code for the Java library.
 \section{Point Objects}
 \label{point}
 
-In math, points are often written in parentheses with a comma separating the coordinates.
+\index{coordinate}
+
+In math, 2D ``points'' are often written in parentheses with a comma separating the coordinates.
 For example, $(0,0)$ indicates the origin, and $(x,y)$ indicates the point $x$ units to the right and $y$ units up from the origin.
 
 \index{AWT}
@@ -34,7 +36,7 @@ import java.awt.Point;
 \index{new}
 \index{operator!new}
 
-Then, to create a new point, you can use the \java{new} operator:
+Then, to create a new point, you use the \java{new} operator:
 
 \begin{code}
 Point blank;
@@ -46,7 +48,7 @@ blank = new Point(3, 4);
 \index{reference}
 
 The first line declares that \java{blank} has type \java{Point}.
-The second line creates the new \java{Point} with the given coordinates.
+The second line creates the new \java{Point} with the coordinates $x=3$ and $y=4$.
 The result of the \java{new} operator is a {\em reference} to the object.
 %So \java{blank} contains a reference to the new \java{Point} object.
 Figure~\ref{fig.reference} shows the result.
@@ -72,7 +74,8 @@ The arrow points to the \java{Point} object, which contains two variables, \java
 \index{attribute}
 \index{dot notation}
 
-Variables that belong to an object are called {\bf attributes}, but you might also see them referred to as ``fields'' in the documentation.
+Variables that belong to an object are called {\bf attributes}.
+(You might also see them referred to as ``fields'' in the documentation.)
 To access an attribute of an object, Java uses {\bf dot notation}.
 For example:
 
@@ -146,7 +149,7 @@ java.awt.Point[x=3,y=4]
 \index{toString}
 
 \java{Point} objects provide a method called \java{toString} that returns a string representation of a point.
-When you call \java{println} with objects, it automatically calls \java{toString} and displays the result.
+When you call \java{println} with objects, it {\em automatically} calls \java{toString} and displays the result.
 In this case, it shows the name of the type (\java{java.awt.Point}) and the names and values of the attributes.
 
 
@@ -300,7 +303,7 @@ Rather than write methods like \java{moveRect} that modify one or more parameter
 
 Remember that when you assign an object to a variable, you are assigning a {\em reference} to an object.
 It is possible to have multiple variables that refer to the same object.
-The memory diagram in Figure~\ref{fig.aliasing} shows the result.
+The memory diagram in Figure~\ref{fig.aliasing} shows an example.
 
 \begin{code}
 Rectangle box1 = new Rectangle(0, 0, 100, 200);
@@ -319,7 +322,7 @@ Rectangle box2 = box1;
 
 %Notice how \java{box1} and \java{box2} are aliases for the same object, so any changes that affect one variable also affect the other.
 
-The following example adds 50 to all four sides of the rectangle.
+The following code adds 50 to all four sides of the rectangle.
 It moves the corner up and to the left by 50, and it increases the height and width by 100:
 
 \begin{code}
@@ -376,6 +379,7 @@ In the paths below, you'll need to replace ``\java{...}'' with the version numbe
 
 When you open (or unzip) the file, you will see folders that correspond to Java packages.
 For example, open the {\tt java} folder, and then open the {\tt awt} folder.
+(If you don't see a {\tt java} folder at first, open the {\tt java.desktop} folder.)
 You should now see {\tt Point.java} and {\tt Rectangle.java}, along with the other classes in the \java{java.awt} package.
 
 Open {\tt Point.java} in your editor and skim through the file.
@@ -389,7 +393,7 @@ But you can get a sense of what professional Java source code looks like by brow
 Notice how much of {\tt Point.java} is documentation (see Appendix~\ref{javadoc}).
 Each method is thoroughly commented, including \java{@param}, \java{@return}, and other tags.
 Javadoc reads these comments and generates documentation in HTML.
-You can see the results by reading the documentation for the \java{Point} class, which you can find by doing a web search for ``Java Point''.
+You can see this same documentation online by doing a web search for ``Java Point''.
 
 Now take a look at the \java{Rectangle} class's \java{grow} and \java{translate} methods.
 There is more to them than you may have realized, but that doesn't limit your ability to use these methods in a program.
@@ -439,10 +443,83 @@ Both \java{Point} and \java{Rectangle} have additional methods; we are only show
 See the documentation for these classes to learn more about what they can do.
 
 
+\section{Scope Revisited}
+
+\index{scope}
+
+In Section~\ref{stack}, we introduced the idea that variables have scope.
+The scope of a variable is the area of a program where a variable exists.
+
+Consider the first few lines of the \java{Rectangle.translate} method (in the Java library source code):
+
+\begin{code}
+public void translate(int dx, int dy) {
+    int oldv = this.x;
+    int newv = oldv + dx;
+    if (dx < 0) {
+    ...
+\end{code}
+
+This example shows three different types of variables:
+
+\begin{enumerate}
+
+\item Local variables (\java{oldv} and \java{newv}), which exist within a method.
+When the method returns, these variables are no longer in memory.
+
+\item Parameters (\java{dx} and \java{dy}), which are similar to local variables.
+They are initialized with the arguments passed to the method.
+
+\index{this}
+
+\item Attributes (\java{this.x}), which exist as long as the object exists.
+They can be used in any of the object's methods and are often referred to using the keyword \java{this} (meaning ``this object'').
+
+\end{enumerate}
+
+When the Java compiler encounters a variable name, it searches backwards for its declaration.
+The compiler first looks for local variables, then parameters, then attributes.
+
+It's possible to declare a local variable (or parameter) with the same name as an attribute.
+For example, you can declare \java{int x} in a method of the \java{Rectangle} class.
+In that method, the expression \java{x + 5} will refer to the local variable, even though there is an attribute named \java{x}.
+
+\index{shadowing}
+
+This situation is called {\bf shadowing}, because the local variable ``hides'' the attribute.
+Java provides the keyword \java{this} to refer to attributes explicitly.
+For example, look at the \java{Rectangle.reshape} method:
+
+\begin{code}
+@Deprecated
+public void move(int x, int y) {
+    this.x = x;
+    this.y = y;
+}
+\end{code}
+
+The variables \java{x} and \java{y} are parameters of the \java{move} method, and \java{this.x} and \java{this.y} are attributes of the rectangle being moved.
+These variables have the same name, but they have different scope.
+
+\index{deprecated}
+
+Notice that the \java{move} method has been {\bf deprecated}.
+Sometimes when new versions of Java are released, the library classes are revised or enhanced.
+The documentation for \java{Rectangle.move} indicates that the \java{setLocation} method should be used instead.
+
+The word ``deprecate'' means to express strong disapproval.
+Java discourages using deprecated methods, either because they are dangerous, or because better alternatives exist.
+The compiler will display a warning if you attempt to use a deprecated method.
+
+
 \section{Garbage Collection}
 
-In Section~\ref{aliasing}, we saw what happens when more than one variable refers to the same object.
-What happens when {\em no} variables refer to an object?
+In the previous section, we said that attributes exist as long as the object exists.
+But when does an object cease to exist?
+Here is a simple example:
+
+%In Section~\ref{aliasing}, we saw what happens when more than one variable refers to the same object.
+%What happens when {\em no} variables refer to an object?
 
 \begin{code}
 Point blank = new Point(3, 4);
@@ -471,7 +548,7 @@ As your program runs, the system automatically looks for stranded objects and de
 This process is called {\bf garbage collection}.
 %You can manually run the garbage collector by invoking \java{System.gc()} method.
 
-You don't have to do anything to make garbage collection happen, and in general don't have to be aware of it.
+You don't have to do anything to make garbage collection happen, and in general, you don't have to be aware of it.
 But in high-performance applications, you may notice a slight delay every now and then when Java reclaims space from discarded objects.
 
 
@@ -497,7 +574,7 @@ public class Surprise {
     public static void main(String[] args) {
         String s1 = "Hi, Mom!";
         String s2 = "Hi, " + "Mom!";
-        if (s1 == s2) {  // true!
+        if (s1 == s2) {                // true!
             System.out.println("s1 and s2 are the same");
         }
     }
@@ -505,8 +582,8 @@ public class Surprise {
 \end{trinket}
 
 In this example, \java{s1} and \java{s2} represent the {\em same} string, even though they are created differently.
-Because strings are immutable, the compiler decides to reuse a single object for both \java{s1} and \java{s2}.
-As a result, \java{s1 == s2}, even though it appears they should be different objects.
+Because strings are immutable, the compiler decides to use a single object for both \java{s1} and \java{s2}.
+As a result, \java{s1 == s2}, even though it appears they might be different objects.
 
 Since neither variable can change the string itself, both \java{s1} and \java{s2} will be \java{"Hi, Mom!"} until they are reassigned.
 You can pass strings (and other immutable objects) to methods without worrying about their contents changing as a ``side-effect'' of the method.
@@ -516,6 +593,9 @@ You can pass strings (and other immutable objects) to methods without worrying a
 On the other hand, mutable objects have their own advantages.
 It's more efficient to move a rectangle by simply changing its coordinates than to create a brand new \java{Rectangle} each time.
 And as we'll see later on, it's easier to implement objects that allow their attributes to be changed.
+
+
+\section{StringBuilder Objects}
 
 Strings are particularly inefficient when you need to concatenate them multiple times.
 Consider the following program that inputs ten lines from \java{System.in} and concatenates them into a single \java{String}.
@@ -549,7 +629,7 @@ The Java library provides the class \java{StringBuilder} for this situation.
 It's part of the \java{java.lang} package, so you don't need to import it.
 Because \java{StringBuilder} objects are mutable, they can implement concatenation much more efficiently.
 
-All we need to change is the \java{text} variable and the body of the \java{for} loop:
+All we need to change is the variable \java{text} and the body of the \java{for} loop:
 
 \begin{code}
 StringBuilder text = new StringBuilder();
@@ -562,6 +642,7 @@ for (int i = 0; i < 10; i++) {
 
 \java{StringBuilder} provides a number of \java{append} and \java{insert} methods that work with strings efficiently.
 It also allows you to \java{delete} portions of a string.
+Programs that manipulate large amounts of text will run much faster if you use \java{StringBuilder}s instead of \java{String}s.
 
 
 \section{Vocabulary}
@@ -589,6 +670,12 @@ Unified Modeling Language, a standard way to draw diagrams for software engineer
 
 \term{class diagram}
 An illustration of the attributes and methods for a class.
+
+\term{shadowing}
+Occurs when a local variable or parameter has the same name as an attribute.
+
+\term{deprecated}
+A library method that has been replaced by another method, but left in the class for backwards compatibility.
 
 \term{garbage collection}
 The process of finding objects that have no references and reclaiming their storage space.

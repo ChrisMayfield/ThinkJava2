@@ -73,14 +73,11 @@ If you run this code, you should see a black circle on a gray background.
 \section{Graphics Methods}
 
 \index{coordinate}
-\index{pixel}
 
 You are probably used to Cartesian {\bf coordinates}, where $x$ and $y$ values can be positive or negative.
 In contrast, Java uses a coordinate system where the origin is in the upper-left corner.
 That way, $x$ and $y$ are always positive integers.
-Figure~\ref{fig.coordinates} shows these coordinate systems.
-
-Graphical coordinates are measured in {\bf pixels}; each pixel corresponds to a dot on the screen.
+Figure~\ref{fig.coordinates} shows these coordinate systems side-by-side.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -89,6 +86,10 @@ Graphical coordinates are measured in {\bf pixels}; each pixel corresponds to a 
 \label{fig.coordinates}
 \end{center}
 \end{figure}
+
+\index{pixel}
+
+Graphical coordinates are measured in {\bf pixels}; each pixel corresponds to a dot on the screen.
 
 To draw on the canvas, you invoke methods on a \java{Graphics} object.
 You don't have to create the \java{Graphics} object; it gets created when you create the \java{Canvas}, and it gets passed as an argument to \java{paint}.
