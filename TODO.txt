@@ -15,9 +15,6 @@ Chapter 7:
 Chapter 8:
 
 Chapter 9:
-  argument validation? purpose for short circuit (e.g., null vs empty)
-  need to introduce Object before Act11 (somewhere in Ch9 or 10)
-  could 10.6 Java library source be moved into Chapter 9?
 
 Chapter 10:
   confused when the book said attributes might refer to as "fields" in the documentation
@@ -28,6 +25,7 @@ Chapter 11:
   need more explanation of "this." (and "that." isn't helpful)
   explain the terms default constructor and value constructor? -- need more on constructors
   show an example of calling each method after it's defined (constructor, equals, toString)
+  need to introduce Object before Ch14 (somewhere in Ch10 or Ch11)
   Time.java should not be a Trinket -- running it doesn't "do" anything (are there others?)
 
 Chapter 12:
