@@ -24,10 +24,10 @@ We will explore some of these methods in this chapter.
 
 \index{primitive}
 
-Not everything in Java is an object: \java{int}, \java{double}, \java{char}, and \java{boolean} are examples of {\bf primitive} types.
+Not everything in Java is an object: \java{int}, \java{double}, \java{char}, and \java{boolean} are {\bf primitive} types.
 %We will explain some of the differences between object types and primitive types as we go along.
 When you declare a variable with a primitive type, Java reserves a small amount of memory to store its value.
-Figure~\ref{fig.mem1} shows how the following values are stored memory.
+Figure~\ref{fig.mem1} shows how the following values are stored in memory.
 
 \begin{code}
 int number = -2;
@@ -46,8 +46,15 @@ char symbol = '!';
 \index{diagram!memory}
 
 As we learned in Section~\ref{elements}, an array variable stores a {\em reference} to an array.
-That's because the array itself is too large to fit in the variable's memory.
-For example, \java{char[] array = \{'c', 'a', 't'\};} contains three characters.
+%That's because the array itself is too large to fit in the variable's memory.
+For example, this line of code
+
+\begin{code}
+    char[] array = {'c', 'a', 't'};
+\end{code}
+
+Creates a variable named \java{array} and an array for it to refer to. 
+Figure~\ref{fig.mem2} shows them both, with a box to represent the location of the variable and an arrow pointing to the location of the array.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -57,16 +64,14 @@ For example, \java{char[] array = \{'c', 'a', 't'\};} contains three characters.
 \end{center}
 \end{figure}
 
-When drawing memory diagrams, we use an arrow to represent the location of the array, as in Figure~\ref{fig.mem2}.
-The actual memory location (the {\em value} of the array variable) is an integer chosen by Java at run-time.
-
 Objects work in a similar way.
-When you declare an object variable, it will store a reference to an object.
-In contrast to arrays, which store multiple elements of the same data type, objects can be used to {\bf encapsulate} any type of data.
-%We will learn more about this concept in Chapter~\ref{mutable}.
+For example, this code
 
-For example, a \java{String} object encapsulates a character array.
-Figure~\ref{fig.mem3} illustrates how strings are stored in memory.
+\begin{code}
+String word = "dog";
+\end{code}
+
+Creates a \java{String} variable named \java{word} and a \java{String} object for it to refer to, as shown in Figure~\ref{fig.mem3}.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -76,10 +81,16 @@ Figure~\ref{fig.mem3} illustrates how strings are stored in memory.
 \end{center}
 \end{figure}
 
-Behind the scenes, the code \java{String word = "dog";} creates an array of the characters \java{'d'}, \java{'o'}, and \java{'g'}, and stores the reference to that array in a \java{String} object.
-The variable \java{word} contains a reference to the \java{String} object.
+% ABD: I am not sure about this representation of String objects.
+% It looks like Strings contain something named `value`, but as
+% far as I know, that's not true.
 
-Objects and arrays are typically created with the \java{new} keyword, which allocates memory for them. %(see Section~\ref{allocate})
+% And do we want to say that String objects are represented as
+% character arrays?  It could be an unnecessary source of
+% confusion between Strings and arrays.  And it's a level of
+% implementation detail we should not have to know.
+
+Objects and arrays are usually created with the \java{new} keyword, which allocates memory for them. %(see Section~\ref{allocate})
 For convenience, you don't have to use \java{new} to create strings:
 
 \begin{code}
@@ -99,6 +110,8 @@ The \java{==} operator, when applied to string variables, only tests whether the
 
 \section{The null Keyword}
 
+Often when you create an object variable, you assign it to point to an object.  But sometimes you want to create an object variable that doesn't refer to an object, at least initially.
+
 \index{null}
 
 In Java, the keyword \java{null} is a special value that means ``no object''.
@@ -110,7 +123,6 @@ int[] combo = null;
 \end{code}
 
 The value \java{null} is represented in memory diagrams by a small box with no arrow, as in Figure~\ref{fig.mem4}.
-In other words, the variables do not reference anything.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -148,7 +160,7 @@ For example, the methods \java{toLowerCase} and \java{toUpperCase} convert upper
 These methods are often a source of confusion, because it sounds like they modify strings.
 But neither these methods nor any others can change a string, because strings are {\bf immutable}.
 
-When you invoke \java{toUpperCase} on a string, you get another \java{String} object as a result.
+When you invoke \java{toUpperCase} on a string, you get a new \java{String} object as a result.
 For example:
 
 \begin{code}
@@ -168,7 +180,7 @@ name.toUpperCase();           // ignores the return value
 System.out.println(name);
 \end{code}
 
-The previous code displays \java{"Alan Turing"}, because the value of \java{name} (i.e., the reference to the original \java{String} object) never changes.
+The previous code displays \java{"Alan Turing"}, because the value of \java{name}, which refers to the original \java{String} object, never changes.
 If you want to change \java{name} to be uppercase, then you need to assign the return value:
 
 \begin{code}
@@ -196,14 +208,15 @@ If you don't assign the return value, invoking \java{text.replace} has no effect
 
 % ABD: Too many new ideas here: the most important one is that you have to do something with the return value. It's not a good time to appreciate the glory of immutability.
 % CSM: Now that strings were introduced previously, I would like to make this chapter say more about immutability. But we won't get to the full glory until the next chapter.
+% ABD: OK
 
-Strings are immutable by design, because it simplifies passing them between methods as parameters and return values.
+Strings are immutable by design, because it simplifies passing them as parameters and return values.
 And since the contents of a string can never change, two variables can reference the same string without one accidentally corrupting the other.
 
 
 \section{Wrapper Classes}
 
-Primitive values (like \java{int}s, \java{double}s, and \java{char}s) cannot be \java{null}, and they do not provide methods.
+Primitive types like \java{int}, \java{double}, and \java{char} cannot be \java{null}, and they do not provide methods.
 For example, you can't invoke \java{equals} on an \java{int}:
 
 \begin{code}
@@ -228,8 +241,7 @@ System.out.println(i.equals(5));  // displays true
 Other wrapper classes include \java{Boolean}, \java{Character}, \java{Double}, and \java{Long}.
 They are in the \java{java.lang} package, so you can use them without importing them.
 
-Like strings, objects from wrapper classes are immutable.
-And you need to use the \java{equals} method to compare them.
+Like strings, objects from wrapper classes are immutable, and you have to use the \java{equals} method to compare them.
 
 \begin{code}
 Integer x = new Integer(123);
@@ -242,7 +254,7 @@ if (x.equals(y)) {                // true
 }
 \end{code}
 
-Because \java{x} and \java{y} refer to different \java{Integer} objects, this code only displays ``x and y have the same value''.
+Because \java{x} and \java{y} refer to different objects, this code only displays ``x and y have the same value''.
 
 Each wrapper class defines the constants \java{MIN_VALUE} and \java{MAX_VALUE}.
 For example, \java{Integer.MIN_VALUE} is \java{-2147483648}, and \java{Integer.MAX_VALUE} is \java{2147483647}.
@@ -251,7 +263,7 @@ Because these constants are available in wrapper classes, you don't have to reme
 \index{parse}
 
 Wrapper classes also provide methods for converting strings to and from primitive types.
-For example, \java{Integer.parseInt} converts a string to (you guessed it) an integer.
+For example, \java{Integer.parseInt} converts a string to an \java{int}.
 In this context, {\bf parse} means ``read and translate''.
 
 \begin{code}
@@ -259,7 +271,7 @@ String str = "12345";
 int num = Integer.parseInt(str);
 \end{code}
 
-The other wrapper classes provide similar methods, like \java{Double.parseDouble} and \java{Boolean.parseBoolean}.
+Other wrapper classes provide similar methods, like \java{Double.parseDouble} and \java{Boolean.parseBoolean}.
 They also provide \java{toString}, which returns a string representation of a value:
 
 \begin{code}
@@ -267,18 +279,19 @@ int num = 12345;
 String str = Integer.toString(num);
 \end{code}
 
-The result is the string \java{"12345"}, which as you now understand, is stored internally in a character array \java{\{'1', '2', '3', '4', '5'\}}.
+The result is the \java{String} object \java{"12345"}.
 
 \index{NumberFormatException}
 \index{exception!NumberFormat}
 
-It's always possible to convert a primitive value to a string, but not the other way around.
-The following code throws a \java{NumberFormatException}.
+It's always possible to convert a primitive value to a string, but not the other way around.  For example, if we try to parse an invalid string like this:
 
 \begin{code}
 String str = "five";
 int num = Integer.parseInt(str);  // NumberFormatException
 \end{code}
+
+\java{parseInt} throws a \java{NumberFormatException}.
 
 
 \section{Command-Line Arguments}
@@ -333,6 +346,8 @@ It's not clear from the output, but the elements of \java{args} are strings.
 So \java{args} is the array \java{\{"10", "-3", "55", "0", "14"\}}.
 To find the maximum number, we have to convert the arguments to integers.
 
+% Have we done enhanced for loops?
+
 The following code uses an enhanced \java{for} loop to parse the arguments (using the \java{Integer} wrapper class) and find the largest value:
 
 \begin{code}
@@ -360,7 +375,7 @@ if (args.length == 0) {
 }
 \end{code}
 
-It's customary for programs that require command-line arguments to display a ``usage'' message when there are no arguments given.
+It's customary for programs that require command-line arguments to display a ``usage'' message if the arguments are not valid.
 For example, if you run {\tt javac} or {\tt java} from the command line without any arguments, you will get a very long message.
 
 
@@ -401,12 +416,13 @@ What if these assumptions don't hold at run-time?
 \index{NullPointerException}
 \index{exception!NullPointer}
 
-\item \java{isCapitalized(null)} will cause a \java{NullPointerException}, because you can't invoke \java{str.charAt} if \java{str} is \java{null}.
+\item If \java{str} is \java{null}, trying to invoke
+\java{charAt} will cause a \java{NullPointerException}, because you can't invoke a method on \java{null}.
 
 \index{StringIndexOutOfBoundsException}
 \index{exception!StringIndexOutOfBounds}
 
-\item \java{isCapitalized("")} will cause a \java{StringIndexOutOfBoundsException}, because there is no character at index \java{0}.
+\item If \java{str} refers to an empty string, which is a \java{String} object with no characters, \java{charAt} will cause a \java{StringIndexOutOfBoundsException}, because there is no character at index \java{0}.
 
 \end{itemize}
 
@@ -424,8 +440,8 @@ public static boolean isCapitalized(String str) {
 
 Notice that \java{null} and ``empty'' are different concepts, as shown in Figure~\ref{fig.nullempty}.
 The variable \java{str1} is \java{null}, meaning that it doesn't reference an object.
-The variable \java{str2} is \java{""}, the empty string.
-Internally, the empty string is stored as a \java{char} array of length zero (represented by a small box).
+The variable \java{str2} refers to the empty string, \java{""}, represented by a small box.
+%Internally, the empty string is stored as a \java{char} array of length zero (represented by a small box).
 
 \begin{figure}[!ht]
 \begin{center}
@@ -448,6 +464,8 @@ Checking for \java{null} first prevents the \java{NullPointerException}.
 If \java{str} is \java{null}, the \java{||} operator will short circuit and evaluate to \java{true} immediately.
 As a result, \java{str.isEmpty()} will not be called.
 
+% Have we mentioned short circuit?
+
 
 \section{BigInteger Arithmetic}
 % CSM based on text from V6 Exercise 10.4
@@ -461,6 +479,9 @@ But there is another reason: when you need very large integers that exceed \java
 \java{BigInteger} is a Java class that can represent arbitrarily large integers.
 There is no upper bound except the limitations of memory size and processing speed.
 Take a minute to read the documentation, which you can find by doing a web search for ``Java BigInteger''.
+
+% Now that we have short links, should we add one here rather than
+% tell people how to look for it?
 
 \index{java.math}
 
@@ -503,23 +524,27 @@ The methods of \java{BigInteger} traverse this array to perform addition, multip
 For very long floating-point values, take a look at \java{java.math.BigDecimal}.
 Interestingly, \java{BigDecimal} objects represent floating-point numbers internally by encapsulating a \java{BigInteger}!
 
+% ABD: I think explaining the implementation here is a good idea.
+% The level of detail is appropriate, and it explains what might
+% otherwise seem like magic.
+
 
 \section{Program Development}
 \label{encapsulation}
 
-This chapter introduces two main concepts: objects encapsulate other types of data, and they can be designed to be immutable.
-Applying these concepts helps us to manage the complexity of programs as they become large.
+%This chapter introduces two main concepts: objects encapsulate other types of data, and they can be designed to be immutable.
+%Applying these concepts helps us to manage the complexity of programs as they become large.
+
+%Unfortunately, computer science has a lot of overloaded terms.
+%Another use of the term ``encapsulation'' applies to methods.
 
 \index{design process}
 \index{encapsulation!and generalization}
 
-%Unfortunately, computer science has a lot of overloaded terms.
-Another use of the term ``encapsulation'' applies to methods.
-In this section, we present a {\bf design process} called ``encapsulation and generalization''.
+One challenge of programming, especially for beginners, is figuring out how to divide a program into methods.
+In this section, we present a {\bf design process} that allows you to develop a program and divide it into methods as you go along.
 
-One challenge of programming, especially for beginners, is figuring out how to divide up a program into methods.
-The process of encapsulation and generalization allows you to design as you go along.
-The steps are:
+The process is called {\bf encapsulation and generalization}; the essential steps are:
 
 \begin{enumerate}
 \item Write a few lines of code in \java{main} or another method, and test them.
@@ -527,12 +552,10 @@ The steps are:
 \item If it's appropriate, replace literal values with variables and parameters.
 \end{enumerate}
 
-Encapsulation and generalization is similar to ``incremental development'' (see Section~\ref{distance}), in the sense that you write a little code, test it, and repeat.
-But you don't need to begin with an exact method definition and stub.
-
 \index{table!two-dimensional}
 
 To demonstrate this process, we'll develop methods that display multiplication tables.
+
 We begin by writing and testing a few lines of code.
 Here is a loop that displays the multiples of two, all on one line:
 
@@ -549,7 +572,7 @@ System.out.println();
 %The first line initializes a variable named \java{i}, which is going to act as the loop variable.
 %As the loop executes, the value of \java{i} increases from 1 to 6; when \java{i} is 7, the loop terminates.
 
-Each time through the loop, we display the value \java{2 * i} padded with spaces so it's four characters wide.
+Each time through the loop, we display the value of \java{2 * i}, padded with spaces so it's four characters wide.
 Since we use \java{System.out.printf}, the output appears on a single line.
 
 After the loop, we call \java{println} to print a newline character.
@@ -562,7 +585,7 @@ The output of the code so far is:
 
 \index{encapsulate}
 
-The next step is to {\bf encapsulate} (or ``wrap'') this code in a method:
+The next step is {\bf encapsulation}; that is, we ``wrap'' this code in a method:
 
 \begin{code}
 public static void printRow() {
@@ -620,7 +643,7 @@ And the output looks like this:
    6  12  18  24  30  36
 \end{stdout}
 
-%The format specifier \java{\%4d} in \java{printRow} causes the output to align vertically, regardless of whether the numbers are one or two digits.
+The format specifier \java{\%4d} in \java{printRow} causes the output to align vertically, regardless of whether the numbers are one or two digits.
 
 
 \section{More Generalization}
@@ -678,14 +701,14 @@ Since we added a parameter to \java{printRow}, we also have to change the line i
 \begin{code}
 public static void printTable(int rows) {
     for (int i = 1; i <= rows; i++) {
-        printRow(i, rows);                // rows becomes cols
+        printRow(i, rows);
     }
 }
 \end{code}
 
 When this line executes, it evaluates \java{rows} and passes the value, which is 7 in this example, as an argument.
 In \java{printRow}, this value is assigned to \java{cols}.
-As a result, the number of columns equals the number of rows, so we get a square 7x7 table (instead of the previous 7x6 table):
+As a result, the number of columns equals the number of rows, so we get a square 7x7 table, instead of the previous 7x6 table.
 
 %\begin{stdout}
 %   1   2   3   4   5   6   7
@@ -703,10 +726,10 @@ Since $ab = ba$, all the entries in the table appear twice.
 You could save ink by printing half of the table, and you would only have to change {\em one line} of \java{printTable}:
 
 \begin{code}
-printRow(i, i);  // using i for both n and cols
+        printRow(i, i);  // using i for both n and cols
 \end{code}
 
-In English, the length of each row is the same as its row number.
+This means the length of each row is the same as its row number.
 The result is a triangular multiplication table.
 
 \begin{stdout}
@@ -720,7 +743,11 @@ The result is a triangular multiplication table.
 \end{stdout}
 
 Generalization makes code more versatile, more likely to be reused, and sometimes easier to write.
-In this example, we started with a simple idea and ended with two general-purpose methods.
+
+%In this example, we started with a simple idea and ended with two general-purpose methods.
+
+%Encapsulation and generalization is similar to ``incremental development'' (see Section~\ref{distance}), in the sense that you write a little code, test it, and repeat.
+% The difference is...
 
 %Even though the second parameter in \java{printRow} is named \java{size} and we have a variable with the same name, we can still use any value or expression we want for the argument.
 
