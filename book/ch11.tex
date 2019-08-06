@@ -5,6 +5,7 @@
 
 Whenever you create a new class, you are creating a new object type with the same name.
 So way back in Section~\ref{hello}, when we had the class \java{Hello}, we also had an object type named \java{Hello}.
+
 We didn't declare any variables with type \java{Hello}, and we didn't use \java{new} to create a \java{Hello} object.
 It wouldn't have done much good if we had -- but we could have!
 
@@ -36,8 +37,6 @@ Here are the main ideas:
 
 \end{itemize}
 
-%Think of a class like a blueprint for a house: you can use the same blueprint to build any number of houses.
-
 
 \section{The Time Class}
 
@@ -59,7 +58,7 @@ Because every \java{Time} object contains these data, we define attributes to ho
 \index{instance variable}
 \index{variable!instance}
 
-Attributes are also called {\bf instance variables}, because each instance has its own variables (as opposed to class variables, coming up in Section~\ref{classvar}).
+Attributes are also called {\bf instance variables}, because each instance has its own variables (as opposed to ``class variables'', coming up in Section~\ref{classvar}).
 
 The first step is to decide what type each variable should be.
 It seems clear that \java{hour} and \java{minute} should be integers.
@@ -117,7 +116,7 @@ public Time() {
 \end{code}
 
 This constructor does not take any arguments.
-Each line initializes an instance variable to zero (which in this example means midnight).
+Each line initializes an instance variable to zero (which is ``midnight'' for a \java{Time} object).
 
 \index{this}
 \index{keyword}
@@ -125,7 +124,7 @@ Each line initializes an instance variable to zero (which in this example means 
 The name \java{this} is a keyword that refers to the object we are creating.
 You can use \java{this} the same way you use the name of any other object.
 For example, you can read and write the instance variables of \java{this}, and you can pass \java{this} as an argument to other methods.
-But you do not declare \java{this}, and you can't make an assignment to it.
+%But you do not declare \java{this}, and you can't make an assignment to it.
 
 A common error when writing constructors is to put a \java{return} statement at the end.
 Like \java{void} methods, constructors do not return values.
@@ -161,8 +160,7 @@ Figure~\ref{fig.time} shows the result.
 \index{infinite recursion}
 \index{StackOverflowError}
 
-Beginners sometimes make the mistake of using \java{new} in the constructor.
-Doing so causes an infinite recursion, since \java{new} invokes the same constructor, which uses \java{new} again, which invokes the constructor again, and so on.
+Beginners sometimes make the mistake of using \java{new} in the constructor:
 
 \begin{code}
 public Time() {
@@ -172,6 +170,8 @@ public Time() {
     this.second = 0.0;
 }
 \end{code}
+
+Doing so causes an infinite recursion, since \java{new} invokes the {\em same} constructor, which uses \java{new} again, which invokes the constructor again, and so on.
 
 %If you don't provide a constructor for a class, then Java will generate one for you automatically.
 %The default constructor takes no arguments and initializes all attributes to zero (or an equivalent value like \java{false} or \java{null}).
@@ -187,7 +187,7 @@ Java knows which constructor to invoke by matching the arguments you provide wit
 \index{value constructor}
 \index{constructor!value}
 
-It is common to provide a constructor that takes no arguments, like the previous one, and a ``value constructor'', like this one:
+It is common to provide both a ``default constructor'' that takes no arguments, like the previous one, and a ``value constructor'', like this one:
 
 \begin{code}
 public Time(int hour, int minute, double second) {
@@ -200,8 +200,8 @@ public Time(int hour, int minute, double second) {
 \index{shadow}
 
 All this constructor does is copy values from the parameters to the instance variables.
-In this example, the names and types of the parameters are the same as the instance variables.
-As a result, the parameters {\bf shadow} (or hide) the instance variables, so the keyword \java{this} is necessary to tell them apart.
+%In this example, the names and types of the parameters are the same as the instance variables.
+Notice that the parameters shadow (or hide) the instance variables, so the keyword \java{this} is necessary to tell them apart.
 Parameters don't have to use the same names, but that's a common style.
 
 To invoke this second constructor, you have to provide arguments after the \java{new} operator.
@@ -217,11 +217,11 @@ Once you get the hang of it, writing constructors gets boring.
 You can write them quickly just by looking at the list of instance variables.
 In fact, some IDEs can generate them for you.
 
-Pulling it all together, here is the complete class definition so far:
+Here is the complete class definition so far:
 
-\index{Time.java}
+%\index{Time.java}
 
-\begin{trinket}{Time.java}
+\begin{code}%{Time.java}
 public class Time {
     private int hour;
     private int minute;
@@ -239,7 +239,7 @@ public class Time {
         this.second = second;
     }
 }
-\end{trinket}
+\end{code}
 
 
 \section{Getters and Setters}
@@ -310,6 +310,12 @@ public double getSecond() {
 
 Methods like these are formally called ``accessors'', but more commonly referred to as {\bf getters}.
 By convention, the method that gets a variable named \java{something} is called \java{getSomething}.
+
+We can fix the compiler error in \java{TimeClient} by using the getter:
+
+\begin{code}
+System.out.println(time.getHour());
+\end{code}
 
 If we decide that \java{TimeClient} should also be able to modify the instance variables of \java{Time}, we can provide methods to do that, too:
 
@@ -513,15 +519,16 @@ We can provide an \java{equals} method that implements this idea:
 
 \begin{code}
 public boolean equals(Time that) {
+    final DELTA = 0.001;
     return this.hour == that.hour
         && this.minute == that.minute
-        && this.second == that.second;
+        && Math.abs(this.second - that.second) < DELTA;
 }
 \end{code}
 
 \java{equals} is an instance method, so it doesn't have the keyword \java{static}.
 It uses \java{this} to refer to current object, and \java{that} to refer to the other.
-The parameter named \java{that} is not a keyword and could have a different name, but it improves readability.
+The parameter named \java{that} is {\em not} a keyword and could have a different name, but it improves readability.
 We can invoke \java{equals} as follows:
 
 \begin{code}
@@ -529,7 +536,8 @@ time1.equals(time3);
 \end{code}
 
 Inside the \java{equals} method, \java{this} refers to the same object as \java{time1}, and \java{that} refers to the same object as \java{time3}.
-Since their instance variables are equal, the result is \java{true}.
+Since their instance variables are ``equal'', the result is \java{true}.
+Notice that we compare \java{hour} and \java{minute} with \java{==}, but we compare \java{second} using \java{<} to avoid rounding errors (Section~\ref{rounderr}).
 
 Many objects have a similar notion of equivalence; that is, two objects are considered equal if their instance variables are equal.
 But other definitions are possible.
@@ -547,9 +555,8 @@ If we invoke \java{time1.equals(time3)}, the first method will be used; \java{ti
 
 \section{Adding Times}
 
-Suppose you are going to a movie that starts at 18:50 (or 6:50 PM), and the running time is 2 hours 16 minutes.
+Suppose you are going to a movie that starts at 18:50 (i.e., 6:50 PM), and the running time is 2 hours 16 minutes.
 What time does the movie end?
-
 We'll use \java{Time} objects to figure it out.
 
 \begin{code}
@@ -604,29 +611,34 @@ public Time add(Time t2) {
 }
 \end{code}
 
-The changes are:
-
-\begin{itemize}
-\item We removed the keyword \java{static}.
-\item We removed the first parameter.
-\item We replaced \java{t1} with \java{this}.
-\end{itemize}
-
-%Optionally, you could replace \java{t2} with \java{that}.
-%Unlike \java{this}, \java{that} is not a keyword; it's just a slightly clever variable name.
-
 And here's how we would invoke the instance method:
 
 \begin{code}
 Time endTime = startTime.add(runningTime);
 \end{code}
 
+Notice the differences:
+
+\begin{itemize}
+\item We removed the keyword \java{static}.
+\item We removed the first parameter.
+\item We replaced \java{t1} with \java{this}.
+\item We invoked the method via the \java{startTime} object. (The static method was invoked via the \java{Time} class.)
+\end{itemize}
+
+%Optionally, you could replace \java{t2} with \java{that}.
+%Unlike \java{this}, \java{that} is not a keyword; it's just a slightly clever variable name.
+
 That's all there is to it.
 Static methods and instance methods do the same thing, and you can convert from one to the other with just a few changes.
+
+In both approaches, \java{startTime} is passed to the method.
+But for the non-static method, \java{startTime} is passed implicitly as \java{this}.
 
 There's only one problem: the addition code itself is not correct.
 For this example, it returns {\tt 20:66}, which is not a valid time.
 If \java{second} exceeds 59, we have to ``carry'' into the minutes column, and if \java{minute} exceeds 59, we have to carry into \java{hour}.
+
 Here is a better version of \java{add}:
 
 \begin{code}
@@ -651,50 +663,51 @@ It's still possible that \java{hour} may exceed 23, but there's no \java{days} a
 In that case, \java{sum.hour -= 24} would yield the correct result.
 
 
-\section{Pure Methods}
+\section{Modifier Methods}
 
-This implementation of \java{add} does not modify either of the parameters.
-Instead, it creates and returns a new \java{Time} object.
+In the previous section, the \java{add} method did not modify the parameters \java{t1} or \java{t2}.
+Instead, it created and returned a new \java{Time} object.
+
 Alternatively, we could have written a method like this:
 
 \begin{code}
 public void increment(double seconds) {
     this.second += seconds;
-    while (this.second >= 60.0) {
-        this.second -= 60.0;
-        this.minute += 1;
-    }
-    while (this.minute >= 60) {
-        this.minute -= 60;
-        this.hour += 1;
-    }
+
+    // carry extra seconds
+    this.minute += this.second / 60;
+    this.second = this.second % 60;
+
+    // carry extra minutes
+    this.hour += this.minute / 60;
+    this.minute = this.minute % 60;
 }
 \end{code}
 
 The \java{increment} method modifies an existing \java{Time} object.
 It doesn't create a new one, and it doesn't return anything.
 
+\index{modifier method}
+\index{method!modifier}
+
+Methods like \java{increment} are called {\bf modifier} methods.
+They are usually void, but sometimes they return a reference to the object they modify.
+
+Modifiers can be more efficient because they don't create new objects.
+But they can also be error-prone.
+When objects are aliased, the effects of modifiers can be confusing.
+%As a general rule, if you are using modifiers, you should avoid aliasing.
+
 \index{pure method}
 \index{method!pure}
 
-In contrast, methods like \java{add} (in the previous section) are called {\bf pure} because:
+In contrast, methods like \java{add} are called {\bf pure} methods, because:
 
 \begin{itemize}
 \item They don't modify the parameters.
 \item They don't have any other ``side effects'', like printing.
 \item The return value only depends on the parameters, not on any other data.
 \end{itemize}
-
-\index{modifier method}
-\index{method!modifier}
-
-Methods like \java{increment}, which breaks the first rule, are sometimes called {\bf modifiers}.
-They are usually void methods, but sometimes they return a reference to the object they modify.
-
-Modifiers can be more efficient because they don't create new objects.
-But they can also be error-prone.
-When objects are aliased, the effects of modifiers can be confusing.
-%As a general rule, if you are using modifiers, you should avoid aliasing.
 
 \index{immutable}
 
@@ -729,8 +742,8 @@ The practice of making instance variables \java{private} to limit dependencies b
 \term{constructor}
 A special method that initializes the instance variables of a newly-constructed object.
 
-\term{shadow}
-Defining a local variable or parameter with the same name and type as an instance variable.
+%\term{shadow}
+%Defining a local variable or parameter with the same name and type as an instance variable.
 
 \term{client}
 A class that uses objects defined in another class.
@@ -753,11 +766,11 @@ Two values that are the same; in the case of objects, two variables that refer t
 \term{equivalent}
 Two objects that are ``equal'' but not necessarily identical, as defined by the \java{equals} method.
 
-\term{pure method}
-A static method that depends only on its parameters and no other data.
-
 \term{modifier method}
 A method that changes the state (instance variables) of an object.
+
+\term{pure method}
+A static method that depends only on its parameters and no other data.
 
 \end{description}
 
