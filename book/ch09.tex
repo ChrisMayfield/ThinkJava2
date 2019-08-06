@@ -47,13 +47,12 @@ char symbol = '!';
 
 As we learned in Section~\ref{elements}, an array variable stores a {\em reference} to an array.
 %That's because the array itself is too large to fit in the variable's memory.
-For example, this line of code
+For example, the following line declares a variable named \java{array} and creates an array of three characters.
 
 \begin{code}
     char[] array = {'c', 'a', 't'};
 \end{code}
 
-Creates a variable named \java{array} and an array for it to refer to. 
 Figure~\ref{fig.mem2} shows them both, with a box to represent the location of the variable and an arrow pointing to the location of the array.
 
 \begin{figure}[!ht]
@@ -65,30 +64,19 @@ Figure~\ref{fig.mem2} shows them both, with a box to represent the location of t
 \end{figure}
 
 Objects work in a similar way.
-For example, this code
+For example, this line declares a \java{String} variable named \java{word} and creates a \java{String} object, as shown in Figure~\ref{fig.mem3}.
 
 \begin{code}
 String word = "dog";
 \end{code}
 
-Creates a \java{String} variable named \java{word} and a \java{String} object for it to refer to, as shown in Figure~\ref{fig.mem3}.
-
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=325pt]{figs/mem3.pdf}
+\includegraphics[width=160pt]{figs/mem3.pdf}
 \caption{Memory diagram of a \java{String} object.}
 \label{fig.mem3}
 \end{center}
 \end{figure}
-
-% ABD: I am not sure about this representation of String objects.
-% It looks like Strings contain something named `value`, but as
-% far as I know, that's not true.
-
-% And do we want to say that String objects are represented as
-% character arrays?  It could be an unnecessary source of
-% confusion between Strings and arrays.  And it's a level of
-% implementation detail we should not have to know.
 
 Objects and arrays are usually created with the \java{new} keyword, which allocates memory for them. %(see Section~\ref{allocate})
 For convenience, you don't have to use \java{new} to create strings:
@@ -101,7 +89,7 @@ String word = "dog";   // implicitly creates a string object
 \index{string!comparing}
 
 Recall from Section~\ref{strcmp} that you need to use the \java{equals} method to compare strings.
-The \java{equals} method traverses the arrays and tests whether they contain the same characters.
+The \java{equals} method traverses the \java{String} objects and tests whether they contain the same characters.
 
 To test whether two integers or other primitive types are equal, you can simply use the \java{==} operator.
 But two \java{String} objects with the same characters would not be considered equal in the \java{==} sense.
@@ -110,7 +98,8 @@ The \java{==} operator, when applied to string variables, only tests whether the
 
 \section{The null Keyword}
 
-Often when you create an object variable, you assign it to point to an object.  But sometimes you want to create an object variable that doesn't refer to an object, at least initially.
+Often when you declare an object variable, you assign it to reference an object.
+But sometimes you want to declare variable that doesn't refer to an object, at least initially.
 
 \index{null}
 
@@ -149,7 +138,7 @@ In these situations, \java{null} is often used to represent a special condition 
 \section{Strings are Immutable}
 
 If the Java library didn't have a \java{String} class, we would have to use character arrays to store and manipulate text.
-Operations like concatenation (\java{+}), \java{indexOf}, and \java{substring} would be difficult and inconvenient.
+Operations like concatenation~(\java{+}), \java{indexOf}, and \java{substring} would be difficult and inconvenient.
 Fortunately, Java does have a \java{String} class that provides these and other methods.
 
 \index{toUpperCase}
@@ -205,10 +194,6 @@ text = text.replace("Computer Science", "CS");
 
 As with \java{toUpperCase}, assigning the return value (to \java{text}) is important.
 If you don't assign the return value, invoking \java{text.replace} has no effect.
-
-% ABD: Too many new ideas here: the most important one is that you have to do something with the return value. It's not a good time to appreciate the glory of immutability.
-% CSM: Now that strings were introduced previously, I would like to make this chapter say more about immutability. But we won't get to the full glory until the next chapter.
-% ABD: OK
 
 Strings are immutable by design, because it simplifies passing them as parameters and return values.
 And since the contents of a string can never change, two variables can reference the same string without one accidentally corrupting the other.
@@ -291,7 +276,7 @@ String str = "five";
 int num = Integer.parseInt(str);  // NumberFormatException
 \end{code}
 
-\java{parseInt} throws a \java{NumberFormatException}.
+\java{parseInt} throws a \java{NumberFormatException}, because the characters in the string \java{"five"} are not digits.
 
 
 \section{Command-Line Arguments}
@@ -346,9 +331,7 @@ It's not clear from the output, but the elements of \java{args} are strings.
 So \java{args} is the array \java{\{"10", "-3", "55", "0", "14"\}}.
 To find the maximum number, we have to convert the arguments to integers.
 
-% Have we done enhanced for loops?
-
-The following code uses an enhanced \java{for} loop to parse the arguments (using the \java{Integer} wrapper class) and find the largest value:
+The following code uses an enhanced \java{for} loop (see Section~\ref{enhanced}) to parse the arguments and find the largest value:
 
 \begin{code}
 int max = Integer.MIN_VALUE;
@@ -416,8 +399,7 @@ What if these assumptions don't hold at run-time?
 \index{NullPointerException}
 \index{exception!NullPointer}
 
-\item If \java{str} is \java{null}, trying to invoke
-\java{charAt} will cause a \java{NullPointerException}, because you can't invoke a method on \java{null}.
+\item If \java{str} is \java{null}, invoking \java{charAt} will cause a \java{NullPointerException}, because you can't invoke a method on \java{null}.
 
 \index{StringIndexOutOfBoundsException}
 \index{exception!StringIndexOutOfBounds}
@@ -440,12 +422,12 @@ public static boolean isCapitalized(String str) {
 
 Notice that \java{null} and ``empty'' are different concepts, as shown in Figure~\ref{fig.nullempty}.
 The variable \java{str1} is \java{null}, meaning that it doesn't reference an object.
-The variable \java{str2} refers to the empty string, \java{""}, represented by a small box.
+The variable \java{str2} refers to the empty string, an object that exists.
 %Internally, the empty string is stored as a \java{char} array of length zero (represented by a small box).
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=210pt]{figs/nullempty.pdf}
+\includegraphics[width=155pt]{figs/nullempty.pdf}
 \caption{Memory diagram of \java{null} and empty string.}
 \label{fig.nullempty}
 \end{center}
@@ -461,10 +443,8 @@ if (str.isEmpty() || str == null) {    // wrong!
 \index{short circuit}
 
 Checking for \java{null} first prevents the \java{NullPointerException}.
-If \java{str} is \java{null}, the \java{||} operator will short circuit and evaluate to \java{true} immediately.
+If \java{str} is \java{null}, the \java{||} operator will short circuit (see Section~\ref{short.circuit}) and evaluate to \java{true} immediately.
 As a result, \java{str.isEmpty()} will not be called.
-
-% Have we mentioned short circuit?
 
 
 \section{BigInteger Arithmetic}
@@ -480,7 +460,7 @@ But there is another reason: when you need very large integers that exceed \java
 There is no upper bound except the limitations of memory size and processing speed.
 Take a minute to read the documentation, which you can find by doing a web search for ``Java BigInteger''.
 
-% Now that we have short links, should we add one here rather than
+% ABD: Now that we have short links, should we add one here rather than
 % tell people how to look for it?
 
 \index{java.math}
@@ -517,19 +497,19 @@ BigInteger c = a.add(b);
 Like strings, \java{BigInteger} objects are immutable.
 Methods like \java{add}, \java{multiply}, and \java{pow} all return new BigIntegers, rather than modify an existing one.
 
-Internally, a BigInteger encapsulates an array of \java{int}s, similar to the way a string encapsulates an array of \java{char}s.
+Internally, a BigInteger is implemented using an array of \java{int}s, similar to the way a string is implemented using an array of \java{char}s.
 Each \java{int} in the array stores a portion of the BigInteger.
 The methods of \java{BigInteger} traverse this array to perform addition, multiplication, etc.
 
 For very long floating-point values, take a look at \java{java.math.BigDecimal}.
-Interestingly, \java{BigDecimal} objects represent floating-point numbers internally by encapsulating a \java{BigInteger}!
+Interestingly, \java{BigDecimal} objects represent floating-point numbers internally using a \java{BigInteger}!
 
 % ABD: I think explaining the implementation here is a good idea.
 % The level of detail is appropriate, and it explains what might
 % otherwise seem like magic.
 
 
-\section{Program Development}
+\section{Incremental Design}
 \label{encapsulation}
 
 %This chapter introduces two main concepts: objects encapsulate other types of data, and they can be designed to be immutable.
@@ -542,9 +522,9 @@ Interestingly, \java{BigDecimal} objects represent floating-point numbers intern
 \index{encapsulation!and generalization}
 
 One challenge of programming, especially for beginners, is figuring out how to divide a program into methods.
-In this section, we present a {\bf design process} that allows you to develop a program and divide it into methods as you go along.
-
-The process is called {\bf encapsulation and generalization}; the essential steps are:
+In this section, we present a {\bf design process} that allows you to divide a program into methods as you go along.
+The process is called ``encapsulation and generalization''.
+The essential steps are:
 
 \begin{enumerate}
 \item Write a few lines of code in \java{main} or another method, and test them.
@@ -555,7 +535,6 @@ The process is called {\bf encapsulation and generalization}; the essential step
 \index{table!two-dimensional}
 
 To demonstrate this process, we'll develop methods that display multiplication tables.
-
 We begin by writing and testing a few lines of code.
 Here is a loop that displays the multiples of two, all on one line:
 
@@ -585,7 +564,7 @@ The output of the code so far is:
 
 \index{encapsulate}
 
-The next step is {\bf encapsulation}; that is, we ``wrap'' this code in a method:
+The next step is {\bf encapsulation}; that is, we ``wrap'' the code in a method:
 
 \begin{code}
 public static void printRow() {
@@ -598,8 +577,8 @@ public static void printRow() {
 
 \index{generalize}
 
-Finally, we {\bf generalize} the method to print multiples of other numbers by replacing the constant value \java{2} with a parameter \java{n}.
-This step is called ``generalization'' because it makes the method more general (less specific).
+Finally, we generalize the method to print multiples of other numbers by replacing the constant value \java{2} with a parameter \java{n}.
+This step is called {\bf generalization}, because it makes the method more general (less specific).
 
 \begin{code}
 public static void printRow(int n) {
@@ -643,7 +622,7 @@ And the output looks like this:
    6  12  18  24  30  36
 \end{stdout}
 
-The format specifier \java{\%4d} in \java{printRow} causes the output to align vertically, regardless of whether the numbers are one or two digits.
+%The format specifier \java{\%4d} in \java{printRow} causes the output to align vertically, regardless of whether the numbers are one or two digits.
 
 
 \section{More Generalization}
@@ -726,7 +705,7 @@ Since $ab = ba$, all the entries in the table appear twice.
 You could save ink by printing half of the table, and you would only have to change {\em one line} of \java{printTable}:
 
 \begin{code}
-        printRow(i, i);  // using i for both n and cols
+printRow(i, i);  // using i for both n and cols
 \end{code}
 
 This means the length of each row is the same as its row number.
