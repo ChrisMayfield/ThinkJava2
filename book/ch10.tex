@@ -131,7 +131,7 @@ public static double distance(Point p1, Point p2) {
 }
 \end{code}
 
-Passing objects as parameters makes the source code more readable and less error-prone because related values are bundled together.
+Passing objects as parameters makes the source code more readable and less error-prone, because related values are bundled together.
 
 You actually don't need to write a \java{distance} method, because \java{Point} objects have one built-in already.
 To compute the distance between two points, we invoke \java{distance} on one and pass the other as an argument.
@@ -210,13 +210,13 @@ public static Point findCenter(Rectangle box) {
 The return type of this method is \java{Point}.
 The last line creates a new \java{Point} object and returns a reference to it.
 
-\index{coordinate}
-
 % ABD: I removed the discussion of Cartesian coordinates here because
 % there is nothing about Point and Rectangle objects that is specific
 % to a coordinate system.  That only comes later when we want to
 % plot them.
 
+%\index{coordinate}
+%
 %You are probably used to Cartesian {\bf coordinates}, where $x$ and $y$ values can be positive or negative.
 %In contrast, Java uses a coordinate system where the origin is in the upper-left corner.
 %That way, $x$ and $y$ are always positive integers.
@@ -298,13 +298,10 @@ For example, \java{translate} has the same effect as \java{moveRect}, but instea
 box.translate(50, 100);
 \end{code}
 
-This line invokes the \java{translate} method for the object that \java{box} refers to.
-This method modifies the \java{box} object it is invoked on.
-
 \index{object-oriented}
 
-This style, using dot notation to invoke a method on an object, rather than passing it as a parameter, is more consistent with the style of 
-object-oriented programming.
+This line invokes the \java{translate} method, which modifies the object referenced by \java{box}.
+Using dot notation to invoke a method on an object directly, rather than passing the object as a parameter, is more consistent with the style of object-oriented programming.
 
 
 \section{Aliasing Revisited}
@@ -332,13 +329,12 @@ Figure~\ref{fig.aliasing} shows the result: \java{box1} and \java{box2} refer to
 \end{figure}
 
 For example, the following code uses \java{grow} to make \java{box1} bigger by 50 units in all directions.
-It decreases \java{x} and \java{y} by 50, and increases \java{height} and \java{width} by 100:
+It decreases \java{x} and \java{y} by 50, and increases \java{height} and \java{width} by 100.
+The result is shown in Figure~\ref{fig.aliasing2}.
 
 \begin{code}
 box1.grow(50, 50);                // grow box1 (alias)
 \end{code}
-
-The result is shown in Figure~\ref{fig.aliasing2}.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -360,7 +356,10 @@ And if we print \java{box2}, we should not be surprised to see that it has chang
 java.awt.Rectangle[x=-50,y=-50,width=200,height=300]
 \end{code}
 
-This scenario is called {\bf aliasing} because a single object has multiple names, or ``aliases'', that refer to it.
+\index{aliasing}
+
+This scenario is called ``aliasing'' because a single object has multiple names that refer to it.
+Like objects, arrays can also be referenced by multiple names (see Section~\ref{array.alias}).
 
 As you can tell from this simple example, code that involves aliasing can get confusing fast, and it can be difficult to debug.
 
@@ -379,19 +378,21 @@ These classes are written in Java, so you can read the source code to see how th
 The Java library contains thousands of files, many of which are thousands of lines of code.
 That's more than one person could read and understand fully, but don't be intimidated!
 
-Because it's so large, the library source code is stored in a ZIP archive named \java{src.zip}.
-If you have Java installed on your computer, you have this file somewhere.
+Because it's so large, the library source code is stored in a ZIP archive named \verb|src.zip|.
+If you have Java installed on your computer, you already have this file somewhere.
+In the paths below, ``\java{...}'' depends on the version name.
 
 \begin{itemize}
-\item On Linux, it's likely under: \verb"/usr/lib/jvm"
+\item On Linux, \verb|src.zip| is likely under: \verb"/usr/lib/jvm/..."
 \\ If not, you might have to install the {\tt openjdk-...-source} package.
 
-\item On MacOS, it's likely under: \\ \verb"/Library/Java/JavaVirtualMachines/jdk.../Contents/Home/"
+\item On MacOS, \verb|src.zip| is likely under: \\ \verb"/Library/Java/JavaVirtualMachines/jdk.../Contents/Home"
 
-\item On Windows, it's likely under: \verb"C:\Program Files\Java\jdk...\"
+\item On Windows, \verb|src.zip| is likely under: \verb"C:\Program Files\Java\..."
+\\ If not, check the \verb"C:\Program Files (x86)\Java\..." folder.
 \end{itemize}
 
-When you open (or unzip) the file, you will see folders that correspond to Java packages.
+When you open \verb|src.zip|, you will see folders that correspond to Java packages.
 For example, open the {\tt java} folder, and then open the {\tt awt} folder.
 (If you don't see a {\tt java} folder at first, open the {\tt java.desktop} folder.)
 You should now see {\tt Point.java} and {\tt Rectangle.java}, along with the other classes in the \java{java.awt} package.
@@ -422,18 +423,19 @@ There is more to them than you may have expected.
 %1) Objects encapsulate data and provide methods to access and modify the data directly.
 
 
-
 \section{Class Diagrams}
 \label{UML}
 
 To summarize what we've learned so far, \java{Point} and \java{Rectangle} objects have their own attributes and methods.
 Attributes are an object's {\em data}, and methods are an object's {\em code}.
-An object's {\em class} defines the attributes and methods it has.
+An object's {\em class} defines the attributes and methods that it has.
 
 \index{UML}
+\index{class diagram}
+\index{diagram!class}
 
 {\bf Unified Modeling Language} (UML) defines a graphical way to summarize this information about a  class.
-Figure~\ref{fig.umlPoint}, shows two examples, the {\bf UML class diagrams} for the \java{Point} and \java{Rectangle} classes.
+Figure~\ref{fig.umlPoint} shows two examples, the UML {\bf class diagrams} for \java{Point} and \java{Rectangle}.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -443,24 +445,20 @@ Figure~\ref{fig.umlPoint}, shows two examples, the {\bf UML class diagrams} for 
 \end{center}
 \end{figure}
 
-\index{class diagram}
-\index{diagram!class}
-
-Each class is represented by a box with the name of the class,
-a list of the attributes, and a list of methods.
-
 \index{private}
 \index{variable!private}
 
+Each class is represented by a box with the name of the class, a list of the attributes, and a list of methods.
 To identify the types of attributes and parameters, UML uses language-independent syntax, like {\tt x:~int} rather than Java syntax, like
 \java{int x}.
 
-The plus sign (\java{+}) identifies \java{public} attributes and methods.
-A minus sign (\java{-}) would identify \java{private} attributes and methods, which we discuss in the next chapter.
+The plus sign~(\java{+}) identifies \java{public} attributes and methods.
+A minus sign~(\java{-}) would identify \java{private} attributes and methods, which we will discuss in the next chapter.
 
 Both \java{Point} and \java{Rectangle} have additional methods; we are only showing the ones introduced in this chapter.
 
 In contrast to memory diagrams, which visualize objects (and variables) at run-time, a class diagram visualizes the source code at compile-time.
+
 
 % ABD: I'd like to postpone this discussion of scope, because I
 % think it includes aspects of temporal scope, lexical scope, and
@@ -471,91 +469,77 @@ In contrast to memory diagrams, which visualize objects (and variables) at run-t
 % In fact, I am having second thoughts about reading source code
 % at this point, because we don't know about instance methods.
 
-%\section{Scope Revisited}
-%
-%\index{scope}
-%
-%In Section~\ref{stack}, we introduced the idea that variables have scope.
-%The scope of a variable is the area of a program where a variable can be used.
-%
-%% TODO: Maybe change the previous discussion to say "can be used",
-%% rather than "exists"
-%
-%Consider the first few lines of the \java{Rectangle.translate} method (in the Java library source code):
-%
-%\begin{code}
-%public void translate(int dx, int dy) {
-%    int oldv = this.x;
-%    int newv = oldv + dx;
-%    if (dx < 0) {
-%    ...
-%\end{code}
-%
-%This example uses three kinds of variables:
-%
-%\begin{enumerate}
-%
-%\item Parameters (\java{dx} and \java{dy}),
-%
-%\item Local variables (\java{oldv} and \java{newv}), and
-%
-%\index{this}
-%
-%\item Attributes (\java{this.x})
-%
-%\end{enumerate}
-%
-%Parameters and local variables are created when a method is invoked, and they disappear when the method returns.  They can be used anywhere inside the method, but not in other methods and not in other classes.
-%
-%Attributes are created when an object is created, and they disappear when the object is destroyed.  They can be used in any 
-%
-%When the Java compiler encounters a variable name, it searches backwards for its declaration.
-%The compiler first looks for local variables, then parameters, then attributes.
+\section{Attributes Revisited}
+
+\index{scope}
+
+In Section~\ref{stack}, we introduced the idea that variables have scope.
+The scope of a variable is the area of a program where a variable can be used.
+
+Consider the first few lines of the \java{Rectangle.translate} method (in the Java library source code):
+
+\begin{code}
+public void translate(int dx, int dy) {
+    int oldv = this.x;
+    int newv = oldv + dx;
+    if (dx < 0) {
+    ...
+\end{code}
+
+This example uses three kinds of variables: parameters (\java{dx} and \java{dy}), local variables (\java{oldv} and \java{newv}), and attributes (\java{this.x}).
+
+Parameters and local variables are created when a method is invoked, and they disappear when the method returns.  They can be used anywhere inside the method, but not in other methods and not in other classes.
+
+\index{this}
+
+In contrast, attributes are created when an object is created, and they disappear when the object is destroyed.
+They can be used in any of the object's methods via the keyword \java{this}.
+
+When the Java compiler encounters a variable name, it searches backwards for its declaration.
+The compiler first looks for local variables, then parameters, then attributes.
 
 %\section{Shadowing}
-%
-%\index{scope}
-%
-%It's possible to declare a local variable (or parameter) with the same name as an attribute.
-%For example, you can declare \java{int x} in a method of the \java{Rectangle} class.
-%In that method, the expression \java{x + 5} will refer to the local variable, even though there is an attribute named \java{x}.
-%
-%\index{shadowing}
-%
-%This situation is called {\bf shadowing}, because the local variable ``hides'' the attribute.
-%Java provides the keyword \java{this} to refer to attributes explicitly.
-%For example, look at the \java{Rectangle.reshape} method:
-%
-%\begin{code}
-%@Deprecated
-%public void move(int x, int y) {
-%    this.x = x;
-%    this.y = y;
-%}
-%\end{code}
-%
-%The variables \java{x} and \java{y} are parameters of the \java{move} method, and \java{this.x} and \java{this.y} are attributes of the rectangle being moved.
-%These variables have the same name, but they have different scope.
-%
-%\index{deprecated}
-%
-%Notice that the \java{move} method has been {\bf deprecated}.
-%Sometimes when new versions of Java are released, the library classes are revised or enhanced.
-%The documentation for \java{Rectangle.move} indicates that the \java{setLocation} method should be used instead.
-%
-%The word ``deprecate'' means to express strong disapproval.
-%Java discourages using deprecated methods, either because they are dangerous, or because better alternatives exist.
-%The compiler will display a warning if you attempt to use a deprecated method.
+
+It's possible to declare a local variable (or parameter) with the same name as an attribute.
+For example, you can declare \java{int x} in a method of the \java{Rectangle} class.
+In that method, the expression \java{x + 5} will refer to the local variable, even though there is an attribute named \java{x}.
+
+\index{shadowing}
+
+This situation is called {\bf shadowing}, because the local variable ``hides'' the attribute.
+Java provides the keyword \java{this} to refer to attributes explicitly.
+For example, look at the \java{Rectangle.reshape} method:
+
+\begin{code}
+@Deprecated
+public void move(int x, int y) {
+    this.x = x;
+    this.y = y;
+}
+\end{code}
+
+The variables \java{x} and \java{y} are parameters of the \java{move} method, and \java{this.x} and \java{this.y} are attributes of the rectangle being moved.
+These variables have the same name, but they refer to different memory locations.
+
+\index{deprecated}
+
+Notice that the \java{move} method has been {\bf deprecated}.
+Sometimes when new versions of Java are released, the library classes are revised or enhanced.
+The documentation for \java{Rectangle.move} indicates that the \java{setLocation} method should be used instead.
+
+The word ``deprecate'' means to express strong disapproval.
+Java discourages using deprecated methods, either because they are dangerous, or because better alternatives exist.
+The compiler will display a warning if you attempt to use a deprecated method.
 
 
 \section{Garbage Collection}
 
-In the previous section, we said that attributes exist as long as the object exists.
-But when does an object cease to exist?
-Here is a simple example:
+%In the previous section, we said that attributes exist as long as the object exists.
+%But when does an object cease to exist?
+%Here is a simple example:
 
-%In Section~\ref{aliasing}, we saw what happens when more than one variable refers to the same object.
-%What happens when {\em no} variables refer to an object?
+In Section~\ref{aliasing}, we saw what happens when more than one variable refers to the same object.
+What happens when {\em no} variables refer to an object?
 
 \begin{code}
 Point blank = new Point(3, 4);
@@ -596,16 +580,12 @@ But in high-performance applications, you may notice a slight delay every now an
 \java{Point}s and \java{Rectangle}s are {\bf mutable} objects, because their attributes can be modified.
 You can modify their attributes directly, like \java{box.x = 15}, or you can invoke methods that modify their attributes, like \java{box.translate(15, 0)}.
 
-% ABD: At this point do we know about public/private access to attributes?
-
 In contrast, immutable objects like \java{String}s and \java{Integer}s cannot be modified.
 They do not give \java{public} access to their attributes, and they do not provide methods that change their attributes.
 
 Immutable objects have a number of advantages that help improve the performance and reliability of programs.
 For example, two strings that contain the same contents can be stored in memory only once.
 The Java compiler automatically detects this situation:
-
-% ABD: Do we want trinket markup in this version?  It seems to require cmplete class definitions, which involve code that's extraneous to the example.
 
 \index{Surprise.java}
 
@@ -628,21 +608,16 @@ As a result, \java{s1 == s2}, even though it appears they might be different obj
 Since neither variable can change the string itself, both \java{s1} and \java{s2} will be \java{"Hi, Mom!"} until they are reassigned.
 You can pass strings (and other immutable objects) to methods without worrying about their contents changing as a ``side-effect'' of the method.
 
-\index{efficiency}
-
-On the other hand, mutable objects have their own advantages.
-It's more efficient to move a rectangle by changing its coordinates than to create a new \java{Rectangle} each time.
-
-% ABD: I'm not sure I understand this second advantage:
-And as we'll see later, it's easier to implement objects that allow their attributes to be changed.
-
-% TODO: If we can't clarify the second advantage, we might have to revise the previous sentence
 
 \section{StringBuilder Objects}
 
-% TODO: When we resolve the flow of this chapter, we could use a smoother transition here.
+\index{efficiency}
 
-Strings are particularly inefficient when you need to concatenate them multiple times.
+Mutable objects have their advantages.
+It's more efficient to move a rectangle by changing its coordinates than to create a new \java{Rectangle} each time.
+%And as we'll see later, it's easier to implement objects that allow their attributes to be changed.
+
+On the other hand, modifying strings can be particularly inefficient, because they are immutable.
 Consider the following program that inputs ten lines from \java{System.in} and concatenates them into a single \java{String}.
 
 \index{Append.java}
@@ -663,10 +638,10 @@ public class Append {
 }
 \end{trinket}
 
-Inside the \java{for} loop, \java{in.nextLine()} returns a new string each time it is invoked.
+Inside the \java{for} loop, \java{nextLine()} returns a new string each time it is invoked.
 The next line of code concatenates \java{text} and \java{line}, which creates another string, and then appends the newline character, which creates yet another string.
-
 As a result, this loop creates 30 \java{String} objects!
+
 At the end, \java{text} refers to the most recent \java{String}.
 Garbage collection deletes the rest, but that's a lot of garbage for a seemly simple program.
 
@@ -688,7 +663,7 @@ for (int i = 0; i < 10; i++) {
 The \java{append} method takes a \java{String} as a parameter and appends it to the end of the \java{StringBuilder}.
 Each time it is invoked, it modifies the \java{StringBuilder}; it doesn't create any new objects.
 
-The \StringBuilder} class also provides methods for inserting and deleting parts of strings efficiently.
+The \java{StringBuilder} class also provides methods for inserting and deleting parts of strings efficiently.
 Programs that manipulate large amounts of text run much faster if you use \java{StringBuilder} objects instead of \java{String}s.
 
 
@@ -703,11 +678,11 @@ One of the named data items that make up an object.
 \term{dot notation}
 Use of the dot operator (\java{.}) to access an object's attributes or methods.
 
-\term{coordinate}
-A value that specifies a location in a 2D graphical window.
-
-\term{pixel}
-The unit in which coordinates are measured.
+%\term{coordinate}
+%A value that specifies a location in a 2D graphical window.
+%
+%\term{pixel}
+%The unit in which coordinates are measured.
 
 \term{object-oriented}
 A way of organizing code and data into objects, rather than independent methods.
