@@ -19,20 +19,13 @@ Chapter 9:
 Chapter 10:
 
 Chapter 11:
-  need more explanation of "this." (and "that." isn't helpful)
-  explain the terms default constructor and value constructor? -- need more on constructors
-  show an example of calling each method after it's defined (constructor, equals, toString)
-  need to introduce Object before Ch14 (somewhere in Ch10 or Ch11)
-  Time.java should not be a Trinket -- running it doesn't "do" anything (are there others?)
 
 Chapter 12:
-  include a Trinket somewhere? maybe with printing out the cards?
 
 Chapter 13:
-  add more details about UML diagrams (static methods, final attributes)
+  more details about UML diagrams? (static methods, final attributes)
 
 Chapter 14:
-  talk more about packages somewhere near the end of the book?
 
 Chapter 15:
   advanced object-oriented: interfaces, abstract classes, List, simulation?
@@ -41,6 +34,7 @@ Chapter 15:
 Chapter 16:
   working with data: 2D arrays, file I/O, exception handling (e.g., IllegalArgumentException)
   bring back Conway's Game of Life material from V5? or Langton's ant?
+
 
 Appendix A:
   remove DrJava? (move to online setup instructions)
@@ -57,6 +51,8 @@ Appendix D:
 
 Appendix E:
   try to eliminate by integrating content back into the main chapters
+  talk more about packages somewhere near the end of the book?
+
 
 # spell check main text; ignore code/output/trinket blocks
 detex -e code,stdout,trinket thinkjava.tex > thinkjava.txt

@@ -3,7 +3,9 @@
 \index{array!of cards}
 
 In the previous chapter, we defined a class to represent cards and used an array of \java{Card} objects to represent a deck.
-In this chapter, we take another step toward object-oriented programming by defining a class to represent a deck of cards.
+In this chapter, we take additional steps toward object-oriented programming.
+
+We first define a class to represent a deck of cards.
 We then present algorithms for shuffling and sorting decks.
 Finally, we introduce \java{ArrayList} from the Java library and use it to keep track of different piles of cards from the deck.
 
@@ -23,8 +25,7 @@ Finally, we introduce \java{ArrayList} from the Java library and use it to keep 
 \index{Deck}
 \index{class!Deck}
 
-The first goal of this chapter is to create a \java{Deck} class that encapsulates an array of \java{Card}s.
-The initial class definition looks like this:
+Here is the beginning of a \java{Deck} class that encapsulates an array of \java{Card}s:
 
 \begin{code}
 public class Deck {
@@ -428,7 +429,7 @@ Deck deck = new Deck();
 deck.print();  // correct
 \end{code}
 
-Notice that \java{Deck} with a capital \java{D} is a class, and \java{deck} with a lowercase \java{d} is a variable.
+Notice that \java{Deck} with a capital \java{D} is a class, and \java{deck} with a lowercase \java{d} is an object.
 When you invoke \java{deck.print()}, the reference of \java{deck} becomes the reference \java{this}.
 For static methods, there is no such thing as \java{this}.
 
@@ -505,7 +506,7 @@ public class Pile {
 
 When you declare an \java{ArrayList}, you specify the type it contains in angle brackets (\java{<>}).
 This declaration says that \java{cards} is not just an \java{ArrayList}, it's an \java{ArrayList} of \java{Card} objects.
-The constructor initializes \java{this.cards} with an empty \java{ArrayList}.
+The constructor initializes \java{this.cards} with an empty \java{ArrayList} of \java{Card} objects.
 
 %Java collections can only store objects, not primitives like \java{int}.
 %But you can use wrapper classes, for example \java{ArrayList<Integer>}.
@@ -541,7 +542,8 @@ public int size() {
 \index{wrapper method}
 
 Methods like \java{addCard}, \java{popCard}, and \java{size}, which invoke another method without doing much additional work, are called {\bf wrapper methods}.
-The last method we need adds an entire subdeck to the pile.
+
+The last method we need adds an entire deck (or subdeck) to the pile.
 
 \begin{code}
 public void addDeck(Deck deck) {

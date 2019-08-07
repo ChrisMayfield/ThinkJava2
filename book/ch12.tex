@@ -9,8 +9,8 @@ Here is an outline of the road ahead:
 
 \item In Chapter~\ref{deck}, we define a \java{Deck} class that encapsulates an array of cards, and we write methods that operate on decks.
 
-\item In Chapter~\ref{eights}, we introduce a way to create new classes that extend existing classes.
-We then use \java{Card}, \java{Deck}, and other classes to implement the game {\it Crazy Eights}.
+\item In Chapter~\ref{eights}, we introduce a way to define new classes that extend existing classes.
+We then use \java{Card}, \java{Deck}, and others to implement the game {\it Crazy Eights}.
 
 \end{itemize}
 
@@ -47,7 +47,7 @@ A problem with this design is that it would not be easy to compare cards to see 
 \index{map to}
 
 An alternative is to use integers to {\bf encode} the ranks and suits.
-By encode, we don't mean to encrypt or translate into a secret code.
+By encode, we {\em don't} mean to encrypt or translate into a secret code.
 We mean to define a mapping between a sequence of numbers and the things we want to represent.
 
 Here is a mapping for suits:
@@ -233,8 +233,8 @@ public class Card {
 
 \index{garbage collection}
 
-Class variables are allocated when the program begins (or when the class is used for the first time) and survive until the program ends.
-In contrast, instance variables like \java{rank} and \java{suit} are allocated when the program creates \java{new} objects, and they are reclaimed when the object is garbage-collected.
+Class variables are allocated when the program begins (or when the class is used for the first time) and persist until the program ends.
+In contrast, instance variables like \java{rank} and \java{suit} are allocated when the program creates \java{new} objects, and they are deleted when the object is garbage-collected.
 
 \index{final}
 
@@ -271,6 +271,7 @@ public boolean equals(Card that) {
 It would also be nice to have a method for comparing cards, so we can tell if one is higher or lower than another.
 For primitive types, we can use the comparison operators -- \java{<}, \java{>}, etc.\ -- to compare values.
 But these operators don't work for object types.
+
 For strings, Java provides a \java{compareTo} method, as we saw in Section~\ref{strcmp}.
 We can write our own version of \java{compareTo} for the classes that we define, like we did for the \java{equals} method.
 %Later we will use this method to sort a deck of cards.
@@ -315,7 +316,7 @@ public int compareTo(Card that) {
 }
 \end{code}
 
-\java{compareTo} returns 1 if \java{this} wins, -1 if \java{that} wins, and 0 if they are equivalent.
+\java{compareTo} returns \java{-1} if \java{this} is a lower card, \java{+1} if \java{this} is a higher card, and \java{0} if \java{this} and \java{that} are equivalent.
 It compares suits first.
 If the suits are the same, it compares ranks.
 If the ranks are also the same, it returns 0.
@@ -379,13 +380,12 @@ Putting these kinds of safeguards into the code helps prevent future mistakes an
 \index{object!array of}
 
 Just as you can create an array of \java{String} objects, you can create an array of \java{Card} objects.
-The following statement creates an array of 52 cards:
+The following statement creates an array of 52 cards.
+Figure~\ref{fig.cardarray} shows the memory diagram for this array.
 
 \begin{code}
 Card[] cards = new Card[52];
 \end{code}
-
-Figure~\ref{fig.cardarray} shows the memory diagram for this array.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -472,7 +472,9 @@ public static void printDeck(Card[] cards) {
 
 Since \java{cards} has type \java{Card[]}, an element of \java{cards} has type \java{Card}.
 So \java{println} invokes the \java{toString} method in the \java{Card} class.
-This method is similar to invoking \java{System.out.println(Arrays.toString(cards))}.
+
+Then again, we don't have to write our own \java{printDeck} method.
+We could just invoke \java{System.out.println(Arrays.toString(cards))}.
 
 
 \section{Sequential Search}
@@ -510,9 +512,9 @@ If the cards in the array are not in order, there is no way to search faster tha
 We have to look at every card, because otherwise we can't be certain the card we want is not there.
 But if the cards are in order, we can use better algorithms.
 
+Sequential search is relatively inefficient, especially for large arrays.
+If you pay the price to keep the array sorted, finding elements becomes much easier.
 We will learn in the next chapter how to sort arrays.
-If you pay the price to keep them sorted, finding elements becomes much easier.
-Especially for large arrays, sequential search is rather inefficient.
 
 
 \section{Binary Search}
@@ -637,17 +639,17 @@ The result is $\log_2 52$, which is about 5.7.
 So we might have to look at 5 or 6 cards, as opposed to all 52 if we did a sequential search.
 
 More generally, if the array contains $n$ elements, binary search requires $\log_2 n$ comparisons, and sequential search requires $n$.
-For large values of $n$, binary search can be much faster.
+For large values of $n$, binary search is significantly faster.
 
 
 \section{Recursive Version}
 
 \index{recursion}
 
-Another way to write a binary search is with a recursive method.
-The trick is to write a method that takes \java{low} and \java{high} as parameters, and turn steps 3 and 4 into recursive invocations.
+Another way to implement binary search is with a recursive method.
+We take \java{low} and \java{high} as parameters, add a base case, and turn steps 3 and 4 into recursive invocations.
 %They indicate the segment of the array that should be searched (including both \java{low} and \java{high}).
-Here's what that code looks like:
+%Here's what that code looks like:
 
 \begin{code}
 public static int binarySearch(Card[] cards, Card target,
@@ -669,7 +671,7 @@ public static int binarySearch(Card[] cards, Card target,
 \end{code}
 
 Instead of a \java{while} loop, we have an \java{if} statement to terminate the recursion.
-We call this \java{if} statement the base case.
+%We call this \java{if} statement the base case.
 If \java{high} is less than \java{low}, there are no cards between them, and we conclude that the card is not in the array.
 
 \index{infinite recursion}
