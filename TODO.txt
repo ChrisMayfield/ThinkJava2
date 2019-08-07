@@ -21,13 +21,12 @@ Chapter 10:
 Chapter 11:
 
 Chapter 12:
-  include a Trinket somewhere? maybe with printing out the cards?
 
 Chapter 13:
-  add more details about UML diagrams (static methods, final attributes)
 
 Chapter 14:
   introduce Object before Ch14? (somewhere in Ch10 or Ch11)
+  more details about UML diagrams? (static methods, final attributes)
 
 Chapter 15:
   advanced object-oriented: interfaces, abstract classes, List, simulation?
