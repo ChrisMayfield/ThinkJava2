@@ -596,10 +596,8 @@ But in high-performance applications, you may notice a slight delay every now an
 \java{Point}s and \java{Rectangle}s are {\bf mutable} objects, because their attributes can be modified.
 You can modify their attributes directly, like \java{box.x = 15}, or you can invoke methods that modify their attributes, like \java{box.translate(15, 0)}.
 
-% ABD: At this point do we know about public/private access to attributes?
-
 In contrast, immutable objects like \java{String}s and \java{Integer}s cannot be modified.
-They do not give \java{public} access to their attributes, and they do not provide methods that change their attributes.
+They don't allow direct access to their attributes or provide methods that change them.
 
 Immutable objects have a number of advantages that help improve the performance and reliability of programs.
 For example, two strings that contain the same contents can be stored in memory only once.
