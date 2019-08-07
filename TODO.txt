@@ -23,10 +23,9 @@ Chapter 11:
 Chapter 12:
 
 Chapter 13:
+  more details about UML diagrams? (static methods, final attributes)
 
 Chapter 14:
-  introduce Object before Ch14? (somewhere in Ch10 or Ch11)
-  more details about UML diagrams? (static methods, final attributes)
 
 Chapter 15:
   advanced object-oriented: interfaces, abstract classes, List, simulation?
@@ -35,6 +34,7 @@ Chapter 15:
 Chapter 16:
   working with data: 2D arrays, file I/O, exception handling (e.g., IllegalArgumentException)
   bring back Conway's Game of Life material from V5? or Langton's ant?
+
 
 Appendix A:
   remove DrJava? (move to online setup instructions)
@@ -52,6 +52,7 @@ Appendix D:
 Appendix E:
   try to eliminate by integrating content back into the main chapters
   talk more about packages somewhere near the end of the book?
+
 
 # spell check main text; ignore code/output/trinket blocks
 detex -e code,stdout,trinket thinkjava.tex > thinkjava.txt

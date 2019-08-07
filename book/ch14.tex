@@ -219,7 +219,7 @@ Classes that do not specify a superclass with \java{extends} automatically inher
 So in this example, \java{Deck} extends \java{CardCollection}, which in turn extends \java{Object}.
 The \java{Object} class provides the default \java{equals} and \java{toString} methods, among other things.
 
-Constructors are not inherited, but all other \java{public} attributes and methods are.
+Constructors are {\em not} inherited, but all other \java{public} attributes and methods are.
 The only additional method in \java{Deck}, at least for now, is a constructor.
 So you can create a \java{Deck} object like this:
 
@@ -440,16 +440,9 @@ This method is a straightforward translation of the rules of the game:
 
 \begin{code}
 public static boolean cardMatches(Card card1, Card card2) {
-    if (card1.getSuit() == card2.getSuit()) {
-        return true;
-    }
-    if (card1.getRank() == card2.getRank()) {
-        return true;
-    }
-    if (card1.getRank() == 8) {
-        return true;
-    }
-    return false;
+    return card1.getSuit() == card2.getSuit()
+        || card1.getRank() == card2.getRank()
+        || card1.getRank() == 8;
 }
 \end{code}
 
@@ -707,8 +700,8 @@ Figure~\ref{fig.uml1} shows the classes defined in this chapter and the relation
 UML is an international standard, so almost any software engineer in the world could look at this diagram and understand our design.
 And class diagrams are only one of many graphical representations defined in the UML standard.
 
-We hope this final chapter has been a useful summary of all the techniques presented in the book, including variables, methods, conditionals, loops, arrays, objects, and algorithms.
-Congratulations on making it to the end!
+%We hope this final chapter has been a useful summary of all the techniques presented in the book, including variables, methods, conditionals, loops, arrays, objects, and algorithms.
+%Congratulations on making it to the end!
 
 
 \section{Vocabulary}
