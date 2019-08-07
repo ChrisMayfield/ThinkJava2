@@ -165,7 +165,7 @@ We use \java{swapCards} to implement \java{shuffle}, which we described in Secti
 public void shuffle() {
     Random random = new Random();
     for (int i = size() - 1; i > 0; i--) {
-        int j = random.nextInt(i);
+        int j = random.nextInt(i + 1);
         swapCards(i, j);
     }
 }
@@ -194,7 +194,7 @@ public class Deck extends CardCollection {
         super(label);
         for (int suit = 0; suit <= 3; suit++) {
             for (int rank = 1; rank <= 13; rank++) {
-                cards.add(new Card(rank, suit));
+                addCard(new Card(rank, suit));
             }
         }
     }
@@ -230,7 +230,7 @@ Deck deck = new Deck("Deck");
 The first line of the constructor uses \java{super}, which is a keyword that refers to the superclass of the current class.
 When \java{super} is used like a method, as in this example, it invokes the constructor of the superclass.
 
-%TODO: Blythe suggests a diagram here
+%TODO Blythe suggests a diagram here
 
 So in this case, \java{super} invokes the \java{CardCollection} constructor, which initializes the attributes \java{label} and \java{cards}.
 When it returns, the \java{Deck} constructor resumes and populates the (empty) \java{ArrayList} with \java{Card} objects.
@@ -349,7 +349,7 @@ If it seems strange that an object can belong to more than one type, remember th
 Every cat is also a mammal, and every mammal is also an animal.
 But not every animal is a mammal, and not every mammal is a cat.
 
-%TODO: Blythe suggests a diagram here
+%TODO Blythe suggests a diagram here
 
 
 \section{The Player Class}
@@ -687,7 +687,7 @@ The latter two sections are optional when showing relationships.
 Relationships between classes are represented by arrows: composition arrows have a standard arrow head, and inheritance arrows have a hollow triangle head (usually pointing up).
 Figure~\ref{fig.uml1} shows the classes defined in this chapter and the relationships among them.
 
-%TODO: Blythe suggests picture of each arrow, but it's a pain.
+%TODO Blythe suggests picture of each arrow, but it's a pain.
 
 \begin{figure}[!ht]
 \begin{center}
