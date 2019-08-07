@@ -301,7 +301,7 @@ box.translate(50, 100);
 \index{object-oriented}
 
 This line invokes the \java{translate} method, which modifies the object referenced by \java{box}.
-Using dot notation to invoke a method on an object directly, rather than passing the object as a parameter, is more consistent with the style of object-oriented programming.
+Using dot notation to invoke a method on an object directly, rather than passing the object as a parameter, is more consistent with the style of {\bf object-oriented} programming.
 
 
 \section{Aliasing Revisited}
@@ -410,17 +410,88 @@ Each method is thoroughly commented, including \java{@param}, \java{@return}, an
 Javadoc reads these comments and generates documentation in HTML.
 You can see the same documentation online by doing a web search for ``Java Point''.
 
-Now take a look at the \java{Rectangle} class's \java{grow} and \java{translate} methods.
-There is more to them than you may have expected.
+%Now take a look at the \java{Rectangle} class's \java{grow} and \java{translate} methods.
+%There is more to them than you may have expected.
 
 % ABD: I'm not sure these conclusions follow from the example
-
 %But that doesn't limit your ability to use these methods in a program.
-
 %Object-oriented programming makes it possible to hide messy details so that you can more easily use and understand code that other people wrote.
 
 %By looking at the source code for \java{Point}, \java{Rectangle}, and other classes, we hope you will learn two things.
 %1) Objects encapsulate data and provide methods to access and modify the data directly.
+
+
+% ABD: I'd like to postpone this discussion of scope, because I
+% think it includes aspects of temporal scope, lexical scope, and
+% shadowing.
+% Also, this section introduces `this`, which we haven't seen yet.
+% At this point, we have only written static methods that take
+% objects as parameters; we have not written instance methods.
+% In fact, I am having second thoughts about reading source code
+% at this point, because we don't know about instance methods.
+
+\section{Attributes Revisited}
+
+\index{scope}
+
+In Section~\ref{stack}, we introduced the idea that variables have scope.
+The scope of a variable is the area of a program where a variable can be used.
+
+Consider the first few lines of the \java{Rectangle.translate} method (in the Java library source code):
+
+\begin{code}
+public void translate(int dx, int dy) {
+    int oldv = this.x;
+    int newv = oldv + dx;
+    if (dx < 0) {
+    ...
+\end{code}
+
+This example uses three kinds of variables: parameters (\java{dx} and \java{dy}), local variables (\java{oldv} and \java{newv}), and attributes (\java{this.x}).
+
+Parameters and local variables are created when a method is invoked and deleted when the method returns.  They can be used anywhere inside the method, but not in other methods and not in other classes.
+
+\index{this}
+
+In contrast, attributes are created when an object is created.
+They can be used in any of the object's methods via the keyword \java{this}.
+And they can be used in other classes via references to the object (e.g., \java{box1.x}).
+
+When the Java compiler encounters a variable name, it searches backwards for its declaration.
+The compiler first looks for local variables, then parameters, then attributes.
+
+%\section{Shadowing}
+
+It's possible to declare a local variable (or parameter) with the same name as an attribute.
+For example, you can declare \java{int x} in a method of the \java{Rectangle} class.
+In that method, the expression \java{x + 5} will refer to the local variable, even though there is an attribute named \java{x}.
+
+\index{shadowing}
+
+This situation is called {\bf shadowing}, because the local variable ``hides'' the attribute.
+Java provides the keyword \java{this} to refer to attributes explicitly.
+For example, look at the \java{Rectangle.reshape} method:
+
+\begin{code}
+@Deprecated
+public void move(int x, int y) {
+    this.x = x;
+    this.y = y;
+}
+\end{code}
+
+The variables \java{x} and \java{y} are parameters of the \java{move} method, and \java{this.x} and \java{this.y} are attributes of the rectangle being moved.
+These variables have the same name, but they refer to different memory locations.
+
+\index{deprecated}
+
+Notice that the \java{move} method has been {\bf deprecated}.
+Sometimes when new versions of Java are released, the library classes are revised or enhanced.
+The documentation for \java{Rectangle.move} indicates that the \java{setLocation} method should be used instead.
+
+The word ``deprecate'' means to express strong disapproval.
+Java discourages using deprecated methods, either because they are dangerous, or because better alternatives exist.
+The compiler will display a warning if you attempt to use a deprecated method.
 
 
 \section{Class Diagrams}
@@ -458,78 +529,6 @@ A minus sign~(\java{-}) would identify \java{private} attributes and methods, wh
 Both \java{Point} and \java{Rectangle} have additional methods; we are only showing the ones introduced in this chapter.
 
 In contrast to memory diagrams, which visualize objects (and variables) at run-time, a class diagram visualizes the source code at compile-time.
-
-
-% ABD: I'd like to postpone this discussion of scope, because I
-% think it includes aspects of temporal scope, lexical scope, and
-% shadowing.
-% Also, this section introduces `this`, which we haven't seen yet.
-% At this point, we have only written static methods that take
-% objects as parameters; we have not written instance methods.
-% In fact, I am having second thoughts about reading source code
-% at this point, because we don't know about instance methods.
-
-\section{Attributes Revisited}
-
-\index{scope}
-
-In Section~\ref{stack}, we introduced the idea that variables have scope.
-The scope of a variable is the area of a program where a variable can be used.
-
-Consider the first few lines of the \java{Rectangle.translate} method (in the Java library source code):
-
-\begin{code}
-public void translate(int dx, int dy) {
-    int oldv = this.x;
-    int newv = oldv + dx;
-    if (dx < 0) {
-    ...
-\end{code}
-
-This example uses three kinds of variables: parameters (\java{dx} and \java{dy}), local variables (\java{oldv} and \java{newv}), and attributes (\java{this.x}).
-
-Parameters and local variables are created when a method is invoked, and they disappear when the method returns.  They can be used anywhere inside the method, but not in other methods and not in other classes.
-
-\index{this}
-
-In contrast, attributes are created when an object is created, and they disappear when the object is destroyed.
-They can be used in any of the object's methods via the keyword \java{this}.
-
-When the Java compiler encounters a variable name, it searches backwards for its declaration.
-The compiler first looks for local variables, then parameters, then attributes.
-
-%\section{Shadowing}
-
-It's possible to declare a local variable (or parameter) with the same name as an attribute.
-For example, you can declare \java{int x} in a method of the \java{Rectangle} class.
-In that method, the expression \java{x + 5} will refer to the local variable, even though there is an attribute named \java{x}.
-
-\index{shadowing}
-
-This situation is called {\bf shadowing}, because the local variable ``hides'' the attribute.
-Java provides the keyword \java{this} to refer to attributes explicitly.
-For example, look at the \java{Rectangle.reshape} method:
-
-\begin{code}
-@Deprecated
-public void move(int x, int y) {
-    this.x = x;
-    this.y = y;
-}
-\end{code}
-
-The variables \java{x} and \java{y} are parameters of the \java{move} method, and \java{this.x} and \java{this.y} are attributes of the rectangle being moved.
-These variables have the same name, but they refer to different memory locations.
-
-\index{deprecated}
-
-Notice that the \java{move} method has been {\bf deprecated}.
-Sometimes when new versions of Java are released, the library classes are revised or enhanced.
-The documentation for \java{Rectangle.move} indicates that the \java{setLocation} method should be used instead.
-
-The word ``deprecate'' means to express strong disapproval.
-Java discourages using deprecated methods, either because they are dangerous, or because better alternatives exist.
-The compiler will display a warning if you attempt to use a deprecated method.
 
 
 \section{Garbage Collection}
@@ -687,17 +686,17 @@ Use of the dot operator (\java{.}) to access an object's attributes or methods.
 \term{object-oriented}
 A way of organizing code and data into objects, rather than independent methods.
 
-\term{UML}
-Unified Modeling Language, a standard way to draw diagrams for software engineering.
-
-\term{class diagram}
-An illustration of the attributes and methods for a class.
-
 \term{shadowing}
 Occurs when a local variable or parameter has the same name as an attribute.
 
 \term{deprecated}
 A library method that has been replaced by another method, but left in the class for backwards compatibility.
+
+\term{UML}
+Unified Modeling Language, a standard way to draw diagrams for software engineering.
+
+\term{class diagram}
+An illustration of the attributes and methods for a class.
 
 \term{garbage collection}
 The process of finding objects that have no references and reclaiming their storage space.
