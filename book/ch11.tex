@@ -4,20 +4,16 @@
 \index{type!object}
 
 Whenever you create a new class, you are creating a new object type with the same name.
-So way back in Section~\ref{hello}, when we had the class \java{Hello}, we also had an object type named \java{Hello}.
+So way back in Section~\ref{hello}, when we created the class \java{Hello}, we also created an object type named \java{Hello}.
 
-We didn't declare any variables with type \java{Hello}, and we didn't use \java{new} to create a \java{Hello} object.
-It wouldn't have done much good if we had -- but we could have!
+We didn't declare any variables with type \java{Hello}, and we didn't use \java{new} to create \java{Hello} objects.
+And it wouldn't have done much good if we had -- but we could have!
 
-In this chapter, you will learn to design classes that represent {\em useful} objects.
-Think of a class like a blueprint for a house: you can use the same blueprint to build any number of houses.
-
-Beginners often confuse the difference between classes and objects.
-Here are the main ideas:
+In this chapter, you will learn to design classes that represent {\em useful} objects.  Here are the main ideas:
 
 \begin{itemize}
 
-%\item Defining a {\bf class} creates a new object type with the same name.
+\item Again, defining a {\bf class} creates a new object type with the same name.
 
 \index{class!definition}
 
@@ -29,21 +25,22 @@ Here are the main ideas:
 
 \index{instantiate}
 
-\item The \java{new} operator {\bf instantiates} objects, that is, it creates new instances of a class.
+\item The \java{new} operator {\bf instantiates} objects; that is, it creates new instances of a class.
 
-\item The design of a class (what methods it has) determines whether the objects are mutable or immutable.
+%\item The design of a class (what methods it has) determines whether the objects are mutable or immutable.
 
-%\item The methods that operate on an object type are defined in the class for that object.
+\item The methods that operate on an object type are defined in the class for that object.
 
 \end{itemize}
 
+Think of a class like a blueprint for a house: you can use the same blueprint to build any number of houses.
 
 \section{The Time Class}
 
 \index{data encapsulation}
 \index{encapsulation!data}
 
-One common reason to define a new class is to encapsulate related data in an object that can be treated as a single unit.
+A common reason to define a new class is to encapsulate related data in an object that can be treated as a single unit.
 That way, we can use objects as parameters and return values, rather than passing and returning multiple values.
 %This design principle is called {\bf data encapsulation}.
 We have already seen two types that encapsulate data in this way: \java{Point} and \java{Rectangle}.
@@ -53,7 +50,7 @@ We have already seen two types that encapsulate data in this way: \java{Point} a
 
 Another example, which we will implement ourselves, is \java{Time}, which represents a time of day.
 The data encapsulated in a \java{Time} object include an hour, a minute, and a number of seconds.
-Because every \java{Time} object contains these data, we define attributes to hold them.
+Because every \java{Time} object contains these values, we define attributes to hold them.
 
 \index{instance variable}
 \index{variable!instance}
@@ -84,8 +81,8 @@ If you try to read or write them from another class, you will get a compiler err
 
 \index{information hiding}
 
-Private instance variables help keep classes isolated from each other so that changes in one class won't require changes in other classes.
-It also simplifies what other programmers need to understand in order to use your classes.
+Private instance variables help keep classes isolated from each other, so that changes in one class won't require changes in other classes.
+It also simplifies what other programmers need to know to use your classes.
 This kind of isolation is called {\bf information hiding}.
 
 
@@ -100,9 +97,13 @@ The syntax for constructors is similar to that of other methods, except:
 \index{static}
 
 \begin{itemize}
+
 \item The name of the constructor is the same as the name of the class.
+
 \item Constructors have no return type (and no return value).
+
 \item The keyword \java{static} is omitted.
+
 \end{itemize}
 
 Here is an example constructor for the \java{Time} class:
@@ -124,7 +125,7 @@ Each line initializes an instance variable to zero (which is ``midnight'' for a 
 The name \java{this} is a keyword that refers to the object we are creating.
 You can use \java{this} the same way you use the name of any other object.
 For example, you can read and write the instance variables of \java{this}, and you can pass \java{this} as an argument to other methods.
-%But you do not declare \java{this}, and you can't make an assignment to it.
+But you do not declare \java{this}, and you can't make an assignment to it.
 
 A common error when writing constructors is to put a \java{return} statement at the end.
 Like \java{void} methods, constructors do not return values.
@@ -173,7 +174,7 @@ public Time() {
 
 Doing so causes an infinite recursion, since \java{new} invokes the {\em same} constructor, which uses \java{new} again, which invokes the constructor again, and so on.
 
-%If you don't provide a constructor for a class, then Java will generate one for you automatically.
+%If you don't provide a constructor for a class, Java will generate one for you automatically.
 %The default constructor takes no arguments and initializes all attributes to zero (or an equivalent value like \java{false} or \java{null}).
 
 
@@ -204,8 +205,10 @@ All this constructor does is copy values from the parameters to the instance var
 Notice that the parameters shadow (or hide) the instance variables, so the keyword \java{this} is necessary to tell them apart.
 Parameters don't have to use the same names, but that's a common style.
 
-To invoke this second constructor, you have to provide arguments after the \java{new} operator.
-This example creates a \java{Time} object that represents a fraction of a second before noon:
+% TODO: Let's make sure the discussion of shadowing comes before this.
+
+To invoke this second constructor, you have to provide arguments to the \java{new} operator.
+The following example creates a \java{Time} object that represents a fraction of a second before noon:
 
 \begin{code}
 Time time = new Time(11, 59, 59.9);
@@ -245,7 +248,7 @@ public class Time {
 \section{Getters and Setters}
 
 Recall that the instance variables of \java{Time} are \java{private}.
-We can access them from within the \java{Time} class, but if we try to access them from another class, the compiler reports an error.
+We can access them from within the \java{Time} class, but if we try to read or write them from another class, the compiler reports an error.
 
 \index{private}
 \index{variable!private}
@@ -265,12 +268,12 @@ public class TimeClient {
 }
 \end{code}
 
-If you try to compile this code, you will get an error message like ``hour has private access in Time''.
+If you compile this code, you get an error message like ``hour has private access in Time''.
 There are three ways to solve this problem:
 
 \begin{itemize}
 
-\item We could make the instance variables \java{public}.
+\item We could make the instance variables public.
 
 \item We could provide methods to access the instance variables.
 
@@ -287,7 +290,11 @@ If anything in $B$ changes later, it is likely that $A$ will have to change, too
 
 But if $A$ only uses methods to interact with $B$, $A$ and $B$ are less dependent, which means that we can make changes in $B$ without affecting $A$ (as long as we don't change the method parameters).
 
-So if we decide that \java{TimeClient} should be able to read the instance variables of \java{Time}, we should provide methods to do it:
+So we generally avoid making instance variables public.
+
+The second option is to provide methods that access the instance variables.
+For example, we might want the instance variables to be ``read only''; that is, code in other classes should be able to read them but not write them.
+We can do that by providing one method for each instance variable:
 
 \begin{code}
 public int getHour() {
@@ -343,36 +350,12 @@ The naming convention is similar; the method that sets \java{something} is usual
 
 Writing getters and setters can get boring, but many IDEs can generate them for you based on the instance variables.
 
+% NOTE: A thougtful reader might ask a question we don't answer here: if we provide getters and setters, why don't we just make the instance variables public? 
 
 \section{Displaying Objects}
 
-If you create a \java{Time} object and display it with \java{println}:
-
-\begin{code}
-public static void main(String[] args) {
-    Time time = new Time(11, 59, 59.9);
-    System.out.println(time);
-}
-\end{code}
-
-\index{print}
-\index{statement!print}
-\index{object!displaying}
-
-The output will look something like:
-
-\begin{stdout}
-Time@80cc7c0
-\end{stdout}
-
-\index{address}
-\index{hexadecimal}
-
-When Java displays the value of an object type, it displays the name of the type and the address of the object (in hexadecimal).
-This address can be useful for debugging, if you want to keep track of individual objects.
-
-To display \java{Time} objects in a way that is more meaningful to users, you could write a method to display the hour, minute, and second.
-Using \java{printTime} in Section~\ref{stack} as a starting point, we could write:
+To display \java{Time} objects we can write a method to display the hour, minute, and second.
+Using \java{printTime} in Section~\ref{multparam} as a starting point, we could write:
 
 \begin{code}
 public static void printTime(Time t) {
@@ -402,18 +385,46 @@ As a reminder, you need to use \java{\%d} with integers and \java{\%f} with floa
 The \java{02} option means ``total width 2, with leading zeros if necessary'', and the \java{04.1} option means ``total width 4, one digit after the decimal point, leading zeros if necessary''.
 The output is the same: {\tt 11:59:59.9}.
 
+There's nothing wrong with a method like \java{printTime}, but it is not consistent with object-oriented style.
+A more idiomatic solution is to provide a special method called \java{toString}.
+
 
 \section{The toString Method}
 
-\index{toString}
-\index{method!toString}
-
-Every object type has a method called \java{toString} that returns a string representation of the object.
+Every object has a method called \java{toString} that returns a string representation of the object.
 When you display an object using \java{print} or \java{println}, Java invokes the object's \java{toString} method.
 
 \index{override}
 
-By default it simply displays the type of the object and its address, but you can {\bf override} this behavior by providing your own \java{toString} method.
+By default it simply displays the type of the object and its address in hexadecimal. 
+So, if you create a \java{Time} object and display it with \java{println}:
+
+\begin{code}
+public static void main(String[] args) {
+    Time time = new Time(11, 59, 59.9);
+    System.out.println(time);
+}
+\end{code}
+
+\index{print}
+\index{statement!print}
+\index{object!displaying}
+
+The output looks something like this:
+
+\begin{stdout}
+Time@80cc7c0
+\end{stdout}
+
+\index{address}
+\index{hexadecimal}
+
+This address can be useful for debugging, if you want to keep track of individual objects.
+
+\index{toString}
+\index{method!toString}
+
+But you can {\bf override} this behavior by providing your own \java{toString} method.
 For example, here is a \java{toString} method for \java{Time}:
 
 \begin{code}
@@ -427,7 +438,7 @@ public String toString() {
 \index{method!instance}
 
 The definition does not have the keyword \java{static}, because it is not a static method.
-It is an {\bf instance method}, so called because when you invoke it, you invoke it on an instance of the class (\java{Time} in this case).
+It is an {\bf instance method}, so called because when you invoke it, you invoke it on an instance of the class.
 Instance methods are sometimes called ``non-static''; you might see this term in an error message.
 
 The body of the method is similar to \java{printTime} in the previous section, with two changes:
@@ -449,14 +460,17 @@ Time time = new Time(11, 59, 59.9);
 String s = time.toString();
 \end{code}
 
-Or you can invoke it indirectly through \java{println}:
+The value of \java{s} is the \java{String} \java{"11:59:59.9"}.
+
+You can also invoke \java{toString} indirectly by invoking \java{print} or \java{println}:
 
 \begin{code}
 System.out.println(time);
 \end{code}
 
-In this example, \java{this} in \java{toString} refers to the same object as \java{time}.
-The return value is \java{"11:59:59.9"}.
+This code displays the \java{String} \java{"11:59:59.9"}. 
+
+Either way, when you use \java{this} inside \java{toString}, it refers to the same object as \java{time}.
 
 
 \section{The equals Method}
@@ -519,17 +533,18 @@ We can provide an \java{equals} method that implements this idea:
 
 \begin{code}
 public boolean equals(Time that) {
-    final DELTA = 0.001;
+    final EPS = 0.001;
     return this.hour == that.hour
         && this.minute == that.minute
-        && Math.abs(this.second - that.second) < DELTA;
+        && Math.abs(this.second - that.second) < EPS;
 }
 \end{code}
 
 \java{equals} is an instance method, so it doesn't have the keyword \java{static}.
 It uses \java{this} to refer to current object, and \java{that} to refer to the other.
-The parameter named \java{that} is {\em not} a keyword and could have a different name, but it improves readability.
-We can invoke \java{equals} as follows:
+\java{that} is {\em not} a keyword, so we could have given this parameter a different name.  But using \java{that} makes the code nicely readable. 
+
+We can invoke \java{equals} like this:
 
 \begin{code}
 time1.equals(time3);
@@ -537,25 +552,33 @@ time1.equals(time3);
 
 Inside the \java{equals} method, \java{this} refers to the same object as \java{time1}, and \java{that} refers to the same object as \java{time3}.
 Since their instance variables are ``equal'', the result is \java{true}.
-Notice that we compare \java{hour} and \java{minute} with \java{==}, but we compare \java{second} using \java{<} to avoid rounding errors (Section~\ref{rounderr}).
+
+Because \java{hour} and \java{minute} are integers, we compare them with \java{==}.  
+But \java{second} is a floating-point number.  
+Because of rounding errors, it is not good to compare floating-point numbers with \java{==} (see Section~\ref{rounderr}).
+Instead, we check whether the difference is smaller than a threshold, \java{EPS}.
 
 Many objects have a similar notion of equivalence; that is, two objects are considered equal if their instance variables are equal.
 But other definitions are possible.
-You could, for example, allow a \java{Time} object and a \java{String} object to be considered equal if they represent the same time.
 
-\begin{code}
-public boolean equals(String str) {
-    return str.equals(this.toString());
-}
-\end{code}
 
-The \java{equals} method is now overloaded.
-If we invoke \java{time1.equals(time3)}, the first method will be used; \java{time1.equals("09:30:00.0")} uses the second.
+% This example is a little non-idiomatic.  Can we think of something else?
+
+%You could, for example, allow a \java{Time} object and a \java{String} object to be considered equal if they represent the same time.
+%
+%\begin{code}
+%public boolean equals(String str) {
+%    return str.equals(this.toString());
+%}
+%\end{code}
+%
+%The \java{equals} method is now overloaded.
+%If we invoke \java{time1.equals(time3)}, the first method will be used; \java{time1.equals("09:30:00.0")} uses the second.
 
 
 \section{Adding Times}
 
-Suppose you are going to a movie that starts at 18:50 (i.e., 6:50 PM), and the running time is 2 hours 16 minutes.
+Suppose you are going to a movie that starts at 18:50 (that is, 6:50 PM), and the running time is 2 hours 16 minutes.
 What time does the movie end?
 We'll use \java{Time} objects to figure it out.
 
@@ -570,12 +593,15 @@ Time runningTime = new Time(2, 16, 0.0);
 Here are two ways we could ``add'' the \java{Time} objects:
 
 \begin{itemize}
-\item We could write a static method that takes two \java{Time} objects as parameters (not object-oriented).
+
+\item We could write a static method that takes two \java{Time} objects as parameters.
+
 \item We could write an instance method that gets invoked on one object and takes the other as a parameter.
+
 \end{itemize}
 
 To demonstrate the difference, we'll do both.
-Here is a simple version that uses the static approach:
+Here is the static method:
 
 \index{static}
 \index{method!static}
@@ -590,13 +616,13 @@ public static Time add(Time t1, Time t2) {
 }
 \end{code}
 
-And here's how we would invoke the static method:
+And here's how we would invoke it:
 
 \begin{code}
 Time endTime = Time.add(startTime, runningTime);
 \end{code}
 
-On the other hand, here's what it looks like as an instance method:
+Here's what it looks like as an instance method:
 
 \index{instance method}
 \index{method!instance}
@@ -611,7 +637,7 @@ public Time add(Time t2) {
 }
 \end{code}
 
-And here's how we would invoke the instance method:
+And here's how we would invoke it:
 
 \begin{code}
 Time endTime = startTime.add(runningTime);
@@ -620,10 +646,15 @@ Time endTime = startTime.add(runningTime);
 Notice the differences:
 
 \begin{itemize}
-\item We removed the keyword \java{static}.
-\item We removed the first parameter.
-\item We replaced \java{t1} with \java{this}.
-\item We invoked the method via the \java{startTime} object. (The static method was invoked via the \java{Time} class.)
+
+\item The static method has the keyword \java{static}; the instance method does not.
+
+\item The static method has two parameters, \java{t1} and \java{t2}.
+The instance method has one explicit parameter, \java{t1}, and the implicit parameter, \java{this}.
+
+\item We invoked the static method with the \java{Time} class;
+we invoked the instance method with the \java{startTime} object.
+
 \end{itemize}
 
 %Optionally, you could replace \java{t2} with \java{that}.
@@ -632,14 +663,12 @@ Notice the differences:
 That's all there is to it.
 Static methods and instance methods do the same thing, and you can convert from one to the other with just a few changes.
 
-In both approaches, \java{startTime} is passed to the method.
-But for the non-static method, \java{startTime} is passed implicitly as \java{this}.
+However, there's a problem with both of these methods; they are not correct.
+The result from either method is {\tt 20:66}, which is not a valid time.
 
-There's only one problem: the addition code itself is not correct.
-For this example, it returns {\tt 20:66}, which is not a valid time.
 If \java{second} exceeds 59, we have to ``carry'' into the minutes column, and if \java{minute} exceeds 59, we have to carry into \java{hour}.
 
-Here is a better version of \java{add}:
+Here is a better version of the instance method, \java{add}:
 
 \begin{code}
 public Time add(Time t2) {
@@ -647,6 +676,7 @@ public Time add(Time t2) {
     sum.hour = this.hour + t2.hour;
     sum.minute = this.minute + t2.minute;
     sum.second = this.second + t2.second;
+    
     if (sum.second >= 60.0) {
         sum.second -= 60.0;
         sum.minute += 1;
@@ -693,26 +723,30 @@ It doesn't create a new one, and it doesn't return anything.
 Methods like \java{increment} are called {\bf modifier} methods.
 They are usually void, but sometimes they return a reference to the object they modify.
 
-Modifiers can be more efficient because they don't create new objects.
-But they can also be error-prone.
-When objects are aliased, the effects of modifiers can be confusing.
-%As a general rule, if you are using modifiers, you should avoid aliasing.
-
 \index{pure method}
 \index{method!pure}
 
 In contrast, methods like \java{add} are called {\bf pure} methods, because:
 
 \begin{itemize}
+
 \item They don't modify the parameters.
+
 \item They don't have any other ``side effects'', like printing.
-\item The return value only depends on the parameters, not on any other data.
+
+\item The return value only depends on the parameters, not on any other 
+data.
+
 \end{itemize}
 
-\index{immutable}
+Modifiers can be more efficient because they don't create new objects.
+But they can also be error-prone.
+Especially when objects are aliased, the effects of modifiers can be confusing.
 
-If a class provides only getters and pure methods (no setters or modifiers), then the objects will be immutable.
-Working with immutable objects can be more difficult at first, but they can save you from long hours of debugging.
+%\index{immutable}
+
+%If a class provides only getters and pure methods (no setters or modifiers), then the objects will be immutable.
+%Working with immutable objects can be more difficult at first, but they can save you from long hours of debugging.
 
 
 \section{Vocabulary}
