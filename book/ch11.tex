@@ -205,7 +205,7 @@ All this constructor does is copy values from the parameters to the instance var
 Notice that the parameters shadow (or hide) the instance variables, so the keyword \java{this} is necessary to tell them apart.
 Parameters don't have to use the same names, but that's a common style.
 
-% TODO: Let's make sure the discussion of shadowing comes before this.
+%TODO Let's make sure the discussion of shadowing comes before this.
 
 To invoke this second constructor, you have to provide arguments to the \java{new} operator.
 The following example creates a \java{Time} object that represents a fraction of a second before noon:
@@ -213,12 +213,6 @@ The following example creates a \java{Time} object that represents a fraction of
 \begin{code}
 Time time = new Time(11, 59, 59.9);
 \end{code}
-
-Overloading constructors provides the flexibility to create an object first and then fill in the attributes, or collect all the information before creating the object itself.
-
-Once you get the hang of it, writing constructors gets boring.
-You can write them quickly just by looking at the list of instance variables.
-In fact, some IDEs can generate them for you.
 
 Here is the complete class definition so far:
 
@@ -243,6 +237,12 @@ public class Time {
     }
 }
 \end{code}
+
+Overloading constructors provides the flexibility to create an object first and then fill in the attributes, or collect all the information before creating the object itself.
+
+Once you get the hang of it, writing constructors gets boring.
+You can write them quickly just by looking at the list of instance variables.
+In fact, some IDEs can generate them for you.
 
 
 \section{Getters and Setters}
@@ -289,7 +289,6 @@ If anything in $B$ changes later, it is likely that $A$ will have to change, too
 \index{independent}
 
 But if $A$ only uses methods to interact with $B$, $A$ and $B$ are less dependent, which means that we can make changes in $B$ without affecting $A$ (as long as we don't change the method parameters).
-
 So we generally avoid making instance variables public.
 
 The second option is to provide methods that access the instance variables.
@@ -351,6 +350,7 @@ The naming convention is similar; the method that sets \java{something} is usual
 Writing getters and setters can get boring, but many IDEs can generate them for you based on the instance variables.
 
 % NOTE: A thougtful reader might ask a question we don't answer here: if we provide getters and setters, why don't we just make the instance variables public? 
+
 
 \section{Displaying Objects}
 
@@ -542,7 +542,8 @@ public boolean equals(Time that) {
 
 \java{equals} is an instance method, so it doesn't have the keyword \java{static}.
 It uses \java{this} to refer to current object, and \java{that} to refer to the other.
-\java{that} is {\em not} a keyword, so we could have given this parameter a different name.  But using \java{that} makes the code nicely readable. 
+\java{that} is {\em not} a keyword, so we could have given this parameter a different name.
+But using \java{that} makes the code nicely readable. 
 
 We can invoke \java{equals} like this:
 
@@ -734,8 +735,7 @@ In contrast, methods like \java{add} are called {\bf pure} methods, because:
 
 \item They don't have any other ``side effects'', like printing.
 
-\item The return value only depends on the parameters, not on any other 
-data.
+\item The return value only depends on the parameters, not on any other data.
 
 \end{itemize}
 
