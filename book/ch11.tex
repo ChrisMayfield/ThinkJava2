@@ -795,7 +795,7 @@ Replacing a default implementation of a method, such as \java{toString}.
 A non-static method that has access to \java{this} and the instance variables.
 
 \term{identical}
-Two values that are the same; in the case of objects, two variables that refer to the same object.
+References to the same object or the same location in memory are identical.
 
 \term{equivalent}
 Two objects that are ``equal'' but not necessarily identical, as defined by the \java{equals} method.
@@ -804,7 +804,7 @@ Two objects that are ``equal'' but not necessarily identical, as defined by the 
 A method that changes the state (instance variables) of an object.
 
 \term{pure method}
-A static method that depends only on its parameters and no other data.
+A method that depends only on its parameters (including the implicit parameter \java{this}) and no other data.
 
 \end{description}
 
@@ -832,7 +832,7 @@ If you review the documentation of \java{java.lang.String}, you should see that 
 The implementation of \java{increment} in this chapter is not very efficient.
 Can you rewrite it so it doesn't use any loops?
 
-{\it Hint:} Remember the remainder operator. And yes, it works with \java{double}s too.
+{\it Hint:} Remember the remainder operator. And yes, it works with floating-point values too.
 
 \end{exercise}
 
@@ -851,7 +851,7 @@ The instance variables should include a character named \java{letter} and an int
 
 \item Write a method named \java{printTile} that takes a \java{Tile} object as a parameter and displays the instance variables in a reader-friendly format.
 
-\item Write a method named \java{testTile} that creates a \java{Tile} object with the letter \java{Z} and the value \java{10}, and then uses \java{printTile} to display the state of the object.
+\item Write a \java{main} method that creates a \java{Tile} object with the letter \java{Z} and the value \java{10}, and then uses \java{printTile} to display the state of the object.
 
 \item Implement the \java{toString} and \java{equals} methods for a \java{Tile}.
 
@@ -895,7 +895,7 @@ A \java{Rational} object should have two integer instance variables that store t
 
 \item Write an instance method called \java{printRational} that displays a \java{Rational} in some reasonable format.
 
-\item Write a \java{main} method that creates a new object with type \java{Rational}, sets its instance variables to some values, and displays the object.
+\item Write a \java{main} method that creates a new object with type \java{Rational}, sets its instance variables to the values of your choice, and displays the object.
 
 \item At this stage, you have a minimal testable program.
 Test it and, if necessary, debug it.
