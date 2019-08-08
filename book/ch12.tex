@@ -10,7 +10,7 @@ Here is an outline of the road ahead:
 \item In Chapter~\ref{deck}, we define a \java{Deck} class that encapsulates an array of cards, and we write methods that operate on decks.
 
 \item In Chapter~\ref{eights}, we introduce a way to define new classes that extend existing classes.
-We then use \java{Card}, \java{Deck}, and others to implement the game {\it Crazy Eights}.
+Then we use \java{Card} and \java{Deck} to implement the game {\it Crazy Eights}.
 
 \end{itemize}
 
@@ -37,11 +37,11 @@ If you are unfamiliar with traditional playing cards, now would be a good time t
 \index{Card}
 \index{class!Card}
 
-If we want to define a class to represent a playing card, it is pretty obvious what the instance variables should be: \java{rank} and \java{suit}.
+If we want to define a class to represent a playing card, it is pretty clear what the instance variables should be: \java{rank} and \java{suit}.
 It is not as obvious what types they should be.
 
 One possibility is a \java{String} containing things like \java{"Spade"} for suits and \java{"Queen"} for ranks.
-A problem with this design is that it would not be easy to compare cards to see which had a higher rank or suit.
+A problem with this choice is that it would not be easy to compare cards to see which had a higher rank or suit.
 
 \index{encode}
 \index{map to}
@@ -76,7 +76,7 @@ Queen & $\mapsto$ & 12 \\
 King & $\mapsto$ & 13 \\
 \end{tabular}
 
-So far, the class definition for the \java{Card} type looks like this:
+With this encoding, the class definition for the \java{Card} type looks like this:
 
 \begin{code}
 public class Card {
@@ -233,8 +233,10 @@ public class Card {
 
 \index{garbage collection}
 
-Class variables are allocated when the program begins (or when the class is used for the first time) and persist until the program ends.
+Class variables are allocated when the program begins and persist until the program ends.
 In contrast, instance variables like \java{rank} and \java{suit} are allocated when the program creates \java{new} objects, and they are deleted when the object is garbage-collected.
+
+% ABD: Let's check whether garbage collection ends up before this.
 
 \index{final}
 
@@ -245,7 +247,7 @@ Note that whether a variable is \java{static} or \java{final} involves two separ
 \java{static} means the variable is {\em shared}, and \java{final} means the variable is {\em constant}.
 
 Naming \java{static final} variables with capital letters is a common convention that makes it easier to recognize their role in the class.
-In the \java{toString} method, we can refer to \java{SUITS} and \java{RANKS} as if they were local variables, but we can tell that they are class variables.
+In the \java{toString} method, we refer to \java{SUITS} and \java{RANKS} as if they were local variables, but we can tell that they are class variables.
 
 One advantage of defining \java{SUITS} and \java{RANKS} as class variables is that they don't need to be created (and garbage-collected) every time \java{toString} is called.
 They may also be needed in other methods and classes, so it's helpful to make them available everywhere.
@@ -269,7 +271,7 @@ public boolean equals(Card that) {
 \index{logical operator}
 
 It would also be nice to have a method for comparing cards, so we can tell if one is higher or lower than another.
-For primitive types, we can use the comparison operators -- \java{<}, \java{>}, etc.\ -- to compare values.
+For primitive types, we can use comparison operators like \java{<} and \java{>} to compare values.
 But these operators don't work for object types.
 
 For strings, Java provides a \java{compareTo} method, as we saw in Section~\ref{strcmp}.
@@ -347,7 +349,7 @@ To do that, all we have to do is {\em not} provide any modifier methods (includi
 
 \index{final}
 
-That's easy enough, but it is not foolproof, because some fool might come along later and add a modifier.
+That's easy enough, but it is not foolproof, because a fool might come along later and add a modifier.
 We can prevent that possibility by declaring the instance variables \java{final}:
 
 \begin{code}
@@ -361,7 +363,7 @@ public class Card {
 
 You can still assign values to these variables inside a constructor.
 But if someone writes a method that tries to modify these variables, they'll get a compiler error.
-Putting these kinds of safeguards into the code helps prevent future mistakes and hours of debugging.
+This kind of safeguard helps prevent future mistakes and hours of debugging.
 
 
 \section{Arrays of Cards}
@@ -395,11 +397,14 @@ Card[] cards = new Card[52];
 \end{center}
 \end{figure}
 
+% ABD: I might redraw this to use dashed lines instead of zig-zag to indicate the elided part of the array.
+
 \index{null}
 
 Although we call it an ``array of cards'', the array contains {\em references} to cards; it does not contain the \java{Card} objects themselves.
-The references are initialized to \java{null}.
-You can access the elements of the array in the usual way:
+Initially the references are all \java{null}.
+
+Even so, you can access the elements of the array in the usual way:
 
 \begin{code}
 if (cards[0] == null) {
@@ -410,7 +415,7 @@ if (cards[0] == null) {
 \index{exception!NullPointer}
 \index{run-time error}
 
-If you try to access the instance variables of non-existent \java{Card} objects, you will get a \java{NullPointerException}.
+But if you try to access the instance variables of non-existent \java{Card} objects, you will get a \java{NullPointerException}.
 
 \begin{code}
 System.out.println(cards[0].rank);  // NullPointerException
@@ -454,6 +459,8 @@ Figure~\ref{fig.cardarray2} shows what the array looks like after the first two 
 When you work with arrays, it is convenient to have a method that displays the contents.
 We have seen the pattern for traversing an array several times, so the following method should be familiar.
 
+% ABD: Maybe add reference to where we introduced enhanced loops?
+
 \begin{code}
 public static void printDeck(Card[] cards) {
     for (Card card : cards) {
@@ -470,11 +477,16 @@ public static void printDeck(Card[] cards) {
 %}
 %\end{code}
 
-Since \java{cards} has type \java{Card[]}, an element of \java{cards} has type \java{Card}.
+Since \java{cards} has type \java{Card[]}, pronounced ``card array'', an element of \java{cards} has type \java{Card}.
 So \java{println} invokes the \java{toString} method in the \java{Card} class.
 
 Then again, we don't have to write our own \java{printDeck} method.
-We could just invoke \java{System.out.println(Arrays.toString(cards))}.
+The \java{Arrays} class provides a \java{toString} method that invokes \java{toString} on the elements of an array and concatenates the results.
+To can invoke it like this:
+
+\begin{code}
+System.out.println(Arrays.toString(cards))
+\end{code}
 
 
 \section{Sequential Search}
@@ -504,7 +516,6 @@ public static int search(Card[] cards, Card target) {
 
 The method returns as soon as it discovers the card, which means we don't have to traverse the entire array if we find the target.
 If we get to the end of the loop, we know the card is not in the array.
-Notice that this algorithm only depends on the \java{equals} method.
 
 \index{efficiency}
 
@@ -514,14 +525,16 @@ But if the cards are in order, we can use better algorithms.
 
 Sequential search is relatively inefficient, especially for large arrays.
 If you pay the price to keep the array sorted, finding elements becomes much easier.
-We will learn in the next chapter how to sort arrays.
+%We will learn in the next chapter how to sort arrays.
 
 
 \section{Binary Search}
 
+% ABD:  I wonder if we need a different example.  I don't know how many students have looked up a word in a paper dictionary.
+
 \index{binary search}
 
-When you look for a word in a dictionary, you don't just search page by page from front to back.
+When you look for a word in a dictionary, you don't search page by page from front to back.
 Since the words are in alphabetical order, you probably use a {\bf binary search} algorithm:
 
 \begin{enumerate}
@@ -540,7 +553,7 @@ If you find it, stop.
 This algorithm is much faster than sequential search, because it rules out half of the remaining words each time you make a comparison.
 If at any point you find two adjacent words on the page, and your word comes between them, you can conclude that your word is not in the dictionary.
 
-Getting back to the array of cards, we can write this faster version of \java{search} if we know the cards are in order:
+Getting back to the array of cards, we can write a faster version of \java{search} if we know the cards are in order:
 
 \begin{code}
 public static int binarySearch(Card[] cards, Card target) {
@@ -580,8 +593,8 @@ Inside the \java{while} loop, we repeat the four steps of binary search:
 \end{enumerate}
 
 If \java{low} exceeds \java{high}, there are no cards in the range, so we terminate the loop and return \java{-1}.
-Notice that this algorithm only depends on the \java{compareTo} method of the object.
-We can apply this same code to any object that provides a \java{compareTo} method.
+
+This algorithm only depends on the \java{compareTo} method of the object, so we can use this code with object type that provides \java{compareTo}.
 
 
 \section{Tracing the Code}
@@ -639,48 +652,92 @@ The result is $\log_2 52$, which is about 5.7.
 So we might have to look at 5 or 6 cards, as opposed to all 52 if we did a sequential search.
 
 More generally, if the array contains $n$ elements, binary search requires $\log_2 n$ comparisons, and sequential search requires $n$.
-For large values of $n$, binary search is significantly faster.
+For large values of $n$, binary search is substantially faster.
+
+% ABD: Following our discussion, I'm killing the recursive version of binarySearch.
+% So this might be a good place for the scope discussion from
+% Chapter 10.
+
+%\section{Recursive Version}
+%
+%\index{recursion}
+%
+%Another way to implement binary search is with a recursive method.
+%We take \java{low} and \java{high} as parameters, add a base case, and turn steps 3 and 4 into recursive invocations.
+%%They indicate the segment of the array that should be searched (including both \java{low} and \java{high}).
+%%Here's what that code looks like:
+%
+%\begin{code}
+%public static int binarySearch(Card[] cards, Card target,
+%                               int low, int high) {
+%    if (high < low) {
+%        return -1;
+%    }
+%    int mid = (low + high) / 2;                     // step 1
+%    int comp = cards[mid].compareTo(target);
+%
+%    if (comp == 0) {                                // step 2
+%        return mid;
+%    } else if (comp < 0) {                          // step 3
+%        return binarySearch(cards, target, mid + 1, high);
+%    } else {                                        // step 4
+%        return binarySearch(cards, target, low, mid - 1);
+%    }
+%}
+%\end{code}
+%
+%Instead of a \java{while} loop, we have an \java{if} statement to terminate the recursion.
+%%We call this \java{if} statement the base case.
+%If \java{high} is less than \java{low}, there are no cards between them, and we conclude that the card is not in the array.
+%
+%\index{infinite recursion}
+%\index{recursion!infinite}
+%\index{StackOverflowError}
+%\index{exception!StackOverflow}
+%
+%Two common errors in recursive methods are (1) forgetting to include a base case, and (2) writing the recursive call so that the base case is never reached.
+%Either error causes infinite recursion and a \java{StackOverflowError}.
 
 
-\section{Recursive Version}
+\section{Scope Revisited}
 
-\index{recursion}
+% TODO: If we decide to keep this here, it needs some revision for flow.
 
-Another way to implement binary search is with a recursive method.
-We take \java{low} and \java{high} as parameters, add a base case, and turn steps 3 and 4 into recursive invocations.
-%They indicate the segment of the array that should be searched (including both \java{low} and \java{high}).
-%Here's what that code looks like:
+\index{scope}
+
+In Section~\ref{stack}, we introduced the idea that variables have scope.
+The scope of a variable is the area of a program where a variable can be used.
+
+Consider the first few lines of the \java{Rectangle.translate} method (in the Java library source code):
 
 \begin{code}
-public static int binarySearch(Card[] cards, Card target,
-                               int low, int high) {
-    if (high < low) {
-        return -1;
-    }
-    int mid = (low + high) / 2;                     // step 1
-    int comp = cards[mid].compareTo(target);
-
-    if (comp == 0) {                                // step 2
-        return mid;
-    } else if (comp < 0) {                          // step 3
-        return binarySearch(cards, target, mid + 1, high);
-    } else {                                        // step 4
-        return binarySearch(cards, target, low, mid - 1);
-    }
-}
+public void translate(int dx, int dy) {
+    int oldv = this.x;
+    int newv = oldv + dx;
+    if (dx < 0) {
+    ...
 \end{code}
 
-Instead of a \java{while} loop, we have an \java{if} statement to terminate the recursion.
-%We call this \java{if} statement the base case.
-If \java{high} is less than \java{low}, there are no cards between them, and we conclude that the card is not in the array.
+This example uses three kinds of variables:
 
-\index{infinite recursion}
-\index{recursion!infinite}
-\index{StackOverflowError}
-\index{exception!StackOverflow}
+\begin{enumerate}
 
-Two common errors in recursive methods are (1) forgetting to include a base case, and (2) writing the recursive call so that the base case is never reached.
-Either error causes infinite recursion and a \java{StackOverflowError}.
+\item Parameters (\java{dx} and \java{dy}),
+
+\item Local variables (\java{oldv} and \java{newv}), and
+
+\index{this}
+
+\item Attributes (\java{this.x})
+
+\end{enumerate}
+
+Parameters and local variables are created when a method is invoked, and they disappear when the method returns.  They can be used anywhere inside the method, but not in other methods and not in other classes.
+
+Attributes are created when an object is created, and they disappear when the object is destroyed.  They can be used in any 
+
+When the Java compiler encounters a variable name, it searches backwards for its declaration.
+The compiler first looks for local variables, then parameters, then attributes.
 
 
 \section{Vocabulary}
@@ -737,7 +794,7 @@ A hand can contain any number of cards.
 \begin{enumerate}
 
 \item Write a method called \java{suitHist} that takes an array of cards as a parameter and that returns a histogram of the suits in the hand.
-Your solution should only traverse the array once.
+Your solution should only traverse the array once as in Section~\ref{singlepass}.
 
 \item Write a method called \java{hasFlush} that takes an array of cards as a parameter and returns \java{true} if the hand contains a flush (and \java{false} otherwise).
 
@@ -748,7 +805,9 @@ Your solution should only traverse the array once.
 
 \begin{exercise}  %%V6 Ex12.4
 
-Working with cards is more interesting if you can display them on the screen.
+% ABD: I have a mild preference for 2-D rather than 2D.  Worth changing?
+
+Working with cards is more fun if you can display them on the screen.
 If you have not already read Appendix~\ref{graphics} about 2D graphics, you should read it before working on this exercise.
 In the code directory for this chapter, {\tt ch12}, you will find:
 
@@ -807,6 +866,9 @@ You can use this class as a starting place to implement your own card games.
 
 %TODO: We should make an actual exercise out of this.
 % Maybe take an array of cards and display them in a row at a given location?
-% Or we could make this a new section and emphasize the use of 2D arrays more.
+
+As a starting place, try placing cards on the table in the starting configuration for the solitaire game Klondike (see \url{https://en.wikipedia.org/wiki/Klondike_(solitaire)}).
+
+You can get the image for the back of the card by reading the file \java{back192.gif}.
 
 \end{exercise}
