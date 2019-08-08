@@ -118,6 +118,9 @@ public int size() {
 }
 \end{code}
 
+% TODO: Call this isEmtpy() rather than empty()?
+% TODO: Use ArrayList.isEmpty?
+
 For convenience, \java{CardCollection} also provides an \java{empty} method that returns \java{true} when \java{size} is zero:
 
 \begin{code}
@@ -269,6 +272,8 @@ So it inherits methods like \java{getLabel}, \java{size}, and \java{getCard}, wh
 In summary, a \java{Deck} is just like a \java{CardCollection}, but it provides a different constructor.
 And a \java{Hand} is just like a \java{CardCollection}, but it provides an additional method, \java{display}.
 
+% TODO: Call this print() rather than display()
+
 
 \section{Dealing Cards}
 \label{dealing}
@@ -340,6 +345,7 @@ deck.deal(hand, 5);
 
 The argument is a \java{Hand}, not a \java{CardCollection}.
 So why is this example legal?
+
 It's because \java{Hand} is a subclass of \java{CardCollection}, so a \java{Hand} object is also considered to be a \java{CardCollection} object.
 If a method expects a \java{CardCollection}, you can give it a \java{Hand}, a \java{Deck}, or a \java{CardCollection}.
 
@@ -667,10 +673,6 @@ For example, \java{Hand} extends \java{CardCollection}, so every instance of \ja
 Composition is also known as a {\bf HAS-A} relationship, as in ``\java{Eights} HAS-A \java{Scanner}''.
 Inheritance is also known as an {\bf IS-A} relationship, as in ``a \java{Hand} IS-A \java{CardCollection}''.
 This vocabulary provides a concise way to talk about an object-oriented design.
-
-% ABD: I would like to call these UML class diagrams to distinguish
-% them from the 3172 other kinds of UML diagrams, and to be consistent
-% with https://en.wikipedia.org/wiki/Class_diagram
 
 \index{UML}
 \index{class diagram}
