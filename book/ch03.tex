@@ -104,7 +104,7 @@ Scanner in = new Scanner(System.in);
 \end{code}
 
 The \java{Scanner} class provides a method called \java{nextLine} that reads a line of input from the keyboard and returns a \java{String}.
-The following example reads two lines and repeats them back to the user:
+Here's a complete example that reads two lines and repeats them back to the user:
 
 \index{Echo.java}
 
@@ -130,7 +130,7 @@ public class Echo {
 
 Import statements can't be inside a class definition.
 By convention, they are usually at the beginning of the file.
-If you omit the import statement at the top of the file, you will get a compiler error saying ``cannot find symbol''.
+If you omit the import statement, you get a compiler error like ``cannot find symbol''.
 That means the compiler doesn't know where to find the definition for \java{Scanner}.
 
 \index{java.lang}
@@ -138,7 +138,7 @@ That means the compiler doesn't know where to find the definition for \java{Scan
 You might wonder why we can use the \java{System} class without importing it.
 \java{System} belongs to the \java{java.lang} package, which is imported automatically.
 According to the documentation, \java{java.lang} ``provides classes that are fundamental to the design of the Java programming language.''
-The \java{String} class is also part of the \java{java.lang} package.
+The \java{String} class is also part of \java{java.lang}.
 
 
 \section{Language Elements}
@@ -359,15 +359,15 @@ Table~\ref{tab:format} lists a few common uses, to give you an idea of how thing
 For more details, refer to the documentation of \java{java.util.Formatter}.
 The easiest way to find documentation for Java classes is to do a web search for ``Java'' and the name of the class.
 
-In contrast to \java{print} and \java{println}, \java{printf} uses commas to separate each value.
-The following line accidentally {\em concatenates} \java{inch} and \java{cm} to the format string, rather than substitute them:
+Notice that the values you pass to \java{printf} are separated by commas.
+If you are used to using the \java{+} operator to concatenate strings, you might write something like this by accident:
 
 \begin{code}
-System.out.printf("%d in = %f cm\n" + inch + cm);  // error
+System.out.printf("inches=%d" + inch);  // error
 \end{code}
 
-Unfortunately the compiler won't catch this kind of mistake, because it's within a legal Java statement.
-When you run the program, it will display:
+This line of code is legal, so the compiler won't catch the mistake.
+Instead, when you run the program, it causes an exception:
 
 \index{MissingFormatArgumentException}
 \index{exception!MissingFormatArgument}
@@ -383,13 +383,26 @@ Format specifier '%d'
 \end{stdout}
 \end{small}
 
-Error messages may seem cryptic, but it's important to read them carefully.
-Starting from the top, this one says ``missing format argument'' and ``format specifier \%d''.
-In other words, it doesn't know what value to substitute for the \java{\%d}.
-The bottom of the error indicates where to look: Example.java line 10.
+As we saw in Section~\ref{exception}, the error message includes the name of the exception, \java{MissingFormatArgumentException}, and an additional message, \java{Format specifier '%d'}.
+That means it doesn't know what value to substitute for \java{\%d}.
 
-It might be difficult to see what's wrong, given that \java{inch} and \java{cm} are at the end of the \java{printf} statement.
-But if \java{inch} is 1 and \java{cm} is 2.54, the resulting format string is \java{"\%d in = \%f cm\\n12.54"} after applying the \java{+} operators.
+The problem is that concatenation happens first, before \java{printf} is invoked.
+If the value of \java{inch} is \java{100}, the result of concatenation is \java{"inches=%d100"}.
+So \java{printf} gets a format string as an argument, but it doesn't get any values to format.
+
+\index{trace}
+
+The error message also includes a {\bf trace} that shows the method that was running when the error was detected, \java{java.util.Formatter.format}, the method that invoked it, \java{java.io.PrintStream.format}, the method that invoked {\em that}, \java{java.io.PrintStream.printf}, and finally the method you actually wrote, \java{Example.main}.
+
+The last line also names program that was running, \java{Example.java}, and the line it was on, \java{10}.
+
+That's a lot of information, and it includes method names and files names you have no reason to know, at this point.
+But don't be overwhelmed.
+
+When you see an error message like this, read the first line carefully, to see what happened.
+Then read the last line, to see where it happened.
+In some IDEs, you can click on the error message and it will take you to the line of code that was running.
+But remember that where the error is discovered is not always where it was caused.
 
 
 %\section{Centimeters to Inches}
@@ -502,6 +515,7 @@ For example, you can check whether one number is divisible by another: if \java{
 You can use remainder to ``extract'' digits from a number: \java{x \% 10} yields the rightmost digit of \java{x}, and \java{x \% 100} yields the last two digits.
 And many encryption algorithms use the remainder operator extensively.
 
+%TODO: It looks like we need \% to make LaTeX happy, but it messes up plastex.  Can we make the \java{} environment a pure verbatim env?
 
 \section{Putting It All Together}
 
@@ -747,12 +761,19 @@ What if you use two format specifiers, but then only provide one value?
 
 Write a program that converts a temperature from Celsius to Fahrenheit.
 It should (1) prompt the user for input, (2) read a \java{double} value from the keyboard, (3) calculate the result, and (4) format the output to one decimal place.
-For example, it should display {\tt "24.0 C = 75.2 F"}.
 
-Here is the formula.
-Be careful not to use integer division!
+When it's finished, it should work like this:
+
+\begin{verbatim}
+Enter a temperature in Celsius: 24
+24.0 C = 75.2 F
+\end{verbatim}
+
+Here is the formula to do the conversion:
 %
 \[ F = C \times \frac{9}{5} + 32 \]
+%
+HINT: Be careful not to use integer division!
 
 \end{exercise}
 
@@ -772,7 +793,7 @@ For example, {\tt "5000 seconds = 1 hours, 23 minutes, and 20 seconds"}.
 \label{guess}
 
 The goal of this exercise is to program a ``Guess My Number'' game.
-When it's finished, it will work like this:
+When it's finished, it should work like this:
 
 \begin{stdout}
 I'm thinking of a number between 1 and 100

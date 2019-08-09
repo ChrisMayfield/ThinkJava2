@@ -88,7 +88,7 @@ Remember that Java is case-sensitive, so \java{NewLine} and \java{newLine} are n
 
 \index{camel case}
 
-Method names should begin with a lowercase letter and use ``camel case'', which is a cute name for \java{jammingWordsTogetherLikeThis}.
+By convention, method names begin with a lowercase letter and use ``camel case'', which is a cute name for \java{jammingWordsTogetherLikeThis}.
 You can use any name you want for methods, except \java{main} or any of the Java keywords.
 
 %In the following program, \java{main} invokes \java{threeLine}, and \java{threeLine} invokes \java{newLine} three times.
@@ -185,6 +185,8 @@ When you invoke \java{printTwice}, you have to provide an argument with type \ja
 
 %\java{main} has a single parameter, called \java{args}, which has type \java{String[]}.
 %That means that whoever invokes \java{main} must provide an array of strings (we'll get to arrays in a later chapter).
+
+%TODO: Make sure printTwice doesn't get split across lines.
 
 Before the method executes, the argument gets assigned to the parameter.
 In the \java{printTwice} example, the argument \java{"Don't make me say this twice!"} gets assigned to the parameter \java{s}.
@@ -656,6 +658,8 @@ Code like that is called {\bf scaffolding}, because it is helpful for building t
 The next step is to square \java{dx} and \java{dy}.
 We could use the \java{Math.pow} method, but it is simpler (and more efficient) to multiply each term by itself.
 
+Then we add the squares and print the result so far.
+
 \begin{code}
 public static double distance
         (double x1, double y1, double x2, double y2) {
@@ -684,8 +688,9 @@ public static double distance
 %In \java{main}, we can print and check the value of the result.
 
 As you gain more experience programming, you might write and debug more than one line at a time.
+But if you find yourself spending a lot of time debugging, consider taking smaller steps.
 %Nevertheless, incremental development can save you a lot of time debugging.
-But by using incremental development, scaffolding, and testing, your code is more likely to be correct the first time.
+%But by using incremental development, scaffolding, and testing, your code is more likely to be correct the first time.
 
 
 \section{Vocabulary}
@@ -784,6 +789,8 @@ The output should look something like this (except that the date might be differ
 Saturday, July 22, 2015
 \end{stdout}
 
+%TODO: Check word breaks
+
 \item Once you have debugged \java{printAmerican}, write another method called \java{printEuropean} that displays the date in European format.
 
 \end{enumerate}
@@ -792,7 +799,6 @@ Saturday, July 22, 2015
 \end{exercise}
 
 
-%TODO move to Chapter 5 (if statements)
 \begin{exercise}  %%V6 Ex5.6
 
 This exercise reviews the flow of execution through a program with multiple methods.
@@ -907,7 +913,6 @@ For example, try \java{System.out.println("boo!") + 7;}
 \end{exercise}
 
 
-%TODO move to Chapter 5 (if statements)
 \begin{exercise}  %%V6 Ex5.2
 
 Draw a stack diagram that shows the state of the program the {\it second} time \java{zoop} is invoked.

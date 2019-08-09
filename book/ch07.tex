@@ -1,6 +1,6 @@
 \chapter{Arrays and References}
 
-%Up to this point, the only variables we have used were for individual values such as numbers or strings.
+Up to this point, the only variables we have used were for individual values such as numbers or strings.
 In this chapter, we'll learn how to store multiple values of the same type using a single variable.
 This language feature will enable you to write programs that manipulate larger amounts of data.
 
@@ -13,11 +13,12 @@ for (char c = 'a'; c <= 'z'; c++) {
     // inner loop: count how many times the letter appears
     for (int i = 0; i < str.length(); i++) {
         ...
+    // if the count is not 0 or 2, return false
 \end{code}
 
-This ``nested loops'' approach is inefficient, especially when the string is long.  For example, there are more than three million characters in {\it War and Peace}; to process the whole book, the nested loop would run about 80 million times.
+This ``nested loops'' approach is inefficient, especially when the string is long.  For example, there are more than 3 million characters in {\it War and Peace}; to process the whole book, the nested loop would run about 80 million times.
 
-A better algorithm would initialize 26 variables to zero, loop through the string {\em one time}, and use a giant \java{if} statement to update the variable for each letter.
+Another algorithm would initialize 26 variables to zero, loop through the string {\em one time}, and use a giant \java{if} statement to update the variable for each letter.
 But who wants to declare 26 variables?
 
 That's where arrays come in.
@@ -27,7 +28,6 @@ We will present this algorithm at the end of the chapter.
 
 
 \section{Creating Arrays}
-\label{allocate}
 
 \index{array}
 \index{element}
@@ -77,6 +77,14 @@ You can use any integer expression for the size of an array, as long as the valu
 If you try to create an array with \java{-4} elements, for example, you will get a \java{NegativeArraySizeException}.
 An array with zero elements is allowed, and there are special uses for such arrays that we'll see later on.
 
+You can initialize an array with an {\bf array literal}, which is a comma-separated sequence of elements enclosed in braces, like this:
+
+\begin{code}
+int[] a = {1, 2, 3, 4};
+\end{code}
+
+This statement creates an array variable, \java{a}, and makes it refer to an array with four elements.
+
 
 \section{Accessing Elements}
 \label{elements}
@@ -103,8 +111,8 @@ As we'll soon see, we can assign a different variable to refer to the same array
 \index{array!element}
 \index{array!index}
 
-The large numbers inside the boxes are the elements of the array.
-The small numbers outside the boxes are the {\bf indexes} used to identify each location in the array.
+The boldface numbers inside the boxes are the elements of the array.
+The lighter numbers outside the boxes are the {\bf indexes} used to identify each location in the array.
 As with strings, the index of the first element is 0, not 1.
 For this reason, we sometimes refer to the first element as the ``zeroth'' element.
 
@@ -175,21 +183,22 @@ If the index is negative or greater than 3, the result is an \java{ArrayIndexOut
 \index{array!printing}
 
 You can use \java{println} to display an array, but it probably doesn't do what you would like.
-For example, the following fragment (1) declares an array variable, (2) makes it refer to an array of four elements, and (3) attempts to display the contents of the array using \java{println}:
+For example, if you print an array like this:
 
 \begin{code}
 int[] a = {1, 2, 3, 4};
 System.out.println(a);
 \end{code}
 
-Unfortunately, the output is something like:
+The output is something like:
 
 \begin{stdout}
 [I@bf3f7e0
 \end{stdout}
 
 The bracket indicates that the value is an array, \java{I} stands for ``integer'', and the rest represents the address of the array in memory.
-If we wanted to display the elements of the array, we could do it ourselves:
+
+If we want to display the elements of the array, we can do it ourselves:
 
 \begin{code}
 public static void printArray(int[] a) {
@@ -210,23 +219,25 @@ Given the previous array, the output of \java{printArray} is:
 \index{utility class}
 \index{Arrays class}
 
-The Java library provides a utility class \java{java.util.Arrays} that has methods for working with arrays.
+The Java library includes a class, \java{java.util.Arrays}, that provides methods for working with arrays.
 One of them, \java{toString}, returns a string representation of an array.
 We can invoke it like this:
 
 \begin{code}
+import java.utils.Arrays
+
 System.out.println(Arrays.toString(a));
 \end{code}
 
+We have to \java{Arrays} before we can use it.
 And the output is:
 
 \begin{stdout}
 [1, 2, 3, 4]
 \end{stdout}
 
-As usual, we have to \java{import java.util.Arrays} before we can use it.
-Notice that the string format is slightly different: it uses square brackets instead of curly braces.
-But it beats having to write your own \java{printArray} method.
+Notice that \java{Arrays.toString} uses square brackets instead of curly braces.
+But it beats writing your own \java{printArray} method.
 
 
 \section{Copying Arrays}
@@ -248,6 +259,8 @@ These statements create an array of three \java{double}s and make two different 
 \index{memory diagram}
 \index{diagram!memory}
 
+%TODO: Smaller boxes for the references
+
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics[width=175pt]{figs/array3.pdf}
@@ -257,7 +270,6 @@ These statements create an array of three \java{double}s and make two different 
 \end{figure}
 
 \index{alias}
-\label{array.alias}
 
 Any changes made through either variable will be seen by the other.
 For example, if we set \java{a[0] = 17.0}, and then display \java{b[0]}, the result is {\tt 17.0}.
@@ -343,10 +355,10 @@ for (int i = 0; i < a.length; i++) {
 \end{code}
 
 This example traverses an array and squares each element.
-At the end of the loop, the array has the values \java{\{1, 4, 9, 16, 25\}}.
+At the end of the loop, the array has the values 
+\verb"{1, 4, 9, 16, 25}".
 
 \index{search}
-
 
 Another common pattern is a {\bf search}, which involves traversing an array and ``searching'' for a particular element.
 For example, the following method takes an array and a value, and it returns the index where the value appears:
@@ -640,10 +652,16 @@ for (int i = 0; i < lower.length(); i++) {
 }
 \end{code}
 
+If \java{letter} is \java{'a'}, the value of \java{index} is \java{0};
+if \java{letter} is \java{'b'}, the value of \java{index} is \java{1},
+and so on.
+
+Then we use \java{index} to increment the corresponding element of \java{counts}.
+At the end of the loop, \java{count} contains a histogram of the letters in \java{lower}.
+
 \index{toCharArray}
 
-To simplify the code, it would be nice to use an enhanced \java{for} loop.
-The enhanced \java{for} loop does not work with strings directly, but you can convert any string to a character array and iterate that instead:
+We can simplify this code with an enhanced \java{for} loop, but it doesn't work with strings; we have to convert \java{lower} to an array of characters, like this:
 
 \begin{code}
 for (char letter : lower.toCharArray()) {
@@ -652,7 +670,7 @@ for (char letter : lower.toCharArray()) {
 }
 \end{code}
 
-After counting all the characters in the \java{lower} string, we need one last \java{for} loop to determine whether each letter appears 0 or 2 times.
+Once we have the counts, we can use a second \java{for} loop to check whether each letter appears 0 or 2 times.
 
 \begin{code}
 for (int count : counts) {
@@ -663,12 +681,11 @@ for (int count : counts) {
 return true;  // is a doubloon
 \end{code}
 
-Like in Section~\ref{traversal}, we can return immediately if the inner condition is true (which, in this example, means that the word is not a doubloon).
-If we make it all the way through the \java{for} loop, we know that all counts are 0 or 2.
+If we find a count that is neither 0 or 2, we know the word is not a doubloon and we can return immediately.
 
-Pulling together the code fragments, and adding some comments and test cases, here is an entire program.
-%This example uses \java{if} statements, \java{for} loops, methods, strings, and arrays.
-It's amazing to think about how much you've learned in just seven chapters!
+If we make it all the way through the \java{for} loop, we know that all counts are 0 or 2, which means the word is a doubloon.
+
+Pulling together the code fragments, and adding some comments and test cases, here's the entire program.
 
 \index{Doubloon.java}
 
@@ -698,6 +715,13 @@ public class Doubloon {
     }
 }
 \end{trinket}
+
+% ABD: Nice test cases :)
+
+This example uses methods, \java{if} statements, \java{for} loops, arithmetic and logical operators, integers, characters, strings, booleans, and arrays.
+We hope you'll take a second to appreciate how much you've learned!
+
+%TODO: Switch to em dashes with no spaces.  Sure would be easier if the book were in one file :(
 
 
 \section{Vocabulary}

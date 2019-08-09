@@ -41,7 +41,7 @@ String message;
 
 This statement is called a {\bf declaration}, because it declares that the variable \java{message} has the type \java{String}.
 Each variable has a {\bf type} that determines what kind of values it can store.
-For example, the \java{int} type can store integers like {1} and \java{-5}, and the \java{char} type can store characters like \java{'A'} and \java{'z'}.
+For example, the \java{int} type can store integers like \java{1} and \java{-5}, and the \java{char} type can store characters like \java{'A'} and \java{'z'}.
 
 Some types begin with a capital letter and some with lowercase.
 We will learn the significance of this distinction later, but for now you should take care to get it right.
@@ -480,7 +480,7 @@ int balance = 12345;      // total number of cents
 
 \index{type!long}
 
-This solution works as long as the number of cents doesn't exceed the largest integer, which is about 2 billion.
+This solution works as long as the number of cents doesn't exceed the largest \java{int}, which is about 2 billion.
 %If necessary you can use \java{long} instead, which has a max value of $2^{63}-1$ (about 92 quadrillion dollars).
 %Hopefully nobody will ever need that much money!
 
@@ -622,7 +622,7 @@ As you gain experience, you will make fewer mistakes and find them more quickly.
 
 
 \section{Other Types of Errors}
-%\subsection{Run-time Errors}
+\label{exception}
 
 \index{run-time error}
 \index{error!run-time}
@@ -647,7 +647,7 @@ Exception in thread "main" java.lang.ArithmeticException: / by zero
 \index{exception!Arithmetic}
 
 Error messages are very useful for debugging.
-The first line includes the name of the exception, \java{ArithmeticException}, and a message that indicates more specifically what happened, \java{/ by zero}.
+The first line includes the name of the exception, \java{ArithmeticException}, and a message that indicates more specifically what happened, division by zero.
 The next line shows the method where the error occurred; \java{Hello.main} indicates the method \java{main} in the class \java{Hello}.
 It also reports the file where the method is defined, {\tt Hello.java}, and the line number where the error occurred, \java{5}.
 

@@ -57,6 +57,8 @@ The flow of execution for a \java{while} statement is:
 This type of flow is called a {\bf loop}, because the last step ``loops back around'' to the first.
 Figure~\ref{fig.while} shows this idea using a flowchart.
 
+%TODO: Add an initialization box to the flowchart
+
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics[width=190pt]{figs/while.pdf}
@@ -387,7 +389,7 @@ You might wonder when to use one or the other.  It depends on whether you know h
 
 A \java{for} loop is ``definite'', which means we know, at the beginning of the loop, how many times it will repeat.
 In the alphabet example, we know it will run 26 times.
-In that case, it's better to use a \java{for} loop, which puts all of the loop control code on one line: \java{for (char c = 'A'; c <= 'Z'; c++)}.
+In that case, it's better to use a \java{for} loop, which puts all of the loop control code on one line.
 
 A \java{while} loop is ``indefinite'', which means we don't know how many times it will repeat.
 For example, when validating user input as in Section~\ref{validate}, it's impossible to know how many times the user will enter a wrong value.
@@ -404,7 +406,6 @@ double number = in.nextDouble();
 \end{code}
 
 It's easier to read the \java{Scanner} method calls when they're not all on one line of code.
-And since there is nothing to initialize, a \java{for} loop would be more difficult to understand: \java{for (; !in.hasNextDouble(); word = in.next())}.
 
 
 \section{String Iteration}
@@ -437,6 +438,8 @@ char last = fruit.charAt(length);      // wrong!
 \index{StringIndexOutOfBoundsException}
 \index{exception!StringIndexOutOfBounds}
 
+%TODO Check line break on long identifiers
+
 This code compiles and runs, but invoking the \java{charAt} method throws a \java{StringIndexOutOfBoundsException}.
 The problem is that there is no sixth letter in \java{"banana"}.
 Since we started counting at 0, the 6 letters are indexed from 0 to 5.
@@ -448,7 +451,7 @@ char last = fruit.charAt(length - 1);  // correct
 \end{code}
 
 Many string algorithms involve reading one string and building another.
-For example, to reverse a string, we can add one character at a time:
+For example, to reverse a string, we can concatenate one character at a time:
 
 \begin{code}
 public static String reverse(String s) {
@@ -583,8 +586,12 @@ if (answer == "yes") {                 // wrong!
 \end{code}
 
 The problem is that the \java{==} operator checks whether the two operands refer to the {\em same object}.
-Even if \java{answer} is \java{"yes"}, it will refer to a different object in memory than the literal string \java{"yes"} from the source code.
+Even if answer is \java{"yes"}, it will refer to a different object in memory than the literal string \java{"yes"} in the code.
 We'll learn more about objects and references in the next chapter.
+
+%TODO: Have we talked about literal strings, and does the reader know
+% they are in the code segment, or do we need a more abstract explanation
+% here.
 
 The correct way to compare strings is with the \java{equals} method, like this:
 
@@ -845,6 +852,8 @@ To ignore case, invoke the \java{toLowerCase} method before checking.
 In Scrabble\footnote{Scrabble is a registered trademark owned in the USA and Canada by Hasbro Inc., and in the rest of the world by J.\ W.\ Spear \& Sons Limited of Maidenhead, Berkshire, England, a subsidiary of Mattel Inc.} each player has a set of tiles with letters on them.
 The object of the game is to use those letters to spell words.
 The scoring system is complex, but longer words are usually worth more than shorter words.
+
+% Full credit to Marc Loy for getting this reference.
 
 Imagine you are given your set of tiles as a string, like \java{"quijibo"}, and you are given another string to test, like \java{"jib"}.
 

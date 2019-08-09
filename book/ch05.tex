@@ -39,7 +39,7 @@ He developed an algebraic way of representing logic.
 You are probably familiar with these operators, but notice how Java is different from mathematical symbols like $=$, $\neq$, and $\geq$.
 A common error is to use a single \java{=} instead of a double \java{==} when comparing values.
 Remember that \java{=} is the {\em assignment} operator, and \java{==} is a {\em relational} operator.
-In addition, the operators \java{=<} and \java{=>} do not exist.
+Also, the operators \java{=<} and \java{=>} do not exist.
 
 \index{automatic conversion}
 
@@ -164,6 +164,8 @@ if (x % 2 == 0)
 Because of the semicolon, the \java{if} statement compiles as if there are no braces, and the subsequent block runs independently.
 As a general rule, each line of Java code should end with a semicolon or brace -- but not both.
 
+% TODO: Check with O'Reilly on their style for dashes
+
 The compiler won't complain if you omit optional braces or write empty statements.
 Doing so is allowed by the Java language, but it often results in bugs that are difficult to find.
 Development tools like Checkstyle (see Appendix~\ref{checkstyle}) can warn you about these and other kinds of programming mistakes.
@@ -282,6 +284,8 @@ switch (food) {
 }
 \end{code}
 
+The value in the \java{switch} statement can be an integer or \java{String}, but not a floating-point number.
+
 
 \section{Logical Operators}
 
@@ -295,9 +299,11 @@ In addition to the relational operators, Java also has three {\bf logical operat
 The results of these operators are similar to their meanings in English.
 
 For example, \java{x > 0 && x < 10} is true when \java{x} is both greater than zero {\em and} less than 10.
-The expression \java{evenFlag || n \% 3 == 0} is true if either condition is true, that is, if the variable \java{evenFlag} is true {\em or} the number \java{n} is divisible by 3.
-Finally, the \java{!} operator inverts a boolean expression.
-So \java{!evenFlag} is true if \java{evenFlag} is false.
+
+The expression \java{x < 0 || x > 10} is true if either condition is true, that is, if \java{x} is less than 0 {\em or} greater than 10.
+
+Finally, \java{!(x > 0)} is true if \java{x} is {\em not} greater than 0.
+The parentheses are necessary in this example because in the order of operations \java{!} comes before \java{>}.
 
 In order for an expression with \java{&&} to be true, both sides of the \java{&&} operator must be true.
 And in order for an expression with \java{||} to be false, both sides of the \java{||} operator must be false.
@@ -342,7 +348,6 @@ Then again, if the statements in the branches were different, we could not combi
 But it's useful to explore different ways of representing the same logic, especially when it's complex.
 
 \index{short circuit}
-\label{short.circuit}
 
 Logical operators evaluate the second expression only when necessary.
 For example, \java{true || anything} is always true, so Java does not need to evaluate the expression \java{anything}.
@@ -374,7 +379,7 @@ A better way to negate logic expressions is to apply {\bf De Morgan's laws}:
 \item \java{!(A || B)} ~is the same as~ \java{!A && !B}
 \end{itemize}
 
-Negating a logical expression is the same as negating each term and changing the operator.
+In words, negating a logical expression is the same as negating each term and changing the operator.
 The \java{!} operator takes precedence over \java{&&} and \java{||}, so you don't have to put parentheses around the individual terms \java{!A} and \java{!B}.
 
 De Morgan's laws also apply to the relational operators.
@@ -532,10 +537,9 @@ double y = Math.log(x);
 System.out.println("The log is " + y);
 \end{code}
 
-In mathematics, the natural logarithm (base $e$) is undefined when $x <= 0$.
-If you ask for \java{Math.log(-1)}, it will return {\bf NaN} which stands for ``not a number''.
-Many users are confused when they see NaN; it often looks like a bug.
-We can use an \java{if} statement to make the output more user friendly.
+In mathematics, the natural logarithm (base $e$) is undefined when $x \le 0$.
+In Java, if you ask for \java{Math.log(-1)}, it returns {\bf NaN}, which stands for ``not a number''.
+We can check for this condition and print an appropriate message:
 
 \begin{code}
 if (x > 0) {
@@ -741,13 +745,13 @@ If the user guesses the correct number, display a message and terminate the prog
 
 \begin{exercise}  %%V6 Ex5.4
 
-Fermat's Last Theorem says that there are no integers $a$, $b$, and $c$ such that $a^n + b^n = c^n$, except when $n \leq 2$.
+Fermat's Last Theorem says that there are no integers $a$, $b$, $c$, and $n$ such that $a^n + b^n = c^n$, except when $n \leq 2$.
 
 Write a program named \java{Fermat.java} that inputs four integers (\java{a}, \java{b}, \java{c}, and \java{n}) and checks to see if Fermat's theorem holds.
 If $n$ is greater than 2 and $a^n + b^n = c^n$, the program should display ``Holy smokes, Fermat was wrong!''
 Otherwise the program should display ``No, that doesn't work.''
 
-{\it Hint:} You may want to use \java{Math.pow}.
+{\it Hint:} You might want to use \java{Math.pow}.
 
 \end{exercise}
 
