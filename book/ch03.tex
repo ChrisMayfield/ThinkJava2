@@ -383,11 +383,11 @@ Format specifier '%d'
 \end{stdout}
 \end{small}
 
-As we saw in Section~\ref{exception}, the error message includes the name of the exception, \java{MissingFormatArgumentException}, and an additional message, \java{Format specifier '%d'}.
+As we saw in Section~\ref{exception}, the error message includes the name of the exception, \java{MissingFormatArgumentException}, and an additional message, \verb"Format specifier '%d'".
 That means it doesn't know what value to substitute for \java{\%d}.
 
 The problem is that concatenation happens first, before \java{printf} is invoked.
-If the value of \java{inch} is \java{100}, the result of concatenation is \java{"inches=%d100"}.
+If the value of \java{inch} is \java{100}, the result of concatenation is \verb'"inches=%d100"'.
 So \java{printf} gets a format string as an argument, but it doesn't get any values to format.
 
 \index{trace}
