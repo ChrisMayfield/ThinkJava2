@@ -1,3 +1,7 @@
+AddHandler python-program .py
+AddType text/css .css
+
+Redirect /thinkjava/index.html /wp/think-java
 Redirect /thinkjava/apidoc https://docs.oracle.com/en/java/javase/12/docs/api/
 Redirect /thinkjava/collections https://docs.oracle.com/javase/8/docs/technotes/guides/collections/overview.html
 Redirect /thinkjava/tutorial https://docs.oracle.com/javase/tutorial/
