@@ -23,7 +23,6 @@ Chapter 11:
 Chapter 12:
 
 Chapter 13:
-  more details about UML diagrams? (static methods, final attributes)
 
 Chapter 14:
 
@@ -55,7 +54,7 @@ Appendix E:
 
 
 # spell check main text; ignore code/output/trinket blocks
-detex -e code,stdout,trinket thinkjava.tex > thinkjava.txt
+detex -e code,stdout,trinket thinkjava2.tex > thinkjava2.txt
 
 # search for URLs; make sure they all work
 grep -o '\\url{[^}]*}' *.tex

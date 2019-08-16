@@ -11,9 +11,9 @@ Compiling the LaTeX source has the effect of generating a device-independent rep
 
 To compile the PDF version from source:
 
-    pdflatex thinkjava.tex
-    pdflatex thinkjava.tex
-    pdflatex thinkjava.tex
+    pdflatex thinkjava2.tex
+    pdflatex thinkjava2.tex
+    pdflatex thinkjava2.tex
 
 The source code includes a Makefile that automates this process. On Linux, you may need to install texlive-latex-extra and texlive-fonts-recommended.
 
