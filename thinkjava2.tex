@@ -71,9 +71,11 @@
 %%%% LATEX/HTML ONLY
 \else
 
+%BEGIN LATEX
 \usepackage{comment}
 \excludecomment{htmlonly}
 \includecomment{latexonly}
+%END LATEX
 
 \input{latexonly.tex}
 
@@ -207,6 +209,8 @@ Permission is granted to copy, distribute, and/or modify this work under the ter
 
 \mainmatter
 
+%~ \part{Programming Fundamentals}
+
 \input{ch01.tex}
 
 \input{ch02.tex}
@@ -223,6 +227,8 @@ Permission is granted to copy, distribute, and/or modify this work under the ter
 
 \input{ch08.tex}
 
+%~ \part{Object-Oriented Programming}
+
 \input{ch09.tex}
 
 \input{ch10.tex}
@@ -235,8 +241,14 @@ Permission is granted to copy, distribute, and/or modify this work under the ter
 
 \input{ch14.tex}
 
+\input{ch15.tex}
+
+\input{ch16.tex}
+
 \appendix
-\addtocontents{toc}{\protect\newpage}
+%\addtocontents{toc}{\protect\newpage}
+
+%~ \part{Appendixes}
 
 %BEGIN LATEX
 \renewcommand{\chaptermark}[1]{\markboth{Appendix \thechapter ~~ #1}{}}

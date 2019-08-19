@@ -248,6 +248,7 @@ In the next few sections, we'll explain how to implement this algorithm in Java.
 \section{Subdecks}
 
 \index{subdeck}
+\label{subdeck}
 
 The first step of merge sort is to split the deck into two ``subdecks'', each with about half of the cards.
 So we need a method that takes a deck, and a range of indexes, and returns a new deck that contains the specified subset of cards.
@@ -588,7 +589,7 @@ Methods like these are called {\bf wrapper methods} because they wrap one method
 %\end{code}
 
 Finally, to start the game, we need to divide the deck into two equal parts.
-We can do that with \java{subdeck} from Section~\ref{???} and a new method, \java{addDeck}:
+We can do that with \java{subdeck} from Section~\ref{subdeck} and a new method, \java{addDeck}:
 
 \begin{code}
 public void addDeck(Deck deck) {

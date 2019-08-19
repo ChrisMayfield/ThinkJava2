@@ -27,17 +27,17 @@ with open(index_file) as index:
     # Build link swapping dict
     for i, file in enumerate(files[1:]): # skip book index
         special_chapters = {
-            15: "appendix-a.html",
-            16: "appendix-b.html",
-            17: "appendix-c.html",
-            18: "appendix-d.html",
-            19: "appendix-e.html",
-            20: "book-index.html"
+            17: "appendix-a.html",
+            18: "appendix-b.html",
+            19: "appendix-c.html",
+            20: "appendix-d.html",
+            21: "appendix-e.html",
+            22: "book-index.html"
         }
         # Create new output file for chapter
         if i == 0:
             newfile = "preface.html"
-        elif i < 15:
+        elif i < 17:
             newfile = "chapter{0}.html".format(str(i))
         else:
             newfile = special_chapters[i]
