@@ -31,7 +31,10 @@ def main(xml):
         line = line.replace('></entry', '/') # table cell
         line = line.replace('></title', '/') # exercises
         line = line.replace('></ulink', '/') # \url
+
+        # it looks like one of these rewrite rules is causing a problem when a literal is inside a caption
         line = line.replace('<literal>', '<literal moreinfo="none">') # \tt
+        
         line = line.replace('<mml:math overflow="scroll"', '<mml:math') # inline math
         line = line.replace('mode="display" overflow="scroll"', 'mode="display"') # display math
         line = line.replace('<indexterm>', '<indexterm significance="normal">') # \index
