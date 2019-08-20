@@ -1,0 +1,592 @@
+<chapter id="a0000002606">
+  <title>Conditionals and Logic</title>
+  <para><indexterm significance="normal">
+  <primary>boolean</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>type</primary>
+<secondary>boolean</secondary>
+</indexterm>The programs we’ve seen in previous chapters do pretty much the same thing every time, regardless of the input. For more complex computations, programs usually react to inputs, check for certain conditions, and generate applicable results. This chapter introduces Java language features for expressing logic and making decisions. </para><sect1 id="a0000002609" remap="section">
+  <title>Relational Operators</title>
+    <para><indexterm significance="normal">
+  <primary>operator</primary>
+<secondary>relational</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>relational operator</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>comparison operator</primary>
+
+</indexterm>Java has six <emphasis role="bold">relational operators</emphasis> that test the relationship between two values (e.g., whether they are equal, or whether one is greater than the other). The following expressions show how they are used: </para><programlisting language="java" format="linespecific">x == y          // x is equal to y
+x != y          // x is not equal to y
+x &gt; y           // x is greater than y
+x &lt; y           // x is less than y
+x &gt;= y          // x is greater than or equal to y
+x &lt;= y          // x is less than or equal to y</programlisting><para><indexterm significance="normal">
+  <primary>Boole, George</primary>
+
+</indexterm>The result of a relational operator is one of two special values: <literal remap="verb" moreinfo="none">true</literal> or <literal remap="verb" moreinfo="none">false</literal>. These values belong to the data type <literal remap="verb" moreinfo="none">boolean</literal>, named after the mathematician George Boole. He developed an algebraic way of representing logic. </para><para><indexterm significance="normal">
+  <primary>assignment</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>operator</primary>
+<secondary>assignment</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>== equals operator</primary>
+
+</indexterm>You are probably familiar with these operators, but notice how Java is different from mathematical symbols like <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mo>=</mml:mo></mml:math></inlineequation>, <emphasis role="math">≠</emphasis>, and <emphasis role="math">≥</emphasis>. A common error is to use a single <literal remap="verb" moreinfo="none">=</literal> instead of a double <literal remap="verb" moreinfo="none">==</literal> when comparing values. Remember that <literal remap="verb" moreinfo="none">=</literal> is the <emphasis>assignment</emphasis> operator, and <literal remap="verb" moreinfo="none">==</literal> is a <emphasis>relational</emphasis> operator. Also, the operators <literal remap="verb" moreinfo="none">=&lt;</literal> and <literal remap="verb" moreinfo="none">=&gt;</literal> do not exist. </para><para><indexterm significance="normal">
+  <primary>automatic conversion</primary>
+
+</indexterm>The two sides of a relational operator have to be compatible. For example, the expression <literal remap="verb" moreinfo="none">5 &lt; "6"</literal> is invalid because <literal remap="verb" moreinfo="none">5</literal> is an <literal remap="verb" moreinfo="none">int</literal> and <literal remap="verb" moreinfo="none">"6"</literal> is a <literal remap="verb" moreinfo="none">String</literal>. When comparing values of different numeric types, Java applies the same conversion rules we saw previously with the assignment operator. For example, when evaluating the expression <literal remap="verb" moreinfo="none">5 &lt; 6.0</literal>, Java automatically converts the <literal remap="verb" moreinfo="none">5</literal> to <literal remap="verb" moreinfo="none">5.0</literal>. </para>
+</sect1><sect1 id="a0000002648" remap="section">
+  <title>The if-else Statement</title>
+    <para><indexterm significance="normal">
+  <primary>conditional statement</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>statement</primary>
+<secondary>conditional</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>if statement</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>statement</primary>
+<secondary>if</secondary>
+</indexterm>To write useful programs, we almost always need to check conditions and react accordingly. <emphasis role="bold">Conditional statements</emphasis> give us this ability. The simplest conditional statement in Java is the <literal remap="verb" moreinfo="none">if</literal> statement: </para><programlisting language="java" format="linespecific">if (x &gt; 0) {
+    System.out.println("x is positive");
+}</programlisting><para><indexterm significance="normal">
+  <primary>block</primary>
+
+</indexterm>The expression in parentheses is called the condition. If it is true, the statements in braces get executed. If the condition is false, execution skips over that <emphasis role="bold">block</emphasis> of code. The condition in parentheses can be any <literal remap="verb" moreinfo="none">boolean</literal> expression. </para><para><indexterm significance="normal">
+  <primary>branch</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>statement</primary>
+<secondary>else</secondary>
+</indexterm>A second form of conditional statement has two possibilities, indicated by <literal remap="verb" moreinfo="none">if</literal> and <literal remap="verb" moreinfo="none">else</literal>. The possibilities are called <emphasis role="bold">branches</emphasis>, and the condition determines which branch gets executed: </para><programlisting language="java" format="linespecific">if (x % 2 == 0) {
+    System.out.println("x is even");
+} else {
+    System.out.println("x is odd");
+}</programlisting><para>If the remainder when <literal remap="verb" moreinfo="none">x</literal> is divided by 2 is zero, we know that <literal remap="verb" moreinfo="none">x</literal> is even, and the program displays a message to that effect. If the condition is false, the second print statement is executed instead. Since the condition must be true or false, exactly one of the branches will run. </para><para>The braces are optional for branches that have only one statement. So we could have written the previous example this way: </para><programlisting language="java" format="linespecific">if (x % 2 == 0)
+    System.out.println("x is even");
+else
+    System.out.println("x is odd");</programlisting><para>However, it’s better to use braces – even when they are optional – to avoid making the mistake of adding statements to an <literal remap="verb" moreinfo="none">if</literal> or <literal remap="verb" moreinfo="none">else</literal> block and forgetting to add the braces. This code is misleading because it’s not indented correctly: </para><programlisting language="java" format="linespecific">if (x &gt; 0)
+    System.out.println("x is positive");
+    System.out.println("x is not zero");</programlisting><para>Since there are no braces, only the first <literal remap="verb" moreinfo="none">println</literal> is part of the <literal remap="verb" moreinfo="none">if</literal> statement. Here is what the compiler actually sees: </para><programlisting language="java" format="linespecific">if (x &gt; 0) {
+    System.out.println("x is positive");
+}
+    System.out.println("x is not zero");</programlisting><para>As a result, the second <literal remap="verb" moreinfo="none">println</literal> runs no matter what. Even experienced programmers make this mistake; search the web for Apple’s “goto fail” bug. </para><para><indexterm significance="normal">
+  <primary>{} curly braces</primary>
+
+</indexterm>In all previous examples, notice how there is no semicolon at the end of the <literal remap="verb" moreinfo="none">if</literal> or <literal remap="verb" moreinfo="none">else</literal> lines. Instead, a new block should be defined using curly braces. Another common mistake is to put a semicolon after the condition, like this: </para><programlisting language="java" format="linespecific">int x = 1;
+if (x % 2 == 0); {  // incorrect semicolon
+    System.out.println("x is even");
+}</programlisting><para>This code will compile, but the program will output <literal remap="verb" moreinfo="none">"x is even"</literal> regardless what value <literal remap="verb" moreinfo="none">x</literal> is. Here is the same incorrect code with better formatting: </para><programlisting language="java" format="linespecific">int x = 1;
+if (x % 2 == 0)
+    ;  // empty statement
+{
+    System.out.println("x is even");
+}</programlisting><para>Because of the semicolon, the <literal remap="verb" moreinfo="none">if</literal> statement compiles as if there are no braces, and the subsequent block runs independently. As a general rule, each line of Java code should end with a semicolon or brace – but not both. </para><para>The compiler won’t complain if you omit optional braces or write empty statements. Doing so is allowed by the Java language, but it often results in bugs that are difficult to find. Development tools like Checkstyle (see <xref linkend="checkstyle"/>) can warn you about these and other kinds of programming mistakes. </para>
+</sect1><sect1 id="a0000002705" remap="section">
+  <title>Chaining and Nesting</title>
+    <para><indexterm significance="normal">
+  <primary>chaining</primary>
+
+</indexterm>Sometimes you want to check related conditions and choose one of several actions. One way to do this is by <emphasis role="bold">chaining</emphasis> a series of <literal remap="verb" moreinfo="none">if</literal> and <literal remap="verb" moreinfo="none">else</literal> blocks: </para><programlisting language="java" format="linespecific">if (x &gt; 0) {
+    System.out.println("x is positive");
+} else if (x &lt; 0) {
+    System.out.println("x is negative");
+} else {
+    System.out.println("x is zero");
+}</programlisting><para>These chains can be as long as you want, although they can be difficult to read if they get out of hand. One way to make them easier to read is to use standard indentation, as demonstrated in these examples. If you keep all the statements and braces lined up, you are less likely to make syntax errors. </para><para>Notice that the last branch is simply <literal remap="verb" moreinfo="none">else</literal>, not <literal remap="verb" moreinfo="none">else if (x == 0)</literal>. At this point in the chain, we know that <literal remap="verb" moreinfo="none">x</literal> is not positive and <literal remap="verb" moreinfo="none">x</literal> is not negative. There is no need to test whether <literal remap="verb" moreinfo="none">x</literal> is zero, because there is no other possibility. </para><para><indexterm significance="normal">
+  <primary>nesting</primary>
+
+</indexterm>In addition to chaining, you can also make complex decisions by <emphasis role="bold">nesting</emphasis> one conditional statement inside another. We could have written the previous example as: </para><programlisting language="java" format="linespecific">if (x &gt; 0) {
+    System.out.println("x is positive");
+} else {
+    if (x &lt; 0) {
+        System.out.println("x is negative");
+    } else {
+        System.out.println("x is zero");
+    }
+}</programlisting><para>The outer conditional has two branches. The first branch contains a <literal remap="verb" moreinfo="none">print</literal> statement, and the second branch contains another conditional statement, which has two branches of its own. These two branches are also <literal remap="verb" moreinfo="none">print</literal> statements, but they could have been conditional statements as well. </para><para><indexterm significance="normal">
+  <primary>nested</primary>
+<secondary>conditions</secondary>
+</indexterm>These kinds of nested structures are common, but they can become difficult to read very quickly. Good indentation is essential to make the structure (or intended structure) apparent to the reader. </para>
+</sect1><sect1 id="a0000002732" remap="section">
+  <title>The switch Statement</title>
+    <para>If you need to make a series of decisions, chaining <literal remap="verb" moreinfo="none">else if</literal> blocks can get long and redundant. For example, consider a program that converts integers like <literal remap="verb" moreinfo="none">1</literal>, <literal remap="verb" moreinfo="none">2</literal>, and <literal remap="verb" moreinfo="none">3</literal> into words like <literal remap="verb" moreinfo="none">"one"</literal>, <literal remap="verb" moreinfo="none">"two"</literal>, and <literal remap="verb" moreinfo="none">"three"</literal>: </para><programlisting language="java" format="linespecific">if (number == 1) {
+    word = "one";
+} else if (number == 2) {
+    word = "two";
+} else if (number == 3) {
+    word = "three";
+} else {
+    word = "unknown";
+}</programlisting><para><indexterm significance="normal">
+  <primary>switch statement</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>statement</primary>
+<secondary>switch</secondary>
+</indexterm>This chain could go on and on, especially for banking programs that write numbers in long form (e.g., “one hundred twenty-three and 45/100 dollars”). An alternative way to evaluate many possible values of an expression is to use a <literal remap="verb" moreinfo="none">switch</literal> statement: </para><programlisting language="java" format="linespecific">switch (number) {
+    case 1:
+        word = "one";
+        break;
+    case 2:
+        word = "two";
+        break;
+    case 3:
+        word = "three";
+        break;
+    default:
+        word = "unknown";
+        break;
+}</programlisting><para>The body of a <literal remap="verb" moreinfo="none">switch</literal> statement is organized into one or more <literal remap="verb" moreinfo="none">case</literal> blocks. Each <literal remap="verb" moreinfo="none">case</literal> ends with a <literal remap="verb" moreinfo="none">break</literal> statement, which exits the <literal remap="verb" moreinfo="none">switch</literal> body. The <literal remap="verb" moreinfo="none">default</literal> block is optional and executed only if none of the cases apply. </para><para>Although <literal remap="verb" moreinfo="none">switch</literal> statements appear longer than chained <literal remap="verb" moreinfo="none">else if</literal> blocks, they are particularly useful when multiple cases can be grouped: </para><programlisting language="java" format="linespecific">switch (food) {
+    case "apple":
+    case "banana":
+    case "cherry":
+        System.out.println("Fruit!");
+        break;
+    case "asparagus":
+    case "broccoli":
+    case "carrot":
+        System.out.println("Vegetable!");
+        break;
+}</programlisting><para>The value in the <literal remap="verb" moreinfo="none">switch</literal> statement can be an integer or <literal remap="verb" moreinfo="none">String</literal>, but not a floating-point number. </para>
+</sect1><sect1 id="shortcircuit" remap="section">
+  <title>Logical Operators</title>
+    <para><indexterm significance="normal">
+  <primary>logical operator</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>operator</primary>
+<secondary>logical</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>and operator</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>or operator</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>not operator</primary>
+
+</indexterm>In addition to the relational operators, Java also has three <emphasis role="bold">logical operators</emphasis>: <literal remap="verb" moreinfo="none">&amp;&amp;</literal>, <literal remap="verb" moreinfo="none">||</literal>, and <literal remap="verb" moreinfo="none">!</literal>, which respectively stand for <emphasis>and</emphasis>, <emphasis>or</emphasis>, and <emphasis>not</emphasis>. The results of these operators are similar to their meanings in English. </para><para>For example, <literal remap="verb" moreinfo="none">x &gt; 0 &amp;&amp; x &lt; 10</literal> is true when <literal remap="verb" moreinfo="none">x</literal> is both greater than zero <emphasis>and</emphasis> less than 10. </para><para>The expression <literal remap="verb" moreinfo="none">x &lt; 0 || x &gt; 10</literal> is true if either condition is true, that is, if <literal remap="verb" moreinfo="none">x</literal> is less than 0 <emphasis>or</emphasis> greater than 10. </para><para>Finally, <literal remap="verb" moreinfo="none">!(x &gt; 0)</literal> is true if <literal remap="verb" moreinfo="none">x</literal> is <emphasis>not</emphasis> greater than 0. The parentheses are necessary in this example because in the order of operations <literal remap="verb" moreinfo="none">!</literal> comes before <literal remap="verb" moreinfo="none">&gt;</literal>. </para><para>In order for an expression with <literal remap="verb" moreinfo="none">&amp;&amp;</literal> to be true, both sides of the <literal remap="verb" moreinfo="none">&amp;&amp;</literal> operator must be true. And in order for an expression with <literal remap="verb" moreinfo="none">||</literal> to be false, both sides of the <literal remap="verb" moreinfo="none">||</literal> operator must be false. </para><para>The <literal remap="verb" moreinfo="none">&amp;&amp;</literal> operator can be used to simplify nested <literal remap="verb" moreinfo="none">if</literal> statements. For example, following code can be rewritten with a single condition. </para><programlisting language="java" format="linespecific">if (x == 0) {
+    if (y == 0) {
+        System.out.println("Both x and y are zero");
+    }
+}</programlisting><programlisting language="java" format="linespecific">// combined
+if (x == 0 &amp;&amp; y == 0) {
+    System.out.println("Both x and y are zero");
+}</programlisting><para>Likewise, the <literal remap="verb" moreinfo="none">||</literal> operator can simplify chained <literal remap="verb" moreinfo="none">if</literal> statements. Since the branches are the same, there is no need to duplicate that code. </para><programlisting language="java" format="linespecific">if (x == 0) {
+    System.out.println("Either x or y is zero");
+} else if (y == 0) {
+    System.out.println("Either x or y is zero");
+}</programlisting><programlisting language="java" format="linespecific">// combined
+if (x == 0 || y == 0) {
+    System.out.println("Either x or y is zero");
+}</programlisting><para>Then again, if the statements in the branches were different, we could not combine them into one block. But it’s useful to explore different ways of representing the same logic, especially when it’s complex. </para><para><indexterm significance="normal">
+  <primary>short circuit</primary>
+
+</indexterm>Logical operators evaluate the second expression only when necessary. For example, <literal remap="verb" moreinfo="none">true || anything</literal> is always true, so Java does not need to evaluate the expression <literal remap="verb" moreinfo="none">anything</literal>. Likewise, <literal remap="verb" moreinfo="none">false &amp;&amp; anything</literal> is always false. </para><para>Ignoring the second operand, when possible, is called <emphasis role="bold">short circuit</emphasis> evaluation, by analogy with an electrical circuit. Short circuit evaluation can save time, especially if <literal remap="verb" moreinfo="none">anything</literal> takes a long time to evaluate. It can also avoid unnecessary errors, if <literal remap="verb" moreinfo="none">anything</literal> might fail. </para>
+</sect1><sect1 id="a0000002824" remap="section">
+  <title>De Morgan’s Laws</title>
+    <para>Sometimes you need to negate an expression containing a mix of relational and logical operators. For example, to test if <literal remap="verb" moreinfo="none">x</literal> and <literal remap="verb" moreinfo="none">y</literal> are both nonzero, you could write: </para><programlisting language="java" format="linespecific">if (!(x == 0 || y == 0)) {
+    System.out.println("Neither x nor y is zero");
+}</programlisting><para><indexterm significance="normal">
+  <primary>De Morgan’s laws</primary>
+
+</indexterm>This condition is difficult to read because of the <literal remap="verb" moreinfo="none">!</literal> and parentheses. A better way to negate logic expressions is to apply <emphasis role="bold">De Morgan’s laws</emphasis>: </para><itemizedlist>
+  
+    <listitem><para><literal remap="verb" moreinfo="none">!(A &amp;&amp; B)</literal>  is the same as  <literal remap="verb" moreinfo="none">!A || !B</literal> </para></listitem>
+  
+    <listitem><para><literal remap="verb" moreinfo="none">!(A || B)</literal>  is the same as  <literal remap="verb" moreinfo="none">!A &amp;&amp; !B</literal> </para></listitem>
+  
+</itemizedlist><para>In words, negating a logical expression is the same as negating each term and changing the operator. The <literal remap="verb" moreinfo="none">!</literal> operator takes precedence over <literal remap="verb" moreinfo="none">&amp;&amp;</literal> and <literal remap="verb" moreinfo="none">||</literal>, so you don’t have to put parentheses around the individual terms <literal remap="verb" moreinfo="none">!A</literal> and <literal remap="verb" moreinfo="none">!B</literal>. </para><para>De Morgan’s laws also apply to the relational operators. In this case, negating each term means using the “opposite” relational operator. </para><itemizedlist>
+  
+    <listitem><para><literal remap="verb" moreinfo="none">!(x &lt; 5 &amp;&amp; y == 3)</literal>  is the same as  <literal remap="verb" moreinfo="none">x &gt;= 5 || y != 3</literal> </para></listitem>
+  
+    <listitem><para><literal remap="verb" moreinfo="none">!(x &gt;= 1 || y != 7)</literal>  is the same as  <literal remap="verb" moreinfo="none">x &lt; 1 &amp;&amp; y == 7</literal> </para></listitem>
+  
+</itemizedlist><para>It may help to read these examples out loud in English. For instance, “If I don’t want the case where <emphasis role="math">x</emphasis> is less than 5 and <emphasis role="math">y</emphasis> is 3, then I need <emphasis role="math">x</emphasis> to be greater than or equal to 5, or I need <emphasis role="math">y</emphasis> to be anything but 3.” </para><para>Returning to the previous example, here is the revised condition. In English, it reads “if <emphasis role="math">x</emphasis> is not zero and <emphasis role="math">y</emphasis> is not zero.” The logic is the same, and the source code is easier to read. </para><programlisting language="java" format="linespecific">if (x != 0 &amp;&amp; y != 0) {
+    System.out.println("Neither x nor y is zero");
+}</programlisting></sect1><sect1 id="a0000002880" remap="section">
+  <title>Boolean Variables</title>
+    <para><indexterm significance="normal">
+  <primary>expression</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>type</primary>
+<secondary>boolean</secondary>
+</indexterm>To store a <literal remap="verb" moreinfo="none">true</literal> or <literal remap="verb" moreinfo="none">false</literal> value, you need a <literal remap="verb" moreinfo="none">boolean</literal> variable. You can declare and assign them like other variables. In this example, the first line is a variable declaration, the second is an assignment, and the third is both: </para><programlisting language="java" format="linespecific">boolean flag;
+flag = true;
+boolean testResult = false;</programlisting><para><indexterm significance="normal">
+  <primary>initialize</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>statement</primary>
+<secondary>initialization</secondary>
+</indexterm>Since relational and logical operators evaluate to a <literal remap="verb" moreinfo="none">boolean</literal> value, you can store the result of a comparison in a variable: </para><programlisting language="java" format="linespecific">boolean evenFlag = (n % 2 == 0);    // true if n is even
+boolean positiveFlag = (x &gt; 0);     // true if x is positive</programlisting><para><indexterm significance="normal">
+  <primary>flag</primary>
+
+</indexterm>The parentheses are unnecessary, but they make the code easier to understand. A variable defined in this way is called a <emphasis role="bold">flag</emphasis>, because it signals or “flags” the presence or absence of a condition. </para><para>You can use flag variables as part of a conditional statement: </para><programlisting language="java" format="linespecific">if (evenFlag) {
+    System.out.println("n was even when I checked it");
+}</programlisting><para>Flags may not seem that useful at this point, but they will help simplify complex conditions later on. Each part of a condition can be stored in a separate flag, and these flags can be combined with logical operators. </para><para>Notice that we didn’t have to write  <literal remap="verb" moreinfo="none">if (evenFlag == true)</literal>. Since <literal remap="verb" moreinfo="none">evenFlag</literal> is a <literal remap="verb" moreinfo="none">boolean</literal>, it’s already a condition. To check if a flag is <literal remap="verb" moreinfo="none">false</literal>, we simply negate the flag: </para><programlisting language="java" format="linespecific">if (!evenFlag) {
+    System.out.println("n was odd when I checked it");
+}</programlisting><para>In general, you should never compare anything to true or false. Doing so makes the code more verbose and awkward to read out loud. </para>
+</sect1><sect1 id="boolmeth" remap="section">
+  <title>Boolean Methods</title><para><indexterm significance="normal">
+  <primary>boolean</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>boolean</secondary>
+</indexterm>Methods can return <literal remap="verb" moreinfo="none">boolean</literal> values, just like any other type, which is often convenient for hiding tests inside methods. For example: </para><programlisting language="java" format="linespecific">public static boolean isSingleDigit(int x) {
+    if (x &gt; -10 &amp;&amp; x &lt; 10) {
+        return true;
+    } else {
+        return false;
+    }
+}</programlisting><para>The name of this method is <literal remap="verb" moreinfo="none">isSingleDigit</literal>. It is common to give <literal remap="verb" moreinfo="none">boolean</literal> methods names that sound like yes/no questions. Since the return type is <literal remap="verb" moreinfo="none">boolean</literal>, the return statement has to provide a boolean expression. </para><para>The code itself is straightforward, although it is longer than it needs to be. Remember that the expression <literal remap="verb" moreinfo="none">x &gt; -10 &amp;&amp; x &lt; 10</literal> has type <literal remap="verb" moreinfo="none">boolean</literal>, so there is nothing wrong with returning it directly (without the <literal remap="verb" moreinfo="none">if</literal> statement): </para><programlisting language="java" format="linespecific">public static boolean isSingleDigit(int x) {
+    return x &gt; -10 &amp;&amp; x &lt; 10;
+}</programlisting><para>In <literal remap="verb" moreinfo="none">main</literal>, you can invoke the method in the usual ways: </para><programlisting language="java" format="linespecific">System.out.println(isSingleDigit(2));
+boolean bigFlag = !isSingleDigit(17);</programlisting><para>The first line displays <literal moreinfo="none">true</literal> because 2 is a single-digit number. The second line sets <literal remap="verb" moreinfo="none">bigFlag</literal> to <literal remap="verb" moreinfo="none">true</literal>, because 17 is <emphasis>not</emphasis> a single-digit number. </para><para>Conditional statements often invoke <literal remap="verb" moreinfo="none">boolean</literal> methods and use the result as the condition: </para><programlisting language="java" format="linespecific">if (isSingleDigit(z)) {
+    System.out.println("z is small");
+} else {
+    System.out.println("z is big");
+}</programlisting><para>Examples like this one almost read like English: “If is single digit z, print z is small else print z is big.” </para>
+</sect1><sect1 id="validate" remap="section">
+  <title>Validating Input</title><para><indexterm significance="normal">
+  <primary>validate</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>hacker</primary>
+
+</indexterm>One of the most important tasks in any computer program is to <emphasis role="bold">validate</emphasis> input from the user. People often make mistakes while typing, especially on smartphones, and incorrect inputs may cause your program to fail. </para><para>Even worse, someone (i.e., a <emphasis role="bold">hacker</emphasis>) may intentionally try to break into your system by entering unexpected inputs. You should never assume that users will input the right kind of data. </para><para>Consider this simple program that prompts the user for a number and computes its logarithm: </para><programlisting language="java" format="linespecific">Scanner in = new Scanner(System.in);
+System.out.print("Enter a number: ");
+double x = in.nextDouble();
+double y = Math.log(x);
+System.out.println("The log is " + y);</programlisting><para>In mathematics, the natural logarithm (base <emphasis role="math">e</emphasis>) is undefined when <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>x</mml:mi><mml:mo>≤</mml:mo><mml:mn>0</mml:mn></mml:mrow></mml:math></inlineequation>. In Java, if you ask for <literal remap="verb" moreinfo="none">Math.log(-1)</literal>, it returns <emphasis role="bold">NaN</emphasis>, which stands for “not a number”. We can check for this condition and print an appropriate message: </para><programlisting language="java" format="linespecific">if (x &gt; 0) {
+    double y = Math.log(x);
+    System.out.println("The log is " + y);
+} else {
+    System.out.println("The log is undefined");
+}</programlisting><para><indexterm significance="normal">
+  <primary>InputMismatchException</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>exception</primary>
+<secondary>InputMismatch</secondary>
+</indexterm>The output is better now, but there is another problem. What if the user doesn’t enter a number at all? What would happen if they typed the word “hello”, either on accident or on purpose? </para><para><programlisting format="linespecific">Exception in thread "main" java.util.InputMismatchException
+    at java.util.Scanner.throwFor(Scanner.java:864)
+    at java.util.Scanner.next(Scanner.java:1485)
+    at java.util.Scanner.nextDouble(Scanner.java:2413)
+    at Logarithm.main(Logarithm.java:8)</programlisting></para><para><indexterm significance="normal">
+  <primary>run-time error</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>testing</primary>
+
+</indexterm>If the user inputs a <literal remap="verb" moreinfo="none">String</literal> when we expect a <literal remap="verb" moreinfo="none">double</literal>, Java reports an “input mismatch” exception. We can prevent this run-time error from happening by testing the input first. </para><para>The <literal remap="verb" moreinfo="none">Scanner</literal> class provides <literal remap="verb" moreinfo="none">hasNextDouble</literal>, which checks whether the next input can be interpreted as a <literal remap="verb" moreinfo="none">double</literal>. If not, we can display an error message. </para><programlisting language="java" format="linespecific">if (!in.hasNextDouble()) {
+    String word = in.next();
+    System.err.println(word + "is not a number");
+}</programlisting><para><indexterm significance="normal">
+  <primary>next</primary>
+<secondary>Scanner</secondary>
+</indexterm>In contrast to <literal remap="verb" moreinfo="none">in.nextLine</literal>, which returns an entire line of input, the <literal remap="verb" moreinfo="none">in.next</literal> method returns only the next token of input. We can use <literal remap="verb" moreinfo="none">in.next</literal> to show the user exactly which word they typed was not a number. </para><para><indexterm significance="normal">
+  <primary>System.err</primary>
+
+</indexterm>This example also uses <literal remap="verb" moreinfo="none">System.err</literal>, which is an <literal remap="verb" moreinfo="none">OutputStream</literal> for error messages and warnings. Some development environments display output to <literal remap="verb" moreinfo="none">System.err</literal> with a different color or in a separate window. </para>
+</sect1><sect1 id="a0000002989" remap="section">
+  <title>Example Program</title>
+    <para><indexterm significance="normal">
+  <primary>Logarithm.java</primary>
+
+</indexterm>In this chapter we have seen relational and logical operators, <literal remap="verb" moreinfo="none">if</literal> statements, boolean methods, and validating input. The following program shows how the individual code examples in the previous section fit together. </para><programlisting language="java" format="linespecific">import java.util.Scanner;
+
+/**
+ * Demonstrates input validation using if statements.
+ */
+public class Logarithm {
+
+    public static void main(String[] args) {
+
+        // prompt for input
+        Scanner in = new Scanner(System.in);
+        System.out.print("Enter a number: ");
+
+        // check the format
+        if (!in.hasNextDouble()) {
+            String word = in.next();
+            System.err.println(word + " is not a number");
+            return;
+        }
+
+        // check the range
+        double x = in.nextDouble();
+        if (x &gt; 0) {
+            double y = Math.log(x);
+            System.out.println("The log is " + y);
+        } else {
+            System.out.println("The log is undefined");
+        }
+    }
+}</programlisting><para><indexterm significance="normal">
+  <primary>return</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>statement</primary>
+<secondary>return</secondary>
+</indexterm>Notice how the <literal remap="verb" moreinfo="none">return</literal> statement allows you to exit a method before you reach the end of it. Returning from <literal remap="verb" moreinfo="none">main</literal> terminates the program. </para><para>What started as five lines of code at the beginning of <xref linkend="validate"/> is now a 30-line program. Making programs robust (and secure) often requires a lot of additional checking, as shown in this example. </para><para><indexterm significance="normal">
+  <primary>comment</primary>
+
+</indexterm>It’s important to write comments every few lines to make your code easier to understand. Comments not only help other people read your code, they also help you document what you’re trying to do. If there’s a mistake the code, it’s a lot easier to find when there are good comments. </para>
+</sect1><sect1 id="a0000003004" remap="section">
+  <title>Vocabulary</title>
+    <variablelist>
+  <varlistentry>
+    <term>boolean:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>boolean</primary>
+
+</indexterm>A data type with only two possible values, <literal remap="verb" moreinfo="none">true</literal> and <literal remap="verb" moreinfo="none">false</literal>. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>relational operator:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>relational operator</primary>
+
+</indexterm>An operator that compares two values and produces a <literal remap="verb" moreinfo="none">boolean</literal> indicating the relationship between them. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>conditional statement:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>conditional statement</primary>
+
+</indexterm>A statement that uses a condition to determine which statements to execute. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>block:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>block</primary>
+
+</indexterm>A sequence of statements, surrounded by braces, that generally runs as the result of a condition. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>branch:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>branch</primary>
+
+</indexterm>One of the alternative blocks after a conditional statement. For example, an <literal remap="verb" moreinfo="none">if</literal>-<literal remap="verb" moreinfo="none">else</literal> statement has two branches. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>chaining:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>chaining</primary>
+
+</indexterm>A way of joining several conditional statements in sequence. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>nesting:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>nesting</primary>
+
+</indexterm>Putting a conditional statement inside one or both branches of another conditional statement. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>logical operator:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>logical operator</primary>
+
+</indexterm>An operator that combines boolean values and produces a boolean value. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>short circuit:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>short circuit</primary>
+
+</indexterm>A way of evaluating logical operators that only evaluates the second operand if necessary. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>De Morgan’s laws:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>De Morgan’s laws</primary>
+
+</indexterm>Mathematical rules that show how to negate a logical expression. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>flag:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>flag</primary>
+
+</indexterm>A variable (usually <literal remap="verb" moreinfo="none">boolean</literal>) that represents a condition or status. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>validate:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>validate</primary>
+
+</indexterm>To confirm that an input value is of the correct type and within the expected range. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>hacker:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>hacker</primary>
+
+</indexterm>A programmer who breaks into computer systems. The term hacker may also apply to someone who enjoys writing code. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>NaN:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>NaN</primary>
+
+</indexterm>A special floating-point value that stands for “not a number”. </para></listitem>
+  </varlistentry>
+</variablelist>
+</sect1><sect1 id="a0000003041" remap="section">
+  <title>Exercises</title>
+    <para>The code for this chapter is in the <literal moreinfo="none">ch05</literal> directory of <literal moreinfo="none">ThinkJavaCode2</literal>. See <xref linkend="code"/> for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples. </para><para>If you have not already read <xref linkend="checkstyle"/>, now might be a good time. It describes Checkstyle, a tool that analyzes many aspects of your source code. </para><para><example id="a0000003053" role="exercise">
+  <title/>
+  <para>Rewrite the following code using a single <literal remap="verb" moreinfo="none">if</literal> statement. </para><programlisting language="java" format="linespecific">if (x &gt; 0) {
+    if (x &lt; 10) {
+        System.out.println("positive single digit number.");
+    }
+}</programlisting></example> </para><para><example id="a0000003059" role="exercise">
+  <title/>
+  <para>Now that we have conditional statements, we can get back to the “Guess My Number” game from <xref linkend="guess"/>. </para><para>You should already have a program that chooses a random number, prompts the user to guess it, and displays the difference between the guess and the chosen number. </para><para>Adding a small amount of code at a time, and testing as you go, modify the program so it tells the user whether the guess is too high or too low, and then prompts the user for another guess. </para><para>The program should continue until the user gets it right or guesses incorrectly three times. If the user guesses the correct number, display a message and terminate the program. </para>
+</example> </para><para><example id="a0000003067" role="exercise">
+  <title/>
+  <para>Fermat’s Last Theorem says that there are no integers <emphasis role="math">a</emphasis>, <emphasis role="math">b</emphasis>, <emphasis role="math">c</emphasis>, and <emphasis role="math">n</emphasis> such that <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:msup><mml:mi>a</mml:mi><mml:mi>n</mml:mi></mml:msup><mml:mo>+</mml:mo><mml:msup><mml:mi>b</mml:mi><mml:mi>n</mml:mi></mml:msup><mml:mo>=</mml:mo><mml:msup><mml:mi>c</mml:mi><mml:mi>n</mml:mi></mml:msup></mml:mrow></mml:math></inlineequation>, except when <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>n</mml:mi><mml:mo>≤</mml:mo><mml:mn>2</mml:mn></mml:mrow></mml:math></inlineequation>. </para><para>Write a program named <literal remap="verb" moreinfo="none">Fermat.java</literal> that inputs four integers (<literal remap="verb" moreinfo="none">a</literal>, <literal remap="verb" moreinfo="none">b</literal>, <literal remap="verb" moreinfo="none">c</literal>, and <literal remap="verb" moreinfo="none">n</literal>) and checks to see if Fermat’s theorem holds. If <emphasis role="math">n</emphasis> is greater than 2 and <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:msup><mml:mi>a</mml:mi><mml:mi>n</mml:mi></mml:msup><mml:mo>+</mml:mo><mml:msup><mml:mi>b</mml:mi><mml:mi>n</mml:mi></mml:msup><mml:mo>=</mml:mo><mml:msup><mml:mi>c</mml:mi><mml:mi>n</mml:mi></mml:msup></mml:mrow></mml:math></inlineequation>, the program should display “Holy smokes, Fermat was wrong!” Otherwise the program should display “No, that doesn’t work.” </para><para><emphasis>Hint:</emphasis> You might want to use <literal remap="verb" moreinfo="none">Math.pow</literal>. </para>
+</example> </para><para><example id="a0000003095" role="exercise">
+  <title/>
+  <para>Using the following variables, evaluate the logic expressions in the table below. Write your answers as true, false, or error. </para><programlisting language="java" format="linespecific">boolean yes = true;
+boolean no = false;
+int loVal = -999;
+int hiVal = 999;
+double grade = 87.5;
+double amount = 50.0;
+String hello = "world";</programlisting><informaltable remap="tabular" Colsep="1" Frame="all" Rowsep="1">
+     <tgroup cols="2">
+     
+     <tbody>
+     <row>
+     
+       
+       <entry><para> Expression </para/>
+     
+       
+       <entry><para> Result </para/>
+     
+     </row><row>
+     
+       
+       <entry><para><literal remap="verb" moreinfo="none">yes == no || grade &gt; amount</literal> </para/>
+     
+       
+       <entry/>
+     
+     </row><row>
+     
+       
+       <entry><para><literal remap="verb" moreinfo="none">amount == 40.0 || 50.0</literal> </para/>
+     
+       
+       <entry/>
+     
+     </row><row>
+     
+       
+       <entry><para><literal remap="verb" moreinfo="none">hiVal != loVal || loVal &lt; 0</literal> </para/>
+     
+       
+       <entry/>
+     
+     </row><row>
+     
+       
+       <entry><para><literal remap="verb" moreinfo="none">True || hello.length() &gt; 0</literal> </para/>
+     
+       
+       <entry/>
+     
+     </row><row>
+     
+       
+       <entry><para><literal remap="verb" moreinfo="none">hello.isEmpty() &amp;&amp; yes</literal> </para/>
+     
+       
+       <entry/>
+     
+     </row><row>
+     
+       
+       <entry><para><literal remap="verb" moreinfo="none">grade &lt;= 100 &amp;&amp; !false</literal> </para/>
+     
+       
+       <entry/>
+     
+     </row><row>
+     
+       
+       <entry><para><literal remap="verb" moreinfo="none">!yes || no</literal> </para/>
+     
+       
+       <entry/>
+     
+     </row><row>
+     
+       
+       <entry><para><literal remap="verb" moreinfo="none">grade &gt; 75 &gt; amount</literal> </para/>
+     
+       
+       <entry/>
+     
+     </row><row>
+     
+       
+       <entry><para><literal remap="verb" moreinfo="none">amount &lt;= hiVal &amp;&amp; amount &gt;= loVal</literal> </para/>
+     
+       
+       <entry/>
+     
+     </row><row>
+     
+       
+       <entry><para><literal remap="verb" moreinfo="none">no &amp;&amp; !no || yes &amp;&amp; !yes</literal> </para/>
+     
+       
+       <entry/>
+     
+     </row>
+     </tbody>
+     </tgroup>
+     </informaltable>
+   
+ 
+</example> </para><para><example id="a0000003174" role="exercise">
+  <title/>
+  <para>What is the output of the following program? Determine the answer without using a computer. </para><programlisting language="java" format="linespecific">public static void main(String[] args) {
+    boolean flag1 = isHoopy(202);
+    boolean flag2 = isFrabjuous(202);
+    System.out.println(flag1);
+    System.out.println(flag2);
+    if (flag1 &amp;&amp; flag2) {
+        System.out.println("ping!");
+    }
+    if (flag1 || flag2) {
+        System.out.println("pong!");
+    }
+}</programlisting><programlisting language="java" format="linespecific">public static boolean isHoopy(int x) {
+    boolean hoopyFlag;
+    if (x % 2 == 0) {
+        hoopyFlag = true;
+    } else {
+        hoopyFlag = false;
+    }
+    return hoopyFlag;
+}</programlisting><programlisting language="java" format="linespecific">public static boolean isFrabjuous(int x) {
+    boolean frabjuousFlag;
+    if (x &gt; 0) {
+        frabjuousFlag = true;
+    } else {
+        frabjuousFlag = false;
+    }
+    return frabjuousFlag;
+}</programlisting><para>The purpose of this exercise is to make sure you understand logical operators and the flow of execution through methods. </para>
+</example> </para><para><example id="a0000003184" role="exercise">
+  <title/>
+  <para>Write a program named <literal remap="verb" moreinfo="none">Quadratic.java</literal> that finds the roots of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>a</mml:mi><mml:msup><mml:mi>x</mml:mi><mml:mn>2</mml:mn></mml:msup><mml:mo>+</mml:mo><mml:mi>b</mml:mi><mml:mi>x</mml:mi><mml:mo>+</mml:mo><mml:mi>c</mml:mi><mml:mo>=</mml:mo><mml:mn>0</mml:mn></mml:mrow></mml:math></inlineequation> using the quadratic formula: </para><informalequation><mml:math mode="display" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>x</mml:mi><mml:mo>=</mml:mo><mml:mfrac><mml:mrow><mml:mo>-</mml:mo><mml:mi>b</mml:mi><mml:mo>±</mml:mo><mml:msqrt><mml:mrow><mml:msup><mml:mi>b</mml:mi><mml:mn>2</mml:mn></mml:msup><mml:mo>-</mml:mo><mml:mn>4</mml:mn><mml:mi>a</mml:mi><mml:mi>c</mml:mi></mml:mrow></mml:msqrt></mml:mrow><mml:mrow><mml:mn>2</mml:mn><mml:mi>a</mml:mi></mml:mrow></mml:mfrac></mml:mrow></mml:math></informalequation><para> Prompt the user to input integers for <emphasis role="math">a</emphasis>, <emphasis role="math">b</emphasis>, and <emphasis role="math">c</emphasis>. Compute the two solutions for <emphasis role="math">x</emphasis>, and display the results. </para><para>Your program should be able to handle inputs for which there is only one or no solution. Specifically, it should not divide by zero or take the square root of a negative number. </para><para>Be sure to validate all inputs. The user should never see an input mismatch exception. Display specific error messages that include the invalid input. </para>
+</example> </para><para><example id="a0000003204" role="exercise">
+  <title/>
+  <para>If you are given three sticks, you may or may not be able to arrange them in a triangle. For example, if one of the sticks is 12 inches long and the other two are one inch long, you will not be able to get the short sticks to meet in the middle. For any three lengths, there is a simple test to see if it is possible to form a triangle: </para><blockquote remap="quotation"><para> If any of the three lengths is greater than the sum of the other two, you cannot form a triangle. </para></blockquote><para>Write a program named <literal remap="verb" moreinfo="none">Triangle.java</literal> that inputs three integers, and then outputs whether you can (or cannot) form a triangle from the given lengths. Reuse your code from the previous exercise to validate the inputs. Display an error if any of the lengths are negative or zero. </para>
+</example> </para>
+</sect1>
+</chapter>

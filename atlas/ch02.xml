@@ -1,0 +1,433 @@
+<chapter id="a0000000716">
+  <title>Variables and Operators</title>
+  <para>This chapter describes how to write statements using <emphasis>variables</emphasis>, which store values like numbers and words, and <emphasis>operators</emphasis>, which are symbols that perform a computation. We also explain three kinds of programming errors and offer additional debugging advice. </para><para>To run the examples in this chapter, you will need to create a new Java class with a <literal remap="verb" moreinfo="none">main</literal> method (see <xref linkend="hello"/>). Throughout the book, we often omit class and method definitions to keep the examples concise. </para><sect1 id="a0000000726" remap="section">
+  <title>Declaring Variables</title>
+    <para><indexterm significance="normal">
+  <primary>variable</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>value</primary>
+
+</indexterm>One of the most powerful features of a programming language is the ability to define and manipulate <emphasis role="bold">variables</emphasis>. A variable is a named location in memory that stores a <emphasis role="bold">value</emphasis>. Values may be numbers, text, images, sounds, and other types of data. To store a value, you first have to declare a variable. </para><programlisting language="java" format="linespecific">String message;</programlisting><para><indexterm significance="normal">
+  <primary>declaration</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>statement</primary>
+<secondary>declaration</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>type</primary>
+<secondary>int</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>type</primary>
+<secondary>char</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>type</primary>
+<secondary>String</secondary>
+</indexterm>This statement is called a <emphasis role="bold">declaration</emphasis>, because it declares that the variable <literal remap="verb" moreinfo="none">message</literal> has the type <literal remap="verb" moreinfo="none">String</literal>. Each variable has a <emphasis role="bold">type</emphasis> that determines what kind of values it can store. For example, the <literal remap="verb" moreinfo="none">int</literal> type can store integers like <literal remap="verb" moreinfo="none">1</literal> and <literal remap="verb" moreinfo="none">-5</literal>, and the <literal remap="verb" moreinfo="none">char</literal> type can store characters like <literal remap="verb" moreinfo="none">'A'</literal> and <literal remap="verb" moreinfo="none">'z'</literal>. </para><para>Some types begin with a capital letter and some with lowercase. We will learn the significance of this distinction later, but for now you should take care to get it right. There is no such type as <literal remap="verb" moreinfo="none">Int</literal> or <literal remap="verb" moreinfo="none">string</literal>. </para><para>To declare an integer variable named <literal remap="verb" moreinfo="none">x</literal>, you simply type: </para><programlisting language="java" format="linespecific">int x;</programlisting><para>Note that <literal remap="verb" moreinfo="none">x</literal> is an arbitrary name for the variable. In general, you should use names that indicate what the variables mean. </para><programlisting language="java" format="linespecific">String firstName;
+String lastName;
+int hour, minute;</programlisting><para>This example declares two variables with type <literal remap="verb" moreinfo="none">String</literal> and two with type <literal remap="verb" moreinfo="none">int</literal>. The last line shows how to declare multiple variables with the same type: <literal remap="verb" moreinfo="none">hour</literal> and <literal remap="verb" moreinfo="none">minute</literal> are both integers. Note that each declaration statement ends with a semicolon (<literal remap="verb" moreinfo="none">;</literal>). </para><para><indexterm significance="normal">
+  <primary>case-sensitive</primary>
+
+</indexterm>Variable names usually begin with a lowercase letter, in contrast to class names (like <literal remap="verb" moreinfo="none">Hello</literal>) that start with a capital letter. When a variable name contains more than one word (like <literal remap="verb" moreinfo="none">firstName</literal>), it is conventional to capitalize the first letter of each subsequent word. Variable names are case-sensitive, so <literal remap="verb" moreinfo="none">firstName</literal> is not the same as <literal remap="verb" moreinfo="none">firstname</literal> or <literal remap="verb" moreinfo="none">FirstName</literal>. </para><para><indexterm significance="normal">
+  <primary>keyword</primary>
+
+</indexterm>You can use any name you want for a variable. But there are about 50 reserved words, called <emphasis role="bold">keywords</emphasis>, that you are not allowed to use as variable names. These words include <literal remap="verb" moreinfo="none">public</literal>, <literal remap="verb" moreinfo="none">class</literal>, <literal remap="verb" moreinfo="none">static</literal>, <literal remap="verb" moreinfo="none">void</literal>, and <literal remap="verb" moreinfo="none">int</literal>, which are used by the compiler to analyze the structure of the program. </para><para>You can see the full list of keywords at <ulink url="https://thinkjava.org/keywords"/>, but you don’t have to memorize them. Most programming editors provide “syntax highlighting”, which makes different parts of the program appear in different colors. </para>
+</sect1><sect1 id="a0000000784" remap="section">
+  <title>Assigning Variables</title>
+    <para><indexterm significance="normal">
+  <primary>assignment</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>= assignment operator</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>statement</primary>
+<secondary>assignment</secondary>
+</indexterm>Now that we have declared some variables, we can use them to store values. We do that with an <emphasis role="bold">assignment</emphasis> statement. </para><programlisting language="java" format="linespecific">message = "Hello!";  // give message the value "Hello!"
+hour = 11;           // assign the value 11 to hour
+minute = 59;         // set minute to 59</programlisting><para>This example shows three assignments, and the comments illustrate different ways people sometimes talk about assignment statements. The vocabulary can be confusing here, but the idea is straightforward: </para><itemizedlist>
+  
+    <listitem><para>When you declare a variable, you create a named storage location. </para></listitem>
+  
+    <listitem><para>When you make an assignment to a variable, you update its value. </para></listitem>
+  
+</itemizedlist><para>As a general rule, a variable has to have the same type as the value you assign to it. For example, you cannot store a string in <literal remap="verb" moreinfo="none">minute</literal> or an integer in <literal remap="verb" moreinfo="none">message</literal>. We will see some examples that seem to break this rule, but we’ll get to that later. </para><para>A common source of confusion is that some strings <emphasis>look</emphasis> like integers, but they are not. For example, <literal remap="verb" moreinfo="none">message</literal> can contain the string <literal remap="verb" moreinfo="none">"123"</literal>, which is made up of the characters <literal remap="verb" moreinfo="none">'1'</literal>, <literal remap="verb" moreinfo="none">'2'</literal>, and <literal remap="verb" moreinfo="none">'3'</literal>. But that is not the same thing as the integer <literal remap="verb" moreinfo="none">123</literal>. </para><programlisting language="java" format="linespecific">message = "123";     // legal
+message = 123;       // not legal</programlisting><para><indexterm significance="normal">
+  <primary>initialize</primary>
+
+</indexterm>Variables must be <emphasis role="bold">initialized</emphasis> (assigned for the first time) before they can be used. You can declare a variable and then assign a value later, as in the previous example. You can also declare and initialize on the same line: </para><programlisting language="java" format="linespecific">String message = "Hello!";
+int hour = 11;
+int minute = 59;</programlisting></sect1><sect1 id="state" remap="section">
+  <title>Memory Diagrams</title><para>Because Java uses the <literal remap="verb" moreinfo="none">=</literal> symbol for assignment, it is tempting to interpret the statement <literal remap="verb" moreinfo="none">a = b</literal> as a statement of equality. It is not! </para><para>Equality is commutative, and assignment is not. For example, in mathematics if <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>a</mml:mi><mml:mo>=</mml:mo><mml:mn>7</mml:mn></mml:mrow></mml:math></inlineequation> then <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mn>7</mml:mn><mml:mo>=</mml:mo><mml:mi>a</mml:mi></mml:mrow></mml:math></inlineequation>. In Java <literal remap="verb" moreinfo="none">a = 7;</literal> is a legal assignment statement, but <literal remap="verb" moreinfo="none">7 = a;</literal> is not. The left side of an assignment statement has to be a variable name (storage location). </para><para>Also, in mathematics, a statement of equality is true for all time. If <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>a</mml:mi><mml:mo>=</mml:mo><mml:mi>b</mml:mi></mml:mrow></mml:math></inlineequation> now, <emphasis role="math">a</emphasis> is always equal to <emphasis role="math">b</emphasis>. In Java, an assignment statement can make two variables equal, but they don’t have to stay that way. </para><programlisting language="java" format="linespecific">int a = 5;
+int b = a;     // a and b are now equal
+a = 3;         // a and b are no longer equal</programlisting><para>The third line changes the value of <literal remap="verb" moreinfo="none">a</literal>, but it does not change the value of <literal remap="verb" moreinfo="none">b</literal>, so they are no longer equal. </para><para><indexterm significance="normal">
+  <primary>state</primary>
+
+</indexterm>Taken together, the variables in a program and their current values make up the program’s <emphasis role="bold">state</emphasis>. <xref linkend="fig.state"/> shows the state of the program after these assignment statements run. </para>
+  
+  <figure id="fig.state" float="False">
+    <title>Memory diagram of the variables <literal remap="verb" moreinfo="none">a and <literal remap="verb" moreinfo="none"></literal></literal>b.</title>
+     <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/state.pdf"></imagedata>
+  </imageobject>
+</mediaobject></figure>
+<para><indexterm significance="normal">
+  <primary>memory diagram</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>diagram</primary>
+<secondary>memory</secondary>
+</indexterm>Diagrams like this one that show the state of the program are called <emphasis role="bold">memory diagrams</emphasis>. Each variable is represented with a box showing the name of the variable on the outside and its current value inside. </para><para>As the program runs, the state of memory changes, so memory diagrams only show a particular point in time. For example, if we added the line <literal remap="verb" moreinfo="none">int c = 0;</literal> to the previous example, the memory diagram would look like <xref linkend="fig.state2"/>. </para>
+  
+  <figure id="fig.state2" float="False">
+    <title>Memory diagram of the variables <literal remap="verb" moreinfo="none">a, <literal remap="verb" moreinfo="none"></literal></literal>b, and <literal remap="verb" moreinfo="none">c.</literal/>
+     <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/state2.pdf"></imagedata>
+  </imageobject>
+</mediaobject></figure>
+
+</sect1><sect1 id="sec..printvar" remap="section">
+  <title>Printing Variables</title><para>You can display the current value of a variable using <literal remap="verb" moreinfo="none">print</literal> or <literal remap="verb" moreinfo="none">println</literal>. The following statements declare a variable named <literal remap="verb" moreinfo="none">firstLine</literal>, assign it the value <literal remap="verb" moreinfo="none">"Hello, again!"</literal>, and display that value. </para><programlisting language="java" format="linespecific">String firstLine = "Hello, again!";
+System.out.println(firstLine);</programlisting><para>When we talk about displaying a variable, we generally mean the <emphasis>value</emphasis> of the variable. To display the <emphasis>name</emphasis> of a variable, you have to put it in quotes. </para><programlisting language="java" format="linespecific">System.out.print("The value of firstLine is ");
+System.out.println(firstLine);</programlisting><para>For this example, the output is: </para><programlisting format="linespecific">The value of firstLine is Hello, again!</programlisting><para>Conveniently, the code for displaying a variable is the same regardless of its type. For example: </para><programlisting language="java" format="linespecific">int hour = 11;
+int minute = 59;
+System.out.print("The current time is ");
+System.out.print(hour);
+System.out.print(":");
+System.out.print(minute);
+System.out.println(".");</programlisting><para>The output of this program is: </para><programlisting format="linespecific">The current time is 11:59.</programlisting><para>To output multiple values on the same line, it’s common to use several <literal remap="verb" moreinfo="none">print</literal> statements followed by <literal remap="verb" moreinfo="none">println</literal> at the end. But don’t forget the <literal remap="verb" moreinfo="none">println</literal>! On many computers, the output from <literal remap="verb" moreinfo="none">print</literal> is stored without being displayed until <literal remap="verb" moreinfo="none">println</literal> is run; then the entire line is displayed at once. If you omit the <literal remap="verb" moreinfo="none">println</literal>, the program might display the stored output at unexpected times or even terminate without displaying anything. </para>
+</sect1><sect1 id="a0000000905" remap="section">
+  <title>Arithmetic Operators</title>
+    <para><indexterm significance="normal">
+  <primary>operator</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>addition</primary>
+<secondary>integer</secondary>
+</indexterm><emphasis role="bold">Operators</emphasis> are symbols that represent simple computations. For example, the addition operator is <literal remap="verb" moreinfo="none">+</literal>, subtraction is <literal remap="verb" moreinfo="none">-</literal>, multiplication is <literal remap="verb" moreinfo="none">*</literal>, and division is <literal remap="verb" moreinfo="none">/</literal>. </para><para>The following program converts a time of day to minutes: </para><programlisting language="java" format="linespecific">int hour = 11;
+int minute = 59;
+System.out.print("Number of minutes since midnight: ");
+System.out.println(hour * 60 + minute);</programlisting><para>The output is: </para><programlisting format="linespecific">Number of minutes since midnight: 719</programlisting><para><indexterm significance="normal">
+  <primary>expression</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>operand</primary>
+
+</indexterm>In this program, <literal remap="verb" moreinfo="none">hour * 60 + minute</literal> is an <emphasis role="bold">expression</emphasis>, which represents a single value to be computed (<literal remap="verb" moreinfo="none">719</literal>). When the program runs, each variable is replaced by its current value, and then the operators are applied. The values that operators work with are called <emphasis role="bold">operands</emphasis>. </para><para>Expressions are generally a combination of numbers, variables, and operators. When compiled and executed, they become a single value. For example, the expression <literal remap="verb" moreinfo="none">1 + 1</literal> has the value <literal remap="verb" moreinfo="none">2</literal>. In the expression <literal remap="verb" moreinfo="none">hour - 1</literal>, Java replaces the variable with its value, yielding <literal remap="verb" moreinfo="none">11 - 1</literal>, which has the value <literal remap="verb" moreinfo="none">10</literal>. </para><para>In the expression <literal remap="verb" moreinfo="none">hour * 60 + minute</literal>, both variables get replaced, yielding <literal remap="verb" moreinfo="none">11 * 60 + 59</literal>. The multiplication happens first, yielding <literal remap="verb" moreinfo="none">660 + 59</literal>. Then the addition yields <literal remap="verb" moreinfo="none">719</literal>. </para><para>Addition, subtraction, and multiplication all do what you expect, but you might be surprised by division. For example, the following fragment tries to compute the fraction of an hour that has elapsed:</para><programlisting language="java" format="linespecific">System.out.print("Fraction of the hour that has passed: ");
+System.out.println(minute / 60);</programlisting><para>The output is: </para><programlisting format="linespecific">Fraction of the hour that has passed: 0</programlisting><para><indexterm significance="normal">
+  <primary>division</primary>
+<secondary>integer</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>integer division</primary>
+
+</indexterm>This result often confuses people. The value of <literal remap="verb" moreinfo="none">minute</literal> is 59, and 59 divided by 60 should be 0.98333, not 0. The problem is that Java performs “integer division” when the operands are integers. By design, integer division always rounds toward zero, even in cases like this one where the next integer is close. </para><para>As an alternative, we can calculate a percentage rather than a fraction: </para><programlisting language="java" format="linespecific">System.out.print("Percent of the hour that has passed: ");
+System.out.println(minute * 100 / 60);</programlisting><para>The new output is: </para><programlisting format="linespecific">Percent of the hour that has passed: 98</programlisting><para>Again the result is rounded down, but at least now it’s approximately correct. </para>
+</sect1><sect1 id="a0000000955" remap="section">
+  <title>Floating-Point Numbers</title>
+    <para><indexterm significance="normal">
+  <primary>floating-point</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>double</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>type</primary>
+<secondary>double</secondary>
+</indexterm>A more general solution is to use <emphasis role="bold">floating-point</emphasis> numbers, which represent values with decimal places. In Java, the default floating-point type is called <literal remap="verb" moreinfo="none">double</literal>, which is short for double-precision. You can create <literal remap="verb" moreinfo="none">double</literal> variables and assign values to them the same way we did for the other types: </para><programlisting language="java" format="linespecific">double pi;
+pi = 3.14159;</programlisting><para>Java performs “floating-point division” when one or more operands are <literal remap="verb" moreinfo="none">double</literal> values. So we can solve the problem we saw in the previous section: </para><programlisting language="java" format="linespecific">double minute = 59.0;
+System.out.print("Fraction of the hour that has passed: ");
+System.out.println(minute / 60.0);</programlisting><para>The output is: </para><programlisting format="linespecific">Fraction of the hour that has passed: 0.9833333333333333</programlisting><para>Although floating-point numbers are useful, they can be a source of confusion. For example, Java distinguishes the integer value <literal remap="verb" moreinfo="none">1</literal> from the floating-point value <literal remap="verb" moreinfo="none">1.0</literal>, even though they seem to be the same number. They belong to different data types, and strictly speaking, you are not allowed to make assignments between types. </para><para>The following is illegal because the variable on the left is an <literal remap="verb" moreinfo="none">int</literal> and the value on the right is a <literal remap="verb" moreinfo="none">double</literal>: </para><programlisting language="java" format="linespecific">int x = 1.1;  // compiler error</programlisting><para><indexterm significance="normal">
+  <primary>automatic conversion</primary>
+
+</indexterm>It is easy to forget this rule, because in many cases Java <emphasis>automatically</emphasis> converts from one type to another: </para><programlisting language="java" format="linespecific">double y = 1;  // legal, but bad style</programlisting><para>The preceding example should be illegal, but Java allows it by converting the <literal remap="verb" moreinfo="none">int</literal> value <literal remap="verb" moreinfo="none">1</literal> to the <literal remap="verb" moreinfo="none">double</literal> value <literal remap="verb" moreinfo="none">1.0</literal> automatically. This leniency is convenient, but it often causes problems for beginners. For example: </para><programlisting language="java" format="linespecific">double y = 1 / 3;  // common mistake</programlisting><para><indexterm significance="normal">
+  <primary>division</primary>
+<secondary>integer</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>integer division</primary>
+
+</indexterm>You might expect the variable <literal remap="verb" moreinfo="none">y</literal> to get the value <literal remap="verb" moreinfo="none">0.333333</literal>, which is a legal floating-point value. But instead it gets the value <literal remap="verb" moreinfo="none">0.0</literal>. The expression on the right divides two integers, so Java does integer division, which yields the <literal remap="verb" moreinfo="none">int</literal> value <literal remap="verb" moreinfo="none">0</literal>. Converted to <literal remap="verb" moreinfo="none">double</literal>, the value assigned to <literal remap="verb" moreinfo="none">y</literal> is <literal remap="verb" moreinfo="none">0.0</literal>. </para><para>One way to solve this problem (once you figure out the bug) is to make the right-hand side a floating-point expression. The following sets <literal remap="verb" moreinfo="none">y</literal> to <literal remap="verb" moreinfo="none">0.333333</literal>, as expected: </para><programlisting language="java" format="linespecific">double y = 1.0 / 3.0;  // correct</programlisting><para>As a matter of style, you should always assign floating-point values to floating-point variables. The compiler won’t make you do it, but you never know when a simple mistake will come back and haunt you. </para>
+</sect1><sect1 id="rounderr" remap="section">
+  <title>Rounding Errors</title><para>Most floating-point numbers are only <emphasis>approximately</emphasis> correct. Some numbers, like reasonably-sized integers, can be represented exactly. But repeating fractions, like <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mn>1</mml:mn><mml:mo>/</mml:mo><mml:mn>3</mml:mn></mml:mrow></mml:math></inlineequation>, and irrational numbers, like <emphasis role="math">π</emphasis>, cannot. To represent these numbers, computers have to round off to the nearest floating-point number. </para><para><indexterm significance="normal">
+  <primary>rounding error</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>error</primary>
+<secondary>rounding</secondary>
+</indexterm>The difference between the number we want and the floating-point number we get is called <emphasis role="bold">rounding error</emphasis>. For example, the following two statements should be equivalent: </para><programlisting language="java" format="linespecific">System.out.println(0.1 * 10);
+System.out.println(0.1 + 0.1 + 0.1 + 0.1 + 0.1
+                 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1);</programlisting><para>But on many machines, the output is: </para><programlisting format="linespecific">1.0
+0.9999999999999999</programlisting><para>The problem is that <literal remap="verb" moreinfo="none">0.1</literal> is a repeating fraction when converted into binary. So its floating-point representation stored in memory is only approximate. When we add up the approximations, the rounding errors accumulate. </para><para>For many applications, like computer graphics, encryption, statistical analysis, and multimedia rendering, floating-point arithmetic has benefits that outweigh the costs. But if you need <emphasis>absolute</emphasis> precision, use integers instead. For example, consider a bank account with a balance of $123.45: </para><programlisting language="java" format="linespecific">double balance = 123.45;  // potential rounding error</programlisting><para>In this example, balances will become inaccurate over time as the variable is used in arithmetic operations like deposits and withdrawals. The result would be angry customers and potential lawsuits. You can avoid the problem by representing the balance as an integer: </para><programlisting language="java" format="linespecific">int balance = 12345;      // total number of cents</programlisting><para><indexterm significance="normal">
+  <primary>type</primary>
+<secondary>long</secondary>
+</indexterm>This solution works as long as the number of cents doesn’t exceed the largest <literal remap="verb" moreinfo="none">int</literal>, which is about 2 billion. </para>
+</sect1><sect1 id="a0000001039" remap="section">
+  <title>Operators for Strings</title>
+    <para><indexterm significance="normal">
+  <primary>string</primary>
+<secondary>operator</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>operator</primary>
+<secondary>string</secondary>
+</indexterm>In general, you cannot perform mathematical operations on strings, even if the strings look like numbers. The following expressions are illegal: </para><programlisting language="java" format="linespecific">"Hello" - 1     "World" / 123     "Hello" * "World"</programlisting><para><indexterm significance="normal">
+  <primary>concatenate</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>addition</primary>
+<secondary>string</secondary>
+</indexterm>The <literal remap="verb" moreinfo="none">+</literal> operator works with strings, but it might not do what you expect. For strings, the <literal remap="verb" moreinfo="none">+</literal> operator performs <emphasis role="bold">concatenation</emphasis>, which means joining end-to-end. So <literal remap="verb" moreinfo="none">"Hello, " + "World!"</literal> yields the string <literal remap="verb" moreinfo="none">"Hello, World!"</literal>. </para><para>Likewise if you have a variable called <literal remap="verb" moreinfo="none">name</literal> that has type <literal remap="verb" moreinfo="none">String</literal>, the expression <literal remap="verb" moreinfo="none">"Hello, " + name</literal> appends the value of <literal remap="verb" moreinfo="none">name</literal> to the hello string, which creates a personalized greeting. </para><para>Since addition is defined for both numbers and strings, Java performs automatic conversions you may not expect: </para><programlisting language="java" format="linespecific">System.out.println(1 + 2 + "Hello");
+// the output is 3Hello
+
+System.out.println("Hello" + 1 + 2);
+// the output is Hello12</programlisting><para>Java executes these operations from left to right. In the first line, <literal remap="verb" moreinfo="none">1 + 2</literal> is <literal remap="verb" moreinfo="none">3</literal>, and <literal remap="verb" moreinfo="none">3 + "Hello"</literal> is <literal remap="verb" moreinfo="none">"3Hello"</literal>. But in the second line, <literal remap="verb" moreinfo="none">"Hello" + 1</literal> is <literal remap="verb" moreinfo="none">"Hello1"</literal>, and <literal remap="verb" moreinfo="none">"Hello1" + 2</literal> is <literal remap="verb" moreinfo="none">"Hello12"</literal>. </para><para><indexterm significance="normal">
+  <primary>order of operations</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>precedence</primary>
+
+</indexterm>When more than one operator appears in an expression, they are evaluated according to the <emphasis role="bold">order of operations</emphasis>. Generally speaking, Java evaluates operators from left to right (as we saw in the previous section). But for numeric operators, Java follows mathematical conventions: </para><itemizedlist>
+  
+    <listitem><para>Multiplication and division take “precedence” over addition and subtraction, which means they happen first. So <literal remap="verb" moreinfo="none">1 + 2 * 3</literal> yields 7, not 9, and <literal remap="verb" moreinfo="none">2 + 4 / 2</literal> yields 4, not 3. </para></listitem>
+  
+    <listitem><para><indexterm significance="normal">
+  <primary>parentheses</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>( ) parentheses</primary>
+
+</indexterm>If the operators have the same precedence, they are evaluated from left to right. So in the expression <literal remap="verb" moreinfo="none">minute * 100 / 60</literal>, the multiplication happens first; if the value of <literal remap="verb" moreinfo="none">minute</literal> is 59, we get <literal remap="verb" moreinfo="none">5900 / 60</literal>, which yields <literal remap="verb" moreinfo="none">98</literal>. If these same operations had gone from right to left, the result would have been <literal remap="verb" moreinfo="none">59 * 1</literal>, which is incorrect. </para></listitem>
+  
+    <listitem><para>Any time you want to override the order of operations (or you are not sure what it is) you can use parentheses. Expressions in parentheses are evaluated first, so <literal remap="verb" moreinfo="none">(1 + 2) * 3</literal> is 9. You can also use parentheses to make an expression easier to read, as in <literal remap="verb" moreinfo="none">(minute * 100) / 60</literal>, even though it doesn’t change the result. </para></listitem>
+  
+</itemizedlist><para>See the official Java tutorials for a complete table of operator precedence: <ulink url="https://thinkjava.org/operators"/>. If the order of operations is not obvious when looking at an expression, you can always add parentheses to make it more clear. But over time, you should internalize these kinds of details about the Java language. </para>
+</sect1><sect1 id="a0000001093" remap="section">
+  <title>Compiler Error Messages</title>
+    <para><indexterm significance="normal">
+  <primary>error</primary>
+<secondary>message</secondary>
+</indexterm>Three kinds of errors can occur in a program: compile-time errors, run-time errors, and logic errors. It is useful to distinguish among them in order to track them down more quickly. </para><para><indexterm significance="normal">
+  <primary>compile-time error</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>error</primary>
+<secondary>compile-time</secondary>
+</indexterm><emphasis role="bold">Compile-time</emphasis> errors occur when you violate the rules of the Java language. For example, parentheses and braces have to come in matching pairs. So <literal remap="verb" moreinfo="none">(1 + 2)</literal> is legal, but <literal remap="verb" moreinfo="none">8)</literal> is not. In the latter case, the program cannot be compiled, and the compiler displays a “syntax error”. </para><para><indexterm significance="normal">
+  <primary>error</primary>
+<secondary>message</secondary>
+</indexterm>Error messages from the compiler usually indicate where in the program the error occurred. Sometimes they can tell you exactly what the error is. As an example, let’s get back to the hello world program from <xref linkend="hello"/>. </para><programlisting language="java" format="linespecific">public class Hello {
+
+    public static void main(String[] args) {
+        // generate some simple output
+        System.out.println("Hello, World!");
+    }
+}</programlisting><para><indexterm significance="normal">
+  <primary>semicolon</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>; semicolon</primary>
+
+</indexterm>If you forget the semicolon at the end of the print statement, you might get an error message like this: </para><programlisting format="linespecific">File: Hello.java  [line: 5]
+Error: ';' expected</programlisting><para>That’s pretty good: the location of the error is correct, and the error message tells you what’s wrong. But error messages are not always easy to understand. Sometimes the compiler reports the place in the program where the error was <emphasis>detected</emphasis>, not where it actually occurred. And sometimes the description of the problem is more confusing than helpful. </para><para>For example, if you forget the closing brace at the end of <literal remap="verb" moreinfo="none">main</literal> (line 6), you might get a message like this: </para><programlisting format="linespecific">File: Hello.java  [line: 7]
+Error: reached end of file while parsing</programlisting><para><indexterm significance="normal">
+  <primary>parse</primary>
+
+</indexterm>There are two problems here. First, the error message is written from the compiler’s point of view, not yours. <emphasis role="bold">Parsing</emphasis> is the process of reading a program before translating; if the compiler gets to the end of the file while still parsing, that means something was omitted. But the compiler doesn’t know what. It also doesn’t know where. The compiler discovers the error at the end of the program (line 7), but the missing brace should be on the previous line. </para><para>Error messages contain useful information, so you should make an effort to read and understand them. But don’t take them too literally. During the first few weeks of your programming career, you will probably spend a lot of time tracking down syntax and other compile-time errors. As you gain experience, you will make fewer mistakes and find them more quickly. </para>
+</sect1><sect1 id="exception" remap="section">
+  <title>Other Types of Errors</title><para><indexterm significance="normal">
+  <primary>run-time error</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>error</primary>
+<secondary>run-time</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>exception</primary>
+
+</indexterm>The second type of error is a <emphasis role="bold">run-time error</emphasis>, so-called because it does not appear until after the program has started running. In Java, these errors occur while the interpreter is executing byte code and something goes wrong. These errors are also called “exceptions” because they usually indicate that something unexpected has happened. </para><para>Run-time errors are rare in the simple programs you will see in the first few chapters, so it might be a while before you encounter one. When a run-time error occurs, the program “crashes” (terminates) and displays an error message that explains what happened and where. For example, if you accidentally divide by zero you will get a message like: </para><para><programlisting format="linespecific">Exception in thread "main" java.lang.ArithmeticException: / by zero
+    at Hello.main(Hello.java:5)</programlisting></para><para><indexterm significance="normal">
+  <primary>ArithmeticException</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>exception</primary>
+<secondary>Arithmetic</secondary>
+</indexterm>Error messages are very useful for debugging. The first line includes the name of the exception, <literal remap="verb" moreinfo="none">ArithmeticException</literal>, and a message that indicates more specifically what happened, division by zero. The next line shows the method where the error occurred; <literal remap="verb" moreinfo="none">Hello.main</literal> indicates the method <literal remap="verb" moreinfo="none">main</literal> in the class <literal remap="verb" moreinfo="none">Hello</literal>. It also reports the file where the method is defined, <literal moreinfo="none">Hello.java</literal>, and the line number where the error occurred, <literal remap="verb" moreinfo="none">5</literal>. </para><para><indexterm significance="normal">
+  <primary>logic error</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>error</primary>
+<secondary>logic</secondary>
+</indexterm>The third type of error is a <emphasis role="bold">logic error</emphasis>. If your program has a logic error, it will compile and run without generating error messages, but it will not do the right thing. Instead, it will do exactly what you told it to do. For example, here is a version of the hello world program with a logic error: </para><programlisting language="java" format="linespecific">public class Hello {
+
+    public static void main(String[] args) {
+        System.out.println("Hello, ");
+        System.out.println("World!");
+    }
+}</programlisting><para>This program compiles and runs just fine, but the output is: </para><programlisting format="linespecific">Hello,
+World!</programlisting><para>Assuming that we wanted the output on one line, this is not correct. The problem is that the first line uses <literal remap="verb" moreinfo="none">println</literal>, when we probably meant to use <literal remap="verb" moreinfo="none">print</literal> (see the “goodbye world” example of <xref linkend="goodbye"/>). </para><para>Identifying logic errors can be hard because you have to work backwards, looking at the output of the program, trying to figure out why it is doing the wrong thing, and how to make it do the right thing. Usually the compiler and the interpreter can’t help you, since they don’t know what the right thing is. </para>
+</sect1><sect1 id="a0000001158" remap="section">
+  <title>Vocabulary</title>
+    <variablelist>
+  <varlistentry>
+    <term>variable:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>variable</primary>
+
+</indexterm>A named storage location for values. All variables have a type, which is declared when the variable is created. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>value:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>value</primary>
+
+</indexterm>A number, string, or other data that can be stored in a variable. Every value belongs to a type (for example, <literal remap="verb" moreinfo="none">int</literal> or <literal remap="verb" moreinfo="none">String</literal>). </para></listitem>
+  </varlistentry><varlistentry>
+    <term>type:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>type</primary>
+
+</indexterm>Mathematically speaking, a set of values. The type of a variable determines which values it can have. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>declaration:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>declaration</primary>
+
+</indexterm>A statement that creates a new variable and specifies its type. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>keyword:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>keyword</primary>
+
+</indexterm>A reserved word used by the compiler to analyze programs. You cannot use keywords (like <literal remap="verb" moreinfo="none">public</literal>, <literal remap="verb" moreinfo="none">class</literal>, and <literal remap="verb" moreinfo="none">void</literal>) as variable names. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>assignment:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>assignment</primary>
+
+</indexterm>A statement that gives a value to a variable. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>initialize:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>initialize</primary>
+
+</indexterm>To assign a variable for the first time. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>state:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>state</primary>
+
+</indexterm>The variables in a program and their current values. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>memory diagram:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>memory diagram</primary>
+
+</indexterm>A graphical representation of the state of a program at a point in time. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>operator:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>operator</primary>
+
+</indexterm>A symbol that represents a computation like addition, multiplication, or string concatenation. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>operand:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>operand</primary>
+
+</indexterm>One of the values on which an operator operates. Most operators in Java require two operands. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>expression:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>expression</primary>
+
+</indexterm>A combination of variables, operators, and values that represents a single value. Expressions also have types, as determined by their operators and operands. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>floating-point:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>floating-point</primary>
+
+</indexterm>A data type that represents numbers with an integer part and a fractional part. In Java, the default floating-point type is <literal remap="verb" moreinfo="none">double</literal>. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>rounding error:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>rounding error</primary>
+
+</indexterm>The difference between the number we want to represent and the nearest floating-point number. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>concatenate:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>concatenate</primary>
+
+</indexterm>To join two values, often strings, end-to-end. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>order of operations:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>order of operations</primary>
+
+</indexterm>The rules that determine in what order expressions are evaluated. Also known as “operator precedence”. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>compile-time error:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>compile-time error</primary>
+
+</indexterm>An error in the source code that makes it impossible to compile. Also called a “syntax error”. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>parse:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>parse</primary>
+
+</indexterm>To analyze the structure of a program; what the compiler does first. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>run-time error:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>run-time error</primary>
+
+</indexterm>An error in a program that makes it impossible to run to completion. Also called an “exception”. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>logic error:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>logic error</primary>
+
+</indexterm>An error in a program that makes it do something other than what the programmer intended. </para></listitem>
+  </varlistentry>
+</variablelist>
+</sect1><sect1 id="a0000001207" remap="section">
+  <title>Exercises</title>
+    <para>The code for this chapter is in the <literal moreinfo="none">ch02</literal> directory of <literal moreinfo="none">ThinkJavaCode2</literal>. See <xref linkend="code"/> for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples. </para><para>If you have not already read <xref linkend="interactions"/>, now might be a good time. It describes the DrJava Interactions Pane, which is a useful way to develop and test short fragments of code without writing a complete class definition. </para><para><example id="a0000001219" role="exercise">
+  <title/>
+  <para>If you are using this book in a class, you might enjoy this exercise. Find a partner and play “Stump the Chump”: </para><para>Start with a program that compiles and runs correctly. One player looks away while the other player adds an error to the program. Then the first player tries to find and fix the error. You get two points if you find the error without compiling the program, one point if you find it using the compiler, and your opponent gets a point if you don’t find it. </para>
+</example> </para><para><example id="ex..date" role="exercise">
+  <title/><para>The point of this exercise is (1) to use string concatenation to display values with different types (<literal remap="verb" moreinfo="none">int</literal> and <literal remap="verb" moreinfo="none">String</literal>), and (2) to practice developing programs gradually by adding a few statements at a time. </para><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>Create a new program named <literal moreinfo="none">Date.java</literal>. Copy or type in something like the hello world program and make sure you can compile and run it. </para></listitem>
+  
+  <listitem><para>Following the example in <xref linkend="sec..printvar"/>, write a program that creates variables named <literal remap="verb" moreinfo="none">day</literal>, <literal remap="verb" moreinfo="none">date</literal>, <literal remap="verb" moreinfo="none">month</literal>, and <literal remap="verb" moreinfo="none">year</literal>. The variable <literal remap="verb" moreinfo="none">day</literal> will contain the day of the week (like Friday), and <literal remap="verb" moreinfo="none">date</literal> will contain the day of the month (like the 13th). Assign values to those variables that represent today’s date. </para></listitem>
+  
+  <listitem><para>Display the value of each variable on a line by itself. This is an intermediate step that is useful for checking that everything is working so far. Compile and run your program before moving on. </para></listitem>
+  
+  <listitem><para>Modify the program so that it displays the date in standard American format, for example: <literal moreinfo="none">Thursday, July 16, 2015</literal>. </para></listitem>
+  
+  <listitem><para>Modify the program so it also displays the date in European format. The final output should be: </para><programlisting format="linespecific">American format:
+Thursday, July 16, 2015
+European format:
+Thursday 16 July 2015</programlisting></listitem>
+  
+</orderedlist>
+</example> </para><para><example id="a0000001255" role="exercise">
+  <title/>
+  <para>The point of this exercise is to (1) use some of the arithmetic operators, and (2) start thinking about compound entities (like time of day) that are represented with multiple values. </para><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>Create a new program called <literal moreinfo="none">Time.java</literal>. From now on, we won’t remind you to start with a small, working program, but you should. </para></listitem>
+  
+  <listitem><para>Following the example program in <xref linkend="sec..printvar"/>, create variables named <literal remap="verb" moreinfo="none">hour</literal>, <literal remap="verb" moreinfo="none">minute</literal>, and <literal remap="verb" moreinfo="none">second</literal>. Assign values that are roughly the current time. Use a 24-hour clock so that at 2pm the value of <literal remap="verb" moreinfo="none">hour</literal> is 14. </para></listitem>
+  
+  <listitem><para>Make the program calculate and display the number of seconds since midnight. </para></listitem>
+  
+  <listitem><para>Calculate and display the number of seconds remaining in the day. </para></listitem>
+  
+  <listitem><para>Calculate and display the percentage of the day that has passed. You might run into problems when computing percentages with integers, so consider using floating-point. </para></listitem>
+  
+  <listitem><para>Change the values of <literal remap="verb" moreinfo="none">hour</literal>, <literal remap="verb" moreinfo="none">minute</literal>, and <literal remap="verb" moreinfo="none">second</literal> to reflect the current time. Then write code to compute the elapsed time since you started working on this exercise. </para></listitem>
+  
+</orderedlist><para><emphasis>Hint:</emphasis> You might want to use additional variables to hold values during the computation. Variables that are used in a computation but never displayed are sometimes called “intermediate” or “temporary” variables. </para>
+</example> </para>
+</sect1>
+</chapter>

@@ -1,0 +1,618 @@
+<chapter id="a0000006482">
+  <title>Designing Classes</title>
+  <para><indexterm significance="normal">
+  <primary>object</primary>
+<secondary>type</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>type</primary>
+<secondary>object</secondary>
+</indexterm>Whenever you create a new class, you are creating a new object type with the same name. So way back in <xref linkend="hello"/>, when we created the class <literal remap="verb" moreinfo="none">Hello</literal>, we also created an object type named <literal remap="verb" moreinfo="none">Hello</literal>. </para><para>We didn’t declare any variables with type <literal remap="verb" moreinfo="none">Hello</literal>, and we didn’t use <literal remap="verb" moreinfo="none">new</literal> to create <literal remap="verb" moreinfo="none">Hello</literal> objects. And it wouldn’t have done much good if we had – but we could have! </para><para>In this chapter, you will learn to design classes that represent <emphasis>useful</emphasis> objects. Here are the main ideas: </para><itemizedlist>
+  
+    <listitem><para><indexterm significance="normal">
+  <primary>class</primary>
+<secondary>definition</secondary>
+</indexterm>Again, defining a <emphasis role="bold">class</emphasis> creates a new object type with the same name. </para></listitem>
+  
+    <listitem><para><indexterm significance="normal">
+  <primary>instance</primary>
+
+</indexterm>A <emphasis role="bold">class</emphasis> definition is a template for objects: it specifies what attributes the objects have and what methods can operate on them. </para></listitem>
+  
+    <listitem><para><indexterm significance="normal">
+  <primary>instantiate</primary>
+
+</indexterm>Every object belongs to some object type; that is, it is an <emphasis role="bold">instance</emphasis> of some class. </para></listitem>
+  
+    <listitem><para>The <literal remap="verb" moreinfo="none">new</literal> operator <emphasis role="bold">instantiates</emphasis> objects; that is, it creates new instances of a class. </para></listitem>
+  
+    <listitem><para>The methods that operate on an object type are defined in the class for that object. </para></listitem>
+  
+</itemizedlist><para>Think of a class like a blueprint for a house: you can use the same blueprint to build any number of houses. </para><sect1 id="a0000006521" remap="section">
+  <title>The Time Class</title>
+    <para><indexterm significance="normal">
+  <primary>data encapsulation</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>encapsulation</primary>
+<secondary>data</secondary>
+</indexterm>A common reason to define a new class is to encapsulate related data in an object that can be treated as a single unit. That way, we can use objects as parameters and return values, rather than passing and returning multiple values. We have already seen two types that encapsulate data in this way: <literal remap="verb" moreinfo="none">Point</literal> and <literal remap="verb" moreinfo="none">Rectangle</literal>. </para><para><indexterm significance="normal">
+  <primary>class</primary>
+<secondary>Time</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>Time</primary>
+
+</indexterm>Another example, which we will implement ourselves, is <literal remap="verb" moreinfo="none">Time</literal>, which represents a time of day. The data encapsulated in a <literal remap="verb" moreinfo="none">Time</literal> object include an hour, a minute, and a number of seconds. Because every <literal remap="verb" moreinfo="none">Time</literal> object contains these values, we define attributes to hold them. </para><para><indexterm significance="normal">
+  <primary>instance variable</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>variable</primary>
+<secondary>instance</secondary>
+</indexterm>Attributes are also called <emphasis role="bold">instance variables</emphasis>, because each instance has its own variables (as opposed to “class variables”, coming up in <xref linkend="classvar"/>). </para><para>The first step is to decide what type each variable should be. It seems clear that <literal remap="verb" moreinfo="none">hour</literal> and <literal remap="verb" moreinfo="none">minute</literal> should be integers. Just to keep things interesting, let’s make <literal remap="verb" moreinfo="none">second</literal> a double. </para><para>Instance variables are declared at the beginning of the class definition, outside of any method. By itself, this code fragment is a legal class definition: </para><programlisting language="java" format="linespecific">public class Time {
+    private int hour;
+    private int minute;
+    private double second;
+}</programlisting><para><indexterm significance="normal">
+  <primary>private</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>variable</primary>
+<secondary>private</secondary>
+</indexterm>The <literal remap="verb" moreinfo="none">Time</literal> class is <literal remap="verb" moreinfo="none">public</literal>, which means that it can be used in other classes. But the instance variables are <literal remap="verb" moreinfo="none">private</literal>, which means they can only be accessed from inside the <literal remap="verb" moreinfo="none">Time</literal> class. If you try to read or write them from another class, you will get a compiler error. </para><para><indexterm significance="normal">
+  <primary>information hiding</primary>
+
+</indexterm>Private instance variables help keep classes isolated from each other, so that changes in one class won’t require changes in other classes. It also simplifies what other programmers need to know to use your classes. This kind of isolation is called <emphasis role="bold">information hiding</emphasis>. </para>
+</sect1><sect1 id="a0000006554" remap="section">
+  <title>Constructors</title>
+    <para><indexterm significance="normal">
+  <primary>static</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>constructor</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>constructor</secondary>
+</indexterm>After declaring instance variables, the next step is to define a <emphasis role="bold">constructor</emphasis>, which is a special method that initializes the object. The syntax for constructors is similar to that of other methods, except: </para><itemizedlist>
+  
+    <listitem><para>The name of the constructor is the same as the name of the class. </para></listitem>
+  
+    <listitem><para>Constructors have no return type (and no return value). </para></listitem>
+  
+    <listitem><para>The keyword <literal remap="verb" moreinfo="none">static</literal> is omitted. </para></listitem>
+  
+</itemizedlist><para>Here is an example constructor for the <literal remap="verb" moreinfo="none">Time</literal> class: </para><programlisting language="java" format="linespecific">public Time() {
+    this.hour = 0;
+    this.minute = 0;
+    this.second = 0.0;
+}</programlisting><para>This constructor does not take any arguments. Each line initializes an instance variable to zero (which is “midnight” for a <literal remap="verb" moreinfo="none">Time</literal> object). </para><para><indexterm significance="normal">
+  <primary>this</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>keyword</primary>
+
+</indexterm>The name <literal remap="verb" moreinfo="none">this</literal> is a keyword that refers to the object we are creating. You can use <literal remap="verb" moreinfo="none">this</literal> the same way you use the name of any other object. For example, you can read and write the instance variables of <literal remap="verb" moreinfo="none">this</literal>, and you can pass <literal remap="verb" moreinfo="none">this</literal> as an argument to other methods. But you do not declare <literal remap="verb" moreinfo="none">this</literal>, and you can’t make an assignment to it. </para><para>A common error when writing constructors is to put a <literal remap="verb" moreinfo="none">return</literal> statement at the end. Like <literal remap="verb" moreinfo="none">void</literal> methods, constructors do not return values. </para><para>To create a <literal remap="verb" moreinfo="none">Time</literal> object, you must use the <literal remap="verb" moreinfo="none">new</literal> operator: </para><programlisting language="java" format="linespecific">public static void main(String[] args) {
+    Time time = new Time();
+}</programlisting><para><indexterm significance="normal">
+  <primary>memory diagram</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>diagram</primary>
+<secondary>memory</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>new</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>operator</primary>
+<secondary>new</secondary>
+</indexterm>When you use <literal remap="verb" moreinfo="none">new</literal>, Java creates the object and invokes your constructor to initialize the instance variables. When the constructor is done, <literal remap="verb" moreinfo="none">new</literal> returns a reference to the new object. In this example, the reference gets assigned to the variable <literal remap="verb" moreinfo="none">time</literal>, which has type <literal remap="verb" moreinfo="none">Time</literal>. <xref linkend="fig.time"/> shows the result. </para>
+  
+  <figure id="fig.time" float="False">
+    <title>Memory diagram of a <literal remap="verb" moreinfo="none">Time object.</literal/>
+     <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/time.pdf"></imagedata>
+  </imageobject>
+</mediaobject></figure>
+<para><indexterm significance="normal">
+  <primary>recursion</primary>
+<secondary>infinite</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>infinite recursion</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>StackOverflowError</primary>
+
+</indexterm>Beginners sometimes make the mistake of using <literal remap="verb" moreinfo="none">new</literal> in the constructor: </para><programlisting language="java" format="linespecific">public Time() {
+    new Time();         // StackOverflowError
+    this.hour = 0;
+    this.minute = 0;
+    this.second = 0.0;
+}</programlisting><para>Doing so causes an infinite recursion, since <literal remap="verb" moreinfo="none">new</literal> invokes the <emphasis>same</emphasis> constructor, which uses <literal remap="verb" moreinfo="none">new</literal> again, which invokes the constructor again, and so on. </para>
+</sect1><sect1 id="a0000006617" remap="section">
+  <title>More Constructors</title>
+    <para><indexterm significance="normal">
+  <primary>overload</primary>
+
+</indexterm>Like other methods, constructors can be overloaded, which means you can provide multiple constructors with different parameters. Java knows which constructor to invoke by matching the arguments you provide with the parameters of the constructor. </para><para><indexterm significance="normal">
+  <primary>value constructor</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>constructor</primary>
+<secondary>value</secondary>
+</indexterm>It is common to provide both a “default constructor” that takes no arguments, like the previous one, and a “value constructor”, like this one: </para><programlisting language="java" format="linespecific">public Time(int hour, int minute, double second) {
+    this.hour = hour;
+    this.minute = minute;
+    this.second = second;
+}</programlisting><para><indexterm significance="normal">
+  <primary>shadow</primary>
+
+</indexterm>All this constructor does is copy values from the parameters to the instance variables. Notice that the parameters shadow (or hide) the instance variables, so the keyword <literal remap="verb" moreinfo="none">this</literal> is necessary to tell them apart. Parameters don’t have to use the same names, but that’s a common style. </para><para>To invoke this second constructor, you have to provide arguments to the <literal remap="verb" moreinfo="none">new</literal> operator. The following example creates a <literal remap="verb" moreinfo="none">Time</literal> object that represents a fraction of a second before noon: </para><programlisting language="java" format="linespecific">Time time = new Time(11, 59, 59.9);</programlisting><para>Here is the complete class definition so far: </para><programlisting language="java" format="linespecific">public class Time {
+    private int hour;
+    private int minute;
+    private double second;
+
+    public Time() {
+        this.hour = 0;
+        this.minute = 0;
+        this.second = 0.0;
+    }
+
+    public Time(int hour, int minute, double second) {
+        this.hour = hour;
+        this.minute = minute;
+        this.second = second;
+    }
+}</programlisting><para>Overloading constructors provides the flexibility to create an object first and then fill in the attributes, or collect all the information before creating the object itself. </para><para>Once you get the hang of it, writing constructors gets boring. You can write them quickly just by looking at the list of instance variables. In fact, some IDEs can generate them for you. </para>
+</sect1><sect1 id="a0000006637" remap="section">
+  <title>Getters and Setters</title>
+    <para>Recall that the instance variables of <literal remap="verb" moreinfo="none">Time</literal> are <literal remap="verb" moreinfo="none">private</literal>. We can access them from within the <literal remap="verb" moreinfo="none">Time</literal> class, but if we try to read or write them from another class, the compiler reports an error. </para><para><indexterm significance="normal">
+  <primary>client</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>private</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>variable</primary>
+<secondary>private</secondary>
+</indexterm>A class that uses objects defined in another class is called a <emphasis role="bold">client</emphasis>. For example, here is a new class called <literal remap="verb" moreinfo="none">TimeClient</literal>. </para><programlisting language="java" format="linespecific">public class TimeClient {
+
+    public static void main(String[] args) {
+        Time time = new Time(11, 59, 59.9);
+        System.out.println(time.hour);      // compiler error
+    }
+}</programlisting><para>If you compile this code, you get an error message like “hour has private access in Time”. There are three ways to solve this problem: </para><itemizedlist>
+  
+    <listitem><para>We could make the instance variables public. </para></listitem>
+  
+    <listitem><para>We could provide methods to access the instance variables. </para></listitem>
+  
+    <listitem><para>We could decide that it’s not a problem, and refuse to let other classes access the instance variables. </para></listitem>
+  
+</itemizedlist><para>The first choice is appealing because it’s simple. But here is the problem: when Class <emphasis role="math">A</emphasis> accesses the instance variables of Class <emphasis role="math">B</emphasis> directly, <emphasis role="math">A</emphasis> becomes dependent on <emphasis role="math">B</emphasis>. If anything in <emphasis role="math">B</emphasis> changes later, it is likely that <emphasis role="math">A</emphasis> will have to change, too. </para><para><indexterm significance="normal">
+  <primary>dependent</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>independent</primary>
+
+</indexterm>But if <emphasis role="math">A</emphasis> only uses methods to interact with <emphasis role="math">B</emphasis>, <emphasis role="math">A</emphasis> and <emphasis role="math">B</emphasis> are less dependent, which means that we can make changes in <emphasis role="math">B</emphasis> without affecting <emphasis role="math">A</emphasis> (as long as we don’t change the method parameters). So we generally avoid making instance variables public. </para><para>The second option is to provide methods that access the instance variables. For example, we might want the instance variables to be “read only”; that is, code in other classes should be able to read them but not write them. We can do that by providing one method for each instance variable: </para><programlisting language="java" format="linespecific">public int getHour() {
+    return this.hour;
+}
+
+public int getMinute() {
+    return this.minute;
+}
+
+public double getSecond() {
+    return this.second;
+}</programlisting><para><indexterm significance="normal">
+  <primary>accessor</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>accessor</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>getter</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>getter</secondary>
+</indexterm>Methods like these are formally called “accessors”, but more commonly referred to as <emphasis role="bold">getters</emphasis>. By convention, the method that gets a variable named <literal remap="verb" moreinfo="none">something</literal> is called <literal remap="verb" moreinfo="none">getSomething</literal>. </para><para>We can fix the compiler error in <literal remap="verb" moreinfo="none">TimeClient</literal> by using the getter: </para><programlisting language="java" format="linespecific">System.out.println(time.getHour());</programlisting><para>If we decide that <literal remap="verb" moreinfo="none">TimeClient</literal> should also be able to modify the instance variables of <literal remap="verb" moreinfo="none">Time</literal>, we can provide methods to do that, too: </para><programlisting language="java" format="linespecific">public void setHour(int hour) {
+    this.hour = hour;
+}
+
+public void setMinute(int minute) {
+    this.minute = minute;
+}
+
+public void setSecond(double second) {
+    this.second = second;
+}</programlisting><para><indexterm significance="normal">
+  <primary>mutator</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>mutator</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>setter</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>setter</secondary>
+</indexterm>These methods are formally called “mutators”, but more commonly known as <emphasis role="bold">setters</emphasis>. The naming convention is similar; the method that sets <literal remap="verb" moreinfo="none">something</literal> is usually called <literal remap="verb" moreinfo="none">setSomething</literal>. </para><para>Writing getters and setters can get boring, but many IDEs can generate them for you based on the instance variables. </para>
+</sect1><sect1 id="a0000006699" remap="section">
+  <title>Displaying Objects</title>
+    <para>To display <literal remap="verb" moreinfo="none">Time</literal> objects we can write a method to display the hour, minute, and second. Using <literal remap="verb" moreinfo="none">printTime</literal> in <xref linkend="multparam"/> as a starting point, we could write: </para><programlisting language="java" format="linespecific">public static void printTime(Time t) {
+    System.out.print(t.hour);
+    System.out.print(":");
+    System.out.print(t.minute);
+    System.out.print(":");
+    System.out.println(t.second);
+}</programlisting><para><indexterm significance="normal">
+  <primary>printf</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>print statement</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>format string</primary>
+
+</indexterm>The output of this method, given the <literal remap="verb" moreinfo="none">time</literal> object from the first example, would be <literal moreinfo="none">11:59:59.9</literal>. We can use <literal remap="verb" moreinfo="none">printf</literal> to make the code more concise: </para><programlisting language="java" format="linespecific">public static void printTime(Time t) {
+    System.out.printf("%02d:%02d:%04.1f\n",
+        t.hour, t.minute, t.second);
+}</programlisting><para>As a reminder, you need to use <literal remap="verb" moreinfo="none">%d</literal> with integers and <literal remap="verb" moreinfo="none">%f</literal> with floating-point numbers. The <literal remap="verb" moreinfo="none">02</literal> option means “total width 2, with leading zeros if necessary”, and the <literal remap="verb" moreinfo="none">04.1</literal> option means “total width 4, one digit after the decimal point, leading zeros if necessary”. The output is the same: <literal moreinfo="none">11:59:59.9</literal>. </para><para>There’s nothing wrong with a method like <literal remap="verb" moreinfo="none">printTime</literal>, but it is not consistent with object-oriented style. A more idiomatic solution is to provide a special method called <literal remap="verb" moreinfo="none">toString</literal>. </para>
+</sect1><sect1 id="a0000006725" remap="section">
+  <title>The toString Method</title>
+    <para>Every object has a method called <literal remap="verb" moreinfo="none">toString</literal> that returns a string representation of the object. When you display an object using <literal remap="verb" moreinfo="none">print</literal> or <literal remap="verb" moreinfo="none">println</literal>, Java invokes the object’s <literal remap="verb" moreinfo="none">toString</literal> method. </para><para><indexterm significance="normal">
+  <primary>override</primary>
+
+</indexterm>By default it simply displays the type of the object and its address in hexadecimal. So, if you create a <literal remap="verb" moreinfo="none">Time</literal> object and display it with <literal remap="verb" moreinfo="none">println</literal>: </para><programlisting language="java" format="linespecific">public static void main(String[] args) {
+    Time time = new Time(11, 59, 59.9);
+    System.out.println(time);
+}</programlisting><para><indexterm significance="normal">
+  <primary>print</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>statement</primary>
+<secondary>print</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>object</primary>
+<secondary>displaying</secondary>
+</indexterm>The output looks something like this: </para><programlisting format="linespecific">Time@80cc7c0</programlisting><para><indexterm significance="normal">
+  <primary>address</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>hexadecimal</primary>
+
+</indexterm>This address can be useful for debugging, if you want to keep track of individual objects. </para><para><indexterm significance="normal">
+  <primary>toString</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>toString</secondary>
+</indexterm>But you can <emphasis role="bold">override</emphasis> this behavior by providing your own <literal remap="verb" moreinfo="none">toString</literal> method. For example, here is a <literal remap="verb" moreinfo="none">toString</literal> method for <literal remap="verb" moreinfo="none">Time</literal>: </para><programlisting language="java" format="linespecific">public String toString() {
+    return String.format("%02d:%02d:%04.1f\n",
+        this.hour, this.minute, this.second);
+}</programlisting><para><indexterm significance="normal">
+  <primary>instance method</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>instance</secondary>
+</indexterm>The definition does not have the keyword <literal remap="verb" moreinfo="none">static</literal>, because it is not a static method. It is an <emphasis role="bold">instance method</emphasis>, so called because when you invoke it, you invoke it on an instance of the class. Instance methods are sometimes called “non-static”; you might see this term in an error message. </para><para>The body of the method is similar to <literal remap="verb" moreinfo="none">printTime</literal> in the previous section, with two changes: </para><itemizedlist>
+  
+    <listitem><para>Inside the method, we use <literal remap="verb" moreinfo="none">this</literal> to refer to the current instance; that is, the object the method is invoked on. </para></listitem>
+  
+    <listitem><para>Instead of <literal remap="verb" moreinfo="none">printf</literal>, it uses <literal remap="verb" moreinfo="none">String.format</literal>, which returns a formatted <literal remap="verb" moreinfo="none">String</literal> rather than displaying it. </para></listitem>
+  
+</itemizedlist><para><indexterm significance="normal">
+  <primary>string</primary>
+<secondary>format</secondary>
+</indexterm>Now you can call <literal remap="verb" moreinfo="none">toString</literal> directly: </para><programlisting language="java" format="linespecific">Time time = new Time(11, 59, 59.9);
+String s = time.toString();</programlisting><para>The value of <literal remap="verb" moreinfo="none">s</literal> is the <literal remap="verb" moreinfo="none">String</literal> <literal remap="verb" moreinfo="none">"11:59:59.9"</literal>. </para><para>You can also invoke <literal remap="verb" moreinfo="none">toString</literal> indirectly by invoking <literal remap="verb" moreinfo="none">print</literal> or <literal remap="verb" moreinfo="none">println</literal>: </para><programlisting language="java" format="linespecific">System.out.println(time);</programlisting><para>This code displays the <literal remap="verb" moreinfo="none">String</literal> <literal remap="verb" moreinfo="none">"11:59:59.9"</literal>. </para><para>Either way, when you use <literal remap="verb" moreinfo="none">this</literal> inside <literal remap="verb" moreinfo="none">toString</literal>, it refers to the same object as <literal remap="verb" moreinfo="none">time</literal>. </para>
+</sect1><sect1 id="equals" remap="section">
+  <title>The equals Method</title><para><indexterm significance="normal">
+  <primary>== equals operator</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>equals</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>equals</secondary>
+</indexterm>We have seen two ways to check whether values are equal: the <literal remap="verb" moreinfo="none">==</literal> operator and the <literal remap="verb" moreinfo="none">equals</literal> method. With objects you can use either one, but they are not the same. </para><itemizedlist>
+  
+    <listitem></listitem>
+  
+    <listitem> </listitem>
+  
+    <listitem><para><indexterm significance="normal">
+  <primary>equivalent</primary>
+
+</indexterm>The <literal remap="verb" moreinfo="none">==</literal> operator checks whether two references are <emphasis role="bold">identical</emphasis>; that is, whether they refer to the same object. </para><para>The <literal remap="verb" moreinfo="none">equals</literal> method checks whether two objects are <emphasis role="bold">equivalent</emphasis>; that is, whether they have the same values. </para></listitem>
+  
+</itemizedlist><para>The definition of identity is always the same, so the <literal remap="verb" moreinfo="none">==</literal> operator always does the same thing. But the definition of equivalence is different for different objects, so objects can define their own <literal remap="verb" moreinfo="none">equals</literal> methods. </para><para>Consider the following variables and the memory diagram in <xref linkend="fig.time2"/>. </para><programlisting language="java" format="linespecific">Time time1 = new Time(9, 30, 0.0);
+Time time2 = time1;
+Time time3 = new Time(9, 30, 0.0);</programlisting><indexterm significance="normal">
+  <primary>memory diagram</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>diagram</primary>
+<secondary>memory</secondary>
+</indexterm>
+  
+  <figure id="fig.time2" float="False">
+    <title>Memory diagram of three <literal remap="verb" moreinfo="none">Time variables.</literal/>
+     <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/time2.pdf"></imagedata>
+  </imageobject>
+</mediaobject></figure>
+<para>The assignment operator copies references, so <literal remap="verb" moreinfo="none">time1</literal> and <literal remap="verb" moreinfo="none">time2</literal> refer to the same object. Because they are identical, <literal remap="verb" moreinfo="none">time1 == time2</literal> is true. But <literal remap="verb" moreinfo="none">time1</literal> and <literal remap="verb" moreinfo="none">time3</literal> refer to two different objects. Because they are not identical, <literal remap="verb" moreinfo="none">time1 == time3</literal> is false. </para><para>By default, the <literal remap="verb" moreinfo="none">equals</literal> method does the same thing as <literal remap="verb" moreinfo="none">==</literal>. For <literal remap="verb" moreinfo="none">Time</literal> objects, that’s probably not what we want. For example, <literal remap="verb" moreinfo="none">time1</literal> and <literal remap="verb" moreinfo="none">time3</literal> represent the same time of day, so we should consider them equivalent. </para><para><indexterm significance="normal">
+  <primary>equals</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>equals</secondary>
+</indexterm>We can provide an <literal remap="verb" moreinfo="none">equals</literal> method that implements this idea: </para><programlisting language="java" format="linespecific">public boolean equals(Time that) {
+    final EPS = 0.001;
+    return this.hour == that.hour
+        &amp;&amp; this.minute == that.minute
+        &amp;&amp; Math.abs(this.second - that.second) &lt; EPS;
+}</programlisting><para><literal remap="verb" moreinfo="none">equals</literal> is an instance method, so it doesn’t have the keyword <literal remap="verb" moreinfo="none">static</literal>. It uses <literal remap="verb" moreinfo="none">this</literal> to refer to current object, and <literal remap="verb" moreinfo="none">that</literal> to refer to the other. <literal remap="verb" moreinfo="none">that</literal> is <emphasis>not</emphasis> a keyword, so we could have given this parameter a different name. But using <literal remap="verb" moreinfo="none">that</literal> makes the code nicely readable. </para><para>We can invoke <literal remap="verb" moreinfo="none">equals</literal> like this: </para><programlisting language="java" format="linespecific">time1.equals(time3);</programlisting><para>Inside the <literal remap="verb" moreinfo="none">equals</literal> method, <literal remap="verb" moreinfo="none">this</literal> refers to the same object as <literal remap="verb" moreinfo="none">time1</literal>, and <literal remap="verb" moreinfo="none">that</literal> refers to the same object as <literal remap="verb" moreinfo="none">time3</literal>. Since their instance variables are “equal”, the result is <literal remap="verb" moreinfo="none">true</literal>. </para><para>Because <literal remap="verb" moreinfo="none">hour</literal> and <literal remap="verb" moreinfo="none">minute</literal> are integers, we compare them with <literal remap="verb" moreinfo="none">==</literal>. But <literal remap="verb" moreinfo="none">second</literal> is a floating-point number. Because of rounding errors, it is not good to compare floating-point numbers with <literal remap="verb" moreinfo="none">==</literal> (see <xref linkend="rounderr"/>). Instead, we check whether the difference is smaller than a threshold, <literal remap="verb" moreinfo="none">EPS</literal>. </para><para>Many objects have a similar notion of equivalence; that is, two objects are considered equal if their instance variables are equal. But other definitions are possible. </para>
+</sect1><sect1 id="a0000006877" remap="section">
+  <title>Adding Times</title>
+    <para>Suppose you are going to a movie that starts at 18:50 (that is, 6:50 PM), and the running time is 2 hours 16 minutes. What time does the movie end? We’ll use <literal remap="verb" moreinfo="none">Time</literal> objects to figure it out. </para><programlisting language="java" format="linespecific">Time startTime = new Time(18, 50, 0.0);
+Time runningTime = new Time(2, 16, 0.0);</programlisting><para><indexterm significance="normal">
+  <primary>Time</primary>
+<secondary>addition</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>addition</primary>
+<secondary>time</secondary>
+</indexterm>Here are two ways we could “add” the <literal remap="verb" moreinfo="none">Time</literal> objects: </para><itemizedlist>
+  
+    <listitem><para>We could write a static method that takes two <literal remap="verb" moreinfo="none">Time</literal> objects as parameters. </para></listitem>
+  
+    <listitem><para>We could write an instance method that gets invoked on one object and takes the other as a parameter. </para></listitem>
+  
+</itemizedlist><para><indexterm significance="normal">
+  <primary>static</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>static</secondary>
+</indexterm>To demonstrate the difference, we’ll do both. Here is the static method: </para><programlisting language="java" format="linespecific">public static Time add(Time t1, Time t2) {
+    Time sum = new Time();
+    sum.hour = t1.hour + t2.hour;
+    sum.minute = t1.minute + t2.minute;
+    sum.second = t1.second + t2.second;
+    return sum;
+}</programlisting><para>And here’s how we would invoke it: </para><programlisting language="java" format="linespecific">Time endTime = Time.add(startTime, runningTime);</programlisting><para><indexterm significance="normal">
+  <primary>instance method</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>instance</secondary>
+</indexterm>Here’s what it looks like as an instance method: </para><programlisting language="java" format="linespecific">public Time add(Time t2) {
+    Time sum = new Time();
+    sum.hour = this.hour + t2.hour;
+    sum.minute = this.minute + t2.minute;
+    sum.second = this.second + t2.second;
+    return sum;
+}</programlisting><para>And here’s how we would invoke it: </para><programlisting language="java" format="linespecific">Time endTime = startTime.add(runningTime);</programlisting><para>Notice the differences: </para><itemizedlist>
+  
+    <listitem><para>The static method has the keyword <literal remap="verb" moreinfo="none">static</literal>; the instance method does not. </para></listitem>
+  
+    <listitem><para>The static method has two parameters, <literal remap="verb" moreinfo="none">t1</literal> and <literal remap="verb" moreinfo="none">t2</literal>. The instance method has one explicit parameter, <literal remap="verb" moreinfo="none">t1</literal>, and the implicit parameter, <literal remap="verb" moreinfo="none">this</literal>. </para></listitem>
+  
+    <listitem><para>We invoked the static method with the <literal remap="verb" moreinfo="none">Time</literal> class; we invoked the instance method with the <literal remap="verb" moreinfo="none">startTime</literal> object. </para></listitem>
+  
+</itemizedlist><para>That’s all there is to it. Static methods and instance methods do the same thing, and you can convert from one to the other with just a few changes. </para><para>However, there’s a problem with both of these methods; they are not correct. The result from either method is <literal moreinfo="none">20:66</literal>, which is not a valid time. </para><para>If <literal remap="verb" moreinfo="none">second</literal> exceeds 59, we have to “carry” into the minutes column, and if <literal remap="verb" moreinfo="none">minute</literal> exceeds 59, we have to carry into <literal remap="verb" moreinfo="none">hour</literal>. </para><para>Here is a better version of the instance method, <literal remap="verb" moreinfo="none">add</literal>: </para><programlisting language="java" format="linespecific">public Time add(Time t2) {
+    Time sum = new Time();
+    sum.hour = this.hour + t2.hour;
+    sum.minute = this.minute + t2.minute;
+    sum.second = this.second + t2.second;
+    
+    if (sum.second &gt;= 60.0) {
+        sum.second -= 60.0;
+        sum.minute += 1;
+    }
+    if (sum.minute &gt;= 60) {
+        sum.minute -= 60;
+        sum.hour += 1;
+    }
+    return sum;
+}</programlisting><para>It’s still possible that <literal remap="verb" moreinfo="none">hour</literal> may exceed 23, but there’s no <literal remap="verb" moreinfo="none">days</literal> attribute to carry into. In that case, <literal remap="verb" moreinfo="none">sum.hour -= 24</literal> would yield the correct result. </para>
+</sect1><sect1 id="a0000006938" remap="section">
+  <title>Modifier Methods</title>
+    <para>In the previous section, the <literal remap="verb" moreinfo="none">add</literal> method did not modify the parameters <literal remap="verb" moreinfo="none">t1</literal> or <literal remap="verb" moreinfo="none">t2</literal>. Instead, it created and returned a new <literal remap="verb" moreinfo="none">Time</literal> object. </para><para>Alternatively, we could have written a method like this: </para><programlisting language="java" format="linespecific">public void increment(double seconds) {
+    this.second += seconds;
+
+    // carry extra seconds
+    this.minute += this.second / 60;
+    this.second = this.second % 60;
+
+    // carry extra minutes
+    this.hour += this.minute / 60;
+    this.minute = this.minute % 60;
+}</programlisting><para>The <literal remap="verb" moreinfo="none">increment</literal> method modifies an existing <literal remap="verb" moreinfo="none">Time</literal> object. It doesn’t create a new one, and it doesn’t return anything. </para><para><indexterm significance="normal">
+  <primary>modifier method</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>modifier</secondary>
+</indexterm>Methods like <literal remap="verb" moreinfo="none">increment</literal> are called <emphasis role="bold">modifier</emphasis> methods. They are usually void, but sometimes they return a reference to the object they modify. </para><para><indexterm significance="normal">
+  <primary>pure method</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>pure</secondary>
+</indexterm>In contrast, methods like <literal remap="verb" moreinfo="none">add</literal> are called <emphasis role="bold">pure</emphasis> methods, because: </para><itemizedlist>
+  
+    <listitem><para>They don’t modify the parameters. </para></listitem>
+  
+    <listitem><para>They don’t have any other “side effects”, like printing. </para></listitem>
+  
+    <listitem><para>The return value only depends on the parameters, not on any other data. </para></listitem>
+  
+</itemizedlist><para>Modifiers can be more efficient because they don’t create new objects. But they can also be error-prone. Especially when objects are aliased, the effects of modifiers can be confusing. </para>
+</sect1><sect1 id="a0000006969" remap="section">
+  <title>Vocabulary</title>
+    <variablelist>
+  <varlistentry>
+    <term>class:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>class</primary>
+
+</indexterm>Previously, we defined a class as a collection of related methods. Now you know that a class is also a template for a new type of object. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>instance:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>instance</primary>
+
+</indexterm>A member of a class. Every object is an instance of some class. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>instantiate:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>instantiate</primary>
+
+</indexterm>Create a new instance of a class in the computer’s memory. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>instance variable:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>instance variable</primary>
+
+</indexterm>An attribute of an object; a non-static variable defined at the class level. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>information hiding:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>information hiding</primary>
+
+</indexterm>The practice of making instance variables <literal remap="verb" moreinfo="none">private</literal> to limit dependencies between classes. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>constructor:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>constructor</primary>
+
+</indexterm>A special method that initializes the instance variables of a newly-constructed object. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>client:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>client</primary>
+
+</indexterm>A class that uses objects defined in another class. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>getter:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>getter</primary>
+
+</indexterm>A method that returns the value of an instance variable. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>setter:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>setter</primary>
+
+</indexterm>A method that assigns a value to an instance variable. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>override:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>override</primary>
+
+</indexterm>Replacing a default implementation of a method, such as <literal remap="verb" moreinfo="none">toString</literal>. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>instance method:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>instance method</primary>
+
+</indexterm>A non-static method that has access to <literal remap="verb" moreinfo="none">this</literal> and the instance variables. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>identical:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>identical</primary>
+
+</indexterm>References to the same object or the same location in memory are identical. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>equivalent:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>equivalent</primary>
+
+</indexterm>Two objects that are “equal” but not necessarily identical, as defined by the <literal remap="verb" moreinfo="none">equals</literal> method. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>modifier method:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>modifier method</primary>
+
+</indexterm>A method that changes the state (instance variables) of an object. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>pure method:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>pure method</primary>
+
+</indexterm>A method that depends only on its parameters (including the implicit parameter <literal remap="verb" moreinfo="none">this</literal>) and no other data. </para></listitem>
+  </varlistentry>
+</variablelist>
+</sect1><sect1 id="a0000007007" remap="section">
+  <title>Exercises</title>
+    <para>The code for this chapter is in the <literal moreinfo="none">ch11</literal> directory of <literal moreinfo="none">ThinkJavaCode2</literal>. See <xref linkend="code"/> for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples. </para><para><example id="a0000007016" role="exercise">
+  <title/>
+  <para>Review the documentation of <literal remap="verb" moreinfo="none">java.awt.Rectangle</literal>. Which methods are pure? Which are modifiers? </para><para>If you review the documentation of <literal remap="verb" moreinfo="none">java.lang.String</literal>, you should see that there are no modifiers, because strings are immutable. </para>
+</example> </para><para><example id="a0000007022" role="exercise">
+  <title/>
+  <para>The implementation of <literal remap="verb" moreinfo="none">increment</literal> in this chapter is not very efficient. Can you rewrite it so it doesn’t use any loops? </para><para><emphasis>Hint:</emphasis> Remember the remainder operator. And yes, it works with floating-point values too. </para>
+</example> </para><para><example id="a0000007029" role="exercise">
+  <title/>
+  <para><indexterm significance="normal">
+  <primary>Scrabble</primary>
+
+</indexterm>In the board game Scrabble, each tile contains a letter, which is used to spell words in rows and columns, and a score, which is used to determine the value of words. </para><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>Write a definition for a class named <literal remap="verb" moreinfo="none">Tile</literal> that represents Scrabble tiles. The instance variables should include a character named <literal remap="verb" moreinfo="none">letter</literal> and an integer named <literal remap="verb" moreinfo="none">value</literal>. </para></listitem>
+  
+  <listitem><para>Write a constructor that takes parameters named <literal remap="verb" moreinfo="none">letter</literal> and <literal remap="verb" moreinfo="none">value</literal> and initializes the instance variables. </para></listitem>
+  
+  <listitem><para>Write a method named <literal remap="verb" moreinfo="none">printTile</literal> that takes a <literal remap="verb" moreinfo="none">Tile</literal> object as a parameter and displays the instance variables in a reader-friendly format. </para></listitem>
+  
+  <listitem><para>Write a <literal remap="verb" moreinfo="none">main</literal> method that creates a <literal remap="verb" moreinfo="none">Tile</literal> object with the letter <literal remap="verb" moreinfo="none">Z</literal> and the value <literal remap="verb" moreinfo="none">10</literal>, and then uses <literal remap="verb" moreinfo="none">printTile</literal> to display the state of the object. </para></listitem>
+  
+  <listitem><para>Implement the <literal remap="verb" moreinfo="none">toString</literal> and <literal remap="verb" moreinfo="none">equals</literal> methods for a <literal remap="verb" moreinfo="none">Tile</literal>. </para></listitem>
+  
+  <listitem><para>Create getters and setters for each of the attributes. </para></listitem>
+  
+</orderedlist><para>The point of this exercise is to practice the mechanical part of creating a new class definition. </para>
+</example> </para><para><example id="a0000007062" role="exercise">
+  <title/>
+  <para>Write a class definition for <literal remap="verb" moreinfo="none">Date</literal>, an object type that contains three integers: <literal remap="verb" moreinfo="none">year</literal>, <literal remap="verb" moreinfo="none">month</literal>, and <literal remap="verb" moreinfo="none">day</literal>. This class should provide two constructors. The first should take no parameters and initialize a default date. The second should take parameters named <literal remap="verb" moreinfo="none">year</literal>, <literal remap="verb" moreinfo="none">month</literal> and <literal remap="verb" moreinfo="none">day</literal>, and use them to initialize the instance variables. </para><para>Write a <literal remap="verb" moreinfo="none">main</literal> method that creates a new <literal remap="verb" moreinfo="none">Date</literal> object named <literal remap="verb" moreinfo="none">birthday</literal>. The new object should contain your birth date. You can use either constructor. </para>
+</example> </para><para><example id="a0000007076" role="exercise">
+  <title/>
+  <para><indexterm significance="normal">
+  <primary>rational number</primary>
+
+</indexterm>A rational number is a number that can be represented as the ratio of two integers. For example, <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mn>2</mml:mn><mml:mo>/</mml:mo><mml:mn>3</mml:mn></mml:mrow></mml:math></inlineequation> is a rational number, and you can think of 7 as a rational number with an implicit 1 in the denominator. </para><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>Define a class called <literal remap="verb" moreinfo="none">Rational</literal>. A <literal remap="verb" moreinfo="none">Rational</literal> object should have two integer instance variables that store the numerator and denominator. </para></listitem>
+  
+  <listitem><para>Write a constructor that takes no arguments and that sets the numerator to 0 and denominator to 1. </para></listitem>
+  
+  <listitem><para>Write an instance method called <literal remap="verb" moreinfo="none">printRational</literal> that displays a <literal remap="verb" moreinfo="none">Rational</literal> in some reasonable format. </para></listitem>
+  
+  <listitem><para>Write a <literal remap="verb" moreinfo="none">main</literal> method that creates a new object with type <literal remap="verb" moreinfo="none">Rational</literal>, sets its instance variables to the values of your choice, and displays the object. </para></listitem>
+  
+  <listitem><para>At this stage, you have a minimal testable program. Test it and, if necessary, debug it. </para></listitem>
+  
+  <listitem><para>Write a <literal remap="verb" moreinfo="none">toString</literal> method for <literal remap="verb" moreinfo="none">Rational</literal> and test it using <literal remap="verb" moreinfo="none">println</literal>. </para></listitem>
+  
+  <listitem><para>Write a second constructor that takes two arguments and uses them to initialize the instance variables. </para></listitem>
+  
+  <listitem><para>Write an instance method called <literal remap="verb" moreinfo="none">negate</literal> that reverses the sign of a rational number. This method should be a modifier, so it should be void. Add lines to <literal remap="verb" moreinfo="none">main</literal> to test the new method. </para></listitem>
+  
+  <listitem><para>Write an instance method called <literal remap="verb" moreinfo="none">invert</literal> that inverts the number by swapping the numerator and denominator. It should be a modifier. Add lines to <literal remap="verb" moreinfo="none">main</literal> to test the new method. </para></listitem>
+  
+  <listitem><para>Write an instance method called <literal remap="verb" moreinfo="none">toDouble</literal> that converts the rational number to a <literal remap="verb" moreinfo="none">double</literal> (floating-point number) and returns the result. This method is a pure method; it does not modify the object. As always, test the new method. </para></listitem>
+  
+  <listitem><para>Write an instance method named <literal remap="verb" moreinfo="none">reduce</literal> that reduces a rational number to its lowest terms by finding the greatest common divisor (GCD) of the numerator and denominator and dividing through. This method should be a pure method; it should not modify the instance variables of the object on which it is invoked. </para><para><emphasis>Hint:</emphasis> Finding the GCD only takes a few lines of code. Search the web for “Euclidean algorithm”. </para></listitem>
+  
+  <listitem><para>Write an instance method called <literal remap="verb" moreinfo="none">add</literal> that takes a <literal remap="verb" moreinfo="none">Rational</literal> number as an argument, adds it to <literal remap="verb" moreinfo="none">this</literal>, and returns a new <literal remap="verb" moreinfo="none">Rational</literal> object. </para><para>There are several ways to add fractions. You can use any one you want, but you should make sure that the result of the operation is reduced so that the numerator and denominator have no common divisor (other than 1). </para></listitem>
+  
+</orderedlist><para>The purpose of this exercise is to write a class definition that includes a variety of methods, including constructors, static methods, instance methods, modifiers, and pure methods. </para>
+</example> </para>
+</sect1>
+</chapter>
