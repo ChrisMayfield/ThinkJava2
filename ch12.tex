@@ -482,7 +482,6 @@ So \java{println} invokes the \java{toString} method in the \java{Card} class.
 
 Then again, we don't have to write our own \java{printDeck} method.
 The \java{Arrays} class provides a \java{toString} method that invokes \java{toString} on the elements of an array and concatenates the results.
-To can invoke it like this:
 
 \begin{code}
 System.out.println(Arrays.toString(cards))
@@ -654,50 +653,6 @@ So we might have to look at 5 or 6 cards, as opposed to all 52 if we did a seque
 More generally, if the array contains $n$ elements, binary search requires $\log_2 n$ comparisons, and sequential search requires $n$.
 For large values of $n$, binary search is substantially faster.
 
-% ABD: Following our discussion, I'm killing the recursive version of binarySearch.
-% So this might be a good place for the scope discussion from
-% Chapter 10.
-
-%\section{Recursive Version}
-%
-%\index{recursion}
-%
-%Another way to implement binary search is with a recursive method.
-%We take \java{low} and \java{high} as parameters, add a base case, and turn steps 3 and 4 into recursive invocations.
-%%They indicate the segment of the array that should be searched (including both \java{low} and \java{high}).
-%%Here's what that code looks like:
-%
-%\begin{code}
-%public static int binarySearch(Card[] cards, Card target,
-%                               int low, int high) {
-%    if (high < low) {
-%        return -1;
-%    }
-%    int mid = (low + high) / 2;                     // step 1
-%    int comp = cards[mid].compareTo(target);
-%
-%    if (comp == 0) {                                // step 2
-%        return mid;
-%    } else if (comp < 0) {                          // step 3
-%        return binarySearch(cards, target, mid + 1, high);
-%    } else {                                        // step 4
-%        return binarySearch(cards, target, low, mid - 1);
-%    }
-%}
-%\end{code}
-%
-%Instead of a \java{while} loop, we have an \java{if} statement to terminate the recursion.
-%%We call this \java{if} statement the base case.
-%If \java{high} is less than \java{low}, there are no cards between them, and we conclude that the card is not in the array.
-%
-%\index{infinite recursion}
-%\index{recursion!infinite}
-%\index{StackOverflowError}
-%\index{exception!StackOverflow}
-%
-%Two common errors in recursive methods are (1) forgetting to include a base case, and (2) writing the recursive call so that the base case is never reached.
-%Either error causes infinite recursion and a \java{StackOverflowError}.
-
 
 \section{Scope Revisited}
 
@@ -732,9 +687,12 @@ This example uses three kinds of variables:
 
 \end{enumerate}
 
-Parameters and local variables are created when a method is invoked, and they disappear when the method returns.  They can be used anywhere inside the method, but not in other methods and not in other classes.
+Parameters and local variables are created when a method is invoked, and they disappear when the method returns.
+They can be used anywhere inside the method, but not in other methods and not in other classes.
 
-Attributes are created when an object is created, and they disappear when the object is destroyed.  They can be used in any 
+Attributes are created when an object is created, and they disappear when the object is destroyed.
+They can be used in any of the object's methods via the keyword \java{this}.
+And they can be used in other classes via references to the object (e.g., \java{box1.x}).
 
 When the Java compiler encounters a variable name, it searches backwards for its declaration.
 The compiler first looks for local variables, then parameters, then attributes.

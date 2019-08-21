@@ -407,3 +407,44 @@ while (x != 0) {
 
 Although \java{break} and \java{continue} statements give you more control of the loop execution, they can make code difficult to understand.
 Use them sparingly.
+
+
+\section{Recursive Search}
+
+\index{recursion}
+
+Another way to implement binary search is with a recursive method.
+We take \java{low} and \java{high} as parameters, add a base case, and turn steps 3 and 4 into recursive invocations.
+%They indicate the segment of the array that should be searched (including both \java{low} and \java{high}).
+%Here's what that code looks like:
+
+\begin{code}
+public static int binarySearch(Card[] cards, Card target,
+                               int low, int high) {
+    if (high < low) {
+        return -1;
+    }
+    int mid = (low + high) / 2;                     // step 1
+    int comp = cards[mid].compareTo(target);
+
+    if (comp == 0) {                                // step 2
+        return mid;
+    } else if (comp < 0) {                          // step 3
+        return binarySearch(cards, target, mid + 1, high);
+    } else {                                        // step 4
+        return binarySearch(cards, target, low, mid - 1);
+    }
+}
+\end{code}
+
+Instead of a \java{while} loop, we have an \java{if} statement to terminate the recursion.
+%We call this \java{if} statement the base case.
+If \java{high} is less than \java{low}, there are no cards between them, and we conclude that the card is not in the array.
+
+\index{infinite recursion}
+\index{recursion!infinite}
+\index{StackOverflowError}
+\index{exception!StackOverflow}
+
+Two common errors in recursive methods are (1) forgetting to include a base case, and (2) writing the recursive call so that the base case is never reached.
+Either error causes infinite recursion and a \java{StackOverflowError}.
