@@ -210,35 +210,6 @@ public static Point findCenter(Rectangle box) {
 The return type of this method is \java{Point}.
 The last line creates a new \java{Point} object and returns a reference to it.
 
-\index{coordinate}
-
-% ABD: I removed the discussion of Cartesian coordinates here because
-% there is nothing about Point and Rectangle objects that is specific
-% to a coordinate system.  That only comes later when we want to
-% plot them.
-
-%You are probably used to Cartesian {\bf coordinates}, where $x$ and $y$ values can be positive or negative.
-%In contrast, Java uses a coordinate system where the origin is in the upper-left corner.
-%That way, $x$ and $y$ are always positive integers.
-%
-%% ABD: I don't think this is correct.  The documentation of Point
-%% doesn't say the values have to be non-negative.
-%
-%Figure~\ref{fig.coord} shows these coordinate systems side-by-side.
-%
-%\begin{figure}[!ht]
-%\begin{center}
-%\includegraphics[width=5in]{figs/coordinates.pdf}
-%\caption{Diagram of the difference between Cartesian coordinates and Java graphical coordinates.}
-%\label{fig.coord}
-%\end{center}
-%\end{figure}
-%
-%\index{pixel}
-%
-%Graphical coordinates are measured in {\bf pixels}; each pixel corresponds to a dot on the screen.
-%You can learn more about Java 2D graphics in Appendix~\ref{graphics}.
-%
 %The \java{Rectangle} we created using the arguments \java{(0, 0, 100, 200)} has its upper-left corner in the origin.
 %The center of this rectangle is \java{(50, 100)}, which is 50 pixels to the right and 100 pixels down from the origin.
 
@@ -303,8 +274,7 @@ This method modifies the \java{box} object it is invoked on.
 
 \index{object-oriented}
 
-This style, using dot notation to invoke a method on an object, rather than passing it as a parameter, is more consistent with the style of 
-object-oriented programming.
+This style, using dot notation to invoke a method on an object, rather than passing it as a parameter, is more consistent with the style of object-oriented programming.
 
 
 \section{Aliasing Revisited}
@@ -360,7 +330,7 @@ And if we print \java{box2}, we should not be surprised to see that it has chang
 java.awt.Rectangle[x=-50,y=-50,width=200,height=300]
 \end{code}
 
-This scenario is called {\bf aliasing} because a single object has multiple names, or ``aliases'', that refer to it.
+This scenario is called ``aliasing'' because a single object has multiple names, or aliases, that refer to it.
 
 As you can tell from this simple example, code that involves aliasing can get confusing fast, and it can be difficult to debug.
 
@@ -380,7 +350,7 @@ The Java library contains thousands of files, many of which are thousands of lin
 That's more than one person could read and understand fully, but don't be intimidated!
 
 Because it's so large, the library source code is stored in a ZIP archive named \java{src.zip}.
-If you have Java installed on your computer, you have this file somewhere.
+If you have Java installed on your computer, you should already have this file somewhere.
 
 \begin{itemize}
 \item On Linux, it's likely under: \verb"/usr/lib/jvm"
@@ -422,13 +392,12 @@ There is more to them than you may have expected.
 %1) Objects encapsulate data and provide methods to access and modify the data directly.
 
 
-
 \section{Class Diagrams}
 \label{UML}
 
 To summarize what we've learned so far, \java{Point} and \java{Rectangle} objects have their own attributes and methods.
 Attributes are an object's {\em data}, and methods are an object's {\em code}.
-An object's {\em class} defines the attributes and methods it has.
+An object's {\em class} defines the attributes and methods that it has.
 
 \index{UML}
 
@@ -452,8 +421,7 @@ a list of the attributes, and a list of methods.
 \index{private}
 \index{variable!private}
 
-To identify the types of attributes and parameters, UML uses language-independent syntax, like {\tt x:~int} rather than Java syntax, like
-\java{int x}.
+To identify the types of attributes and parameters, UML uses a language-independent syntax, like {\tt x:~int} rather than Java syntax, \java{int x}.
 
 The plus sign (\java{+}) identifies \java{public} attributes and methods.
 A minus sign (\java{-}) would identify \java{private} attributes and methods, which we discuss in the next chapter.
@@ -463,9 +431,52 @@ Both \java{Point} and \java{Rectangle} have additional methods; we are only show
 In contrast to memory diagrams, which visualize objects (and variables) at run-time, a class diagram visualizes the source code at compile-time.
 
 
-%\section{Shadowing}
+\section{Scope Revisited}
+
+\index{scope}
+
+In Section~\ref{stack}, we introduced the idea that variables have scope.
+The scope of a variable is the area of a program where a variable can be used.
+
+Consider the first few lines of the \java{Rectangle.translate} method from the Java library source code:
+
+\begin{code}
+public void translate(int dx, int dy) {
+    int oldv = this.x;
+    int newv = oldv + dx;
+    if (dx < 0) {
+    ...
+\end{code}
+
+This example uses three kinds of variables:
+
+\begin{enumerate}
+
+\item Parameters (\java{dx} and \java{dy})
+
+\item Local variables (\java{oldv} and \java{newv})
+
+\index{this}
+
+\item Attributes (\java{this.x})
+
+\end{enumerate}
+
+Parameters and local variables are created when a method is invoked, and they disappear when the method returns.
+They can be used anywhere inside the method, but not in other methods and not in other classes.
+
+When the Java compiler encounters a variable name, it searches backwards for its declaration.
+The compiler first looks for local variables, then parameters, then attributes.
+
+Attributes are created when an object is created, and they disappear when the object is destroyed.
+They can be used in any of the object's methods via the keyword \java{this}.
+And they can be used in other classes via references to the object (e.g., \java{box1.x}).
+
+
+% CSM: We now discuss shadowing in Chapter 11.
+% @Deprecated is a nice idea, but unnecessary.
 %
-%\index{scope}
+%\section{Shadowing}
 %
 %It's possible to declare a local variable (or parameter) with the same name as an attribute.
 %For example, you can declare \java{int x} in a method of the \java{Rectangle} class.
@@ -484,6 +495,8 @@ In contrast to memory diagrams, which visualize objects (and variables) at run-t
 %    this.y = y;
 %}
 %\end{code}
+%
+%\index{scope}
 %
 %The variables \java{x} and \java{y} are parameters of the \java{move} method, and \java{this.x} and \java{this.y} are attributes of the rectangle being moved.
 %These variables have the same name, but they have different scope.
@@ -653,26 +666,14 @@ One of the named data items that make up an object.
 \term{dot notation}
 Use of the dot operator (\java{.}) to access an object's attributes or methods.
 
-\term{coordinate}
-A value that specifies a location in a 2D graphical window.
-
-\term{pixel}
-The unit in which coordinates are measured.
-
-\term{object-oriented}
-A way of organizing code and data into objects, rather than independent methods.
-
 \term{UML}
 Unified Modeling Language, a standard way to draw diagrams for software engineering.
 
 \term{class diagram}
 An illustration of the attributes and methods for a class.
 
-\term{shadowing}
-Occurs when a local variable or parameter has the same name as an attribute.
-
-\term{deprecated}
-A library method that has been replaced by another method, but left in the class for backwards compatibility.
+%\term{deprecated}
+%A library method that has been replaced by another method, but left in the class for backwards compatibility.
 
 \term{garbage collection}
 The process of finding objects that have no references and reclaiming their storage space.

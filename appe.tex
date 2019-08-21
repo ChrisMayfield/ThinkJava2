@@ -407,3 +407,112 @@ while (x != 0) {
 
 Although \java{break} and \java{continue} statements give you more control of the loop execution, they can make code difficult to understand.
 Use them sparingly.
+
+
+%%% V6 Section 11.9
+\section{Modifier Methods}
+
+In the previous section, the \java{add} method did not modify the parameters \java{t1} or \java{t2}.
+Instead, it created and returned a new \java{Time} object.
+
+Alternatively, we could have written a method like this:
+
+\begin{code}
+public void increment(double seconds) {
+    this.second += seconds;
+
+    // carry extra seconds
+    this.minute += this.second / 60;
+    this.second = this.second % 60;
+
+    // carry extra minutes
+    this.hour += this.minute / 60;
+    this.minute = this.minute % 60;
+}
+\end{code}
+
+The \java{increment} method modifies an existing \java{Time} object.
+It doesn't create a new one, and it doesn't return anything.
+
+\index{modifier method}
+\index{method!modifier}
+
+Methods like \java{increment} are called {\bf modifier} methods.
+They are usually void, but sometimes they return a reference to the object they modify.
+
+\index{pure method}
+\index{method!pure}
+
+In contrast, methods like \java{add} are called {\bf pure} methods, because:
+
+\begin{itemize}
+
+\item They don't modify the parameters.
+
+\item They don't have any other ``side effects'', like printing.
+
+\item The return value only depends on the parameters, not on any other data.
+
+\end{itemize}
+
+Modifiers can be more efficient because they don't create new objects.
+But they can also be error-prone.
+Especially when objects are aliased, the effects of modifiers can be confusing.
+
+\index{immutable}
+
+If a class provides only getters and pure methods (no setters or modifiers), then the objects will be immutable.
+Working with immutable objects can be more difficult at first, but they can save you from long hours of debugging.
+
+
+\begin{description}
+
+\term{modifier method}
+A method that changes the state (instance variables) of an object.
+
+\term{pure method}
+A method that depends only on its parameters (including the implicit parameter \java{this}) and no other data.
+
+\end{description}
+
+
+%%% V6 Section 12.10
+\section{Recursive Search}
+
+\index{recursion}
+
+Another way to implement binary search is with a recursive method.
+We take \java{low} and \java{high} as parameters, add a base case, and turn steps 3 and 4 into recursive invocations.
+%They indicate the segment of the array that should be searched (including both \java{low} and \java{high}).
+%Here's what that code looks like:
+
+\begin{code}
+public static int binarySearch(Card[] cards, Card target,
+                               int low, int high) {
+    if (high < low) {
+        return -1;
+    }
+    int mid = (low + high) / 2;                     // step 1
+    int comp = cards[mid].compareTo(target);
+
+    if (comp == 0) {                                // step 2
+        return mid;
+    } else if (comp < 0) {                          // step 3
+        return binarySearch(cards, target, mid + 1, high);
+    } else {                                        // step 4
+        return binarySearch(cards, target, low, mid - 1);
+    }
+}
+\end{code}
+
+Instead of a \java{while} loop, we have an \java{if} statement to terminate the recursion.
+%We call this \java{if} statement the base case.
+If \java{high} is less than \java{low}, there are no cards between them, and we conclude that the card is not in the array.
+
+\index{infinite recursion}
+\index{recursion!infinite}
+\index{StackOverflowError}
+\index{exception!StackOverflow}
+
+Two common errors in recursive methods are (1) forgetting to include a base case, and (2) writing the recursive call so that the base case is never reached.
+Either error causes infinite recursion and a \java{StackOverflowError}.
