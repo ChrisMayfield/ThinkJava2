@@ -17,7 +17,7 @@ In this chapter, you will learn to design classes that represent {\em useful} ob
 
 \index{class!definition}
 
-\item A {\bf class} definition is a template for objects: it specifies what attributes the objects have and what methods can operate on them.
+\item A class definition is a template for objects: it specifies what attributes the objects have and what methods can operate on them.
 
 \index{instance}
 
@@ -37,8 +37,8 @@ Think of a class like a blueprint for a house: you can use the same blueprint to
 
 \section{The Time Class}
 
-\index{data encapsulation}
-\index{encapsulation!data}
+%\index{data encapsulation}
+%\index{encapsulation!data}
 
 A common reason to define a new class is to encapsulate related data in an object that can be treated as a single unit.
 That way, we can use objects as parameters and return values, rather than passing and returning multiple values.
@@ -198,21 +198,18 @@ public Time(int hour, int minute, double second) {
 }
 \end{code}
 
-\index{shadow}
-
-All this constructor does is copy values from the parameters to the instance variables.
-%In this example, the names and types of the parameters are the same as the instance variables.
-Notice that the parameters shadow (or hide) the instance variables, so the keyword \java{this} is necessary to tell them apart.
-Parameters don't have to use the same names, but that's a common style.
-
-%TODO Let's make sure the discussion of shadowing comes before this.
-
-To invoke this second constructor, you have to provide arguments to the \java{new} operator.
+To invoke this constructor, you have to provide arguments to the \java{new} operator.
 The following example creates a \java{Time} object that represents a fraction of a second before noon:
 
 \begin{code}
 Time time = new Time(11, 59, 59.9);
 \end{code}
+
+Overloading constructors provides the flexibility to create an object first and then fill in the attributes, or collect all the information before creating the object itself.
+
+Once you get the hang of it, writing constructors gets boring.
+You can write them quickly just by looking at the list of instance variables.
+In fact, some IDEs can generate them for you.
 
 Here is the complete class definition so far:
 
@@ -238,11 +235,17 @@ public class Time {
 }
 \end{code}
 
-Overloading constructors provides the flexibility to create an object first and then fill in the attributes, or collect all the information before creating the object itself.
+Notice how the second constructor declares the parameters \java{hour}, \java{minute}, and \java{second}.
+Java allows you to declare parameters (and local variables) with the same names as instance variables.
+They don't have to use the same names, but it's common practice.
 
-Once you get the hang of it, writing constructors gets boring.
-You can write them quickly just by looking at the list of instance variables.
-In fact, some IDEs can generate them for you.
+\index{shadowing}
+
+The right side of \java{this.hour = hour;} refers to the parameter \java{hour}, since it was declared most recently.
+This situation is called {\bf shadowing}, because the parameter ``hides'' the instance variable with the same name.
+
+Java provides the keyword \java{this} so you can access instance variables, regardless of shadowing.
+As a result, this constructor copies the values from the parameters to the instance variables.
 
 
 \section{Getters and Setters}
@@ -694,61 +697,6 @@ It's still possible that \java{hour} may exceed 23, but there's no \java{days} a
 In that case, \java{sum.hour -= 24} would yield the correct result.
 
 
-\section{Modifier Methods}
-
-In the previous section, the \java{add} method did not modify the parameters \java{t1} or \java{t2}.
-Instead, it created and returned a new \java{Time} object.
-
-Alternatively, we could have written a method like this:
-
-\begin{code}
-public void increment(double seconds) {
-    this.second += seconds;
-
-    // carry extra seconds
-    this.minute += this.second / 60;
-    this.second = this.second % 60;
-
-    // carry extra minutes
-    this.hour += this.minute / 60;
-    this.minute = this.minute % 60;
-}
-\end{code}
-
-The \java{increment} method modifies an existing \java{Time} object.
-It doesn't create a new one, and it doesn't return anything.
-
-\index{modifier method}
-\index{method!modifier}
-
-Methods like \java{increment} are called {\bf modifier} methods.
-They are usually void, but sometimes they return a reference to the object they modify.
-
-\index{pure method}
-\index{method!pure}
-
-In contrast, methods like \java{add} are called {\bf pure} methods, because:
-
-\begin{itemize}
-
-\item They don't modify the parameters.
-
-\item They don't have any other ``side effects'', like printing.
-
-\item The return value only depends on the parameters, not on any other data.
-
-\end{itemize}
-
-Modifiers can be more efficient because they don't create new objects.
-But they can also be error-prone.
-Especially when objects are aliased, the effects of modifiers can be confusing.
-
-%\index{immutable}
-
-%If a class provides only getters and pure methods (no setters or modifiers), then the objects will be immutable.
-%Working with immutable objects can be more difficult at first, but they can save you from long hours of debugging.
-
-
 \section{Vocabulary}
 
 \begin{description}
@@ -776,8 +724,8 @@ The practice of making instance variables \java{private} to limit dependencies b
 \term{constructor}
 A special method that initializes the instance variables of a newly-constructed object.
 
-%\term{shadow}
-%Defining a local variable or parameter with the same name and type as an instance variable.
+\term{shadowing}
+Occurs when a local variable or parameter has the same name as an attribute.
 
 \term{client}
 A class that uses objects defined in another class.
@@ -799,12 +747,6 @@ References to the same object or the same location in memory are identical.
 
 \term{equivalent}
 Two objects that are ``equal'' but not necessarily identical, as defined by the \java{equals} method.
-
-\term{modifier method}
-A method that changes the state (instance variables) of an object.
-
-\term{pure method}
-A method that depends only on its parameters (including the implicit parameter \java{this}) and no other data.
 
 \end{description}
 

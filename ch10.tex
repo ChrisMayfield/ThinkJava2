@@ -392,13 +392,12 @@ There is more to them than you may have expected.
 %1) Objects encapsulate data and provide methods to access and modify the data directly.
 
 
-
 \section{Class Diagrams}
 \label{UML}
 
 To summarize what we've learned so far, \java{Point} and \java{Rectangle} objects have their own attributes and methods.
 Attributes are an object's {\em data}, and methods are an object's {\em code}.
-An object's {\em class} defines the attributes and methods it has.
+An object's {\em class} defines the attributes and methods that it has.
 
 \index{UML}
 
@@ -422,8 +421,7 @@ a list of the attributes, and a list of methods.
 \index{private}
 \index{variable!private}
 
-To identify the types of attributes and parameters, UML uses language-independent syntax, like {\tt x:~int} rather than Java syntax, like
-\java{int x}.
+To identify the types of attributes and parameters, UML uses a language-independent syntax, like {\tt x:~int} rather than Java syntax, \java{int x}.
 
 The plus sign (\java{+}) identifies \java{public} attributes and methods.
 A minus sign (\java{-}) would identify \java{private} attributes and methods, which we discuss in the next chapter.
@@ -433,6 +431,51 @@ Both \java{Point} and \java{Rectangle} have additional methods; we are only show
 In contrast to memory diagrams, which visualize objects (and variables) at run-time, a class diagram visualizes the source code at compile-time.
 
 
+\section{Scope Revisited}
+
+\index{scope}
+
+In Section~\ref{stack}, we introduced the idea that variables have scope.
+The scope of a variable is the area of a program where a variable can be used.
+
+Consider the first few lines of the \java{Rectangle.translate} method from the Java library source code:
+
+\begin{code}
+public void translate(int dx, int dy) {
+    int oldv = this.x;
+    int newv = oldv + dx;
+    if (dx < 0) {
+    ...
+\end{code}
+
+This example uses three kinds of variables:
+
+\begin{enumerate}
+
+\item Parameters (\java{dx} and \java{dy})
+
+\item Local variables (\java{oldv} and \java{newv})
+
+\index{this}
+
+\item Attributes (\java{this.x})
+
+\end{enumerate}
+
+Parameters and local variables are created when a method is invoked, and they disappear when the method returns.
+They can be used anywhere inside the method, but not in other methods and not in other classes.
+
+When the Java compiler encounters a variable name, it searches backwards for its declaration.
+The compiler first looks for local variables, then parameters, then attributes.
+
+Attributes are created when an object is created, and they disappear when the object is destroyed.
+They can be used in any of the object's methods via the keyword \java{this}.
+And they can be used in other classes via references to the object (e.g., \java{box1.x}).
+
+
+% CSM: We now discuss shadowing in Chapter 11.
+% @Deprecated is a nice idea, but unnecessary.
+%
 %\section{Shadowing}
 %
 %It's possible to declare a local variable (or parameter) with the same name as an attribute.
@@ -628,9 +671,6 @@ Unified Modeling Language, a standard way to draw diagrams for software engineer
 
 \term{class diagram}
 An illustration of the attributes and methods for a class.
-
-%\term{shadowing}
-%Occurs when a local variable or parameter has the same name as an attribute.
 
 %\term{deprecated}
 %A library method that has been replaced by another method, but left in the class for backwards compatibility.

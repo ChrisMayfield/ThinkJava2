@@ -654,50 +654,6 @@ More generally, if the array contains $n$ elements, binary search requires $\log
 For large values of $n$, binary search is substantially faster.
 
 
-\section{Scope Revisited}
-
-% TODO: If we decide to keep this here, it needs some revision for flow.
-
-\index{scope}
-
-In Section~\ref{stack}, we introduced the idea that variables have scope.
-The scope of a variable is the area of a program where a variable can be used.
-
-Consider the first few lines of the \java{Rectangle.translate} method (in the Java library source code):
-
-\begin{code}
-public void translate(int dx, int dy) {
-    int oldv = this.x;
-    int newv = oldv + dx;
-    if (dx < 0) {
-    ...
-\end{code}
-
-This example uses three kinds of variables:
-
-\begin{enumerate}
-
-\item Parameters (\java{dx} and \java{dy}),
-
-\item Local variables (\java{oldv} and \java{newv}), and
-
-\index{this}
-
-\item Attributes (\java{this.x})
-
-\end{enumerate}
-
-Parameters and local variables are created when a method is invoked, and they disappear when the method returns.
-They can be used anywhere inside the method, but not in other methods and not in other classes.
-
-Attributes are created when an object is created, and they disappear when the object is destroyed.
-They can be used in any of the object's methods via the keyword \java{this}.
-And they can be used in other classes via references to the object (e.g., \java{box1.x}).
-
-When the Java compiler encounters a variable name, it searches backwards for its declaration.
-The compiler first looks for local variables, then parameters, then attributes.
-
-
 \section{Vocabulary}
 
 \begin{description}
