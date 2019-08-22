@@ -221,15 +221,12 @@ Given the previous array, the output of \java{printArray} is:
 
 The Java library includes a class, \java{java.util.Arrays}, that provides methods for working with arrays.
 One of them, \java{toString}, returns a string representation of an array.
-We can invoke it like this:
+After importing \java{Arrays}, we can invoke \java{toString} like this:
 
 \begin{code}
-import java.utils.Arrays
-
 System.out.println(Arrays.toString(a));
 \end{code}
 
-We have to \java{Arrays} before we can use it.
 And the output is:
 
 \begin{stdout}
@@ -657,7 +654,7 @@ if \java{letter} is \java{'b'}, the value of \java{index} is \java{1},
 and so on.
 
 Then we use \java{index} to increment the corresponding element of \java{counts}.
-At the end of the loop, \java{count} contains a histogram of the letters in \java{lower}.
+At the end of the loop, \java{counts} contains a histogram of the letters in the string \java{lower}.
 
 \index{toCharArray}
 
@@ -682,7 +679,6 @@ return true;  // is a doubloon
 \end{code}
 
 If we find a count that is neither 0 or 2, we know the word is not a doubloon and we can return immediately.
-
 If we make it all the way through the \java{for} loop, we know that all counts are 0 or 2, which means the word is a doubloon.
 
 Pulling together the code fragments, and adding some comments and test cases, here's the entire program.
@@ -722,6 +718,7 @@ This example uses methods, \java{if} statements, \java{for} loops, arithmetic an
 We hope you'll take a second to appreciate how much you've learned!
 
 %TODO: Switch to em dashes with no spaces.  Sure would be easier if the book were in one file :(
+%CSM: That's what wildcards are for :)
 
 
 \section{Vocabulary}

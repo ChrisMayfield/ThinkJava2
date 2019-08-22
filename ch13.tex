@@ -438,9 +438,10 @@ Deck.print();  // wrong!
 
 You get an compiler error like this:
 
-\begin{code}
-Non-static method print() cannot be referenced from a static context.
-\end{code}
+\begin{stdout}
+Non-static method print() cannot be referenced from a
+static context.
+\end{stdout}
 
 By ``static context'', the compiler means you are trying to invoke a method in a context that requires a static method.
 
@@ -464,9 +465,10 @@ private static Deck merge(Deck d1, Deck d2) {
 
 You get a compiler error like this:
 
-\begin{code}
-Non-static variable this cannot be referenced from a static context.
-\end{code}
+\begin{stdout}
+Non-static variable this cannot be referenced from a
+static context.
+\end{stdout}
 
 The problem is that \java{cards} is an instance variable, so it is ``non-static'', so you can't access it from a static method.
 In general, you can't use \java{this} in a static method, because a static method is not invoked on an object.
@@ -772,7 +774,7 @@ Then use \java{subdeck} to form two small subdecks, and use selection sort to so
 Finally, pass the two halves to \java{merge} and see if it works.
 \index{testing}
 
-\item Fill in \java{almostMergeSort}, which divides the deck in half, uses \java{selectionSort} to sort the two halves, and uses \java{merge} to create a new, sorted deck.
+\item Fill in \java{almostMergeSort}, which divides the deck in half, then uses \java{selectionSort} to sort the two halves, and uses \java{merge} to create a new, sorted deck.
 You should be able to reuse code from the previous step.
 
 \item Implement \java{mergeSort} recursively.
