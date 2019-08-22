@@ -264,6 +264,7 @@ final double CM_PER_INCH = 2.54;
 
 Declaring that a variable is \java{final} means that it cannot be reassigned once it has been initialized.
 If you try, the compiler gives an error.
+
 Variables declared as \java{final} are called {\bf constants}.
 By convention, names for constants are all uppercase, with the underscore character (\java{_}) between words.
 
@@ -359,11 +360,14 @@ Table~\ref{tab:format} lists a few common uses, to give you an idea of how thing
 For more details, refer to the documentation of \java{java.util.Formatter}.
 The easiest way to find documentation for Java classes is to do a web search for ``Java'' and the name of the class.
 
+
+\section{Reading Error Messages}
+
 Notice that the values you pass to \java{printf} are separated by commas.
 If you are used to using the \java{+} operator to concatenate strings, you might write something like this by accident:
 
 \begin{code}
-System.out.printf("inches=%d" + inch);  // error
+System.out.printf("inches = %d" + inch);  // error
 \end{code}
 
 This line of code is legal, so the compiler won't catch the mistake.
@@ -383,24 +387,26 @@ Format specifier '%d'
 \end{stdout}
 \end{small}
 
-As we saw in Section~\ref{exception}, the error message includes the name of the exception, \java{MissingFormatArgumentException}, and an additional message, \verb"Format specifier '%d'".
+As we saw in Section~\ref{exception}, the error message includes the name of the exception, \java{MissingFormatArgumentException}, followed by additional details, \verb"Format specifier '%d'".
 That means it doesn't know what value to substitute for \java{\%d}.
 
-The problem is that concatenation happens first, before \java{printf} is invoked.
-If the value of \java{inch} is \java{100}, the result of concatenation is \verb'"inches=%d100"'.
-So \java{printf} gets a format string as an argument, but it doesn't get any values to format.
+%CSM: we don't introduce the terms "argument" and "invoke" until the next chapter,
+%but I think it's okay here since we're explaining MissingFormatArgumentException
 
-\index{trace}
+The problem is that concatenation happens first, before \java{printf} executes.
+If the value of \java{inch} is \java{100}, the result of concatenation is \verb'"inches = %d100"'.
+So \java{printf} gets the format string, but it doesn't get any values to format.
 
-The error message also includes a {\bf trace} that shows the method that was running when the error was detected, \java{java.util.Formatter.format}, the method that invoked it, \java{java.io.PrintStream.format}, the method that invoked {\em that}, \java{java.io.PrintStream.printf}, and finally the method you actually wrote, \java{Example.main}.
+\index{stack trace}
 
-The last line also names program that was running, \java{Example.java}, and the line it was on, \java{10}.
+The error message also includes a {\bf stack trace} that shows the method that was running when the error was detected, \java{java.util.Formatter.format}, the method that called it, \java{java.io.PrintStream.format}, the method that called {\em that}, \java{java.io.PrintStream.printf}, and finally the method you actually wrote, \java{Example.main}.
 
-That's a lot of information, and it includes method names and files names you have no reason to know, at this point.
+Each line also names the source file of the method and the line it was on (e.g., \java{Example.java:10}).
+That's a lot of information, and it includes method names and files names you have no reason to know at this point.
 But don't be overwhelmed.
 
-When you see an error message like this, read the first line carefully, to see what happened.
-Then read the last line, to see where it happened.
+When you see an error message like this, read the first line carefully to see {\em what} happened.
+Then read the last line to see {\em where} it happened.
 In some IDEs, you can click on the error message and it will take you to the line of code that was running.
 But remember that where the error is discovered is not always where it was caused.
 
@@ -715,6 +721,9 @@ The string in \java{System.out.printf} that specifies the format of the output.
 
 \term{format specifier}
 A special code that begins with a percent sign and specifies the data type and format of the corresponding value.
+
+\term{stack trace}
+An error message that shows the methods that were running when an exception occurs.
 
 \term{type cast}
 An operation that explicitly converts one data type into another.
