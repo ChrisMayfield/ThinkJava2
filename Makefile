@@ -24,8 +24,7 @@ lint:
 	xmllint -noout $(F)/$(F).xml
 
 oreilly:
-	rsync -a $(F)/ch*.xml atlas/
-	rsync -a $(F)/ap*.xml atlas/
+	rsync -a $(F)/*.xml atlas/
 	rsync -a figs/*.pdf atlas/figs/
 	rsync -a figs/*.png atlas/figs/
 	rsync -a figs/*.jpg atlas/figs/
