@@ -394,19 +394,19 @@ public static boolean isCapitalized(String str) {
 The expression \java{str.charAt(0)} makes two assumptions: the string object referenced by \java{str} exists, and it has at least one character.
 What if these assumptions don't hold at run-time?
 
-\begin{itemize}
-
 \index{NullPointerException}
 \index{exception!NullPointer}
 
-\item If \java{str} is \java{null}, invoking \java{charAt} will cause a \java{NullPointerException}, because you can't invoke a method on \java{null}.
+\begin{itemize}
 
-\index{StringIndexOutOfBoundsException}
-\index{exception!StringIndexOutOfBounds}
+\item If \java{str} is \java{null}, invoking \java{charAt} will cause a \java{NullPointerException}, because you can't invoke a method on \java{null}.
 
 \item If \java{str} refers to an empty string, which is a \java{String} object with no characters, \java{charAt} will cause a \java{StringIndexOutOfBoundsException}, because there is no character at index \java{0}.
 
 \end{itemize}
+
+\index{StringIndexOutOfBoundsException}
+\index{exception!StringIndexOutOfBounds}
 
 We can prevent these exceptions by validating \java{str} {\em at the start} of the method.
 If it's invalid, we return before executing the rest of the method.

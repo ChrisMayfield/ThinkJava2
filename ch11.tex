@@ -29,7 +29,7 @@ In this chapter, you will learn to design classes that represent {\em useful} ob
 
 %\item The design of a class (what methods it has) determines whether the objects are mutable or immutable.
 
-\item The methods that operate on an object type are defined in the class for that object.
+% \item The methods that operate on an object type are defined in the class for that object.
 
 \end{itemize}
 
@@ -486,13 +486,12 @@ Either way, when you use \java{this} inside \java{toString}, it refers to the sa
 We have seen two ways to check whether values are equal: the \java{==} operator and the \java{equals} method.
 With objects you can use either one, but they are not the same.
 
+\index{identical}
+\index{equivalent}
+
 \begin{itemize}
 
-\index{identical}
-
 \item The \java{==} operator checks whether two references are {\bf identical}; that is, whether they refer to the same object.
-
-\index{equivalent}
 
 \item The \java{equals} method checks whether two objects are {\bf equivalent}; that is, whether they have the same values.
 
@@ -560,7 +559,7 @@ Since their instance variables are ``equal'', the result is \java{true}.
 Because \java{hour} and \java{minute} are integers, we compare them with \java{==}.  
 But \java{second} is a floating-point number.  
 Because of rounding errors, it is not good to compare floating-point numbers with \java{==} (see Section~\ref{rounderr}).
-Instead, we check whether the difference is smaller than a threshold, \java{EPS}.
+Instead, we check whether the difference is smaller than a threshold, \java{EPS} (which is short for ``epsilon'', the Greek letter used to represent a small number).
 
 Many objects have a similar notion of equivalence; that is, two objects are considered equal if their instance variables are equal.
 But other definitions are possible.
@@ -581,6 +580,7 @@ But other definitions are possible.
 
 
 \section{Adding Times}
+\label{addingtime}
 
 Suppose you are going to a movie that starts at 18:50 (that is, 6:50 PM), and the running time is 2 hours 16 minutes.
 What time does the movie end?
@@ -667,6 +667,8 @@ we invoked the instance method with the \java{startTime} object.
 That's all there is to it.
 Static methods and instance methods do the same thing, and you can convert from one to the other with just a few changes.
 
+%TODO: Say more about why you would choose one over the other?
+
 However, there's a problem with both of these methods; they are not correct.
 The result from either method is {\tt 20:66}, which is not a valid time.
 
@@ -689,12 +691,15 @@ public Time add(Time t2) {
         sum.minute -= 60;
         sum.hour += 1;
     }
+    if (sum.hour >= 24) {
+        sum.hour -= 24
+    }
     return sum;
 }
 \end{code}
 
-It's still possible that \java{hour} may exceed 23, but there's no \java{days} attribute to carry into.
-In that case, \java{sum.hour -= 24} would yield the correct result.
+If \java{hour} exceeds 23, we subtract 24 hours, but there's no
+\java{days} attribute to carry into.
 
 
 \section{Vocabulary}
@@ -760,6 +765,9 @@ Before you start the exercises, we recommend that you compile and run the exampl
 
 \begin{exercise}  %%V6 Ex11.1
 
+  % TODO: Is this the first time we've used ``modifiers''?  If so, we
+  % might have to postpone this exercise.
+  
 Review the documentation of \java{java.awt.Rectangle}.
 Which methods are pure?
 Which are modifiers?

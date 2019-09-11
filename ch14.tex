@@ -37,7 +37,7 @@ To implement {\it Crazy Eights}, we need to represent a deck of cards, a discard
 And we need to be able to deal, draw, and discard cards.
 
 The \java{Deck} and \java{Pile} classes from the previous chapter meet some of these requirements.
-But unless we make some changes, neither of them can be used to represent a hand of cards that well.
+But unless we make some changes, neither of them represents a hand of cards very well.
 
 \index{ArrayList}
 
@@ -105,27 +105,18 @@ Here is an overloaded version of \java{popCard} that removes and returns the las
 
 \begin{code}
 public Card popCard() {
-    int i = size() - 1;     // from the end of the collection
+    int i = cards.size() - 1;     // from the end of the collection
     return popCard(i);
 }
 \end{code}
 
-Notice that \java{popCard} uses \java{CardCollection}'s own \java{size} method, which in turn calls the \java{ArrayList}'s \java{size} method:
+% TODO: Update the code to be consistent with the changes in popCard and isEmpty
+
+\java{CardCollection} also provides \java{isEmpty}, returns \java{true} if there are no cards left:
 
 \begin{code}
-public int size() {
-    return cards.size();
-}
-\end{code}
-
-% TODO: Call this isEmtpy() rather than empty()?
-% TODO: Use ArrayList.isEmpty?
-
-For convenience, \java{CardCollection} also provides an \java{empty} method that returns \java{true} when \java{size} is zero:
-
-\begin{code}
-public boolean empty() {
-    return cards.size() == 0;
+public boolean isEmpty() {
+    return cards.isEmpty()
 }
 \end{code}
 
@@ -139,7 +130,7 @@ public Card getCard(int i) {
 }
 \end{code}
 
-The \java{lastCard} method gets the last card (but doesn't remove it):
+\java{lastCard} gets the last card (but doesn't remove it):
 
 \begin{code}
 public Card lastCard() {
@@ -173,6 +164,10 @@ public void shuffle() {
     }
 }
 \end{code}
+
+Notice that \java{shuffle} calls \java{swapCards} without using \java{this} explicitly.
+
+% TODO: Is this the first example of one instance method calling another with no `this`?
 
 
 \section{Inheritance}
@@ -221,6 +216,8 @@ In Java, classes may only extend one superclass.
 Classes that do not specify a superclass with \java{extends} automatically inherit from \java{java.lang.Object}.
 So in this example, \java{Deck} extends \java{CardCollection}, which in turn extends \java{Object}.
 The \java{Object} class provides the default \java{equals} and \java{toString} methods, among other things.
+
+% TODO: How about a UML diagram here?
 
 Constructors are {\em not} inherited, but all other \java{public} attributes and methods are.
 The only additional method in \java{Deck}, at least for now, is a constructor.
@@ -398,14 +395,15 @@ public Card play(Eights eights, Card prev) {
 }
 \end{code}
 
-The first parameter is a reference to the \java{Eights} object that encapsulates the state of the game.
-We'll need it if we have to draw a new card.
+The first parameter is a reference to the \java{Eights} object that encapsulates the state of the game (coming up in the next section).
 The second parameter, \java{prev}, is the card on top of the discard pile.
+
+The \java{play} method invokes two helper methods, \java{searchForMatch} and \java{drawForMatch}.
+Since we have not written them yet, this is an example of top-down development.
 
 \index{top-down development}
 
-Using top-down development, the \java{play} method invokes two helper methods, \java{searchForMatch} and \java{drawForMatch}.
-The first method looks in the player's hand for a card that matches the previously played card:
+Here's \java{searchForMatch}, which looks in the player's hand for a card that matches the previously played card:
 
 \begin{code}
 public Card searchForMatch(Card prev) {
@@ -421,7 +419,7 @@ public Card searchForMatch(Card prev) {
 
 The strategy is pretty simple: the \java{for} loop searches for the first card that's legal to play and returns it.
 If there are no cards that match, it returns \java{null}.
-And in that case, we have to draw cards until we get a match.
+In that case, we have to draw cards until we get a match, which is what \java{drawForMatch} does:
 
 \begin{code}
 public Card drawForMatch(Eights eights, Card prev) {
@@ -477,7 +475,7 @@ Finally, \java{Player} provides a \java{score} method, which computes penalty po
 
 \index{top-down development}
 
-In Section~\ref{shuffle} we introduced top-down development, which is a way of developing programs by identifying high-level goals, like shuffling a deck, and breaking them into smaller problems, like finding the lowest element in an array or swapping two elements.
+In Section~\ref{shuffle} we introduced top-down development, which is a way of developing programs by identifying high-level goals, like shuffling a deck, and breaking them into smaller problems, like choosing a random element or swapping two elements.
 
 \index{bottom-up design}
 \index{design process}
@@ -551,7 +549,7 @@ If either hand is empty, we're done:
 
 \begin{code}
 public boolean isDone() {
-    return one.getHand().empty() || two.getHand().empty();
+    return one.getHand().isEmpty() || two.getHand().isEmpty();
 }
 \end{code}
 
@@ -574,7 +572,7 @@ We can use \java{reshuffle} as part of the \java{draw} method:
 
 \begin{code}
 public Card drawCard() {
-    if (drawPile.empty()) {
+    if (drawPile.isEmpty()) {
         reshuffle();
     }
     return drawPile.popCard();
@@ -598,16 +596,18 @@ The last method from our bottom-up design is \java{displayState}.
 It displays the hand of each player, the contents of the discard pile, and how many cards are in the draw pile.
 Finally, it waits for the user to press the {\sf Enter} key.
 
-%\begin{code}
-%public void displayState() {
-%    one.display();
-%    two.display();
-%    discardPile.display();
-%    System.out.println("Draw pile:");
-%    System.out.println(drawPile.size() + " cards");
-%    in.nextLine();
-%}
-%\end{code}
+% TODO: Is there a reason this was commented out?
+
+\begin{code}
+public void displayState() {
+    one.display();
+    two.display();
+    discardPile.display();
+    System.out.println("Draw pile:");
+    System.out.println(drawPile.size() + " cards");
+    in.nextLine();
+}
+\end{code}
 
 Using these pieces, we can write \java{takeTurn}, which executes one player's turn.
 It reads the top card off the discard pile and passes it to \java{player.play}, which we saw in the previous section.
@@ -644,8 +644,8 @@ public void playGame() {
 \end{code}
 
 Done!
-Notice the result of bottom-up design is similar to top-down: we have a high-level method that calls helper methods.
-The main difference is the order we used to arrive at this solution.
+The result of bottom-up design is similar to top-down: we have a high-level method that calls helper methods.
+The difference is the development process we used to arrive at this solution.
 
 
 \section{Class Relationships}

@@ -26,6 +26,8 @@ For example, $(0,0)$ indicates the origin, and $(x,y)$ indicates the point $x$ u
 \index{Point}
 \index{class!Point}
 
+% TODO: ML suggest introducing AWT here with a short high-level description
+
 The \java{java.awt} package provides a class named \java{Point} that represents a location in a Cartesian plane.
 In order to use the \java{Point} class, you have to import it:
 
@@ -440,6 +442,8 @@ The scope of a variable is the area of a program where a variable can be used.
 
 Consider the first few lines of the \java{Rectangle.translate} method from the Java library source code:
 
+% TODO: ML suggests adding the header line of the class and the attribute declatrations 
+
 \begin{code}
 public void translate(int dx, int dy) {
     int oldv = this.x;
@@ -529,6 +533,8 @@ blank = null;
 The first line creates a new \java{Point} object and makes \java{blank} refer to it.
 The second line changes \java{blank} so that instead of referring to the object, it refers to nothing.
 As shown in Figure~\ref{fig.reference3}, there is no longer an arrow between them.
+
+% TODO: ML suggests revising this diagram to show before and after
 
 \begin{figure}[!ht]
 \begin{center}
@@ -638,6 +644,8 @@ It's part of the \java{java.lang} package, so you don't need to import it.
 Because \java{StringBuilder} objects are mutable, they can implement concatenation more efficiently.
 
 Here's a version of the program that uses \java{StringBuilder}:
+
+%TODO: ML suggests also showing how to print the results
 
 \begin{code}
 StringBuilder text = new StringBuilder();

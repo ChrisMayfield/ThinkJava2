@@ -141,7 +141,7 @@ public void shuffle() {
 \index{method!helper}
 
 The nice thing about pseudocode is that it often makes clear what other methods you are going to need.
-In this case, we need a method that chooses a random integer between \java{low} and \java{high}, and a method that takes two indexes and swaps the cards at those positions.
+In this case, we need a method that chooses a random integer in a given range and a method that takes two indexes and swaps the cards at those positions.
 
 \begin{code}
 private static int randomInt(int low, int high) {
@@ -167,6 +167,9 @@ The process of writing pseudocode first and then writing helper methods to make 
 It is an alternative to ``incremental development'' and ``encapsulation and generalization'', the other design processes you have seen in this book.
 
 One of the exercises at the end of the chapter asks you to write the helper methods \java{randomInt} and \java{swapCards}, and use them to implement \java{shuffle}.
+
+When you do the exercise, notice that \java{randomInt} is a class method and \java{swapCards} is an instance method.
+Do you understand why?
 
 
 \section{Selection Sort}
@@ -314,7 +317,7 @@ Here's what the algorithm looks like in pseudocode, assuming the subdecks are na
 
 \begin{code}
 private static Deck merge(Deck d1, Deck d2) {
-    // create a new deck big enough for all the cards
+    // create a new deck, d3, big enough for all the cards
 
     // use the index i to keep track of where we are at in
     // the first deck, and the index j for the second deck
@@ -497,7 +500,7 @@ We hope this section helps.
 Now that we have classes that represent cards and decks, let's use them to make a game.
 One of the simplest card games that children play is called ``War'' (see \url{https://en.wikipedia.org/wiki/War_(card_game)}).
 
-In this game, the deck is divided two piles, one for each player.
+Initially, the deck is divided evenly into two piles, one for each player.
 During each round, each player takes the top card from their pile and places it, face up, in the center.
 Whoever has the highest ranking card, ignoring suit, takes the two cards and adds them to the bottom of their pile.
 The game continues until one player has won the entire deck.
@@ -548,6 +551,8 @@ Now let's think about the methods we need to play the game.
 
 At the beginning of each round, each player draws a card from the top of their pile.
 So we define a method to do that:
+
+%TODO: ML suggests renaming this drawCard.  I am inclined to agree.
 
 \begin{code}
 public Card popCard() {
@@ -603,7 +608,7 @@ public void addDeck(Deck deck) {
 
 \java{addDeck} takes a \java{Deck} object, loops through the cards, and adds them to the \java{Pile}.
 Notice that it does not remove the cards from the \java{Deck}, so the \java{Deck} and the \java{Pile} share cards.
-But that won't be a problem.
+But that won't be a problem because cards are immutable.
 
 
 \section{Playing War}
@@ -631,7 +636,7 @@ At each iteration, we draw a card from each pile and compare their ranks.
 
 \begin{code}
 while (!p1.isEmpty() && !p2.isEmpty()) {
-	// pop a card from each pile
+    // pop a card from each pile
     Card c1 = p1.popCard();
     Card c2 = p2.popCard();
 

@@ -37,12 +37,18 @@ But if you want to compile and run Java programs on your own computer, you will 
 The JDK we recommend is Java SE (Standard Edition), which Oracle makes available for free.
 The IDE we recommend is DrJava, which is an open-source development environment written in Java (see Figure~\ref{fig.drjava1}).
 
+
 To install the JDK, search the web for ``download JDK'' which should take you to Oracle's website.
 Scroll down to ``Java Platform, Standard Edition'' and click the download button under JDK.
 Then accept the license agreement and select the installer for your operating system.
 Don't forget to run the installer after you download it!
 
 \index{JAR}
+
+% TODO: ML point out the DrJava does not use the Java 8 SE from Oracle.
+% Do we want to recomment OpenJDK?
+
+% TODO: ML suggest pointing to an installation video (or making one)
 
 To install DrJava, visit \url{http://drjava.org/} and download the {\bf JAR} file.
 We recommend that you save it to your Desktop or another convenient location.
@@ -290,6 +296,8 @@ There is a breakpoint on the first line of \java{main}.}
 \end{center}
 \end{figure}
 
+%TODO: Production issue: the \java inside a caption is a problem for DocBook.
+
 \index{tracing}
 
 To the right are several buttons that allow you to step through the code at your own pace.
@@ -339,8 +347,6 @@ Using a unit test framework addresses these and other issues.
 
 JUnit is a common testing tool for Java programs (see \url{https://junit.org/}).
 To use it, you have to create a test class that contains test methods.
-If the name of your class is \java{Class}, the name of the test class is \java{ClassTest}.
-And if there is a method in \java{Class} named \java{method}, there should be a method in \java{TestClass} named \java{testMethod}.
 
 For example, suppose that the \java{fibonacci} method belongs to a class named \java{Series}.
 Here is the corresponding JUnit test class and test method:
@@ -360,6 +366,9 @@ public class SeriesTest extends TestCase {
 
 This example uses the keyword \java{extends}, which indicates that the new class, \java{SeriesTest} is based on an existing class, \java{TestCase}.
 The \java{TestCase} class is imported from the package \java{junit.framework}.
+
+The names in this example follow convention: if the name of your class is \java{Something}, the name of the test class should be \java{SomethingTest}.
+And if there is a method in \java{Something} named \java{someMethod}, there should be a method in \java{SomethingTest} named \java{testSomeMethod}.
 
 Many development environments can generate test classes and test methods automatically.
 In DrJava, you can select {\sf New JUnit Test Case} from the {\sf File} menu to generate an empty test class.

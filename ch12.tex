@@ -24,6 +24,8 @@ Then we use \java{Card} and \java{Deck} to implement the game {\it Crazy Eights}
 \index{rank}
 \index{suit}
 
+%TODO: Add an image of a deck?
+
 There are 52 cards in a standard deck.
 Each card belongs to one of four suits and one of 13 ranks.
 The suits are Clubs, Diamonds, Hearts, and Spades.
@@ -361,8 +363,8 @@ public class Card {
 }
 \end{code}
 
-You can still assign values to these variables inside a constructor.
-But if someone writes a method that tries to modify these variables, they'll get a compiler error.
+You can initialize these these variables inside a constructor,
+but if someone writes a method that tries to modify them, they'll get a compiler error.
 This kind of safeguard helps prevent future mistakes and hours of debugging.
 
 
@@ -593,7 +595,7 @@ Inside the \java{while} loop, we repeat the four steps of binary search:
 
 If \java{low} exceeds \java{high}, there are no cards in the range, so we terminate the loop and return \java{-1}.
 
-This algorithm only depends on the \java{compareTo} method of the object, so we can use this code with object type that provides \java{compareTo}.
+This algorithm only depends on the \java{compareTo} method of the object, so we can use this code with any object type that provides \java{compareTo}.
 
 
 \section{Tracing the Code}
@@ -777,6 +779,8 @@ For example, the image of the Ace of Hearts is stored in row 1, column 2.
 
 If you compile and run {\tt CardTable.java}, you should see images of a deck of cards laid out on a green table.
 You can use this class as a starting place to implement your own card games.
+
+% TODO: ML suggests including a screen shot
 
 %TODO We should make an actual exercise out of this.
 % Maybe take an array of cards and display them in a row at a given location?

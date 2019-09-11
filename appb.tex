@@ -9,8 +9,10 @@ Java programs have three different types of comments:
 
 \begin{enumerate}
 \item {\bf End-of-line comments} (\java{//}), which generally contain short phrases that explain specific lines of code.
-\item {\bf Multi-line comments} (\java{/*}), which are typically only used for copyright statements at the top of the file.
-\item {\bf Documentation comments} (\java{/**}), which describe in sufficient detail what each class and method does.
+
+\item {\bf Multi-line comments} (with \java{/*} at the beginning and \java{*/} at the end), which are typically only used for copyright statements at the top of the file.
+
+\item {\bf Documentation comments} (with \java{/**} at the beginning and \java{*/} at the end), which describe what each class and method does.
 \end{enumerate}
 
 End-of-line and multi-line comments are written primarily for yourself.
@@ -247,7 +249,7 @@ See page~\pageref{code} for instructions on how to download the repository.
 
 Professional-grade source files often begin with a copyright statement.
 This text spans multiple lines, but it is not part of the documentation.
-So we use a multi-line comment (\java{/*}).
+So we use a multi-line comment (\java{/*}) rather than a documentation comment (\java{/**}).
 Our example source file, {\tt Convert.java}, includes the MIT License (\url{https://opensource.org/licenses/MIT}).
 
 \index{Convert.java}

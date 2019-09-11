@@ -34,9 +34,9 @@ public class Drawing extends Canvas {
 \begin{code}
     public static void main(String[] args) {
         JFrame frame = new JFrame("My Drawing");
-        Canvas canvas = new Drawing();
-        canvas.setSize(400, 400);
-        frame.add(canvas);
+        Drawing drawing = new Drawing();
+        drawing.setSize(400, 400);
+        frame.add(drawing);
         frame.pack();
         frame.setVisible(true);
     }
@@ -124,7 +124,7 @@ The bounding box itself is not drawn (see Figure~\ref{fig.circle}).
 To choose the color of a shape, invoke \java{setColor} on the \java{Graphics} object:
 
 \begin{code}
-g.setColor(Color.red);
+g.setColor(Color.RED);
 \end{code}
 
 The \java{setColor} method determines the color of everything that gets drawn afterward.
@@ -132,8 +132,8 @@ The \java{setColor} method determines the color of everything that gets drawn af
 Other colors include:
 
 \begin{stdout}
-black       blue      cyan     darkGray   gray    green
-lightGray   magenta   orange   pink       white   yellow
+BLACK       BLUE      CYAN     DARKGRAY   GRAY    LIGHTGRAY
+GREEN       MAGENTA   ORANGE   PINK       WHITE   YELLOW
 \end{stdout}
 
 \index{RGB}
