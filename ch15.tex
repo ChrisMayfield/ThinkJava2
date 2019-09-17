@@ -106,7 +106,7 @@ We could just implement \java{getColor} and \java{setColor}.
 But it will be more convenient if we design more specific methods.
 
 For the Game of Life, the cells will either be dead (white) or alive (black).
-To make the code reusable, we will refer to these states as ``off'' and ''on''.
+To make the code reusable, we will refer to these states as ``off'' and ``on''.
 And to improve readability, we will define class constants for these colors.
 %So we will write boolean methods named \java{isOff} and \java{isOn} for getting the color, and void methods named \java{turnOff} and \java{turnOn} for setting the color.
 
@@ -186,3 +186,98 @@ Replace: & \java{array[r * 5 + c] = new Cell(x, y, SIZE);} \\[-1ex]
 
 Notice that we no longer need to calculate \java{array[r * 5 + c]}.
 The expression \java{array[r]} gets the array at index \java{r}, after which \java{[c]} gets the cell at index \java{c}.
+
+
+\section{The GridCanvas Class}
+
+Now that we have a \java{Cell} class and a way of representing a two-dimensional array of cells, we can design a class to represent a grid of cells.
+We will encapsulate the code from the previous section and generalize it to construct a grid of any size:
+
+\begin{code}
+public class GridCanvas extends Canvas {
+    private Cell[][] array;
+
+    public GridCanvas(int rows, int cols, int size) {
+        array = new Cell[rows][cols];
+        for (int r = 0; r < rows; r++) {
+            int y = r * size;
+            for (int c = 0; c < cols; c++) {
+                int x = c * size;
+                array[r][c] = new Cell(x, y, size);
+            }
+        }
+
+        // set the canvas size
+        setSize(cols * size, rows * size);
+    }
+}
+\end{code}
+
+\index{IS-A}
+\index{HAS-A}
+
+Using the terminology from the previous chapter, \java{GridCanvas} ``IS-A'' \java{Canvas} that ``HAS-A'' two-dimensional array of cells.
+By extending the \java{Canvas} class from \java{java.awt}, we inherit methods for drawing cells on the screen.
+
+In fact, that code is surprisingly straightforward.
+To draw the grid, we simply draw each cell.
+We use nested \java{for} loops to traverse the array of arrays:
+
+\begin{code}
+public void draw(Graphics g) {
+    for (Cell[] row : array) {
+        for (Cell cell : row) {
+            cell.draw(g);
+        }
+    }
+}
+\end{code}
+
+It's helpful to read the previous code in English: ``For each \java{row} in the grid \java{array}, and for each \java{cell} in the \java{row}, draw the \java{cell} in the graphics context.''
+Each cell knows how to draw itself, because the coordinates are built-in.
+
+The \java{Canvas} class provides two methods, \java{paint} and \java{update}, that are called to draw its contents.
+These methods are intended to be overridden by the subclass to perform the actual painting and updating.
+We will simply make them call the \java{draw} method, which paints (or updates) the entire Canvas.
+
+%The default behavior of \java{paint} is simply to clear the \java{Canvas}; it's expected that a subclass will override this method.
+%The default behavior of \java{update} is to clear the \java{Canvas} and then call \java{paint}.
+
+\begin{code}
+public void paint(Graphics g) {
+    draw(g);
+}
+public void update(Graphics g) {
+    draw(g);
+}
+\end{code}
+
+In additional to drawing, we will provide methods for working with the grid itself.
+It will be useful to know how many rows and columns the grid has.
+This information is built into the array of arrays:
+
+\begin{code}
+public int numRows() {
+    return array.length;
+}
+public int numCols() {
+    return array[0].length;
+}
+\end{code}
+
+Recall that \java{array} (the variable) is an array of rows.
+So the number of rows is equal to the length of \java{array}.
+Since the grid is rectangular, each row has the same number of columns.
+So the number of columns is the length of \java{array[0]}, or any other index for that matter.
+
+Finally, we will write methods for working with individual cells.
+The first method returns the \java{Cell} at (\java{r}, \java{c}), and the second method turns a \java{Cell} on.
+
+\begin{code}
+public Cell cellAt(int r, int c) {
+    return array[r][c];
+}
+public void init(int r, int c) {
+    array[r][c].turnOn();
+}
+\end{code}
