@@ -2,12 +2,12 @@
 
 The last two chapters of this book will use 2D graphics to illustrate advanced object-oriented concepts.
 If you haven't yet read Appendix~\ref{graphics}, please do so now to become familiar with the \java{Canvas}, \java{Color}, and \java{Graphics} classes from the \java{java.awt} package.
-We will use these classes to make graphical programs.
+We will use these classes to make graphical simulations.
 
 
 \section{Conway's Game of Life}
 
-A mathematician named John Conway invented the ``Game of Life'', which he called a ``zero-player game'' because no players are needed to choose strategies or make decisions.
+A mathematician named John Conway invented the {\it Game of Life}, which he called a ``zero-player game'' because no players are needed to choose strategies or make decisions.
 After you set up the initial conditions, you watch the game play itself.
 That turns out to be more interesting than it sounds; you can read about it at \url{http://en.wikipedia.org/wiki/Conways_Game_of_Life}.
 
@@ -46,12 +46,12 @@ In the following sections, we will implement the Game of Life in Java.
 
 \section{The Cell Class}
 
-Using top-down design (see Section~\ref{shuffle}), it's clear we'll need at least three classes: one for the cells, one for the grid, and one for the game itself.
+Using top-down design (see Section~\ref{shuffle}), it's clear that we'll need at least three classes: one for the cells, one for the grid, and one for the game itself.
 We'll begin by designing the class for cells.
 
 When drawing a cell, we'll need to know its coordinates on the screen.
 We could use a \java{Rectangle} object (see Section~\ref{sec:Rectangle}) to store the cell's coordinates.
-However, given that the cell is square, we can represent its location with three integers: the \java{x} and \java{y} location of the upper-left corner, and the \java{size} of the square (length of each side).
+However, given that each cell is a square, we can represent its location with three integers: the \java{x} and \java{y} coordinates of the upper-left corner, and the \java{size} of the square (length of each side).
 The cell will also need a \java{Color}.
 
 Here is the beginning of the \java{Cell} class:
@@ -66,11 +66,11 @@ public class Cell {
 \end{code}
 
 Notice that \java{x}, \java{y}, and \java{size} are constants.
-Once the cell is created, we don't want to move it accidentally.
+Once the cell is created, we don't want it to move around accidentally.
 Its \java{color}, on the other hand, is not a constant and might change frequently.
 
 The next step is to write a constructor.
-It's good practice to design classes to be reusable; there are other games that might need to make cells.
+It's good practice to design classes to be reusable, and there are other games that might need to make cells.
 We'll make a constructor that takes \java{x}, \java{y}, and \java{size} as parameters.
 
 \begin{code}
@@ -82,15 +82,15 @@ public Cell(int x, int y, int size) {
 }
 \end{code}
 
-The following example uses this constructor to create a \java{Cell}.
+In the following example, we use this constructor to create a \java{Cell}.
 Its upper-left corner is at (0, 0), and the cell is 10x10 pixels wide.
 
 \begin{code}
 Cell cell = new Cell(0, 0, 10);
 \end{code}
 
-To draw a cell, we'll receive the graphics context as a parameter (similar to the \java{paint} method in Appendix~\ref{graphics}).
-We'll use \java{fillRect} to paint the cell itself and \java{drawRect} to paint a light border around it.
+To draw a cell, we will take the graphics context as a parameter (similar to the \java{paint} method in Appendix~\ref{graphics}).
+We then use \java{fillRect} to paint the cell itself and \java{drawRect} to paint a light gray border around it.
 
 \begin{code}
 public void draw(Graphics g) {
@@ -106,8 +106,9 @@ We could just implement \java{getColor} and \java{setColor}.
 But it will be more convenient if we design more specific methods.
 
 For the Game of Life, the cells will either be dead (white) or alive (black).
-To make the code reusable, let's refer to these states as ``off'' and ''on''.
-We will use class constants to define these colors.
+To make the code reusable, we will refer to these states as ``off'' and ''on''.
+And to improve readability, we will define class constants for these colors.
+%So we will write boolean methods named \java{isOff} and \java{isOn} for getting the color, and void methods named \java{turnOff} and \java{turnOn} for setting the color.
 
 \begin{code}
 public static final Color OFF = Color.WHITE;
@@ -116,15 +117,12 @@ public static final Color ON = Color.BLACK;
 public boolean isOff() {
     return color == OFF;
 }
-
 public boolean isOn() {
     return color == ON;
 }
-
 public void turnOff() {
     color = OFF;
 }
-
 public void turnOn() {
     color = ON;
 }
@@ -133,3 +131,58 @@ public void turnOn() {
 
 \section{Two-Dimensional Arrays}
 
+We can use an array to represent a grid of cells.
+For example, we can represent a 5x5 grid with an array of 25 cells.
+The following code is similar to how we created an array of cards in Section~\ref{cardarray}:
+
+\begin{code}
+Cell[] array = new Cell[25];
+for (int r = 0; r < rows; r++) {
+    int y = r * SIZE;
+    for (int c = 0; c < cols; c++) {
+        int x = c * SIZE;
+        array[r * 5 + c] = new Cell(x, y, SIZE);
+    }
+}
+\end{code}
+
+The loop variables \java{r} and \java{c} are the row and column indexes of each cell, and the variables \java{x} and \java{y} are the coordinates of each cell.
+For example, if \java{SIZE} is 10 pixels, then the cell at index (2, 2) would be at coordinates (20, 20).
+
+The expression \java{array[r * 5 + c]} calculates the index of the row and column in the array.
+For example, the array index of the cell at (1, 2) would be 7.
+Figure~\ref{fig:1D-array} illustrates how the rows are arranged.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=366pt]{figs/1D-array.pdf}
+\caption{Storing rows and columns with an array.}
+\label{fig:1D-array}
+\end{center}
+\end{figure}
+
+This way of represdenting two-dimensional data is know as {\bf row-major order}, because the objects are stored row by row.
+A more natural way to represent multidimensional data is to use multidimensional arrays, or arrays of arrays, as shown in Figure~\ref{fig:2D-array}.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=265pt]{figs/2D-array.pdf}
+\caption{Storing rows and columns with an array of arrays.}
+\label{fig:2D-array}
+\end{center}
+\end{figure}
+
+Using arrays of arrays makes it easier to refer to individual cells by row and column indexes.
+We can rewrite the previous code by making two changes:
+
+\begin{center}
+\begin{tabular}{rl}
+Replace: & \java{Cell[] array = new Cell[25];} \\[-1ex]
+   With: & \java{Cell[][] array = new Cell[5][5];} \\[1ex]
+Replace: & \java{array[r * 5 + c] = new Cell(x, y, SIZE);} \\[-1ex]
+   With: & \java{array[r][c] = new Cell(x, y, SIZE);} \\
+\end{tabular}
+\end{center}
+
+Notice that we no longer need to calculate \java{array[r * 5 + c]}.
+The expression \java{array[r]} gets the array at index \java{r}, after which \java{[c]} gets the cell at index \java{c}.
