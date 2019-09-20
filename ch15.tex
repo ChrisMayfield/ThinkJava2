@@ -1,7 +1,7 @@
 \chapter{Arrays of Arrays}
 
 The last two chapters of this book will use 2D graphics to illustrate advanced object-oriented concepts.
-If you haven't yet read Appendix~\ref{graphics}, please do so now to become familiar with the \java{Canvas}, \java{Color}, and \java{Graphics} classes from the \java{java.awt} package.
+If you haven't yet read Appendix~\ref{graphics}, please do so now to become familiar with \java{Canvas}, \java{Color}, and \java{Graphics} from the \java{java.awt} package.
 We will use these classes to make graphical programs.
 
 
@@ -9,7 +9,7 @@ We will use these classes to make graphical programs.
 
 A mathematician named John Conway invented the {\it Game of Life}, which he called a ``zero-player game'' because no players are needed to choose strategies or make decisions.
 After you set up the initial conditions, you watch the game play itself.
-That turns out to be more interesting than it sounds; you can read about it at \url{http://en.wikipedia.org/wiki/Conways_Game_of_Life}.
+That turns out to be more interesting than it sounds; you can read about it at \url{http://en.wikipedia.org/wiki/Conway's_Game_of_Life}.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -20,11 +20,11 @@ That turns out to be more interesting than it sounds; you can read about it at \
 \end{figure}
 
 The game consists of a two-dimensional grid of square cells.
-Each cell is either ``alive'' or ``dead''; the color of the call indicates its status.
+Each cell is either ``alive'' or ``dead''; the color of the cell indicates its status.
 Figure~\ref{fig:glider} shows an example grid configuration.
-The game proceeds in {\bf time steps}, during which every cell interacts with its {\bf neighbors} (adjacent cells).
-At each step in time, the following rules are applied:
+The game proceeds in time steps, during which every cell interacts with its neighbors (adjacent cells).
 
+At each step in time, the following rules are applied:
 \begin{enumerate}
 \item Any live cell with fewer than two live neighbors dies, as if by underpopulation.
 \item Any live cell with more than three live neighbors dies, as if by overpopulation.
@@ -62,12 +62,12 @@ In the following sections, we will implement the Game of Life in Java.
 
 \section{The Cell Class}
 
-Using top-down design (see Section~\ref{shuffle}), it's pretty clear that we'll need at least three classes: one for the cells, one for the grid, and one for the game itself.
+Using top-down design (see Section~\ref{shuffle}), it's pretty clear that we'll need at least three classes: one for cells, one for the grid, and one for the game itself.
 We'll begin by designing the class for cells.
 
 When drawing a cell, we'll need to know its coordinates on the screen.
 We could use a \java{Rectangle} object (see Section~\ref{sec:Rectangle}) to store the cell's coordinates.
-However, given that each cell is a square, we can represent its location with only three integers: the \java{x} and \java{y} coordinates of the upper-left corner, and the \java{size} of the square (length of each side).
+However, given that each cell is a square, we can just represent its location with three integers: the \java{x} and \java{y} coordinates of the upper-left corner, and the \java{size} of the square (length of each side).
 The cell will also need a \java{Color}.
 
 Here is the beginning of the \java{Cell} class:
@@ -86,7 +86,7 @@ Once the cell is created, we don't want it to move accidentally.
 Its \java{color}, on the other hand, is not a constant and might change frequently.
 
 The next step is to write a constructor.
-It's good practice to design classes to be reusable, and there are other games that might need to make cells.
+It's good practice to design classes to be reusable, and there are other games that need to make cells.
 We'll make a constructor that takes \java{x}, \java{y}, and \java{size} as parameters.
 
 \begin{code}
@@ -119,7 +119,7 @@ public void draw(Graphics g) {
 
 Finally, we will need methods for changing the cell's color.
 We could just implement \java{getColor} and \java{setColor}.
-But it will be more convenient if we design more specific methods.
+But it will be more convenient if we design more specific methods, at least for now.
 
 For the Game of Life, the cells will either be dead (white) or alive (black).
 To make the code more general, we will refer to these states as ``off'' and ``on''.
@@ -178,7 +178,7 @@ Figure~\ref{fig:1D-array} illustrates how the rows are arranged.
 \end{figure}
 
 This way of represdenting two-dimensional data is know as {\bf row-major order}, because the elements are stored row by row.
-A more natural way to represent {\bf multidimensional} data is to use multidimensional arrays, or arrays of arrays, as shown in Figure~\ref{fig:2D-array}.
+A more natural way to represent two-dimensional data is to use {\bf multidimensional arrays}, or arrays of arrays, as shown in Figure~\ref{fig:2D-array}.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -545,7 +545,7 @@ It displays surprisingly complex behavior based on two simple rules:
 
 Because the rules are simple, you might expect the ant to do something like make a square or repeat a simple pattern.
 But starting on a grid with all white cells, the ant makes more than 10,000 steps in a seemingly random pattern before it settles into a repeating loop of 104 steps.
-You can read more about it at \url{http://en.wikipedia.org/wiki/Langtons_ant}.
+You can read more about it at \url{http://en.wikipedia.org/wiki/Langton's_ant}.
 
 We begin by defining a \java{Langton} class that ``has~a'' grid and an ant.
 The constructor takes the grid dimensions as parameters, which affect how long the simulation will run until the ant is out of bounds.
@@ -668,19 +668,79 @@ public abstract class Automaton {
 Abstract classes are essentially incomplete (but useful) snippets of code that are intended to be reused in subclasses.
 In the case of \java{Conway} and \java{Langton}, they make the code a lot cleaner.
 
+One of the exercises at the end of the chapter asks you to {\bf refactor} \java{Conway} and \java{Langton} to extend Automaton.
 
-\newpage
-Table~\ref{tab:mainrun} summarizes major differences.
 
-\begin{table}[!ht]
-\begin{center}
-\begin{tabular}{l|l}
-\java{Conway.main}          & \java{Automaton.run} \\
-\hline
-\java{game.update();}       & \java{this.update();} \\
-\java{game.grid.repaint();} & \java{grid.repaint();} \\
-\end{tabular}
-\caption{Comparison of \java{main} and \java{run} methods.}
-\label{tab:mainrun}
-\end{center}
-\end{table}
+\section{Vocabulary}
+
+\begin{description}
+
+\term{row-major order}
+A method for storing two-dimensional data in a one-dimensional array (i.e., row by row).
+
+\term{multidimensional array}
+An array with more than one dimension; also known as an ``array of arrays''.
+
+\term{refactor}
+The process of restructuring or reorganizing existing code without changing its behavior.
+
+\end{description}
+
+
+\section{Exercises}
+
+The code for this chapter is in the {\tt ch15} directory of {\tt ThinkJavaCode2}.
+See page~\pageref{code} for instructions on how to download the repository.
+Before you start the exercises, we recommend that you compile and run the examples.
+
+
+\begin{exercise}
+TODO: 2D arrays -- count the live cells
+\end{exercise}
+
+
+\begin{exercise}
+TODO: GridCanvas -- wrap around indexes
+\end{exercise}
+
+
+\begin{exercise}
+TODO: 2D arrays -- grow/shrink the grid
+\end{exercise}
+
+
+\begin{exercise}
+TODO: Conway File I/O -- cells format
+\end{exercise}
+
+
+\begin{exercise}
+TODO: Conway File I/O -- RLE format
+\end{exercise}
+
+
+\begin{exercise}
+TODO: abstract classes -- finish the code
+\end{exercise}
+
+%Table~\ref{tab:mainrun} summarizes major differences.
+%
+%\begin{table}[!ht]
+%\begin{center}
+%\begin{tabular}{l|l}
+%\java{Conway.main}          & \java{Automaton.run} \\
+%\hline
+%\java{game.update();}       & \java{this.update();} \\
+%\java{game.grid.repaint();} & \java{grid.repaint();} \\
+%\end{tabular}
+%\caption{Comparison of \java{main} and \java{run} methods.}
+%\label{tab:mainrun}
+%\end{center}
+%\end{table}
+
+
+\begin{exercise}
+\url{https://en.wikipedia.org/wiki/Seeds_(cellular_automaton)}
+and/or
+\url{https://en.wikipedia.org/wiki/Brian's_Brain}.
+\end{exercise}
