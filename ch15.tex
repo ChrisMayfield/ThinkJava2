@@ -2,7 +2,7 @@
 
 The last two chapters of this book will use 2D graphics to illustrate advanced object-oriented concepts.
 If you haven't yet read Appendix~\ref{graphics}, please do so now to become familiar with \java{Canvas}, \java{Color}, and \java{Graphics} from the \java{java.awt} package.
-We will use these classes to make graphical programs.
+We will use these classes to make graphical simulations.
 
 
 \section{Conway's Game of Life}
@@ -22,14 +22,19 @@ That turns out to be more interesting than it sounds; you can read about it at \
 The game consists of a two-dimensional grid of square cells.
 Each cell is either ``alive'' or ``dead''; the color of the cell indicates its status.
 Figure~\ref{fig:glider} shows an example grid configuration.
-The game proceeds in time steps, during which every cell interacts with its neighbors (adjacent cells).
 
-At each step in time, the following rules are applied:
+\index{neighbor}
+
+The game proceeds in time steps, during which every cell interacts with its neighbors (adjacent cells).
+At each step, the following rules are applied:
+
 \begin{enumerate}
 \item Any live cell with fewer than two live neighbors dies, as if by underpopulation.
 \item Any live cell with more than three live neighbors dies, as if by overpopulation.
 \item Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
 \end{enumerate}
+
+\index{stable configuration}
 
 Notice some consequences of these rules.
 If you start with a single live cell, it dies.
@@ -67,7 +72,7 @@ We'll begin by designing the class for cells.
 
 When drawing a cell, we'll need to know its coordinates on the screen.
 We could use a \java{Rectangle} object (see Section~\ref{sec:Rectangle}) to store the cell's coordinates.
-However, given that each cell is a square, we can just represent its location with three integers: the \java{x} and \java{y} coordinates of the upper-left corner, and the \java{size} of the square (length of each side).
+However, given that each cell is a square, we can represent its location with three integers: the \java{x} and \java{y} coordinates of the upper-left corner, and the \java{size} of the square (length of each side).
 The cell will also need a \java{Color}.
 
 Here is the beginning of the \java{Cell} class:
@@ -106,7 +111,7 @@ Cell cell = new Cell(0, 0, 10);
 \end{code}
 
 To draw a cell, we will receive the graphics context as a parameter (similar to the \java{paint} method in Appendix~\ref{graphics}).
-We then use \java{fillRect} to paint the cell itself and \java{drawRect} to paint a light gray border around it.
+We can use \java{fillRect} to paint the cell itself and \java{drawRect} to paint a light gray border around it.
 
 \begin{code}
 public void draw(Graphics g) {
@@ -177,6 +182,9 @@ Figure~\ref{fig:1D-array} illustrates how the rows are arranged.
 \end{center}
 \end{figure}
 
+\index{row-major order}
+\index{multidimensional array}
+
 This way of represdenting two-dimensional data is know as {\bf row-major order}, because the elements are stored row by row.
 A more natural way to represent two-dimensional data is to use {\bf multidimensional arrays}, or arrays of arrays, as shown in Figure~\ref{fig:2D-array}.
 
@@ -231,9 +239,10 @@ public class GridCanvas extends Canvas {
 
 \index{IS-A}
 \index{HAS-A}
+\index{Graphics}
 
 Using terminology from the previous chapter, \java{GridCanvas} ``is~a'' \java{Canvas} that ``has~a'' two-dimensional array of cells.
-By extending the \java{Canvas} class from \java{java.awt}, we inherit methods for drawing cells on the screen.
+By extending the \java{Canvas} class from \java{java.awt}, we inherit methods for drawing graphics on the screen.
 
 In fact, that code is surprisingly straightforward.
 To draw the grid, we simply draw each cell.
@@ -249,7 +258,7 @@ public void draw(Graphics g) {
 }
 \end{code}
 
-It's helpful to read the previous code in English: ``For each \java{row} in the grid \java{array}, and for each \java{cell} in the \java{row}, draw the \java{cell} in the graphics context.''
+It's helpful to read the previous code in English: ``For each \java{row} in the \java{array}, and for each \java{cell} in the \java{row}, draw the \java{cell} in the graphics context.''
 Each cell knows how to draw itself, because the coordinates are built-in.
 
 The \java{Canvas} class provides two methods, \java{paint} and \java{update}, which are called to draw its contents.
@@ -321,9 +330,11 @@ public class Conway {
 }
 \end{code}
 
+\index{JFrame}
+
 This class will be the starting point of our application.
 We will implement a \java{main} method to create a new window (\java{JFrame}), initialize the \java{grid}, and display it on the screen.
-Doing so now will allow us to test \java{Cell} and \java{GridCanvas} before we implement the rest of the game.
+Doing so will allow us to test \java{Cell} and \java{GridCanvas} now before we implement the rest of the game.
 
 \begin{code}
 public static void main(String[] args) {
@@ -352,19 +363,27 @@ Resizing the window is disabled, and its only component is the game's \java{grid
 
 At the end of \java{main}, we will add a \java{while} loop to simulate the time steps of the Game of Life.
 During each time step, we will update the state of the \java{game} and repaint the \java{grid}.
-This code is likely to execute very quickly, so we will use \java{Thread.sleep} to add a half-second delay (500 ms).
+(The \java{update} method will be discussed in Section~\ref{sec:update}.)
+
+This code is likely to execute very quickly, so we will use \java{Thread.sleep} to add a half-second delay (500 ms) after each step.
+
+\index{Thread.sleep}
+\index{sleep}
 
 \begin{code}
 while (true) {
     game.update();
     game.grid.repaint();
     
-    Thread.sleep(500);  // compiler error
+    Thread.sleep(500);    // compiler error
 }
 \end{code}
 
+\index{InterruptedException}
+\index{Exception!Interrupted}
+
 There's just one problem: compiling this code results in the error ``unreported exception InterruptedException''.
-According to the documentation, \java{InterruptedException}
+In other words, an \java{InterruptedException} may occur while sleeping.
 
 
 \section{Exception Handling}
@@ -376,8 +395,13 @@ It's possible to ``catch'' these exceptions when they are ``thrown''.
 In fact, some methods in the Java Library require you do handle exceptions that are likely to occur.
 Such is the case with \java{Thread.sleep}; you may need to deal with sleep being interrupted.
 
-To handle exceptions, you need to use \java{try} and \java{catch} blocks.
-For example, we can try to sleep and do nothing if an \java{InterruptedException} occurs.
+\index{try}
+\index{catch}
+\index{Statement!try}
+\index{Statement!catch}
+
+To handle exceptions, you can use \java{try} and \java{catch} blocks.
+For example, we can \java{try} to sleep and do nothing if an \java{InterruptedException} occurs.
 
 \begin{code}
 try {
@@ -387,12 +411,15 @@ try {
 }
 \end{code}
 
-Of course you can do something else when an exception is caught.
-Or you can prompt the user to try again later.
-In the case of our Game of Life program, it's not a big deal if the delay is slightly off.
+We can ignore these exceptions, because it's not a big deal if the delay is slightly off.
+In other programs, you might do something else when an exception is caught.
+For example, you can prompt the user to try again later.
+
 
 There's a lot more to learn about exception handling that is beyond the scope of this book.
-But you can read more about exceptions in the Java tutorials at \url{https://thinkjava.org/exceptions}.
+You can read more about exceptions in the Java tutorials at \url{https://thinkjava.org/exceptions}.
+
+\index{neighbor}
 
 Now that you know about \java{try} and \java{catch}, we can use them to implement a useful method in \java{GridCanvas}.
 Part of the game's logic is to count the number of live neighbors.
@@ -426,7 +453,7 @@ But we thought that version might be a bit much for this chapter!)
 We will write a helper method that tests whether a cell is alive.
 If the \java{Cell} at (\java{r}, \java{c}) exists and is on, this method returns \java{1}.
 Otherwise, it returns \java{0}.
-The method can be used to count neighbors, regardless whether they exist.
+%This method can be used to count neighbors, regardless whether they exist.
 
 \begin{code}
 public int test(int r, int c) {
@@ -446,6 +473,7 @@ But doing so simplifies the code in the next section quite a bit.
 
 
 \section{Finishing the Game}
+\label{sec:update}
 
 The only remaining part to implement is the \java{update} method called by \java{main} in the \java{while} loop.
 Each time step of the simulation consists of the following two actions (after getting the number of rows and columns):
@@ -461,7 +489,7 @@ public void update() {
 \end{code}
 
 It's important to count {\em all} the neighbors first, before updating any cells, in order for the simulation to be correct.
-We can define an array of arrays to store the neighbor counts:
+We will define an array of arrays to store the neighbor counts:
 
 \begin{code}
 // count neighbors before changing anything
@@ -491,7 +519,7 @@ private int countAlive(int r, int c) {
 \end{code}
 
 If the \java{test} method didn't catch ``out of bounds'' exceptions, the \java{countAlive} method would have to ensure that \java{r} and \java{c} were in bounds.
-Doing so would add many \java{if} statements to the code, making it more difficult to understand.
+Doing so would add many \java{if} statements to the code, making it more difficult to read.
 
 The second step of \java{update} is to change the state of each cell, based on its neighbor counts.
 We simply traverse the rows and columns a second time:
@@ -529,7 +557,7 @@ Notice that this method is \java{static}, because it does not depend on the \jav
 It is also \java{private}, because it is a helper method not intended to be invoked from outside the class.
 
 If you put together and run the code from this chapter so far, you should see a simulation of two Blinkers.
-More importantly, you will see a fairly complex example of object-oriented code that uses multidimensional arrays.
+More importantly, you will see a fairly complex example of object-oriented programming that uses multidimensional arrays.
 
 
 \section{Langton's Ant}
@@ -539,15 +567,15 @@ One such game is {\it Langton's Ant}, which models an ``ant'' that walks around 
 It displays surprisingly complex behavior based on two simple rules:
 
 \begin{enumerate}
-\item If the Ant is on a white cell, it turns to the right, makes the cell black, and moves forward.
-\item If the Ant is on a black cell, it turns to the left, makes the cell white, and moves forward.
+\item If the ant is on a white cell, it turns to the right, makes the cell black, and moves forward.
+\item If the ant is on a black cell, it turns to the left, makes the cell white, and moves forward.
 \end{enumerate}
 
 Because the rules are simple, you might expect the ant to do something like make a square or repeat a simple pattern.
 But starting on a grid with all white cells, the ant makes more than 10,000 steps in a seemingly random pattern before it settles into a repeating loop of 104 steps.
 You can read more about it at \url{http://en.wikipedia.org/wiki/Langton's_ant}.
 
-We begin by defining a \java{Langton} class that ``has~a'' grid and an ant.
+We begin by defining a \java{Langton} class that ``has~a'' grid and information about the ant.
 The constructor takes the grid dimensions as parameters, which affect how long the simulation will run until the ant is out of bounds.
 
 \begin{code}
@@ -570,7 +598,7 @@ This class has essentially the same \java{main} method as \java{Conway}.
 It sets up a \java{JFrame} and runs a simulation loop that calls \java{update}, \java{repaint}, and \java{sleep}.
 However, we will only sleep for about 1~ms so that it runs a lot faster.
 
-The \java{update} method is a lot simpler than before.
+The \java{update} method is simpler than before.
 We first get the \java{Cell} at the ant's location, figure out which way to turn, and flip the cell's color.
 
 \begin{code}
@@ -606,17 +634,13 @@ If you run this code with a grid size of 61x61 or larger, you will see the ant e
 
 \section{Abstract Classes}
 
-Looking back, the code for \java{Conway} and \java{Langton} are quite similar.
+Looking back, the code for \java{Conway} and \java{Langton} are rather similar.
 They each have a \java{GridCanvas}, an \java{update} method, and a \java{main} method.
 Furthermore, the code for \java{main} is almost identical.
 
 In the previous chapter, we learned how to eliminate two versions of the same code using inheritance.
 We can apply a similar technique to \java{Conway} and \java{Langton}.
 Doing so will make it easier to implement other zero-player games.
-
-%Mathematically speaking, Conway's Game of Life and Langton's Ant are each a ``cellular automaton''.
-%The word ``cellular'' means it has cells, and the word ``automaton'' means it runs itself.
-%See \url{https://en.wikipedia.org/wiki/Cellular_automaton} for more discussion.
 
 We will define a base class named \java{Automaton} to provide the code that \java{Conway} and \java{Langton} have in common.
 Instead of \java{main}, it will have a \java{run} method that takes the window title and sleep delay as parameters.
@@ -643,6 +667,9 @@ We could add a \java{getGrid} method, but then other (unrelated) classes would h
 \item The \java{update} method does nothing, and in fact, it must be overridden for the \java{run} method to work correctly.
 \end{enumerate}
 
+\index{protected}
+\index{abstract}
+
 Java provides language features to solve these problems:
 \begin{enumerate}
 \item We can make the \java{grid} attribute \java{protected}, which means it's accessible to subclasses but not other classes.
@@ -658,7 +685,7 @@ public abstract class Automaton {
 
     public abstract void update();
 
-    public void run(String title, int rate) {
+    public void run(String title, int delay) {
         // set up the window frame
         // main simulation loop
     }
@@ -668,7 +695,8 @@ public abstract class Automaton {
 Abstract classes are essentially incomplete (but useful) snippets of code that are intended to be reused in subclasses.
 In the case of \java{Conway} and \java{Langton}, they make the code a lot cleaner.
 
-One of the exercises at the end of the chapter asks you to {\bf refactor} \java{Conway} and \java{Langton} to extend Automaton.
+One of the exercises at the end of the chapter asks you to rewrite \java{Conway} and \java{Langton} to extend \java{Automaton}.
+%This process is known as {\bf refactoring}.
 
 
 \section{Vocabulary}
@@ -681,8 +709,8 @@ A method for storing two-dimensional data in a one-dimensional array (i.e., row 
 \term{multidimensional array}
 An array with more than one dimension; also known as an ``array of arrays''.
 
-\term{refactor}
-The process of restructuring or reorganizing existing code without changing its behavior.
+%\term{refactor}
+%The process of restructuring or reorganizing existing code without changing its behavior.
 
 \end{description}
 
@@ -695,52 +723,150 @@ Before you start the exercises, we recommend that you compile and run the exampl
 
 
 \begin{exercise}
-TODO: 2D arrays -- count the live cells
+In \java{GridCanvas}, write a method named \java{countOn} that returns the number of cells that are ``on''.
+This method can be used, for example, to track the population in Game of Life over time.
 \end{exercise}
 
 
 \begin{exercise}
-TODO: GridCanvas -- wrap around indexes
+In our version of the Game of Life, the grid had a finite size.
+As a result of this design, moving objects such as gliders either crash into the wall or go out of bounds.
+
+An interesting variation of the Game of Life is a ``periodic'' grid, meaning that the cells ``wrap around'' on the edges.
+Modify the \java{test} method of \java{GridCanvas} so that the coordinates \java{r} and \java{c} translate to the ``other side'' of the grid if they are too low or two high.
+
+Run your code with a Glider (see Figure~\ref{fig:glider}) to see if it works.
+You will need to modify the constructor of \java{Conway} accordingly.
+\end{exercise}
+
+
+%CSM idea for another exercise: 2D arrays -- grow/shrink the grid
+%\begin{exercise}
+%Another way to handle edge collisions is to expand the grid as needed.
+%\end{exercise}
+
+
+\begin{exercise}
+The ``LifeWiki'' \url{http://conwaylife.com/wiki/} has a fascinating collection of patterns for the Game of Life.
+These patterns are stored in a ``.cells'' file format that is easy to read.
+
+For example, here is a 8x10 grid with a glider near the upper-left corner:
+\begin{stdout}
+!Name: Glider
+..........
+..O.......
+...O......
+.OOO......
+..........
+..........
+..........
+..........
+\end{stdout}
+
+Lines that begin with \java{!} are comments and should be ignored.
+The rest of the file describes the grid, row by row.
+A period represents a dead cell, and an uppercase O represents a live cell.
+See \url{http://conwaylife.com/wiki/Plaintext} for more examples.
+
+\begin{enumerate}
+
+\item Create a plain text file with the contents shown above, and save the file as \verb|glider.cells| in the same directory as your code.
+
+\item Define a constructor for the \java{Conway} class that takes a string representing the name (or path) of a ``.cells'' file.
+Here is a starting point:
+
+\begin{code}
+public Conway(String path) {
+    File file = new File(path);
+    Scanner scan = new Scanner(file);
+}
+\end{code}
+
+\item Modify the main method to invoke the constructor as follows:
+
+\begin{code}
+Conway game = new Conway("glider.cells");
+\end{code}
+
+\item Handle the \java{FileNotFoundException} that may be thrown when creating a \java{Scanner} for a \java{File} by invoking \java{printStackTrace} on the exception object and calling \java{System.exit()} with a status of 1 (meaning error).
+
+\item Continue implementing the constructor by reading all non-comment lines into an \java{ArrayList} using \java{hasNextLine} and \java{nextLine} of the \java{Scanner}.
+
+\item Determine the number of rows and columns of the grid by examining the \java{ArrayList} contents.
+
+\item Create and initialize a \java{GridCanvas} based on the \java{ArrayList}.
+
+\end{enumerate}
+
+Once your constructor is working, you will be able to run many of the patters on the LifeWiki.
+You may have to modify them to have additional extra cells, if the simulation grows outside the initial bounds of the grid.
+
 \end{exercise}
 
 
 \begin{exercise}
-TODO: 2D arrays -- grow/shrink the grid
+Some files on the LifeWiki use ``Run Length Encoding'' (RLE) instead of plain text.
+The basic idea of RLE is to describe the number of dead and alive cells, rather than type out each individual cell.
+
+For example, \verb|glider.cells| from the previous exercise could be represented this way with RLE:
+
+\begin{stdout}
+#C Name: Glider
+x = 10, y = 8
+$2bo$3bo$b3o!
+\end{stdout}%$
+
+The first line specifies \verb|x| (the number of columns) and \verb|y| (the number of rows).
+Subsequent lines consist of the letters \verb|b| (dead), \verb|o| (alive), and \verb|$| (end of line), optionally preceded by a count.
+The pattern ends with \verb|!|, after which any remaining file contents are ignored.
+
+Lines beginning with \java{#} have special meaning and are not part of the pattern.
+For example, \java{#C} is a comment line.
+You can read more about RLE format on \url{http://conwaylife.com/wiki/RLE}.
+
+\begin{enumerate}
+
+\item Create a plain text file with the contents shown above, and save the file as \verb|glider.rle| in the same directory as your code.
+
+\item Modify your constructor from the previous exercise to check the last three characters of the \java{path}.
+If they are \java{"rle"}, then you will need to process the file as RLE.
+Otherwise, assume the file is in ``.cells'' format.
+
+\item In the end, your constructor should be able to read and initialize grids in both formats.
+Test your constructor by modifying the \java{main} method to read different files.
+
+\end{enumerate}
+
 \end{exercise}
 
 
 \begin{exercise}
-TODO: Conway File I/O -- cells format
+The last section of this chapter introduced \java{Automaton} as an \java{abstract} class.
+In this exercise, you will reorganize the other classes to eliminate duplicate code.
+
+\begin{enumerate}
+
+\item Modify \java{Conway} and \java{Langton} to extend \java{Automaton} class.
+Remove the \java{private GridCanvas grid} from each class, since they now inherit the \java{protected} attribute from \java{Automaton}.
+
+\item Move the code from \java{main}, starting at the \java{JFrame} line, into the \java{run} method of \java{Automaton}.
+Replace \java{game.grid} with \java{this.grid}, and replace \java{game.update()} with \java{this.update()}.
+Modify \java{Thread.sleep()} to use the \java{delay} parameter.
+
+\item At the end of the \java{main} method in \java{Conway} and \java{Langton}, add a call to \java{game.run(title, delay)}.
+The \java{title} and \java{delay} should be specific to each game.
+
+\end{enumerate}
+
 \end{exercise}
 
 
 \begin{exercise}
-TODO: Conway File I/O -- RLE format
-\end{exercise}
+Mathematically speaking, Game of Life and Langton's Ant are examples of a ``cellular automaton''.
+The word ``cellular'' means it has cells, and the word ``automaton'' means it runs itself.
+See \url{https://en.wikipedia.org/wiki/Cellular_automaton} for more discussion.
 
-
-\begin{exercise}
-TODO: abstract classes -- finish the code
-\end{exercise}
-
-%Table~\ref{tab:mainrun} summarizes major differences.
-%
-%\begin{table}[!ht]
-%\begin{center}
-%\begin{tabular}{l|l}
-%\java{Conway.main}          & \java{Automaton.run} \\
-%\hline
-%\java{game.update();}       & \java{this.update();} \\
-%\java{game.grid.repaint();} & \java{grid.repaint();} \\
-%\end{tabular}
-%\caption{Comparison of \java{main} and \java{run} methods.}
-%\label{tab:mainrun}
-%\end{center}
-%\end{table}
-
-
-\begin{exercise}
-\url{https://en.wikipedia.org/wiki/Seeds_(cellular_automaton)}
-and/or
-\url{https://en.wikipedia.org/wiki/Brian's_Brain}.
+Implement another cellular automaton of your choice.
+You may have to modify \java{Cell} and/or \java{GridCanvas}, in addition to extending \java{Automaton}.
+For example, Brian's Brain (\url{https://en.wikipedia.org/wiki/Brian's_Brain}) requires three states: ``on'', ``dying'', and ``off''.
 \end{exercise}
