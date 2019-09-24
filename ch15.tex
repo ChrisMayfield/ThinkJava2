@@ -1,13 +1,15 @@
 \chapter{Arrays of Arrays}
 
-The last two chapters of this book will use 2D graphics to illustrate advanced object-oriented concepts.
-If you haven't yet read Appendix~\ref{graphics}, please do so now to become familiar with \java{Canvas}, \java{Color}, and \java{Graphics} from the \java{java.awt} package.
-We will use these classes to make graphical simulations.
+The last two chapters of this book use 2D graphics to illustrate advanced object-oriented concepts.
+If you haven't yet read Appendix~\ref{graphics}, you might want to read it now and get familiar with the \java{Canvas}, \java{Color}, and \java{Graphics} classes from the \java{java.awt} package.
+
+In this chapter we use these classes to draw images and animations, and to run graphical simulations.
 
 
 \section{Conway's Game of Life}
 
-A mathematician named John Conway invented the {\it Game of Life}, which he called a ``zero-player game'' because no players are needed to choose strategies or make decisions.
+``The Game of Life'', or GoL for short, was developed John H. Conway and popularized in 1970 in Martin Gardner’s column in Scientific American.
+Conway calls it a ``zero-player game'' because no players are needed to choose strategies or make decisions.
 After you set up the initial conditions, you watch the game play itself.
 That turns out to be more interesting than it sounds; you can read about it at \url{http://en.wikipedia.org/wiki/Conway's_Game_of_Life}.
 
@@ -19,19 +21,19 @@ That turns out to be more interesting than it sounds; you can read about it at \
 \end{center}
 \end{figure}
 
-The game consists of a two-dimensional grid of square cells.
+The game board is a two-dimensional grid of square cells.
 Each cell is either ``alive'' or ``dead''; the color of the cell indicates its status.
 Figure~\ref{fig:glider} shows an example grid configuration.
 
 \index{neighbor}
 
-The game proceeds in time steps, during which every cell interacts with its neighbors (adjacent cells).
+The game proceeds in time steps, during which every cell interacts with the neighbors in the eight adjacent cells.
 At each step, the following rules are applied:
 
 \begin{enumerate}
-\item Any live cell with fewer than two live neighbors dies, as if by underpopulation.
-\item Any live cell with more than three live neighbors dies, as if by overpopulation.
-\item Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+\item A live cell with fewer than two live neighbors dies, as if by underpopulation.
+\item A live cell with more than three live neighbors dies, as if by overpopulation.
+\item A dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
 \end{enumerate}
 
 \index{stable configuration}
@@ -39,10 +41,14 @@ At each step, the following rules are applied:
 Notice some consequences of these rules.
 If you start with a single live cell, it dies.
 If all cells are dead, no cells come to life.
-But if you have four cells in a square, they keep each other alive; that's a stable configuration.
+But if you have four cells in a square, they keep each other alive, so that's a stable configuration.
 
-Another stable configuration is shown in Figure~\ref{fig:blinker}.
-Three horizontal cells become three vertical cells, which in the next time step become three horizontal cells, and the pattern continues forever.
+Another initial configuration is shown in Figure~\ref{fig:blinker}.
+If you start with three horizontal cells, the center cell lives, the left and right cells die, and the top and bottom cells come to life.
+The result is three vertical cells.
+
+During the next time step, the center cell lives, the top and bottom cells die, and the left and right cells come to life.
+The result is three horizontal cells, so we're back where we started, and the pattern repeats forever.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -57,23 +63,27 @@ Three horizontal cells become three vertical cells, which in the next time step 
 \end{center}
 \end{figure}
 
+Patterns like this are called ``periodic'', because they repeat after a period of 2 or more time steps.
+But they are also considered stable, because the total number of live cells doesn't grow over time.
+
 Most simple starting configurations either die out quickly or reach a stable configuration.
 But there are a few starting conditions that display remarkable complexity.
-One of those is the R-pentomino: it starts with only five cells, runs for 1103 time steps, and ends in a stable configuration with 116 live cells (see
-\url{http://www.conwaylife.com/wiki/R-pentomino}).
+One of those is the R-pentomino: it starts with only five cells, runs for 1103 time steps, and ends in a stable configuration with 116 live cells (see \url{http://www.conwaylife.com/wiki/R-pentomino}).
 
-In the following sections, we will implement the Game of Life in Java.
+In the following sections, we implement the Game of Life in Java.
 
 
 \section{The Cell Class}
 
-Using top-down design (see Section~\ref{shuffle}), it's pretty clear that we'll need at least three classes: one for cells, one for the grid, and one for the game itself.
-We'll begin by designing the class for cells.
+% I don't think we can really say we need three classes; it's just a design choice we made.
 
-When drawing a cell, we'll need to know its coordinates on the screen.
+We'll organize the code in three classes: one for cells, one for the grid, and one for the game itself.
+We'll start with the cells.
+
+To draw a cell, we need to know its coordinates on the screen.
 We could use a \java{Rectangle} object (see Section~\ref{sec:Rectangle}) to store the cell's coordinates.
-However, given that each cell is a square, we can represent its location with three integers: the \java{x} and \java{y} coordinates of the upper-left corner, and the \java{size} of the square (length of each side).
-The cell will also need a \java{Color}.
+However, since the cells are square (not rectangular), we can represent their locations with three integers: the \java{x} and \java{y} coordinates of the upper-left corner, and the \java{size} of the square (length of each side).
+Each cell also needs a \java{Color} to represent its state: alive or dead.
 
 Here is the beginning of the \java{Cell} class:
 
@@ -90,9 +100,10 @@ Notice that \java{x}, \java{y}, and \java{size} are constants.
 Once the cell is created, we don't want it to move accidentally.
 Its \java{color}, on the other hand, is not a constant and might change frequently.
 
+% Nice!  The previous paragraph answers exactly the question I had.
+
 The next step is to write a constructor.
-It's good practice to design classes to be reusable, and there are other games that need to make cells.
-We'll make a constructor that takes \java{x}, \java{y}, and \java{size} as parameters.
+Here's one that takes \java{x}, \java{y}, and \java{size} as parameters, and sets {\tt color} to a default value.
 
 \begin{code}
 public Cell(int x, int y, int size) {
@@ -104,14 +115,16 @@ public Cell(int x, int y, int size) {
 \end{code}
 
 The following line uses the constructor to create a \java{Cell}.
-Its upper-left corner is at (0, 0), and the cell is 10x10 pixels wide.
+Its upper-left corner is at (0, 0), and the cell is 10x10 pixels.
 
 \begin{code}
 Cell cell = new Cell(0, 0, 10);
 \end{code}
 
-To draw a cell, we will receive the graphics context as a parameter (similar to the \java{paint} method in Appendix~\ref{graphics}).
-We can use \java{fillRect} to paint the cell itself and \java{drawRect} to paint a light gray border around it.
+The following method draws a cell.
+Like the \java{paint} method in Appendix~\ref{graphics},
+it takes a graphics context as a parameter, which it uses to
+call \java{fillRect}, which draws the center of the cell, and \java{drawRect}, which draws a gray border.
 
 \begin{code}
 public void draw(Graphics g) {
@@ -122,37 +135,45 @@ public void draw(Graphics g) {
 }
 \end{code}
 
-Finally, we will need methods for changing the cell's color.
-We could just implement \java{getColor} and \java{setColor}.
-But it will be more convenient if we design more specific methods, at least for now.
+We also need methods to read and write the cell's color.
+We could just provide \java{getColor} and \java{setColor},
+but the code will be more readable if we provide methods more customized for the Game of Life:
 
-For the Game of Life, the cells will either be dead (white) or alive (black).
-To make the code more general, we will refer to these states as ``off'' and ``on''.
-We will write boolean methods named \java{isOff} and \java{isOn} for getting the color, and void methods named \java{turnOff} and \java{turnOn} for setting the color.
+\begin{code}
+public static final Color OFF = Color.WHITE;
+public static final Color ON = Color.BLACK;
 
-%And to improve readability, we will define class constants for these colors.
-%\begin{code}
-%public static final Color OFF = Color.WHITE;
-%public static final Color ON = Color.BLACK;
-%
-%public boolean isOff() {
-%    return color == OFF;
-%}
-%public boolean isOn() {
-%    return color == ON;
-%}
-%public void turnOff() {
-%    color = OFF;
-%}
-%public void turnOn() {
-%    color = ON;
-%}
-%\end{code}
+public boolean isOn() {
+    return color == ON;
+}
+
+public boolean isOff() {
+    return color == OFF;
+}
+\end{code}
+
+\java{isOn} and \java{isOff} check the state of the cell.
+
+\begin{code}
+public void turnOn() {
+    color = ON;
+}
+
+public void turnOff() {
+    color = OFF;
+}
+\end{code}
+
+\java{turnOn} and \java{turnOff} modify the state of the cell.
 
 
 \section{Two-Dimensional Arrays}
 
-We can use an array to represent a grid of cells.
+To represent a grid of cells, we use a 2D array.
+
+% We can use an array to represent a grid of cells.
+
+
 For example, we can represent a 5x5 grid with an array of 25 cells.
 The following code is similar to how we created an array of cards in Section~\ref{cardarray}:
 
