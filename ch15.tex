@@ -170,44 +170,54 @@ public void turnOff() {
 \section{Two-Dimensional Arrays}
 
 To represent a grid of cells, we use a 2D array.
-
-% We can use an array to represent a grid of cells.
-
-
-For example, we can represent a 5x5 grid with an array of 25 cells.
-The following code is similar to how we created an array of cards in Section~\ref{cardarray}:
+To create a 2D array, we specify the number of rows and columns like this:
 
 \begin{code}
-Cell[] array = new Cell[25];
+int rows = 5;
+int cols = 5
+Cell[] array = new Cell[rows][cols];
+\end{code}
+
+The result is an array with 5 rows and 5 columns.
+Initially, the elements of the array are all \java{null}.
+We can fill the array with cells like this:
+
+\begin{code}
 for (int r = 0; r < rows; r++) {
     int y = r * size;
     for (int c = 0; c < cols; c++) {
         int x = c * size;
-        array[r * 5 + c] = new Cell(x, y, size);
+        array[r][c] = new Cell(x, y, size);
     }
 }
 \end{code}
 
-The loop variables \java{r} and \java{c} are the row and column indexes of each cell, and the variables \java{x} and \java{y} are the coordinates.
+The loop variables \java{r} and \java{c} are the row and column indexes of the cells.
+The variables \java{x} and \java{y} are the coordinates.
 For example, if \java{size} is 10 pixels, then the cell at index (1, 2) would be at coordinates (10, 20) on the screen.
 
-The expression \java{array[r * 5 + c]} calculates the index of the row and column in the array.
-For example, the array index of the cell at (1, 2) would be 7.
-Figure~\ref{fig:1D-array} illustrates how the rows are arranged.
+In Java, a 2D array is really an array of arrays.
+Or maybe it would be clearer to say it's an array of rows, and each row is an array.
 
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics[width=366pt]{figs/1D-array.pdf}
-\caption{Storing rows and columns with an array.}
-\label{fig:1D-array}
-\end{center}
-\end{figure}
+%The expression \java{array[r * 5 + c]} calculates the index of the row and column in the array.
+%For example, the array index of the cell at (1, 2) would be 7.
+%Figure~\ref{fig:1D-array} illustrates how the rows are arranged.
+%
+%\begin{figure}[!ht]
+%\begin{center}
+%\includegraphics[width=366pt]{figs/1D-array.pdf}
+%\caption{Storing rows and columns with an array.}
+%\label{fig:1D-array}
+%\end{center}
+%\end{figure}
+%
+%\index{row-major order}
+%\index{multidimensional array}
+%
+%This way of represdenting two-dimensional data is know as {\bf row-major order}, because the elements are stored row by row.
+%A more natural way to represent two-dimensional data is to use {\bf multidimensional arrays}, or arrays of arrays, as shown in 
 
-\index{row-major order}
-\index{multidimensional array}
-
-This way of represdenting two-dimensional data is know as {\bf row-major order}, because the elements are stored row by row.
-A more natural way to represent two-dimensional data is to use {\bf multidimensional arrays}, or arrays of arrays, as shown in Figure~\ref{fig:2D-array}.
+Figure~\ref{fig:2D-array} shows what it looks like.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -217,26 +227,30 @@ A more natural way to represent two-dimensional data is to use {\bf multidimensi
 \end{center}
 \end{figure}
 
-Using arrays of arrays makes it easier to refer to individual cells by row and column indexes.
-We can rewrite the previous code by making two changes:
+\java{array} is an array of references that refer to arrays of \java{Cell} objects.
+When we write \java{array[r][c]}, Java uses the first index to select a row, and the second index to select an element from the row.
 
-\begin{center}
-\begin{tabular}{rl}
-Replace: & \java{Cell[] array = new Cell[25];} \\[-1ex]
-   With: & \java{Cell[][] array = new Cell[5][5];} \\[1ex]
-Replace: & \java{array[r * 5 + c] = new Cell(x, y, SIZE);} \\[-1ex]
-   With: & \java{array[r][c] = new Cell(x, y, SIZE);} \\
-\end{tabular}
-\end{center}
-
-Notice that we no longer need to calculate the index \java{r * 5 + c}.
-Instead, the expression \java{array[r]} gets the array at index \java{r}, after which \java{[c]} gets the cell at index \java{c}.
+%
+%Using arrays of arrays makes it easier to refer to individual cells by row and column indexes.
+%We can rewrite the previous code by making two changes:
+%
+%\begin{center}
+%\begin{tabular}{rl}
+%Replace: & \java{Cell[] array = new Cell[25];} \\[-1ex]
+%   With: & \java{Cell[][] array = new Cell[5][5];} \\[1ex]
+%Replace: & \java{array[r * 5 + c] = new Cell(x, y, SIZE);} \\[-1ex]
+%   With: & \java{array[r][c] = new Cell(x, y, SIZE);} \\
+%\end{tabular}
+%\end{center}
+%
+%Notice that we no longer need to calculate the index \java{r * 5 + c}.
+%Instead, the expression \java{array[r]} gets the array at index \java{r}, after which \java{[c]} gets the cell at index \java{c}.
 
 
 \section{The GridCanvas Class}
 
-Now that we have a \java{Cell} class and a way of representing a two-dimensional array of cells, we can design a class to represent a grid of cells.
-We will encapsulate the code from the previous section and generalize it to construct a grid of any size:
+Now that we have a \java{Cell} class and a way of representing a two-dimensional array of cells, we can write a class to represent a grid of cells.
+We encapsulate the code from the previous section and generalize it to construct a grid of any size:
 
 \begin{code}
 public class GridCanvas extends Canvas {
@@ -262,12 +276,10 @@ public class GridCanvas extends Canvas {
 \index{HAS-A}
 \index{Graphics}
 
-Using terminology from the previous chapter, \java{GridCanvas} ``is~a'' \java{Canvas} that ``has~a'' two-dimensional array of cells.
+Using vocabulary from the previous chapter, \java{GridCanvas} ``is~a'' \java{Canvas} that ``has~a'' two-dimensional array of cells.
 By extending the \java{Canvas} class from \java{java.awt}, we inherit methods for drawing graphics on the screen.
 
-In fact, that code is surprisingly straightforward.
-To draw the grid, we simply draw each cell.
-We use nested \java{for} loops to traverse the array of arrays:
+Now to draw the grid, we use nested loops to traverse the array:
 
 \begin{code}
 public void draw(Graphics g) {
@@ -279,28 +291,30 @@ public void draw(Graphics g) {
 }
 \end{code}
 
-It's helpful to read the previous code in English: ``For each \java{row} in the \java{array}, and for each \java{cell} in the \java{row}, draw the \java{cell} in the graphics context.''
-Each cell knows how to draw itself, because the coordinates are built-in.
+When we use a 2D array in an enhanced \java{for} loop, Java loops through the rows; each row is a 1D array.
 
-The \java{Canvas} class provides two methods, \java{paint} and \java{update}, which are called to draw its contents.
-These methods are intended to be overridden by the subclass to perform the actual painting and updating.
-We will simply make them call the \java{draw} method, which paints or updates the entire Canvas.
+It's helpful to read this method in English: ``For each \java{row} in the \java{array}, and for each \java{cell} in the \java{row}, draw the \java{cell} in the graphics context.''
+Each cell contains its coordinates and size, so it knows how to draw itself.
 
-%The default behavior of \java{paint} is simply to clear the \java{Canvas}; it's expected that a subclass will override this method.
-%The default behavior of \java{update} is to clear the \java{Canvas} and then call \java{paint}.
+Classes that extend \java{Canvas} are supposed to provide a method called \java{paint} that ``paints'' the contents of the \java{Canvas}.
+It gets invoked when the \java{Canvas} is created and any time it needs to be redrawn; for example, when its window is moved or resized.
+
+Here's the \java{paint} method for \java{GridCanvas}:
 
 \begin{code}
 public void paint(Graphics g) {
     draw(g);
 }
-public void update(Graphics g) {
-    draw(g);
-}
 \end{code}
 
-In additional to \java{draw}, \java{paint}, and \java{update}, we will provide methods for working with the grid itself.
-It will be useful to know how many rows and columns the grid has.
-Fortunately this information is built into the array of arrays:
+When the window management system calls \java{paint}, \java{paint} calls \java{draw}, which draws the cells.
+
+% Do we actually need update?
+
+In additional to \java{draw} and \java{paint}, we provide methods for working with the grid itself.
+
+\java{numRows} and \java{numCols} return the number of rows and columns.
+We can get this information from the 2D array itself, using \java{length}:
 
 \begin{code}
 public int numRows() {
@@ -310,6 +324,8 @@ public int numCols() {
     return array[0].length;
 }
 \end{code}
+
+\java{numCols} returns the length of the first row, which is the number of columns.
 
 Recall that \java{array} (the variable) is an array of rows.
 So the number of rows is equal to the length of \java{array}.
