@@ -551,64 +551,71 @@ private int countAlive(int r, int c) {
 Because \java{test} handles ``out of bounds'' exceptions, this method works for any values of \java{r} and \java{c}.
 
 
-\section{Finishing the Game}
+\section{Updating the grid}
 \label{sec:update}
 
 Now we are ready to write \java{update}, which gets invoked each time through the mainloop.
 It uses the GoL rules to compute the state of the grid after the next time step.
 
-Here's an outline of the method in pseudocode.
+Here's how it works:
 
 \begin{code}
-public void update() {
-    // count neighbors before changing anything
-    // update each cell based on neighbor counts
-}
+    public void update() {
+		// count neighbors before changing anything
+        int[][] counts = countNeighbors();
+
+        // update each cell based on neighbor counts
+        updateGrid(counts);
+    }
 \end{code}
 
-It's important to count {\em all} the neighbors first, before updating any cells, in order for the simulation to be correct.
-Here's how:
+The rules of GoL specify that you have to update the cells ``simultaneously''; that is, you have to count the neighbors for all cells first, before you update any of them.
+
+We do that by traversing the grid twice: \java{countNeighbors} counts the neighbors for each cell and puts the results in an array, \java{counts}; then \java{updateGrid} updates the cells.
+
+Here's \java{countNeighbors}:
 
 
 \begin{code}
-public void update() {
-    // count neighbors before changing anything
-}
-    int rows = grid.numRows();
-    int cols = grid.numCols();
+	public int[][] countNeighbors() {
+		int rows = grid.numRows();
+        int cols = grid.numCols();
 
-    // count neighbors before changing anything
-	int[][] counts = new int[rows][cols];
-	for (int r = 0; r < rows; r++) {
-        for (int c = 0; c < cols; c++) {
-            counts[r][c] = countAlive(r, c);
+        int[][] counts = new int[rows][cols];
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                counts[r][c] = countAlive(r, c);
+            }
         }
-    }
-    
-    // update each cell based on neighbor counts
-
+		return counts;
+	}
 \end{code}
 
-We define an array of arrays to store the neighbor counts:
+\java{countNeighbors} uses \java{countAlive} from the previous section.
+The return value is a 2D array of integers, the same size as \java{grid}.
 
+In contrast to the \java{draw} method of \java{GridCanvas}, which uses enhanced \java{for} loops, \java{countNeighbors} uses standard \java{for} loops.
+The reason that that in this example we need the indexes \java{r} and \java{c} to store the neighbor counts in \java{counts}.
 
-The second step of \java{update} is to change the state of each cell, based on its neighbor counts.
-We simply traverse the rows and columns a second time:
+\java{updateCells} is similar; it traverses the grid again and updates the cells.
 
 \begin{code}
-// update each cell based on neighbor counts
-for (int r = 0; r < rows; r++) {
-    for (int c = 0; c < cols; c++) {
-        Cell cell = grid.cellAt(r, c);
-        updateCell(cell, counts[r][c]);
-    }
-}
+	public void updateGrid(int[][] counts) {
+		int rows = grid.numRows();
+        int cols = grid.numCols();
+
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                Cell cell = grid.getCell(r, c);
+                updateCell(cell, counts[r][c]);
+            }
+        }
+	}
 \end{code}
 
-In contrast to the \java{draw} method of \java{GridCanvas}, which used enhanced \java{for} loops to traverse the array of arrays, this example uses standard \java{for} loops.
-The difference here is that we need the indexes \java{r} and \java{c} to get the cell and its neighbor count.
+\java{updateGrid} uses \java{getCell} to select each \java{Cell} in the grid and \java{updateCell} to do the update.
 
-Last but not least, the \java{updateCell} method implements the rules we defined at the beginning of the chapter:
+Finally, here's \java{updateCell}:
 
 \begin{code}
 private static void updateCell(Cell cell, int count) {
@@ -624,150 +631,19 @@ private static void updateCell(Cell cell, int count) {
 }
 \end{code}
 
-Notice that this method is \java{static}, because it does not depend on the \java{grid} attribute.
-It is also \java{private}, because it is a helper method not intended to be invoked from outside the class.
+This method implements the GoL rules: if the cell is alive, it dies if it has fewer than 2 or more than 3 neighbors; if the cell is dead, it comes to life if it has exactly 3.
 
-If you put together and run the code from this chapter so far, you should see a simulation of two Blinkers.
-More importantly, you will see a fairly complex example of object-oriented programming that uses multidimensional arrays.
+\java{updateCell} is \java{static} because it does not depend on the \java{grid} attribute and \java{private} because it is a helper method not intended to be invoked from outside the class.
 
+Now our implementation of the Game of Life is complete.
+In the exercises at the end of this chapter, you'll have a chance to run the code, test other initial conditions, and explore other games with similar rules.
 
-\section{Langton's Ant}
-
-Now that we've finished the Game of Life, we can implement other zero-player games using \java{Cell} and \java{GridCanvas}.
-One such game is {\it Langton's Ant}, which models an ``ant'' that walks around a grid of cells.
-It displays surprisingly complex behavior based on two simple rules:
-
-\begin{enumerate}
-\item If the ant is on a white cell, it turns to the right, makes the cell black, and moves forward.
-\item If the ant is on a black cell, it turns to the left, makes the cell white, and moves forward.
-\end{enumerate}
-
-Because the rules are simple, you might expect the ant to do something like make a square or repeat a simple pattern.
-But starting on a grid with all white cells, the ant makes more than 10,000 steps in a seemingly random pattern before it settles into a repeating loop of 104 steps.
-You can read more about it at \url{http://en.wikipedia.org/wiki/Langton's_ant}.
-
-We begin by defining a \java{Langton} class that ``has~a'' grid and information about the ant.
-The constructor takes the grid dimensions as parameters, which affect how long the simulation will run until the ant is out of bounds.
-
-\begin{code}
-public class Langton {
-    private GridCanvas grid;
-    private int xpos;
-    private int ypos;
-    private int head; // 0=North, 1=East, 2=South, 3=West
-
-    public Langton(int rows, int cols) {
-        grid = new GridCanvas(rows, cols, 10);
-        xpos = rows / 2;
-        ypos = cols / 2;
-        head = 0;
-    }
-}
-\end{code}
-
-This class has essentially the same \java{main} method as \java{Conway}.
-It sets up a \java{JFrame} and runs a simulation loop that calls \java{update}, \java{repaint}, and \java{sleep}.
-However, we will only sleep for about 1~ms so that it runs a lot faster.
-
-The \java{update} method is simpler than before.
-We first get the \java{Cell} at the ant's location, figure out which way to turn, and flip the cell's color.
-
-\begin{code}
-Cell cell = grid.cellAt(xpos, ypos);
-if (cell.isOff()) {
-    // at a white square; turn right and flip color
-    head = (head + 1) % 4;
-    cell.turnOn();
-} else {
-    // at a black square; turn left and flip color
-    head = (head + 3) % 4;
-    cell.turnOff();
-}
-\end{code}
-
-Next, we move forward one square.
-This is easily accomplished using chained \java{if} statements that determine which way the ant is facing.
-
-\begin{code}
-if (head == 0) {
-    ypos -= 1;
-} else if (head == 1) {
-    xpos += 1;
-} else if (head == 2) {
-    ypos += 1;
-} else {
-    xpos -= 1;
-}
-\end{code}
-
-If you run this code with a grid size of 61x61 or larger, you will see the ant eventually settle into a repeating pattern.
+We think the Game of Life is pretty fun, and we hope you agree.
+But more importantly, this is example is meant to demonstrate the use of 2D arrays.
+It also demonstrates an object-oriented design that's a little more substantial than previous examples.  
 
 
-\section{Abstract Classes}
 
-Looking back, the code for \java{Conway} and \java{Langton} are rather similar.
-They each have a \java{GridCanvas}, an \java{update} method, and a \java{main} method.
-Furthermore, the code for \java{main} is almost identical.
-
-In the previous chapter, we learned how to eliminate two versions of the same code using inheritance.
-We can apply a similar technique to \java{Conway} and \java{Langton}.
-Doing so will make it easier to implement other zero-player games.
-
-We will define a base class named \java{Automaton} to provide the code that \java{Conway} and \java{Langton} have in common.
-Instead of \java{main}, it will have a \java{run} method that takes the window title and sleep delay as parameters.
-
-\begin{code}
-public class Automaton {
-    private GridCanvas grid;
-
-    public void update() {
-    }
-
-    public void run(String title, int delay) {
-        // set up the window frame
-        // main simulation loop
-    }
-}
-\end{code}
-
-There are a few problems with the current design:
-\begin{enumerate}
-\item The \java{grid} attribute is \java{private}, making it inaccessible in \java{Conway} and \java{Langton}.
-We could add a \java{getGrid} method, but then other (unrelated) classes would have access to \java{grid}.
-\item The \java{Automaton} class has no constructors, and even if it did, there would be no reason to create an instance of this class.
-\item The \java{update} method does nothing, and in fact, it must be overridden for the \java{run} method to work correctly.
-\end{enumerate}
-
-\index{protected}
-\index{abstract}
-
-Java provides language features to solve these problems:
-\begin{enumerate}
-\item We can make the \java{grid} attribute \java{protected}, which means it's accessible to subclasses but not other classes.
-\item We can make the class \java{abstract}, which means it cannot be instantiated.
-If you attempt to create an object for an abstract class, you will get a compiler error.
-\item We can declare \java{update} as an \java{abstract} method, meaning that it must be overriden in subclasses.
-If the subclass does not override an abstract method, you will get a compiler error.
-\end{enumerate}
-
-\begin{code}
-public abstract class Automaton {
-    protected GridCanvas grid;
-
-    public abstract void update();
-
-    public void run(String title, int delay) {
-        // set up the window frame
-        // main simulation loop
-    }
-}
-\end{code}
-
-Abstract classes are essentially incomplete (but useful) snippets of code that are intended to be reused in subclasses.
-In the case of \java{Conway} and \java{Langton}, they make the code a lot cleaner.
-
-One of the exercises at the end of the chapter asks you to rewrite \java{Conway} and \java{Langton} to extend \java{Automaton}.
-%This process is known as {\bf refactoring}.
 
 
 \section{Vocabulary}
@@ -909,6 +785,154 @@ Test your constructor by modifying the \java{main} method to read different file
 \end{enumerate}
 
 \end{exercise}
+
+\begin{exercise}
+
+Now that we've finished the Game of Life, we can implement other zero-player games using \java{Cell} and \java{GridCanvas}.
+One such game is {\it Langton's Ant}, which models an ``ant'' that walks around a grid of cells.
+It displays surprisingly complex behavior based on two simple rules:
+
+\begin{enumerate}
+\item If the ant is on a white cell, it turns to the right, makes the cell black, and moves forward.
+\item If the ant is on a black cell, it turns to the left, makes the cell white, and moves forward.
+\end{enumerate}
+
+Because the rules are simple, you might expect the ant to do something like make a square or repeat a simple pattern.
+But starting on a grid with all white cells, the ant makes more than 10,000 steps in a seemingly random pattern before it settles into a repeating loop of 104 steps.
+You can read more about it at \url{http://en.wikipedia.org/wiki/Langton's_ant}
+
+\end{exercise}
+
+
+
+\chapter{Abstract classes}
+
+\section{Langton's Ant solution}
+
+In the previous chapter...
+
+We begin by defining a \java{Langton} class that ``has~a'' grid and information about the ant.
+The constructor takes the grid dimensions as parameters, which affect how long the simulation will run until the ant is out of bounds.
+
+\begin{code}
+public class Langton {
+    private GridCanvas grid;
+    private int xpos;
+    private int ypos;
+    private int head; // 0=North, 1=East, 2=South, 3=West
+
+    public Langton(int rows, int cols) {
+        grid = new GridCanvas(rows, cols, 10);
+        xpos = rows / 2;
+        ypos = cols / 2;
+        head = 0;
+    }
+}
+\end{code}
+
+This class has essentially the same \java{main} method as \java{Conway}.
+It sets up a \java{JFrame} and runs a simulation loop that calls \java{update}, \java{repaint}, and \java{sleep}.
+However, we will only sleep for about 1~ms so that it runs a lot faster.
+
+The \java{update} method is simpler than before.
+We first get the \java{Cell} at the ant's location, figure out which way to turn, and flip the cell's color.
+
+\begin{code}
+Cell cell = grid.cellAt(xpos, ypos);
+if (cell.isOff()) {
+    // at a white square; turn right and flip color
+    head = (head + 1) % 4;
+    cell.turnOn();
+} else {
+    // at a black square; turn left and flip color
+    head = (head + 3) % 4;
+    cell.turnOff();
+}
+\end{code}
+
+Next, we move forward one square.
+This is easily accomplished using chained \java{if} statements that determine which way the ant is facing.
+
+\begin{code}
+if (head == 0) {
+    ypos -= 1;
+} else if (head == 1) {
+    xpos += 1;
+} else if (head == 2) {
+    ypos += 1;
+} else {
+    xpos -= 1;
+}
+\end{code}
+
+If you run this code with a grid size of 61x61 or larger, you will see the ant eventually settle into a repeating pattern.
+
+
+\section{Abstract Classes}
+
+Looking back, the code for \java{Conway} and \java{Langton} are rather similar.
+They each have a \java{GridCanvas}, an \java{update} method, and a \java{main} method.
+Furthermore, the code for \java{main} is almost identical.
+
+In the previous chapter, we learned how to eliminate two versions of the same code using inheritance.
+We can apply a similar technique to \java{Conway} and \java{Langton}.
+Doing so will make it easier to implement other zero-player games.
+
+We will define a base class named \java{Automaton} to provide the code that \java{Conway} and \java{Langton} have in common.
+Instead of \java{main}, it will have a \java{run} method that takes the window title and sleep delay as parameters.
+
+\begin{code}
+public class Automaton {
+    private GridCanvas grid;
+
+    public void update() {
+    }
+
+    public void run(String title, int delay) {
+        // set up the window frame
+        // main simulation loop
+    }
+}
+\end{code}
+
+There are a few problems with the current design:
+\begin{enumerate}
+\item The \java{grid} attribute is \java{private}, making it inaccessible in \java{Conway} and \java{Langton}.
+We could add a \java{getGrid} method, but then other (unrelated) classes would have access to \java{grid}.
+\item The \java{Automaton} class has no constructors, and even if it did, there would be no reason to create an instance of this class.
+\item The \java{update} method does nothing, and in fact, it must be overridden for the \java{run} method to work correctly.
+\end{enumerate}
+
+\index{protected}
+\index{abstract}
+
+Java provides language features to solve these problems:
+\begin{enumerate}
+\item We can make the \java{grid} attribute \java{protected}, which means it's accessible to subclasses but not other classes.
+\item We can make the class \java{abstract}, which means it cannot be instantiated.
+If you attempt to create an object for an abstract class, you will get a compiler error.
+\item We can declare \java{update} as an \java{abstract} method, meaning that it must be overriden in subclasses.
+If the subclass does not override an abstract method, you will get a compiler error.
+\end{enumerate}
+
+\begin{code}
+public abstract class Automaton {
+    protected GridCanvas grid;
+
+    public abstract void update();
+
+    public void run(String title, int delay) {
+        // set up the window frame
+        // main simulation loop
+    }
+}
+\end{code}
+
+Abstract classes are essentially incomplete (but useful) snippets of code that are intended to be reused in subclasses.
+In the case of \java{Conway} and \java{Langton}, they make the code a lot cleaner.
+
+One of the exercises at the end of the chapter asks you to rewrite \java{Conway} and \java{Langton} to extend \java{Automaton}.
+%This process is known as {\bf refactoring}.
 
 
 \begin{exercise}
