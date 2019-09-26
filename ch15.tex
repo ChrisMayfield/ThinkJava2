@@ -320,36 +320,40 @@ We can get this information from the 2D array itself, using \java{length}:
 public int numRows() {
     return array.length;
 }
+
 public int numCols() {
     return array[0].length;
 }
 \end{code}
 
+\java{numRows} returns the length of the array, which is the number of rows (remember that a 2D array is an array of rows).
+
 \java{numCols} returns the length of the first row, which is the number of columns.
 
-Recall that \java{array} (the variable) is an array of rows.
-So the number of rows is equal to the length of \java{array}.
-Since the grid is rectangular, each row has the same number of columns.
-So the number of columns is the length of \java{array[0]}, or any other row index for that matter.
-
-Finally, we will write methods for working with individual cells.
-The first method returns the \java{Cell} at (\java{r}, \java{c}), and the second method turns a \java{Cell} on.
+Finally, we provide methods that read and write individual cells.
 
 \begin{code}
 public Cell cellAt(int r, int c) {
     return array[r][c];
 }
+
 public void init(int r, int c) {
     array[r][c].turnOn();
 }
 \end{code}
 
+\java{cellAt} looks up the \java{Cell} at row \java{r}, column \java{c}.
+
+
+% TODO: Come back to this when the API is settled
+
 
 \section{Starting the Game}
 
-Now we can design a third class, named \java{Conway}, to implement the game itself.
-\java{Conway} ``has~a'' \java{GridCanvas} that represents (and displays) the current state of the game.
-The default constructor sets up an example board configuration.
+To encapsulate the rules of GoL, we define a third class called \java{Conway}.
+The \java{Conway} class ``has~a'' \java{GridCanvas} that represents the state of the game.
+
+The default constructor creates the \java{GridCanvas} and sets up an initial state.
 
 \begin{code}
 public class Conway {
@@ -369,9 +373,9 @@ public class Conway {
 
 \index{JFrame}
 
-This class will be the starting point of our application.
-We will implement a \java{main} method to create a new window (\java{JFrame}), initialize the \java{grid}, and display it on the screen.
-Doing so will allow us to test \java{Cell} and \java{GridCanvas} now before we implement the rest of the game.
+Before we implement the rest of the game, we'll write a \java{main} method that creates a \java{Conway} object and displays it.
+
+We can use this method to test \java{Cell} and \java{GridCanvas}, and to develop the other methods we need.
 
 \begin{code}
 public static void main(String[] args) {
@@ -383,12 +387,15 @@ public static void main(String[] args) {
     frame.add(game.grid);
     frame.pack();
     frame.setVisible(true);
+    mainloop();
 }
 \end{code}
 
-Figure~\ref{fig:conway} shows the result of running the \java{main} method so far.
-The \java{JFrame} has a title and is configured to exit the program when closed.
-Resizing the window is disabled, and its only component is the game's \java{grid}.
+\java{main} instantiates a \java{JFrame}, which creates a window on the screen, adds the \java{GridCanvas} to the \java{Frame}, and makes it visible.
+The \java{JFrame} is configured to exit the program when closed.
+Resizing the window is disabled.
+
+Figure~\ref{fig:conway} shows the result.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -398,23 +405,30 @@ Resizing the window is disabled, and its only component is the game's \java{grid
 \end{center}
 \end{figure}
 
-At the end of \java{main}, we will add a \java{while} loop to simulate the time steps of the Game of Life.
-During each time step, we will update the state of the \java{game} and repaint the \java{grid}.
+
+
+\section{The mainloop}
+
+At the end of \java{main}, we call \java{mainloop}, which uses a
+\java{while} loop to simulate the time steps of the Game of Life.
+
+\begin{code}
+public static void mainloop(Conway game) {
+    while (true) {
+        game.update();
+        game.grid.repaint();
+    
+        Thread.sleep(500);    // compiler error
+    }
+\end{code}
+
+During each time step, we update the state of the \java{game} and repaint the \java{grid}.
 (The \java{update} method will be discussed in Section~\ref{sec:update}.)
 
-This code is likely to execute very quickly, so we will use \java{Thread.sleep} to add a half-second delay (500 ms) after each step.
+This loop will execute quickly, so we will use \java{Thread.sleep} to add a half-second delay (500 ms) after each step.
 
 \index{Thread.sleep}
 \index{sleep}
-
-\begin{code}
-while (true) {
-    game.update();
-    game.grid.repaint();
-    
-    Thread.sleep(500);    // compiler error
-}
-\end{code}
 
 \index{InterruptedException}
 \index{Exception!Interrupted}
@@ -425,36 +439,43 @@ In other words, an \java{InterruptedException} may occur while sleeping.
 
 \section{Exception Handling}
 
-Up to this point, the only exceptions we have seen are run-time errors like \java{ArrayIndexOutOfBoundsException} and \java{NullPointerException}.
-When one of these exceptions occur, the program displays an message and terminates.
+So far the only exceptions we have seen are run-time errors like \java{ArrayIndexOutOfBoundsException} and \java{NullPointerException}.
+When one of these exceptions occur, Java displays a message and ends the program.
 
-It's possible to ``catch'' these exceptions when they are ``thrown''.
-In fact, some methods in the Java Library require you do handle exceptions that are likely to occur.
-Such is the case with \java{Thread.sleep}; you may need to deal with sleep being interrupted.
+If you don't want the program to terminate, you can ``catch'' an exception with a \java{try} statement.  Here's what it looks like:
 
 \index{try}
 \index{catch}
 \index{Statement!try}
 \index{Statement!catch}
 
-To handle exceptions, you can use \java{try} and \java{catch} blocks.
-For example, we can \java{try} to sleep and do nothing if an \java{InterruptedException} occurs.
-
 \begin{code}
-try {
-    Thread.sleep(500);
-} catch (InterruptedException e) {
-    // do nothing
-}
+    try {
+        Thread.sleep(500);
+    } catch (InterruptedException e) {
+        // do nothing
+    }
 \end{code}
 
-We can ignore these exceptions, because it's not a big deal if the delay is slightly off.
-In other programs, you might do something else when an exception is caught.
-For example, you can prompt the user to try again later.
+The syntax is similar to an \java{if} statement, and the logic is, too.
+First, Java runs the code in the ``try block'', which calls \java{Thread.sleep} in this example.
 
+If an \java{InterruptedException} occurs during the try block, Java executes the ``catch block''; in this example, the catch block contains a comment, so it doesn't do anything.
 
-There's a lot more to learn about exception handling that is beyond the scope of this book.
+If a different exception occurs during the try block, Java does whatever it would do otherwise, which is probably to display a message and end the program.
+
+If no exceptions occur during the try block, the catch block doesn't run and the program continues.
+
+In the example, the effect of the \java{try} statement is to ignore  \java{InterruptedException} if it occurs.
+
+As an alternative, we could use the catch block to display a customized message, end the program, or handle the exception in whatever way is appropriate.
+For example, if use input causes an exception, you could catch the exception and prompt the user to try again later.
+
+% There's more to learn about exception handling that is beyond the scope of this book.
 You can read more about exceptions in the Java tutorials at \url{https://thinkjava.org/exceptions}.
+
+
+\section{Counting neighbors}
 
 \index{neighbor}
 
@@ -484,13 +505,10 @@ Most cells have eight neighbors, as shown in Figure~\ref{fig:neighbors}.
 
 However, cells on the edges and in the corners have fewer neighbors.
 If we try to count all eight possible neighbors, we'll go out of bounds.
-(Normally in the Game of Life, we don't have this problem because the grid size is infinite.
-But we thought that version might be a bit much for this chapter!)
+%(Normally in the Game of Life, we don't have this problem because the grid size is infinite.
+%But we thought that version might be a bit much for this chapter!)
 
-We will write a helper method that tests whether a cell is alive.
-If the \java{Cell} at (\java{r}, \java{c}) exists and is on, this method returns \java{1}.
-Otherwise, it returns \java{0}.
-%This method can be used to count neighbors, regardless whether they exist.
+The following method uses a \java{try} statement to deal with these special cases.
 
 \begin{code}
 public int test(int r, int c) {
@@ -505,40 +523,15 @@ public int test(int r, int c) {
 }
 \end{code}
 
-As before, this example does nothing when the exception is caught.
-But doing so simplifies the code in the next section quite a bit.
+\java{test} takes a row index, \java{r}, and a column index, \java{c}.
+It tries to look up the \java{Cell} at that location.
+If the \java{Cell} both of the indices are in bounds, the \java{Cell} exists.  In that case, \java{test} returns 1 if the \java{Cell} is on and 0 otherwise.
 
+If either of the indices is out of bounds, the array lookup throws an \java{ArrayIndexOutOfBoundsException}, but the catch clause catches the exception and ignores it.
+Then \java{test} resumes and returns 0.
+So the non-existent cells around the perimeter are considered to be off.
 
-\section{Finishing the Game}
-\label{sec:update}
-
-The only remaining part to implement is the \java{update} method called by \java{main} in the \java{while} loop.
-Each time step of the simulation consists of the following two actions (after getting the number of rows and columns):
-
-\begin{code}
-public void update() {
-    int rows = grid.numRows();
-    int cols = grid.numCols();
-
-    // count neighbors before changing anything
-    // update each cell based on neighbor counts
-}
-\end{code}
-
-It's important to count {\em all} the neighbors first, before updating any cells, in order for the simulation to be correct.
-We will define an array of arrays to store the neighbor counts:
-
-\begin{code}
-// count neighbors before changing anything
-int[][] counts = new int[rows][cols];
-for (int r = 0; r < rows; r++) {
-    for (int c = 0; c < cols; c++) {
-        counts[r][c] = countAlive(r, c);
-    }
-}
-\end{code}
-
-The \java{countAlive} method  invokes the \java{test} method we implemented in the previous section:
+Now we can use \java{test} to implement \java{countAlive}, which takes a grid location, \java{(r, c)}, and returns the number of live neighbors surrounding that location.
 
 \begin{code}
 private int countAlive(int r, int c) {
@@ -555,8 +548,49 @@ private int countAlive(int r, int c) {
 }
 \end{code}
 
-If the \java{test} method didn't catch ``out of bounds'' exceptions, the \java{countAlive} method would have to ensure that \java{r} and \java{c} were in bounds.
-Doing so would add many \java{if} statements to the code, making it more difficult to read.
+Because \java{test} handles ``out of bounds'' exceptions, this method works for any values of \java{r} and \java{c}.
+
+
+\section{Finishing the Game}
+\label{sec:update}
+
+Now we are ready to write \java{update}, which gets invoked each time through the mainloop.
+It uses the GoL rules to compute the state of the grid after the next time step.
+
+Here's an outline of the method in pseudocode.
+
+\begin{code}
+public void update() {
+    // count neighbors before changing anything
+    // update each cell based on neighbor counts
+}
+\end{code}
+
+It's important to count {\em all} the neighbors first, before updating any cells, in order for the simulation to be correct.
+Here's how:
+
+
+\begin{code}
+public void update() {
+    // count neighbors before changing anything
+}
+    int rows = grid.numRows();
+    int cols = grid.numCols();
+
+    // count neighbors before changing anything
+	int[][] counts = new int[rows][cols];
+	for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < cols; c++) {
+            counts[r][c] = countAlive(r, c);
+        }
+    }
+    
+    // update each cell based on neighbor counts
+
+\end{code}
+
+We define an array of arrays to store the neighbor counts:
+
 
 The second step of \java{update} is to change the state of each cell, based on its neighbor counts.
 We simply traverse the rows and columns a second time:
