@@ -636,22 +636,17 @@ This method implements the GoL rules: if the cell is alive, it dies if it has fe
 \java{updateCell} is \java{static} because it does not depend on the \java{grid} attribute and \java{private} because it is a helper method not intended to be invoked from outside the class.
 
 Now our implementation of the Game of Life is complete.
-In the exercises at the end of this chapter, you'll have a chance to run the code, test other initial conditions, and explore other games with similar rules.
-
 We think the Game of Life is pretty fun, and we hope you agree.
-But more importantly, this is example is meant to demonstrate the use of 2D arrays.
-It also demonstrates an object-oriented design that's a little more substantial than previous examples.  
+But more importantly, this example is meant to demonstrate the use of 2D arrays and an object-oriented design that's a little more substantial than previous examples.
 
-
-
+In the exercises at the end of this chapter, you'll have a chance to run the code, test other initial conditions, and explore other games with similar rules.
 
 
 \section{Vocabulary}
 
-\begin{description}
+% TODO: Anything else?
 
-\term{row-major order}
-A method for storing two-dimensional data in a one-dimensional array (i.e., row by row).
+\begin{description}
 
 \term{multidimensional array}
 An array with more than one dimension; also known as an ``array of arrays''.
@@ -670,20 +665,20 @@ Before you start the exercises, we recommend that you compile and run the exampl
 
 
 \begin{exercise}
-In \java{GridCanvas}, write a method named \java{countOn} that returns the number of cells that are ``on''.
+In \java{GridCanvas}, write a method named \java{countOn} that returns the total number of cells that are ``on''.
 This method can be used, for example, to track the population in Game of Life over time.
 \end{exercise}
 
 
 \begin{exercise}
-In our version of the Game of Life, the grid had a finite size.
+In our version of the Game of Life, the grid has a finite size.
 As a result of this design, moving objects such as gliders either crash into the wall or go out of bounds.
 
 An interesting variation of the Game of Life is a ``periodic'' grid, meaning that the cells ``wrap around'' on the edges.
 Modify the \java{test} method of \java{GridCanvas} so that the coordinates \java{r} and \java{c} translate to the ``other side'' of the grid if they are too low or two high.
 
 Run your code with a Glider (see Figure~\ref{fig:glider}) to see if it works.
-You will need to modify the constructor of \java{Conway} accordingly.
+You can initialize the Glider by modifying the constructor in the \java{Conway} class, or by reading it from a file (see the next exercise).
 \end{exercise}
 
 
@@ -692,12 +687,18 @@ You will need to modify the constructor of \java{Conway} accordingly.
 %Another way to handle edge collisions is to expand the grid as needed.
 %\end{exercise}
 
+%ABD: Good idea, but I think we have enough for now.
+
 
 \begin{exercise}
+
+% TODO: Remove the solution from the starter code.
+
 The ``LifeWiki'' \url{http://conwaylife.com/wiki/} has a fascinating collection of patterns for the Game of Life.
-These patterns are stored in a ``.cells'' file format that is easy to read.
+These patterns are stored in a file format that is easy to read, in files with the suffix {\tt cells}.
 
 For example, here is a 8x10 grid with a glider near the upper-left corner:
+
 \begin{stdout}
 !Name: Glider
 ..........
@@ -718,6 +719,8 @@ See \url{http://conwaylife.com/wiki/Plaintext} for more examples.
 \begin{enumerate}
 
 \item Create a plain text file with the contents shown above, and save the file as \verb|glider.cells| in the same directory as your code.
+
+% ABD: Should this be a constructor?  I would make it a static method that builds and returns a Conway object, on the principle that constructors generally take parameters that line up with the instance variables, and methods that do substantial work should not be constructors.  But that might be a Pythonic principle that isn't Javai-idiomatic.
 
 \item Define a constructor for the \java{Conway} class that takes a string representing the name (or path) of a ``.cells'' file.
 Here is a starting point:
@@ -746,7 +749,7 @@ Conway game = new Conway("glider.cells");
 \end{enumerate}
 
 Once your constructor is working, you will be able to run many of the patters on the LifeWiki.
-You may have to modify them to have additional extra cells, if the simulation grows outside the initial bounds of the grid.
+Hint: you might want to add a margin of empty cells around the initial pattern, to give it room to grow.
 
 \end{exercise}
 
@@ -775,6 +778,8 @@ You can read more about RLE format on \url{http://conwaylife.com/wiki/RLE}.
 
 \item Create a plain text file with the contents shown above, and save the file as \verb|glider.rle| in the same directory as your code.
 
+%ABD: As in the previous exercise, should this be a constructor?  And either way, should it be a separate method, or modify the other method to read both formats?
+
 \item Modify your constructor from the previous exercise to check the last three characters of the \java{path}.
 If they are \java{"rle"}, then you will need to process the file as RLE.
 Otherwise, assume the file is in ``.cells'' format.
@@ -788,18 +793,23 @@ Test your constructor by modifying the \java{main} method to read different file
 
 \begin{exercise}
 
-Now that we've finished the Game of Life, we can implement other zero-player games using \java{Cell} and \java{GridCanvas}.
-One such game is {\it Langton's Ant}, which models an ``ant'' that walks around a grid of cells.
-It displays surprisingly complex behavior based on two simple rules:
+Now that we've finished the Game of Life, we can 
+using the \java{Cell} and \java{GridCanvas} classes to
+implement other simulations.
+
+One of the most interesting zero-player games is {\it Langton's Ant}, which models an ``ant'' that walks around a grid of cells.
+The ant follows only two simple rules:
 
 \begin{enumerate}
 \item If the ant is on a white cell, it turns to the right, makes the cell black, and moves forward.
 \item If the ant is on a black cell, it turns to the left, makes the cell white, and moves forward.
 \end{enumerate}
 
-Because the rules are simple, you might expect the ant to do something like make a square or repeat a simple pattern.
+Because the rules are simple, you might expect the ant to do something simple, like make a square or repeat a simple pattern.
 But starting on a grid with all white cells, the ant makes more than 10,000 steps in a seemingly random pattern before it settles into a repeating loop of 104 steps.
 You can read more about it at \url{http://en.wikipedia.org/wiki/Langton's_ant}
+
+Reusing the classes we developed in this chapter, write an implementation of Langton's Ant.
 
 \end{exercise}
 
@@ -807,9 +817,12 @@ You can read more about it at \url{http://en.wikipedia.org/wiki/Langton's_ant}
 
 \chapter{Abstract classes}
 
-\section{Langton's Ant solution}
+In the previous chapter, we developed classes to implement Conways' Game of Life, but we designed them to be resuable.
+As an exercise, you had a chance to use them to implement Langton's Ant.
 
-In the previous chapter...
+In this chapter, we present a solution to that exercise, and use it to demonstrate a new Java feature, ``abstract classes''.
+
+\section{Langton's Ant solution}
 
 We begin by defining a \java{Langton} class that ``has~a'' grid and information about the ant.
 The constructor takes the grid dimensions as parameters, which affect how long the simulation will run until the ant is out of bounds.
@@ -933,6 +946,8 @@ In the case of \java{Conway} and \java{Langton}, they make the code a lot cleane
 
 One of the exercises at the end of the chapter asks you to rewrite \java{Conway} and \java{Langton} to extend \java{Automaton}.
 %This process is known as {\bf refactoring}.
+
+% TODO: If we decide to break this out as a mini-chapter, we could provide a more complete solution by doing some or all of the exercises below.
 
 
 \begin{exercise}
