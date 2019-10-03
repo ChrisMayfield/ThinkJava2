@@ -16,8 +16,8 @@ Notice that we didn't write the code for \java{Canvas}; it's part of the Java Li
 But we were able to extend it for our own purposes.
 In fact, the \java{Canvas} class was specifically designed to be extended.
 
-For this chapter, we'll explore the ideas of specialization and reuse more fully.
-We'll continue to develop graphical simulations as a running example, but this time with varying shapes and colors!
+Throughout this chapter, we'll explore the idea of specialization more fully.
+We'll continue to develop graphical simulations as a running example, but this time, we'll draw varying shapes and colors.
 
 
 \section{Polygon Objects}
@@ -37,7 +37,7 @@ p.addPoint(143, 110);
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[scale=1]{figs/triangle.png}
+\includegraphics{figs/triangle.png}
 \caption{A polygon with three points.}
 \label{fig:triangle}
 \end{center}
@@ -54,7 +54,7 @@ Internally, \java{Polygon} objects have three attributes:
 %The \java{npoints} attribute makes it possible to add points to the polygon one at a time.
 When a \java{Polygon} is created, \java{npoints} is 0 and the two arrays are initialized with length 4.
 As points are added, \java{npoints} is incremented.
-If \java{npoints} exceeds the length of the arrays, larger arrays are are created on the fly, and all the data is copied from the previous arrays.
+If \java{npoints} exceeds the length of the arrays, larger arrays are created, and the values are copied from the previous arrays.
 
 The \java{Polygon} class provides many useful methods like \java{contains}, \java{intersects}, and \java{translate}.
 However, it doesn't provide any methods for displaying the polygon like \java{draw} or \java{toString}.
@@ -63,7 +63,7 @@ However, it doesn't provide any methods for displaying the polygon like \java{dr
 \section{Adding Color}
 
 Specialization is useful for adding new features to an existing class, especially when you can't (or don't want to) change its design.
-For example, we can specialize the \java{Polygon} class by adding a \java{Color} attribute and implementing a \java{draw} method:
+For example, we can extend the \java{Polygon} class by adding a \java{Color} attribute and implementing a \java{draw} method:
 
 \begin{code}
 public class ColorPolygon extends Polygon {
@@ -90,7 +90,7 @@ It then initializes the color to \java{GRAY}.
 You can use \java{addPoint} as before, or you can directly access \java{npoints}, \java{xpoints}, and \java{ypoints} (since they are \java{public}).
 You can also use methods like \java{contains}, \java{intersects}, and \java{translate}.
 
-The following code creates the triangle shown in Figure~\ref{fig:triangle} and sets its color to \java{GREEN}:
+The following code creates the same triangle as shown in Figure~\ref{fig:triangle} and sets its color to \java{GREEN}:
 
 \begin{code}
 ColorPolygon p = new ColorPolygon();
@@ -103,7 +103,117 @@ p.color = Color.GREEN;
 
 \section{Regular Polygons}
 
-The \java{Polygon} class provides only two constructors: one that creates an empty polygon, and one that copies values into \java{xpoints}, \java{ypoints}, and \java{npoints}.
-Create polygons with many sides can be very tedious.
-It would be nice if we could just ask for 20-sided polygon of size 50, for example, without having to specify all the coordinates.
-We can extend ColorPolygon to do just that.
+The original \java{Polygon} class has two constructors: one that creates an empty polygon, and one that copies existing values into \java{xpoints}, \java{ypoints}, and \java{npoints}.
+%Creating arbitrary polygons with many sides is tedious work.
+It would be nice if we could construct $n$-sided polygons without having to specify all the coordinates manually.
+
+For simplicity, we'll focus on regular polygons, where all sides have the same length and all angles are equal in measure.
+Regular polygons are a special case of polygons, so it makes sense to use specialization.
+
+We could extend the \java{Polygon} class, like we did in the previous section.
+But then we would lose the \java{Color} functionality we just added.
+So we will make \java{RegularPolygon} extend \java{ColorPolygon}.
+
+To construct a regular polygon, we will specify the number of sides, the radius (distance from the center to a vertex), and the color.
+For example:
+
+\begin{code}
+RegularPolygon rp = new RegularPolygon(6, 50, Color.BLUE);
+\end{code}
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics{figs/hexagon.pdf}
+\caption{Determining the $x$ and $y$ coordinates of vertex V1, given the radius~$r$ and angle~$\theta$. The center of the polygon is at the origin $(0, 0)$.}
+\label{fig:hexagon}
+\end{center}
+\end{figure}
+
+The constructor uses a bit of trigonometry to find the coordinates of each vertex.
+The number of sides ($n=6$) and the radius ($r=50$) are given as parameters.
+Figure~\ref{fig:hexagon} illustrates the process:
+
+\begin{itemize}
+\item Imagine a clock hand starting at V0 and rotating counterclockwise to V1, V2, and so forth.
+\item The angle $\theta$ is $2 \pi / n$, since there are $2\pi$ radians in a circle.
+In other words, we are dividing the revolution into $n$ equal angles.
+\item By definition, $\cos(\theta) = x/r$ and $\sin(\theta) = y/r$. Therefore, $x = r \cos(\theta)$ and $y = r \sin(\theta)$.
+\item We can determine the other $(x, y)$ coordinates by multiplying $\theta$ by $i$, where $i$ is the vertex number.
+\end{itemize}
+
+Here is the source code:
+
+\begin{code}
+public RegularPolygon(int nsides, int radius, Color color) {
+
+    // initialize ColorPolygon attributes
+    this.npoints = nsides;
+    this.xpoints = new int[nsides];
+    this.ypoints = new int[nsides];
+    this.color = color;
+
+    // the angle (in radians) for each vertex
+    double angle = 2.0 * Math.PI / nsides;
+
+    // compute x and y coordinates, centered around the origin
+    for (int i = 0; i < nsides; i++) {
+        double x = radius * Math.cos(i * angle);
+        double y = radius * Math.sin(i * angle);
+        xpoints[i] = (int) Math.round(x);
+        ypoints[i] = (int) Math.round(y);
+    }
+}
+\end{code}
+
+%Since this constructor initializes all four attributes, there is no need for it to invoke \java{super()}.
+
+
+\section{Constructors Revisited}
+
+Java Library classes, including \java{Polygon}, often have more than one constructor for convenience.
+Writing multiple constructors makes it possible to have optional parameters.
+For example, we could make the \java{color} parameter optional by defining this constructor:
+
+\begin{code}
+public RegularPolygon(int nsides, int radius) {
+    this(nsides, radius, Color.BLACK);
+}
+\end{code}
+
+The keyword \java{this}, when used in a constructor, invokes another constructor in the same class.
+It is similar in syntax to the keyword \java{super}, which invokes a constructor in the parent class.
+
+Similarly, we could make the \java{radius} parameter optional too:
+
+\begin{code}
+public RegularPolygon(int nsides) {
+    this(nsides, 50);
+}
+\end{code}
+
+This third constructor calls the second one, which in turn calls the first one.
+At the end of the day, it creates regular polygons with a radius of \java{50} and the color \java{BLACK}.
+
+When writing constructors, it's also helpful to ensure the parameter values are reasonable.
+Doing so prevents run-time errors from happening later in the program, making the code easier to debug.
+
+For \java{RegularPolygon}, the number of sides should be at least 3, the radius should be greater than zero, and the color should not be null.
+We can add the following lines to the original constructor:
+
+\begin{code}
+public RegularPolygon(int nsides, int radius, Color color) {
+
+    // validate the arguments
+    if (nsides < 3) {
+        throw new IllegalArgumentException("invalid nsides");
+    }
+    if (radius <= 0) {
+        throw new IllegalArgumentException("invalid radius");
+    }
+    if (color == null) {
+        throw new NullPointerException("invalid color");
+    }
+\end{code}
+
+In this example, we \java{throw} an exception to indicate that an error happened.
+Exceptions that are not caught (with \java{try}/\java{catch}) automatically terminate the program and display an error message along with a stack trace.
