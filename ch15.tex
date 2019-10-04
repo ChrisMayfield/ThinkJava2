@@ -970,16 +970,19 @@ It uses the title when is created the \java{JFrame}, and it passes \java{rate} t
                 // do nothing
             }
         }
+    }
 \end{code}
 
 \java{mainloop} contains the code we saw in Section~\ref{mainloop}.
 It runs a \java{while} loop forever (or until interrupted).  
 Each time through the loop, it runs \java{update} to update \java{grid} and then \java{repaint} to redraw the grid.
 
-The it calls \java{Thread.sleep} with a delay that depends on \java{rate}.
+Then it calls \java{Thread.sleep} with a delay that depends on \java{rate}.
 For example, if {\tt rate} is 2, we should draw two frames per second, so the delay is a half second, or 500 milliseconds.
 
-There are a few problems with the current design:
+This implementation works, and if we are not planning to implement any other zero-person games, we could leave well enough alone.
+Bu there are a few problems with the current design:
+
 \begin{enumerate}
 
 \item The \java{grid} attribute is \java{private}, making it inaccessible in \java{Conway} and \java{Langton}.
@@ -996,13 +999,19 @@ In order to work properly, child classes would have to provide one.
 \index{abstract}
 
 Java provides language features to solve these problems:
+
 \begin{enumerate}
+
 \item We can make the \java{grid} attribute \java{protected}, which means it's accessible to subclasses but not other classes.
+
 \item We can make the class \java{abstract}, which means it cannot be instantiated.
 If you attempt to create an object for an abstract class, you will get a compiler error.
+
 \item We can declare \java{update} as an \java{abstract} method, meaning that it must be overriden in subclasses.
 If the subclass does not override an abstract method, you will get a compiler error.
 \end{enumerate}
+
+Here's what \java{Automaton} looks like as an abstract class:
 
 \begin{code}
 public abstract class Automaton {
@@ -1011,48 +1020,74 @@ public abstract class Automaton {
     public abstract void update();
 
     public void run(String title, int delay) {
-        // set up the window frame
-        // main simulation loop
+        // body of this method omitted
+    }
+    
+    public void mainloop(int rate) {
+        // body of this method omitted
     }
 }
 \end{code}
 
-Abstract classes are essentially incomplete (but useful) snippets of code that are intended to be reused in subclasses.
-In the case of \java{Conway} and \java{Langton}, they make the code a lot cleaner.
+First, notice the word \java{abstract} in the first line, which declares that \java{Automaton} is an abstract class.
 
-One of the exercises at the end of the chapter asks you to rewrite \java{Conway} and \java{Langton} to extend \java{Automaton}.
-%This process is known as {\bf refactoring}.
+Second, notice the word \java{abstract} in the first (and only) line of \java{update} which declares that it is an abstract method.
+In order to be an abstract class, \java{Automaton} has to have at least one abstract method.
 
-% TODO: If we decide to break this out as a mini-chapter, we could provide a more complete solution by doing some or all of the exercises below.
+Third, notice that \java{update} has no body.
+The declaration specifies the name, arguments and return type, but it does not provide an implementation.
 
+Any class that extends \java{Automaton} has to provide an implementation of \java{update}; the declaration here allows the compiler to check.
+
+Here's what \java{Conway} looks like as a subclass of \java{Automaton}:
+
+\begin{code}
+public class Conway extends Automaton {
+
+    public Conway() {
+        grid = new GridCanvas(30, 25, SIZE);
+    }
+
+    public void update() {
+		// count neighbors before changing anything
+        int[][] counts = countNeighbors();
+
+        // update each cell based on neighbor counts
+        updateGrid(counts);
+    }
+
+    public static void main(String[] args) {
+        String title = "Conway's Game of Life";
+        Conway game = new Conway("pulsar.cells", 2);
+        game.run(title, 2);
+    }
+\end{code}
+
+\java{Conway} extends \java{Automaton}, so it inherits the instance variable \java{grid} and the methods \java{run} and \java{mainloop}.
+But because \java{Automaton} is abstract, \java{Conway} has to provide \java{update} and a constructor.
+
+Abstract classes are essentially incomplete class definitions that provide methods to be used by subclasses and specify methods to be implemented by subclasses.
+
+
+\section{Exercises}
 
 \begin{exercise}
-The last section of this chapter introduced \java{Automaton} as an \java{abstract} class.
-In this exercise, you will reorganize the other classes to eliminate duplicate code.
-
-\begin{enumerate}
-
-\item Modify \java{Conway} and \java{Langton} to extend \java{Automaton} class.
-Remove the \java{private GridCanvas grid} from each class, since they now inherit the \java{protected} attribute from \java{Automaton}.
-
-\item Move the code from \java{main}, starting at the \java{JFrame} line, into the \java{run} method of \java{Automaton}.
-Replace \java{game.grid} with \java{this.grid}, and replace \java{game.update()} with \java{this.update()}.
-Modify \java{Thread.sleep()} to use the \java{delay} parameter.
-
-\item At the end of the \java{main} method in \java{Conway} and \java{Langton}, add a call to \java{game.run(title, delay)}.
-The \java{title} and \java{delay} should be specific to each game.
-
-\end{enumerate}
+The last section of this chapter introduces \java{Automaton} as an \java{abstract} class and rewrites \java{Conway} as a subclass of \java{Automaton}.
+Now it's your turn.
+Rewrite \java{Langton} as a subclass of \java{Automaton}, removing the code that's no longer needed.
 
 \end{exercise}
 
 
 \begin{exercise}
-Mathematically speaking, Game of Life and Langton's Ant are examples of a ``cellular automaton''.
-The word ``cellular'' means it has cells, and the word ``automaton'' means it runs itself.
+
+Mathematically speaking, Game of Life and Langton's Ant are ``cellular automatons'', where
+``cellular'' means it has cells, and the ``automaton'' means it runs itself.
 See \url{https://en.wikipedia.org/wiki/Cellular_automaton} for more discussion.
 
 Implement another cellular automaton of your choice.
 You may have to modify \java{Cell} and/or \java{GridCanvas}, in addition to extending \java{Automaton}.
 For example, Brian's Brain (\url{https://en.wikipedia.org/wiki/Brian's_Brain}) requires three states: ``on'', ``dying'', and ``off''.
+
 \end{exercise}
+
