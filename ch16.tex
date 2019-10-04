@@ -1,4 +1,4 @@
-\chapter{Reusing Classes}
+\chapter{Specialization}
 
 %\section{Inheritance revisited}
 
@@ -16,7 +16,7 @@ Notice that we didn't write the code for \java{Canvas}; it's part of the Java Li
 But we were able to extend it for our own purposes.
 In fact, the \java{Canvas} class was specifically designed to be extended.
 
-Throughout this chapter, we'll explore the idea of specialization more fully.
+Throughout this chapter, we'll explore the ideas of inheritance and code reuse more fully.
 We'll continue to develop graphical simulations as a running example, but this time, we'll draw varying shapes and colors.
 
 
@@ -293,18 +293,96 @@ public static void main(String[] args) {
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=4in]{figs/Drawing.png}
+\includegraphics[width=4in]{figs/drawing.png}
 \caption{Initial drawing of three \java{RegularPolygon} objects.}
 \label{fig:drawing}
 \end{center}
 \end{figure}
 
-What's interesting about this example is that the polygon objects have methods from multiple classes.
-The constructor is defined in \java{RegularPolygon}.
-The \java{translate} method is defined in \java{Polygon}.
-The \java{draw} method (called by \java{paint}) is defined in \java{ColorPolygon}.
-And yet, everything works together seamlessly.
+%What's interesting about this example is that the polygon objects have methods from multiple classes.
+%The constructor is defined in \java{RegularPolygon}.
+%The \java{translate} method is defined in \java{Polygon}.
+%The \java{draw} method (called by \java{paint}) is defined in \java{ColorPolygon}.
+%And yet, everything works together seamlessly.
 
 
-\section{Adding Animation}
+\section{Blinking Polygons}
 
+At this point, we have a simple program that draws polygons.
+We can make it a lot more fun by adding animation.
+Chapter~\ref{conway} introduced the idea of simulating time steps.
+We can write an animation loop at the end of \java{main}:
+
+\begin{code}
+while (true) {
+    drawing.step();
+    try {
+        Thread.sleep(25);
+    } catch (InterruptedException e) {
+        // do nothing
+    }
+}
+\end{code}
+
+The \java{step} method of \java{Drawing} updates each polygon and repaints (clears and redraws) the canvas.
+
+\begin{code}
+public void step() {
+    for (ColorPolygon cp : list) {
+        cp.step();
+    }
+    repaint();
+}
+\end{code}
+
+In order for this code to compile, ColorPolygon needs a \java{step} method too.
+But it doesn't do anything yet; we'll override it in subclasses.
+
+\begin{code}
+public void step() {
+    // do nothing
+}
+\end{code}
+
+For example, we'll create a new type of polygon that blinks.
+\java{BlinkingPolygon} add two more attributes to \java{RegularPolygon}: whether it is currently \java{visible}, and a time step \java{count}.
+
+The constructor initializes these attributes after invoking \java{RegularPolygon}'s constructor (via \java{super}).
+Initially, a \java{BlinkingPolygon} is visible, and its time step count is 0.
+
+\begin{code}
+public class BlinkingPolygon extends RegularPolygon {
+    private boolean visible;
+    private int count;
+
+    public BlinkingPolygon(int nsides, int radius, Color c) {
+        super(nsides, radius, c);
+        visible = true;
+        count = 0;
+    }
+
+    public void draw(Graphics g) {
+        if (visible) {
+            super.draw(g);
+        }
+    }
+
+    public void step() {
+        count++;
+        if (count == 10) {
+            count = 0;
+            visible = !visible;
+        }
+    }
+}
+\end{code}
+
+The \java{draw} method displays the polygon on the screen only if it is visible.
+If not, then this polygon is not displayed.
+The \java{step} method toggles the visibility flag every ten time steps.
+
+You might notice something strange about this example.
+\java{RegularPolygon}, the superclass, does not have a \java{draw} method.
+So \java{super.draw} refers to the \java{draw} method in \java{ColorPolygon}.
+
+Replace \java{RegularPolygon} with \java{BlinkingPolygon} in the \java{main} method, and you will see Figure~\ref{fig:drawing} come to life.
