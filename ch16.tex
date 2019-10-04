@@ -168,7 +168,7 @@ public RegularPolygon(int nsides, int radius, Color color) {
 %Since this constructor initializes all four attributes, there is no need for it to invoke \java{super()}.
 
 
-\section{Constructors Revisited}
+\section{More Constructors}
 
 Java Library classes, including \java{Polygon}, often have more than one constructor for convenience.
 Writing multiple constructors makes it possible to have optional parameters.
@@ -219,7 +219,7 @@ In this example, we \java{throw} an exception to indicate that an error happened
 Exceptions that are not caught (with \java{try}/\java{catch}) automatically terminate the program and display an error message along with a stack trace.
 
 
-\section{Initial Drawing}
+\section{An Initial Drawing}
 
 Now that we have \java{ColorPolygon} and \java{RegularPolygon}, let's take them for a test drive.
 We'll need a \java{Canvas} for drawing them:
@@ -385,4 +385,83 @@ You might notice something strange about this example.
 \java{RegularPolygon}, the superclass, does not have a \java{draw} method.
 So \java{super.draw} refers to the \java{draw} method in \java{ColorPolygon}.
 
-Replace \java{RegularPolygon} with \java{BlinkingPolygon} in the \java{main} method, and you will see Figure~\ref{fig:drawing} come to life.
+%Replace \java{RegularPolygon} with \java{BlinkingPolygon} in the \java{main} method, and you will see Figure~\ref{fig:drawing} come to life.
+
+
+\section{Java Interfaces}
+
+You might be getting tired of polygons at this point.
+Isn't it possible to draw anything else?
+Of course the answer is ``yes'', but our \java{Drawing} is currently based on \java{ColorPolygon}.
+In order to draw other types of objects, we'll need to generalize the code further.
+
+The \java{Drawing} class does essentially three things: (1) it maintains a \java{list} of objects, (2) it invokes the \java{draw} method on each object, and (3) it invokes the \java{step} method on each object.
+Here's one way to make it more general:
+
+\begin{enumerate}
+
+\item
+Define a new parent class, named \java{Actor}, that provides the methods needed by \java{Drawing}:
+
+\begin{code}
+public class Actor {
+    public void draw(Graphics g) {
+        // do nothing
+    }
+    public void step() {
+        // do nothing
+    }
+}
+\end{code}
+
+\item
+In the \java{Drawing} class, find and replace ``\java{ColorPolygon}'' with ``\java{Actor}''.
+
+\item
+Any class that we want to draw will need to extend \java{Actor} (or one of its subclasses).
+
+\end{enumerate}
+
+There's just one problem: \java{ColorPolygon} already extends \java{Polygon}, and classes may extend only one superclass.
+Not to mention that the \java{Actor} class seems pointless, given that it does nothing.
+
+Java provides another mechanism for polymorphism that is more appropriate in this situation.
+We can define \java{Actor} as an interface instead of a class:
+
+\begin{code}
+public interface Actor {
+    void draw(Graphics g);
+    void step();
+}
+\end{code}
+
+An interface is a list of method declarations that define the capabilities of an object.
+All methods are \java{public} by default, since they are intended to be invoked by other classes.
+
+Interfaces require the keyword \java{implements} instead of \java{extends}.
+We can change the definition of \java{ColorPolygon} as follows:
+
+\begin{code}
+public class ColorPolygon extends Polygon implements Actor
+\end{code}
+
+In terms of inheritance, \java{ColorPolygon} is both a \java{Polygon} and an \java{Actor}.
+The same is true for subclasses of \java{ColorPolygon}.
+As a result, the following statements are possible:
+
+\begin{code}
+Actor a1 = new ColorPolygon();
+Actor a2 = new RegularPolygon(5, 50, Color.YELLOW);
+Actor a3 = new BlinkingPolygon(8, 50, Color.RED);
+\end{code}
+
+Interfaces are another example of polymorphism.
+The variables \java{a1}, \java{a2}, and \java{a3} are all different types of objects.
+But each of them provides the \java{draw} and \java{step} methods as specified in the \java{Actor} interface.
+
+Classes may extend only one superclass, but they may implement as many interfaces as they want.
+We'll see an example with multiple interfaces in the next section.
+
+
+\section{Event Listeners}
+
