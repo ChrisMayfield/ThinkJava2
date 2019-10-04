@@ -640,6 +640,8 @@ As a result, this loop creates 30 \java{String} objects!
 At the end, \java{text} refers to the most recent \java{String}.
 Garbage collection deletes the rest, but that's a lot of garbage for a seemly simple program.
 
+\index{StringBuilder}
+
 The Java library provides the \java{StringBuilder} class for just this reason.
 It's part of the \java{java.lang} package, so you don't need to import it.
 Because \java{StringBuilder} objects are mutable, they can implement concatenation more efficiently.
