@@ -1,11 +1,14 @@
-\chapter{Specialization}
+\chapter{Advanced Topics}
 
-%\section{Inheritance revisited}
+\index{inheritance}
+\index{generalization}
 
 When we first looked at inheritance in Chapter~\ref{eights}, our purpose was to avoid duplicating code.
 We noticed that ``decks of cards'' and ``hands of cards'' had common functionality, and we designed a \java{CardCollection} class to provide it.
 This design technique is known as {\bf generalization}.
 By generalizing the code, we were able to reuse it in the \java{Deck} and \java{Hand} classes.
+
+\index{specialization}
 
 In Chapter~\ref{conway}, we looked at inheritance from a different point of view.
 When designing \java{GridCanvas} to represent a grid of cells, we extended \java{Canvas} and overrode its \java{paint} and \java{update} methods.
@@ -181,7 +184,7 @@ public RegularPolygon(int nsides, int radius) {
 \end{code}
 
 The keyword \java{this}, when used in a constructor, invokes another constructor in the same class.
-It is similar in syntax to the keyword \java{super}, which invokes a constructor in the parent class.
+It is similar in syntax to the keyword \java{super}, which invokes a constructor in the superclass.
 
 Similarly, we could make the \java{radius} parameter optional too:
 
@@ -401,7 +404,7 @@ Here's one way to make it more general:
 \begin{enumerate}
 
 \item
-Define a new parent class, named \java{Actor}, that provides the methods needed by \java{Drawing}:
+Define a new superclass, named \java{Actor}, that provides the methods needed by \java{Drawing}:
 
 \begin{code}
 public class Actor {
@@ -459,9 +462,179 @@ Interfaces are another example of polymorphism.
 The variables \java{a1}, \java{a2}, and \java{a3} are all different types of objects.
 But each of them provides the \java{draw} and \java{step} methods as specified in the \java{Actor} interface.
 
-Classes may extend only one superclass, but they may implement as many interfaces as they want.
-We'll see an example with multiple interfaces in the next section.
+Classes may extend only one superclass, but they may implement as many interfaces as needed.
+Java Library classes often implement multiple interfaces.
 
 
 \section{Event Listeners}
 
+Now that our \java{Drawing} is based on \java{Actor} instead of \java{ColorPolygon}, we can draw other types of graphics.
+Here is the beginning of a class that draws an image file (gif, jpg, or png format):
+
+\begin{code}
+public class Sprite implements Actor, KeyListener {
+    private Image image;
+    private int xpos;
+    private int ypos;
+    private int dx;
+    private int dy;
+
+    public Sprite(String path, int xpos, int ypos) {
+        try {
+            this.image = ImageIO.read(new File(path));
+            this.xpos = xpos;
+            this.ypos = ypos;
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+    }
+\end{code}
+
+The constructor attempts to read an image file using \java{ImageIO} (from the \java{javax.imageio} package).
+If an error occurs during reading, an \java{IOException} is caught, and the program displays an error message.
+
+\java{Sprite} implements two interfaces: \java{Actor} and \java{KeyListener}.
+\java{Actor} requires you to provide \java{draw} and \java{step} methods:
+
+\begin{code}
+public void draw(Graphics g) {
+    g.drawImage(image, xpos, ypos, null);
+}
+
+public void step() {
+    xpos += dx;
+    ypos += dy;
+}
+\end{code}
+
+The \java{draw} method draws the image at the sprite's current position.
+The \java{step} method changes the position based on \java{dx} and \java{dy}, which are initially zero.
+
+\java{KeyListener} is an interface for receiving keyboard events.
+It requires you to provide the following methods:
+
+\begin{itemize}
+\item \java{void keyPressed(KeyEvent e);}
+\\ Invoked when a key has been ``pressed''.
+This method is invoked repeatedly while a key is being held down.
+
+\item \java{void keyReleased(KeyEvent e);}
+\\ Invoked when a key has been ``released'', meaning it is no longer down.
+
+\item \java{void keyTyped(KeyEvent e);}
+\\ Invoked when a key has been ``typed'', which generally means it has been both pressed and released.
+\end{itemize}
+
+The \java{KeyEvent} object contains detailed information about which key was pressed, released, or typed.
+
+We can use these methods to implement a simple game using the arrow keys.
+When the user presses up or down, the sprite will change its y-position.
+When the user presses left or right, the sprite will change its x-position.
+As such, we can ignore \java{keyTyped} events:
+
+\begin{code}
+public void keyTyped(KeyEvent e) {
+    // do nothing
+}
+\end{code}
+
+Arrow keys behave differently from letters and numbers on a keyboard.
+They generate ``virtual key'' codes, rather than printable characters.
+The \java{KeyEvent} class defines constants for referring to these codes.
+
+\begin{code}
+public void keyPressed(KeyEvent e) {
+    switch (e.getKeyCode()) {
+        case KeyEvent.VK_UP:
+            dy = -5;
+            break;
+        case KeyEvent.VK_DOWN:
+            dy = +5;
+            break;
+        case KeyEvent.VK_LEFT:
+            dx = -5;
+            break;
+        case KeyEvent.VK_RIGHT:
+            dx = +5;
+            break;
+    }
+}
+\end{code}
+
+In \java{keyPressed}, we change \java{dx} or \java{dy} depending on which key is currently being pressed.
+Similarly, the \java{keyReleased} changes \java{dx} or \java{dy} back to zero.
+
+\begin{code}
+public void keyReleased(KeyEvent e) {
+    switch (e.getKeyCode()) {
+        case KeyEvent.VK_UP:
+        case KeyEvent.VK_DOWN:
+            dy = 0;
+            break;
+        case KeyEvent.VK_LEFT:
+        case KeyEvent.VK_RIGHT:
+            dx = 0;
+            break;
+    }
+}
+\end{code}
+
+
+\section{Conclusion}
+
+In order for an object to receive keyboard events, it needs to be added as a listener where the typing actually occurs.
+Here is what that code looks like in the \java{main} method:
+
+\begin{code}
+Sprite sprite = new Sprite("face-smile.png", 25, 150);
+drawing.add(sprite);
+drawing.addKeyListener(sprite);
+\end{code}
+
+Recall that the \java{add} method is one that we wrote.
+It adds an \java{Actor} to the list of objects to be drawn.
+The \java{addKeyListener} method is provided by \java{Component}, the superclass of \java{Canvas}.
+
+Java provides many other event listeners that you can implement to make your programs interactive.
+For example, \java{MouseListener}, \java{MouseMotionListener}, and \java{MouseWheelListener} allow you to respond to mouse input.
+
+We hope this final chapter has been a useful summary of topics presented in the book, including input and output, decisions and loops, classes and methods, arrays and objects, generalization and specialization, and graphics.
+Congratulations on making it to the end!
+
+
+\section{Vocabulary}
+
+\begin{description}
+
+\term{generalization}
+TODO
+
+\term{specialization}
+TODO
+
+\term{polymorphism}
+TODO
+
+\end{description}
+
+
+\section{Exercises}
+
+The code for this chapter is in the {\tt ch16} directory of {\tt ThinkJavaCode2}.
+See page~\pageref{code} for instructions on how to download the repository.
+Before you start the exercises, we recommend that you compile and run the examples.
+
+
+\begin{exercise}
+MovingPolygon
+\end{exercise}
+
+
+\begin{exercise}
+ActionListener
+\end{exercise}
+
+
+\begin{exercise}
+Mole, MoleHill, and WhackAMole
+\end{exercise}
