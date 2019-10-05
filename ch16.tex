@@ -12,12 +12,12 @@ By generalizing the code, we were able to reuse it in the \java{Deck} and \java{
 
 In Chapter~\ref{conway}, we looked at inheritance from a different point of view.
 When designing \java{GridCanvas} to represent a grid of cells, we extended \java{Canvas} and overrode its \java{paint} and \java{update} methods.
-This technique is an example of {\bf specialization}.
-By specializing the code already provided by \java{Canvas}, we were able to draw grids on the screen with very little effort.
+This design is an example of {\bf specialization}.
+Using the code provided by \java{Canvas}, we created a specialized subclass with minimal additional code.
 
-Notice that we didn't write the code for \java{Canvas}; it's part of the Java Library.
-But we were able to extend it for our own purposes.
-In fact, the \java{Canvas} class was specifically designed to be extended.
+We didn't write the code for \java{Canvas}; it's part of the Java Library.
+But we were able to customize it for our own purposes.
+In fact, the \java{Canvas} class was explicitly designed to be extended.
 
 In this chapter, we'll explore the concept of inheritance more fully and explore event-driven programming.
 We'll continue to develop graphical simulations as a running example, but this time in varying shapes and colors!
@@ -26,10 +26,10 @@ We'll continue to develop graphical simulations as a running example, but this t
 \section{Polygon Objects}
 
 The word polygon means ``many angles''; the most basic polygons are triangles (3 angles), rectangles (4 angles), pentagons (5 angles), and so forth.
-Polygons are an important part of computer graphics, because they are used to compose more complex images.
+Polygons are an important part of computer graphics because they are used to compose more complex images.
 
-Java provides a \java{Polygon} class (in \java{java.awt}) that is relatively straightforward to use.
-The following code creates the triangle shown in Figure~\ref{fig:triangle}:
+Java provides a \java{Polygon} class (in \java{java.awt}) that we can use to represent and draw polygons.
+The following code creates an empty \java{Polygon} and adds three points.
 
 \begin{code}
 Polygon p = new Polygon();
@@ -38,28 +38,24 @@ p.addPoint(100, 35);
 p.addPoint(143, 110);
 \end{code}
 
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics{figs/triangle.png}
-\caption{A polygon with three points.}
-\label{fig:triangle}
-\end{center}
-\end{figure}
-
 Internally, \java{Polygon} objects have three attributes:
 
 \begin{itemize}
+
 \item \java{public int npoints;} {\tt ~~~} \java{// total number of points}
+
 \item \java{public int[] xpoints;} {\tt ~} \java{// array of X coordinates}
+
 \item \java{public int[] ypoints;} {\tt ~} \java{// array of Y coordinates}
+
 \end{itemize}
 
 When a \java{Polygon} is created, \java{npoints} is 0 and the two arrays are initialized with length 4.
 As points are added, \java{npoints} is incremented.
 If \java{npoints} exceeds the length of the arrays, larger arrays are created, and the previous values are copied over (similar to how \java{ArrayList} works).
 
-The \java{Polygon} class provides many useful methods like \java{contains}, \java{intersects}, and \java{translate}.
-However, it doesn't provide any methods for displaying the polygon like \java{draw} or \java{toString}.
+The \java{Polygon} class provides many useful methods, like \java{contains}, \java{intersects}, and \java{translate}.
+We'll get to those later, but first we're going to do some specialization.
 
 
 \section{Adding Color}
@@ -87,13 +83,12 @@ As a reminder, constructors are not inherited when you extend a class.
 If you don't define a constructor, the compiler will generate one that does nothing.
 
 The constructor for \java{ColorPolygon} uses \java{super} to invoke the constructor for \java{Polygon}, which initializes the attributes \java{npoints}, \java{xpoints}, and \java{ypoints}.
-After that, \java{ColorPolygon} initializes the \java{color} attribute to \java{GRAY}.
+Then \java{ColorPolygon} initializes the \java{color} attribute to \java{GRAY}.
 
-\java{ColorPolygon} has the same attributes and methods that \java{Polygon} has, in addition to \java{color} and \java{draw}.
-You can use \java{addPoint} as before, or you can directly access \java{npoints}, \java{xpoints}, and \java{ypoints} (since they are \java{public}).
+\java{ColorPolygon} has the same attributes and methods that \java{Polygon} has, so you can use \java{addPoint} as before, or you can directly access \java{npoints}, \java{xpoints}, and \java{ypoints} (since they are \java{public}).
 You can also use methods like \java{contains}, \java{intersects}, and \java{translate}.
 
-The following code creates the same triangle as shown in Figure~\ref{fig:triangle} and changes its color to \java{GREEN}:
+The following code creates a \java{ColorPolygon} with the same points as in the previous section, and sets its color to \java{GREEN}:
 
 \begin{code}
 ColorPolygon p = new ColorPolygon();
@@ -106,18 +101,14 @@ p.color = Color.GREEN;
 
 \section{Regular Polygons}
 
-The original \java{Polygon} class has two constructors: one that creates an empty polygon, and one that copies existing values into \java{xpoints}, \java{ypoints}, and \java{npoints}.
-%Creating arbitrary polygons with many sides is tedious work.
-It would be nice if we could construct $n$-sided polygons without having to specify all the coordinates manually.
-
-For simplicity, we'll focus on regular polygons, where all sides have the same length and all angles are equal in measure.
+A ``regular'' polygon has all sides the same length and all angles equal in measure.
 Regular polygons are a special case of polygons, so we will use specialization to define a class for them.
 
 We could extend the \java{Polygon} class, like we did in the previous section.
-But then we would lose the \java{Color} functionality we just added.
+But then we would not have the \java{Color} functionality we just added.
 So we will make \java{RegularPolygon} extend \java{ColorPolygon}.
 
-To construct a \java{RegularPolygon}, we will specify the number of sides, the radius (distance from the center to a vertex), and the color.
+To construct a \java{RegularPolygon}, we specify the number of sides, the radius (distance from the center to a vertex), and the color.
 For example:
 
 \begin{code}
@@ -132,11 +123,12 @@ RegularPolygon rp = new RegularPolygon(6, 50, Color.BLUE);
 \end{center}
 \end{figure}
 
-The constructor uses a bit of trigonometry to find the coordinates of each vertex.
+The constructor uses trigonometry to find the coordinates of each vertex.
 Figure~\ref{fig:hexagon} illustrates the process.
 The number of sides ($n=6$) and the radius ($r=50$) are given as parameters.
 
 \begin{itemize}
+
 \item Imagine a clock hand starting at V0 and rotating counterclockwise to V1, V2, and so forth.
 In Figure~\ref{fig:hexagon}, the hand is currently at V1.
 
@@ -146,9 +138,10 @@ In other words, we are dividing the rotation of the clock hand into $n$ equal an
 \item By definition, $\cos(\theta) = x/r$ and $\sin(\theta) = y/r$. Therefore, $x = r \cos(\theta)$ and $y = r \sin(\theta)$.
 
 \item We can determine the other $(x, y)$ coordinates by multiplying $\theta$ by $i$, where $i$ is the vertex number.
+
 \end{itemize}
 
-Here is the source code:
+Here is the contructor for \java{RegularPolygon}:
 
 \begin{code}
 public RegularPolygon(int nsides, int radius, Color color) {
@@ -160,19 +153,32 @@ public RegularPolygon(int nsides, int radius, Color color) {
     this.color = color;
 
     // the amount to rotate for each vertex (in radians)
-    double angle = 2.0 * Math.PI / nsides;
+    double theta = 2.0 * Math.PI / nsides;
 
     // compute x and y coordinates, centered at the origin
     for (int i = 0; i < nsides; i++) {
-        double x = radius * Math.cos(i * angle);
-        double y = radius * Math.sin(i * angle);
+        double x = radius * Math.cos(i * theta);
+        double y = radius * Math.sin(i * theta);
         xpoints[i] = (int) Math.round(x);
         ypoints[i] = (int) Math.round(y);
     }
 }
 \end{code}
 
-%Since the constructor initializes all four attributes, there is no need for it to invoke \java{super()}.
+This constructor initializes all four attributes, so it doesn't have to invoke \java{super()}.
+
+It initializes \java{xpoints} and \java{ypoints} by creating arrays of \java{int}.
+Inside the \java{for} loop, it uses \java{sin} and \java{cos} to compute the coordinates of the vertices as floating-point numbers, then it rounds them off to integers, and stores them in the arrays.
+
+When we construct a \java{RegularPolygon}, the vertices are centered around the point $(0, 0)$.
+If we want the center of the polygon to be somewhere else, we can use \java{translate}, which we inherit from \java{Polygon}:
+
+\begin{code}
+RegularPolygon rp = new RegularPolygon(6, 50, Color.BLUE);
+rp.translate(100, 100);
+\end{code}
+
+The result is a polygon with radius 50 centered at the point $(100, 100)$.
 
 
 \section{More Constructors}
@@ -182,7 +188,7 @@ For example, we could make the \java{color} parameter optional by defining a sec
 
 \begin{code}
 public RegularPolygon(int nsides, int radius) {
-    this(nsides, radius, Color.BLACK);
+    this(nsides, radius, Color.GRAY);
 }
 \end{code}
 
@@ -197,10 +203,16 @@ public RegularPolygon(int nsides) {
 }
 \end{code}
 
-This third constructor calls the second one, which in turn calls the first one.
-At the end of the day, it creates regular polygons with a radius of \java{50} and the color \java{BLACK}.
+Now, suppose we invoke the \java{RegularPolygon} constructor like this:
 
-When writing constructors, it's also helpful to ensure the parameter values are reasonable.
+\begin{code}
+RegularPolygon rp = new RegularPolygon(6);
+\end{code}
+
+Because we provide one integer argument, Java calls the third constructor, which calls the second one, which calls the first one.
+The result is a \java{RegularPolygon} with the specified value of \java{nsides}, 6, the default value of \java{radius}, 50, and the default color, \java{BLACK}.
+
+When writing constructors, it's a good idea to validate the values you get as parameters.
 Doing so prevents run-time errors from happening later in the program, which makes the code easier to debug.
 
 For \java{RegularPolygon}, the number of sides should be at least three, the radius should be greater than zero, and the color should not be null.
@@ -219,6 +231,8 @@ public RegularPolygon(int nsides, int radius, Color color) {
     if (color == null) {
         throw new NullPointerException("invalid color");
     }
+    
+    // the rest of the method is omitted
 \end{code}
 
 \index{throw}
@@ -227,12 +241,14 @@ public RegularPolygon(int nsides, int radius, Color color) {
 In this example, we \java{throw} an exception to indicate that an error happened.
 Exceptions that are not caught (with \java{try}/\java{catch}) automatically terminate the program and display an error message along with the stack trace.
 
+Because we added this code to the most general constructor, we don't have to add it to the others.
+
 
 \section{An Initial Drawing}
 \label{sec:drawing}
 
 Now that we have \java{ColorPolygon} and \java{RegularPolygon}, let's take them for a test drive.
-We'll need a \java{Canvas} for drawing them:
+We'll need a \java{Canvas} for drawing them, so we define a new class, \java{Drawing}, that extends \java{Canvas}:
 
 \begin{code}
 public class Drawing extends Canvas {
@@ -256,26 +272,15 @@ public class Drawing extends Canvas {
 }
 \end{code}
 
-The \java{Drawing} class stores a list of \java{ColorPolygon} objects and overrides the \java{paint} method of \java{Canvas} to draw them.
-It also provides an \java{add} method for adding polygons to the drawing.
+\java{Drawing} has an \java{ArrayList} of \java{ColorPolygon} objects.
+When we create a \java{Drawing} object, the list is initially empty.
+The \java{add} method takes a \java{ColorPolygon} and adds it to the list.
 
-\index{IS-A}
+\java{Drawing} overrides the \java{paint} method it inherits from \java{Canvas}.
+\java{paint} loops through the list of \java{ColorPolygon} objects and invokes \java{draw} on each one.
 
-Recall that \java{RegularPolygon} ``is a'' \java{ColorPolygon}, so \java{Drawing} will be able to handle either type of object.
-In fact, we can create the objects like this:
-
-\begin{code}
-ColorPolygon p1 = new RegularPolygon(3, 50, Color.GREEN);
-\end{code}
-
-\index{polymorphism}
-
-This technique is an example of {\bf polymorphism}, a fancy word that means ``having many forms''.
-At compile-time, \java{p1} is treated like a \java{ColorPolygon}.
-But at run-time, \java{p1} is actually a \java{RegularPolygon}.
-
-Here is a \java{main} method for the drawing.
-The result is shown in Figure~\ref{fig:drawing}.
+Here is an example that creates three \java{RegularPolygon} objects and draws them.
+Figure~\ref{fig:drawing} shows the result.
 
 \begin{code}
 public static void main(String[] args) {
@@ -305,6 +310,31 @@ public static void main(String[] args) {
 }
 \end{code}
 
+The first block of code creates \java{RegularPolygon} objects with 3, 6, and 360 sides.
+As you'll see, a polygon with 360 sides is a pretty good approximation of a circle.
+
+The next block of code translates the polygons to different locations.
+
+The next block of code creates the \java{Drawing} and add the polygons to it.
+
+And the final block of code creates a \java{JFrame}, adds the \java{Drawing} to it, and displays the result.
+
+Most of these pieces should be familiar, but there is one part of this program that might surprise you: when we create the \java{RegularPolygon} objects, we assign them to \java{ColorPolygon} variables, and then pass them to \java{Drawing.add}, which requires \java{ColorPolygon} objects.
+It might not be obvious why that's legal.
+
+\index{IS-A}
+
+Recall that \java{RegularPolygon} extends \java{ColorPolygon}, so every \java{RegularPolygon} object is also a \java{ColorPolygon}.
+
+The parameter of \java{Drawing.add} has to be a \java{ColorPolygon}, but it can be any type of \java{ColorPolygon}, which means any subclass of \java{ColorPolygon}.
+
+\index{polymorphism}
+
+This design is an example of {\bf polymorphism}, a fancy word that means ``having many forms''.
+
+%At compile-time, \java{p1} is treated like a \java{ColorPolygon}.
+%But at run-time, \java{p1} is actually a \java{RegularPolygon}.
+
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics[width=4in]{figs/drawing.png}
@@ -323,25 +353,33 @@ public static void main(String[] args) {
 \section{Blinking Polygons}
 \label{sec:blinking}
 
-At this point, we have a simple program that draws polygons.
-We can make it a lot more fun by adding animation.
+At this point, we have a simple program that draws polygons; we can make it more fun by adding animation.
 Chapter~\ref{conway} introduced the idea of simulating time steps.
-We can write a simulation loop at the end of \java{main}:
+We can write a simulation loop like this:
 
 \begin{code}
-while (true) {
-    drawing.step();
-    try {
-        Thread.sleep(25);
-    } catch (InterruptedException e) {
-        // do nothing
+    public static void mainloop(Drawing drawing) {
+        // main simulation loop
+        while (true) {
+
+            // update the drawing
+            drawing.step();
+
+            // delay the simulation
+            try {
+                Thread.sleep(1000 / 30);
+            } catch (InterruptedException e) {
+                // do nothing
+            }
+        }
     }
-}
 \end{code}
 
-The \java{step} method of \java{Drawing} updates each polygon and repaints (clears and redraws) the entire canvas.
+The \java{step} method of \java{Drawing} updates each polygon and repaints (clears and redraws) the canvas.
 
 \begin{code}
+# class Drawing
+
 public void step() {
     for (ColorPolygon cp : list) {
         cp.step();
