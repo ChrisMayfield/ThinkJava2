@@ -61,13 +61,13 @@ We'll get to those later, but first we're going to do some specialization.
 \section{Adding Color}
 
 Specialization is useful for adding new features to an existing class, especially when you can't (or don't want to) change its design.
-For example, we can extend the \java{Polygon} class by adding a \java{Color} attribute and implementing a \java{draw} method:
+For example, we can extend the \java{Polygon} class by adding a \java{draw} method and a \java{Color} attribute:
 
 \begin{code}
-public class ColorPolygon extends Polygon {
+public class DrawablePolygon extends Polygon {
     protected Color color;
 
-    public ColorPolygon() {
+    public DrawablePolygon() {
         super();
         color = Color.GRAY;
     }
@@ -82,16 +82,16 @@ public class ColorPolygon extends Polygon {
 As a reminder, constructors are not inherited when you extend a class.
 If you don't define a constructor, the compiler will generate one that does nothing.
 
-The constructor for \java{ColorPolygon} uses \java{super} to invoke the constructor for \java{Polygon}, which initializes the attributes \java{npoints}, \java{xpoints}, and \java{ypoints}.
-Then \java{ColorPolygon} initializes the \java{color} attribute to \java{GRAY}.
+The constructor for \java{DrawablePolygon} uses \java{super} to invoke the constructor for \java{Polygon}, which initializes the attributes \java{npoints}, \java{xpoints}, and \java{ypoints}.
+Then \java{DrawablePolygon} initializes the \java{color} attribute to \java{GRAY}.
 
-\java{ColorPolygon} has the same attributes and methods that \java{Polygon} has, so you can use \java{addPoint} as before, or you can directly access \java{npoints}, \java{xpoints}, and \java{ypoints} (since they are \java{public}).
+\java{DrawablePolygon} has the same attributes and methods that \java{Polygon} has, so you can use \java{addPoint} as before, or you can directly access \java{npoints}, \java{xpoints}, and \java{ypoints} (since they are \java{public}).
 You can also use methods like \java{contains}, \java{intersects}, and \java{translate}.
 
-The following code creates a \java{ColorPolygon} with the same points as in the previous section, and sets its color to \java{GREEN}:
+The following code creates a \java{DrawablePolygon} with the same points as in the previous section, and sets its color to \java{GREEN}:
 
 \begin{code}
-ColorPolygon p = new ColorPolygon();
+DrawablePolygon p = new DrawablePolygon();
 p.addPoint(57, 110);
 p.addPoint(100, 35);
 p.addPoint(143, 110);
@@ -106,7 +106,7 @@ Regular polygons are a special case of polygons, so we will use specialization t
 
 We could extend the \java{Polygon} class, like we did in the previous section.
 But then we would not have the \java{Color} functionality we just added.
-So we will make \java{RegularPolygon} extend \java{ColorPolygon}.
+So we will make \java{RegularPolygon} extend \java{DrawablePolygon}.
 
 To construct a \java{RegularPolygon}, we specify the number of sides, the radius (distance from the center to a vertex), and the color.
 For example:
@@ -146,7 +146,7 @@ Here is the contructor for \java{RegularPolygon}:
 \begin{code}
 public RegularPolygon(int nsides, int radius, Color color) {
 
-    // initialize ColorPolygon attributes
+    // initialize DrawablePolygon attributes
     this.npoints = nsides;
     this.xpoints = new int[nsides];
     this.ypoints = new int[nsides];
@@ -165,12 +165,12 @@ public RegularPolygon(int nsides, int radius, Color color) {
 }
 \end{code}
 
-This constructor initializes all four attributes, so it doesn't have to invoke \java{super()}.
+This constructor initializes all four attributes, so it doesn't have to invoke \java{super}.
 
-It initializes \java{xpoints} and \java{ypoints} by creating arrays of \java{int}.
+It initializes \java{xpoints} and \java{ypoints} by creating arrays of integer coordinates.
 Inside the \java{for} loop, it uses \java{sin} and \java{cos} to compute the coordinates of the vertices as floating-point numbers, then it rounds them off to integers, and stores them in the arrays.
 
-When we construct a \java{RegularPolygon}, the vertices are centered around the point $(0, 0)$.
+When we construct a \java{RegularPolygon}, the vertices are centered at the point $(0, 0)$.
 If we want the center of the polygon to be somewhere else, we can use \java{translate}, which we inherit from \java{Polygon}:
 
 \begin{code}
@@ -183,8 +183,9 @@ The result is a polygon with radius 50 centered at the point $(100, 100)$.
 
 \section{More Constructors}
 
-Java Library classes, including \java{Polygon}, often have more than one constructor for convenience.
-For example, we could make the \java{color} parameter optional by defining a second constructor:
+Classes in the Java library often have more than one constructor for convenience.
+We can do the same with \java{RegularPolygon}.
+For example, we can make the \java{color} parameter optional by defining a second constructor:
 
 \begin{code}
 public RegularPolygon(int nsides, int radius) {
@@ -213,7 +214,7 @@ Because we provide one integer argument, Java calls the third constructor, which
 The result is a \java{RegularPolygon} with the specified value of \java{nsides}, 6, the default value of \java{radius}, 50, and the default color, \java{BLACK}.
 
 When writing constructors, it's a good idea to validate the values you get as parameters.
-Doing so prevents run-time errors from happening later in the program, which makes the code easier to debug.
+Doing so prevents run-time errors later in the program, which makes the code easier to debug.
 
 For \java{RegularPolygon}, the number of sides should be at least three, the radius should be greater than zero, and the color should not be null.
 We can add the following lines to the first constructor:
@@ -238,8 +239,8 @@ public RegularPolygon(int nsides, int radius, Color color) {
 \index{throw}
 \index{Statement!throw}
 
-In this example, we \java{throw} an exception to indicate that an error happened.
-Exceptions that are not caught (with \java{try}/\java{catch}) automatically terminate the program and display an error message along with the stack trace.
+In this example, we \java{throw} an exception to indicate that one of the arguments is invalid.
+By default these exceptions terminate the program and display an error message along with the stack trace.
 
 Because we added this code to the most general constructor, we don't have to add it to the others.
 
@@ -247,37 +248,37 @@ Because we added this code to the most general constructor, we don't have to add
 \section{An Initial Drawing}
 \label{sec:drawing}
 
-Now that we have \java{ColorPolygon} and \java{RegularPolygon}, let's take them for a test drive.
+Now that we have \java{DrawablePolygon} and \java{RegularPolygon}, let's take them for a test drive.
 We'll need a \java{Canvas} for drawing them, so we define a new class, \java{Drawing}, that extends \java{Canvas}:
 
 \begin{code}
 public class Drawing extends Canvas {
-    private ArrayList<ColorPolygon> list;
+    private ArrayList<DrawablePolygon> list;
 
     public Drawing(int width, int height) {
         setSize(width, height);
         setBackground(Color.WHITE);
-        list = new ArrayList<ColorPolygon>();
+        list = new ArrayList<DrawablePolygon>();
     }
 
-    public void add(ColorPolygon cp) {
+    public void add(DrawablePolygon cp) {
         list.add(cp);
     }
 
     public void paint(Graphics g) {
-        for (ColorPolygon cp : list) {
-            cp.draw(g);
+        for (DrawablePolygon dp : list) {
+            dp.draw(g);
         }
     }
 }
 \end{code}
 
-\java{Drawing} has an \java{ArrayList} of \java{ColorPolygon} objects.
+\java{Drawing} has an \java{ArrayList} of \java{DrawablePolygon} objects.
 When we create a \java{Drawing} object, the list is initially empty.
-The \java{add} method takes a \java{ColorPolygon} and adds it to the list.
+The \java{add} method takes a \java{DrawablePolygon} and adds it to the list.
 
 \java{Drawing} overrides the \java{paint} method it inherits from \java{Canvas}.
-\java{paint} loops through the list of \java{ColorPolygon} objects and invokes \java{draw} on each one.
+\java{paint} loops through the list of \java{DrawablePolygon} objects and invokes \java{draw} on each one.
 
 Here is an example that creates three \java{RegularPolygon} objects and draws them.
 Figure~\ref{fig:drawing} shows the result.
@@ -286,9 +287,9 @@ Figure~\ref{fig:drawing} shows the result.
 public static void main(String[] args) {
 
     // create some regular polygons
-    ColorPolygon p1 = new RegularPolygon(3, 50, Color.GREEN);
-    ColorPolygon p2 = new RegularPolygon(6, 50, Color.ORANGE);
-    ColorPolygon p3 = new RegularPolygon(360, 50, Color.BLUE);
+    DrawablePolygon p1 = new RegularPolygon(3, 50, Color.GREEN);
+    DrawablePolygon p2 = new RegularPolygon(6, 50, Color.ORANGE);
+    DrawablePolygon p3 = new RegularPolygon(360, 50, Color.BLUE);
 
     // move them out of the corner
     p1.translate(100, 80);
@@ -315,24 +316,25 @@ As you'll see, a polygon with 360 sides is a pretty good approximation of a circ
 
 The next block of code translates the polygons to different locations.
 
-The next block of code creates the \java{Drawing} and add the polygons to it.
+The next block of code creates the \java{Drawing} and adds the polygons to it.
 
 And the final block of code creates a \java{JFrame}, adds the \java{Drawing} to it, and displays the result.
 
-Most of these pieces should be familiar, but there is one part of this program that might surprise you: when we create the \java{RegularPolygon} objects, we assign them to \java{ColorPolygon} variables, and then pass them to \java{Drawing.add}, which requires \java{ColorPolygon} objects.
+Most of these pieces should be familiar, but there is one part of this program that might surprise you: when we create the \java{RegularPolygon} objects, we assign them to \java{DrawablePolygon} variables, and then pass them to \java{Drawing.add}, which requires \java{DrawablePolygon} objects.
 It might not be obvious why that's legal.
 
 \index{IS-A}
 
-Recall that \java{RegularPolygon} extends \java{ColorPolygon}, so every \java{RegularPolygon} object is also a \java{ColorPolygon}.
+But remember that \java{RegularPolygon} extends \java{DrawablePolygon}, so every \java{RegularPolygon} object is also a \java{DrawablePolygon}.
 
-The parameter of \java{Drawing.add} has to be a \java{ColorPolygon}, but it can be any type of \java{ColorPolygon}, which means any subclass of \java{ColorPolygon}.
+The parameter of \java{Drawing.add} has to be a \java{DrawablePolygon}, but it can be any type of \java{DrawablePolygon}, which means any subclass of \java{DrawablePolygon}, including \java{RegularPolygon}.
 
 \index{polymorphism}
 
 This design is an example of {\bf polymorphism}, a fancy word that means ``having many forms''.
+\java{Drawing.add} is a polymorphic function because the parameter can be one of many types, and the \java{ArrayList} in \java{Drawing} is a polymorphic data structure because the elements can be different types.
 
-%At compile-time, \java{p1} is treated like a \java{ColorPolygon}.
+%At compile-time, \java{p1} is treated like a \java{DrawablePolygon}.
 %But at run-time, \java{p1} is actually a \java{RegularPolygon}.
 
 \begin{figure}[!ht]
@@ -346,7 +348,7 @@ This design is an example of {\bf polymorphism}, a fancy word that means ``havin
 %What's interesting about this example is that the polygon objects have methods from multiple classes.
 %The constructor is defined in \java{RegularPolygon}.
 %The \java{translate} method is defined in \java{Polygon}.
-%The \java{draw} method (called by \java{paint}) is defined in \java{ColorPolygon}.
+%The \java{draw} method (called by \java{paint}) is defined in \java{DrawablePolygon}.
 %And yet, everything works together seamlessly.
 
 
@@ -355,10 +357,13 @@ This design is an example of {\bf polymorphism}, a fancy word that means ``havin
 
 At this point, we have a simple program that draws polygons; we can make it more fun by adding animation.
 Chapter~\ref{conway} introduced the idea of simulating time steps.
-We can write a simulation loop like this:
+
+Here's a \java{mainloop} function that runs the animation.
 
 \begin{code}
     public static void mainloop(Drawing drawing) {
+        int rate = 30;
+        
         // main simulation loop
         while (true) {
 
@@ -367,7 +372,7 @@ We can write a simulation loop like this:
 
             // delay the simulation
             try {
-                Thread.sleep(1000 / 30);
+                Thread.sleep(1000 / rate);
             } catch (InterruptedException e) {
                 // do nothing
             }
@@ -375,21 +380,24 @@ We can write a simulation loop like this:
     }
 \end{code}
 
-The \java{step} method of \java{Drawing} updates each polygon and repaints (clears and redraws) the canvas.
+Each time through the loop, we call \java{drawing.step} to update the \java{Drawing}; then we sleep with a delay calculated to update 30 times per second.
 
+Here's what the \java{step} method of \java{Drawing} looks like:
 \begin{code}
 # class Drawing
 
 public void step() {
-    for (ColorPolygon cp : list) {
-        cp.step();
+    for (DrawablePolygon dp : list) {
+        dp.step();
     }
     repaint();
 }
 \end{code}
 
-In order for this code to compile, \java{ColorPolygon} also needs a \java{step} method.
-It doesn't need to do anything yet; we'll override it in subclasses.
+It invokes \java{step} on each \java{DrawablePolygon} in the list and repaints (clears and redraws) the canvas.
+
+In order for this code to compile, we need \java{DrawablePolygon} to provide a \java{step} method.
+Here's a version that doesn't do anything; we'll override it in subclasses.
 
 \begin{code}
 public void step() {
@@ -397,11 +405,10 @@ public void step() {
 }
 \end{code}
 
-Let's design a new type of polygon that blinks.
-\java{BlinkingPolygon} will add two more attributes to \java{RegularPolygon}: whether it is currently \java{visible}, and a time step \java{count}.
+Now let's design a new type of polygon that blinks.
+We'll define a class called \java{BlinkingPolygon} that extends \java{RegularPolygon} and adds two more attributes: \java{visible}, which indicates whether the polygon is visible, and \java{count}, which counts the number of time steps since the last blink.
 
-The constructor initializes these attributes after invoking \java{RegularPolygon}'s constructor (via \java{super}).
-Initially, a \java{BlinkingPolygon} is visible, and its time step count is 0.
+Here's the class definition:
 
 \begin{code}
 public class BlinkingPolygon extends RegularPolygon {
@@ -430,22 +437,22 @@ public class BlinkingPolygon extends RegularPolygon {
 }
 \end{code}
 
-The \java{draw} method displays the polygon on the screen if it is visible;
-otherwise, the polygon is not displayed.
-The \java{step} method toggles the visibility flag every ten time steps.
+The constructor uses \java{super} to call the \java{RegularPolygon} constructor.  Then it initializes \java{visible} and \java{count}.
+Initially the \java{BlinkingPolygon} is visible.
 
-Notice that \java{RegularPolygon}, the superclass, does not have a \java{draw} method.
-So \java{super.draw} refers to the \java{draw} method in \java{ColorPolygon}.
-%In general, the most recent method up the class hierarchy will be used.
+The \java{draw} method draws the polygon only if it is visible.
+It uses \java{super} to call \java{draw}, in the parent class.
+But the parent class is \java{RegularPolygon}, which does not provide \java{draw}.
+In this case, \java{super} invokes \java{draw} from the \java{DrawableRectangle} class, which is the superclass of the superclass.
 
-%Replace \java{RegularPolygon} with \java{BlinkingPolygon} in the \java{main} method, and you will see Figure~\ref{fig:drawing} come to life.
+The \java{step} method increments \java{count}.  Every 10 time steps, it toggles \java{visible} and resets \java{count} to 0.
 
 
 \section{Java Interfaces}
 
 You might be getting tired of polygons at this point.
 Isn't it possible to draw anything else?
-Of course the answer is ``yes'', but our \java{Drawing} is currently based on \java{ColorPolygon}.
+Of course the answer is ``yes'', but our \java{Drawing} is currently based on \java{DrawablePolygon}.
 In order to draw other types of objects, we'll need to generalize the code further.
 
 The \java{Drawing} class does essentially three things: (1) it maintains a \java{list} of objects, (2) it invokes the \java{draw} method on each object, and (3) it invokes the \java{step} method on each object.
@@ -453,8 +460,7 @@ Here's one way to make the code more general:
 
 \begin{enumerate}
 
-\item
-Define a new superclass, named \java{Actor}, that provides the two methods needed by \java{Drawing}:
+\item Define a new superclass, which we call \java{Actor}, that provides the two methods needed by \java{Drawing}:
 
 \begin{code}
 public class Actor {
@@ -467,16 +473,14 @@ public class Actor {
 }
 \end{code}
 
-\item
-In the \java{Drawing} class, find and replace ``\java{ColorPolygon}'' with ``\java{Actor}''.
+\item In the \java{Drawing} class, replace \java{DrawablePolygon} with \java{Actor}.
 
-\item
-Any class that we want to draw must now extend \java{Actor} (or one of its subclasses).
+\item Any class that we want to draw must now extend \java{Actor} or one of its subclasses.
 
 \end{enumerate}
 
-There's just one problem: \java{ColorPolygon} already extends \java{Polygon}, and classes may extend only one superclass.
-Not to mention that the \java{Actor} class seems pointless, given that it does nothing.
+There's just one problem: \java{DrawablePolygon} already extends \java{Polygon}, and classes may extend only one superclass.
+Also, the \java{Actor} class seems pointless, since the methods it defines don't do anything.
 
 \index{inheritance}
 
@@ -485,30 +489,35 @@ We can define \java{Actor} as an \java{interface} instead of a \java{class}:
 
 \begin{code}
 public interface Actor {
-    void draw(Graphics g);
-    void step();
+    public void draw(Graphics g);
+    public void step();
 }
 \end{code}
 
 \index{interface}
 
 An {\bf interface} is a list of method declarations that define the capabilities of an object.
-All methods are \java{public} by default, since they are intended to be used by other classes.
-So there is no need to declare them as \java{public}.
 
-Interfaces use the keyword \java{implements} instead of \java{extends}.
-We can change the definition of \java{ColorPolygon} as follows:
+% Is that true?  I thought they would have "default" protection.
+
+%All methods are \java{public} by default, since they are intended to be used by other classes.
+%So there is no need to declare them as \java{public}.
+
+To inherit from an interface, you use the keyword \java{implements} instead of \java{extends}.
+We can change the definition of \java{DrawablePolygon} as follows:
 
 \begin{code}
-public class ColorPolygon extends Polygon implements Actor
+public class DrawablePolygon extends Polygon implements Actor {
+    // rest of the class omitted
+}
 \end{code}
 
-In terms of inheritance, \java{ColorPolygon} is both a \java{Polygon} and an \java{Actor}.
-The same is true for subclasses of \java{ColorPolygon}.
+In terms of inheritance, \java{DrawablePolygon} is both a \java{Polygon} and an \java{Actor}.
+The same is true for subclasses of \java{DrawablePolygon}.
 As a result, the following statements are now possible:
 
 \begin{code}
-Actor a1 = new ColorPolygon();
+Actor a1 = new DrawablePolygon();
 Actor a2 = new RegularPolygon(5, 50, Color.YELLOW);
 Actor a3 = new BlinkingPolygon(8, 50, Color.RED);
 \end{code}
@@ -525,7 +534,7 @@ Java Library classes often implement multiple interfaces.
 
 \section{Event Listeners}
 
-Now that our \java{Drawing} is based on \java{Actor} instead of \java{ColorPolygon}, we can draw other types of graphics.
+Now that our \java{Drawing} is based on \java{Actor} instead of \java{DrawablePolygon}, we can draw other types of graphics.
 Here is the beginning of a class that draws an image file (in GIF, JPEG, or PNG format):
 
 \begin{code}
@@ -545,6 +554,7 @@ public class Sprite implements Actor, KeyListener {
             exc.printStackTrace();
         }
     }
+}
 \end{code}
 
 The constructor attempts to read an image file using \java{ImageIO} (from the \java{javax.imageio} package).
@@ -742,10 +752,11 @@ A language feature that allows objects to be assigned to variables of related ty
 
 \section{Exercises}
 
+% TODO: update this if we renumber the chapters
+
 The code for this chapter is in the {\tt ch16} directory of {\tt ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
-
 
 \begin{exercise}
 MovingPolygon
@@ -753,7 +764,7 @@ MovingPolygon
 
 
 \begin{exercise}
-toString method for ColorPolygon and other classes (using \java{super})
+toString method for DrawablePolygon and other classes (using \java{super})
 \end{exercise}
 
 
