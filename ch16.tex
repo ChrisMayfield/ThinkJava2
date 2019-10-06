@@ -674,14 +674,7 @@ public void keyTyped(KeyEvent e) {
 }
 \end{code}
 
-
-\section{A Video Game}
-
-We will now rewrite the \java{main} method from Section~\ref{sec:blinking} to demo a \java{Sprite} that responds to keyboard input.
-This program can be the start of a video game that you extend by adding other actors and event listeners.
-
-In order for an object to receive keyboard events, it needs to be added as a key listener where the typing will occur.
-We will need the following lines:
+Now, here's the code we need to create a \java{Sprite}, add it to a \java{Drawing}, and configure it as a \java{KeyListener}:
 
 \begin{code}
 Sprite sprite = new Sprite("face-smile.png", 25, 150);
@@ -692,11 +685,15 @@ drawing.setFocusable(true);
 
 Recall that the \java{add} method is one that we wrote in Section~\ref{sec:drawing}.
 It adds an \java{Actor} to the list of objects to be drawn.
-The \java{addKeyListener} method is provided by \java{Component}, the superclass of \java{Canvas}.
-It adds \java{sprite} to the list of objects that will receive key events.
+
+The \java{addKeyListener} method is inherited from \java{Canvas}.
+It adds a \java{KeyListener} to the list of objects that will receive key events.
 
 In graphical applications, key events are only sent to components when they have the keyboard focus.
 The \java{setFocusable} method ensures that \java{drawing} will be have the focus initially, without the user having to click on it first.
+
+
+\section{Timers}
 
 %When you run this program, the arrow keys might not work initially.
 %If that happens, click on the drawing to give it the keyboard focus.
@@ -714,13 +711,14 @@ The constructor for \java{Timer} takes two parameters:
 \item \java{ActionListener listener} {\tt ~} \java{// for handling timer events}
 \end{itemize}
 
-The \java{ActionListener} interface requires only one method, \java{actionPerformed}, that is invoked by the timer.
-We can reorganize the code in \java{main} by defining a class that implements \java{ActionListener}.
+The \java{ActionListener} interface requires only one method, \java{actionPerformed}.
+This is the method the \java{Timer} invokes after the given delay.
+
+Using a \java{Timer}, we can reorganize the code in \java{main} by defining a class that implements \java{ActionListener}.
 
 \begin{code}
 public class VideoGame implements ActionListener {
     private Drawing drawing;
-    private Toolkit toolkit;
 
     public VideoGame() {
         Sprite sprite = new Sprite("face-smile.png", 50, 50);
@@ -728,17 +726,16 @@ public class VideoGame implements ActionListener {
         drawing.add(sprite);
         drawing.addKeyListener(sprite);
         drawing.setFocusable(true);
+
         JFrame frame = new JFrame("Video Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(drawing);
         frame.pack();
         frame.setVisible(true);
-        toolkit = frame.getToolkit();
     }
 
     public void actionPerformed(ActionEvent e) {
         drawing.step();
-        toolkit.sync();  // useful for animation
     }
 
     public static void main(String[] args) {
@@ -749,9 +746,17 @@ public class VideoGame implements ActionListener {
 }
 \end{code}
 
-The \java{main} method first constructs a \java{VideoGame} object, which sets up all the graphical elements.
-It then constructs a \java{Timer} object that will send action events every 25 milliseconds to \java{game}.
-And finally, it starts the timer.
+The \java{main} method constructs a \java{VideoGame} object, which creates a \java{Sprite}, a \java{Drawing}, and a \java{JFrame}.
+
+Then it constructs a \java{Timer} object and starts the timer.
+Every 25 milliseconds, the \java{Timer} invokes \java{actionPerformed}, which invokes \java{step} on the \java{Drawing}.
+
+\java{Drawing.step} invokes \java{step} on all of its \java{Actor} objects, which causes them to update their position, color, or other aspects of their appearance.
+
+The \java{Drawing.step} repaints the \java{Canvas}, and the time step is done. 
+
+At this point you have all of the elements you need to write your own video games.
+In the exercises at the end of this chapter, we have some suggestions for getting started.
 
 We hope this final chapter has been a helpful summary of topics presented throughout the book, including input and output, decisions and loops, classes and methods, arrays and objects, inheritance, and graphics.
 Congratulations on making it to the end!
@@ -775,30 +780,38 @@ A language feature that allows objects to be assigned to variables of related ty
 
 \section{Exercises}
 
-% TODO: update this if we renumber the chapters
+% TODO: We need to divide up the code for this chapter, removing the solution code and making the code in ThinkJavaCode2 more consistent with the chapter.
 
 The code for this chapter is in the {\tt ch16} directory of {\tt ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
 
+The following exercises give you a chance to practice using the features in this chapter by extending the example code.
+
 \begin{exercise}
-MovingPolygon
+The \java{Polygon} class provides a \java{toString} method, but it does not display the arrays \java{xpoints} and \java{ypoints}, so it is not very useful for debugging.
+Before you go on to the more interesting exercises, you might want to write a more useful \java{toString} method for \java{DrawablePolygon}.
 \end{exercise}
 
 
 \begin{exercise}
-toString method for DrawablePolygon and other classes (using \java{super})
+Write a class called \java{MovingPolygon} that extends \java{RegularPolygon} and implements \java{Actor}.  
+It should have instance variables \java{posx} and \java{posy} that specify its position and \java{dx} and \java{dy} that specify its velocity.
+During each time step, it should update its position.
+If it gets to the edge of the \java{Drawin}, it should reverse direction by changing the sign of \java{dx} or \java{dy}.
 \end{exercise}
 
 
 \begin{exercise}
-Extend the \java{VideoGame} by adding polygons and collision detection?
+Modify the \java{VideoGame} so it displays a \java{Sprite} and a \java{MovingPolygon} (from the previous exercise.
+Add code that detects collisions between \java{Actor} objects in the same \java{Drawing}, and invoke a method on both objects when they collide.
+Hint: you might want to add a method to the \java{Actor} interface, guranteeing that all \java{Actor} objects know how to handle collisions.
 \end{exercise}
 
 
 \begin{exercise}
-Mole, MoleHill, and WhackAMole
-
-Java provides many other event listeners that you can implement to make your programs interactive.
+Java provides other event listeners that you can implement to make your programs interactive.
 For example, \java{MouseListener}, \java{MouseMotionListener}, and \java{MouseWheelListener} allow you to respond to mouse input.
+
+Use the \java{MouseListener} interface to implement an \java{Actor} that can respond to mouse clicks.
 \end{exercise}
