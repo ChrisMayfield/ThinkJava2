@@ -374,7 +374,7 @@ At the end of \java{main}, we call \java{mainloop}, which uses a \java{while} lo
 Here's a rough draft of this method:
 
 \begin{code}
-public void mainloop() {
+private void mainloop() {
     while (true) {
         this.update();
         grid.repaint();
@@ -559,7 +559,7 @@ The reason is that, in this example, we need the indexes \java{r} and \java{c} t
 \java{updateGrid} uses \java{getCell} to select each \java{Cell} in the grid and \java{updateCell} to do the update.
 
 \begin{code}
-public void updateGrid(int[][] counts) {
+private void updateGrid(int[][] counts) {
     int rows = grid.numRows();
     int cols = grid.numCols();
 
@@ -766,15 +766,15 @@ Reusing the classes we developed in this chapter, write an implementation of Lan
 
 
 
-\chapter{Abstract classes}
+\chapter{Abstract Classes}
 
 In the previous chapter, we developed classes to implement Conway's Game of Life.
 As an exercise, you had a chance to implement Langton's Ant.
 
-In this chapter, we present a solution to that exercise, and use it to demonstrate a new Java feature, ``abstract classes''.
+In this chapter, we present a solution to that exercise and use it to demonstrate a new Java feature, ``abstract classes''.
 
 
-\section{Langton's Ant solution}
+\section{Langton's Ant Solution}
 
 We begin by defining a \java{Langton} class that ``has~a'' grid and information about the ant.
 The constructor takes the grid dimensions as parameters.
@@ -799,7 +799,7 @@ public class Langton {
 \java{xpos} and \java{ypos} are the coordinates of the ant, and \java{head} is the ``heading'' of the ant, that is, what direction it is facing.
 \java{head} is an integer with four possible values, where 0 means the ant is facing ``north'', that is, toward the top of the screen, 1 means ``east'', etc.
 
-Here's the \java{update} function that implements the rules for Langton's ant:
+Here's the \java{update} method that implements the rules for Langton's ant:
 
 \begin{code}
 public void update() {
@@ -808,7 +808,7 @@ public void update() {
 }
 \end{code}
 
-\java{flipCell} gets the \java{Cell} at the ant's location, figures out which way to turn, and flips the state of the cell.
+The \java{flipCell} method gets the \java{Cell} at the ant's location, figures out which way to turn, and changes the state of the cell.
 
 \begin{code}
 private void flipCell() {
@@ -825,9 +825,9 @@ private void flipCell() {
 }
 \end{code}
 
-We use the modulus operator, \verb"%", to make \java{head} wrap around: if \java{head} is 3 and we turn right, it wraps around to 0; if \java{head} is 0 and we turn left, it wraps around to 3.
+We use the remainder operator, \verb"%", to make \java{head} wrap around: if \java{head} is 3 and we turn right, it wraps around to 0; if \java{head} is 0 and we turn left, it wraps around to 3.
 
-\java{moveAnt} moves the ant forward one square, using \java{head} to determine which way is forward.
+The \java{moveAnt} method moves the ant forward one square, using \java{head} to determine which way is forward.
 
 \begin{code}
 private void moveAnt() {
@@ -845,9 +845,6 @@ private void moveAnt() {
 
 If you run this code with a grid size of 61x61 or larger, you will see the ant eventually settle into a repeating pattern.
 
-
-\section{Refactoring}
-
 Here is the \java{main} method we use to create and display the \java{Langton} object:
 
 \begin{code}
@@ -860,18 +857,21 @@ public static void main(String[] args) {
     frame.add(game.grid);
     frame.pack();
     frame.setVisible(true);
-    mainloop(game);
+    game.mainloop();
 }
 \end{code}
 
-Most of this method is the same as the \java{main} method we used to create and run \java{Conway}, in Section~\ref{conwaymain}.
+Most of this method is the same as the \java{main} we used to create and run \java{Conway}, in Section~\ref{conwaymain}.
 It creates and configures a \java{JFrame} and runs \java{mainloop}.
 
-Whenever we see repeated code like this, we should think about ways to remove it.
-In the previous chapter, we used inheritance to eliminate repeated code.
+
+\section{Refactoring}
+
+Whenever you see repeated code like \java{main}, you should think about ways to remove it.
+In the Chapter~\ref{eights}, we used inheritance to eliminate repeated code.
 We'll do something similar with \java{Conway} and \java{Langton}.
 
-First we define a class named \java{Automaton} where we will put the code \java{Conway} and \java{Langton} have in common.
+First, we define a superclass named \java{Automaton} where we will put the code that \java{Conway} and \java{Langton} have in common.
 
 \begin{code}
 public class Automaton {
@@ -884,21 +884,19 @@ public class Automaton {
         frame.add(this.grid);
         frame.pack();
         frame.setVisible(true);
-        mainloop(rate);
+        this.mainloop(rate);
     }
 }
 \end{code}
 
 \java{Automaton} declares \java{grid} as an instance variable, so every \java{Automaton} ``has~a'' \java{GridCanvas}.
+It also provides \java{run}, which contains the code that creates and configures the \java{JFrame}.
 
-\java{Automaton} provides \java{run}, which contains the code that creates and configures the \java{JFrame}.
-\java{run} takes two parameters, the title for the \java{JFrame} and the frame rate, that is, the number of frames to show per second.
-
-It uses the title when is created the \java{JFrame}, and it passes \java{rate} to \java{mainloop}:
+The \java{run} method takes two parameters: the window \java{title} and the frame \java{rate}, that is, the number of time steps to show per second.
+It uses \java{title} when creating the \java{JFrame}, and it passes \java{rate} to \java{mainloop}:
 
 \begin{code}
-public void mainloop(int rate) {
-    // main simulation loop
+private void mainloop(int rate) {
     while (true) {
 
         // update the drawing
@@ -915,25 +913,33 @@ public void mainloop(int rate) {
 }
 \end{code}
 
-\java{mainloop} contains the code we saw in Section~\ref{mainloop}.
-It runs a \java{while} loop forever (or until interrupted).
+\java{mainloop} contains the code we first saw in Section~\ref{mainloop}.
+It runs a \java{while} loop forever (or until the window closes).
 Each time through the loop, it runs \java{update} to update \java{grid} and then \java{repaint} to redraw the grid.
 
 Then it calls \java{Thread.sleep} with a delay that depends on \java{rate}.
 For example, if {\tt rate} is 2, we should draw two frames per second, so the delay is a half second, or 500 milliseconds.
 
-This implementation works, and if we are not planning to implement any other zero-person games, we could leave well enough alone.
-Bu there are a few problems with the current design:
+\index{refactoring}
+
+This process of reorganizing existing code, without changing its behavior, is known as {\bf refactoring}.
+We're almost finished; we just need to redesign \java{Conway} and \java{Langton} to extend \java{Automaton}.
+
+
+\section{Abstract Classes}
+
+So far the implementation works, and if we are not planning to implement any other zero-person games, we could leave well enough alone.
+But there are a few problems with the current design:
 
 \begin{enumerate}
 
 \item The \java{grid} attribute is \java{private}, making it inaccessible in \java{Conway} and \java{Langton}.
-We could make it public, but then other (unrelated) classes would have access to it as well.
+We could make it \java{public}, but then other (unrelated) classes would have access to it as well.
 
 \item The \java{Automaton} class has no constructors, and even if it did, there would be no reason to create an instance of this class.
 
 \item The \java{Automaton} class does not provide an implementation of \java{update}.
-In order to work properly, child classes would have to provide one.
+In order to work properly, subclasses need to provide one.
 
 \end{enumerate}
 
@@ -965,35 +971,27 @@ public abstract class Automaton {
         // body of this method omitted
     }
 
-    public void mainloop(int rate) {
+    private void mainloop(int rate) {
         // body of this method omitted
     }
 }
 \end{code}
 
-First, notice the word \java{abstract} in the first line, which declares that \java{Automaton} is an abstract class.
+Notice that the \java{update} method has no body.
+The declaration specifies the name, arguments, and return type.
+But it does not provide an implementation, because it is an abstract method.
 
-Second, notice the word \java{abstract} in the first (and only) line of \java{update} which declares that it is an abstract method.
-In order to be an abstract class, \java{Automaton} has to have at least one abstract method.
+Notice also the word \java{abstract} on the first line, which declares that \java{Automaton} is an abstract class.
+In order to have any abstract methods, a class must be declared as abstract.
 
-Third, notice that \java{update} has no body.
-The declaration specifies the name, arguments and return type, but it does not provide an implementation.
-
-Any class that extends \java{Automaton} has to provide an implementation of \java{update}; the declaration here allows the compiler to check.
+Any class that extends \java{Automaton} must provide an implementation of \java{update}; the declaration here allows the compiler to check.
 
 Here's what \java{Conway} looks like as a subclass of \java{Automaton}:
 
 \begin{code}
 public class Conway extends Automaton {
 
-    public Conway() {
-        grid = new GridCanvas(30, 25, SIZE);
-    }
-
-    public void update() {
-        int[][] counts = countNeighbors();
-        updateGrid(counts);
-    }
+    // same methods as before, except mainloop is removed
 
     public static void main(String[] args) {
         String title = "Conway's Game of Life";
@@ -1004,19 +1002,24 @@ public class Conway extends Automaton {
 \end{code}
 
 \java{Conway} extends \java{Automaton}, so it inherits the instance variable \java{grid} and the methods \java{run} and \java{mainloop}.
-But because \java{Automaton} is abstract, \java{Conway} has to provide \java{update} and a constructor.
+But because \java{Automaton} is abstract, \java{Conway} has to provide \java{update} and a constructor (which it has already).
 
-Abstract classes are essentially incomplete class definitions that provide methods to be used by subclasses and specify methods to be implemented by subclasses.
+Abstract classes are essentially ``incomplete'' class definitions that specify methods to be implemented by subclasses.
+But they also provide attributes and methods to be inherited, thus eliminating repeated code.
 
 
 \section{Vocabulary}
-
-% TODO: Anything else?
 
 \begin{description}
 
 \term{refactor}
 The process of restructuring or reorganizing existing code without changing its behavior.
+
+\term{abstract class}
+A class that is declared as \java{abstract}; it cannot be instantiated, and it may (or may not) include abstract methods.
+
+\term{concrete class}
+A class that is \emph{not} declared as \java{abstract}; each of its methods must have an implementation.
 
 \end{description}
 
@@ -1025,7 +1028,7 @@ The process of restructuring or reorganizing existing code without changing its 
 
 \begin{exercise}
 
-The last section of this chapter introduces \java{Automaton} as an \java{abstract} class and rewrites \java{Conway} as a subclass of \java{Automaton}.
+The last section of this chapter introduces \java{Automaton} as an abstract class and rewrites \java{Conway} as a subclass of \java{Automaton}.
 Now it's your turn.
 Rewrite \java{Langton} as a subclass of \java{Automaton}, removing the code that's no longer needed.
 
@@ -1034,8 +1037,7 @@ Rewrite \java{Langton} as a subclass of \java{Automaton}, removing the code that
 
 \begin{exercise}
 
-Mathematically speaking, Game of Life and Langton's Ant are ``cellular automatons'', where
-``cellular'' means it has cells, and the ``automaton'' means it runs itself.
+Mathematically speaking, Game of Life and Langton's Ant are cellular automata, where ``cellular'' means it has cells, and ``automaton'' means it runs itself.
 See \url{https://en.wikipedia.org/wiki/Cellular_automaton} for more discussion.
 
 Implement another cellular automaton of your choice.
