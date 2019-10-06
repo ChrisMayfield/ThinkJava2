@@ -451,12 +451,13 @@ The \java{step} method increments \java{count}.  Every 10 time steps, it toggles
 \section{Java Interfaces}
 
 You might be getting tired of polygons at this point.
-Isn't it possible to draw anything else?
-Of course the answer is ``yes'', but our \java{Drawing} is currently based on \java{DrawablePolygon}.
-In order to draw other types of objects, we'll need to generalize the code further.
+Can't we draw anything else?
+Of course we can, but our \java{Drawing} is currently based on \java{DrawablePolygon}.
+To draw other types of objects, we have to generalize the code.
 
 The \java{Drawing} class does essentially three things: (1) it maintains a \java{list} of objects, (2) it invokes the \java{draw} method on each object, and (3) it invokes the \java{step} method on each object.
-Here's one way to make the code more general:
+
+So here's one way we could make the code more general:
 
 \begin{enumerate}
 
@@ -479,13 +480,13 @@ public class Actor {
 
 \end{enumerate}
 
-There's just one problem: \java{DrawablePolygon} already extends \java{Polygon}, and classes may extend only one superclass.
+There's just one problem: \java{DrawablePolygon} already extends \java{Polygon}, and classes can only extend one superclass.
 Also, the \java{Actor} class seems pointless, since the methods it defines don't do anything.
 
 \index{inheritance}
 
-Java provides another mechanism for inheritance that is more appropriate in this situation.
-We can define \java{Actor} as an \java{interface} instead of a \java{class}:
+Java provides another mechanism for inheritance that solves these problems.
+We can define \java{Actor} as an \java{interface} instead of a \java{class}, like this:
 
 \begin{code}
 public interface Actor {
@@ -496,15 +497,19 @@ public interface Actor {
 
 \index{interface}
 
-An {\bf interface} is a list of method declarations that define the capabilities of an object.
+Like a class definition, an {\bf interface} definition contains methods, but it contains only the declarations of the methods, not their implementations.
 
-% Is that true?  I thought they would have "default" protection.
+Like an abstract class, an interface specifies methods that must be provided by subclasses.
+The difference is that an abstract class can implement some methods; an interface cannot.
+
+% ABD: Is the following true?  I thought they would have "default" protection.  I suggest we make them public explicitly to avoid the issue.
 
 %All methods are \java{public} by default, since they are intended to be used by other classes.
 %So there is no need to declare them as \java{public}.
 
 To inherit from an interface, you use the keyword \java{implements} instead of \java{extends}.
-We can change the definition of \java{DrawablePolygon} as follows:
+Here's a version of \java{DrawablePolygon} that extends \java{Polygon} and implements \java{Actor}.
+So it inherits methods from \java{Polygon}, and it is required to provide the methods in \java{Actor}, namely \java{step} and \java{draw}.
 
 \begin{code}
 public class DrawablePolygon extends Polygon implements Actor {
@@ -513,20 +518,27 @@ public class DrawablePolygon extends Polygon implements Actor {
 \end{code}
 
 In terms of inheritance, \java{DrawablePolygon} is both a \java{Polygon} and an \java{Actor}.
-The same is true for subclasses of \java{DrawablePolygon}.
-As a result, the following statements are now possible:
+So the following assignments are legal:
 
 \begin{code}
-Actor a1 = new DrawablePolygon();
+Polygon p1 = new DrawablePolygon();
+Actor a2 = new DrawablePolygon();
+\end{code}
+
+And the same is true for subclasses of \java{DrawablePolygon}, so these assignments are legal, too.
+
+\begin{code}
+Polygon p2 = new RegularPolygon(5, 50, Color.YELLOW);
 Actor a2 = new RegularPolygon(5, 50, Color.YELLOW);
-Actor a3 = new BlinkingPolygon(8, 50, Color.RED);
 \end{code}
 
 \index{polymorphism}
 
 Interfaces are another example of polymorphism.
-The variables \java{a1}, \java{a2}, and \java{a3} are all different types of objects.
-But each of them provides the \java{draw} and \java{step} methods specified in the \java{Actor} interface.
+\java{a1} and \java{a2} are the same type of variable, but they refer to objects with different types.
+And similarly with \java{p1} and \java{p2}.
+
+% But each of them provides the \java{draw} and \java{step} methods specified in the \java{Actor} interface.
 
 Classes may extend only one superclass, but they may implement as many interfaces as needed.
 Java Library classes often implement multiple interfaces.
@@ -535,15 +547,16 @@ Java Library classes often implement multiple interfaces.
 \section{Event Listeners}
 
 Now that our \java{Drawing} is based on \java{Actor} instead of \java{DrawablePolygon}, we can draw other types of graphics.
-Here is the beginning of a class that draws an image file (in GIF, JPEG, or PNG format):
+Here is the beginning of a class that reads an image from a file and shows the image moving across the canvas.
+The class is called \java{Sprite} because a moving image is sometimes called a {\bf sprite}, in the context of computer graphics.
 
 \begin{code}
 public class Sprite implements Actor, KeyListener {
-    private Image image;
     private int xpos;
     private int ypos;
     private int dx;
     private int dy;
+    private Image image;
 
     public Sprite(String path, int xpos, int ypos) {
         try {
@@ -557,21 +570,25 @@ public class Sprite implements Actor, KeyListener {
 }
 \end{code}
 
-The constructor attempts to read an image file using \java{ImageIO} (from the \java{javax.imageio} package).
+The instance variables \java{xpos} and \java{ypos} represent the location of the sprite.
+\java{dx} and \java{dy} represent the velocity of the sprite in the $x$ and $y$ directions.
+
+The constructor takes as parameters the name of a file and the initial position.
+It uses  \java{ImageIO}, from the \java{javax.imageio} package, to read the file.
 If an error occurs during reading, an \java{IOException} is caught, and the program displays the stack trace for debugging.
 
 \java{Sprite} implements two interfaces: \java{Actor} and \java{KeyListener}.
 \java{Actor} requires that we provide \java{draw} and \java{step} methods:
 
 \begin{code}
-public void draw(Graphics g) {
-    g.drawImage(image, xpos, ypos, null);
-}
+    public void draw(Graphics g) {
+        g.drawImage(image, xpos, ypos, null);
+    }
 
-public void step() {
-    xpos += dx;
-    ypos += dy;
-}
+    public void step() {
+        xpos += dx;
+        ypos += dy;
+    }
 \end{code}
 
 The \java{draw} method draws the image at the sprite's current position.
@@ -579,9 +596,8 @@ The \java{step} method changes the position based on \java{dx} and \java{dy}, wh
 
 \index{event}
 
-\java{KeyListener} is an interface for receiving keyboard {\bf events}.
-It requires you to provide the following methods.
-The \java{KeyEvent} argument contains detailed information about which key was pressed, released, or typed.
+\java{KeyListener} is an interface for receiving keyboard {\bf events}, which means we can detect and respond to key presses.
+A class that implements \java{KeyListener} has to provide the following methods:
 
 \begin{itemize}
 
@@ -597,13 +613,14 @@ This method is invoked repeatedly while a key is being held down.
 
 \end{itemize}
 
-We can use these methods to design a simple animation using the arrow keys.
-When the user presses up or down, the sprite will change its y-position.
-When the user presses left or right, the sprite will change its x-position.
+These methods get invoked when the user presses and releases a key.
+They take a \java{KeyEvent} object as a parameter, which specifies which key was pressed, released, or typed.
 
-Arrow keys behave differently from letters and numbers on a keyboard.
-They generate ``virtual key'' codes, rather than printable characters.
-The \java{KeyEvent} class defines constants for referring to these codes.
+We can use these methods to design a simple animation using the arrow keys.
+When the user presses up or down, the sprite will move up or down.
+When the user presses left or right, the sprite will move left or right.
+
+Here's an implementation of \java{keyPressed} that uses a \java{switch} statement to test which key was pressed and set \java{dx} or \java{dy} accordingly.
 
 \begin{code}
 public void keyPressed(KeyEvent e) {
@@ -624,8 +641,12 @@ public void keyPressed(KeyEvent e) {
 }
 \end{code}
 
-In \java{keyPressed}, we change \java{dx} or \java{dy} depending on which key is currently being pressed.
-Similarly, the \java{keyReleased} method changes \java{dx} or \java{dy} back to zero.
+The constant \java{KeyEvent.VK_UP} is a special code that specifies the up arrow key.
+
+The values of \java{dx} and \java{dy} determine how much the sprite moves each time \java{step} is invoked.
+While the user holds down an arrow key, the sprite will move at a constant speed.
+
+Here's an implemenation of \java{keyReleased} that runs when the user releases the key:
 
 \begin{code}
 public void keyReleased(KeyEvent e) {
@@ -642,8 +663,10 @@ public void keyReleased(KeyEvent e) {
 }
 \end{code}
 
-We don't really need the \java{keyTyped} method for this example.
-But it's required by the interface; if we don't provide one, the compiler will complain.
+When the user releases the key, \java{keyReleased} sets \java{dx} or \java{dy} to 0, so the sprite stops moving.
+
+We don't need the \java{keyTyped} method for this example, but it's required by the interface; if we don't provide one, the compiler will complain.
+So we provide an implementation that does nothing:
 
 \begin{code}
 public void keyTyped(KeyEvent e) {
