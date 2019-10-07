@@ -22,7 +22,7 @@ That turns out to be more interesting than it sounds; you can read about it at \
 \end{figure}
 
 The game board is a two-dimensional grid of square cells.
-Each cell is either ``alive'' or ``dead''; the color of the cell indicates its status.
+Each cell is either ``alive'' or ``dead''; the color of the cell indicates its state.
 Figure~\ref{fig:glider} shows an example grid configuration.
 
 \index{neighbor}
@@ -77,9 +77,12 @@ We'll first implement the cells, then the grid of cells, and finally the game it
 
 \section{The Cell Class}
 
-To represent the state of a cell, we use an integer, \java{state}, which is 0 for dead cells and 1 for live cells.
+When drawing a cell, we'll need to know its location and size.
 To represent the location, we use the \java{x} and \java{y} coordinates of the upper-left corner.
 And to represent the size, we use an integer, \java{size}.
+
+To represent the state of a cell, we use an integer, \java{state}, which is \java{0} for dead cells and \java{1} for live cells.
+We could use a \java{boolean} instead, but it's good practice to design classes to be reusable (e.g., for other games that have more states).
 
 Here is a \java{Cell} class that declares these instance variables:
 
@@ -143,11 +146,7 @@ public boolean isOff() {
 public boolean isOn() {
     return state == 1;
 }
-\end{code}
 
-%\java{isOff} and \java{isOn} check the state of the cell.
-
-\begin{code}
 public void turnOff() {
     state = 0;
 }
@@ -157,6 +156,7 @@ public void turnOn() {
 }
 \end{code}
 
+%\java{isOff} and \java{isOn} check the state of the cell.
 %\java{turnOff} and \java{turnOn} modify the state of the cell.
 
 
@@ -170,7 +170,7 @@ To create a two-dimensional (2D) array, we specify the number of rows and column
 \begin{code}
 int rows = 4;
 int cols = 3;
-Cell[] array = new Cell[rows][cols];
+Cell[][] array = new Cell[rows][cols];
 \end{code}
 
 The result is an array with 4 rows and 3 columns (representing a 3x4 grid).
@@ -293,7 +293,7 @@ Because we are using row-major order, the 2D array is an array of rows.
 \java{numCols} returns the length of the first row, which is the number of columns.
 Since the rows all have the same length, we only have to check one.
 
-\java{GridCanvas} also provides a method that gets the \java{Cell} at a given location, and for convenience, a method that turns on the \java{Cell} at a given location.
+\java{GridCanvas} also provides a method that gets the \java{Cell} at a given location, and for convenience when starting the game, a method that turns on the \java{Cell} at a given location.
 
 \begin{code}
 public Cell getCell(int r, int c) {
@@ -332,8 +332,6 @@ public class Conway {
 }
 \end{code}
 
-\index{JFrame}
-
 Before we implement the rest of the game, we'll write a \java{main} method that creates a \java{Conway} object and displays it.
 We can use this method to test \java{Cell} and \java{GridCanvas}, and to develop the other methods we need.
 
@@ -351,12 +349,19 @@ public static void main(String[] args) {
 }
 \end{code}
 
-After constructing the \java{game} object, \java{main} instantiates a \java{JFrame}, which creates a window on the screen.
-It then adds the \java{GridCanvas} inside the frame, resizes (``packs'') the frame to fit the canvas, and makes the frame visible.
+\index{JFrame}
 
-Figure~\ref{fig:conway} shows the result.
-The \java{JFrame} is configured to exit the program when closed.
+After constructing the \java{game} object, \java{main} constructs a \java{JFrame}, which creates a window on the screen.
+The \java{JFrame} is configured\footnotemark{} to exit the program when closed.
 Resizing the window is disabled.
+
+\footnotetext{
+We are using \java{JFrame} (in \java{javax.swing}) instead of \java{Frame} (in \java{java.awt}) for simplicity.
+\java{Frame} does not provide a default close operation; it requires you to implement a method to be called when the user closes the window.
+}
+
+\java{main} then adds the \java{GridCanvas} inside the frame, resizes (``packs'') the frame to fit the canvas, and makes the frame visible.
+Figure~\ref{fig:conway} shows the result.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -433,7 +438,6 @@ If a different exception occurs during the try block, Java does whatever it woul
 If no exceptions occur during the try block, the catch block doesn't run and the program continues.
 
 In this example, the effect of the \java{try}-\java{catch} statement is to ignore an ``interrupted'' exception if it occurs.
-
 As an alternative, we could use the catch block to display a customized message, end the program, or handle the exception in whatever way is appropriate.
 For example, if user input causes an exception, we could catch the exception and prompt the user to try again later.
 
@@ -491,9 +495,10 @@ public int test(int r, int c) {
 The \java{test} method takes a row index, \java{r}, and a column index, \java{c}.
 It tries to look up the \java{Cell} at that location.
 If both of the indexes are in bounds, the \java{Cell} exists.
-In that case, \java{test} returns 1 if the \java{Cell} is on and 0 otherwise.
+In that case, \java{test} returns 1 if the \java{Cell} is on.
+Otherwise, it skips the catch block and returns 0.
 
-If either of the indexes is out of bounds, the array lookup throws an exception, but the catch clause catches and ignores it.
+If either of the indexes is out of bounds, the array lookup throws an exception, but the catch block ignores it.
 Then \java{test} resumes and returns 0.
 So the non-existent cells around the perimeter are considered to be off.
 
@@ -514,7 +519,7 @@ private int countAlive(int r, int c) {
 }
 \end{code}
 
-Because \java{test} handles ``out of bounds'' exceptions, this method works for any values of \java{r} and \java{c}.
+Because \java{test} handles ``out of bounds'' exceptions, \java{countAlive} works for any values of \java{r} and \java{c}.
 
 
 \section{Updating the Grid}
@@ -552,6 +557,26 @@ private int[][] countNeighbors() {
 
 \java{countNeighbors} traverses the cells in the grid and uses \java{countAlive} from the previous section to count the neighbors.
 The return value is a 2D array of integers with the same size as \java{grid}.
+Figure~\ref{fig:countNeigh} illustrates an example.
+
+\begin{figure}[!ht]
+\begin{center}
+\begin{minipage}{160pt}
+\includegraphics[trim=0 0 0 23pt,clip,width=150pt]{figs/conway.png}
+\end{minipage}
+\begin{minipage}{200pt}
+\begin{verbatim}
+{{0, 0, 0, 0, 0, 0, 1, 1, 1, 0},
+ {1, 2, 3, 2, 1, 0, 2, 1, 2, 0},
+ {1, 1, 2, 1, 1, 0, 3, 2, 3, 0},
+ {1, 2, 3, 2, 1, 0, 2, 1, 2, 0},
+ {0, 0, 0, 0, 0, 0, 1, 1, 1, 0}}
+\end{verbatim}
+\end{minipage}
+\caption{The result of \java{countNeighbors} for the grid in Section~\ref{conwaymain}.}
+\label{fig:countNeigh}
+\end{center}
+\end{figure}
 
 In contrast to the \java{draw} method of \java{GridCanvas}, which uses enhanced \java{for} loops, \java{countNeighbors} uses standard \java{for} loops.
 The reason is that, in this example, we need the indexes \java{r} and \java{c} to store the neighbor counts.
@@ -588,8 +613,8 @@ private static void updateCell(Cell cell, int count) {
 }
 \end{code}
 
-The \java{updateCell} method \java{private}, because it is a helper method not intended to be invoked from outside the class.
-It's also \java{static}, because it does not depend on \java{grid}.
+Notice that \java{updateGrid} and \java{updateCell} are both \java{private}, because they are helper methods not intended to be invoked from outside the class.
+\java{updateCell} is also \java{static}, because it does not depend on \java{grid}.
 
 Now our implementation of the Game of Life is complete.
 We think it's is pretty fun, and we hope you agree.
@@ -603,7 +628,7 @@ But more importantly, this example is meant to demonstrate the use of 2D arrays 
 \begin{description}
 
 \term{multidimensional array}
-An array with more than one dimension; also known as an ``array of arrays''.
+An array with more than one dimension; two-dimensional arrays are ``arrays of arrays''.
 
 \term{row-major order}
 Storing data in a two-dimensional array first by rows and then by columns.
@@ -761,5 +786,6 @@ But starting on a grid with all white cells, the ant makes more than 10,000 step
 You can read more about it at \url{http://en.wikipedia.org/wiki/Langton's_ant}.
 
 Reusing the classes we developed in this chapter, write an implementation of Langton's Ant.
+We present a solution to this exercise in Appendix~\ref{app:langton}.
 
 \end{exercise}
