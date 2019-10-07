@@ -594,6 +594,10 @@ private void flipCell() {
 
 We use the remainder operator, \verb"%", to make \java{head} wrap around: if \java{head} is 3 and we turn right, it wraps around to 0; if \java{head} is 0 and we turn left, it wraps around to 3.
 
+Notice that to turn right, we add 1 to \java{head}.
+To turn left, we could subtract 1, but \verb"-1 % 4" is \verb"-1" in Java.
+So we add 3 instead, since one left turn is the same as three right turns.
+
 The \java{moveAnt} method moves the ant forward one square, using \java{head} to determine which way is forward.
 
 \begin{code}
@@ -693,14 +697,6 @@ This process of reorganizing existing code, without changing its behavior, is kn
 We're almost finished; we just need to redesign \java{Conway} and \java{Langton} to extend \java{Automaton}.
 
 
-\begin{description}
-
-\term{refactor}
-The process of restructuring or reorganizing existing code without changing its behavior.
-
-\end{description}
-
-
 \subsection*{Abstract Classes}
 
 So far the implementation works, and if we are not planning to implement any other zero-person games, we could leave well enough alone.
@@ -776,7 +772,7 @@ public class Conway extends Automaton {
 }
 \end{code}
 
-\java{Conway} extends \java{Automaton}, so it inherits the instance variable \java{grid} and the methods \java{run} and \java{mainloop}.
+\java{Conway} extends \java{Automaton}, so it inherits the \java{protected} instance variable \java{grid} and the methods \java{run} and \java{mainloop}.
 But because \java{Automaton} is abstract, \java{Conway} has to provide \java{update} and a constructor (which it has already).
 
 Abstract classes are essentially ``incomplete'' class definitions that specify methods to be implemented by subclasses.
@@ -786,6 +782,9 @@ But they also provide attributes and methods to be inherited, thus eliminating r
 %\section{Vocabulary}
 
 \begin{description}
+
+\term{refactor}
+The process of restructuring or reorganizing existing code without changing its behavior.
 
 \term{abstract class}
 A class that is declared as \java{abstract}; it cannot be instantiated, and it may (or may not) include abstract methods.
@@ -800,9 +799,8 @@ A class that is \emph{not} declared as \java{abstract}; each of its methods must
 
 \begin{exercise}
 
-The last section of this chapter introduces \java{Automaton} as an abstract class and rewrites \java{Conway} as a subclass of \java{Automaton}.
-Now it's your turn.
-Rewrite \java{Langton} as a subclass of \java{Automaton}, removing the code that's no longer needed.
+The last section of this appendix introduced \java{Automaton} as an abstract class and rewrote \java{Conway} as a subclass of \java{Automaton}.
+Now it's your turn: rewrite \java{Langton} as a subclass of \java{Automaton}, removing the code that's no longer needed.
 
 \end{exercise}
 
