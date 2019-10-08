@@ -170,7 +170,8 @@ public RegularPolygon(int nsides, int radius, Color color) {
 This constructor initializes all four \java{DrawablePolygon} attributes, so it doesn't have to invoke \java{super()}.
 
 It initializes \java{xpoints} and \java{ypoints} by creating arrays of integer coordinates.
-Inside the \java{for} loop, it uses \java{sin} and \java{cos} to compute the coordinates of the vertices as floating-point numbers, then it rounds them off to integers, and stores them in the arrays.
+Inside the \java{for} loop, it uses \java{Math.sin} and \java{Math.cos} (see Section~\ref{mathmeth}) to compute the coordinates of the vertices as floating-point numbers.
+Then it rounds them off to integers, and stores them in the arrays.
 
 When we construct a \java{RegularPolygon}, the vertices are centered at the point $(0, 0)$.
 If we want the center of the polygon to be somewhere else, we can use \java{translate}, which we inherit from \java{Polygon}:
@@ -181,6 +182,10 @@ rp.translate(100, 100);
 \end{code}
 
 The result is a 6-sided polygon with radius 50 centered at the point $(100, 100)$.
+
+% TODO suggestion from Marc Loy:
+% Maybe a screenshot of a this exact polygon on a 200x200 canvas
+% with some callouts on the center coordinate and radius to V0?
 
 
 \section{More Constructors}
@@ -340,7 +345,7 @@ It might not be obvious why that's legal.
 \index{IS-A}
 
 \java{RegularPolygon} extends \java{DrawablePolygon}, so every \java{RegularPolygon} object is also a \java{DrawablePolygon}.
-The parameter of \java{Drawing.add} has to be a \java{DrawablePolygon}, but it can be any type of \java{DrawablePolygon}, which means any subclass of \java{DrawablePolygon}, including \java{RegularPolygon}.
+The parameter of \java{Drawing.add} has to be a \java{DrawablePolygon}, but it can be any type of \java{DrawablePolygon}, including \java{RegularPolygon} and other subclasses.
 
 \index{polymorphism}
 
@@ -607,14 +612,15 @@ This method is invoked repeatedly while a key is being held down.
 
 \end{itemize}
 
-These methods get invoked when the user presses and releases a key.
+These methods get invoked when the user presses and releases {\em any} key.
 They take a \java{KeyEvent} object as a parameter, which specifies which key was pressed, released, or typed.
 
 We can use these methods to design a simple animation using the arrow keys.
 When the user presses up or down, the sprite will move up or down.
 When the user presses left or right, the sprite will move left or right.
 
-Here's an implementation of \java{keyPressed} that uses a \java{switch} statement to test which key was pressed and set \java{dx} or \java{dy} accordingly.
+Here's an implementation of \java{keyPressed} that uses a \java{switch} statement to test which arrow key was pressed and sets \java{dx} or \java{dy} accordingly.
+(There is no \java{default} branch, so we ignore all other keys.)
 
 \begin{code}
 public void keyPressed(KeyEvent e) {
@@ -638,7 +644,7 @@ public void keyPressed(KeyEvent e) {
 The values of \java{dx} and \java{dy} determine how much the sprite moves each time \java{step} is invoked.
 While the user holds down an arrow key, the sprite will move at a constant speed.
 
-Here's an implementation of \java{keyReleased} that runs when the user releases the key:
+Here's an implementation of \java{keyReleased} that runs when the user releases the key.
 
 \begin{code}
 public void keyReleased(KeyEvent e) {
@@ -790,7 +796,7 @@ Write a more useful \java{toString} method for \java{DrawablePolygon} that inclu
 
 \begin{exercise}
 Write a class \java{MovingPolygon} that extends \java{RegularPolygon} and implements \java{Actor}.
-It should have instance variables \java{posx} and \java{posy} that specify its position and \java{dx} and \java{dy} that specify its velocity.
+It should have instance variables \java{posx} and \java{posy} that specify its position and \java{dx} and \java{dy} that specify its velocity (and direction).
 During each time step, it should update its position.
 If it gets to the edge of the \java{Drawing}, it should reverse direction by changing the sign of \java{dx} or \java{dy}.
 \end{exercise}
