@@ -131,7 +131,7 @@ It does not make a recursive call, so there are no more frames below it.
 \index{StackOverflowError}
 \index{exception!StackOverflow}
 
-If there is no base case in a recursive method, or if the base case is never reached, the stack would grow forever -- at least in theory.
+If there is no base case in a recursive method, or if the base case is never reached, the stack would grow forever---at least in theory.
 In practice, the size of the stack is limited.
 If you exceed the limit, you get a \java{StackOverflowError}.
 
@@ -147,7 +147,7 @@ public static void forever(String s) {
 \index{call stack}
 
 This method displays the given string until the stack overflows, at which point it throws an error.
-Try this example on your computer -- you might be surprised by how long the error message is!
+Try this example on your computer---you might be surprised by how long the error message is!
 
 
 \section{Value-Returning Methods}
@@ -295,7 +295,7 @@ public static boolean isSingleDigit(int x) {
 }
 \end{code}
 
-Once you convince yourself that this method is correct -- by examining and testing the code -- you can just use the method without ever looking at the implementation again.
+Once you convince yourself that this method is correct---by examining and testing the code---you can just use the method without ever looking at the implementation again.
 
 Recursive methods are no different.
 When you get to a recursive call, don't think about the flow of execution.
