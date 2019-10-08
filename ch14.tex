@@ -153,7 +153,7 @@ public void swapCards(int i, int j) {
 }
 \end{code}
 
-We use \java{swapCards} to implement \java{shuffle}, which we described in Section~\ref{shuffle}:
+Finally, we use \java{swapCards} to implement \java{shuffle}, which we described in Section~\ref{shuffle}:
 
 \begin{code}
 public void shuffle() {
@@ -165,9 +165,7 @@ public void shuffle() {
 }
 \end{code}
 
-Notice that \java{shuffle} calls \java{swapCards} without using \java{this} explicitly.
-
-% TODO: Is this the first example of one instance method calling another with no `this`?
+%Notice that \java{shuffle} calls \java{swapCards} without using \java{this} explicitly.
 
 
 \section{Inheritance}
@@ -597,6 +595,7 @@ It displays the hand of each player, the contents of the discard pile, and how m
 Finally, it waits for the user to press the {\sf Enter} key.
 
 % TODO: Is there a reason this was commented out?
+% We were probably just trying to save space.
 
 \begin{code}
 public void displayState() {

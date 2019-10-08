@@ -535,10 +535,10 @@ We can provide an \java{equals} method that implements this idea:
 
 \begin{code}
 public boolean equals(Time that) {
-    final EPS = 0.001;
+    final DELTA = 0.001;
     return this.hour == that.hour
         && this.minute == that.minute
-        && Math.abs(this.second - that.second) < EPS;
+        && Math.abs(this.second - that.second) < DELTA;
 }
 \end{code}
 
@@ -559,7 +559,8 @@ Since their instance variables are ``equal'', the result is \java{true}.
 Because \java{hour} and \java{minute} are integers, we compare them with \java{==}.  
 But \java{second} is a floating-point number.  
 Because of rounding errors, it is not good to compare floating-point numbers with \java{==} (see Section~\ref{rounderr}).
-Instead, we check whether the difference is smaller than a threshold, \java{EPS} (which is short for ``epsilon'', the Greek letter used to represent a small number).
+Instead, we check whether the difference is smaller than a threshold, \java{DELTA}.
+%(which is short for ``epsilon'', the Greek letter used to represent a small number).
 
 Many objects have a similar notion of equivalence; that is, two objects are considered equal if their instance variables are equal.
 But other definitions are possible.
