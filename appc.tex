@@ -4,7 +4,7 @@
 \index{AWT}
 \index{java.awt}
 
-The Java library includes a simple package for drawing 2D graphics, called \java{java.awt}.
+The Java library includes the package \java{java.awt} for drawing 2D graphics.
 {\bf AWT} stands for ``Abstract Window Toolkit''.
 We are only going to scratch the surface of graphics programming.
 You can read more about it in the Java tutorials at \url{https://thinkjava.org/java2d}.
@@ -34,6 +34,7 @@ public class Drawing extends Canvas {
 \begin{code}
     public static void main(String[] args) {
         JFrame frame = new JFrame("My Drawing");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Drawing drawing = new Drawing();
         drawing.setSize(400, 400);
         frame.add(drawing);
@@ -67,9 +68,10 @@ In the \java{main} method, we:
 \index{paint}
 
 Once the frame is visible, the \java{paint} method is called whenever the canvas needs to be drawn; for example, when the window is moved or resized.
-The application doesn't end after the \java{main} method returns; instead, it waits for the \java{JFrame} to close.
 If you run this code, you should see a black circle on a gray background.
 
+The application doesn't end after the \java{main} method returns; instead, it waits for the \java{JFrame} to close.
+When the \java{JFrame} closes, it calls \java{System.exit}, which ends the program.
 
 \section{Graphics Methods}
 
@@ -151,7 +153,7 @@ The color \java{(0, 0, 0)} is black, and \java{(255, 255, 255)} is white.
 You can set the background color of the \java{Canvas} by invoking \java{setBackground}:
 
 \begin{code}
-canvas.setBackground(Color.white);
+canvas.setBackground(Color.WHITE);
 \end{code}
 
 
@@ -177,14 +179,14 @@ And here's a method that draws Mickey Mouse:
 public void mickey(Graphics g, Rectangle bb) {
     boxOval(g, bb);
 
-    int dx = bb.width / 2;
-    int dy = bb.height / 2;
-    Rectangle half = new Rectangle(bb.x, bb.y, dx, dy);
+    int hx = bb.width / 2;
+    int hy = bb.height / 2;
+    Rectangle half = new Rectangle(bb.x, bb.y, hx, hy);
 
-    half.translate(-dx / 2, -dy / 2);
+    half.translate(-hx / 2, -hy / 2);
     boxOval(g, half);
 
-    half.translate(dx * 2, 0);
+    half.translate(hx * 2, 0);
     boxOval(g, half);
 }
 \end{code}

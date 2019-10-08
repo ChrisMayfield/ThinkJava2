@@ -23,12 +23,12 @@ That turns out to be more interesting than it sounds; you can read about it at \
 
 The game board is a two-dimensional grid of square cells.
 Each cell is either ``alive'' or ``dead''; the color of the cell indicates its state.
-Figure~\ref{fig:glider} shows an example grid configuration.
+Figure~\ref{fig:glider} shows an example grid configuration; the five black cells are alive.
 
 \index{neighbor}
 
 The game proceeds in time steps, during which each cell interacts with its neighbors in the eight adjacent cells.
-At each step, the following rules are applied:
+At each time step, the following rules are applied:
 
 \begin{enumerate}
 \small
@@ -77,7 +77,7 @@ We'll first implement the cells, then the grid of cells, and finally the game it
 
 \section{The Cell Class}
 
-When drawing a cell, we'll need to know its location and size.
+When drawing a cell, we'll need to know its location on the screen and size in pixels.
 To represent the location, we use the \java{x} and \java{y} coordinates of the upper-left corner.
 And to represent the size, we use an integer, \java{size}.
 
@@ -125,7 +125,7 @@ Like the \java{paint} method in Appendix~\ref{graphics}, it takes a graphics con
 public static final Color[] COLORS = {Color.WHITE, Color.BLACK};
 
 public void draw(Graphics g) {
-    g.setColor(COLORS[this.state]);
+    g.setColor(COLORS[state]);
     g.fillRect(x + 1, y + 1, size - 1, size - 1);
     g.setColor(Color.LIGHT_GRAY);
     g.drawRect(x, y, size, size);
@@ -173,7 +173,7 @@ int cols = 3;
 Cell[][] array = new Cell[rows][cols];
 \end{code}
 
-The result is an array with 4 rows and 3 columns (representing a 3x4 grid).
+The result is an array with 4 rows and 3 columns.
 Initially, the elements of the array are \java{null}.
 We can fill the array with \java{Cell} objects like this:
 
