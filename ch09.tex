@@ -219,7 +219,7 @@ But for each primitive type, there is a corresponding {\bf wrapper class} in the
 The wrapper class for \java{int} is named \java{Integer}, with a capital \java{I}.
 
 \begin{code}
-Integer i = new Integer(5);
+Integer i = Integer.valueOf(5);
 System.out.println(i.equals(5));  // displays true
 \end{code}
 
@@ -229,8 +229,8 @@ They are in the \java{java.lang} package, so you can use them without importing 
 Like strings, objects from wrapper classes are immutable, and you have to use the \java{equals} method to compare them.
 
 \begin{code}
-Integer x = new Integer(123);
-Integer y = new Integer(123);
+Integer x = Integer.valueOf(123);
+Integer y = Integer.valueOf(123);
 if (x == y) {                     // false
     System.out.println("x and y are the same object");
 }
@@ -792,7 +792,7 @@ The point of this exercise is to explore Java types and fill in some of the deta
 For example, what happens when you ``add'' a \java{String} and a \java{char}?
 Does it perform character addition or string concatenation?
 What is the type of the result?
-(How can you determine the type of the result?)
+%(How can you determine the type of the result?)
 
 \item Make a bigger copy of the following table and fill it in.
 At the intersection of each pair of types, you should indicate whether it is legal to use the \java{+} operator with these types, what operation is performed (addition or concatenation), and what the type of the result is.

@@ -75,7 +75,7 @@ double[] values = new double[size];
 
 You can use any integer expression for the size of an array, as long as the value is nonnegative.
 If you try to create an array with \java{-4} elements, for example, you will get a \java{NegativeArraySizeException}.
-An array with zero elements is allowed, and there are special uses for such arrays that we'll see later on.
+An array with zero elements is allowed, and there are special uses for such arrays.
 
 You can initialize an array with an {\bf array literal}, which is a comma-separated sequence of elements enclosed in braces, like this:
 
@@ -357,6 +357,8 @@ At the end of the loop, the array has the values
 
 Another common pattern is a {\bf search}, which involves traversing an array and ``searching'' for a particular element.
 For example, the following method takes an array and a value, and it returns the index where the value appears:
+
+% TODO: comparing floating point values doesn't always work (credit: Fazl)
 
 \begin{code}
 public static int search(double[] array, double target) {

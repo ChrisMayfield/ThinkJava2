@@ -105,7 +105,7 @@ Here is an overloaded version of \java{popCard} that removes and returns the las
 
 \begin{code}
 public Card popCard() {
-    int i = cards.size() - 1;     // from the end of the collection
+    int i = cards.size() - 1;    // from the end of the list
     return popCard(i);
 }
 \end{code}
@@ -398,7 +398,7 @@ public Card play(Eights eights, Card prev) {
 The first parameter is a reference to the \java{Eights} object that encapsulates the state of the game (coming up in the next section).
 The second parameter, \java{prev}, is the card on top of the discard pile.
 
-The \java{play} method invokes two helper methods, \java{searchForMatch} and \java{drawForMatch}.
+\java{play} invokes two helper methods: \java{searchForMatch} and \java{drawForMatch}.
 Since we have not written them yet, this is an example of top-down development.
 
 \index{top-down development}
@@ -693,7 +693,7 @@ Figure~\ref{fig.uml1} shows the classes defined in this chapter and the relation
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=0.8\textwidth]{figs/uml1.pdf}
+\includegraphics[width=0.75\textwidth]{figs/uml1.pdf}
 \caption{UML diagram for the classes in this chapter.}
 \label{fig.uml1}
 \end{center}
