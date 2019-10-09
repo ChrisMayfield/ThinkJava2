@@ -1,14 +1,29 @@
 \chapter{Reusing Classes}
 
 In Chapter~\ref{conway}, we developed classes to implement Conway's Game of Life.
-As an exercise, you had a chance to implement Langton's Ant.
+%As an exercise, you had a chance to implement Langton's Ant.
+We can reuse the \java{Cell} and \java{GridCanvas} classes to implement other simulations.
+One of the most interesting zero-player games is {\it Langton's Ant}, which models an ``ant'' that walks around a grid.
+The ant follows only two simple rules:
 
-We now present a solution to that exercise and use it to demonstrate more advanced object-oriented techniques.
+\begin{enumerate}
+\item If the ant is on a white cell, it turns to the right, makes the cell black, and moves forward.
+\item If the ant is on a black cell, it turns to the left, makes the cell white, and moves forward.
+\end{enumerate}
+
+Because the rules are simple, you might expect the ant to do something simple, like make a square or repeat a simple pattern.
+But starting on a grid with all white cells, the ant makes more than 10,000 steps in a seemingly random pattern before it settles into a repeating loop of 104 steps.
+You can read more about it at \url{http://en.wikipedia.org/wiki/Langton's_ant}.
+
+%Reusing the classes we developed in this chapter, write an implementation of Langton's Ant.
+%We present a solution to this exercise in Appendix~\ref{app:langton}.
+
+In this chapter, we present a solution to Langton's Ant and use it to demonstrate more advanced object-oriented techniques.
 
 
 \section{Langton's Ant}
 
-We begin by defining a \java{Langton} class that ``has~a'' grid and information about the ant.
+We begin by defining a \java{Langton} class that has a grid and information about the ant.
 The constructor takes the grid dimensions as parameters.
 
 \begin{code}
@@ -31,7 +46,7 @@ public class Langton {
 \java{xpos} and \java{ypos} are the coordinates of the ant, and \java{head} is the ``heading'' of the ant, that is, what direction it is facing.
 \java{head} is an integer with four possible values, where 0 means the ant is facing ``north'', that is, toward the top of the screen, 1 means ``east'', etc.
 
-Here's the \java{update} method that implements the rules for Langton's ant:
+Here's an \java{update} method that implements the rules for Langton's ant:
 
 \begin{code}
 public void update() {
@@ -46,12 +61,10 @@ The \java{flipCell} method gets the \java{Cell} at the ant's location, figures o
 private void flipCell() {
     Cell cell = grid.getCell(xpos, ypos);
     if (cell.isOff()) {
-        // at a white square; turn right and flip color
-        head = (head + 1) % 4;
+        head = (head + 1) % 4;    // turn right
         cell.turnOn();
     } else {
-        // at a black square; turn left and flip color
-        head = (head + 3) % 4;
+        head = (head + 3) % 4;    // turn left
         cell.turnOff();
     }
 }
@@ -79,8 +92,6 @@ private void moveAnt() {
 }
 \end{code}
 
-If you run this code with a grid size of 61x61 or larger, you will see the ant eventually settle into a repeating pattern.
-
 Here is the \java{main} method we use to create and display the \java{Langton} object:
 
 \begin{code}
@@ -97,8 +108,14 @@ public static void main(String[] args) {
 }
 \end{code}
 
-Most of this method is the same as the \java{main} we used to create and run \java{Conway}, in Section~\ref{conwaymain}.
+Most of this code is the same as the \java{main} we used to create and run \java{Conway}, in Section~\ref{conwaymain}.
 It creates and configures a \java{JFrame} and runs \java{mainloop}.
+
+And that's everything!
+If you run this code with a grid size of 61x61 or larger, you will see the ant eventually settle into a repeating pattern.
+
+Because we designed \java{Cell} and \java{GridCanvas} to be reusable, we didn't have to modify them at all.
+However, we now have two copies of the \java{main} method---one on \java{Conway}, and one in \java{Langton}.
 
 
 \section{Refactoring}
@@ -248,7 +265,7 @@ But they also provide attributes and methods to be inherited, thus eliminating r
 
 At the beginning of the chapter, with had three classes: \java{Cell}, \java{GridCanvas}, and \java{Conway}.
 We then developed \java{Langton}, which had almost the same \java{main} method as \java{Conway}.
-So we refactored the code and created \java{Automaton}. 
+So we refactored the code and created \java{Automaton}.
 Figure~\ref{fig:uml2} summarizes the final design.
 
 \begin{figure}[!ht]
@@ -267,15 +284,14 @@ It also shows two examples of composition: \java{Automaton} has a \java{GridCanv
 
 The diagram also shows that \java{Automaton} uses \java{JFrame}, \java{GridCanvas} uses \java{Graphics}, and \java{Cell} uses \java{Graphics} and \java{Color}.
 
-\jaba{Automaton} is in italics to indicate that it is an abstract class.
+\java{Automaton} is in italics to indicate that it is an abstract class.
 As it happens, \java{Graphics} is an abstract class, too.
-
-One of the challenges of object-oriented programming is keeping track of a large number of classes and the relationships between them.
-UML class diagrams can help.
-
 
 %According to the documentation, its design ``allows an application to draw onto components that are realized on various devices, as well as onto off-screen images.''
 %That's the beauty of abstraction; our code works regardless how and where it's drawn.
+
+One of the challenges of object-oriented programming is keeping track of a large number of classes and the relationships between them.
+UML class diagrams can help.
 
 
 \section{Vocabulary}
