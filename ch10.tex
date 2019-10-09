@@ -66,9 +66,6 @@ Figure~\ref{fig.reference} shows the result.
 \end{center}
 \end{figure}
 
-% TODO: The style of the figures in this chapter is different.
-% We should make them consistent.
-
 As usual, the name of the variable \java{blank} appears outside the box, and its value appears inside the box.
 In this case, the value is a reference, which is represented with an arrow.
 The arrow points to the \java{Point} object, which contains two variables, \java{x} and \java{y}.
@@ -135,7 +132,7 @@ public static double distance(Point p1, Point p2) {
 
 Passing objects as parameters makes the source code more readable and less error-prone because related values are bundled together.
 
-You actually don't need to write a \java{distance} method, because \java{Point} objects have one built-in already.
+You actually don't need to write a \java{distance} method, because \java{Point} objects already have one.
 To compute the distance between two points, we invoke \java{distance} on one and pass the other as an argument.
 
 \begin{code}
@@ -145,7 +142,7 @@ double dist = p1.distance(p2);  // dist is 5.0
 \end{code}
 
 It turns out you don't need the \java{printPoint} method either.
-If you invoke \java{System.out.println(blank)} you get even more information:
+If you invoke \java{System.out.println(blank)}, it prints the type of the object and the values of the attributes:
 
 \begin{stdout}
 java.awt.Point[x=3,y=4]
@@ -155,7 +152,6 @@ java.awt.Point[x=3,y=4]
 
 \java{Point} objects provide a method called \java{toString} that returns a string representation of a point.
 When you call \java{println} with objects, it {\em automatically} calls \java{toString} and displays the result.
-In this case, it shows the name of the type (\java{java.awt.Point}) and the names and values of the attributes.
 
 
 \section{Objects as Return Values}
@@ -199,7 +195,7 @@ Again, \java{println} uses the \java{toString} method provided by \java{Rectangl
 \index{return}
 \index{statement!return}
 
-You can write methods that return new objects.
+You can also write methods that return new objects.
 For example, \java{findCenter} takes a \java{Rectangle} as an argument and returns a \java{Point} with the coordinates of the center of the rectangle:
 
 \begin{code}
@@ -263,7 +259,7 @@ moveRect(box, 50, 100);  // now at (50, 100, 100, 200)
 %The code displays \java{java.awt.Rectangle[x=50,y=100,width=100,height=200]}.
 
 Modifying objects by passing them as arguments to methods can be useful.
-But it can also make debugging more difficult, because it is not always clear which method invocations modify their arguments.
+But it can also make debugging difficult, because it is not always clear which method invocations modify their arguments.
 
 Java provides a number of methods that operate on \java{Point}s and \java{Rectangle}s.
 For example, \java{translate} has the same effect as \java{moveRect}, but instead of passing the rectangle as an argument, you use dot notation:
@@ -272,12 +268,11 @@ For example, \java{translate} has the same effect as \java{moveRect}, but instea
 box.translate(50, 100);
 \end{code}
 
-This line invokes the \java{translate} method for the object that \java{box} refers to.
-This method modifies the \java{box} object it is invoked on.
+This line invokes the \java{translate} method on the object that \java{box} refers to, which modifies the object.
 
 \index{object-oriented}
 
-This style, using dot notation to invoke a method on an object, rather than passing it as a parameter, is more consistent with the style of object-oriented programming.
+This syntax---using dot notation to invoke a method on an object, rather than passing it as a parameter---is more consistent with the style of object-oriented programming.
 
 
 \section{Aliasing Revisited}
@@ -344,7 +339,7 @@ As you can tell from this simple example, code that involves aliasing can get co
 \index{library}
 \index{source code}
 
-So far you have used classes from the Java library including \java{System}, \java{String}, \java{Scanner}, \java{Math}, \java{Random}, and others.
+So far we have used several classes from the Java library, including \java{System}, \java{String}, \java{Scanner}, \java{Math}, and \java{Random}.
 These classes are written in Java, so you can read the source code to see how they work.
 
 \index{src.zip}
@@ -378,11 +373,11 @@ But you can get a sense of what professional Java source code looks like by brow
 \index{Javadoc}
 
 Notice how much of {\tt Point.java} is documentation (see Appendix~\ref{javadoc}).
-Each method is thoroughly commented, including \java{@param}, \java{@return}, and other tags.
+Each method includes comments and tags like \java{@param} and \java{@return}.
 Javadoc reads these comments and generates documentation in HTML.
 You can see the same documentation online by doing a web search for ``Java Point''.
 
-Now take a look at the \java{Rectangle} class's \java{grow} and \java{translate} methods.
+Now take a look at the \java{grow} and \java{translate} methods in the \java{Rectangle} class.
 There is more to them than you may have expected.
 
 % ABD: I'm not sure these conclusions follow from the example
@@ -398,13 +393,13 @@ There is more to them than you may have expected.
 \section{Class Diagrams}
 \label{UML}
 
-To summarize what we've learned so far, \java{Point} and \java{Rectangle} objects have their own attributes and methods.
-Attributes are an object's {\em data}, and methods are an object's {\em code}.
-An object's {\em class} defines the attributes and methods that it has.
+To summarize what we've learned so far, \java{Point} and \java{Rectangle} objects have attributes and methods.
+Attributes are an object's {\em data}; methods are an object's {\em code}.
+An object's {\em class} definition specifies the attributes and methods that it has.
 
 \index{UML}
 
-{\bf Unified Modeling Language} (UML) defines a graphical way to summarize this information about a  class.
+{\bf Unified Modeling Language} (UML) defines a graphical way to summarize this information.
 Figure~\ref{fig.umlPoint}, shows two examples, the {\bf UML class diagrams} for the \java{Point} and \java{Rectangle} classes.
 
 \begin{figure}[!ht]
@@ -419,7 +414,7 @@ Figure~\ref{fig.umlPoint}, shows two examples, the {\bf UML class diagrams} for 
 \index{diagram!class}
 
 Each class is represented by a box with the name of the class,
-a list of the attributes, and a list of methods.
+a list of attributes, and a list of methods.
 
 \index{private}
 \index{variable!private}
@@ -427,9 +422,9 @@ a list of the attributes, and a list of methods.
 To identify the types of attributes and parameters, UML uses a language-independent syntax, like {\tt x:~int} rather than Java syntax, \java{int x}.
 
 The plus sign (\java{+}) identifies \java{public} attributes and methods.
-A minus sign (\java{-}) would identify \java{private} attributes and methods, which we discuss in the next chapter.
+A minus sign (\java{-}) identifies \java{private} attributes and methods, which we discuss in the next chapter.
 
-Both \java{Point} and \java{Rectangle} have additional methods; we are only showing the ones introduced in this chapter.
+Both \java{Point} and \java{Rectangle} have additional methods; we only show the ones introduced in this chapter.
 
 In contrast to memory diagrams, which visualize objects (and variables) at run-time, a class diagram visualizes the source code at compile-time.
 
@@ -439,7 +434,7 @@ In contrast to memory diagrams, which visualize objects (and variables) at run-t
 \index{scope}
 
 In Section~\ref{stack}, we introduced the idea that variables have scope.
-The scope of a variable is the area of a program where a variable can be used.
+The scope of a variable is the part of a program where a variable can be used.
 
 Consider the first few lines of the \java{Rectangle.translate} method from the Java library source code:
 
@@ -470,18 +465,20 @@ This example uses three kinds of variables:
 Parameters and local variables are created when a method is invoked, and they disappear when the method returns.
 They can be used anywhere inside the method, but not in other methods and not in other classes.
 
+Attributes are created when an object is created, and they disappear when the object is destroyed.
+They can be used in any of the object's methods, using the keyword \java{this}.
+And if they are public, they can be used in other classes via references to the object, \java{box1.x}.
+
 When the Java compiler encounters a variable name, it searches backwards for its declaration.
 The compiler first looks for local variables, then parameters, then attributes.
 
-Attributes are created when an object is created, and they disappear when the object is destroyed.
-They can be used in any of the object's methods via the keyword \java{this}.
-And they can be used in other classes via references to the object (e.g., \java{box1.x}).
+% ABD: The previous three paragraphs pack in a lot.  Some of it is a little early, and some of it is not explained carefully here.  So I think this is a soft spot to come back to in future revisions.
 
 
+%\section{Shadowing}
+%
 % CSM: We now discuss shadowing in Chapter 11.
 % @Deprecated is a nice idea, but unnecessary.
-%
-%\section{Shadowing}
 %
 %It's possible to declare a local variable (or parameter) with the same name as an attribute.
 %For example, you can declare \java{int x} in a method of the \java{Rectangle} class.
@@ -533,7 +530,7 @@ blank = null;
 
 The first line creates a new \java{Point} object and makes \java{blank} refer to it.
 The second line changes \java{blank} so that instead of referring to the object, it refers to nothing.
-As shown in Figure~\ref{fig.reference3}, there is no longer an arrow between them.
+As shown in Figure~\ref{fig.reference3}, after the second assignment, there are no references to the \java{Point} object.
 
 % TODO: ML suggests revising this diagram to show before and after
 
@@ -556,7 +553,7 @@ This process is called {\bf garbage collection}.
 %You can manually run the garbage collector by invoking \java{System.gc()} method.
 
 You don't have to do anything to make garbage collection happen, and in general, you don't have to be aware of it.
-But in high-performance applications, you may notice a slight delay every now and then when Java reclaims space from discarded objects.
+But in high-performance applications, you may notice a slight delay every now and then while Java reclaims space from discarded objects.
 
 
 \section{Mutable vs Immutable}
@@ -570,11 +567,16 @@ You can modify their attributes directly, like \java{box.x = 15}, or you can inv
 In contrast, immutable objects like \java{String}s and \java{Integer}s cannot be modified.
 They don't allow direct access to their attributes or provide methods that change them.
 
-Immutable objects have a number of advantages that help improve the performance and reliability of programs.
-For example, two strings that contain the same contents can be stored in memory only once.
-The Java compiler automatically detects this situation:
+Immutable objects have a number of advantages that help improve the reliability and performance of programs.
+You can pass strings (and other immutable objects) to methods without worrying about their contents changing as a ``side-effect'' of the method.
+That makes programs easier to debug, and more reliable.
+
+Also, two strings that contain the same characters can be stored in memory only once.
+That can reduces the amount of memory the program uses, and can speed it up. 
 
 % ABD: Do we want trinket markup in this version?  It seems to require cmplete class definitions, which involve code that's extraneous to the example.
+
+In the following example, \java{s1} and \java{s2} are created differently, but they refer to equivalent strings; that is, the two strings contains the same characters.
 
 \index{Surprise.java}
 
@@ -590,48 +592,38 @@ public class Surprise {
 }
 \end{trinket}
 
-In this example, \java{s1} and \java{s2} refer to the {\em same} string, even though they are created differently.
-Because strings are immutable, the compiler decides to use a single object for both \java{s1} and \java{s2}.
-As a result, \java{s1 == s2}, even though it appears they might be different objects.
+Because both strings are specified at compile time, the compiler can tell that they are equivalent.
+And because strings are immutable, there is no need to make two copies; the compiler can create one \java{String} and make both variables refer to it.
 
-Since neither variable can change the string itself, both \java{s1} and \java{s2} will be \java{"Hi, Mom!"} until they are reassigned.
-You can pass strings (and other immutable objects) to methods without worrying about their contents changing as a ``side-effect'' of the method.
+As a result, the test \java{s1 == s2} turns out to be true, which means that \java{s1} and \java{s2} refer to the same object.
+In other words, they are not just equivalent; they are identical.
 
-\index{efficiency}
+%Since neither variable can change the string itself, both \java{s1} and \java{s2} will be \java{"Hi, Mom!"} until they are reassigned.
 
-On the other hand, mutable objects have their own advantages.
-It's more efficient to move a rectangle by changing its coordinates than to create a new \java{Rectangle} each time.
+Although immutable objects have some advantages, mutable objects have other advantages.
+Sometimes it is more efficient to modify an existing object, rather than creating a new one.
+And some computations can be expressed more naturally using mutation.
 
-% ABD: I'm not sure I understand this second advantage:
-And as we'll see later, it's easier to implement objects that allow their attributes to be changed.
+Neither design is always better, which is why you will see both.
 
-% TODO: If we can't clarify the second advantage, we might have to revise the previous sentence
 
 \section{StringBuilder Objects}
 \label{stringbuilder}
 
-% TODO: When we resolve the flow of this chapter, we could use a smoother transition here.
+Here's an example where mutable objects are efficient and arguably more natural: building a long string by concatenating lots of small pieces.
 
-Strings are particularly inefficient when you need to concatenate them multiple times.
-Consider the following program that inputs ten lines from \java{System.in} and concatenates them into a single \java{String}.
+Strings are particularly inefficient for this operation.
+For example, consider the following program, which reads ten lines from \java{System.in} and concatenates them into a single \java{String}.
 
 \index{Append.java}
 
-\begin{trinket}[325]{Append.java}
-import java.util.Scanner;
-public class Append {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Enter 10 lines:");
-        String text = "";
-        for (int i = 0; i < 10; i++) {
-            String line = in.nextLine();        // new string
-            text = text + line + '\n';    // two more strings
-        }
-        System.out.print("You entered:\n" + text);
-    }
+\begin{code}
+String text = "";
+for (int i = 0; i < 10; i++) {
+    String line = in.nextLine();        // new string
+    text = text + line + '\n';    // two more strings
 }
-\end{trinket}
+\end{code}
 
 Inside the \java{for} loop, \java{in.nextLine()} returns a new string each time it is invoked.
 The next line of code concatenates \java{text} and \java{line}, which creates another string, and then appends the newline character, which creates yet another string.
@@ -663,7 +655,7 @@ The \java{append} method takes a \java{String} as a parameter and appends it to 
 Each time it is invoked, it modifies the \java{StringBuilder}; it doesn't create any new objects.
 
 The \java{StringBuilder} class also provides methods for inserting and deleting parts of strings efficiently.
-Programs that manipulate large amounts of text run much faster if you use \java{StringBuilder} objects instead of \java{String}s.
+Programs that manipulate large amounts of text run much faster if you use \java{StringBuilder} instead of \java{String}.
 
 
 \section{Vocabulary}
