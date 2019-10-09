@@ -71,10 +71,13 @@ So it takes some time to get there.
 You can't write Java programs (even hello world) without encountering object-oriented features.
 In some cases we explain a feature briefly when it first appears, and then explain it more deeply later on.
 
-This book is well suited to prepare students for the AP Computer Science A exam, which includes object-oriented design and implementation.
-(AP is a registered trademark of the College Board.)
-We introduce nearly every topic in the ``AP Java subset'' with a few exceptions.
-A mapping of {\it Think Java} section numbers to the current AP course description is available on our website: \url{https://thinkjava.org/}.
+If you read the entire book, you will see nearly every topic required for Java SE Programmer I certification.
+Supplemental lessons are available in the official Java tutorials on Oracle's website: \url{https://thinkjava.org/tutorial}.
+
+This book is also well suited to prepare high school students for the AP Computer Science A exam, which includes object-oriented design and implementation.
+(AP is a registered trademark of The College Board.)
+%We introduce nearly every topic in the ``AP Java subset'' with a few exceptions.
+A mapping of {\it Think Java} section numbers to the AP course description is available on our website: \url{https://thinkjava.org/}.
 
 
 \section*{Changes to the 2nd Edition}
@@ -103,14 +106,14 @@ Our main goal for these chapters was to provide better explanations and more dia
 Chapters~9 and 10 focus more on immutable vs mutable objects, and we added new sections on BigInteger and StringBuilder.
 The other content is largely the same, but it should be easier to understand now.
 
-\item[Chapters 13--16:]
+\item[Chapters 13--17:]
 
 We balanced the amount of content in Chapters~13--14 by moving ArrayLists earlier, and we implement the ``War'' card game as another example.
-Chapters~15--16 are brand new in this edition, and they cover more advanced topics including interfaces, polymorphism, and multi-dimensional arrays.
+Chapters~15--17 are brand new in this edition; they cover more advanced topics including 2D arrays, graphics, exceptions, abstract classes, interfaces, and events.
 
 \item[Appendixes:]
 
-We added Appendix~\ref{javadoc} to explain documentation comments and Javadoc in more detail and Appendix~\ref{extras} to present special topics.
+We added Appendix~\ref{javadoc} to explain documentation comments and Javadoc in more detail. % and Appendix~\ref{extras} to present special topics.
 %Most of the examples in the chapters do not include documentation comments to save space.
 The other three appendixes that were present in the first edition have been revised for clarity and layout.
 
@@ -127,7 +130,7 @@ We also include several appendixes with material that can be read at any time:
 \item{\bf Appendix A: Tools}
 
 This appendix explains how to download and install Java so you can compile programs on your computer.
-It also provides a brief introduction to DrJava -- an ``integrated development environment'' (IDE) that is designed primarily for students -- and other development tools, including Checkstyle for code quality and JUnit for testing.
+It also provides a brief introduction to DrJava---an ``integrated development environment'' (IDE) that is designed primarily for students---and other development tools, including Checkstyle for code quality and JUnit for testing.
 
 \item{\bf Appendix B: Javadoc}
 
@@ -144,10 +147,10 @@ The libraries require object-oriented features that students will not completely
 We provide debugging suggestions throughout the book, but we also have an appendix with many more suggestions on how to debug your programs.
 We recommend that readers review this appendix frequently as they work through the book.
 
-\item{\bf Appendix E: Extras}
+%\item{\bf Appendix E: Extras}
 
-With each new edition, we add new material, remove old material, and revise everything else.
-Some of the old material may still be useful, so rather than delete it, we moved it to this appendix.
+%With each new edition, we add new material, remove old material, and revise everything else.
+%Some of the old material may still be useful, so rather than delete it, we moved it to this appendix.
 
 \end{description}
 
@@ -181,9 +184,9 @@ If you choose this option, you don't need a GitHub account, but you won't be abl
 
 After you clone the repository or unzip the ZIP file, you should have a directory named {\tt ThinkJavaCode2} with a subdirectory for each chapter in the book.
 
-All examples in this book were developed and tested using Java SE Development Kit 8.
-If you are using a more recent version, the examples in this book should still work.
-If you are using an older version, some of them may not.
+The examples in this book were developed and tested using OpenJDK~11.
+If you are using a more recent version, everything should still work.
+If you are using an older version, some of the examples might not.
 
 
 \section*{Acknowledgments}
@@ -193,7 +196,7 @@ This list begins with Version 4.0 of the open-source edition, so it omits those 
 
 \begin{itemize}
 
-\item Ellen Hildreth used this book to teach Data Structures at Wellesley College and submitted a whole stack of corrections, along with some great suggestions.
+\item Ellen Hildreth used this book to teach Data Structures at Wellesley College and submitted a whole stack of corrections and suggestions.
 
 \item Tania Passfield pointed out that some glossaries had leftover terms that no longer appeared in the text.
 
@@ -228,10 +231,15 @@ She has also worked on a Ruby version of the book.
 \item Michael Stewart made several suggestions for improving the first half of the book.
 
 \item Steven Richardson adapted the book for an online course and contributed many ideas for improving the text.
+
+\item Fazl Rahman provided detailed feedback, chapter by chapter, and offered many suggestions for improving the text.
 \end{itemize}
 
 We are especially grateful to the technical reviewers of the O'Reilly Media first edition: Blythe Samuels, David Wisneski, and Stephen Rose.
 They found errors, made many great suggestions, and helped make the book much better.
+
+Likewise we thank Marc Loy for his thorough review of the O'Reilly Media second edition.
+He contributed many corrections, insights, and clarifications throughout the book.
 
 Many students have given exceptional feedback, including Ian Staton, Tanner Wernecke, Jacob Green, Rasha Abuhantash, Nick Duncan, Kylie Davidson, Shirley Jiang, Elena Trafton, Jennifer Gregorio, and Azeem Mufti.
 

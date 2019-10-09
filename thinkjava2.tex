@@ -65,7 +65,11 @@
 %\newenvironment{stdout}{\begin{verbatim}}{\end{verbatim}}
 
 % inline syntax formatting
-\newcommand{\java}{\verb}%}
+%\newcommand{\java}{\verb}%}
+%\newcommand{\java}{\texttt}%}
+\newcommand{\java}[1]{{\tt #1}}%{
+
+
 \newcommand{\textcolor}[1]{\relax}
 
 %%%% LATEX/HTML ONLY
@@ -245,6 +249,8 @@ Permission is granted to copy, distribute, and/or modify this work under the ter
 
 \input{ch16.tex}
 
+\input{ch17.tex}
+
 \appendix
 %\addtocontents{toc}{\protect\newpage}
 
@@ -261,8 +267,6 @@ Permission is granted to copy, distribute, and/or modify this work under the ter
 \input{appc.tex}
 
 \input{appd.tex}
-
-\input{appe.tex}
 
 \backmatter
 

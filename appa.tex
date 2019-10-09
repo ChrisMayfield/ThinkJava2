@@ -5,7 +5,7 @@
 
 The steps for compiling, running, and debugging Java code depend on your development environment and operating system.
 We avoided putting these details in the main text, because they can be distracting.
-Instead, we provide this appendix with a brief introduction to DrJava -- an {\bf integrated development environment} (IDE) that is helpful for beginners -- and other development tools, including Checkstyle for code quality and JUnit for testing.
+Instead, we provide this appendix with a brief introduction to DrJava---an {\bf integrated development environment} (IDE) that is helpful for beginners---and other development tools, including Checkstyle for code quality and JUnit for testing.
 
 
 \section{Installing DrJava}
@@ -34,19 +34,18 @@ But if you want to compile and run Java programs on your own computer, you will 
 
 \end{itemize}
 
-The JDK we recommend is Java SE (Standard Edition), which Oracle makes available for free.
+The JDK we recommend is OpenJDK, an open-source implementation of Java~SE (Standard Edition).
 The IDE we recommend is DrJava, which is an open-source development environment written in Java (see Figure~\ref{fig.drjava1}).
 
+To install OpenJDK, visit \url{https://adoptopenjdk.net}.
+Download and run the installer for your operating system.
 
-To install the JDK, search the web for ``download JDK'' which should take you to Oracle's website.
-Scroll down to ``Java Platform, Standard Edition'' and click the download button under JDK.
-Then accept the license agreement and select the installer for your operating system.
-Don't forget to run the installer after you download it!
+%To install the JDK, search the web for ``download JDK'' which should take you to Oracle's website.
+%Scroll down to ``Java Platform, Standard Edition'' and click the download button under JDK.
+%Then accept the license agreement and select the installer for your operating system.
+%Don't forget to run the installer after you download it!
 
 \index{JAR}
-
-% TODO: ML point out the DrJava does not use the Java 8 SE from Oracle.
-% Do we want to recomment OpenJDK?
 
 % TODO: ML suggest pointing to an installation video (or making one)
 
@@ -57,7 +56,7 @@ Refer to the DrJava documentation (\url{http://drjava.org/docs/quickstart/}) for
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=\textwidth]{figs/drjava-hello.png}
+\includegraphics[width=0.95\textwidth]{figs/drjava-hello.png}
 \caption{Screenshot of DrJava editing the hello world program.}
 \label{fig.drjava1}
 \end{center}
@@ -81,7 +80,7 @@ Figure~\ref{fig.drjava2} shows an example.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=\textwidth]{figs/drjava-logic.png}
+\includegraphics[width=0.95\textwidth]{figs/drjava-logic.png}
 \caption{Screenshot of the Interactions Pane in DrJava.}
 \label{fig.drjava2}
 \end{center}
@@ -192,7 +191,7 @@ Knowing both techniques allows you to use the right tool for the job.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=0.9\textwidth]{figs/meld.png}
+\includegraphics[width=0.95\textwidth]{figs/meld.png}
 \caption{Using {\tt meld} to compare expected output with the actual output.}
 \label{fig.meld}
 \end{center}
@@ -288,7 +287,7 @@ You might be surprised to see how many methods were called before the \java{main
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=\textwidth]{figs/debugger.png}
+\includegraphics[width=0.95\textwidth]{figs/debugger.png}
 \caption{Screenshot of the DrJava debugger.
 Execution is currently paused on the first line of \java{printTwice}.
 There is a breakpoint on the first line of \java{main}.}
@@ -322,9 +321,7 @@ See \url{http://drjava.org/docs/user/ch09.html} for more information about using
 \index{unit test}
 
 When beginners start writing methods, they usually test them by invoking them from \java{main} and checking the results by hand.
-Writing code like this can get repetitive, but there are tools to make it easier.
-For cases where we know the right answer, we can do better by writing {\bf unit tests}.
-
+%Writing code like this can get repetitive, but there are tools to make it easier.
 For example, to test \java{fibonacci} from Section~\ref{fibonacci}, we could write:
 
 \begin{code}
@@ -341,9 +338,11 @@ public static void main(String[] args) {
 }
 \end{code}
 
-This test code is self-explanatory, but it's longer than it needs to be and it doesn't scale very well.
+This test code is self-explanatory, but it's longer than it needs to be, and it doesn't scale very well.
 In addition, the error messages provide limited information.
-Using a unit test framework addresses these and other issues.
+%Using a unit test framework addresses these and other issues.
+For cases where we know the right answer, we can do better by writing {\bf unit tests}.
+
 
 JUnit is a common testing tool for Java programs (see \url{https://junit.org/}).
 To use it, you have to create a test class that contains test methods.

@@ -39,7 +39,7 @@ public static void main(String[] args) {
 \index{void}
 \index{type!void}
 
-In this example, the \java{newLine} and \java{main} methods are both \java{public}, which means they can be {\bf invoked} (or called) from other classes.
+In this example, the \java{newLine} and \java{main} methods are both \java{public}, which means they can be {\bf invoked} (or ``called'') from other classes.
 %They are both \java{static}, but we won't yet explain what that means.
 And they are both \java{void}, which means that they don't return a result (in contrast to \java{nextDouble}).
 The output of the program is:
@@ -185,8 +185,6 @@ When you invoke \java{printTwice}, you have to provide an argument with type \ja
 
 %\java{main} has a single parameter, called \java{args}, which has type \java{String[]}.
 %That means that whoever invokes \java{main} must provide an array of strings (we'll get to arrays in a later chapter).
-
-%TODO: Make sure printTwice doesn't get split across lines.
 
 Before the method executes, the argument gets assigned to the parameter.
 In the \java{printTwice} example, the argument \java{"Don't make me say this twice!"} gets assigned to the parameter \java{s}.
@@ -392,7 +390,7 @@ The third line finds the sine of 1.5 (the value of \java{angle}).
 \index{radians}
 \index{pi}
 
-Values for the trigonometric functions -- \java{sin}, \java{cos}, and \java{tan} -- must be in {\em radians}.
+Values for the trigonometric functions---\java{sin}, \java{cos}, and \java{tan}---must be in {\em radians}.
 To convert from degrees to radians, you can divide by 180 and multiply by $\pi$.
 Conveniently, the \java{Math} class provides a constant named \java{PI} that contains an approximation of $\pi$:
 
@@ -556,7 +554,7 @@ On the other hand, {\bf temporary variables} like \java{result} often make debug
 Figure~\ref{fig.param} illustrates how data values flows through the program.
 When the \java{main} method invokes \java{calculateArea}, the value \java{5.0} is assigned to the parameter \java{radius}.
 \java{calculateArea} then returns the value \java{78.54}, which is assigned to the variable \java{area}.
-%Note that you don't ``pass variables'' as arguments and return values -- you copy their values.
+%Note that you don't ``pass variables'' as arguments and return values---you copy their values.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -789,8 +787,6 @@ The output should look something like this (except that the date might be differ
 \begin{stdout}
 Saturday, July 22, 2015
 \end{stdout}
-
-%TODO: Check word breaks
 
 \item Once you have debugged \java{printAmerican}, write another method called \java{printEuropean} that displays the date in European format.
 

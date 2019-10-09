@@ -101,7 +101,7 @@ Notice that when we transform a static method into an instance method, the code 
 Here's how we invoke it:
 
 \begin{code}
-deck.print()
+deck.print();
 \end{code}
 
 
@@ -326,7 +326,6 @@ private static Deck merge(Deck d1, Deck d2) {
 
     // the index k traverses the result deck
     for (int k = 0; k < d3.length; k++) {
-
         // if d1 is empty, use top card from d2
         // if d2 is empty, use top card from d1
         // otherwise, compare the top two cards
@@ -671,7 +670,7 @@ if (p2.isEmpty()) {
 \end{code}
 
 \java{ArrayList} provides many other methods that we didn't use for this example.
-Take a minute to read about them at \url{https://docs.oracle.com/javase/9/docs/api/java/util/ArrayList.html}.
+Take a minute to read the documentation, which you can find by doing a web search for ``Java ArrayList''.
 
 
 \section{Vocabulary}

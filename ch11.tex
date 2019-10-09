@@ -7,7 +7,7 @@ Whenever you create a new class, you are creating a new object type with the sam
 So way back in Section~\ref{hello}, when we created the class \java{Hello}, we also created an object type named \java{Hello}.
 
 We didn't declare any variables with type \java{Hello}, and we didn't use \java{new} to create \java{Hello} objects.
-And it wouldn't have done much good if we had -- but we could have!
+And it wouldn't have done much good if we had---but we could have!
 
 In this chapter, you will learn to design classes that represent {\em useful} objects.  Here are the main ideas:
 
@@ -535,10 +535,10 @@ We can provide an \java{equals} method that implements this idea:
 
 \begin{code}
 public boolean equals(Time that) {
-    final EPS = 0.001;
+    final DELTA = 0.001;
     return this.hour == that.hour
         && this.minute == that.minute
-        && Math.abs(this.second - that.second) < EPS;
+        && Math.abs(this.second - that.second) < DELTA;
 }
 \end{code}
 
@@ -559,7 +559,8 @@ Since their instance variables are ``equal'', the result is \java{true}.
 Because \java{hour} and \java{minute} are integers, we compare them with \java{==}.  
 But \java{second} is a floating-point number.  
 Because of rounding errors, it is not good to compare floating-point numbers with \java{==} (see Section~\ref{rounderr}).
-Instead, we check whether the difference is smaller than a threshold, \java{EPS} (which is short for ``epsilon'', the Greek letter used to represent a small number).
+Instead, we check whether the difference is smaller than a threshold, \java{DELTA}.
+%(which is short for ``epsilon'', the Greek letter used to represent a small number).
 
 Many objects have a similar notion of equivalence; that is, two objects are considered equal if their instance variables are equal.
 But other definitions are possible.
@@ -761,20 +762,6 @@ Two objects that are ``equal'' but not necessarily identical, as defined by the 
 The code for this chapter is in the {\tt ch11} directory of {\tt ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
-
-
-\begin{exercise}  %%V6 Ex11.1
-
-  % TODO: Is this the first time we've used ``modifiers''?  If so, we
-  % might have to postpone this exercise.
-  
-Review the documentation of \java{java.awt.Rectangle}.
-Which methods are pure?
-Which are modifiers?
-
-If you review the documentation of \java{java.lang.String}, you should see that there are no modifiers, because strings are immutable.
-
-\end{exercise}
 
 
 \begin{exercise}  %%V6 Ex11.2

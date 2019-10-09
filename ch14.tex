@@ -105,7 +105,7 @@ Here is an overloaded version of \java{popCard} that removes and returns the las
 
 \begin{code}
 public Card popCard() {
-    int i = cards.size() - 1;     // from the end of the collection
+    int i = cards.size() - 1;    // from the end of the list
     return popCard(i);
 }
 \end{code}
@@ -153,7 +153,7 @@ public void swapCards(int i, int j) {
 }
 \end{code}
 
-We use \java{swapCards} to implement \java{shuffle}, which we described in Section~\ref{shuffle}:
+Finally, we use \java{swapCards} to implement \java{shuffle}, which we described in Section~\ref{shuffle}:
 
 \begin{code}
 public void shuffle() {
@@ -165,9 +165,7 @@ public void shuffle() {
 }
 \end{code}
 
-Notice that \java{shuffle} calls \java{swapCards} without using \java{this} explicitly.
-
-% TODO: Is this the first example of one instance method calling another with no `this`?
+%Notice that \java{shuffle} calls \java{swapCards} without using \java{this} explicitly.
 
 
 \section{Inheritance}
@@ -398,7 +396,7 @@ public Card play(Eights eights, Card prev) {
 The first parameter is a reference to the \java{Eights} object that encapsulates the state of the game (coming up in the next section).
 The second parameter, \java{prev}, is the card on top of the discard pile.
 
-The \java{play} method invokes two helper methods, \java{searchForMatch} and \java{drawForMatch}.
+\java{play} invokes two helper methods: \java{searchForMatch} and \java{drawForMatch}.
 Since we have not written them yet, this is an example of top-down development.
 
 \index{top-down development}
@@ -597,6 +595,7 @@ It displays the hand of each player, the contents of the discard pile, and how m
 Finally, it waits for the user to press the {\sf Enter} key.
 
 % TODO: Is there a reason this was commented out?
+% We were probably just trying to save space.
 
 \begin{code}
 public void displayState() {
@@ -686,18 +685,16 @@ The latter two sections are optional when showing relationships.
 % a simplified version for all HAS-A relationships.  This is consistent
 % with the class diagrams in Head First Design Patterns.
 
-Relationships between classes are represented by arrows: composition arrows have a standard arrow head, and inheritance arrows have a hollow triangle head (usually pointing up).
-Figure~\ref{fig.uml1} shows the classes defined in this chapter and the relationships among them.
-
-%TODO Blythe suggests picture of each arrow, but it's a pain.
-
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=0.8\textwidth]{figs/uml1.pdf}
+\includegraphics[width=0.75\textwidth]{figs/uml1.png}
 \caption{UML diagram for the classes in this chapter.}
 \label{fig.uml1}
 \end{center}
 \end{figure}
+
+Relationships between classes are represented by arrows: composition arrows have a standard arrow head, and inheritance arrows have a hollow triangle head (usually pointing up).
+Figure~\ref{fig.uml1} shows the classes defined in this chapter and the relationships among them.
 
 UML is an international standard, so almost any software engineer in the world could look at this diagram and understand our design.
 And class diagrams are only one of many graphical representations defined in the UML standard.

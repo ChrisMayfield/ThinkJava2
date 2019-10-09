@@ -300,7 +300,7 @@ Figure~\ref{fig.aliasing} shows the result: \java{box1} and \java{box2} refer to
 \end{figure}
 
 For example, the following code uses \java{grow} to make \java{box1} bigger by 50 units in all directions.
-It decreases \java{x} and \java{y} by 50, and increases \java{height} and \java{width} by 100:
+It decreases \java{x} and \java{y} by 50, and it increases \java{height} and \java{width} by 100:
 
 \begin{code}
 box1.grow(50, 50);                // grow box1 (alias)
@@ -351,12 +351,12 @@ Because it's so large, the library source code is stored in a ZIP archive named 
 If you have Java installed on your computer, you should already have this file somewhere.
 
 \begin{itemize}
-\item On Linux, it's likely under: \verb"/usr/lib/jvm"
+\item On Linux, it's likely under: \verb"/usr/lib/jvm/.../lib"
 \\ If not, you might have to install the {\tt openjdk-...-source} package.
 
-\item On MacOS, it's likely under: \\ \verb"/Library/Java/JavaVirtualMachines/jdk.../Contents/Home/"
+\item On MacOS, it's likely under: \\ \verb"/Library/Java/JavaVirtualMachines/.../Contents/Home/lib"
 
-\item On Windows, it's likely under: \verb"C:\Program Files\Java\jdk...\"
+\item On Windows, it's likely under: \verb"C:\Program Files\Java\...\lib"
 \end{itemize}
 
 When you open (or unzip) the file, you will see folders that correspond to Java packages.

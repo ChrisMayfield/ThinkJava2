@@ -75,7 +75,7 @@ double[] values = new double[size];
 
 You can use any integer expression for the size of an array, as long as the value is nonnegative.
 If you try to create an array with \java{-4} elements, for example, you will get a \java{NegativeArraySizeException}.
-An array with zero elements is allowed, and there are special uses for such arrays that we'll see later on.
+An array with zero elements is allowed, and there are special uses for such arrays.
 
 You can initialize an array with an {\bf array literal}, which is a comma-separated sequence of elements enclosed in braces, like this:
 
@@ -161,7 +161,7 @@ In this context, the variable name \java{i} is short for ``index''.
 \index{loop variable}
 \index{variable!loop}
 
-Each time through the loop we use \java{i} as an index into the array, displaying the \java{i}th element.
+Each time through the loop we use \java{i} as an index into the array, displaying the $i$th element.
 This type of array processing is usually written as a \java{for} loop.
 
 \begin{code}
@@ -321,7 +321,7 @@ In contrast to \java{String.length()}, which is a method, \java{a.length} is a c
 The expression \java{a.length} may look like a method invocation, but there are no parentheses and no arguments.
 
 The last time the loop gets executed, \java{i} is \java{a.length - 1}, which is the index of the last element.
-When \java{i} is equal to \java{a.length}, the condition fails and the body is not executed -- which is a good thing, because trying to access \java{a[a.length]} would throw an exception.
+When \java{i} is equal to \java{a.length}, the condition fails and the body is not executed---which is a good thing, because trying to access \java{a[a.length]} would throw an exception.
 
 Of course we can replace the loop altogether by using \java{Arrays.copyOf} and \java{a.length} for the second argument.
 The following line produces the same result shown in Figure~\ref{fig.array4}.
@@ -357,6 +357,8 @@ At the end of the loop, the array has the values
 
 Another common pattern is a {\bf search}, which involves traversing an array and ``searching'' for a particular element.
 For example, the following method takes an array and a value, and it returns the index where the value appears:
+
+% TODO: comparing floating point values doesn't always work (credit: Fazl)
 
 \begin{code}
 public static int search(double[] array, double target) {
@@ -475,7 +477,7 @@ The output will look something like this:
 \index{histogram}
 \index{counter}
 
-If these values were exam scores -- and they would be pretty bad exam scores in that case -- the teacher might present them to the class in the form of a {\bf histogram}.
+If these values were exam scores---and they would be pretty bad exam scores in that case---the teacher might present them to the class in the form of a {\bf histogram}.
 In statistics, a histogram is a set of counters that keeps track of the number of times each value appears.
 
 For exam scores, we might have ten counters to keep track of how many students scored in the 90s, the 80s, etc.
@@ -548,7 +550,7 @@ The code works, but it is not as efficient as it could be.
 Every time the loop invokes \java{inRange}, it traverses the entire array.
 It would be better to make a single pass through the \java{scores} array.
 
-For each score, we already know which range it falls in -- the score itself.
+For each score, we already know which range it falls in---the score itself.
 We can use that value to increment the corresponding counter.
 This code traverses the array of scores {\em only once} to generate the histogram:
 
@@ -714,9 +716,6 @@ public class Doubloon {
 
 This example uses methods, \java{if} statements, \java{for} loops, arithmetic and logical operators, integers, characters, strings, booleans, and arrays.
 We hope you'll take a second to appreciate how much you've learned!
-
-%TODO: Switch to em dashes with no spaces.  Sure would be easier if the book were in one file :(
-%CSM: That's what wildcards are for :)
 
 
 \section{Vocabulary}
