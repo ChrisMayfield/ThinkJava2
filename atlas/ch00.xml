@@ -14,118 +14,295 @@
   
   
 </bookinfo>
-<preface id="a0000000058">
-  <title>Preface</title><para><emphasis>Think Java</emphasis> is an introduction to computer science and programming intended for readers with little or no experience. We start with the most basic concepts and are careful to define all terms when they are first used. The book presents each new idea in a logical progression. Larger topics, like control flow statements and object-oriented programming, are divided into smaller examples and introduced over the course of several chapters. </para><para>This book is intentionally concise. Each chapter is 12–14 pages and covers the material for one week of a college course. It is not meant to be a comprehensive presentation of Java, but rather, an initial exposure to programming constructs and techniques. We begin with small problems and basic algorithms and work up to object-oriented design. In the vocabulary of computer science pedagogy, this book uses the “objects late” approach. </para><sect1 id="a0000000066" remap="section">
+<preface id="a0000000059">
+  <title>Preface</title><para><emphasis>Think Java</emphasis> is an introduction to computer science and programming intended for readers with little or no experience. We start with the most basic concepts and are careful to define all terms when they are first used. The book presents each new idea in a logical progression. Larger topics, like control flow statements and object-oriented programming, are divided into smaller examples and introduced over the course of several chapters. </para>
+
+  
+  <para>This book is intentionally concise. Each chapter is 12–14 pages and covers the material for one week of a college course. It is not meant to be a comprehensive presentation of Java, but rather, an initial exposure to programming constructs and techniques. We begin with small problems and basic algorithms and work up to object-oriented design. In the vocabulary of computer science pedagogy, this book uses the “objects late” approach. </para>
+<sect1 id="a0000000067" remap="section">
   <title>The Philosophy Behind the Book</title>
-    <para>Here are the guiding principles that make the book the way it is: </para><itemizedlist>
+    
   
-    <listitem><para><emphasis>One concept at a time.</emphasis> We break down topics that give beginners trouble into a series of small steps, so that they can exercise each new concept in isolation before continuing. </para></listitem>
+  <para>Here are the guiding principles that make the book the way it is: </para>
+<itemizedlist>
   
-    <listitem><para><emphasis>Balance of Java and concepts.</emphasis> The book is not primarily about Java; it uses code examples to demonstrate computer science. Most chapters start with language features and end with concepts. </para></listitem>
+    <listitem>
   
-    <listitem><para><emphasis>Conciseness.</emphasis> An important goal of the book is to be small enough so that students can read and understand the entire text in a one-semester college or AP course. </para></listitem>
+  <para><emphasis>One concept at a time.</emphasis> We break down topics that give beginners trouble into a series of small steps, so that they can exercise each new concept in isolation before continuing. </para>
+</listitem>
   
-    <listitem><para><emphasis>Emphasis on vocabulary.</emphasis> We try to introduce the minimum number of terms and define them carefully when they are first used. We also organize them in glossaries at the end of each chapter. </para></listitem>
+    <listitem>
   
-    <listitem><para><emphasis>Program development.</emphasis> There are many strategies for writing programs, including bottom-up, top-down, and others. We demonstrate multiple program development techniques, allowing readers to choose methods that work best for them. </para></listitem>
+  <para><emphasis>Balance of Java and concepts.</emphasis> The book is not primarily about Java; it uses code examples to demonstrate computer science. Most chapters start with language features and end with concepts. </para>
+</listitem>
   
-    <listitem><para><emphasis>Multiple learning curves.</emphasis> To write a program, you have to understand the algorithm, know the programming language, and be able to debug errors. We discuss these and other aspects throughout the book, and include an appendix that summarizes our advice. </para></listitem>
+    <listitem>
+  
+  <para><emphasis>Conciseness.</emphasis> An important goal of the book is to be small enough so that students can read and understand the entire text in a one-semester college or AP course. </para>
+</listitem>
+  
+    <listitem>
+  
+  <para><emphasis>Emphasis on vocabulary.</emphasis> We try to introduce the minimum number of terms and define them carefully when they are first used. We also organize them in glossaries at the end of each chapter. </para>
+</listitem>
+  
+    <listitem>
+  
+  <para><emphasis>Program development.</emphasis> There are many strategies for writing programs, including bottom-up, top-down, and others. We demonstrate multiple program development techniques, allowing readers to choose methods that work best for them. </para>
+</listitem>
+  
+    <listitem>
+  
+  <para><emphasis>Multiple learning curves.</emphasis> To write a program, you have to understand the algorithm, know the programming language, and be able to debug errors. We discuss these and other aspects throughout the book, and include an appendix that summarizes our advice. </para>
+</listitem>
   
 </itemizedlist>
-</sect1><sect1 id="a0000000094" remap="section">
+</sect1><sect1 id="a0000000095" remap="section">
   <title>Object-Oriented Programming</title>
-    <para>Some Java books introduce classes and objects immediately; others begin with procedural programming and transition to object-oriented more gradually. </para><para>Many of Java’s object-oriented features are motivated by problems with previous languages, and their implementations are influenced by this history. Some of these features are hard to explain when people aren’t familiar with the problems they solve. </para><para>We get to object-oriented programming as quickly as possible (beginning with <xref linkend="immutable"/>). But we introduce concepts one at a time, as clearly as possible, in a way that allows readers to practice each idea in isolation before moving on. So it takes some time to get there. </para><para>You can’t write Java programs (even hello world) without encountering object-oriented features. In some cases we explain a feature briefly when it first appears, and then explain it more deeply later on. </para><para>This book is well suited to prepare students for the AP Computer Science A exam, which includes object-oriented design and implementation. (AP is a registered trademark of the College Board.) We introduce nearly every topic in the “AP Java subset” with a few exceptions. A mapping of <emphasis>Think Java</emphasis> section numbers to the current AP course description is available on our website: <ulink url="https://thinkjava.org/"/>. </para>
-</sect1><sect1 id="a0000000105" remap="section">
+    
+  
+  <para>Some Java books introduce classes and objects immediately; others begin with procedural programming and transition to object-oriented more gradually. </para>
+
+  
+  <para>Many of Java’s object-oriented features are motivated by problems with previous languages, and their implementations are influenced by this history. Some of these features are hard to explain when people aren’t familiar with the problems they solve. </para>
+
+  
+  <para>We get to object-oriented programming as quickly as possible (beginning with <xref linkend="immutable"/>). But we introduce concepts one at a time, as clearly as possible, in a way that allows readers to practice each idea in isolation before moving on. So it takes some time to get there. </para>
+
+  
+  <para>You can’t write Java programs (even hello world) without encountering object-oriented features. In some cases we explain a feature briefly when it first appears, and then explain it more deeply later on. </para>
+
+  
+  <para>If you read the entire book, you will see nearly every topic required for Java SE Programmer I certification. Supplemental lessons are available in the official Java tutorials on Oracle’s website: <ulink url="https://thinkjava.org/tutorial"/>. </para>
+
+  
+  <para>This book is also well suited to prepare high school students for the AP Computer Science A exam, which includes object-oriented design and implementation. (AP is a registered trademark of The College Board.) A mapping of <emphasis>Think Java</emphasis> section numbers to the AP course description is available on our website: <ulink url="https://thinkjava.org/"/>. </para>
+
+</sect1><sect1 id="a0000000108" remap="section">
   <title>Changes to the 2nd Edition</title>
-    <para>This new edition was written over several years, with feedback from dozens of instructors and hundreds of students. A complete history of all changes is available on GitHub. Here are some of the highlights: </para><variablelist>
+    
+  
+  <para>This new edition was written over several years, with feedback from dozens of instructors and hundreds of students. A complete history of all changes is available on GitHub. Here are some of the highlights: </para>
+<variablelist>
   <varlistentry>
     <term>Chapters 1–4:</term>
-      <listitem><para>We reordered the material in Chapter 1 to present a more interesting balance of theory and practice. Chapters 2–3 are much cleaner now too. Methods are now presented in a single chapter, along with additional in-depth examples. </para></listitem>
+      <listitem>
+  
+  <para>We reordered the material in Chapter 1 to present a more interesting balance of theory and practice. Chapters 2–3 are much cleaner now too. Methods are now presented in a single chapter, along with additional in-depth examples. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>Chapters 5–8:</term>
-      <listitem><para>We rearranged these chapters a lot, added many examples and new figures, and removed unnecessary details. Strings are covered earlier (before arrays) so that readers can apply them to loop problems. The material on recursion is now a chapter, and we added new sections to explain binary numbers and CodingBat problems. </para></listitem>
+      <listitem>
+  
+  <para>We rearranged these chapters a lot, added many examples and new figures, and removed unnecessary details. Strings are covered earlier (before arrays) so that readers can apply them to loop problems. The material on recursion is now a chapter, and we added new sections to explain binary numbers and CodingBat problems. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>Chapters 9–12:</term>
-      <listitem><para>Our main goal for these chapters was to provide better explanations and more diagrams. Chapters 9 and 10 focus more on immutable vs mutable objects, and we added new sections on BigInteger and StringBuilder. The other content is largely the same, but it should be easier to understand now. </para></listitem>
+      <listitem>
+  
+  <para>Our main goal for these chapters was to provide better explanations and more diagrams. Chapters 9 and 10 focus more on immutable vs mutable objects, and we added new sections on BigInteger and StringBuilder. The other content is largely the same, but it should be easier to understand now. </para>
+</listitem>
   </varlistentry><varlistentry>
-    <term>Chapters 13–16:</term>
-      <listitem><para>We balanced the amount of content in Chapters 13–14 by moving ArrayLists earlier, and we implement the “War” card game as another example. Chapters 15–16 are brand new in this edition, and they cover more advanced topics including interfaces, polymorphism, and multi-dimensional arrays. </para></listitem>
+    <term>Chapters 13–17:</term>
+      <listitem>
+  
+  <para>We balanced the amount of content in Chapters 13–14 by moving ArrayLists earlier, and we implement the “War” card game as another example. Chapters 15–17 are brand new in this edition; they cover more advanced topics including 2D arrays, graphics, exceptions, abstract classes, interfaces, and events. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>Appendixes:</term>
-      <listitem><para>We added <xref linkend="javadoc"/> to explain documentation comments and Javadoc in more detail and <xref linkend="extras"/> to present special topics. The other three appendixes that were present in the first edition have been revised for clarity and layout. </para></listitem>
+      <listitem>
+  
+  <para>We added <xref linkend="javadoc"/> to explain documentation comments and Javadoc in more detail. The other three appendixes that were present in the first edition have been revised for clarity and layout. </para>
+</listitem>
   </varlistentry>
 </variablelist>
-</sect1><sect1 id="a0000000127" remap="section">
+</sect1><sect1 id="a0000000128" remap="section">
   <title>About the Appendixes</title>
-    <para>The chapters of this book are meant to be read in order, because each one builds on the previous one. We also include several appendixes with material that can be read at any time: </para><variablelist>
+    
+  
+  <para>The chapters of this book are meant to be read in order, because each one builds on the previous one. We also include several appendixes with material that can be read at any time: </para>
+<variablelist>
   <varlistentry>
     <term></term>
-      <listitem><para><emphasis role="bold">Appendix A: Tools</emphasis> </para><para>This appendix explains how to download and install Java so you can compile programs on your computer. It also provides a brief introduction to DrJava – an “integrated development environment” (IDE) that is designed primarily for students – and other development tools, including Checkstyle for code quality and JUnit for testing. </para></listitem>
+      <listitem>
+  
+  <para><emphasis role="bold">Appendix A: Tools</emphasis> </para>
+
+  
+  <para>This appendix explains how to download and install Java so you can compile programs on your computer. It also provides a brief introduction to DrJava—an “integrated development environment” (IDE) that is designed primarily for students—and other development tools, including Checkstyle for code quality and JUnit for testing. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term></term>
-      <listitem><para><emphasis role="bold">Appendix B: Javadoc</emphasis> </para><para>It’s important to document your classes and methods so that other programmers (including yourself in the future) will know how to use them. This appendix explains how to read documentation, how to write documentation, and how to use the Javadoc tool. </para></listitem>
+      <listitem>
+  
+  <para><emphasis role="bold">Appendix B: Javadoc</emphasis> </para>
+
+  
+  <para>It’s important to document your classes and methods so that other programmers (including yourself in the future) will know how to use them. This appendix explains how to read documentation, how to write documentation, and how to use the Javadoc tool. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term></term>
-      <listitem><para><emphasis role="bold">Appendix C: Graphics</emphasis> </para><para>Java provides libraries for working with graphics and animation, and these topics can be engaging for students. The libraries require object-oriented features that students will not completely understand until after <xref linkend="mutable"/>, but they can be used much earlier. </para></listitem>
+      <listitem>
+  
+  <para><emphasis role="bold">Appendix C: Graphics</emphasis> </para>
+
+  
+  <para>Java provides libraries for working with graphics and animation, and these topics can be engaging for students. The libraries require object-oriented features that students will not completely understand until after <xref linkend="mutable"/>, but they can be used much earlier. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term></term>
-      <listitem><para><emphasis role="bold">Appendix D: Debugging</emphasis> </para><para>We provide debugging suggestions throughout the book, but we also have an appendix with many more suggestions on how to debug your programs. We recommend that readers review this appendix frequently as they work through the book. </para></listitem>
-  </varlistentry><varlistentry>
-    <term></term>
-      <listitem><para><emphasis role="bold">Appendix E: Extras</emphasis> </para><para>With each new edition, we add new material, remove old material, and revise everything else. Some of the old material may still be useful, so rather than delete it, we moved it to this appendix. </para></listitem>
+      <listitem>
+  
+  <para><emphasis role="bold">Appendix D: Debugging</emphasis> </para>
+
+  
+  <para>We provide debugging suggestions throughout the book, but we also have an appendix with many more suggestions on how to debug your programs. We recommend that readers review this appendix frequently as they work through the book. </para>
+</listitem>
   </varlistentry>
 </variablelist>
 </sect1><sect1 id="code" remap="section">
-  <title>Using the Code Examples</title><para>Most of the code examples in this book are available from a Git repository at <ulink url="https://github.com/ChrisMayfield/ThinkJavaCode2"/>. Git is a “version control system” that allows you to keep track of the files that make up a project. A collection of files under Git’s control is called a “repository”. </para><para><indexterm significance="normal">
-  <primary>repository</primary>
+  <title>Using the Code Examples</title><para>Most of the code examples in this book are available from a Git repository at <ulink url="https://github.com/ChrisMayfield/ThinkJavaCode2"/>. Git is a “version control system” that allows you to keep track of the files that make up a project. A collection of files under Git’s control is called a “repository”. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>GitHub</primary>
+  <primary></primary>
 
-</indexterm>GitHub is a hosting service that provides storage for Git repositories and a convenient web interface. It provides several ways to work with the code: </para><itemizedlist>
+</indexterm>GitHub is a hosting service that provides storage for Git repositories and a convenient web interface. It provides several ways to work with the code: </para>
+<itemizedlist>
   
-    <listitem><para>You can create a copy of the repository on GitHub by pressing the Fork button. If you don’t already have a GitHub account, you’ll need to create one. After forking, you’ll have your own repository on GitHub that you can use to keep track of code you write. Then you can “clone” the repository, which downloads a copy of the files to your computer. </para></listitem>
+    <listitem>
   
-    <listitem><para>Alternatively, you could clone the original repository without forking. If you choose this option, you don’t need a GitHub account, but you won’t be able to save your changes on GitHub. </para></listitem>
+  <para>You can create a copy of the repository on GitHub by pressing the Fork button. If you don’t already have a GitHub account, you’ll need to create one. After forking, you’ll have your own repository on GitHub that you can use to keep track of code you write. Then you can “clone” the repository, which downloads a copy of the files to your computer. </para>
+</listitem>
   
-    <listitem><para>If you don’t want to use Git at all, you can download the code in a ZIP archive using the Download ZIP button on the GitHub page, or this link: <ulink url="https://thinkjava.org/code2zip"/>. </para></listitem>
+    <listitem>
   
-</itemizedlist><para>After you clone the repository or unzip the ZIP file, you should have a directory named <literal moreinfo="none">ThinkJavaCode2</literal> with a subdirectory for each chapter in the book. </para><para>All examples in this book were developed and tested using Java SE Development Kit 8. If you are using a more recent version, the examples in this book should still work. If you are using an older version, some of them may not. </para>
-</sect1><sect1 id="a0000000181" remap="section">
+  <para>Alternatively, you could clone the original repository without forking. If you choose this option, you don’t need a GitHub account, but you won’t be able to save your changes on GitHub. </para>
+</listitem>
+  
+    <listitem>
+  
+  <para>If you don’t want to use Git at all, you can download the code in a ZIP archive using the Download ZIP button on the GitHub page, or this link: <ulink url="https://thinkjava.org/code2zip"/>. </para>
+</listitem>
+  
+</itemizedlist>
+  
+  <para>After you clone the repository or unzip the ZIP file, you should have a directory named <literal moreinfo="none">ThinkJavaCode2</literal> with a subdirectory for each chapter in the book. </para>
+
+  
+  <para>The examples in this book were developed and tested using OpenJDK 11. If you are using a more recent version, everything should still work. If you are using an older version, some of the examples might not. </para>
+
+</sect1><sect1 id="a0000000180" remap="section">
   <title>Acknowledgments</title>
-    <para>Many people have sent corrections and suggestions over the years, and we appreciate their valuable feedback! This list begins with Version 4.0 of the open-source edition, so it omits those who contributed to earlier versions. </para><itemizedlist>
+    
   
-    <listitem><para>Ellen Hildreth used this book to teach Data Structures at Wellesley College and submitted a whole stack of corrections, along with some great suggestions. </para></listitem>
+  <para>Many people have sent corrections and suggestions over the years, and we appreciate their valuable feedback! This list begins with Version 4.0 of the open-source edition, so it omits those who contributed to earlier versions. </para>
+<itemizedlist>
   
-    <listitem><para>Tania Passfield pointed out that some glossaries had leftover terms that no longer appeared in the text. </para></listitem>
+    <listitem>
   
-    <listitem><para>Elizabeth Wiethoff noticed that the series expansion of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mo form="prefix">exp</mml:mo><mml:mo>(</mml:mo><mml:mo>-</mml:mo><mml:msup><mml:mi>x</mml:mi><mml:mn>2</mml:mn></mml:msup><mml:mo>)</mml:mo></mml:mrow></mml:math></inlineequation> was wrong. She has also worked on a Ruby version of the book. </para></listitem>
+  <para>Ellen Hildreth used this book to teach Data Structures at Wellesley College and submitted a whole stack of corrections and suggestions. </para>
+</listitem>
   
-    <listitem><para>Matt Crawford sent in a whole patch file full of corrections. </para></listitem>
+    <listitem>
   
-    <listitem><para>Chi-Yu Li pointed out a typo and an error in one of the code examples. </para></listitem>
+  <para>Tania Passfield pointed out that some glossaries had leftover terms that no longer appeared in the text. </para>
+</listitem>
   
-    <listitem><para>Doan Thanh Nam corrected an example. </para></listitem>
+    <listitem>
   
-    <listitem><para>Muhammad Saied translated the book into Arabic, and found several errors in the process. </para></listitem>
+  <para>Elizabeth Wiethoff noticed that the series expansion of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mo form="prefix">exp</mml:mo><mml:mo>(</mml:mo><mml:mo>-</mml:mo><mml:msup><mml:mi>x</mml:mi><mml:mn>2</mml:mn></mml:msup><mml:mo>)</mml:mo></mml:mrow></mml:math></inlineequation> was wrong. She has also worked on a Ruby version of the book. </para>
+</listitem>
   
-    <listitem><para>Marius Margowski found an inconsistency in a code example. </para></listitem>
+    <listitem>
   
-    <listitem><para>Leslie Klein discovered another error in the series expansion of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mo form="prefix">exp</mml:mo><mml:mo>(</mml:mo><mml:mo>-</mml:mo><mml:msup><mml:mi>x</mml:mi><mml:mn>2</mml:mn></mml:msup><mml:mo>)</mml:mo></mml:mrow></mml:math></inlineequation>, identified typos in the card array figures, and gave helpful suggestions to clarify several exercises. </para></listitem>
+  <para>Matt Crawford sent in a whole patch file full of corrections. </para>
+</listitem>
   
-    <listitem><para>Micah Lindstrom reported half a dozen typos and sent corrections. </para></listitem>
+    <listitem>
   
-    <listitem><para>James Riely ported the textbook source from LaTeX to Sphinx. <ulink url="http://fpl.cs.depaul.edu/jriely/thinkapjava/"/> </para></listitem>
+  <para>Chi-Yu Li pointed out a typo and an error in one of the code examples. </para>
+</listitem>
   
-    <listitem><para>Peter Knaggs ported the book to C#. <ulink url="https://www.rigwit.co.uk/think/sharp/"/> </para></listitem>
+    <listitem>
   
-    <listitem><para>Heidi Gentry-Kolen recorded several video lectures that follow the book. <ulink url="https://www.youtube.com/user/digipipeline"/> </para></listitem>
+  <para>Doan Thanh Nam corrected an example. </para>
+</listitem>
   
-    <listitem><para>Waldo Ribeiro submitted a pull request that corrected a dozen typos. </para></listitem>
+    <listitem>
   
-    <listitem><para>Michael Stewart made several suggestions for improving the first half of the book. </para></listitem>
+  <para>Muhammad Saied translated the book into Arabic, and found several errors in the process. </para>
+</listitem>
   
-    <listitem><para>Steven Richardson adapted the book for an online course and contributed many ideas for improving the text. </para></listitem>
+    <listitem>
   
-</itemizedlist><para>We are especially grateful to the technical reviewers of the O’Reilly Media first edition: Blythe Samuels, David Wisneski, and Stephen Rose. They found errors, made many great suggestions, and helped make the book much better. </para><para>Many students have given exceptional feedback, including Ian Staton, Tanner Wernecke, Jacob Green, Rasha Abuhantash, Nick Duncan, Kylie Davidson, Shirley Jiang, Elena Trafton, Jennifer Gregorio, and Azeem Mufti. </para><para>Other contributors who found one or more typos: Stijn Debrouwere, Guy Driesen, Andai Velican, Chris Kuszmaul, Daniel Kurikesu, Josh Donath, Rens Findhammer, Elisa Abedrapo, Yousef BaAfif, Bruce Hill, Matt Underwood, Isaac Sultan, Dan Rice, Robert Beard, Daniel Pierce, Michael Giftthaler, Chris Fox, Min Zeng, Markus Geuss, Mauricio Gonzalez, Enrico Sartirana, Kasem Satitwiwat, and Jason Miller. </para><para>If you have additional comments or ideas about the text, please send them to: <ulink url="mailto:feedback@greenteapress.com"/>. </para><para>Allen Downey and Chris Mayfield </para></sect1>
+  <para>Marius Margowski found an inconsistency in a code example. </para>
+</listitem>
+  
+    <listitem>
+  
+  <para>Leslie Klein discovered another error in the series expansion of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mo form="prefix">exp</mml:mo><mml:mo>(</mml:mo><mml:mo>-</mml:mo><mml:msup><mml:mi>x</mml:mi><mml:mn>2</mml:mn></mml:msup><mml:mo>)</mml:mo></mml:mrow></mml:math></inlineequation>, identified typos in the card array figures, and gave helpful suggestions to clarify several exercises. </para>
+</listitem>
+  
+    <listitem>
+  
+  <para>Micah Lindstrom reported half a dozen typos and sent corrections. </para>
+</listitem>
+  
+    <listitem>
+  
+  <para>James Riely ported the textbook source from LaTeX to Sphinx. <ulink url="http://fpl.cs.depaul.edu/jriely/thinkapjava/"/> </para>
+</listitem>
+  
+    <listitem>
+  
+  <para>Peter Knaggs ported the book to C#. <ulink url="https://www.rigwit.co.uk/think/sharp/"/> </para>
+</listitem>
+  
+    <listitem>
+  
+  <para>Heidi Gentry-Kolen recorded several video lectures that follow the book. <ulink url="https://www.youtube.com/user/digipipeline"/> </para>
+</listitem>
+  
+    <listitem>
+  
+  <para>Waldo Ribeiro submitted a pull request that corrected a dozen typos. </para>
+</listitem>
+  
+    <listitem>
+  
+  <para>Michael Stewart made several suggestions for improving the first half of the book. </para>
+</listitem>
+  
+    <listitem>
+  
+  <para>Steven Richardson adapted the book for an online course and contributed many ideas for improving the text. </para>
+</listitem>
+  
+    <listitem>
+  
+  <para>Fazl Rahman provided detailed feedback, chapter by chapter, and offered many suggestions for improving the text. </para>
+</listitem>
+  
+</itemizedlist>
+  
+  <para>We are especially grateful to the technical reviewers of the O’Reilly Media first edition: Blythe Samuels, David Wisneski, and Stephen Rose. They found errors, made many great suggestions, and helped make the book much better. </para>
+
+  
+  <para>Likewise we thank Marc Loy for his thorough review of the O’Reilly Media second edition. He contributed many corrections, insights, and clarifications throughout the book. </para>
+
+  
+  <para>Many students have given exceptional feedback, including Ian Staton, Tanner Wernecke, Jacob Green, Rasha Abuhantash, Nick Duncan, Kylie Davidson, Shirley Jiang, Elena Trafton, Jennifer Gregorio, and Azeem Mufti. </para>
+
+  
+  <para>Other contributors who found one or more typos: Stijn Debrouwere, Guy Driesen, Andai Velican, Chris Kuszmaul, Daniel Kurikesu, Josh Donath, Rens Findhammer, Elisa Abedrapo, Yousef BaAfif, Bruce Hill, Matt Underwood, Isaac Sultan, Dan Rice, Robert Beard, Daniel Pierce, Michael Giftthaler, Chris Fox, Min Zeng, Markus Geuss, Mauricio Gonzalez, Enrico Sartirana, Kasem Satitwiwat, and Jason Miller. </para>
+
+  
+  <para>If you have additional comments or ideas about the text, please send them to: <ulink url="mailto:feedback@greenteapress.com"/>. </para>
+
+  
+  <para>Allen Downey and Chris Mayfield </para></sect1>
 </preface>

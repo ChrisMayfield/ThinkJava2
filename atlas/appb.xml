@@ -1,3 +1,332 @@
-<chapter id="a0000008695">
-  <title>Data Processing</title>
-  <para>TODO </para></chapter>
+<chapter id="a0000012645">
+  <title>Reusing Classes</title>
+  
+  
+  <para>In <xref linkend="conway"/>, we developed classes to implement Conway’s Game of Life. We can reuse the <literal moreinfo="none">Cell</literal> and <literal moreinfo="none">GridCanvas</literal> classes to implement other simulations. One of the most interesting zero-player games is <emphasis>Langton’s Ant</emphasis>, which models an “ant” that walks around a grid. The ant follows only two simple rules: </para>
+<orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem>
+  
+  <para>If the ant is on a white cell, it turns to the right, makes the cell black, and moves forward. </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>If the ant is on a black cell, it turns to the left, makes the cell white, and moves forward. </para>
+</listitem>
+  
+</orderedlist>
+  
+  <para>Because the rules are simple, you might expect the ant to do something simple, like make a square or repeat a simple pattern. But starting on a grid with all white cells, the ant makes more than 10,000 steps in a seemingly random pattern before it settles into a repeating loop of 104 steps. You can read more about it at <ulink url="http://en.wikipedia.org/wiki/Langton’s_ant"/>. </para>
+
+  
+  <para>In this chapter, we present a solution to Langton’s Ant and use it to demonstrate more advanced object-oriented techniques. </para>
+<sect1 id="a0000012664" remap="section">
+  <title>Langton’s Ant</title>
+    
+  
+  <para>We begin by defining a <literal moreinfo="none">Langton</literal> class that has a grid and information about the ant. The constructor takes the grid dimensions as parameters. </para>
+<programlisting language="java" format="linespecific">public class Langton {
+    private GridCanvas grid;
+    private int xpos;
+    private int ypos;
+    private int head; // 0=North, 1=East, 2=South, 3=West
+
+    public Langton(int rows, int cols) {
+        grid = new GridCanvas(rows, cols, 10);
+        xpos = rows / 2;
+        ypos = cols / 2;
+        head = 0;
+    }
+}</programlisting><para><literal moreinfo="none">grid</literal> is a <literal moreinfo="none">GridCanvas</literal> object, which represents the state of the cells. <literal moreinfo="none">xpos</literal> and <literal moreinfo="none">ypos</literal> are the coordinates of the ant, and <literal moreinfo="none">head</literal> is the “heading” of the ant, that is, what direction it is facing. <literal moreinfo="none">head</literal> is an integer with four possible values, where 0 means the ant is facing “north”, that is, toward the top of the screen, 1 means “east”, etc. </para>
+
+  
+  <para>Here’s an <literal moreinfo="none">update</literal> method that implements the rules for Langton’s ant: </para>
+<programlisting language="java" format="linespecific">public void update() {
+    flipCell();
+    moveAnt();
+}</programlisting><para>The <literal moreinfo="none">flipCell</literal> method gets the <literal moreinfo="none">Cell</literal> at the ant’s location, figures out which way to turn, and changes the state of the cell. </para>
+<programlisting language="java" format="linespecific">private void flipCell() {
+    Cell cell = grid.getCell(xpos, ypos);
+    if (cell.isOff()) {
+        head = (head + 1) % 4;    // turn right
+        cell.turnOn();
+    } else {
+        head = (head + 3) % 4;    // turn left
+        cell.turnOff();
+    }
+}</programlisting><para>We use the remainder operator, <literal remap="verb" moreinfo="none">%</literal>, to make <literal moreinfo="none">head</literal> wrap around: if <literal moreinfo="none">head</literal> is 3 and we turn right, it wraps around to 0; if <literal moreinfo="none">head</literal> is 0 and we turn left, it wraps around to 3. </para>
+
+  
+  <para>Notice that to turn right, we add 1 to <literal moreinfo="none">head</literal>. To turn left, we could subtract 1, but <literal remap="verb" moreinfo="none">-1 % 4</literal> is <literal remap="verb" moreinfo="none">-1</literal> in Java. So we add 3 instead, since one left turn is the same as three right turns. </para>
+
+  
+  <para>The <literal moreinfo="none">moveAnt</literal> method moves the ant forward one square, using <literal moreinfo="none">head</literal> to determine which way is forward. </para>
+<programlisting language="java" format="linespecific">private void moveAnt() {
+    if (head == 0) {
+        ypos -= 1;
+    } else if (head == 1) {
+        xpos += 1;
+    } else if (head == 2) {
+        ypos += 1;
+    } else {
+        xpos -= 1;
+    }
+}</programlisting><para>Here is the <literal moreinfo="none">main</literal> method we use to create and display the <literal moreinfo="none">Langton</literal> object: </para>
+<programlisting language="java" format="linespecific">public static void main(String[] args) {
+    String title = "Langton's Ant";
+    Langton game = new Langton(61, 61);
+    JFrame frame = new JFrame(title);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setResizable(false);
+    frame.add(game.grid);
+    frame.pack();
+    frame.setVisible(true);
+    game.mainloop();
+}</programlisting><para>Most of this code is the same as the <literal moreinfo="none">main</literal> we used to create and run <literal moreinfo="none">Conway</literal>, in <xref linkend="conwaymain"/>. It creates and configures a <literal moreinfo="none">JFrame</literal> and runs <literal moreinfo="none">mainloop</literal>. </para>
+
+  
+  <para>And that’s everything! If you run this code with a grid size of 61x61 or larger, you will see the ant eventually settle into a repeating pattern. </para>
+
+  
+  <para>Because we designed <literal moreinfo="none">Cell</literal> and <literal moreinfo="none">GridCanvas</literal> to be reusable, we didn’t have to modify them at all. However, we now have two copies of the <literal moreinfo="none">main</literal> method—one on <literal moreinfo="none">Conway</literal>, and one in <literal moreinfo="none">Langton</literal>. </para>
+
+</sect1><sect1 id="a0000012745" remap="section">
+  <title>Refactoring</title>
+    
+  
+  <para>Whenever you see repeated code like <literal moreinfo="none">main</literal>, you should think about ways to remove it. In the <xref linkend="eights"/>, we used inheritance to eliminate repeated code. We’ll do something similar with <literal moreinfo="none">Conway</literal> and <literal moreinfo="none">Langton</literal>. </para>
+
+  
+  <para>First, we define a superclass named <literal moreinfo="none">Automaton</literal> where we will put the code that <literal moreinfo="none">Conway</literal> and <literal moreinfo="none">Langton</literal> have in common. </para>
+<programlisting language="java" format="linespecific">public class Automaton {
+    private GridCanvas grid;
+
+    public void run(String title, int rate) {
+        JFrame frame = new JFrame(title);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.add(this.grid);
+        frame.pack();
+        frame.setVisible(true);
+        this.mainloop(rate);
+    }
+}</programlisting><para><literal moreinfo="none">Automaton</literal> declares <literal moreinfo="none">grid</literal> as an instance variable, so every <literal moreinfo="none">Automaton</literal> “has a” <literal moreinfo="none">GridCanvas</literal>. It also provides <literal moreinfo="none">run</literal>, which contains the code that creates and configures the <literal moreinfo="none">JFrame</literal>. </para>
+
+  
+  <para>The <literal moreinfo="none">run</literal> method takes two parameters: the window <literal moreinfo="none">title</literal> and the frame <literal moreinfo="none">rate</literal>, that is, the number of time steps to show per second. It uses <literal moreinfo="none">title</literal> when creating the <literal moreinfo="none">JFrame</literal>, and it passes <literal moreinfo="none">rate</literal> to <literal moreinfo="none">mainloop</literal>: </para>
+<programlisting language="java" format="linespecific">private void mainloop(int rate) {
+    while (true) {
+
+        // update the drawing
+        this.update();
+        grid.repaint();
+
+        // delay the simulation
+        try {
+            Thread.sleep(1000 / rate);
+        } catch (InterruptedException e) {
+            // do nothing
+        }
+    }
+}</programlisting><para><literal moreinfo="none">mainloop</literal> contains the code we first saw in <xref linkend="mainloop"/>. It runs a <literal moreinfo="none">while</literal> loop forever (or until the window closes). Each time through the loop, it runs <literal moreinfo="none">update</literal> to update <literal moreinfo="none">grid</literal> and then <literal moreinfo="none">repaint</literal> to redraw the grid. </para>
+
+  
+  <para>Then it calls <literal moreinfo="none">Thread.sleep</literal> with a delay that depends on <literal moreinfo="none">rate</literal>. For example, if <literal moreinfo="none">rate</literal> is 2, we should draw two frames per second, so the delay is a half second, or 500 milliseconds. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>This process of reorganizing existing code, without changing its behavior, is known as <emphasis role="bold">refactoring</emphasis>. We’re almost finished; we just need to redesign <literal moreinfo="none">Conway</literal> and <literal moreinfo="none">Langton</literal> to extend <literal moreinfo="none">Automaton</literal>. </para>
+
+</sect1><sect1 id="a0000012826" remap="section">
+  <title>Abstract Classes</title>
+    
+  
+  <para>So far the implementation works, and if we are not planning to implement any other zero-person games, we could leave well enough alone. But there are a few problems with the current design: </para>
+<orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem>
+  
+  <para>The <literal moreinfo="none">grid</literal> attribute is <literal moreinfo="none">private</literal>, making it inaccessible in <literal moreinfo="none">Conway</literal> and <literal moreinfo="none">Langton</literal>. We could make it <literal moreinfo="none">public</literal>, but then other (unrelated) classes would have access to it as well. </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>The <literal moreinfo="none">Automaton</literal> class has no constructors, and even if it did, there would be no reason to create an instance of this class. </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>The <literal moreinfo="none">Automaton</literal> class does not provide an implementation of <literal moreinfo="none">update</literal>. In order to work properly, subclasses need to provide one. </para>
+</listitem>
+  
+</orderedlist>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>Java provides language features to solve these problems: </para>
+<orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem>
+  
+  <para>We can make the <literal moreinfo="none">grid</literal> attribute <literal moreinfo="none">protected</literal>, which means it’s accessible to subclasses but not other classes. </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>We can make the class <literal moreinfo="none">abstract</literal>, which means it cannot be instantiated. If you attempt to create an object for an abstract class, you will get a compiler error. </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>We can declare <literal moreinfo="none">update</literal> as an <literal moreinfo="none">abstract</literal> method, meaning that it must be overridden in subclasses. If the subclass does not override an abstract method, you will get a compiler error. </para>
+</listitem>
+  
+</orderedlist>
+  
+  <para>Here’s what <literal moreinfo="none">Automaton</literal> looks like as an abstract class: </para>
+<programlisting language="java" format="linespecific">public abstract class Automaton {
+    protected GridCanvas grid;
+
+    public abstract void update();
+
+    public void run(String title, int delay) {
+        // body of this method omitted
+    }
+
+    private void mainloop(int rate) {
+        // body of this method omitted
+    }
+}</programlisting><para>Notice that the <literal moreinfo="none">update</literal> method has no body. The declaration specifies the name, arguments, and return type. But it does not provide an implementation, because it is an abstract method. </para>
+
+  
+  <para>Notice also the word <literal moreinfo="none">abstract</literal> on the first line, which declares that <literal moreinfo="none">Automaton</literal> is an abstract class. In order to have any abstract methods, a class must be declared as abstract. </para>
+
+  
+  <para>Any class that extends <literal moreinfo="none">Automaton</literal> must provide an implementation of <literal moreinfo="none">update</literal>; the declaration here allows the compiler to check. </para>
+
+  
+  <para>Here’s what <literal moreinfo="none">Conway</literal> looks like as a subclass of <literal moreinfo="none">Automaton</literal>: </para>
+<programlisting language="java" format="linespecific">public class Conway extends Automaton {
+
+    // same methods as before, except mainloop is removed
+
+    public static void main(String[] args) {
+        String title = "Conway's Game of Life";
+        Conway game = new Conway("pulsar.cells", 2);
+        game.run(title, 2);
+    }
+}</programlisting><para><literal moreinfo="none">Conway</literal> extends <literal moreinfo="none">Automaton</literal>, so it inherits the <literal moreinfo="none">protected</literal> instance variable <literal moreinfo="none">grid</literal> and the methods <literal moreinfo="none">run</literal> and <literal moreinfo="none">mainloop</literal>. But because <literal moreinfo="none">Automaton</literal> is abstract, <literal moreinfo="none">Conway</literal> has to provide <literal moreinfo="none">update</literal> and a constructor (which it has already). </para>
+
+  
+  <para>Abstract classes are essentially “incomplete” class definitions that specify methods to be implemented by subclasses. But they also provide attributes and methods to be inherited, thus eliminating repeated code. </para>
+
+</sect1><sect1 id="a0000012919" remap="section">
+  <title>UML Diagram</title>
+    
+  
+  <para>At the beginning of the chapter, with had three classes: <literal moreinfo="none">Cell</literal>, <literal moreinfo="none">GridCanvas</literal>, and <literal moreinfo="none">Conway</literal>. We then developed <literal moreinfo="none">Langton</literal>, which had almost the same <literal moreinfo="none">main</literal> method as <literal moreinfo="none">Conway</literal>. So we refactored the code and created <literal moreinfo="none">Automaton</literal>. <xref linkend="fig..uml2"/> summarizes the final design. </para>
+
+  
+  <figure id="fig..uml2" float="False">
+    <title>UML class diagram of <literal moreinfo="none">Conway</literal> and <literal moreinfo="none">Langton</literal> applications.</title>
+     <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/uml2.png"></imagedata>
+  </imageobject>
+</mediaobject></figure>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>The diagram shows three examples of inheritance: <literal moreinfo="none">Conway</literal> is an <literal moreinfo="none">Automaton</literal>, <literal moreinfo="none">Langton</literal> is an <literal moreinfo="none">Automaton</literal>, and <literal moreinfo="none">GridCanvas</literal> is a Canvas. It also shows two examples of composition: <literal moreinfo="none">Automaton</literal> has a <literal moreinfo="none">GridCanvas</literal>, and <literal moreinfo="none">GridCanvas</literal> has a 2D array of <literal moreinfo="none">Cell</literal>s. </para>
+
+  
+  <para>The diagram also shows that <literal moreinfo="none">Automaton</literal> uses <literal moreinfo="none">JFrame</literal>, <literal moreinfo="none">GridCanvas</literal> uses <literal moreinfo="none">Graphics</literal>, and <literal moreinfo="none">Cell</literal> uses <literal moreinfo="none">Graphics</literal> and <literal moreinfo="none">Color</literal>. </para>
+
+  
+  <para><literal moreinfo="none">Automaton</literal> is in italics to indicate that it is an abstract class. As it happens, <literal moreinfo="none">Graphics</literal> is an abstract class, too. </para>
+
+  
+  <para>One of the challenges of object-oriented programming is keeping track of a large number of classes and the relationships between them. UML class diagrams can help. </para>
+
+</sect1><sect1 id="a0000012991" remap="section">
+  <title>Vocabulary</title>
+    <variablelist>
+  <varlistentry>
+    <term>refactor:</term>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>The process of restructuring or reorganizing existing code without changing its behavior. </para>
+</listitem>
+  </varlistentry><varlistentry>
+    <term>abstract class:</term>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>A class that is declared as <literal moreinfo="none">abstract</literal>; it cannot be instantiated, and it may (or may not) include abstract methods. </para>
+</listitem>
+  </varlistentry><varlistentry>
+    <term>concrete class:</term>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>A class that is <emphasis>not</emphasis> declared as <literal moreinfo="none">abstract</literal>; each of its methods must have an implementation. </para>
+</listitem>
+  </varlistentry>
+</variablelist>
+</sect1><sect1 id="a0000013009" remap="section">
+  <title>Exercises</title>
+    
+  
+  <para><example id="a0000013011" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para>The last section of this chapter introduced <literal moreinfo="none">Automaton</literal> as an abstract class and rewrote <literal moreinfo="none">Conway</literal> as a subclass of <literal moreinfo="none">Automaton</literal>. Now it’s your turn: rewrite <literal moreinfo="none">Langton</literal> as a subclass of <literal moreinfo="none">Automaton</literal>, removing the code that’s no longer needed. </para>
+
+  
+  <para><example id="a0000013024" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para><example id="a0000013026" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para>Mathematically speaking, Game of Life and Langton’s Ant are cellular automata, where “cellular” means it has cells, and “automaton” means it runs itself. See <ulink url="https://en.wikipedia.org/wiki/Cellular_automaton"/> for more discussion. </para>
+
+  
+  <para>Implement another cellular automaton of your choice. You may have to modify <literal moreinfo="none">Cell</literal> and/or <literal moreinfo="none">GridCanvas</literal>, in addition to extending <literal moreinfo="none">Automaton</literal>. For example, Brian’s Brain (<ulink url="https://en.wikipedia.org/wiki/Brian’s_Brain"/>) requires three states: “on”, “dying”, and “off”. </para>
+
+  
+  <para><example id="a0000013038" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+</sect1>
+</chapter>

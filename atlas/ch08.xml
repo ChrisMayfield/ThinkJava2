@@ -1,26 +1,49 @@
-<chapter id="a0000004401">
+<chapter id="a0000006063">
   <title>Recursive Methods</title>
+  
+  
   <para><indexterm significance="normal">
-  <primary>iterative</primary>
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>recursive</primary>
+  <primary></primary>
 
-</indexterm>Up to this point, we’ve been using <literal remap="verb" moreinfo="none">while</literal> and <literal remap="verb" moreinfo="none">for</literal> loops whenever we’ve needed to repeat something. Methods that use iteration are called <emphasis role="bold">iterative</emphasis>. They are straight-forward, but sometimes there are more elegant solutions. </para><para>In this chapter, we explore one of the most magical things that a method can do: invoke <emphasis>itself</emphasis> to solve a smaller version of the <emphasis>same</emphasis> problem. A method that invokes itself is called <emphasis role="bold">recursive</emphasis>. </para><sect1 id="recursion" remap="section">
+</indexterm>Up to this point, we’ve been using <literal moreinfo="none">while</literal> and <literal moreinfo="none">for</literal> loops whenever we’ve needed to repeat something. Methods that use iteration are called <emphasis role="bold">iterative</emphasis>. They are straight-forward, but sometimes there are more elegant solutions. </para>
+
+  
+  <para>In this chapter, we explore one of the most magical things that a method can do: invoke <emphasis>itself</emphasis> to solve a smaller version of the <emphasis>same</emphasis> problem. A method that invokes itself is called <emphasis role="bold">recursive</emphasis>. </para>
+<sect1 id="recursion" remap="section">
   <title>Recursive Void Methods</title><para><indexterm significance="normal">
-  <primary>countdown</primary>
+  <primary></primary>
 
-</indexterm>Consider the following example: </para><programlisting language="java" format="linespecific">public static void countdown(int n) {
+</indexterm>Consider the following example: </para>
+<programlisting language="java" format="linespecific">public static void countdown(int n) {
     if (n == 0) {
         System.out.println("Blastoff!");
     } else {
         System.out.println(n);
         countdown(n - 1);
     }
-}</programlisting><para>The name of the method is <literal remap="verb" moreinfo="none">countdown</literal>; it takes a single integer as a parameter. If the parameter is zero, it displays the word “Blastoff”. Otherwise, it displays the number and then invokes itself, passing <literal remap="verb" moreinfo="none">n - 1</literal> as the argument. </para><para>What happens if we invoke <literal remap="verb" moreinfo="none">countdown(3)</literal> from <literal remap="verb" moreinfo="none">main</literal>? </para><blockquote remap="quote"><para> The execution of <literal remap="verb" moreinfo="none">countdown</literal> begins with <literal remap="verb" moreinfo="none">n == 3</literal>, and since <literal remap="verb" moreinfo="none">n</literal> is not zero, it displays the value 3, and then invokes itself... <blockquote remap="quote"><para> The execution of <literal remap="verb" moreinfo="none">countdown</literal> begins with <literal remap="verb" moreinfo="none">n == 2</literal>, and since <literal remap="verb" moreinfo="none">n</literal> is not zero, it displays the value 2, and then invokes itself... <blockquote remap="quote"><para> The execution of <literal remap="verb" moreinfo="none">countdown</literal> begins with <literal remap="verb" moreinfo="none">n == 1</literal>, and since <literal remap="verb" moreinfo="none">n</literal> is not zero, it displays the value 1, and then invokes itself... <blockquote remap="quote"><para> The execution of <literal remap="verb" moreinfo="none">countdown</literal> begins with <literal remap="verb" moreinfo="none">n == 0</literal>, and since <literal remap="verb" moreinfo="none">n</literal> is zero, it displays the word “Blastoff!” and then returns. </para></blockquote> The <literal remap="verb" moreinfo="none">countdown</literal> that got <literal remap="verb" moreinfo="none">n == 1</literal> returns. </para></blockquote> The <literal remap="verb" moreinfo="none">countdown</literal> that got <literal remap="verb" moreinfo="none">n == 2</literal> returns. </para></blockquote> The <literal remap="verb" moreinfo="none">countdown</literal> that got <literal remap="verb" moreinfo="none">n == 3</literal> returns. </para></blockquote><para>And then you’re back in <literal remap="verb" moreinfo="none">main</literal>. So the total output looks like: </para><programlisting format="linespecific">3
+}</programlisting><para>The name of the method is <literal moreinfo="none">countdown</literal>; it takes a single integer as a parameter. If the parameter is zero, it displays the word “Blastoff”. Otherwise, it displays the number and then invokes itself, passing <literal moreinfo="none">n - 1</literal> as the argument. </para>
+
+  
+  <para>What happens if we invoke <literal moreinfo="none">countdown(3)</literal> from <literal moreinfo="none">main</literal>? </para><blockquote remap="quote">
+  
+  <para> The execution of <literal moreinfo="none">countdown</literal> begins with <literal moreinfo="none">n == 3</literal>, and since <literal moreinfo="none">n</literal> is not zero, it displays the value 3, and then invokes itself... <blockquote remap="quote">
+  
+  <para> The execution of <literal moreinfo="none">countdown</literal> begins with <literal moreinfo="none">n == 2</literal>, and since <literal moreinfo="none">n</literal> is not zero, it displays the value 2, and then invokes itself... <blockquote remap="quote">
+  
+  <para> The execution of <literal moreinfo="none">countdown</literal> begins with <literal moreinfo="none">n == 1</literal>, and since <literal moreinfo="none">n</literal> is not zero, it displays the value 1, and then invokes itself... <blockquote remap="quote">
+  
+  <para> The execution of <literal moreinfo="none">countdown</literal> begins with <literal moreinfo="none">n == 0</literal>, and since <literal moreinfo="none">n</literal> is zero, it displays the word “Blastoff!” and then returns. </para>
+</blockquote> The <literal moreinfo="none">countdown</literal> that got <literal moreinfo="none">n == 1</literal> returns. </para>
+</blockquote> The <literal moreinfo="none">countdown</literal> that got <literal moreinfo="none">n == 2</literal> returns. </para>
+</blockquote> The <literal moreinfo="none">countdown</literal> that got <literal moreinfo="none">n == 3</literal> returns. </para>
+</blockquote><para>And then you’re back in <literal moreinfo="none">main</literal>. So the total output looks like: </para><programlisting format="linespecific">3
 2
 1
-Blastoff!</programlisting><para>As a second example, we’ll rewrite the methods <literal remap="verb" moreinfo="none">newLine</literal> and <literal remap="verb" moreinfo="none">threeLine</literal> from <xref linkend="adding_methods"/>. Here they are again: </para><programlisting language="java" format="linespecific">public static void newLine() {
+Blastoff!</programlisting><para>As a second example, we’ll rewrite the methods <literal moreinfo="none">newLine</literal> and <literal moreinfo="none">threeLine</literal> from <xref linkend="adding_methods"/>. Here they are again: </para>
+<programlisting language="java" format="linespecific">public static void newLine() {
     System.out.println();
 }
 
@@ -29,78 +52,142 @@ public static void threeLine() {
     newLine();
     newLine();
 }</programlisting><para><indexterm significance="normal">
-  <primary>newline</primary>
+  <primary></primary>
 
-</indexterm>Although these methods work, they would not help if we wanted to display two newlines, or maybe 100. A more general alternative would be: </para><programlisting language="java" format="linespecific">public static void nLines(int n) {
+</indexterm>Although these methods work, they would not help if we wanted to display two newlines, or maybe 100. A more general alternative would be: </para>
+<programlisting language="java" format="linespecific">public static void nLines(int n) {
     if (n &gt; 0) {
         System.out.println();
         nLines(n - 1);
     }
-}</programlisting><para>This method takes an integer, <literal remap="verb" moreinfo="none">n</literal>, as a parameter and displays <literal remap="verb" moreinfo="none">n</literal> newlines. The structure is similar to <literal remap="verb" moreinfo="none">countdown</literal>. As long as <emphasis role="math">n</emphasis> is greater than zero, it displays a newline and then invokes itself to display <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mo>(</mml:mo><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo></mml:mrow></mml:math></inlineequation> additional newlines. The total number of newlines is <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mn>1</mml:mn><mml:mo>+</mml:mo><mml:mo>(</mml:mo><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo></mml:mrow></mml:math></inlineequation>, which is just what we wanted: <emphasis role="math">n</emphasis>. </para>
-</sect1><sect1 id="a0000004477" remap="section">
+}</programlisting><para>This method takes an integer, <literal moreinfo="none">n</literal>, as a parameter and displays <literal moreinfo="none">n</literal> newlines. The structure is similar to <literal moreinfo="none">countdown</literal>. As long as <emphasis role="math">n</emphasis> is greater than zero, it displays a newline and then invokes itself to display <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mo>(</mml:mo><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo></mml:mrow></mml:math></inlineequation> additional newlines. The total number of newlines is <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mn>1</mml:mn><mml:mo>+</mml:mo><mml:mo>(</mml:mo><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo></mml:mrow></mml:math></inlineequation>, which is just what we wanted: <emphasis role="math">n</emphasis>. </para>
+
+</sect1><sect1 id="a0000006173" remap="section">
   <title>Recursive Stack Diagrams</title>
-    <para><indexterm significance="normal">
-  <primary>stack diagram</primary>
+    
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>diagram</primary>
-<secondary>stack</secondary>
-</indexterm>In <xref linkend="stack"/>, we used a stack diagram to represent the state of a program during a method invocation. The same kind of diagram can make it easier to interpret a recursive method. </para><para>Remember that every time a method gets called, Java creates a new frame that contains the method’s parameters and variables. <xref linkend="fig.stack2"/> is a stack diagram for <literal remap="verb" moreinfo="none">countdown</literal>, called with <literal remap="verb" moreinfo="none">n == 3</literal>. </para>
+  <primary></primary>
+
+</indexterm>In <xref linkend="stack"/>, we used a stack diagram to represent the state of a program during a method invocation. The same kind of diagram can make it easier to interpret a recursive method. </para>
+
+  
+  <para>Remember that every time a method gets called, Java creates a new frame that contains the method’s parameters and variables. <xref linkend="fig.stack2"/> is a stack diagram for <literal moreinfo="none">countdown</literal>, called with <literal moreinfo="none">n == 3</literal>. </para>
+
   
   <figure id="fig.stack2" float="False">
-    <title>Stack diagram for the <literal remap="verb" moreinfo="none">countdown program.</literal/>
+    <title>Stack diagram for the <literal moreinfo="none">countdown</literal> program.</title>
      <mediaobject>
   <imageobject remap="includegraphics">
     <imagedata fileref="figs/stack2.pdf"></imagedata>
   </imageobject>
 </mediaobject></figure>
-<para>By convention, the frame for <literal remap="verb" moreinfo="none">main</literal> is at the top, and the stack of other frames grows down. That way, we can draw stack diagrams on paper without needing to guess how far they will grow. The frame for <literal remap="verb" moreinfo="none">main</literal> is empty because <literal remap="verb" moreinfo="none">main</literal> does not have any variables. (It has the parameter <literal remap="verb" moreinfo="none">args</literal>, but since we’re not using it, we left it out of the diagram.) </para><para><indexterm significance="normal">
-  <primary>base case</primary>
 
-</indexterm>There are four frames for <literal remap="verb" moreinfo="none">countdown</literal>, each with a different value for the parameter <literal remap="verb" moreinfo="none">n</literal>. The last frame, with <literal remap="verb" moreinfo="none">n == 0</literal>, is called the <emphasis role="bold">base case</emphasis>. It does not make a recursive call, so there are no more frames below it. </para><para><indexterm significance="normal">
-  <primary>StackOverflowError</primary>
+  
+  <para>By convention, the frame for <literal moreinfo="none">main</literal> is at the top, and the stack of other frames grows down. That way, we can draw stack diagrams on paper without needing to guess how far they will grow. The frame for <literal moreinfo="none">main</literal> is empty because <literal moreinfo="none">main</literal> does not have any variables. (It has the parameter <literal moreinfo="none">args</literal>, but since we’re not using it, we left it out of the diagram.) </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>There are four frames for <literal moreinfo="none">countdown</literal>, each with a different value for the parameter <literal moreinfo="none">n</literal>. The last frame, with <literal moreinfo="none">n == 0</literal>, is called the <emphasis role="bold">base case</emphasis>. It does not make a recursive call, so there are no more frames below it. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>exception</primary>
-<secondary>StackOverflow</secondary>
-</indexterm>If there is no base case in a recursive method, or if the base case is never reached, the stack would grow forever – at least in theory. In practice, the size of the stack is limited. If you exceed the limit, you get a <literal remap="verb" moreinfo="none">StackOverflowError</literal>. </para><para>For example, here is a recursive method without a base case: </para><programlisting language="java" format="linespecific">public static void forever(String s) {
+  <primary></primary>
+
+</indexterm>If there is no base case in a recursive method, or if the base case is never reached, the stack would grow forever—at least in theory. In practice, the size of the stack is limited. If you exceed the limit, you get a <literal moreinfo="none">StackOverflowError</literal>. </para>
+
+  
+  <para>For example, here is a recursive method without a base case: </para>
+<programlisting language="java" format="linespecific">public static void forever(String s) {
     System.out.println(s);
     forever(s);
 }</programlisting><para><indexterm significance="normal">
-  <primary>call stack</primary>
+  <primary></primary>
 
-</indexterm>This method displays the given string until the stack overflows, at which point it throws an error. Try this example on your computer – you might be surprised by how long the error message is! </para>
+</indexterm>This method displays the given string until the stack overflows, at which point it throws an error. Try this example on your computer—you might be surprised by how long the error message is! </para>
+
 </sect1><sect1 id="factorial" remap="section">
-  <title>Value-Returning Methods</title><para>To give you an idea of what you can do with the tools we have learned, let’s look at methods that evaluate recursively-defined mathematical functions. </para><para>A recursive definition is similar to a “circular” definition, in the sense that the definition refers to the thing being defined. Of course, a truly circular definition is not very useful: </para><blockquote remap="quote"><para> <emphasis role="bold">recursive:</emphasis> An adjective used to describe a method that is recursive. </para></blockquote><para><indexterm significance="normal">
-  <primary>recursion</primary>
+  <title>Value-Returning Methods</title><para>To give you an idea of what you can do with the tools we have learned, let’s look at methods that evaluate recursively-defined mathematical functions. </para>
 
-</indexterm>If you saw that definition in the dictionary, you might be annoyed. Then again, if you search for “recursion” on Google, it displays “Did you mean: recursion” as an inside joke. People fall for that link all the time. </para><para><indexterm significance="normal">
-  <primary>factorial</primary>
+  
+  <para>A recursive definition is similar to a “circular” definition, in the sense that the definition refers to the thing being defined. Of course, a truly circular definition is not very useful: </para>
+<blockquote remap="quote">
+  
+  <para> <emphasis role="bold">recursive:</emphasis> An adjective used to describe a method that is recursive. </para>
+</blockquote>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>Many mathematical functions are defined recursively, because that is often the simplest way. For example, the <emphasis role="bold">factorial</emphasis> of an integer <emphasis role="math">n</emphasis>, which is written <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>n</mml:mi><mml:mo>!</mml:mo></mml:mrow></mml:math></inlineequation>, is defined like this: </para><informalequation><mml:math mode="display" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mtable><mml:mtr><mml:mtd></mml:mtd><mml:mtd></mml:mtd><mml:mtd><mml:mrow><mml:mn>0</mml:mn><mml:mo>!</mml:mo><mml:mo>=</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:mtd></mml:mtr><mml:mtr><mml:mtd></mml:mtd><mml:mtd></mml:mtd><mml:mtd><mml:mrow><mml:mi>n</mml:mi><mml:mo>!</mml:mo><mml:mo>=</mml:mo><mml:mi>n</mml:mi><mml:mo>·</mml:mo><mml:mo>(</mml:mo><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo><mml:mo>!</mml:mo></mml:mrow></mml:mtd></mml:mtr></mml:mtable></mml:math></informalequation><para> Don’t confuse the mathematical symbol <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mo>!</mml:mo></mml:math></inlineequation>, which means <emphasis>factorial</emphasis>, with the Java operator <literal remap="verb" moreinfo="none">!</literal>, which means <emphasis>not</emphasis>. This definition says that <literal remap="verb" moreinfo="none">factorial(0)</literal> is <literal remap="verb" moreinfo="none">1</literal>, and <literal remap="verb" moreinfo="none">factorial(n)</literal> is <literal remap="verb" moreinfo="none">n * factorial(n - 1)</literal>. </para><para>So <literal remap="verb" moreinfo="none">factorial(3)</literal> is <literal remap="verb" moreinfo="none">3 * factorial(2)</literal>; <literal remap="verb" moreinfo="none">factorial(2)</literal> is <literal remap="verb" moreinfo="none">2 * factorial(1)</literal>; <literal remap="verb" moreinfo="none">factorial(1)</literal> is <literal remap="verb" moreinfo="none">1 * factorial(0)</literal>; and <literal remap="verb" moreinfo="none">factorial(0)</literal> is <literal remap="verb" moreinfo="none">1</literal>. Putting it all together, we get <literal remap="verb" moreinfo="none">3 * 2 * 1 * 1</literal>, which is 6. </para><para>If you can formulate a recursive definition of something, you can easily write a Java method to evaluate it. The first step is to decide what the parameters and return type are. Since factorial is defined for integers, the method takes an <literal remap="verb" moreinfo="none">int</literal> as a parameter and returns an <literal remap="verb" moreinfo="none">int</literal>. </para><programlisting language="java" format="linespecific">public static int factorial(int n) {
+</indexterm>If you saw that definition in the dictionary, you might be annoyed. Then again, if you search for “recursion” on Google, it displays “Did you mean: recursion” as an inside joke. People fall for that link all the time. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>Many mathematical functions are defined recursively, because that is often the simplest way. For example, the <emphasis role="bold">factorial</emphasis> of an integer <emphasis role="math">n</emphasis>, which is written <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>n</mml:mi><mml:mo>!</mml:mo></mml:mrow></mml:math></inlineequation>, is defined like this: </para>
+
+  
+  <para><informalequation><mml:math mode="display" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mtable><mml:mtr><mml:mtd></mml:mtd><mml:mtd></mml:mtd><mml:mtd><mml:mrow><mml:mn>0</mml:mn><mml:mo>!</mml:mo><mml:mo>=</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:mtd></mml:mtr><mml:mtr><mml:mtd></mml:mtd><mml:mtd></mml:mtd><mml:mtd><mml:mrow><mml:mi>n</mml:mi><mml:mo>!</mml:mo><mml:mo>=</mml:mo><mml:mi>n</mml:mi><mml:mo>·</mml:mo><mml:mo>(</mml:mo><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo><mml:mo>!</mml:mo></mml:mrow></mml:mtd></mml:mtr></mml:mtable></mml:math></informalequation></para>
+
+  
+  <para> Don’t confuse the mathematical symbol <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mo>!</mml:mo></mml:math></inlineequation>, which means <emphasis>factorial</emphasis>, with the Java operator <literal moreinfo="none">!</literal>, which means <emphasis>not</emphasis>. This definition says that <literal moreinfo="none">factorial(0)</literal> is <literal moreinfo="none">1</literal>, and <literal moreinfo="none">factorial(n)</literal> is <literal moreinfo="none">n * factorial(n - 1)</literal>. </para>
+
+  
+  <para>So <literal moreinfo="none">factorial(3)</literal> is <literal moreinfo="none">3 * factorial(2)</literal>; <literal moreinfo="none">factorial(2)</literal> is <literal moreinfo="none">2 * factorial(1)</literal>; <literal moreinfo="none">factorial(1)</literal> is <literal moreinfo="none">1 * factorial(0)</literal>; and <literal moreinfo="none">factorial(0)</literal> is <literal moreinfo="none">1</literal>. Putting it all together, we get <literal moreinfo="none">3 * 2 * 1 * 1</literal>, which is 6. </para>
+
+  
+  <para>If you can formulate a recursive definition of something, you can easily write a Java method to evaluate it. The first step is to decide what the parameters and return type are. Since factorial is defined for integers, the method takes an <literal moreinfo="none">int</literal> as a parameter and returns an <literal moreinfo="none">int</literal>. </para>
+<programlisting language="java" format="linespecific">public static int factorial(int n) {
     return 0;  // stub
-}</programlisting><para>Next, we think about the base case. If the argument happens to be zero, we return 1. </para><programlisting language="java" format="linespecific">public static int factorial(int n) {
+}</programlisting><para>Next, we think about the base case. If the argument happens to be zero, we return 1. </para>
+<programlisting language="java" format="linespecific">public static int factorial(int n) {
     if (n == 0) {
         return 1;
     }
     return 0;  // stub
-}</programlisting><para>Otherwise, and this is the interesting part, we have to make a recursive call to find the factorial of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:math></inlineequation>, and then multiply it by <emphasis role="math">n</emphasis>. </para><programlisting language="java" format="linespecific">public static int factorial(int n) {
+}</programlisting><para>Otherwise, and this is the interesting part, we have to make a recursive call to find the factorial of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:math></inlineequation>, and then multiply it by <emphasis role="math">n</emphasis>. </para>
+<programlisting language="java" format="linespecific">public static int factorial(int n) {
     if (n == 0) {
         return 1;
     }
     int recurse = factorial(n - 1);
     int result = n * recurse;
     return result;
-}</programlisting><para>To illustrate what is happening, we’ll use the temporary variables <literal remap="verb" moreinfo="none">recurse</literal> and <literal remap="verb" moreinfo="none">result</literal>. In each method call, <literal remap="verb" moreinfo="none">recurse</literal> stores the factorial of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:math></inlineequation>, and <literal remap="verb" moreinfo="none">result</literal> stores the factorial of <emphasis role="math">n</emphasis>. </para><para>The flow of execution for this program is similar to <literal remap="verb" moreinfo="none">countdown</literal> from <xref linkend="recursion"/>. If we invoke <literal remap="verb" moreinfo="none">factorial</literal> with the value 3: </para><blockquote remap="quote"><para> Since 3 is not zero, we skip the first branch and calculate the factorial of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:math></inlineequation>... <blockquote remap="quote"><para> Since 2 is not zero, we skip the first branch and calculate the factorial of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:math></inlineequation>... <blockquote remap="quote"><para> Since 1 is not zero, we skip the first branch and calculate the factorial of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:math></inlineequation>... <blockquote remap="quote"><para> Since 0 <emphasis>is</emphasis> zero, we take the first branch and return the value 1 immediately. </para></blockquote> The return value (1) gets multiplied by <literal remap="verb" moreinfo="none">n</literal>, which is 1, and the result is returned. </para></blockquote> The return value (1) gets multiplied by <literal remap="verb" moreinfo="none">n</literal>, which is 2, and the result is returned. </para></blockquote> The return value (2) gets multiplied by <literal remap="verb" moreinfo="none">n</literal>, which is 3, and the result, 6, is returned to whatever invoked <literal remap="verb" moreinfo="none">factorial(3)</literal>. </para></blockquote><para><indexterm significance="normal">
-  <primary>stack diagram</primary>
+}</programlisting><para>To illustrate what is happening, we’ll use the temporary variables <literal moreinfo="none">recurse</literal> and <literal moreinfo="none">result</literal>. In each method call, <literal moreinfo="none">recurse</literal> stores the factorial of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:math></inlineequation>, and <literal moreinfo="none">result</literal> stores the factorial of <emphasis role="math">n</emphasis>. </para>
+
+  
+  <para>The flow of execution for this program is similar to <literal moreinfo="none">countdown</literal> from <xref linkend="recursion"/>. If we invoke <literal moreinfo="none">factorial</literal> with the value 3: </para><blockquote remap="quote">
+  
+  <para> Since 3 is not zero, we skip the first branch and calculate the factorial of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:math></inlineequation>... <blockquote remap="quote">
+  
+  <para> Since 2 is not zero, we skip the first branch and calculate the factorial of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:math></inlineequation>... <blockquote remap="quote">
+  
+  <para> Since 1 is not zero, we skip the first branch and calculate the factorial of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:math></inlineequation>... <blockquote remap="quote">
+  
+  <para> Since 0 <emphasis>is</emphasis> zero, we take the first branch and return the value 1 immediately. </para>
+</blockquote> The return value (1) gets multiplied by <literal moreinfo="none">n</literal>, which is 1, and the result is returned. </para>
+</blockquote> The return value (1) gets multiplied by <literal moreinfo="none">n</literal>, which is 2, and the result is returned. </para>
+</blockquote> The return value (2) gets multiplied by <literal moreinfo="none">n</literal>, which is 3, and the result, 6, is returned to whatever invoked <literal moreinfo="none">factorial(3)</literal>. </para>
+</blockquote><para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>diagram</primary>
-<secondary>stack</secondary>
-</indexterm><xref linkend="fig.stack3"/> shows what the stack diagram looks like for this sequence of method invocations. The return values are shown being passed up the stack. Notice that <literal remap="verb" moreinfo="none">recurse</literal> and <literal remap="verb" moreinfo="none">result</literal> do not exist in the last frame, because when <literal remap="verb" moreinfo="none">n == 0</literal> the code that declares them does not execute. </para>
+  <primary></primary>
+
+</indexterm><xref linkend="fig.stack3"/> shows what the stack diagram looks like for this sequence of method invocations. The return values are shown being passed up the stack. Notice that <literal moreinfo="none">recurse</literal> and <literal moreinfo="none">result</literal> do not exist in the last frame, because when <literal moreinfo="none">n == 0</literal> the code that declares them does not execute. </para>
+
   
   <figure id="fig.stack3" float="False">
-    <title>Stack diagram for the <literal remap="verb" moreinfo="none">factorial method.</literal/>
+    <title>Stack diagram for the <literal moreinfo="none">factorial</literal> method.</title>
      <mediaobject>
   <imageobject remap="includegraphics">
     <imagedata fileref="figs/stack3.pdf"></imagedata>
@@ -109,41 +196,78 @@ public static void threeLine() {
 
 </sect1><sect1 id="fibonacci" remap="section">
   <title>The Leap of Faith</title><para><indexterm significance="normal">
-  <primary>leap of faith</primary>
+  <primary></primary>
 
-</indexterm>Following the flow of execution is one way to read programs, but it can quickly become overwhelming. Another way to understand recursion is the <emphasis role="bold">leap of faith</emphasis>: when you come to a method invocation, instead of following the flow of execution, you <emphasis>assume</emphasis> that the method works correctly and returns the appropriate value. </para><para>In fact, you are already practicing this leap of faith when you use methods in the Java library. When you invoke <literal remap="verb" moreinfo="none">Math.cos</literal> or <literal remap="verb" moreinfo="none">System.out.println</literal>, you don’t think about the implementations of those methods. You just assume that they work properly. </para><para>The same is true of other methods. For example, consider the method from <xref linkend="boolmeth"/> that determines whether an integer has only one digit: </para><programlisting language="java" format="linespecific">public static boolean isSingleDigit(int x) {
+</indexterm>Following the flow of execution is one way to read programs, but it can quickly become overwhelming. Another way to understand recursion is the <emphasis role="bold">leap of faith</emphasis>: when you come to a method invocation, instead of following the flow of execution, you <emphasis>assume</emphasis> that the method works correctly and returns the appropriate value. </para>
+
+  
+  <para>In fact, you are already practicing this leap of faith when you use methods in the Java library. When you invoke <literal moreinfo="none">Math.cos</literal> or <literal moreinfo="none">System.out.println</literal>, you don’t think about the implementations of those methods. You just assume that they work properly. </para>
+
+  
+  <para>The same is true of other methods. For example, consider the method from <xref linkend="boolmeth"/> that determines whether an integer has only one digit: </para>
+<programlisting language="java" format="linespecific">public static boolean isSingleDigit(int x) {
     return x &gt; -10 &amp;&amp; x &lt; 10;
-}</programlisting><para>Once you convince yourself that this method is correct – by examining and testing the code – you can just use the method without ever looking at the implementation again. </para><para>Recursive methods are no different. When you get to a recursive call, don’t think about the flow of execution. Instead, <emphasis>assume</emphasis> that the recursive call produces the desired result. </para><para>For example, “Assuming that I can find the factorial of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:math></inlineequation>, can I compute the factorial of <emphasis role="math">n</emphasis>?” Yes you can, by multiplying by <emphasis role="math">n</emphasis>. Here’s an implementation of <literal remap="verb" moreinfo="none">factorial</literal> with the temporary variables removed: </para><programlisting language="java" format="linespecific">public static int factorial(int n) {
+}</programlisting><para>Once you convince yourself that this method is correct—by examining and testing the code—you can just use the method without ever looking at the implementation again. </para>
+
+  
+  <para>Recursive methods are no different. When you get to a recursive call, don’t think about the flow of execution. Instead, <emphasis>assume</emphasis> that the recursive call produces the desired result. </para>
+
+  
+  <para>For example, “Assuming that I can find the factorial of <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:math></inlineequation>, can I compute the factorial of <emphasis role="math">n</emphasis>?” Yes you can, by multiplying by <emphasis role="math">n</emphasis>. Here’s an implementation of <literal moreinfo="none">factorial</literal> with the temporary variables removed: </para>
+<programlisting language="java" format="linespecific">public static int factorial(int n) {
     if (n == 0) {
         return 1;
     }
     return n * factorial(n - 1);
-}</programlisting><para>Notice how similar this version is to the original mathematical definition: </para><informalequation><mml:math mode="display" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mtable><mml:mtr><mml:mtd></mml:mtd><mml:mtd></mml:mtd><mml:mtd><mml:mrow><mml:mn>0</mml:mn><mml:mo>!</mml:mo><mml:mo>=</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:mtd></mml:mtr><mml:mtr><mml:mtd></mml:mtd><mml:mtd></mml:mtd><mml:mtd><mml:mrow><mml:mi>n</mml:mi><mml:mo>!</mml:mo><mml:mo>=</mml:mo><mml:mi>n</mml:mi><mml:mo>·</mml:mo><mml:mo>(</mml:mo><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo><mml:mo>!</mml:mo></mml:mrow></mml:mtd></mml:mtr></mml:mtable></mml:math></informalequation><para> Of course, it is strange to assume that the method works correctly when you have not finished writing it. But that’s why it’s called a leap of faith! </para><para><indexterm significance="normal">
-  <primary>fibonacci</primary>
+}</programlisting><para>Notice how similar this version is to the original mathematical definition: </para>
 
-</indexterm>Another common recursively-defined mathematical function is the Fibonacci sequence, which has the following definition: </para><informalequation><mml:math mode="display" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mtable><mml:mtr><mml:mtd></mml:mtd><mml:mtd></mml:mtd><mml:mtd><mml:mrow><mml:mi>f</mml:mi><mml:mi>i</mml:mi><mml:mi>b</mml:mi><mml:mi>o</mml:mi><mml:mi>n</mml:mi><mml:mi>a</mml:mi><mml:mi>c</mml:mi><mml:mi>c</mml:mi><mml:mi>i</mml:mi><mml:mo>(</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo><mml:mo>=</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:mtd></mml:mtr><mml:mtr><mml:mtd></mml:mtd><mml:mtd></mml:mtd><mml:mtd><mml:mrow><mml:mi>f</mml:mi><mml:mi>i</mml:mi><mml:mi>b</mml:mi><mml:mi>o</mml:mi><mml:mi>n</mml:mi><mml:mi>a</mml:mi><mml:mi>c</mml:mi><mml:mi>c</mml:mi><mml:mi>i</mml:mi><mml:mo>(</mml:mo><mml:mn>2</mml:mn><mml:mo>)</mml:mo><mml:mo>=</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:mtd></mml:mtr><mml:mtr><mml:mtd></mml:mtd><mml:mtd></mml:mtd><mml:mtd><mml:mrow><mml:mi>f</mml:mi><mml:mi>i</mml:mi><mml:mi>b</mml:mi><mml:mi>o</mml:mi><mml:mi>n</mml:mi><mml:mi>a</mml:mi><mml:mi>c</mml:mi><mml:mi>c</mml:mi><mml:mi>i</mml:mi><mml:mo>(</mml:mo><mml:mi>n</mml:mi><mml:mo>)</mml:mo><mml:mo>=</mml:mo><mml:mi>f</mml:mi><mml:mi>i</mml:mi><mml:mi>b</mml:mi><mml:mi>o</mml:mi><mml:mi>n</mml:mi><mml:mi>a</mml:mi><mml:mi>c</mml:mi><mml:mi>c</mml:mi><mml:mi>i</mml:mi><mml:mo>(</mml:mo><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo><mml:mo>+</mml:mo><mml:mi>f</mml:mi><mml:mi>i</mml:mi><mml:mi>b</mml:mi><mml:mi>o</mml:mi><mml:mi>n</mml:mi><mml:mi>a</mml:mi><mml:mi>c</mml:mi><mml:mi>c</mml:mi><mml:mi>i</mml:mi><mml:mo>(</mml:mo><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>2</mml:mn><mml:mo>)</mml:mo></mml:mrow></mml:mtd></mml:mtr></mml:mtable></mml:math></informalequation><para> Notice that each Fibonacci number is the sum of the two preceding Fibonacci numbers. Translated into Java, this function is: </para><programlisting language="java" format="linespecific">public static int fibonacci(int n) {
+  
+  <para><informalequation><mml:math mode="display" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mtable><mml:mtr><mml:mtd></mml:mtd><mml:mtd></mml:mtd><mml:mtd><mml:mrow><mml:mn>0</mml:mn><mml:mo>!</mml:mo><mml:mo>=</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:mtd></mml:mtr><mml:mtr><mml:mtd></mml:mtd><mml:mtd></mml:mtd><mml:mtd><mml:mrow><mml:mi>n</mml:mi><mml:mo>!</mml:mo><mml:mo>=</mml:mo><mml:mi>n</mml:mi><mml:mo>·</mml:mo><mml:mo>(</mml:mo><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo><mml:mo>!</mml:mo></mml:mrow></mml:mtd></mml:mtr></mml:mtable></mml:math></informalequation></para>
+
+  
+  <para> Of course, it is strange to assume that the method works correctly when you have not finished writing it. But that’s why it’s called a leap of faith! </para><para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>Another common recursively-defined mathematical function is the Fibonacci sequence, which has the following definition: </para>
+
+  
+  <para><informalequation><mml:math mode="display" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mtable><mml:mtr><mml:mtd></mml:mtd><mml:mtd></mml:mtd><mml:mtd><mml:mrow><mml:mi>f</mml:mi><mml:mi>i</mml:mi><mml:mi>b</mml:mi><mml:mi>o</mml:mi><mml:mi>n</mml:mi><mml:mi>a</mml:mi><mml:mi>c</mml:mi><mml:mi>c</mml:mi><mml:mi>i</mml:mi><mml:mo>(</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo><mml:mo>=</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:mtd></mml:mtr><mml:mtr><mml:mtd></mml:mtd><mml:mtd></mml:mtd><mml:mtd><mml:mrow><mml:mi>f</mml:mi><mml:mi>i</mml:mi><mml:mi>b</mml:mi><mml:mi>o</mml:mi><mml:mi>n</mml:mi><mml:mi>a</mml:mi><mml:mi>c</mml:mi><mml:mi>c</mml:mi><mml:mi>i</mml:mi><mml:mo>(</mml:mo><mml:mn>2</mml:mn><mml:mo>)</mml:mo><mml:mo>=</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:mtd></mml:mtr><mml:mtr><mml:mtd></mml:mtd><mml:mtd></mml:mtd><mml:mtd><mml:mrow><mml:mi>f</mml:mi><mml:mi>i</mml:mi><mml:mi>b</mml:mi><mml:mi>o</mml:mi><mml:mi>n</mml:mi><mml:mi>a</mml:mi><mml:mi>c</mml:mi><mml:mi>c</mml:mi><mml:mi>i</mml:mi><mml:mo>(</mml:mo><mml:mi>n</mml:mi><mml:mo>)</mml:mo><mml:mo>=</mml:mo><mml:mi>f</mml:mi><mml:mi>i</mml:mi><mml:mi>b</mml:mi><mml:mi>o</mml:mi><mml:mi>n</mml:mi><mml:mi>a</mml:mi><mml:mi>c</mml:mi><mml:mi>c</mml:mi><mml:mi>i</mml:mi><mml:mo>(</mml:mo><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo><mml:mo>+</mml:mo><mml:mi>f</mml:mi><mml:mi>i</mml:mi><mml:mi>b</mml:mi><mml:mi>o</mml:mi><mml:mi>n</mml:mi><mml:mi>a</mml:mi><mml:mi>c</mml:mi><mml:mi>c</mml:mi><mml:mi>i</mml:mi><mml:mo>(</mml:mo><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>2</mml:mn><mml:mo>)</mml:mo></mml:mrow></mml:mtd></mml:mtr></mml:mtable></mml:math></informalequation></para>
+
+  
+  <para> Notice that each Fibonacci number is the sum of the two preceding Fibonacci numbers. Translated into Java, this function is: </para>
+<programlisting language="java" format="linespecific">public static int fibonacci(int n) {
     if (n == 1 || n == 2) {
         return 1;
     }
     return fibonacci(n - 1) + fibonacci(n - 2);
-}</programlisting><para>If you try to follow the flow of execution here, even for small values of <literal remap="verb" moreinfo="none">n</literal>, your head will explode. But if we take a leap of faith and assume that the two recursive invocations work correctly, then it is clear, looking at the definition, that our implementation is correct. </para>
+}</programlisting><para>If you try to follow the flow of execution here, even for small values of <literal moreinfo="none">n</literal>, your head will explode. But if we take a leap of faith and assume that the two recursive invocations work correctly, then it is clear, looking at the definition, that our implementation is correct. </para>
+
 </sect1><sect1 id="countup" remap="section">
-  <title>Counting Up Recursively</title><para>The <literal remap="verb" moreinfo="none">countdown</literal> example in <xref linkend="recursion"/> has three parts: (1) it checks the base case, (2) it displays something, and (3) it makes a recursive call. What do you think happens if you reverse steps (2) and (3), making the recursive call <emphasis>before</emphasis> displaying? </para><programlisting language="java" format="linespecific">public static void countup(int n) {
+  <title>Counting Up Recursively</title><para>The <literal moreinfo="none">countdown</literal> example in <xref linkend="recursion"/> has three parts: (1) it checks the base case, (2) it displays something, and (3) it makes a recursive call. What do you think happens if you reverse steps (2) and (3), making the recursive call <emphasis>before</emphasis> displaying? </para>
+<programlisting language="java" format="linespecific">public static void countup(int n) {
     if (n == 0) {
         System.out.println("Blastoff!");
     } else {
         countup(n - 1);
         System.out.println(n);
     }
-}</programlisting><para>The stack diagram is the same as before, and the method is still called <emphasis role="math">n</emphasis> times. But now the <literal remap="verb" moreinfo="none">System.out.println</literal> happens just before each recursive call returns. As a result, it counts <emphasis>up</emphasis> instead of down: </para><programlisting format="linespecific">Blastoff!
+}</programlisting><para>The stack diagram is the same as before, and the method is still called <emphasis role="math">n</emphasis> times. But now the <literal moreinfo="none">System.out.println</literal> happens just before each recursive call returns. As a result, it counts <emphasis>up</emphasis> instead of down: </para><programlisting format="linespecific">Blastoff!
 1
 2
 3</programlisting><para>Keep this in mind for the next example, which displays numbers in binary. </para>
+
 </sect1><sect1 id="binary" remap="section">
-  <title>Binary Number System</title><para>You are probably aware that computers can only store 1’s and 0’s. That’s because processors and memory are made up of billions of tiny on-off switches. </para><para>The value 1 means a switch is on; the value 0 means a switch is off. All types of data, whether integer, floating-point, text, audio, video, or something else, are represented by 1’s and 0’s. </para><para><indexterm significance="normal">
-  <primary>binary</primary>
+  <title>Binary Number System</title><para>You are probably aware that computers can only store 1’s and 0’s. That’s because processors and memory are made up of billions of tiny on-off switches. </para>
+
+  
+  <para>The value 1 means a switch is on; the value 0 means a switch is off. All types of data, whether integer, floating-point, text, audio, video, or something else, are represented by 1’s and 0’s. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm>Fortunately, we can represent any integer as a <emphasis role="bold">binary</emphasis> number. The following table shows the first eight numbers in binary and decimal. </para>
+
    
      <table id="tab..binary" remap="tabular">
      <title>The first eight binary numbers.</title>
@@ -156,7 +280,61 @@ public static void threeLine() {
        <entry> </entry>
      
        
-       <entry><para> Binary </para><para> Decimal </para><para>0 </para><para> 0 </para><para>1 </para><para> 1 </para><para>10 </para><para> 2 </para><para>11 </para><para> 3 </para><para>100 </para><para> 4 </para><para>101 </para><para> 5 </para><para>110 </para><para> 6 </para><para>111 </para><para> 7 </para/>
+       <entry>
+  
+  <para> Binary </para>
+
+  
+  <para> Decimal </para>
+
+  
+  <para>0 </para>
+
+  
+  <para> 0 </para>
+
+  
+  <para>1 </para>
+
+  
+  <para> 1 </para>
+
+  
+  <para>10 </para>
+
+  
+  <para> 2 </para>
+
+  
+  <para>11 </para>
+
+  
+  <para> 3 </para>
+
+  
+  <para>100 </para>
+
+  
+  <para> 4 </para>
+
+  
+  <para>101 </para>
+
+  
+  <para> 5 </para>
+
+  
+  <para>110 </para>
+
+  
+  <para> 6 </para>
+
+  
+  <para>111 </para>
+
+  
+  <para> 7 </para>
+</entry>
      
        
        <entry> </entry>
@@ -179,7 +357,10 @@ public static void threeLine() {
      </table>
    
    
-<para>In decimal there are 10 digits, and the written representation of numbers is based on powers of 10. For example, the number 456 has 4 in the 100’s place, 5 in the 10’s place, and 6 in the 1’s place. So the value is 400 + 50 + 6. </para> 
+
+  
+  <para>In decimal there are 10 digits, and the written representation of numbers is based on powers of 10. For example, the number 456 has 4 in the 100’s place, 5 in the 10’s place, and 6 in the 1’s place. So the value is 400 + 50 + 6. </para>
+ 
    
    
      <informaltable remap="tabular" Colsep="1" Frame="all" Rowsep="1">
@@ -189,31 +370,52 @@ public static void threeLine() {
      <row>
      
        
-       <entry><para> 4 </para/>
+       <entry>
+  
+  <para> 4 </para>
+</entry>
      
        
-       <entry><para> 5 </para/>
+       <entry>
+  
+  <para> 5 </para>
+</entry>
      
        
-       <entry><para> 6 </para/>
+       <entry>
+  
+  <para> 6 </para>
+</entry>
      
      </row><row>
      
        
-       <entry><para><emphasis role="math">10<superscript>2</superscript></emphasis> </para/>
+       <entry>
+  
+  <para><emphasis role="math">10<superscript>2</superscript></emphasis> </para>
+</entry>
      
        
-       <entry><para> <emphasis role="math">10<superscript>1</superscript></emphasis> </para/>
+       <entry>
+  
+  <para> <emphasis role="math">10<superscript>1</superscript></emphasis> </para>
+</entry>
      
        
-       <entry><para> <emphasis role="math">10<superscript>0</superscript></emphasis> </para/>
+       <entry>
+  
+  <para> <emphasis role="math">10<superscript>0</superscript></emphasis> </para>
+</entry>
      
      </row>
      </tbody>
      </tgroup>
      </informaltable>
    
- <para>In binary there are 2 digits, and the written representation of numbers is based on powers of 2. For example, the number 10111 has 1 in the 16’s place, 0 in the 8’s place, 1 in the 4’s place, 1 in the 2’s place, and 1 in the 16’s place. So the value is 16 + 0 + 4 + 2 + 1, which is 23 in decimal. </para> 
+ 
+  
+  <para>In binary there are 2 digits, and the written representation of numbers is based on powers of 2. For example, the number 10111 has 1 in the 16’s place, 0 in the 8’s place, 1 in the 4’s place, 1 in the 2’s place, and 1 in the 16’s place. So the value is 16 + 0 + 4 + 2 + 1, which is 23 in decimal. </para>
+ 
    
    
      <informaltable remap="tabular" Colsep="1" Frame="all" Rowsep="1">
@@ -223,145 +425,318 @@ public static void threeLine() {
      <row>
      
        
-       <entry><para> 1 </para/>
+       <entry>
+  
+  <para> 1 </para>
+</entry>
      
        
-       <entry><para> 0 </para/>
+       <entry>
+  
+  <para> 0 </para>
+</entry>
      
        
-       <entry><para> 1 </para/>
+       <entry>
+  
+  <para> 1 </para>
+</entry>
      
        
-       <entry><para> 1 </para/>
+       <entry>
+  
+  <para> 1 </para>
+</entry>
      
        
-       <entry><para> 1 </para/>
+       <entry>
+  
+  <para> 1 </para>
+</entry>
      
      </row><row>
      
        
-       <entry><para><emphasis role="math">2<superscript>4</superscript></emphasis> </para/>
+       <entry>
+  
+  <para><emphasis role="math">2<superscript>4</superscript></emphasis> </para>
+</entry>
      
        
-       <entry><para> <emphasis role="math">2<superscript>3</superscript></emphasis> </para/>
+       <entry>
+  
+  <para> <emphasis role="math">2<superscript>3</superscript></emphasis> </para>
+</entry>
      
        
-       <entry><para> <emphasis role="math">2<superscript>2</superscript></emphasis> </para/>
+       <entry>
+  
+  <para> <emphasis role="math">2<superscript>2</superscript></emphasis> </para>
+</entry>
      
        
-       <entry><para> <emphasis role="math">2<superscript>1</superscript></emphasis> </para/>
+       <entry>
+  
+  <para> <emphasis role="math">2<superscript>1</superscript></emphasis> </para>
+</entry>
      
        
-       <entry><para> <emphasis role="math">2<superscript>0</superscript></emphasis> </para/>
+       <entry>
+  
+  <para> <emphasis role="math">2<superscript>0</superscript></emphasis> </para>
+</entry>
      
      </row>
      </tbody>
      </tgroup>
      </informaltable>
    
- <para>To get the digits of a decimal number, we can use repeated division. For example, if we divide 456 by 10, we get 45 with remainder 6. The remainder is the rightmost digit of 456. </para><para>If we divide the result again, we get 4 with remainder 5. The remainder is the second rightmost digit of 456. And if we divide again, we get 0 with remainder 4. The remainder is the third rightmost digit of 456, and the result, 0, tells us that we’re done. </para><para>We can do the same thing in binary if we divide by two. When you divide by two, the remainder is the right-most digit, either 0 or 1. If you divide the result again, you get the second rightmost digit. If you keep going, and write down the remainders, you’ll have your number in binary. </para><programlisting format="linespecific">23 / 2 is 11 remainder 1
+ 
+  
+  <para>To get the digits of a decimal number, we can use repeated division. For example, if we divide 456 by 10, we get 45 with remainder 6. The remainder is the rightmost digit of 456. </para>
+
+  
+  <para>If we divide the result again, we get 4 with remainder 5. The remainder is the second rightmost digit of 456. And if we divide again, we get 0 with remainder 4. The remainder is the third rightmost digit of 456, and the result, 0, tells us that we’re done. </para>
+
+  
+  <para>We can do the same thing in binary if we divide by two. When you divide by two, the remainder is the right-most digit, either 0 or 1. If you divide the result again, you get the second rightmost digit. If you keep going, and write down the remainders, you’ll have your number in binary. </para><programlisting format="linespecific">23 / 2 is 11 remainder 1
 11 / 2 is  5 remainder 1
  5 / 2 is  2 remainder 1
  2 / 2 is  1 remainder 0
  1 / 2 is  0 remainder 1</programlisting><para>Reading these remainders from bottom to top, 23 in binary is 10111. </para>
-</sect1><sect1 id="a0000004848" remap="section">
+
+</sect1><sect1 id="a0000006602" remap="section">
   <title>Recursive Binary Method</title>
-    <para>Now, to display a number in binary we can combine the algorithm from the previous section and the “count up” pattern from <xref linkend="countup"/>. </para><para>Here is a recursive method that displays any positive integer in binary: </para><programlisting language="java" format="linespecific">public static void displayBinary(int value) {
+    
+  
+  <para>Now, to display a number in binary we can combine the algorithm from the previous section and the “count up” pattern from <xref linkend="countup"/>. </para>
+
+  
+  <para>Here is a recursive method that displays any positive integer in binary: </para>
+<programlisting language="java" format="linespecific">public static void displayBinary(int value) {
     if (value &gt; 0) {
         displayBinary(value / 2);
         System.out.print(value % 2);
     }
 }</programlisting><para><indexterm significance="normal">
-  <primary>stack diagram</primary>
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>diagram</primary>
-<secondary>stack</secondary>
-</indexterm>If <literal remap="verb" moreinfo="none">value</literal> is zero, <literal remap="verb" moreinfo="none">displayBinary</literal> does nothing (that’s the base case). If the argument is positive, the method divides it by two and calls <literal remap="verb" moreinfo="none">displayBinary</literal> recursively. When the recursive call returns, the method displays one digit of the result and returns (again). <xref linkend="fig.stack4"/> illustrates this process. </para>
+  <primary></primary>
+
+</indexterm>If <literal moreinfo="none">value</literal> is zero, <literal moreinfo="none">displayBinary</literal> does nothing (that’s the base case). If the argument is positive, the method divides it by two and calls <literal moreinfo="none">displayBinary</literal> recursively. When the recursive call returns, the method displays one digit of the result and returns (again). <xref linkend="fig.stack4"/> illustrates this process. </para>
+
   
   <figure id="fig.stack4" float="False">
-    <title>Stack diagram for the <literal remap="verb" moreinfo="none">displayBinary method.</literal/>
+    <title>Stack diagram for the <literal moreinfo="none">displayBinary</literal> method.</title>
      <mediaobject>
   <imageobject remap="includegraphics">
     <imagedata fileref="figs/stack4.pdf"></imagedata>
   </imageobject>
 </mediaobject></figure>
-<para>The leftmost digit is near the bottom of the stack, so it gets displayed first. The rightmost digit, near the top of the stack, gets displayed last. After invoking <literal remap="verb" moreinfo="none">displayBinary</literal>, we use <literal remap="verb" moreinfo="none">println</literal> to complete the output. </para><programlisting language="java" format="linespecific">displayBinary(23);      // output is 10111
-System.out.println();</programlisting></sect1><sect1 id="a0000004875" remap="section">
-  <title>CodingBat Problems</title>
-    <para>In the past several chapters you’ve seen methods, conditions, loops, strings, arrays, and recursion. A great resource for practicing all of these concepts is <ulink url="https://codingbat.com/"/>. </para><para><indexterm significance="normal">
-  <primary>CodingBat</primary>
 
-</indexterm>CodingBat is a free website of programming problems developed by Nick Parlante, a Computer Science lecturer at Stanford University. As you work on these problems, CodingBat saves your progress (if you create an account). </para><para>To conclude this chapter, we consider two problems in the Recursion-1 section of CodingBat. One of them deals with strings, and the other deals with arrays. Both of them have the same recursive idea: check the base case, look at the current index, and recursively handle the rest. </para><para>The first problem is available at <ulink url="https://codingbat.com/prob/p118230"/>: </para><blockquote remap="quote"><para> <emphasis role="bold">Recursion-1  noX</emphasis> </para><para>Given a string, compute recursively a new string where all the <literal remap="verb" moreinfo="none">'x'</literal> chars have been removed. </para><para>noX("xaxb") <emphasis role="math">→</emphasis> "ab" noX("abc") <emphasis role="math">→</emphasis> "abc" noX("xx") <emphasis role="math">→</emphasis> "" </para></blockquote><para>When solving recursive problems, it helps to think about the base case first. The base case is the easiest version of the problem; for <literal remap="verb" moreinfo="none">noX</literal>, it’s the empty string. If the argument is an empty string, there are no <literal moreinfo="none">x</literal>’s to be removed. </para><programlisting language="java" format="linespecific">if (str.length() == 0) {
+  
+  <para>The leftmost digit is near the bottom of the stack, so it gets displayed first. The rightmost digit, near the top of the stack, gets displayed last. After invoking <literal moreinfo="none">displayBinary</literal>, we use <literal moreinfo="none">println</literal> to complete the output. </para>
+<programlisting language="java" format="linespecific">displayBinary(23);      // output is 10111
+System.out.println();</programlisting></sect1><sect1 id="a0000006636" remap="section">
+  <title>CodingBat Problems</title>
+    
+  
+  <para>In the past several chapters you’ve seen methods, conditions, loops, strings, arrays, and recursion. A great resource for practicing all of these concepts is <ulink url="https://codingbat.com/"/>. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>CodingBat is a free website of programming problems developed by Nick Parlante, a Computer Science lecturer at Stanford University. As you work on these problems, CodingBat saves your progress (if you create an account). </para>
+
+  
+  <para>To conclude this chapter, we consider two problems in the Recursion-1 section of CodingBat. One of them deals with strings, and the other deals with arrays. Both of them have the same recursive idea: check the base case, look at the current index, and recursively handle the rest. </para>
+
+  
+  <para>The first problem is available at <ulink url="https://codingbat.com/prob/p118230"/>: </para>
+<blockquote remap="quote">
+  
+  <para> <emphasis role="bold">Recursion-1  noX</emphasis> </para>
+
+  
+  <para>Given a string, compute recursively a new string where all the <literal moreinfo="none">’x’</literal> chars have been removed. </para>
+
+  
+  <para>noX("xaxb") <emphasis role="math">→</emphasis> "ab" noX("abc") <emphasis role="math">→</emphasis> "abc" noX("xx") <emphasis role="math">→</emphasis> "" </para>
+</blockquote>
+  
+  <para>When solving recursive problems, it helps to think about the base case first. The base case is the easiest version of the problem; for <literal moreinfo="none">noX</literal>, it’s the empty string. If the argument is an empty string, there are no <literal moreinfo="none">x</literal>’s to be removed. </para>
+<programlisting language="java" format="linespecific">if (str.length() == 0) {
     return "";
-}</programlisting><para>Next comes the more difficult part. To solve a problem recursively, you need to think of a simpler instance of the same problem. For <literal remap="verb" moreinfo="none">noX</literal>, it’s removing all the <literal moreinfo="none">x</literal>’s from a shorter string. </para><para>So let’s split the string into two parts, the first letter and the rest. </para><programlisting language="java" format="linespecific">char first = str.charAt(0);
-String rest = str.substring(1);</programlisting><para>Now we can make a recursive call to remove the <literal moreinfo="none">x</literal>’s from <literal moreinfo="none">rest</literal>: </para><programlisting language="java" format="linespecific">String recurse = noX(rest);</programlisting><para>If <literal moreinfo="none">first</literal> happens to be an <literal moreinfo="none">x</literal>, we’re done; we just have to return <literal moreinfo="none">recurse</literal>. Otherwise, we have to concatenate <literal moreinfo="none">first</literal> and <literal moreinfo="none">recurse</literal>. Here’s the <literal moreinfo="none">if</literal> statement we need. </para><programlisting language="java" format="linespecific">if (first == 'x') {
+}</programlisting><para>Next comes the more difficult part. To solve a problem recursively, you need to think of a simpler instance of the same problem. For <literal moreinfo="none">noX</literal>, it’s removing all the <literal moreinfo="none">x</literal>’s from a shorter string. </para>
+
+  
+  <para>So let’s split the string into two parts, the first letter and the rest. </para>
+<programlisting language="java" format="linespecific">char first = str.charAt(0);
+String rest = str.substring(1);</programlisting><para>Now we can make a recursive call to remove the <literal moreinfo="none">x</literal>’s from <literal moreinfo="none">rest</literal>: </para>
+<programlisting language="java" format="linespecific">String recurse = noX(rest);</programlisting><para>If <literal moreinfo="none">first</literal> happens to be an <literal moreinfo="none">x</literal>, we’re done; we just have to return <literal moreinfo="none">recurse</literal>. Otherwise, we have to concatenate <literal moreinfo="none">first</literal> and <literal moreinfo="none">recurse</literal>. Here’s the <literal moreinfo="none">if</literal> statement we need. </para>
+<programlisting language="java" format="linespecific">if (first == 'x') {
     return recurse;
 } else {
     return first + recurse;
-}</programlisting><para>You can run this solution on CodingBat by pasting these snippets into the provided method definition. </para><para>The second problem is available at <ulink url="https://codingbat.com/prob/p135988"/>: </para><blockquote remap="quote"><para> <emphasis role="bold">Recursion-1  array11</emphasis> </para><para>Given an array of ints, compute recursively the number of times that the value 11 appears in the array. </para><para>array11([1, 2, 11], 0) <emphasis role="math">→</emphasis> 1 array11([11, 11], 0) <emphasis role="math">→</emphasis> 2 array11([1, 2, 3, 4], 0) <emphasis role="math">→</emphasis> 0 </para></blockquote><para>This problem uses the convention of passing the index as an argument. So the base case is when we’ve reached the end of the array. At that point, we know there are no more <literal moreinfo="none">11</literal>’s. </para><programlisting language="java" format="linespecific">if (index &gt;= nums.length) {
+}</programlisting><para>You can run this solution on CodingBat by pasting these snippets into the provided method definition. </para>
+
+  
+  <para>The second problem is available at <ulink url="https://codingbat.com/prob/p135988"/>: </para>
+<blockquote remap="quote">
+  
+  <para> <emphasis role="bold">Recursion-1  array11</emphasis> </para>
+
+  
+  <para>Given an array of ints, compute recursively the number of times that the value 11 appears in the array. </para>
+
+  
+  <para>array11([1, 2, 11], 0) <emphasis role="math">→</emphasis> 1 array11([11, 11], 0) <emphasis role="math">→</emphasis> 2 array11([1, 2, 3, 4], 0) <emphasis role="math">→</emphasis> 0 </para>
+</blockquote>
+  
+  <para>This problem uses the convention of passing the index as an argument. So the base case is when we’ve reached the end of the array. At that point, we know there are no more <literal moreinfo="none">11</literal>’s. </para>
+<programlisting language="java" format="linespecific">if (index &gt;= nums.length) {
     return 0;
-}</programlisting><para>Next we look at the current number (based on the given index), and check if it’s an <literal moreinfo="none">11</literal>. After that, we can recursively check the rest of the array. Similar to the noX problem, we look at only one integer per method call. </para><programlisting language="java" format="linespecific">int recurse = array11(nums, index + 1);
+}</programlisting><para>Next we look at the current number (based on the given index), and check if it’s an <literal moreinfo="none">11</literal>. After that, we can recursively check the rest of the array. Similar to the noX problem, we look at only one integer per method call. </para>
+<programlisting language="java" format="linespecific">int recurse = array11(nums, index + 1);
 if (nums[index] == 11) {
     return recurse + 1;
 } else {
     return recurse;
-}</programlisting><para>Again, you can run this solutions on CodingBat by pasting the snippets into the method definition. </para><para><indexterm significance="normal">
-  <primary>Java Tutor</primary>
+}</programlisting><para>Again, you can run this solutions on CodingBat by pasting the snippets into the method definition. </para>
 
-</indexterm>To see how these solutions actually work, you might find it helpful to step through them with a debugger (see <xref linkend="debugger"/>) or Java Tutor (<ulink url="https://thinkjava.org/javatutor"/>). Then try solving other CodingBat problems on your own. </para><para>Learning to think recursively is an important part of learning to think like a computer scientist. Many algorithms can be written concisely with recursive methods that perform computations on the way down, on the way up, or both. </para>
-</sect1><sect1 id="a0000004973" remap="section">
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>To see how these solutions actually work, you might find it helpful to step through them with a debugger (see <xref linkend="debugger"/>) or Java Tutor (<ulink url="https://thinkjava.org/javatutor"/>). Then try solving other CodingBat problems on your own. </para>
+
+  
+  <para>Learning to think recursively is an important part of learning to think like a computer scientist. Many algorithms can be written concisely with recursive methods that perform computations on the way down, on the way up, or both. </para>
+
+</sect1><sect1 id="a0000006739" remap="section">
   <title>Vocabulary</title>
     <variablelist>
   <varlistentry>
     <term>iterative:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>iterative</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>A method or algorithm that repeats steps using one or more loops. </para></listitem>
+</indexterm>A method or algorithm that repeats steps using one or more loops. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>recursive:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>recursive</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>A method or algorithm that invokes itself one or more times with different arguments. </para></listitem>
+</indexterm>A method or algorithm that invokes itself one or more times with different arguments. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>base case:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>base case</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>A condition that causes a recursive method <emphasis>not</emphasis> to make another recursive call. </para></listitem>
+</indexterm>A condition that causes a recursive method <emphasis>not</emphasis> to make another recursive call. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>factorial:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>factorial</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>The product of all the integers up to and including a given integer. </para></listitem>
+</indexterm>The product of all the integers up to and including a given integer. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>leap of faith:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>leap of faith</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>A way to read recursive programs by assuming that the recursive call works, rather than following the flow of execution. </para></listitem>
+</indexterm>A way to read recursive programs by assuming that the recursive call works, rather than following the flow of execution. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>binary:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>binary</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>A system that uses only zeros and ones to represent numbers. Also known as “base 2”. </para></listitem>
+</indexterm>A system that uses only zeros and ones to represent numbers. Also known as “base 2”. </para>
+</listitem>
   </varlistentry>
 </variablelist>
-</sect1><sect1 id="a0000004990" remap="section">
+</sect1><sect1 id="a0000006762" remap="section">
   <title>Exercises</title>
-    <para>The code for this chapter is in the <literal moreinfo="none">ch08</literal> directory of <literal moreinfo="none">ThinkJavaCode2</literal>. See <xref linkend="code"/> for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples. </para><para>If you have not already read <xref linkend="JUnit"/>, now might be a good time. It describes JUnit, a standard framework for writing test code. </para><para><example id="a0000005002" role="exercise">
+    
+  
+  <para>The code for this chapter is in the <literal moreinfo="none">ch08</literal> directory of <literal moreinfo="none">ThinkJavaCode2</literal>. See <xref linkend="code"/> for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples. </para>
+
+  
+  <para>If you have not already read <xref linkend="JUnit"/>, now might be a good time. It describes JUnit, a standard framework for writing test code. </para>
+
+  
+  <para><example id="a0000006774" role="exercise">
   <title/>
-  <para>The purpose of this exercise is to take a problem and break it into smaller problems, and to solve the smaller problems by writing simple methods. Consider the first verse of the song “99 Bottles of Beer”: </para><blockquote remap="quote"><para> 99 bottles of beer on the wall,99 bottles of beer,ya’ take one down, ya’ pass it around,98 bottles of beer on the wall. </para></blockquote><para>Subsequent verses are identical except that the number of bottles gets smaller by one in each verse, until the last verse: </para><blockquote remap="quote"><para> No bottles of beer on the wall,no bottles of beer,ya’ can’t take one down, ya’ can’t pass it around,’cause there are no more bottles of beer on the wall! </para></blockquote><para>And then the song (finally) ends. </para><para>Write a program that displays the entire lyrics of “99 Bottles of Beer”. Your program should include a recursive method that does the hard part, but you might want to write additional methods to separate other parts of the program. As you develop your code, test it with a small number of verses, like <literal remap="verb" moreinfo="none">3</literal>. </para>
-</example> </para><para><example id="a0000005019" role="exercise">
+  <div></div>
+</example> </para>
+
+  
+  <para>The purpose of this exercise is to take a problem and break it into smaller problems, and to solve the smaller problems by writing simple methods. Consider the first verse of the song “99 Bottles of Beer”: </para>
+<blockquote remap="quote">
+  
+  <para> 99 bottles of beer on the wall,99 bottles of beer,ya’ take one down, ya’ pass it around,98 bottles of beer on the wall. </para>
+</blockquote>
+  
+  <para>Subsequent verses are identical except that the number of bottles gets smaller by one in each verse, until the last verse: </para>
+<blockquote remap="quote">
+  
+  <para> No bottles of beer on the wall,no bottles of beer,ya’ can’t take one down, ya’ can’t pass it around,’cause there are no more bottles of beer on the wall! </para>
+</blockquote>
+  
+  <para>And then the song (finally) ends. </para>
+
+  
+  <para>Write a program that displays the entire lyrics of “99 Bottles of Beer”. Your program should include a recursive method that does the hard part, but you might want to write additional methods to separate other parts of the program. As you develop your code, test it with a small number of verses, like <literal moreinfo="none">3</literal>. </para>
+
+  
+  <para><example id="a0000006792" role="exercise">
   <title/>
-  <para>Write a recursive method named <literal remap="verb" moreinfo="none">oddSum</literal> that takes a positive odd integer <literal remap="verb" moreinfo="none">n</literal> and returns the sum of odd integers from 1 to n. Start with a base case, and use temporary variables to debug your solution. You might find it helpful to print the value of <literal remap="verb" moreinfo="none">n</literal> each time <literal remap="verb" moreinfo="none">oddSum</literal> is invoked. </para>
-</example> </para><para><example id="a0000005026" role="exercise">
+  <div></div>
+</example> </para>
+
+  
+  <para><example id="a0000006794" role="exercise">
   <title/>
-  <para>In this exercise, you will use a stack diagram to understand the execution of the following recursive method. </para><programlisting language="java" format="linespecific">public static void main(String[] args) {
+  <div></div>
+</example> </para>
+
+  
+  <para>Write a recursive method named <literal moreinfo="none">oddSum</literal> that takes a positive odd integer <literal moreinfo="none">n</literal> and returns the sum of odd integers from 1 to n. Start with a base case, and use temporary variables to debug your solution. You might find it helpful to print the value of <literal moreinfo="none">n</literal> each time <literal moreinfo="none">oddSum</literal> is invoked. </para>
+
+  
+  <para><example id="a0000006805" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para><example id="a0000006807" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para>In this exercise, you will use a stack diagram to understand the execution of the following recursive method. </para>
+<programlisting language="java" format="linespecific">public static void main(String[] args) {
     System.out.println(prod(1, 4));
 }
 
@@ -375,32 +750,121 @@ public static int prod(int m, int n) {
     }
 }</programlisting><orderedlist inheritnum="ignore" continuation="restarts">
   
-  <listitem><para>Draw a stack diagram showing the state of the program just before the last invocation of <literal remap="verb" moreinfo="none">prod</literal> completes. </para></listitem>
+  <listitem>
   
-  <listitem><para>What is the output of this program? (Try to answer this question on paper first, then run the code to check your answer.) </para></listitem>
+  <para>Draw a stack diagram showing the state of the program just before the last invocation of <literal moreinfo="none">prod</literal> completes. </para>
+</listitem>
   
-  <listitem><para>Explain in a few words what <literal remap="verb" moreinfo="none">prod</literal> does (without getting into the details of how it works). </para></listitem>
+  <listitem>
   
-  <listitem><para>Rewrite <literal remap="verb" moreinfo="none">prod</literal> without the temporary variables <literal remap="verb" moreinfo="none">recurse</literal> and <literal remap="verb" moreinfo="none">result</literal>. <emphasis>Hint:</emphasis> You only need one line for the <literal remap="verb" moreinfo="none">else</literal> branch. </para></listitem>
+  <para>What is the output of this program? (Try to answer this question on paper first, then run the code to check your answer.) </para>
+</listitem>
   
-</orderedlist>
-</example> </para><para><example id="a0000005049" role="exercise">
-  <title/>
-  <para>The goal of this exercise is to translate a recursive definition into a Java method. The Ackermann function is defined for non-negative integers as follows: </para><informalequation><mml:math mode="display" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mtable><mml:mtr><mml:mtd><mml:mrow><mml:mi>A</mml:mi><mml:mrow><mml:mo>(</mml:mo><mml:mi>m</mml:mi><mml:mo>,</mml:mo><mml:mi>n</mml:mi><mml:mo>)</mml:mo></mml:mrow><mml:mo>=</mml:mo><mml:mfenced open="{" close="" separators=""><mml:mtable><mml:mtr><mml:mtd><mml:mrow><mml:mi>n</mml:mi><mml:mo>+</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:mtd><mml:mtd><mml:mrow><mml:mtext>if</mml:mtext><mml:mspace width="4.pt"></mml:mspace><mml:mi>m</mml:mi><mml:mo>=</mml:mo><mml:mn>0</mml:mn></mml:mrow></mml:mtd></mml:mtr><mml:mtr><mml:mtd><mml:mrow><mml:mi>A</mml:mi><mml:mo>(</mml:mo><mml:mi>m</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>,</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo></mml:mrow></mml:mtd><mml:mtd><mml:mrow><mml:mtext>if</mml:mtext><mml:mspace width="4.pt"></mml:mspace><mml:mi>m</mml:mi><mml:mo>&gt;</mml:mo><mml:mn>0</mml:mn><mml:mspace width="4.pt"></mml:mspace><mml:mtext>and</mml:mtext><mml:mspace width="4.pt"></mml:mspace><mml:mi>n</mml:mi><mml:mo>=</mml:mo><mml:mn>0</mml:mn></mml:mrow></mml:mtd></mml:mtr><mml:mtr><mml:mtd><mml:mrow><mml:mi>A</mml:mi><mml:mo>(</mml:mo><mml:mi>m</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>,</mml:mo><mml:mi>A</mml:mi><mml:mo>(</mml:mo><mml:mi>m</mml:mi><mml:mo>,</mml:mo><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo><mml:mo>)</mml:mo></mml:mrow></mml:mtd><mml:mtd><mml:mrow><mml:mtext>if</mml:mtext><mml:mspace width="4.pt"></mml:mspace><mml:mi>m</mml:mi><mml:mo>&gt;</mml:mo><mml:mn>0</mml:mn><mml:mspace width="4.pt"></mml:mspace><mml:mtext>and</mml:mtext><mml:mspace width="4.pt"></mml:mspace><mml:mi>n</mml:mi><mml:mo>&gt;</mml:mo><mml:mn>0</mml:mn></mml:mrow></mml:mtd></mml:mtr></mml:mtable></mml:mfenced></mml:mrow></mml:mtd></mml:mtr></mml:mtable></mml:math></informalequation><para>Write a recursive method called <literal remap="verb" moreinfo="none">ack</literal> that takes two <literal remap="verb" moreinfo="none">int</literal>s as parameters and that computes and returns the value of the Ackermann function. </para><para>Test your implementation of Ackermann by invoking it from <literal remap="verb" moreinfo="none">main</literal> and displaying the return value. Note the return value gets very big very quickly. You should try it only for small values of <emphasis role="math">m</emphasis> and <emphasis role="math">n</emphasis> (not bigger than 3). </para>
-</example> </para><para><example id="ex.power" role="exercise">
-  <title/><para>Write a recursive method called <literal remap="verb" moreinfo="none">power</literal> that takes a double <literal remap="verb" moreinfo="none">x</literal> and an integer <literal remap="verb" moreinfo="none">n</literal> and returns <emphasis role="math">x<superscript>n</superscript></emphasis>. </para><para><emphasis>Hint:</emphasis> A recursive definition of this operation is <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:msup><mml:mi>x</mml:mi><mml:mi>n</mml:mi></mml:msup><mml:mo>=</mml:mo><mml:mi>x</mml:mi><mml:mo>·</mml:mo><mml:msup><mml:mi>x</mml:mi><mml:mrow><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:msup></mml:mrow></mml:math></inlineequation>. Also, remember that anything raised to the zeroth power is 1. </para><para>Optional challenge: you can make this method more efficient, when <literal remap="verb" moreinfo="none">n</literal> is even, using <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:msup><mml:mi>x</mml:mi><mml:mi>n</mml:mi></mml:msup><mml:mo>=</mml:mo><mml:msup><mml:mfenced open="(" close=")" separators=""><mml:msup><mml:mi>x</mml:mi><mml:mrow><mml:mi>n</mml:mi><mml:mo>/</mml:mo><mml:mn>2</mml:mn></mml:mrow></mml:msup></mml:mfenced><mml:mn>2</mml:mn></mml:msup></mml:mrow></mml:math></inlineequation>. </para>
-</example> </para><para><example id="a0000005110" role="exercise">
-  <title/>
-  <para>Many of the patterns we have seen for traversing arrays can also be written recursively. It is not common, but it is a useful exercise. </para><orderedlist inheritnum="ignore" continuation="restarts">
+  <listitem>
   
-  <listitem><para>Write a method called <literal remap="verb" moreinfo="none">maxInRange</literal> that takes an array of integers and two indexes, <literal remap="verb" moreinfo="none">lowIndex</literal> and <literal remap="verb" moreinfo="none">highIndex</literal>, and finds the maximum value in the array, but only considering the elements between <literal remap="verb" moreinfo="none">lowIndex</literal> and <literal remap="verb" moreinfo="none">highIndex</literal>, including both. </para><para>This method should be recursive. If the length of the range is 1, that is, if <literal remap="verb" moreinfo="none">lowIndex == highIndex</literal>, we know immediately that the sole element in the range must be the maximum. So that’s the base case. </para><para>If there is more than one element in the range, we can break the array into two pieces, find the maximum in each of the pieces, and then find the maximum of the maxima. </para></listitem>
+  <para>Explain in a few words what <literal moreinfo="none">prod</literal> does (without getting into the details of how it works). </para>
+</listitem>
   
-  <listitem><para>Methods like <literal remap="verb" moreinfo="none">maxInRange</literal> can be awkward to use. To find the largest element in an array, we have to provide the range for the entire array. </para><programlisting language="java" format="linespecific">double max = maxInRange(a, 0, a.length - 1);</programlisting><para>Write a method called <literal remap="verb" moreinfo="none">max</literal> that takes an array and uses <literal remap="verb" moreinfo="none">maxInRange</literal> to find and return the largest element. </para></listitem>
+  <listitem>
+  
+  <para>Rewrite <literal moreinfo="none">prod</literal> without the temporary variables <literal moreinfo="none">recurse</literal> and <literal moreinfo="none">result</literal>. <emphasis>Hint:</emphasis> You only need one line for the <literal moreinfo="none">else</literal> branch. </para>
+</listitem>
   
 </orderedlist>
-</example> </para><para><beginpage></beginpage><example id="a0000005134" role="exercise">
+  
+  <para><example id="a0000006836" role="exercise">
   <title/>
-  <para>Create a program called <literal moreinfo="none">Recurse.java</literal> and type in the following methods: </para><programlisting language="java" format="linespecific">/**
+  <div></div>
+</example> </para>
+
+  
+  <para><example id="a0000006838" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para>The goal of this exercise is to translate a recursive definition into a Java method. The Ackermann function is defined for non-negative integers as follows: </para>
+
+  
+  <para><informalequation><mml:math mode="display" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mtable><mml:mtr><mml:mtd><mml:mrow><mml:mi>A</mml:mi><mml:mrow><mml:mo>(</mml:mo><mml:mi>m</mml:mi><mml:mo>,</mml:mo><mml:mi>n</mml:mi><mml:mo>)</mml:mo></mml:mrow><mml:mo>=</mml:mo><mml:mfenced open="{" close="" separators=""><mml:mtable><mml:mtr><mml:mtd><mml:mrow><mml:mi>n</mml:mi><mml:mo>+</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:mtd><mml:mtd><mml:mrow><mml:mtext>if</mml:mtext><mml:mspace width="4.pt"></mml:mspace><mml:mi>m</mml:mi><mml:mo>=</mml:mo><mml:mn>0</mml:mn></mml:mrow></mml:mtd></mml:mtr><mml:mtr><mml:mtd><mml:mrow><mml:mi>A</mml:mi><mml:mo>(</mml:mo><mml:mi>m</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>,</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo></mml:mrow></mml:mtd><mml:mtd><mml:mrow><mml:mtext>if</mml:mtext><mml:mspace width="4.pt"></mml:mspace><mml:mi>m</mml:mi><mml:mo>&gt;</mml:mo><mml:mn>0</mml:mn><mml:mspace width="4.pt"></mml:mspace><mml:mtext>and</mml:mtext><mml:mspace width="4.pt"></mml:mspace><mml:mi>n</mml:mi><mml:mo>=</mml:mo><mml:mn>0</mml:mn></mml:mrow></mml:mtd></mml:mtr><mml:mtr><mml:mtd><mml:mrow><mml:mi>A</mml:mi><mml:mo>(</mml:mo><mml:mi>m</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>,</mml:mo><mml:mi>A</mml:mi><mml:mo>(</mml:mo><mml:mi>m</mml:mi><mml:mo>,</mml:mo><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn><mml:mo>)</mml:mo><mml:mo>)</mml:mo></mml:mrow></mml:mtd><mml:mtd><mml:mrow><mml:mtext>if</mml:mtext><mml:mspace width="4.pt"></mml:mspace><mml:mi>m</mml:mi><mml:mo>&gt;</mml:mo><mml:mn>0</mml:mn><mml:mspace width="4.pt"></mml:mspace><mml:mtext>and</mml:mtext><mml:mspace width="4.pt"></mml:mspace><mml:mi>n</mml:mi><mml:mo>&gt;</mml:mo><mml:mn>0</mml:mn></mml:mrow></mml:mtd></mml:mtr></mml:mtable></mml:mfenced></mml:mrow></mml:mtd></mml:mtr></mml:mtable></mml:math></informalequation></para>
+
+  
+  <para>Write a recursive method called <literal moreinfo="none">ack</literal> that takes two <literal moreinfo="none">int</literal>s as parameters and that computes and returns the value of the Ackermann function. </para>
+
+  
+  <para>Test your implementation of Ackermann by invoking it from <literal moreinfo="none">main</literal> and displaying the return value. Note the return value gets very big very quickly. You should try it only for small values of <emphasis role="math">m</emphasis> and <emphasis role="math">n</emphasis> (not bigger than 3). </para>
+
+  
+  <para><example id="a0000006877" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para><example id="a0000006879" role="exercise">
+  <title/>
+  <div></div>
+</example></para>
+
+  
+  <para>Write a recursive method called <literal moreinfo="none">power</literal> that takes a double <literal moreinfo="none">x</literal> and an integer <literal moreinfo="none">n</literal> and returns <emphasis role="math">x<superscript>n</superscript></emphasis>. </para>
+
+  
+  <para><emphasis>Hint:</emphasis> A recursive definition of this operation is <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:msup><mml:mi>x</mml:mi><mml:mi>n</mml:mi></mml:msup><mml:mo>=</mml:mo><mml:mi>x</mml:mi><mml:mo>·</mml:mo><mml:msup><mml:mi>x</mml:mi><mml:mrow><mml:mi>n</mml:mi><mml:mo>-</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:msup></mml:mrow></mml:math></inlineequation>. Also, remember that anything raised to the zeroth power is 1. </para>
+
+  
+  <para>Optional challenge: you can make this method more efficient, when <literal moreinfo="none">n</literal> is even, using <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:msup><mml:mi>x</mml:mi><mml:mi>n</mml:mi></mml:msup><mml:mo>=</mml:mo><mml:msup><mml:mfenced open="(" close=")" separators=""><mml:msup><mml:mi>x</mml:mi><mml:mrow><mml:mi>n</mml:mi><mml:mo>/</mml:mo><mml:mn>2</mml:mn></mml:mrow></mml:msup></mml:mfenced><mml:mn>2</mml:mn></mml:msup></mml:mrow></mml:math></inlineequation>. </para>
+
+  
+  <para><example id="a0000006907" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para><example id="a0000006909" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para>Many of the patterns we have seen for traversing arrays can also be written recursively. It is not common, but it is a useful exercise. </para>
+<orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem>
+  
+  <para>Write a method called <literal moreinfo="none">maxInRange</literal> that takes an array of integers and two indexes, <literal moreinfo="none">lowIndex</literal> and <literal moreinfo="none">highIndex</literal>, and finds the maximum value in the array, but only considering the elements between <literal moreinfo="none">lowIndex</literal> and <literal moreinfo="none">highIndex</literal>, including both. </para>
+
+  
+  <para>This method should be recursive. If the length of the range is 1, that is, if <literal moreinfo="none">lowIndex == highIndex</literal>, we know immediately that the sole element in the range must be the maximum. So that’s the base case. </para>
+
+  
+  <para>If there is more than one element in the range, we can break the array into two pieces, find the maximum in each of the pieces, and then find the maximum of the maxima. </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>Methods like <literal moreinfo="none">maxInRange</literal> can be awkward to use. To find the largest element in an array, we have to provide the range for the entire array. </para>
+<programlisting language="java" format="linespecific">double max = maxInRange(a, 0, a.length - 1);</programlisting><para>Write a method called <literal moreinfo="none">max</literal> that takes an array and uses <literal moreinfo="none">maxInRange</literal> to find and return the largest element. </para>
+</listitem>
+  
+</orderedlist>
+  
+  <para><example id="a0000006941" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para><beginpage></beginpage><example id="a0000006944" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para>Create a program called <literal moreinfo="none">Recurse.java</literal> and type in the following methods: </para>
+<programlisting language="java" format="linespecific">/**
  * Returns the first character of the given String.
  */
 public static char first(String s) {
@@ -422,21 +886,50 @@ public static int length(String s) {
     return s.length();
 }</programlisting><orderedlist inheritnum="ignore" continuation="restarts">
   
-  <listitem><para>Write some code in <literal remap="verb" moreinfo="none">main</literal> that tests each of these methods. Make sure they work, and you understand what they do. </para></listitem>
+  <listitem>
   
-  <listitem><para>Using these methods, and without using any other <literal remap="verb" moreinfo="none">String</literal> methods, write a method called <literal remap="verb" moreinfo="none">printString</literal> that takes a string as a parameter and that displays the letters of the string, one on each line. It should be a void method. </para></listitem>
+  <para>Write some code in <literal moreinfo="none">main</literal> that tests each of these methods. Make sure they work, and you understand what they do. </para>
+</listitem>
   
-  <listitem><para>Again using only these methods, write a method called <literal remap="verb" moreinfo="none">printBackward</literal> that does the same thing as <literal remap="verb" moreinfo="none">printString</literal> but that displays the string backward (again, one character per line). </para></listitem>
+  <listitem>
   
-  <listitem><para>Now write a method called <literal remap="verb" moreinfo="none">reverseString</literal> that takes a string as a parameter and that returns a new string as a return value. The new string should contain the same letters as the parameter, but in reverse order. </para><programlisting language="java" format="linespecific">String backwards = reverseString("coffee");
+  <para>Using these methods, and without using any other <literal moreinfo="none">String</literal> methods, write a method called <literal moreinfo="none">printString</literal> that takes a string as a parameter and that displays the letters of the string, one on each line. It should be a void method. </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>Again using only these methods, write a method called <literal moreinfo="none">printBackward</literal> that does the same thing as <literal moreinfo="none">printString</literal> but that displays the string backward (again, one character per line). </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>Now write a method called <literal moreinfo="none">reverseString</literal> that takes a string as a parameter and that returns a new string as a return value. The new string should contain the same letters as the parameter, but in reverse order. </para>
+<programlisting language="java" format="linespecific">String backwards = reverseString("coffee");
 System.out.println(backwards);</programlisting><para>The output of this example code should be: </para><programlisting format="linespecific">eeffoc</programlisting><indexterm significance="normal">
-  <primary>palindrome</primary>
+  <primary></primary>
 
 </indexterm></listitem>
   
-  <listitem><para>A palindrome is a word that reads the same both forward and backward, like “otto” and “palindromeemordnilap”. Here’s one way to test whether a string is a palindrome: </para><blockquote remap="quotation"><para> A single letter is a palindrome, a two-letter word is a palindrome if the letters are the same, and any other word is a palindrome if the first letter is the same as the last and the middle is a palindrome. </para></blockquote><para>Write a recursive method named <literal remap="verb" moreinfo="none">isPalindrome</literal> that takes a <literal remap="verb" moreinfo="none">String</literal> and returns a <literal remap="verb" moreinfo="none">boolean</literal> indicating whether the word is a palindrome. </para></listitem>
+  <listitem>
+  
+  <para>A palindrome is a word that reads the same both forward and backward, like “otto” and “palindromeemordnilap”. Here’s one way to test whether a string is a palindrome: </para>
+
+  
+  <para><blockquote remap="quotation">
+  
+  <para> A single letter is a palindrome, a two-letter word is a palindrome if the letters are the same, and any other word is a palindrome if the first letter is the same as the last and the middle is a palindrome. </para>
+</blockquote></para>
+
+  
+  <para>Write a recursive method named <literal moreinfo="none">isPalindrome</literal> that takes a <literal moreinfo="none">String</literal> and returns a <literal moreinfo="none">boolean</literal> indicating whether the word is a palindrome. </para>
+</listitem>
   
 </orderedlist>
+  
+  <para><example id="a0000006998" role="exercise">
+  <title/>
+  <div></div>
 </example> </para>
+
 </sect1>
 </chapter>

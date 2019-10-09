@@ -1,32 +1,48 @@
-<chapter id="a0000001285">
+<chapter id="a0000001628">
   <title>Input and Output</title>
-  <para>The programs we’ve looked at so far simply display messages, which doesn’t really involve that much computation. This chapter will show you how to read input from the keyboard, use that input to calculate a result, and then format that result for output. </para><sect1 id="a0000001287" remap="section">
+  
+  
+  <para>The programs we’ve looked at so far simply display messages, which doesn’t really involve that much computation. This chapter will show you how to read input from the keyboard, use that input to calculate a result, and then format that result for output. </para>
+<sect1 id="a0000001630" remap="section">
   <title>The System Class</title>
-    <para><indexterm significance="normal">
-  <primary>class</primary>
-<secondary>System</secondary>
-</indexterm>We have been using <literal remap="verb" moreinfo="none">System.out.println</literal> for a while, but you might not have thought about what it means. <literal remap="verb" moreinfo="none">System</literal> is a class that provides methods related to the “system” or environment where programs run. It also provides <literal remap="verb" moreinfo="none">System.out</literal>, which is a special value that has additional methods (like <literal remap="verb" moreinfo="none">println</literal>) for displaying output. </para><para><indexterm significance="normal">
-  <primary>System.out</primary>
+    
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>In fact, we can use <literal remap="verb" moreinfo="none">System.out.println</literal> to display the value of <literal remap="verb" moreinfo="none">System.out</literal>: </para><programlisting language="java" format="linespecific">System.out.println(System.out);</programlisting><para>The result is: </para><programlisting format="linespecific">java.io.PrintStream@685d72cd</programlisting><para><indexterm significance="normal">
-  <primary>package</primary>
+</indexterm>We have been using <literal moreinfo="none">System.out.println</literal> for a while, but you might not have thought about what it means. <literal moreinfo="none">System</literal> is a class that provides methods related to the “system” or environment where programs run. It also provides <literal moreinfo="none">System.out</literal>, which is a special value that has additional methods (like <literal moreinfo="none">println</literal>) for displaying output. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>In fact, we can use <literal moreinfo="none">System.out.println</literal> to display the value of <literal moreinfo="none">System.out</literal>: </para>
+<programlisting language="java" format="linespecific">System.out.println(System.out);</programlisting><para>The result is: </para><programlisting format="linespecific">java.io.PrintStream@685d72cd</programlisting><para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>java.io</primary>
+  <primary></primary>
 
-</indexterm>This output indicates that <literal remap="verb" moreinfo="none">System.out</literal> is a <literal remap="verb" moreinfo="none">PrintStream</literal>, which is defined in a package called <literal remap="verb" moreinfo="none">java.io</literal>. A <emphasis role="bold">package</emphasis> is a collection of related classes; <literal remap="verb" moreinfo="none">java.io</literal> contains classes for “I/O” which stands for input and output. </para><para><indexterm significance="normal">
-  <primary>address</primary>
+</indexterm>This output indicates that <literal moreinfo="none">System.out</literal> is a <literal moreinfo="none">PrintStream</literal>, which is defined in a package called <literal moreinfo="none">java.io</literal>. A <emphasis role="bold">package</emphasis> is a collection of related classes; <literal moreinfo="none">java.io</literal> contains classes for “I/O” which stands for input and output. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>hexadecimal</primary>
+  <primary></primary>
 
-</indexterm>The numbers and letters after the <literal moreinfo="none">@</literal> sign are the <emphasis role="bold">address</emphasis> of <literal remap="verb" moreinfo="none">System.out</literal>, represented as a hexadecimal (base 16) number. The address of a value is its location in the computer’s memory, which might be different on different computers. In this example the address is <literal remap="verb" moreinfo="none">685d72cd</literal>, but if you run the same code you will likely get something else. </para><para><indexterm significance="normal">
-  <primary>library</primary>
+</indexterm>The numbers and letters after the <literal moreinfo="none">@</literal> sign are the <emphasis role="bold">address</emphasis> of <literal moreinfo="none">System.out</literal>, represented as a hexadecimal (base 16) number. The address of a value is its location in the computer’s memory, which might be different on different computers. In this example the address is <literal moreinfo="none">685d72cd</literal>, but if you run the same code you will likely get something else. </para>
 
-</indexterm>As shown in <xref linkend="fig.system"/>, <literal remap="verb" moreinfo="none">System</literal> is defined in a file called <literal moreinfo="none">System.java</literal>, and <literal remap="verb" moreinfo="none">PrintStream</literal> is defined in <literal moreinfo="none">PrintStream.java</literal>. These files are part of the Java <emphasis role="bold">library</emphasis>, which is an extensive collection of classes that you can use in your programs. The source code for these classes is usually included with the compiler (see <xref linkend="src.zip"/>). </para>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>As shown in <xref linkend="fig.system"/>, <literal moreinfo="none">System</literal> is defined in a file called <literal moreinfo="none">System.java</literal>, and <literal moreinfo="none">PrintStream</literal> is defined in <literal moreinfo="none">PrintStream.java</literal>. These files are part of the Java <emphasis role="bold">library</emphasis>, which is an extensive collection of classes that you can use in your programs. The source code for these classes is usually included with the compiler (see <xref linkend="src.zip"/>). </para>
+
   
   <figure id="fig.system" float="False">
-    <title><literal remap="verb" moreinfo="none">System.out.println refers to the <literal remap="verb" moreinfo="none"></literal></literal>out variable of the <literal remap="verb" moreinfo="none">System class, which is a <literal remap="verb" moreinfo="none"></literal></literal>PrintStream that provides a method called <literal remap="verb" moreinfo="none">println.</literal/>
+    <title><literal moreinfo="none">System.out.println</literal> refers to the <literal moreinfo="none">out</literal> variable of the <literal moreinfo="none">System</literal> class, which is a <literal moreinfo="none">PrintStream</literal> that provides a method called <literal moreinfo="none">println</literal>.</title>
      <mediaobject>
   <imageobject remap="includegraphics">
     <imagedata fileref="figs/system.pdf"></imagedata>
@@ -35,39 +51,50 @@
 
 </sect1><sect1 id="scanner" remap="section">
   <title>The Scanner Class</title><indexterm significance="normal">
-  <primary>Scanner</primary>
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>class</primary>
-<secondary>Scanner</secondary>
-</indexterm><para><indexterm significance="normal">
-  <primary>System.in</primary>
+  <primary></primary>
 
-</indexterm>The <literal remap="verb" moreinfo="none">System</literal> class also provides the special value <literal remap="verb" moreinfo="none">System.in</literal>, which is an <literal remap="verb" moreinfo="none">InputStream</literal> that has methods for reading input from the keyboard. These methods are not convenient to use, but fortunately Java provides other classes that make it easy to handle common input tasks. </para><para><indexterm significance="normal">
-  <primary>class</primary>
-<secondary>utility</secondary>
-</indexterm><indexterm significance="normal">
-  <primary>utility class</primary>
+</indexterm>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm><indexterm significance="normal">
-  <primary>java.util</primary>
+</indexterm>The <literal moreinfo="none">System</literal> class also provides the special value <literal moreinfo="none">System.in</literal>, which is an <literal moreinfo="none">InputStream</literal> that has methods for reading input from the keyboard. These methods are not convenient to use, but fortunately Java provides other classes that make it easy to handle common input tasks. </para>
 
-</indexterm>For example, <literal remap="verb" moreinfo="none">Scanner</literal> is a class that provides methods for inputting words, numbers, and other data. <literal remap="verb" moreinfo="none">Scanner</literal> is provided by <literal remap="verb" moreinfo="none">java.util</literal>, which is a package that contains various “utility classes”. Before you can use <literal remap="verb" moreinfo="none">Scanner</literal>, you have to import it like this: </para><programlisting language="java" format="linespecific">import java.util.Scanner;</programlisting><para><indexterm significance="normal">
-  <primary>import statement</primary>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>statement</primary>
-<secondary>import</secondary>
-</indexterm>This <emphasis role="bold">import statement</emphasis> tells the compiler that when you refer to <literal remap="verb" moreinfo="none">Scanner</literal>, you mean the one defined in <literal remap="verb" moreinfo="none">java.util</literal>. Using an import statement is necessary because there might be another class named <literal remap="verb" moreinfo="none">Scanner</literal> in another package. </para><para><indexterm significance="normal">
-  <primary>new</primary>
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>operator</primary>
-<secondary>new</secondary>
-</indexterm>Next you have to initialize the <literal remap="verb" moreinfo="none">Scanner</literal>. This line declares a <literal remap="verb" moreinfo="none">Scanner</literal> variable named <literal remap="verb" moreinfo="none">in</literal> and creates a <literal remap="verb" moreinfo="none">Scanner</literal> that reads input from <literal remap="verb" moreinfo="none">System.in</literal>: </para><programlisting language="java" format="linespecific">Scanner in = new Scanner(System.in);</programlisting><para><indexterm significance="normal">
-  <primary>Echo.java</primary>
+  <primary></primary>
 
-</indexterm>The <literal remap="verb" moreinfo="none">Scanner</literal> class provides a method called <literal remap="verb" moreinfo="none">nextLine</literal> that reads a line of input from the keyboard and returns a <literal remap="verb" moreinfo="none">String</literal>. Here’s a complete example that reads two lines and repeats them back to the user: </para><programlisting language="java" format="linespecific">import java.util.Scanner;
+</indexterm>For example, <literal moreinfo="none">Scanner</literal> is a class that provides methods for inputting words, numbers, and other data. <literal moreinfo="none">Scanner</literal> is provided by <literal moreinfo="none">java.util</literal>, which is a package that contains various “utility classes”. Before you can use <literal moreinfo="none">Scanner</literal>, you have to import it like this: </para>
+<programlisting language="java" format="linespecific">import java.util.Scanner;</programlisting><para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>This <emphasis role="bold">import statement</emphasis> tells the compiler that when you refer to <literal moreinfo="none">Scanner</literal>, you mean the one defined in <literal moreinfo="none">java.util</literal>. Using an import statement is necessary because there might be another class named <literal moreinfo="none">Scanner</literal> in another package. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>Next you have to initialize the <literal moreinfo="none">Scanner</literal>. This line declares a <literal moreinfo="none">Scanner</literal> variable named <literal moreinfo="none">in</literal> and creates a <literal moreinfo="none">Scanner</literal> that reads input from <literal moreinfo="none">System.in</literal>: </para>
+<programlisting language="java" format="linespecific">Scanner in = new Scanner(System.in);</programlisting><para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>The <literal moreinfo="none">Scanner</literal> class provides a method called <literal moreinfo="none">nextLine</literal> that reads a line of input from the keyboard and returns a <literal moreinfo="none">String</literal>. Here’s a complete example that reads two lines and repeats them back to the user: </para>
+<programlisting language="java" format="linespecific">import java.util.Scanner;
 
 public class Echo {
 
@@ -83,16 +110,23 @@ public class Echo {
         line = in.nextLine();
         System.out.println("You also said: " + line);
     }
-}</programlisting><para>Import statements can’t be inside a class definition. By convention, they are usually at the beginning of the file. If you omit the import statement, you get a compiler error like “cannot find symbol”. That means the compiler doesn’t know where to find the definition for <literal remap="verb" moreinfo="none">Scanner</literal>. </para><para><indexterm significance="normal">
-  <primary>java.lang</primary>
+}</programlisting><para>Import statements can’t be inside a class definition. By convention, they are usually at the beginning of the file. If you omit the import statement, you get a compiler error like “cannot find symbol”. That means the compiler doesn’t know where to find the definition for <literal moreinfo="none">Scanner</literal>. </para>
 
-</indexterm>You might wonder why we can use the <literal remap="verb" moreinfo="none">System</literal> class without importing it. <literal remap="verb" moreinfo="none">System</literal> belongs to the <literal remap="verb" moreinfo="none">java.lang</literal> package, which is imported automatically. According to the documentation, <literal remap="verb" moreinfo="none">java.lang</literal> “provides classes that are fundamental to the design of the Java programming language.” The <literal remap="verb" moreinfo="none">String</literal> class is also part of <literal remap="verb" moreinfo="none">java.lang</literal>. </para>
-</sect1><sect1 id="a0000001398" remap="section">
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>You might wonder why we can use the <literal moreinfo="none">System</literal> class without importing it. <literal moreinfo="none">System</literal> belongs to the <literal moreinfo="none">java.lang</literal> package, which is imported automatically. According to the documentation, <literal moreinfo="none">java.lang</literal> “provides classes that are fundamental to the design of the Java programming language.” The <literal moreinfo="none">String</literal> class is also part of <literal moreinfo="none">java.lang</literal>. </para>
+
+</sect1><sect1 id="a0000001799" remap="section">
   <title>Language Elements</title>
-    <para><indexterm significance="normal">
-  <primary>language</primary>
-<secondary>elements</secondary>
+    
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
 </indexterm>At this point, we have seen nearly all of the organizational units that make up Java programs. <xref linkend="fig.package"/> shows how these “language elements” are related. </para>
+
   
   <figure id="fig.package" float="False">
     <title>Elements of the Java language, from largest to smallest.</title>
@@ -101,53 +135,101 @@ public class Echo {
     <imagedata fileref="figs/package.pdf"></imagedata>
   </imageobject>
 </mediaobject></figure>
-<para><indexterm significance="normal">
-  <primary>token</primary>
 
-</indexterm>Java applications are typically organized into packages (like <literal remap="verb" moreinfo="none">java.io</literal> and <literal remap="verb" moreinfo="none">java.util</literal>) that include multiple classes (like <literal remap="verb" moreinfo="none">PrintStream</literal> and <literal remap="verb" moreinfo="none">Scanner</literal>). Each class defines its own methods (like <literal remap="verb" moreinfo="none">println</literal> and <literal remap="verb" moreinfo="none">nextLine</literal>), and each method is a sequence of statements. </para><para>Each statement performs one or more computations, depending on how many expressions it has, and each expression represents a single value to compute. For example, the assignment statement <literal remap="verb" moreinfo="none">hours = minutes / 60.0;</literal> contains a single expression: <literal remap="verb" moreinfo="none">minutes / 60.0</literal>. </para><para><emphasis role="bold">Tokens</emphasis> are the most basic elements of a program, including numbers, variable names, operators, keywords, parentheses, braces, and semicolons. In the previous example, the tokens are <literal remap="verb" moreinfo="none">hours</literal>, <literal remap="verb" moreinfo="none">=</literal>, <literal remap="verb" moreinfo="none">minutes</literal>, <literal remap="verb" moreinfo="none">/</literal>, <literal remap="verb" moreinfo="none">60.0</literal>, and <literal remap="verb" moreinfo="none">;</literal> (spaces are ignored by the compiler). </para><para>Knowing this terminology is helpful, because error messages often say things like “not a statement” or “illegal start of expression” or “unexpected token”. Comparing Java to English, statements are complete sentences, expressions are phrases, and tokens are individual words and punctuation marks. </para><para>Note there is a big difference between the Java <emphasis>language</emphasis>, which defines the elements in <xref linkend="fig.package"/>, and the Java <emphasis>library</emphasis>, which provides the built-in classes that you can import. For example, the keywords <literal remap="verb" moreinfo="none">public</literal> and <literal remap="verb" moreinfo="none">class</literal> are part of the Java language, but the names <literal remap="verb" moreinfo="none">PrintStream</literal> and <literal remap="verb" moreinfo="none">Scanner</literal> are not. </para><para>The standard edition of Java comes with <emphasis>several thousand</emphasis> classes you can use, which can be both exciting and intimidating. You can browse this library at <ulink url="https://thinkjava.org/apidoc"/>. Interestingly, most of the Java library is written in Java. </para>
-</sect1><sect1 id="a0000001445" remap="section">
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>Java applications are typically organized into packages (like <literal moreinfo="none">java.io</literal> and <literal moreinfo="none">java.util</literal>) that include multiple classes (like <literal moreinfo="none">PrintStream</literal> and <literal moreinfo="none">Scanner</literal>). Each class defines its own methods (like <literal moreinfo="none">println</literal> and <literal moreinfo="none">nextLine</literal>), and each method is a sequence of statements. </para>
+
+  
+  <para>Each statement performs one or more computations, depending on how many expressions it has, and each expression represents a single value to compute. For example, the assignment statement <literal moreinfo="none">hours = minutes / 60.0;</literal> contains a single expression: <literal moreinfo="none">minutes / 60.0</literal>. </para>
+
+  
+  <para><emphasis role="bold">Tokens</emphasis> are the most basic elements of a program, including numbers, variable names, operators, keywords, parentheses, braces, and semicolons. In the previous example, the tokens are <literal moreinfo="none">hours</literal>, <literal moreinfo="none">=</literal>, <literal moreinfo="none">minutes</literal>, <literal moreinfo="none">/</literal>, <literal moreinfo="none">60.0</literal>, and <literal moreinfo="none">;</literal> (spaces are ignored by the compiler). </para>
+
+  
+  <para>Knowing this terminology is helpful, because error messages often say things like “not a statement” or “illegal start of expression” or “unexpected token”. Comparing Java to English, statements are complete sentences, expressions are phrases, and tokens are individual words and punctuation marks. </para>
+
+  
+  <para>Note there is a big difference between the Java <emphasis>language</emphasis>, which defines the elements in <xref linkend="fig.package"/>, and the Java <emphasis>library</emphasis>, which provides the built-in classes that you can import. For example, the keywords <literal moreinfo="none">public</literal> and <literal moreinfo="none">class</literal> are part of the Java language, but the names <literal moreinfo="none">PrintStream</literal> and <literal moreinfo="none">Scanner</literal> are not. </para>
+
+  
+  <para>The standard edition of Java comes with <emphasis>several thousand</emphasis> classes you can use, which can be both exciting and intimidating. You can browse this library at <ulink url="https://thinkjava.org/apidoc"/>. Interestingly, most of the Java library is written in Java. </para>
+
+</sect1><sect1 id="a0000001866" remap="section">
   <title>Literals and Constants</title>
-    <para>Although most of the world has adopted the metric system for weights and measures, some countries are stuck with Imperial units. For example, when talking with friends in Europe about the weather, people in the United States might have to convert from Celsius to Fahrenheit and back. Or they might want to convert height in inches to centimeters. </para><para>We can write a program to help. We’ll use a <literal remap="verb" moreinfo="none">Scanner</literal> to input a measurement in inches, convert to centimeters, and then display the results. The following lines declare the variables and create the <literal remap="verb" moreinfo="none">Scanner</literal>: </para><programlisting language="java" format="linespecific">int inch;
+    
+  
+  <para>Although most of the world has adopted the metric system for weights and measures, some countries are stuck with Imperial units. For example, when talking with friends in Europe about the weather, people in the United States might have to convert from Celsius to Fahrenheit and back. Or they might want to convert height in inches to centimeters. </para>
+
+  
+  <para>We can write a program to help. We’ll use a <literal moreinfo="none">Scanner</literal> to input a measurement in inches, convert to centimeters, and then display the results. The following lines declare the variables and create the <literal moreinfo="none">Scanner</literal>: </para>
+<programlisting language="java" format="linespecific">int inch;
 double cm;
 Scanner in = new Scanner(System.in);</programlisting><para><indexterm significance="normal">
-  <primary>prompt</primary>
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>nextInt</primary>
-<secondary>Scanner</secondary>
-</indexterm>The next step is to prompt the user for the input. We’ll use <literal remap="verb" moreinfo="none">print</literal> instead of <literal remap="verb" moreinfo="none">println</literal> so they can enter the input on the same line as the <emphasis role="bold">prompt</emphasis>. And we’ll use the <literal remap="verb" moreinfo="none">Scanner</literal> method <literal remap="verb" moreinfo="none">nextInt</literal>, which reads input from the keyboard and converts it to an integer: </para><programlisting language="java" format="linespecific">System.out.print("How many inches? ");
-inch = in.nextInt();</programlisting><para>Next we multiply the number of inches by 2.54, since that’s how many centimeters there are per inch, and display the results: </para><programlisting language="java" format="linespecific">cm = inch * 2.54;
+  <primary></primary>
+
+</indexterm>The next step is to prompt the user for the input. We’ll use <literal moreinfo="none">print</literal> instead of <literal moreinfo="none">println</literal> so they can enter the input on the same line as the <emphasis role="bold">prompt</emphasis>. And we’ll use the <literal moreinfo="none">Scanner</literal> method <literal moreinfo="none">nextInt</literal>, which reads input from the keyboard and converts it to an integer: </para>
+<programlisting language="java" format="linespecific">System.out.print("How many inches? ");
+inch = in.nextInt();</programlisting><para>Next we multiply the number of inches by 2.54, since that’s how many centimeters there are per inch, and display the results: </para>
+<programlisting language="java" format="linespecific">cm = inch * 2.54;
 System.out.print(inch + " in = ");
-System.out.println(cm + " cm");</programlisting><para>This code works correctly, but it has a minor problem. If another programmer reads this code, they might wonder where 2.54 comes from. For the benefit of others (and yourself in the future), it would be better to assign this value to a variable with a meaningful name. </para><para><indexterm significance="normal">
-  <primary>literal</primary>
+System.out.println(cm + " cm");</programlisting><para>This code works correctly, but it has a minor problem. If another programmer reads this code, they might wonder where 2.54 comes from. For the benefit of others (and yourself in the future), it would be better to assign this value to a variable with a meaningful name. </para>
 
-</indexterm>A value that appears in a program, like the number 2.54, is called a <emphasis role="bold">literal</emphasis>. In general, there’s nothing wrong with literals. But when numbers like 2.54 appear in an expression with no explanation, they make the code hard to read. And if the same value appears many times and could change in the future, it makes the code hard to maintain. </para><para><indexterm significance="normal">
-  <primary>magic number</primary>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>Values like 2.54 are sometimes called <emphasis role="bold">magic numbers</emphasis> (with the implication that being “magic” is not a good thing). A good practice is to assign magic numbers to variables with meaningful names, like this: </para><programlisting language="java" format="linespecific">double cmPerInch = 2.54;
-cm = inch * cmPerInch;</programlisting><para>This version is easier to read and less error-prone, but it still has a problem. Variables can vary (hence the term), but the number of centimeters in an inch does not. Once we assign a value to <literal remap="verb" moreinfo="none">cmPerInch</literal>, it should never change. Java provides the keyword <literal remap="verb" moreinfo="none">final</literal>, a language feature that enforces this rule. </para><programlisting language="java" format="linespecific">final double CM_PER_INCH = 2.54;</programlisting><para><indexterm significance="normal">
-  <primary>final</primary>
+</indexterm>A value that appears in a program, like the number 2.54, is called a <emphasis role="bold">literal</emphasis>. In general, there’s nothing wrong with literals. But when numbers like 2.54 appear in an expression with no explanation, they make the code hard to read. And if the same value appears many times and could change in the future, it makes the code hard to maintain. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>Values like 2.54 are sometimes called <emphasis role="bold">magic numbers</emphasis> (with the implication that being “magic” is not a good thing). A good practice is to assign magic numbers to variables with meaningful names, like this: </para>
+<programlisting language="java" format="linespecific">double cmPerInch = 2.54;
+cm = inch * cmPerInch;</programlisting><para>This version is easier to read and less error-prone, but it still has a problem. Variables can vary (hence the term), but the number of centimeters in an inch does not. Once we assign a value to <literal moreinfo="none">cmPerInch</literal>, it should never change. Java provides the keyword <literal moreinfo="none">final</literal>, a language feature that enforces this rule. </para>
+<programlisting language="java" format="linespecific">final double CM_PER_INCH = 2.54;</programlisting><para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>constant</primary>
+  <primary></primary>
 
-</indexterm>Declaring that a variable is <literal remap="verb" moreinfo="none">final</literal> means that it cannot be reassigned once it has been initialized. If you try, the compiler gives an error. Variables declared as <literal remap="verb" moreinfo="none">final</literal> are called <emphasis role="bold">constants</emphasis>. By convention, names for constants are all uppercase, with the underscore character (<literal remap="verb" moreinfo="none">_</literal>) between words. </para>
+</indexterm>Declaring that a variable is <literal moreinfo="none">final</literal> means that it cannot be reassigned once it has been initialized. If you try, the compiler gives an error. </para>
+
+  
+  <para>Variables declared as <literal moreinfo="none">final</literal> are called <emphasis role="bold">constants</emphasis>. By convention, names for constants are all uppercase, with the underscore character (<literal moreinfo="none">_</literal>) between words. </para>
+
 </sect1><sect1 id="printf" remap="section">
-  <title>Formatting Output</title><para>When you output a <literal remap="verb" moreinfo="none">double</literal> using <literal remap="verb" moreinfo="none">print</literal> or <literal remap="verb" moreinfo="none">println</literal>, it displays up to 16 decimal places: </para><programlisting language="java" format="linespecific">System.out.print(4.0 / 3.0);</programlisting><para>The result is: </para><programlisting format="linespecific">1.3333333333333333</programlisting><para><indexterm significance="normal">
-  <primary>printf</primary>
+  <title>Formatting Output</title><para>When you output a <literal moreinfo="none">double</literal> using <literal moreinfo="none">print</literal> or <literal moreinfo="none">println</literal>, it displays up to 16 decimal places: </para>
+<programlisting language="java" format="linespecific">System.out.print(4.0 / 3.0);</programlisting><para>The result is: </para><programlisting format="linespecific">1.3333333333333333</programlisting><para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>That might be more than you want. <literal remap="verb" moreinfo="none">System.out</literal> provides another method, called <literal remap="verb" moreinfo="none">printf</literal>, that gives you more control of the format. The “f” in <literal remap="verb" moreinfo="none">printf</literal> stands for “formatted”. Here’s an example: </para><programlisting language="java" format="linespecific">System.out.printf("Four thirds = %.3f", 4.0 / 3.0);</programlisting><para><indexterm significance="normal">
-  <primary>format string</primary>
+</indexterm>That might be more than you want. <literal moreinfo="none">System.out</literal> provides another method, called <literal moreinfo="none">printf</literal>, that gives you more control of the format. The “f” in <literal moreinfo="none">printf</literal> stands for “formatted”. Here’s an example: </para>
+<programlisting language="java" format="linespecific">System.out.printf("Four thirds = %.3f", 4.0 / 3.0);</programlisting><para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>format specifier</primary>
+  <primary></primary>
 
-</indexterm>The first value in the parentheses is a <emphasis role="bold">format string</emphasis> that specifies how the output should be displayed. This format string contains ordinary text followed by a <emphasis role="bold">format specifier</emphasis>, which is a special sequence that starts with a percent sign. The format specifier <literal remap="verb" moreinfo="none">%.3f</literal> indicates that the following value should be displayed as floating-point, rounded to three decimal places. The result is: </para><programlisting format="linespecific">Four thirds = 1.333</programlisting><para>The format string can contain any number of format specifiers; here’s an example with two of them: </para><programlisting language="java" format="linespecific">int inch = 100;
+</indexterm>The first value in the parentheses is a <emphasis role="bold">format string</emphasis> that specifies how the output should be displayed. This format string contains ordinary text followed by a <emphasis role="bold">format specifier</emphasis>, which is a special sequence that starts with a percent sign. The format specifier <literal moreinfo="none">%.3f</literal> indicates that the following value should be displayed as floating-point, rounded to three decimal places. The result is: </para><programlisting format="linespecific">Four thirds = 1.333</programlisting><para>The format string can contain any number of format specifiers; here’s an example with two of them: </para>
+<programlisting language="java" format="linespecific">int inch = 100;
 double cm = inch * CM_PER_INCH;
-System.out.printf("%d in = %f cm\n", inch, cm);</programlisting><para>The result is: </para><programlisting format="linespecific">100 in = 254.000000 cm</programlisting><para>Like <literal remap="verb" moreinfo="none">print</literal>, <literal remap="verb" moreinfo="none">printf</literal> does not append a newline. So format strings often end with a newline character. </para><para>The format specifier <literal remap="verb" moreinfo="none">%d</literal> displays integer values (“d” stands for “decimal”, meaning base 10 integer). The values are matched up with the format specifiers in order, so <literal remap="verb" moreinfo="none">inch</literal> is displayed using <literal remap="verb" moreinfo="none">%d</literal>, and <literal remap="verb" moreinfo="none">cm</literal> is displayed using <literal remap="verb" moreinfo="none">%f</literal>. </para><para><indexterm significance="normal">
-  <primary>hexadecimal</primary>
+System.out.printf("%d in = %f cm\n", inch, cm);</programlisting><para>The result is: </para><programlisting format="linespecific">100 in = 254.000000 cm</programlisting><para>Like <literal moreinfo="none">print</literal>, <literal moreinfo="none">printf</literal> does not append a newline. So format strings often end with a newline character. </para>
+
+  
+  <para>The format specifier <literal moreinfo="none">%d</literal> displays integer values (“d” stands for “decimal”, meaning base 10 integer). The values are matched up with the format specifiers in order, so <literal moreinfo="none">inch</literal> is displayed using <literal moreinfo="none">%d</literal>, and <literal moreinfo="none">cm</literal> is displayed using <literal moreinfo="none">%f</literal>. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm>Learning about format strings is like learning a sub-language within Java. There are many options, and the details can be overwhelming. <xref linkend="tab..format"/> lists a few common uses, to give you an idea of how things work. </para>
+
    
      <table id="tab..format" remap="tabular">
      <title>Example format specifiers</title>
@@ -160,7 +242,70 @@ System.out.printf("%d in = %f cm\n", inch, cm);</programlisting><para>The result
        <entry> </entry>
      
        
-       <entry><para> <literal remap="verb" moreinfo="none">%d</literal> </para><para> integer in base 10 (“decimal”) </para><para> <literal remap="verb" moreinfo="none">12345</literal> </para><para><literal remap="verb" moreinfo="none">%,d</literal> </para><para> integer with comma separators </para><para> <literal remap="verb" moreinfo="none">12,345</literal> </para><para><literal remap="verb" moreinfo="none">%08d</literal> </para><para> padded with zeros, at least 8 digits wide </para><para> <literal remap="verb" moreinfo="none">00012345</literal> </para><para><literal remap="verb" moreinfo="none">%f</literal> </para><para> floating-point number </para><para> <literal remap="verb" moreinfo="none">6.789000</literal> </para><para><literal remap="verb" moreinfo="none">%.2f</literal> </para><para> rounded to 2 decimal places </para><para> <literal remap="verb" moreinfo="none">6.79</literal> </para><para><literal remap="verb" moreinfo="none">%s</literal> </para><para> string of characters </para><para> <literal remap="verb" moreinfo="none">"Hello"</literal> </para><para><literal remap="verb" moreinfo="none">%x</literal> </para><para> integer in base 16 (“hexadecimal”) </para><para> <literal remap="verb" moreinfo="none">bc614e</literal> </para/>
+       <entry>
+  
+  <para> <literal moreinfo="none">%d</literal> </para>
+
+  
+  <para> integer in base 10 (“decimal”) </para>
+
+  
+  <para> <literal moreinfo="none">12345</literal> </para>
+
+  
+  <para><literal moreinfo="none">%,d</literal> </para>
+
+  
+  <para> integer with comma separators </para>
+
+  
+  <para> <literal moreinfo="none">12,345</literal> </para>
+
+  
+  <para><literal moreinfo="none">%08d</literal> </para>
+
+  
+  <para> padded with zeros, at least 8 digits wide </para>
+
+  
+  <para> <literal moreinfo="none">00012345</literal> </para>
+
+  
+  <para><literal moreinfo="none">%f</literal> </para>
+
+  
+  <para> floating-point number </para>
+
+  
+  <para> <literal moreinfo="none">6.789000</literal> </para>
+
+  
+  <para><literal moreinfo="none">%.2f</literal> </para>
+
+  
+  <para> rounded to 2 decimal places </para>
+
+  
+  <para> <literal moreinfo="none">6.79</literal> </para>
+
+  
+  <para><literal moreinfo="none">%s</literal> </para>
+
+  
+  <para> string of characters </para>
+
+  
+  <para> <literal moreinfo="none">"Hello"</literal> </para>
+
+  
+  <para><literal moreinfo="none">%x</literal> </para>
+
+  
+  <para> integer in base 16 (“hexadecimal”) </para>
+
+  
+  <para> <literal moreinfo="none">bc614e</literal> </para>
+</entry>
      
        
        <entry> </entry>
@@ -183,68 +328,135 @@ System.out.printf("%d in = %f cm\n", inch, cm);</programlisting><para>The result
      </table>
    
    
-<para>For more details, refer to the documentation of <literal remap="verb" moreinfo="none">java.util.Formatter</literal>. The easiest way to find documentation for Java classes is to do a web search for “Java” and the name of the class. </para><para>Notice that the values you pass to <literal remap="verb" moreinfo="none">printf</literal> are separated by commas. If you are used to using the <literal remap="verb" moreinfo="none">+</literal> operator to concatenate strings, you might write something like this by accident: </para><programlisting language="java" format="linespecific">System.out.printf("inches=%d" + inch);  // error</programlisting><para><indexterm significance="normal">
-  <primary>MissingFormatArgumentException</primary>
+
+  
+  <para>For more details, refer to the documentation of <literal moreinfo="none">java.util.Formatter</literal>. The easiest way to find documentation for Java classes is to do a web search for “Java” and the name of the class. </para>
+
+</sect1><sect1 id="a0000002095" remap="section">
+  <title>Reading Error Messages</title>
+    
+  
+  <para>Notice that the values you pass to <literal moreinfo="none">printf</literal> are separated by commas. If you are used to using the <literal moreinfo="none">+</literal> operator to concatenate strings, you might write something like this by accident: </para>
+<programlisting language="java" format="linespecific">System.out.printf("inches = %d" + inch);  // error</programlisting><para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>exception</primary>
-<secondary>MissingFormatArgument</secondary>
-</indexterm>This line of code is legal, so the compiler won’t catch the mistake. Instead, when you run the program, it causes an exception: </para><para><programlisting format="linespecific">Exception in thread "main" java.util.MissingFormatArgumentException:
+  <primary></primary>
+
+</indexterm>This line of code is legal, so the compiler won’t catch the mistake. Instead, when you run the program, it causes an exception: </para>
+
+  
+  <para><programlisting format="linespecific">Exception in thread "main" java.util.MissingFormatArgumentException:
 Format specifier '%d'
     at java.util.Formatter.format(Formatter.java:2519)
     at java.io.PrintStream.format(PrintStream.java:970)
     at java.io.PrintStream.printf(PrintStream.java:871)
-    at Example.main(Example.java:10)</programlisting></para><para>As we saw in <xref linkend="exception"/>, the error message includes the name of the exception, <literal remap="verb" moreinfo="none">MissingFormatArgumentException</literal>, and an additional message, <literal remap="verb" moreinfo="none">Format specifier '%d'</literal>. That means it doesn’t know what value to substitute for <literal remap="verb" moreinfo="none">%d</literal>. </para><para>The problem is that concatenation happens first, before <literal remap="verb" moreinfo="none">printf</literal> is invoked. If the value of <literal remap="verb" moreinfo="none">inch</literal> is <literal remap="verb" moreinfo="none">100</literal>, the result of concatenation is <literal remap="verb" moreinfo="none">"inches=%d100"</literal>. So <literal remap="verb" moreinfo="none">printf</literal> gets a format string as an argument, but it doesn’t get any values to format. </para><para><indexterm significance="normal">
-  <primary>trace</primary>
+    at Example.main(Example.java:10)</programlisting></para>
 
-</indexterm>The error message also includes a <emphasis role="bold">trace</emphasis> that shows the method that was running when the error was detected, <literal remap="verb" moreinfo="none">java.util.Formatter.format</literal>, the method that invoked it, <literal remap="verb" moreinfo="none">java.io.PrintStream.format</literal>, the method that invoked <emphasis>that</emphasis>, <literal remap="verb" moreinfo="none">java.io.PrintStream.printf</literal>, and finally the method you actually wrote, <literal remap="verb" moreinfo="none">Example.main</literal>. </para><para>The last line also names program that was running, <literal remap="verb" moreinfo="none">Example.java</literal>, and the line it was on, <literal remap="verb" moreinfo="none">10</literal>. </para><para>That’s a lot of information, and it includes method names and files names you have no reason to know, at this point. But don’t be overwhelmed. </para><para>When you see an error message like this, read the first line carefully, to see what happened. Then read the last line, to see where it happened. In some IDEs, you can click on the error message and it will take you to the line of code that was running. But remember that where the error is discovered is not always where it was caused. </para>
-</sect1><sect1 id="a0000001649" remap="section">
+  
+  <para>As we saw in <xref linkend="exception"/>, the error message includes the name of the exception, <literal moreinfo="none">MissingFormatArgumentException</literal>, followed by additional details, <literal remap="verb" moreinfo="none">Format specifier '%d'</literal>. That means it doesn’t know what value to substitute for <literal moreinfo="none">%d</literal>. </para>
+
+  
+  <para>The problem is that concatenation happens first, before <literal moreinfo="none">printf</literal> executes. If the value of <literal moreinfo="none">inch</literal> is <literal moreinfo="none">100</literal>, the result of concatenation is <literal remap="verb" moreinfo="none">"inches = %d100"</literal>. So <literal moreinfo="none">printf</literal> gets the format string, but it doesn’t get any values to format. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>The error message also includes a <emphasis role="bold">stack trace</emphasis> that shows the method that was running when the error was detected, <literal moreinfo="none">java.util.Formatter.format</literal>, the method that ran it, <literal moreinfo="none">java.io.PrintStream.format</literal>, the method that ran <emphasis>that</emphasis>, <literal moreinfo="none">java.io.PrintStream.printf</literal>, and finally the method you actually wrote, <literal moreinfo="none">Example.main</literal>. </para>
+
+  
+  <para>Each line also names the source file of the method and the line it was on (e.g., <literal moreinfo="none">Example.java:10</literal>). That’s a lot of information, and it includes method names and files names you have no reason to know at this point. But don’t be overwhelmed. </para>
+
+  
+  <para>When you see an error message like this, read the first line carefully to see <emphasis>what</emphasis> happened. Then read the last line to see <emphasis>where</emphasis> it happened. In some IDEs, you can click on the error message and it will take you to the line of code that was running. But remember that where the error is discovered is not always where it was caused. </para>
+
+</sect1><sect1 id="a0000002152" remap="section">
   <title>Type Cast Operators</title>
-    <para>Now suppose we have a measurement in centimeters, and we want to round it off to the nearest inch. It is tempting to write: </para><programlisting language="java" format="linespecific">inch = cm / CM_PER_INCH;  // syntax error</programlisting><para>But the result is an error – you get something like, “incompatible types: possible lossy conversion from double to int.” The problem is that the value on the right is floating-point, and the variable on the left is an integer. </para><para><indexterm significance="normal">
-  <primary>automatic conversion</primary>
+    
+  
+  <para>Now suppose we have a measurement in centimeters, and we want to round it off to the nearest inch. It is tempting to write: </para>
+<programlisting language="java" format="linespecific">inch = cm / CM_PER_INCH;  // syntax error</programlisting><para>But the result is an error—you get something like, “incompatible types: possible lossy conversion from double to int.” The problem is that the value on the right is floating-point, and the variable on the left is an integer. </para>
 
-</indexterm>Java converts an <literal remap="verb" moreinfo="none">int</literal> to a <literal remap="verb" moreinfo="none">double</literal> automatically, since no information is lost in the process. On the other hand, going from <literal remap="verb" moreinfo="none">double</literal> to <literal remap="verb" moreinfo="none">int</literal> would lose the decimal places. Java doesn’t perform this operation automatically in order to ensure that you are aware of the loss of the fractional part of the number. </para><para><indexterm significance="normal">
-  <primary>type cast</primary>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>Java converts an <literal moreinfo="none">int</literal> to a <literal moreinfo="none">double</literal> automatically, since no information is lost in the process. On the other hand, going from <literal moreinfo="none">double</literal> to <literal moreinfo="none">int</literal> would lose the decimal places. Java doesn’t perform this operation automatically in order to ensure that you are aware of the loss of the fractional part of the number. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>operator</primary>
-<secondary>cast</secondary>
-</indexterm>The simplest way to convert a floating-point value to an integer is to use a <emphasis role="bold">type cast</emphasis>, so called because it molds or “casts” a value from one type to another. The syntax for type casting is to put the name of the type in parentheses and use it as an operator. </para><programlisting language="java" format="linespecific">double pi = 3.14159;
-int x = (int) pi;</programlisting><para>The <literal remap="verb" moreinfo="none">(int)</literal> operator has the effect of converting what follows into an integer. In this example, <literal remap="verb" moreinfo="none">x</literal> gets the value <literal remap="verb" moreinfo="none">3</literal>. Like integer division, casting to an integer always rounds toward zero, even if the fractional part is <literal remap="verb" moreinfo="none">0.999999</literal> (or <literal remap="verb" moreinfo="none">-0.999999</literal>). In other words, it simply throws away the fractional part. </para><para>In order to use a cast operator, the types must be compatible. For example, you can’t cast a <literal remap="verb" moreinfo="none">String</literal> to an <literal remap="verb" moreinfo="none">int</literal> because a string is not a number. </para><programlisting language="java" format="linespecific">String str = "3";
-int x = (int) str;  // error: incompatible types</programlisting><para>Type casting takes precedence over arithmetic operations. In the following example, the value of <literal remap="verb" moreinfo="none">pi</literal> gets converted to an integer before the multiplication. </para><programlisting language="java" format="linespecific">double pi = 3.14159;
-double x = (int) pi * 20.0;  // result is 60.0, not 62.0</programlisting><para>Keeping that in mind, here’s how we can convert centimeters to inches: </para><programlisting language="java" format="linespecific">inch = (int) (cm / CM_PER_INCH);
+  <primary></primary>
+
+</indexterm>The simplest way to convert a floating-point value to an integer is to use a <emphasis role="bold">type cast</emphasis>, so called because it molds or “casts” a value from one type to another. The syntax for type casting is to put the name of the type in parentheses and use it as an operator. </para>
+<programlisting language="java" format="linespecific">double pi = 3.14159;
+int x = (int) pi;</programlisting><para>The <literal moreinfo="none">(int)</literal> operator has the effect of converting what follows into an integer. In this example, <literal moreinfo="none">x</literal> gets the value <literal moreinfo="none">3</literal>. Like integer division, casting to an integer always rounds toward zero, even if the fractional part is <literal moreinfo="none">0.999999</literal> (or <literal moreinfo="none">-0.999999</literal>). In other words, it simply throws away the fractional part. </para>
+
+  
+  <para>In order to use a cast operator, the types must be compatible. For example, you can’t cast a <literal moreinfo="none">String</literal> to an <literal moreinfo="none">int</literal> because a string is not a number. </para>
+<programlisting language="java" format="linespecific">String str = "3";
+int x = (int) str;  // error: incompatible types</programlisting><para>Type casting takes precedence over arithmetic operations. In the following example, the value of <literal moreinfo="none">pi</literal> gets converted to an integer before the multiplication. </para>
+<programlisting language="java" format="linespecific">double pi = 3.14159;
+double x = (int) pi * 20.0;  // result is 60.0, not 62.0</programlisting><para>Keeping that in mind, here’s how we can convert centimeters to inches: </para>
+<programlisting language="java" format="linespecific">inch = (int) (cm / CM_PER_INCH);
 System.out.printf("%f cm = %d in\n", cent, inch);</programlisting><para>The parentheses after the cast operator require the division to happen before the type cast. And the result is rounded toward zero. We will see in the next chapter how to round floating-point numbers to the closest integer. </para>
-</sect1><sect1 id="a0000001685" remap="section">
+
+</sect1><sect1 id="a0000002203" remap="section">
   <title>Remainder Operator</title>
-    <para>Let’s take the example one step further: suppose you have a measurement in inches and you want to convert to feet and inches. The goal is divide by 12 (the number of inches in a foot) and keep the remainder. </para><para><indexterm significance="normal">
-  <primary>modulo</primary>
+    
+  
+  <para>Let’s take the example one step further: suppose you have a measurement in inches and you want to convert to feet and inches. The goal is divide by 12 (the number of inches in a foot) and keep the remainder. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>% remainder operator</primary>
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>operator</primary>
-<secondary>remainder</secondary>
-</indexterm><indexterm significance="normal">
-  <primary>remainder</primary>
-
-</indexterm>We have already seen the division operation (<literal remap="verb" moreinfo="none">/</literal>), which computes the quotient of two numbers. If the numbers are integers, it performs integer division. Java also provides the <emphasis role="bold">modulo</emphasis> operation (<literal remap="verb" moreinfo="none">%</literal>), which divides two numbers and computes the remainder. </para><para>Using division and modulo, we can convert to feet and inches like this: </para><programlisting language="java" format="linespecific">feet = 76 / 12;    // quotient
-inches = 76 % 12;  // remainder</programlisting><para>The first line yields 6. The second line, which is pronounced “76 mod 12”, yields 4. So 76 inches is 6 feet, 4 inches. </para><para><indexterm significance="normal">
-  <primary>modulus</primary>
-
-</indexterm>Many people (and textbooks) incorrectly refer to <literal remap="verb" moreinfo="none">%</literal> as the “modulus operator”. In mathematics, however, <emphasis role="bold">modulus</emphasis> is the number you’re dividing by. In the previous example, the modulus is 12. </para><para>The Java language specification refers to <literal remap="verb" moreinfo="none">%</literal> as the “remainder operator”. The remainder operator looks like a percent sign, but you might find it helpful to think of it as a division sign (<emphasis role="math">÷</emphasis>) rotated to the left. </para><para><indexterm significance="normal">
-  <primary>divisible</primary>
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>extract digits</primary>
+  <primary></primary>
 
-</indexterm>Modular arithmetic turns out to be surprisingly useful. For example, you can check whether one number is divisible by another: if <literal remap="verb" moreinfo="none">x \% y</literal> is zero, then <literal remap="verb" moreinfo="none">x</literal> is divisible by <literal remap="verb" moreinfo="none">y</literal>. You can use remainder to “extract” digits from a number: <literal remap="verb" moreinfo="none">x \% 10</literal> yields the rightmost digit of <literal remap="verb" moreinfo="none">x</literal>, and <literal remap="verb" moreinfo="none">x \% 100</literal> yields the last two digits. And many encryption algorithms use the remainder operator extensively. </para>
-</sect1><sect1 id="a0000001715" remap="section">
+</indexterm>We have already seen the division operation (<literal moreinfo="none">/</literal>), which computes the quotient of two numbers. If the numbers are integers, it performs integer division. Java also provides the <emphasis role="bold">modulo</emphasis> operation (<literal moreinfo="none">%</literal>), which divides two numbers and computes the remainder. </para>
+
+  
+  <para>Using division and modulo, we can convert to feet and inches like this: </para>
+<programlisting language="java" format="linespecific">feet = 76 / 12;    // quotient
+inches = 76 % 12;  // remainder</programlisting><para>The first line yields 6. The second line, which is pronounced “76 mod 12”, yields 4. So 76 inches is 6 feet, 4 inches. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>Many people (and textbooks) incorrectly refer to <literal moreinfo="none">%</literal> as the “modulus operator”. In mathematics, however, <emphasis role="bold">modulus</emphasis> is the number you’re dividing by. In the previous example, the modulus is 12. </para>
+
+  
+  <para>The Java language specification refers to <literal moreinfo="none">%</literal> as the “remainder operator”. The remainder operator looks like a percent sign, but you might find it helpful to think of it as a division sign (<emphasis role="math">÷</emphasis>) rotated to the left. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>Modular arithmetic turns out to be surprisingly useful. For example, you can check whether one number is divisible by another: if <literal moreinfo="none">x % y</literal> is zero, then <literal moreinfo="none">x</literal> is divisible by <literal moreinfo="none">y</literal>. You can use remainder to “extract” digits from a number: <literal moreinfo="none">x % 10</literal> yields the rightmost digit of <literal moreinfo="none">x</literal>, and <literal moreinfo="none">x % 100</literal> yields the last two digits. And many encryption algorithms use the remainder operator extensively. </para>
+
+</sect1><sect1 id="a0000002255" remap="section">
   <title>Putting It All Together</title>
-    <para><indexterm significance="normal">
-  <primary>Convert.java</primary>
+    
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>At this point, you have seen enough Java to write useful programs that solve everyday problems. You can (1) import Java library classes, (2) create a <literal remap="verb" moreinfo="none">Scanner</literal>, (3) get input from the keyboard, (4) format output with <literal remap="verb" moreinfo="none">printf</literal>, and (5) divide and mod integers. Now we will put everything together in a complete program: </para><programlisting language="java" format="linespecific">import java.util.Scanner;
+</indexterm>At this point, you have seen enough Java to write useful programs that solve everyday problems. You can (1) import Java library classes, (2) create a <literal moreinfo="none">Scanner</literal>, (3) get input from the keyboard, (4) format output with <literal moreinfo="none">printf</literal>, and (5) divide and mod integers. Now we will put everything together in a complete program: </para>
+<programlisting language="java" format="linespecific">import java.util.Scanner;
 
 /**
  * Converts centimeters to feet and inches.
@@ -269,155 +481,293 @@ public class Convert {
         System.out.printf("%.2f cm = %d ft, %d in\n",
                           cm, feet, remainder);
     }
-}</programlisting><para>Although not required, all variables and constants are declared at the top of <literal remap="verb" moreinfo="none">main</literal>. This practice makes it easier to find their types later on, and it helps the reader know what data is involved in the algorithm. </para><para><indexterm significance="normal">
-  <primary>documentation</primary>
+}</programlisting><para>Although not required, all variables and constants are declared at the top of <literal moreinfo="none">main</literal>. This practice makes it easier to find their types later on, and it helps the reader know what data is involved in the algorithm. </para>
 
-</indexterm>For readability, each major step of the algorithm is separated by a blank line and begins with a comment. The class also includes a documentation comment (<literal remap="verb" moreinfo="none">/**</literal>), which you can learn more about in <xref linkend="javadoc"/>. </para><para>Many algorithms, including the <literal remap="verb" moreinfo="none">Convert</literal> program, perform division and modulo together. In both steps, you divide by the same number (<literal remap="verb" moreinfo="none">IN_PER_FOOT</literal>). </para><para>When statements including <literal remap="verb" moreinfo="none">System.out.printf</literal> get long (generally wider than 80 characters), a common style convention is to break them across multiple lines. The reader should never have to scroll horizontally. </para>
-</sect1><sect1 id="a0000001734" remap="section">
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>For readability, each major step of the algorithm is separated by a blank line and begins with a comment. The class also includes a documentation comment (<literal moreinfo="none">/**</literal>), which you can learn more about in <xref linkend="javadoc"/>. </para>
+
+  
+  <para>Many algorithms, including the <literal moreinfo="none">Convert</literal> program, perform division and modulo together. In both steps, you divide by the same number (<literal moreinfo="none">IN_PER_FOOT</literal>). </para>
+
+  
+  <para>When statements including <literal moreinfo="none">System.out.printf</literal> get long (generally wider than 80 characters), a common style convention is to break them across multiple lines. The reader should never have to scroll horizontally. </para>
+
+</sect1><sect1 id="a0000002283" remap="section">
   <title>The Scanner Bug</title>
-    <para>Now that you’ve had some experience with <literal remap="verb" moreinfo="none">Scanner</literal>, there is an unexpected behavior we want to warn you about. The following code fragment asks users for their name and age: </para><programlisting language="java" format="linespecific">System.out.print("What is your name? ");
+    
+  
+  <para>Now that you’ve had some experience with <literal moreinfo="none">Scanner</literal>, there is an unexpected behavior we want to warn you about. The following code fragment asks users for their name and age: </para>
+<programlisting language="java" format="linespecific">System.out.print("What is your name? ");
 name = in.nextLine();
 System.out.print("What is your age? ");
 age = in.nextInt();
-System.out.printf("Hello %s, age %d\n", name, age);</programlisting><para>The output might look something like this: </para><programlisting format="linespecific">Hello Grace Hopper, age 45</programlisting><para>When you read a <literal remap="verb" moreinfo="none">String</literal> followed by an <literal remap="verb" moreinfo="none">int</literal>, everything works just fine. But when you read an <literal remap="verb" moreinfo="none">int</literal> followed by a <literal remap="verb" moreinfo="none">String</literal>, something strange happens. </para><programlisting language="java" format="linespecific">System.out.print("What is your age? ");
+System.out.printf("Hello %s, age %d\n", name, age);</programlisting><para>The output might look something like this: </para><programlisting format="linespecific">Hello Grace Hopper, age 45</programlisting><para>When you read a <literal moreinfo="none">String</literal> followed by an <literal moreinfo="none">int</literal>, everything works just fine. But when you read an <literal moreinfo="none">int</literal> followed by a <literal moreinfo="none">String</literal>, something strange happens. </para>
+<programlisting language="java" format="linespecific">System.out.print("What is your age? ");
 age = in.nextInt();
 System.out.print("What is your name? ");
 name = in.nextLine();
-System.out.printf("Hello %s, age %d\n", name, age);</programlisting><para>Try running this example code. It doesn’t let you input your name, and it immediately displays the output: </para><programlisting format="linespecific">What is your name? Hello , age 45</programlisting><para>To understand what is happening, you need to realize that <literal remap="verb" moreinfo="none">Scanner</literal> doesn’t see input as multiple lines like we do. Instead, it gets a “stream of characters” as shown in <xref linkend="fig.hopper1"/>. </para>
+System.out.printf("Hello %s, age %d\n", name, age);</programlisting><para>Try running this example code. It doesn’t let you input your name, and it immediately displays the output: </para><programlisting format="linespecific">What is your name? Hello , age 45</programlisting><para>To understand what is happening, you need to realize that <literal moreinfo="none">Scanner</literal> doesn’t see input as multiple lines like we do. Instead, it gets a “stream of characters” as shown in <xref linkend="fig.hopper1"/>. </para>
+
   
   <figure id="fig.hopper1" float="False">
-    <title>A stream of characters as seen by a <literal remap="verb" moreinfo="none">Scanner.</literal/>
+    <title>A stream of characters as seen by a <literal moreinfo="none">Scanner</literal>.</title>
      <mediaobject>
   <imageobject remap="includegraphics">
     <imagedata fileref="figs/hopper1.pdf"></imagedata>
   </imageobject>
 </mediaobject></figure>
-<para>The arrow indicates the next character to be read by <literal remap="verb" moreinfo="none">Scanner</literal>. When you call <literal remap="verb" moreinfo="none">nextInt</literal>, it reads characters until it gets to a non-digit. <xref linkend="fig.hopper2"/> shows the state of the stream after <literal remap="verb" moreinfo="none">nextInt</literal> is called. </para>
+
+  
+  <para>The arrow indicates the next character to be read by <literal moreinfo="none">Scanner</literal>. When you run <literal moreinfo="none">nextInt</literal>, it reads characters until it gets to a non-digit. <xref linkend="fig.hopper2"/> shows the state of the stream after <literal moreinfo="none">nextInt</literal> runs. </para>
+
   
   <figure id="fig.hopper2" float="False">
-    <title>A stream of characters after <literal remap="verb" moreinfo="none">nextInt is called.</literal/>
+    <title>A stream of characters after <literal moreinfo="none">nextInt</literal> runs.</title>
      <mediaobject>
   <imageobject remap="includegraphics">
     <imagedata fileref="figs/hopper2.pdf"></imagedata>
   </imageobject>
 </mediaobject></figure>
-<para>At this point, <literal remap="verb" moreinfo="none">nextInt</literal> returns <literal remap="verb" moreinfo="none">45</literal>. The program then displays the prompt <literal remap="verb" moreinfo="none">"What is your name? "</literal> and calls <literal remap="verb" moreinfo="none">nextLine</literal>, which reads characters until it gets to a newline. But since the next character is already a newline, <literal remap="verb" moreinfo="none">nextLine</literal> returns the empty string <literal remap="verb" moreinfo="none">""</literal>. </para><para>To solve this problem, you need an extra <literal remap="verb" moreinfo="none">nextLine</literal> after <literal remap="verb" moreinfo="none">nextInt</literal>. </para><programlisting language="java" format="linespecific">System.out.print("What is your age? ");
+
+  
+  <para>At this point, <literal moreinfo="none">nextInt</literal> returns <literal moreinfo="none">45</literal>. The program then displays the prompt <literal moreinfo="none">"What is your name? "</literal> and runs <literal moreinfo="none">nextLine</literal>, which reads characters until it gets to a newline. But since the next character is already a newline, <literal moreinfo="none">nextLine</literal> returns the empty string <literal moreinfo="none">""</literal>. </para>
+
+  
+  <para>To solve this problem, you need an extra <literal moreinfo="none">nextLine</literal> after <literal moreinfo="none">nextInt</literal>. </para>
+<programlisting language="java" format="linespecific">System.out.print("What is your age? ");
 age = in.nextInt();
 in.nextLine();  // read the newline
 System.out.print("What is your name? ");
 name = in.nextLine();
-System.out.printf("Hello %s, age %d\n", name, age);</programlisting><para>This technique is common when reading <literal remap="verb" moreinfo="none">int</literal> or <literal remap="verb" moreinfo="none">double</literal> values that appear on their own line. First you read the number, and then you read the rest of the line, which is just a newline character. </para>
-</sect1><sect1 id="a0000001793" remap="section">
+System.out.printf("Hello %s, age %d\n", name, age);</programlisting><para>This technique is common when reading <literal moreinfo="none">int</literal> or <literal moreinfo="none">double</literal> values that appear on their own line. First you read the number, and then you read the rest of the line, which is just a newline character. </para>
+
+</sect1><sect1 id="a0000002361" remap="section">
   <title>Vocabulary</title>
     <variablelist>
   <varlistentry>
     <term>package:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>package</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>A directory of classes that are related to each other. </para></listitem>
+</indexterm>A directory of classes that are related to each other. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>address:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>address</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>The location of a value in computer memory, often represented as a hexadecimal integer. </para></listitem>
+</indexterm>The location of a value in computer memory, often represented as a hexadecimal integer. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>library:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>library</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>A collection of packages and classes that are available for use in other programs. </para></listitem>
+</indexterm>A collection of packages and classes that are available for use in other programs. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>import statement:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>import statement</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>A statement that allows programs to use classes defined in other packages. </para></listitem>
+</indexterm>A statement that allows programs to use classes defined in other packages. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>token:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>token</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>The smallest unit of source code, such as an individual word, literal value, or symbol. </para></listitem>
+</indexterm>The smallest unit of source code, such as an individual word, literal value, or symbol. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>literal:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>literal</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>A value that appears in source code. For example, <literal remap="verb" moreinfo="none">"Hello"</literal> is a string literal, and <literal remap="verb" moreinfo="none">74</literal> is an integer literal. </para></listitem>
+</indexterm>A value that appears in source code. For example, <literal moreinfo="none">"Hello"</literal> is a string literal, and <literal moreinfo="none">74</literal> is an integer literal. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>prompt:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>prompt</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>A brief message displayed in a print statement that asks the user for input. </para></listitem>
+</indexterm>A brief message displayed in a print statement that asks the user for input. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>magic number:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>magic number</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>A number that appears without explanation as part of an expression. It should generally be replaced with a constant. </para></listitem>
+</indexterm>A number that appears without explanation as part of an expression. It should generally be replaced with a constant. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>constant:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>constant</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>A variable, declared as <literal remap="verb" moreinfo="none">final</literal>, whose value cannot be changed. </para></listitem>
+</indexterm>A variable, declared as <literal moreinfo="none">final</literal>, whose value cannot be changed. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>format string:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>format string</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>The string in <literal remap="verb" moreinfo="none">System.out.printf</literal> that specifies the format of the output. </para></listitem>
+</indexterm>The string in <literal moreinfo="none">System.out.printf</literal> that specifies the format of the output. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>format specifier:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>format specifier</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>A special code that begins with a percent sign and specifies the data type and format of the corresponding value. </para></listitem>
+</indexterm>A special code that begins with a percent sign and specifies the data type and format of the corresponding value. </para>
+</listitem>
+  </varlistentry><varlistentry>
+    <term>stack trace:</term>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>An error message that shows the methods that were running when an exception occurs. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>type cast:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>type cast</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>An operation that explicitly converts one data type into another. In Java it appears as a type name in parentheses, like <literal remap="verb" moreinfo="none">(int)</literal>. </para></listitem>
+</indexterm>An operation that explicitly converts one data type into another. In Java it appears as a type name in parentheses, like <literal moreinfo="none">(int)</literal>. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>modulo:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>modulo</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>An operation that yields the remainder when one integer is divided by another. In Java, it is denoted with a percent sign: <literal remap="verb" moreinfo="none">5 \% 2</literal> is <literal remap="verb" moreinfo="none">1</literal>. </para></listitem>
+</indexterm>An operation that yields the remainder when one integer is divided by another. In Java, it is denoted with a percent sign: <literal moreinfo="none">5 % 2</literal> is <literal moreinfo="none">1</literal>. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>modulus:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>modulus</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>The value of <literal remap="verb" moreinfo="none">b</literal> in the expression <literal remap="verb" moreinfo="none">a \% b</literal>. It often represents unit conversions, such as 24 hours in a day, 60 minutes in an hour, etc. </para></listitem>
+</indexterm>The value of <literal moreinfo="none">b</literal> in the expression <literal moreinfo="none">a % b</literal>. It often represents unit conversions, such as 24 hours in a day, 60 minutes in an hour, etc. </para>
+</listitem>
   </varlistentry>
 </variablelist>
-</sect1><sect1 id="a0000001833" remap="section">
+</sect1><sect1 id="guess" remap="section">
   <title>Exercises</title>
-    <para>The code for this chapter is in the <literal moreinfo="none">ch03</literal> directory of <literal moreinfo="none">ThinkJavaCode2</literal>. See <xref linkend="code"/> for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples. </para><para>If you have not already read <xref linkend="commandline"/>, now might be a good time. It describes the command-line interface, which is a powerful and efficient way to interact with your computer. </para><para><example id="a0000001845" role="exercise">
+    
+  
+  <para>The code for this chapter is in the <literal moreinfo="none">ch03</literal> directory of <literal moreinfo="none">ThinkJavaCode2</literal>. See <xref linkend="code"/> for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples. </para>
+
+  
+  <para>If you have not already read <xref linkend="commandline"/>, now might be a good time. It describes the command-line interface, which is a powerful and efficient way to interact with your computer. </para>
+
+  
+  <para><example id="a0000002440" role="exercise">
   <title/>
-  <para>When you use <literal remap="verb" moreinfo="none">printf</literal>, the Java compiler does not check your format string. See what happens if you try to display a value with type <literal remap="verb" moreinfo="none">int</literal> using <literal remap="verb" moreinfo="none">%f</literal>. And what happens if you display a <literal remap="verb" moreinfo="none">double</literal> using <literal remap="verb" moreinfo="none">%d</literal>? What if you use two format specifiers, but then only provide one value? </para>
-</example> </para><para><example id="a0000001853" role="exercise">
+  <div></div>
+</example> </para>
+
+  
+  <para>When you use <literal moreinfo="none">printf</literal>, the Java compiler does not check your format string. See what happens if you try to display a value with type <literal moreinfo="none">int</literal> using <literal moreinfo="none">%f</literal>. And what happens if you display a <literal moreinfo="none">double</literal> using <literal moreinfo="none">%d</literal>? What if you use two format specifiers, but then only provide one value? </para>
+
+  
+  <para><example id="a0000002455" role="exercise">
   <title/>
-  <para>Write a program that converts a temperature from Celsius to Fahrenheit. It should (1) prompt the user for input, (2) read a <literal remap="verb" moreinfo="none">double</literal> value from the keyboard, (3) calculate the result, and (4) format the output to one decimal place. </para><para>When it’s finished, it should work like this: </para><programlisting format="linespecific">Enter a temperature in Celsius: 24
-24.0 C = 75.2 F</programlisting><para>Here is the formula to do the conversion: </para><informalequation><mml:math mode="display" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>F</mml:mi><mml:mo>=</mml:mo><mml:mi>C</mml:mi><mml:mo>×</mml:mo><mml:mfrac><mml:mn>9</mml:mn><mml:mn>5</mml:mn></mml:mfrac><mml:mo>+</mml:mo><mml:mn>32</mml:mn></mml:mrow></mml:math></informalequation><para> HINT: Be careful not to use integer division! </para>
-</example> </para><para><example id="a0000001866" role="exercise">
+  <div></div>
+</example> </para>
+
+  
+  <para><example id="a0000002457" role="exercise">
   <title/>
-  <para>Write a program that converts a total number of seconds to hours, minutes, and seconds. It should (1) prompt the user for input, (2) read an integer from the keyboard, (3) calculate the result, and (4) use <literal remap="verb" moreinfo="none">printf</literal> to display the output. For example, <literal moreinfo="none">"5000 seconds = 1 hours, 23 minutes, and 20 seconds"</literal>. </para><para><emphasis>Hint:</emphasis> Use the remainder operator. </para>
-</example> </para><para><example id="guess" role="exercise">
-  <title/><para>The goal of this exercise is to program a “Guess My Number” game. When it’s finished, it should work like this: </para><programlisting format="linespecific">I'm thinking of a number between 1 and 100
+  <div></div>
+</example> </para>
+
+  
+  <para>Write a program that converts a temperature from Celsius to Fahrenheit. It should (1) prompt the user for input, (2) read a <literal moreinfo="none">double</literal> value from the keyboard, (3) calculate the result, and (4) format the output to one decimal place. </para>
+
+  
+  <para>When it’s finished, it should work like this: </para><programlisting format="linespecific">Enter a temperature in Celsius: 24
+24.0 C = 75.2 F</programlisting><para>Here is the formula to do the conversion: </para>
+
+  
+  <para><informalequation><mml:math mode="display" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>F</mml:mi><mml:mo>=</mml:mo><mml:mi>C</mml:mi><mml:mo>×</mml:mo><mml:mfrac><mml:mn>9</mml:mn><mml:mn>5</mml:mn></mml:mfrac><mml:mo>+</mml:mo><mml:mn>32</mml:mn></mml:mrow></mml:math></informalequation></para>
+
+  
+  <para> HINT: Be careful not to use integer division! </para>
+
+  
+  <para><example id="a0000002471" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para><example id="a0000002473" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para>Write a program that converts a total number of seconds to hours, minutes, and seconds. It should (1) prompt the user for input, (2) read an integer from the keyboard, (3) calculate the result, and (4) use <literal moreinfo="none">printf</literal> to display the output. For example, <literal moreinfo="none">"5000 seconds = 1 hours, 23 minutes, and 20 seconds"</literal>. </para>
+
+  
+  <para><emphasis>Hint:</emphasis> Use the remainder operator. </para>
+
+  
+  <para><example id="a0000002483" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para><example id="a0000002485" role="exercise">
+  <title/>
+  <div></div>
+</example></para>
+
+  
+  <para>The goal of this exercise is to program a “Guess My Number” game. When it’s finished, it should work like this: </para><programlisting format="linespecific">I'm thinking of a number between 1 and 100
 (including both). Can you guess what it is?
 Type a number: 45
 Your guess is: 45
 The number I was thinking of is: 14
 You were off by: 31</programlisting><para><indexterm significance="normal">
-  <primary>GuessStarter.java</primary>
+  <primary></primary>
 
-</indexterm>To choose a random number, you can use the <literal remap="verb" moreinfo="none">Random</literal> class in <literal remap="verb" moreinfo="none">java.util</literal>. Here’s how it works: </para><programlisting language="java" format="linespecific">import java.util.Random;
+</indexterm>To choose a random number, you can use the <literal moreinfo="none">Random</literal> class in <literal moreinfo="none">java.util</literal>. Here’s how it works: </para>
+<programlisting language="java" format="linespecific">import java.util.Random;
 
 public class GuessStarter {
 
@@ -428,24 +778,48 @@ public class GuessStarter {
         System.out.println(number);
     }
 }</programlisting><para><indexterm significance="normal">
-  <primary>new</primary>
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>operator</primary>
-<secondary>new</secondary>
-</indexterm>Like the <literal remap="verb" moreinfo="none">Scanner</literal> class we saw in this chapter, <literal remap="verb" moreinfo="none">Random</literal> has to be imported before we can use it. And as we saw with <literal remap="verb" moreinfo="none">Scanner</literal>, we have to use the <literal remap="verb" moreinfo="none">new</literal> operator to create a <literal remap="verb" moreinfo="none">Random</literal> (number generator). </para><para>Then we can use the method <literal remap="verb" moreinfo="none">nextInt</literal> to generate a random number. In this example, the result of <literal remap="verb" moreinfo="none">nextInt(100)</literal> will be between 0 and 99, including both. Adding 1 yields a number between 1 and 100, including both. </para><orderedlist inheritnum="ignore" continuation="restarts">
+  <primary></primary>
+
+</indexterm>Like the <literal moreinfo="none">Scanner</literal> class we saw in this chapter, <literal moreinfo="none">Random</literal> has to be imported before we can use it. And as we saw with <literal moreinfo="none">Scanner</literal>, we have to use the <literal moreinfo="none">new</literal> operator to create a <literal moreinfo="none">Random</literal> (number generator). </para>
+
   
-  <listitem><para>The definition of <literal remap="verb" moreinfo="none">GuessStarter</literal> is in a file called <literal moreinfo="none">GuessStarter.java</literal>, in the directory called <literal moreinfo="none">ch03</literal>, in the repository for this book. </para></listitem>
+  <para>Then we can use the method <literal moreinfo="none">nextInt</literal> to generate a random number. In this example, the result of <literal moreinfo="none">nextInt(100)</literal> will be between 0 and 99, including both. Adding 1 yields a number between 1 and 100, including both. </para>
+<orderedlist inheritnum="ignore" continuation="restarts">
   
-  <listitem><para>Compile and run this program. </para></listitem>
+  <listitem>
   
-  <listitem><para>Modify the program to prompt the user, then use a <literal remap="verb" moreinfo="none">Scanner</literal> to read a line of user input. Compile and test the program. </para></listitem>
+  <para>The definition of <literal moreinfo="none">GuessStarter</literal> is in a file called <literal moreinfo="none">GuessStarter.java</literal>, in the directory called <literal moreinfo="none">ch03</literal>, in the repository for this book. </para>
+</listitem>
   
-  <listitem><para>Read the user input as an integer and display the result. Again, compile and test. </para></listitem>
+  <listitem>
   
-  <listitem><para>Compute and display the difference between the user’s guess and the number that was generated. </para></listitem>
+  <para>Compile and run this program. </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>Modify the program to prompt the user, then use a <literal moreinfo="none">Scanner</literal> to read a line of user input. Compile and test the program. </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>Read the user input as an integer and display the result. Again, compile and test. </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>Compute and display the difference between the user’s guess and the number that was generated. </para>
+</listitem>
   
 </orderedlist>
+  
+  <para><example id="a0000002539" role="exercise">
+  <title/>
+  <div></div>
 </example> </para>
+
 </sect1>
 </chapter>

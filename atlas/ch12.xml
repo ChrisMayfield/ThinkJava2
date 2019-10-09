@@ -1,34 +1,66 @@
-<chapter id="a0000007131">
+<chapter id="a0000009748">
   <title>Arrays of Objects</title>
-  <para>During the next three chapters, we will develop programs that work with playing cards and decks of cards. Here is an outline of the road ahead: </para><itemizedlist>
   
-    <listitem><para>In this chapter, we define a <literal remap="verb" moreinfo="none">Card</literal> class and write methods that work with cards and arrays of cards. </para></listitem>
   
-    <listitem><para>In <xref linkend="deck"/>, we define a <literal remap="verb" moreinfo="none">Deck</literal> class that encapsulates an array of cards, and we write methods that operate on decks. </para></listitem>
+  <para>During the next three chapters, we will develop programs that work with playing cards and decks of cards. Here is an outline of the road ahead: </para>
+<itemizedlist>
   
-    <listitem><para>In <xref linkend="eights"/>, we introduce a way to define new classes that extend existing classes. Then we use <literal remap="verb" moreinfo="none">Card</literal> and <literal remap="verb" moreinfo="none">Deck</literal> to implement the game <emphasis>Crazy Eights</emphasis>. </para></listitem>
+    <listitem>
   
-</itemizedlist><para><indexterm significance="normal">
-  <primary>rank</primary>
+  <para>In this chapter, we define a <literal moreinfo="none">Card</literal> class and write methods that work with cards and arrays of cards. </para>
+</listitem>
+  
+    <listitem>
+  
+  <para>In <xref linkend="deck"/>, we define a <literal moreinfo="none">Deck</literal> class that encapsulates an array of cards, and we write methods that operate on decks. </para>
+</listitem>
+  
+    <listitem>
+  
+  <para>In <xref linkend="eights"/>, we introduce a way to define new classes that extend existing classes. Then we use <literal moreinfo="none">Card</literal> and <literal moreinfo="none">Deck</literal> to implement the game <emphasis>Crazy Eights</emphasis>. </para>
+</listitem>
+  
+</itemizedlist>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>suit</primary>
+  <primary></primary>
 
-</indexterm>There are 52 cards in a standard deck. Each card belongs to one of four suits and one of 13 ranks. The suits are Clubs, Diamonds, Hearts, and Spades. The ranks are Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, and King. </para><para>If you are unfamiliar with traditional playing cards, now would be a good time to get a deck or read through <ulink url="https://en.wikipedia.org/wiki/Standard_52-card_deck"/>. </para><sect1 id="a0000007155" remap="section">
+</indexterm>There are 52 cards in a standard deck. Each card belongs to one of four suits and one of 13 ranks. The suits are Clubs, Diamonds, Hearts, and Spades. The ranks are Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, and King. </para>
+
+  
+  <para>If you are unfamiliar with traditional playing cards, now would be a good time to get a deck or read through <ulink url="https://en.wikipedia.org/wiki/Standard_52-card_deck"/>. </para>
+<sect1 id="a0000009778" remap="section">
   <title>Card Objects</title>
-    <para><indexterm significance="normal">
-  <primary>Card</primary>
+    
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>class</primary>
-<secondary>Card</secondary>
-</indexterm>If we want to define a class to represent a playing card, it is pretty clear what the instance variables should be: <literal remap="verb" moreinfo="none">rank</literal> and <literal remap="verb" moreinfo="none">suit</literal>. It is not as obvious what types they should be. </para><para>One possibility is a <literal remap="verb" moreinfo="none">String</literal> containing things like <literal remap="verb" moreinfo="none">"Spade"</literal> for suits and <literal remap="verb" moreinfo="none">"Queen"</literal> for ranks. A problem with this choice is that it would not be easy to compare cards to see which had a higher rank or suit. </para><para><indexterm significance="normal">
-  <primary>encode</primary>
+  <primary></primary>
+
+</indexterm>If we want to define a class to represent a playing card, it is pretty clear what the instance variables should be: <literal moreinfo="none">rank</literal> and <literal moreinfo="none">suit</literal>. It is not as obvious what types they should be. </para>
+
+  
+  <para>One possibility is a <literal moreinfo="none">String</literal> containing things like <literal moreinfo="none">"Spade"</literal> for suits and <literal moreinfo="none">"Queen"</literal> for ranks. A problem with this choice is that it would not be easy to compare cards to see which had a higher rank or suit. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>map to</primary>
+  <primary></primary>
 
-</indexterm>An alternative is to use integers to <emphasis role="bold">encode</emphasis> the ranks and suits. By encode, we <emphasis>don’t</emphasis> mean to encrypt or translate into a secret code. We mean to define a mapping between a sequence of numbers and the things we want to represent. </para><para>Here is a mapping for suits: </para>
+</indexterm>An alternative is to use integers to <emphasis role="bold">encode</emphasis> the ranks and suits. By encode, we <emphasis>don’t</emphasis> mean to encrypt or translate into a secret code. We mean to define a mapping between a sequence of numbers and the things we want to represent. </para>
+
+  
+  <para>Here is a mapping for suits: </para>
+
+  
+  <para>
    
    
      <informaltable remap="tabular" Colsep="1" Frame="all" Rowsep="1">
@@ -38,53 +70,98 @@
      <row>
      
        
-       <entry><para> Clubs </para/>
+       <entry>
+  
+  <para> Clubs </para>
+</entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry>
+  
+  <para> <emphasis role="math">↦</emphasis> </para>
+</entry>
      
        
-       <entry><para> 0 </para/>
+       <entry>
+  
+  <para> 0 </para>
+</entry>
      
      </row><row>
      
        
-       <entry><para>Diamonds </para/>
+       <entry>
+  
+  <para>Diamonds </para>
+</entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry>
+  
+  <para> <emphasis role="math">↦</emphasis> </para>
+</entry>
      
        
-       <entry><para> 1 </para/>
+       <entry>
+  
+  <para> 1 </para>
+</entry>
      
      </row><row>
      
        
-       <entry><para>Hearts </para/>
+       <entry>
+  
+  <para>Hearts </para>
+</entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry>
+  
+  <para> <emphasis role="math">↦</emphasis> </para>
+</entry>
      
        
-       <entry><para> 2 </para/>
+       <entry>
+  
+  <para> 2 </para>
+</entry>
      
      </row><row>
      
        
-       <entry><para>Spades </para/>
+       <entry>
+  
+  <para>Spades </para>
+</entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry>
+  
+  <para> <emphasis role="math">↦</emphasis> </para>
+</entry>
      
        
-       <entry><para> 3 </para/>
+       <entry>
+  
+  <para> 3 </para>
+</entry>
      
      </row>
      </tbody>
      </tgroup>
      </informaltable>
    
-<para>We use the mathematical symbol <emphasis role="math">↦</emphasis> to make it clear that these mappings are not part of the program. They are part of the program design, but they never appear explicitly in the code. </para><para>Each of the numerical ranks (2 through 10) maps to the corresponding integer. For the face cards, we can use: </para>
+</para>
+
+  
+  <para>We use the mathematical symbol <emphasis role="math">↦</emphasis> to make it clear that these mappings are not part of the program. They are part of the program design, but they never appear explicitly in the code. </para>
+
+  
+  <para>Each of the numerical ranks (2 through 10) maps to the corresponding integer. For the face cards, we can use: </para>
+
+  
+  <para>
    
    
      <informaltable remap="tabular" Colsep="1" Frame="all" Rowsep="1">
@@ -94,53 +171,93 @@
      <row>
      
        
-       <entry><para> Ace </para/>
+       <entry>
+  
+  <para> Ace </para>
+</entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry>
+  
+  <para> <emphasis role="math">↦</emphasis> </para>
+</entry>
      
        
-       <entry><para> 1 </para/>
+       <entry>
+  
+  <para> 1 </para>
+</entry>
      
      </row><row>
      
        
-       <entry><para>Jack </para/>
+       <entry>
+  
+  <para>Jack </para>
+</entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry>
+  
+  <para> <emphasis role="math">↦</emphasis> </para>
+</entry>
      
        
-       <entry><para> 11 </para/>
+       <entry>
+  
+  <para> 11 </para>
+</entry>
      
      </row><row>
      
        
-       <entry><para>Queen </para/>
+       <entry>
+  
+  <para>Queen </para>
+</entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry>
+  
+  <para> <emphasis role="math">↦</emphasis> </para>
+</entry>
      
        
-       <entry><para> 12 </para/>
+       <entry>
+  
+  <para> 12 </para>
+</entry>
      
      </row><row>
      
        
-       <entry><para>King </para/>
+       <entry>
+  
+  <para>King </para>
+</entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry>
+  
+  <para> <emphasis role="math">↦</emphasis> </para>
+</entry>
      
        
-       <entry><para> 13 </para/>
+       <entry>
+  
+  <para> 13 </para>
+</entry>
      
      </row>
      </tbody>
      </tgroup>
      </informaltable>
    
-<para>With this encoding, the class definition for the <literal remap="verb" moreinfo="none">Card</literal> type looks like this: </para><programlisting language="java" format="linespecific">public class Card {
+</para>
+
+  
+  <para>With this encoding, the class definition for the <literal moreinfo="none">Card</literal> type looks like this: </para>
+<programlisting language="java" format="linespecific">public class Card {
     private int rank;
     private int suit;
 
@@ -149,36 +266,50 @@
         this.suit = suit;
     }
 }</programlisting><para><indexterm significance="normal">
-  <primary>constructor</primary>
+  <primary></primary>
 
-</indexterm>The instance variables are <literal remap="verb" moreinfo="none">private</literal>: we can access them from inside this class, but not from other classes. </para><para>The constructor takes a parameter for each instance variable. To create a <literal remap="verb" moreinfo="none">Card</literal> object, we use the <literal remap="verb" moreinfo="none">new</literal> operator: </para><programlisting language="java" format="linespecific">Card threeOfClubs = new Card(3, 0);</programlisting><para>The result is a reference to a <literal remap="verb" moreinfo="none">Card</literal> that represents the “3 of Clubs”. </para>
-</sect1><sect1 id="a0000007265" remap="section">
+</indexterm>The instance variables are <literal moreinfo="none">private</literal>: we can access them from inside this class, but not from other classes. </para>
+
+  
+  <para>The constructor takes a parameter for each instance variable. To create a <literal moreinfo="none">Card</literal> object, we use the <literal moreinfo="none">new</literal> operator: </para>
+<programlisting language="java" format="linespecific">Card threeOfClubs = new Card(3, 0);</programlisting><para>The result is a reference to a <literal moreinfo="none">Card</literal> that represents the “3 of Clubs”. </para>
+
+</sect1><sect1 id="a0000009903" remap="section">
   <title>Card toString</title>
-    <para><indexterm significance="normal">
-  <primary>print</primary>
-<secondary>Card</secondary>
-</indexterm>When you create a new class, the first step is to declare the instance variables and write constructors. A good next step is to write <literal remap="verb" moreinfo="none">toString</literal>, which is useful for debugging and incremental development. </para><para><indexterm significance="normal">
-  <primary>string</primary>
-<secondary>array of</secondary>
+    
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>When you create a new class, the first step is to declare the instance variables and write constructors. A good next step is to write <literal moreinfo="none">toString</literal>, which is useful for debugging and incremental development. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
 </indexterm><indexterm significance="normal">
-  <primary>array</primary>
-<secondary>of strings</secondary>
-</indexterm>To display <literal remap="verb" moreinfo="none">Card</literal> objects in a way that humans can read easily, we need to “decode” the integer values as words. A natural way to do that is with an array of <literal remap="verb" moreinfo="none">String</literal>s. For example, we can create the array like this: </para><programlisting language="java" format="linespecific">String[] suits = new String[4];</programlisting><para>And then assign values to the elements: </para><programlisting language="java" format="linespecific">suits[0] = "Clubs";
+  <primary></primary>
+
+</indexterm>To display <literal moreinfo="none">Card</literal> objects in a way that humans can read easily, we need to “decode” the integer values as words. A natural way to do that is with an array of <literal moreinfo="none">String</literal>s. For example, we can create the array like this: </para>
+<programlisting language="java" format="linespecific">String[] suits = new String[4];</programlisting><para>And then assign values to the elements: </para>
+<programlisting language="java" format="linespecific">suits[0] = "Clubs";
 suits[1] = "Diamonds";
 suits[2] = "Hearts";
-suits[3] = "Spades";</programlisting><para>Or we can create the array and initialize the elements at the same time, as we saw in <xref linkend="printarray"/>: </para><programlisting language="java" format="linespecific">String[] suits = {"Clubs", "Diamonds", "Hearts", "Spades"};</programlisting><para><indexterm significance="normal">
-  <primary>memory diagram</primary>
+suits[3] = "Spades";</programlisting><para>Or we can create the array and initialize the elements at the same time, as we saw in <xref linkend="printarray"/>: </para>
+<programlisting language="java" format="linespecific">String[] suits = {"Clubs", "Diamonds", "Hearts", "Spades"};</programlisting><para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>diagram</primary>
-<secondary>memory</secondary>
-</indexterm><indexterm significance="normal">
-  <primary>reference</primary>
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>string</primary>
-<secondary>reference to</secondary>
-</indexterm>The memory diagram in <xref linkend="fig.stringarray"/> shows the result. Each element of the array is a reference to a <literal remap="verb" moreinfo="none">String</literal>. </para>
+  <primary></primary>
+
+</indexterm><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>The memory diagram in <xref linkend="fig.stringarray"/> shows the result. Each element of the array is a reference to a <literal moreinfo="none">String</literal>. </para>
+
   
   <figure id="fig.stringarray" float="False">
     <title>Memory diagram of an array of strings.</title>
@@ -187,25 +318,41 @@ suits[3] = "Spades";</programlisting><para>Or we can create the array and initia
     <imagedata fileref="figs/stringarray.pdf"></imagedata>
   </imageobject>
 </mediaobject></figure>
-<para>We also need an array to decode the ranks: </para><programlisting language="java" format="linespecific">String[] ranks = {null, "Ace", "2", "3", "4", "5", "6",
-           "7", "8", "9", "10", "Jack", "Queen", "King"};</programlisting><para>The zeroth element should never be used, because the only valid ranks are 1–13. We set it to <literal remap="verb" moreinfo="none">null</literal> to indicate an unused element. </para><para>Using these arrays, we can create a meaningful <literal remap="verb" moreinfo="none">String</literal> using <literal remap="verb" moreinfo="none">suit</literal> and <literal remap="verb" moreinfo="none">rank</literal> as indexes. </para><programlisting language="java" format="linespecific">String s = ranks[this.rank] + " of " + suits[this.suit];</programlisting><para>The expression <literal remap="verb" moreinfo="none">ranks[this.rank]</literal> means “use the instance variable <literal remap="verb" moreinfo="none">rank</literal> from <literal remap="verb" moreinfo="none">this</literal> object as an index into the array <literal remap="verb" moreinfo="none">ranks</literal>.” We select the string for <literal remap="verb" moreinfo="none">this.suit</literal> in a similar way. </para><para>Now we can wrap all the previous code in a <literal remap="verb" moreinfo="none">toString</literal> method. </para><programlisting language="java" format="linespecific">public String toString() {
+
+  
+  <para>We also need an array to decode the ranks: </para>
+<programlisting language="java" format="linespecific">String[] ranks = {null, "Ace", "2", "3", "4", "5", "6",
+           "7", "8", "9", "10", "Jack", "Queen", "King"};</programlisting><para>The zeroth element should never be used, because the only valid ranks are 1–13. We set it to <literal moreinfo="none">null</literal> to indicate an unused element. </para>
+
+  
+  <para>Using these arrays, we can create a meaningful <literal moreinfo="none">String</literal> using <literal moreinfo="none">suit</literal> and <literal moreinfo="none">rank</literal> as indexes. </para>
+<programlisting language="java" format="linespecific">String s = ranks[this.rank] + " of " + suits[this.suit];</programlisting><para>The expression <literal moreinfo="none">ranks[this.rank]</literal> means “use the instance variable <literal moreinfo="none">rank</literal> from <literal moreinfo="none">this</literal> object as an index into the array <literal moreinfo="none">ranks</literal>.” We select the string for <literal moreinfo="none">this.suit</literal> in a similar way. </para>
+
+  
+  <para>Now we can wrap all the previous code in a <literal moreinfo="none">toString</literal> method. </para>
+<programlisting language="java" format="linespecific">public String toString() {
     String[] ranks = {null, "Ace", "2", "3", "4", "5", "6",
                "7", "8", "9", "10", "Jack", "Queen", "King"};
     String[] suits = {"Clubs", "Diamonds", "Hearts", "Spades"};
     String s = ranks[this.rank] + " of " + suits[this.suit];
     return s;
-}</programlisting><para>When we display a card, <literal remap="verb" moreinfo="none">println</literal> automatically calls <literal remap="verb" moreinfo="none">toString</literal>. The output of the following code is <literal moreinfo="none">Jack of Diamonds</literal>. </para><programlisting language="java" format="linespecific">Card card = new Card(11, 1);
+}</programlisting><para>When we display a card, <literal moreinfo="none">println</literal> automatically calls <literal moreinfo="none">toString</literal>. The output of the following code is <literal moreinfo="none">Jack of Diamonds</literal>. </para>
+<programlisting language="java" format="linespecific">Card card = new Card(11, 1);
 System.out.println(card);</programlisting></sect1><sect1 id="classvar" remap="section">
   <title>Class Variables</title><para><indexterm significance="normal">
-  <primary>class variable</primary>
+  <primary></primary>
 
-</indexterm>So far we have seen local variables, which are declared inside a method, and instance variables, which are declared in a class definition, usually before the method definitions. Now it’s time to learn about <emphasis role="bold">class variables</emphasis>. They are shared across all instances of the class. </para><para><indexterm significance="normal">
-  <primary>static</primary>
+</indexterm>So far we have seen local variables, which are declared inside a method, and instance variables, which are declared in a class definition, usually before the method definitions. Now it’s time to learn about <emphasis role="bold">class variables</emphasis>. They are shared across all instances of the class. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>variable</primary>
-<secondary>static</secondary>
-</indexterm>Like instance variables, class variables are defined in a class definition, before the method definitions. But they are identified by the keyword <literal remap="verb" moreinfo="none">static</literal>. Here is a version of <literal remap="verb" moreinfo="none">Card</literal> where <literal remap="verb" moreinfo="none">RANKS</literal> and <literal remap="verb" moreinfo="none">SUITS</literal> are defined as class variables: </para><programlisting language="java" format="linespecific">public class Card {
+  <primary></primary>
+
+</indexterm>Like instance variables, class variables are defined in a class definition, before the method definitions. But they are identified by the keyword <literal moreinfo="none">static</literal>. Here is a version of <literal moreinfo="none">Card</literal> where <literal moreinfo="none">RANKS</literal> and <literal moreinfo="none">SUITS</literal> are defined as class variables: </para>
+<programlisting language="java" format="linespecific">public class Card {
 
     public static final String[] RANKS = {
         null, "Ace", "2", "3", "4", "5", "6", "7",
@@ -220,39 +367,65 @@ System.out.println(card);</programlisting></sect1><sect1 id="classvar" remap="se
         return RANKS[this.rank] + " of " + SUITS[this.suit];
     }
 }</programlisting><para><indexterm significance="normal">
-  <primary>garbage collection</primary>
+  <primary></primary>
 
-</indexterm>Class variables are allocated when the program begins and persist until the program ends. In contrast, instance variables like <literal remap="verb" moreinfo="none">rank</literal> and <literal remap="verb" moreinfo="none">suit</literal> are allocated when the program creates <literal remap="verb" moreinfo="none">new</literal> objects, and they are deleted when the object is garbage-collected. </para><para><indexterm significance="normal">
-  <primary>final</primary>
+</indexterm>Class variables are allocated when the program begins and persist until the program ends. In contrast, instance variables like <literal moreinfo="none">rank</literal> and <literal moreinfo="none">suit</literal> are allocated when the program creates <literal moreinfo="none">new</literal> objects, and they are deleted when the object is garbage-collected. </para>
 
-</indexterm>Class variables are often used to store constant values that are needed in several places. In that case, they should also be declared as <literal remap="verb" moreinfo="none">final</literal>. Note that whether a variable is <literal remap="verb" moreinfo="none">static</literal> or <literal remap="verb" moreinfo="none">final</literal> involves two separate considerations: <literal remap="verb" moreinfo="none">static</literal> means the variable is <emphasis>shared</emphasis>, and <literal remap="verb" moreinfo="none">final</literal> means the variable is <emphasis>constant</emphasis>. </para><para>Naming <literal remap="verb" moreinfo="none">static final</literal> variables with capital letters is a common convention that makes it easier to recognize their role in the class. In the <literal remap="verb" moreinfo="none">toString</literal> method, we refer to <literal remap="verb" moreinfo="none">SUITS</literal> and <literal remap="verb" moreinfo="none">RANKS</literal> as if they were local variables, but we can tell that they are class variables. </para><para>One advantage of defining <literal remap="verb" moreinfo="none">SUITS</literal> and <literal remap="verb" moreinfo="none">RANKS</literal> as class variables is that they don’t need to be created (and garbage-collected) every time <literal remap="verb" moreinfo="none">toString</literal> is called. They may also be needed in other methods and classes, so it’s helpful to make them available everywhere. Since the array variables are <literal remap="verb" moreinfo="none">final</literal>, and the strings they reference are immutable, there is no danger in making them <literal remap="verb" moreinfo="none">public</literal>. </para>
-</sect1><sect1 id="a0000007363" remap="section">
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>Class variables are often used to store constant values that are needed in several places. In that case, they should also be declared as <literal moreinfo="none">final</literal>. Note that whether a variable is <literal moreinfo="none">static</literal> or <literal moreinfo="none">final</literal> involves two separate considerations: <literal moreinfo="none">static</literal> means the variable is <emphasis>shared</emphasis>, and <literal moreinfo="none">final</literal> means the variable is <emphasis>constant</emphasis>. </para>
+
+  
+  <para>Naming <literal moreinfo="none">static final</literal> variables with capital letters is a common convention that makes it easier to recognize their role in the class. In the <literal moreinfo="none">toString</literal> method, we refer to <literal moreinfo="none">SUITS</literal> and <literal moreinfo="none">RANKS</literal> as if they were local variables, but we can tell that they are class variables. </para>
+
+  
+  <para>One advantage of defining <literal moreinfo="none">SUITS</literal> and <literal moreinfo="none">RANKS</literal> as class variables is that they don’t need to be created (and garbage-collected) every time <literal moreinfo="none">toString</literal> is called. They may also be needed in other methods and classes, so it’s helpful to make them available everywhere. Since the array variables are <literal moreinfo="none">final</literal>, and the strings they reference are immutable, there is no danger in making them <literal moreinfo="none">public</literal>. </para>
+
+</sect1><sect1 id="a0000010050" remap="section">
   <title>The compareTo Method</title>
-    <para><indexterm significance="normal">
-  <primary>equivalent</primary>
+    
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>As we saw in <xref linkend="equals"/>, it’s helpful to create an <literal remap="verb" moreinfo="none">equals</literal> method to test whether two objects are equivalent. </para><programlisting language="java" format="linespecific">public boolean equals(Card that) {
+</indexterm>As we saw in <xref linkend="equals"/>, it’s helpful to create an <literal moreinfo="none">equals</literal> method to test whether two objects are equivalent. </para>
+<programlisting language="java" format="linespecific">public boolean equals(Card that) {
     return this.rank == that.rank
         &amp;&amp; this.suit == that.suit;
 }</programlisting><para><indexterm significance="normal">
-  <primary>operator</primary>
-<secondary>logical</secondary>
-</indexterm><indexterm significance="normal">
-  <primary>logical operator</primary>
-
-</indexterm>It would also be nice to have a method for comparing cards, so we can tell if one is higher or lower than another. For primitive types, we can use comparison operators like <literal remap="verb" moreinfo="none">&lt;</literal> and <literal remap="verb" moreinfo="none">&gt;</literal> to compare values. But these operators don’t work for object types. </para><para>For strings, Java provides a <literal remap="verb" moreinfo="none">compareTo</literal> method, as we saw in <xref linkend="strcmp"/>. We can write our own version of <literal remap="verb" moreinfo="none">compareTo</literal> for the classes that we define, like we did for the <literal remap="verb" moreinfo="none">equals</literal> method. </para><para><indexterm significance="normal">
-  <primary>ordering</primary>
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>complete ordering</primary>
+  <primary></primary>
+
+</indexterm>It would also be nice to have a method for comparing cards, so we can tell if one is higher or lower than another. For primitive types, we can use comparison operators like <literal moreinfo="none">&lt;</literal> and <literal moreinfo="none">&gt;</literal> to compare values. But these operators don’t work for object types. </para>
+
+  
+  <para>For strings, Java provides a <literal moreinfo="none">compareTo</literal> method, as we saw in <xref linkend="strcmp"/>. We can write our own version of <literal moreinfo="none">compareTo</literal> for the classes that we define, like we did for the <literal moreinfo="none">equals</literal> method. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>partial ordering</primary>
+  <primary></primary>
 
-</indexterm>Some types are “totally ordered”, which means that you can compare any two values and tell which is bigger. Integers and strings are totally ordered. Other types are “unordered”, which means that there is no meaningful way to say that one element is bigger than another. In Java, the <literal remap="verb" moreinfo="none">boolean</literal> type is unordered; if you try to compare <literal remap="verb" moreinfo="none">true &lt; false</literal>, you get a compiler error. </para><para>The set of playing cards is “partially ordered”, which means that sometimes we can compare cards and sometimes not. For example, we know that the 3 of Clubs is higher than the 2 of Clubs, and the 3 of Diamonds is higher than the 3 of Clubs. But which is better, the 3 of Clubs or the 2 of Diamonds? One has a higher rank, but the other has a higher suit. </para><para><indexterm significance="normal">
-  <primary>compareTo</primary>
+</indexterm><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>To make cards comparable, we have to decide which is more important: rank or suit. The choice is arbitrary, and it might be different for different games. But when you buy a new deck of cards, it comes sorted with all the Clubs together, followed by all the Diamonds, and so on. So for now, let’s say that suit is more important. With that decided, we can write <literal remap="verb" moreinfo="none">compareTo</literal> as follows: </para><programlisting language="java" format="linespecific">public int compareTo(Card that) {
+</indexterm>Some types are “totally ordered”, which means that you can compare any two values and tell which is bigger. Integers and strings are totally ordered. Other types are “unordered”, which means that there is no meaningful way to say that one element is bigger than another. In Java, the <literal moreinfo="none">boolean</literal> type is unordered; if you try to compare <literal moreinfo="none">true &lt; false</literal>, you get a compiler error. </para>
+
+  
+  <para>The set of playing cards is “partially ordered”, which means that sometimes we can compare cards and sometimes not. For example, we know that the 3 of Clubs is higher than the 2 of Clubs, and the 3 of Diamonds is higher than the 3 of Clubs. But which is better, the 3 of Clubs or the 2 of Diamonds? One has a higher rank, but the other has a higher suit. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>To make cards comparable, we have to decide which is more important: rank or suit. The choice is arbitrary, and it might be different for different games. But when you buy a new deck of cards, it comes sorted with all the Clubs together, followed by all the Diamonds, and so on. So for now, let’s say that suit is more important. With that decided, we can write <literal moreinfo="none">compareTo</literal> as follows: </para>
+<programlisting language="java" format="linespecific">public int compareTo(Card that) {
     if (this.suit &lt; that.suit) {
         return -1;
     }
@@ -266,95 +439,127 @@ System.out.println(card);</programlisting></sect1><sect1 id="classvar" remap="se
         return 1;
     }
     return 0;
-}</programlisting><para><literal remap="verb" moreinfo="none">compareTo</literal> returns <literal remap="verb" moreinfo="none">-1</literal> if <literal remap="verb" moreinfo="none">this</literal> is a lower card, <literal remap="verb" moreinfo="none">+1</literal> if <literal remap="verb" moreinfo="none">this</literal> is a higher card, and <literal remap="verb" moreinfo="none">0</literal> if <literal remap="verb" moreinfo="none">this</literal> and <literal remap="verb" moreinfo="none">that</literal> are equivalent. It compares suits first. If the suits are the same, it compares ranks. If the ranks are also the same, it returns 0. </para>
-</sect1><sect1 id="a0000007400" remap="section">
+}</programlisting><para><literal moreinfo="none">compareTo</literal> returns <literal moreinfo="none">-1</literal> if <literal moreinfo="none">this</literal> is a lower card, <literal moreinfo="none">+1</literal> if <literal moreinfo="none">this</literal> is a higher card, and <literal moreinfo="none">0</literal> if <literal moreinfo="none">this</literal> and <literal moreinfo="none">that</literal> are equivalent. It compares suits first. If the suits are the same, it compares ranks. If the ranks are also the same, it returns 0. </para>
+
+</sect1><sect1 id="a0000010111" remap="section">
   <title>Cards are Immutable</title>
-    <para>The instance variables of <literal remap="verb" moreinfo="none">Card</literal> are <literal remap="verb" moreinfo="none">private</literal>, so they can’t be accessed from other classes. We can provide getters to allow other classes to read the <literal remap="verb" moreinfo="none">rank</literal> and <literal remap="verb" moreinfo="none">suit</literal> values: </para><programlisting language="java" format="linespecific">public int getRank() {
+    
+  
+  <para>The instance variables of <literal moreinfo="none">Card</literal> are <literal moreinfo="none">private</literal>, so they can’t be accessed from other classes. We can provide getters to allow other classes to read the <literal moreinfo="none">rank</literal> and <literal moreinfo="none">suit</literal> values: </para>
+<programlisting language="java" format="linespecific">public int getRank() {
     return this.rank;
 }
 
 public int getSuit() {
     return this.suit;
 }</programlisting><para><indexterm significance="normal">
-  <primary>immutable</primary>
+  <primary></primary>
 
-</indexterm>Whether or not to provide setters is a design decision. If we did, cards would be mutable, so you could transform one card into another. That is probably not a feature we want, and in general, mutable objects are more error-prone. So it might be better to make cards immutable. To do that, all we have to do is <emphasis>not</emphasis> provide any modifier methods (including setters). </para><para><indexterm significance="normal">
-  <primary>final</primary>
+</indexterm>Whether or not to provide setters is a design decision. If we did, cards would be mutable, so you could transform one card into another. That is probably not a feature we want, and in general, mutable objects are more error-prone. So it might be better to make cards immutable. To do that, all we have to do is <emphasis>not</emphasis> provide any modifier methods (including setters). </para>
 
-</indexterm>That’s easy enough, but it is not foolproof, because a fool might come along later and add a modifier. We can prevent that possibility by declaring the instance variables <literal remap="verb" moreinfo="none">final</literal>: </para><programlisting language="java" format="linespecific">public class Card {
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>That’s easy enough, but it is not foolproof, because a fool might come along later and add a modifier. We can prevent that possibility by declaring the instance variables <literal moreinfo="none">final</literal>: </para>
+<programlisting language="java" format="linespecific">public class Card {
     private final int rank;
     private final int suit;
 
     ...
-}</programlisting><para>You can still assign values to these variables inside a constructor. But if someone writes a method that tries to modify these variables, they’ll get a compiler error. This kind of safeguard helps prevent future mistakes and hours of debugging. </para>
+}</programlisting><para>You can initialize these these variables inside a constructor, but if someone writes a method that tries to modify them, they’ll get a compiler error. This kind of safeguard helps prevent future mistakes and hours of debugging. </para>
+
 </sect1><sect1 id="cardarray" remap="section">
   <title>Arrays of Cards</title><para><indexterm significance="normal">
-  <primary>array</primary>
-<secondary>of objects</secondary>
+  <primary></primary>
+
 </indexterm><indexterm significance="normal">
-  <primary>object</primary>
-<secondary>array of</secondary>
-</indexterm>Just as you can create an array of <literal remap="verb" moreinfo="none">String</literal> objects, you can create an array of <literal remap="verb" moreinfo="none">Card</literal> objects. The following statement creates an array of 52 cards. <xref linkend="fig.cardarray"/> shows the memory diagram for this array. </para><programlisting language="java" format="linespecific">Card[] cards = new Card[52];</programlisting><figure id="fig.cardarray" float="False">
-    <title>Memory diagram of an unpopulated <literal remap="verb" moreinfo="none">Card array.</literal/>
+  <primary></primary>
+
+</indexterm>Just as you can create an array of <literal moreinfo="none">String</literal> objects, you can create an array of <literal moreinfo="none">Card</literal> objects. The following statement creates an array of 52 cards. <xref linkend="fig.cardarray"/> shows the memory diagram for this array. </para>
+<programlisting language="java" format="linespecific">Card[] cards = new Card[52];</programlisting><figure id="fig.cardarray" float="False">
+    <title>Memory diagram of an unpopulated <literal moreinfo="none">Card</literal> array.</title>
      <mediaobject>
   <imageobject remap="includegraphics">
     <imagedata fileref="figs/cardarray.pdf"></imagedata>
   </imageobject>
 </mediaobject></figure>
-<para><indexterm significance="normal">
-  <primary>null</primary>
 
-</indexterm>Although we call it an “array of cards”, the array contains <emphasis>references</emphasis> to cards; it does not contain the <literal remap="verb" moreinfo="none">Card</literal> objects themselves. Initially the references are all <literal remap="verb" moreinfo="none">null</literal>. </para><para>Even so, you can access the elements of the array in the usual way: </para><programlisting language="java" format="linespecific">if (cards[0] == null) {
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>Although we call it an “array of cards”, the array contains <emphasis>references</emphasis> to cards; it does not contain the <literal moreinfo="none">Card</literal> objects themselves. Initially the references are all <literal moreinfo="none">null</literal>. </para>
+
+  
+  <para>Even so, you can access the elements of the array in the usual way: </para>
+<programlisting language="java" format="linespecific">if (cards[0] == null) {
     System.out.println("No card yet!");
 }</programlisting><para><indexterm significance="normal">
-  <primary>exception</primary>
-<secondary>NullPointer</secondary>
-</indexterm><indexterm significance="normal">
-  <primary>run-time error</primary>
-
-</indexterm>But if you try to access the instance variables of non-existent <literal remap="verb" moreinfo="none">Card</literal> objects, you will get a <literal remap="verb" moreinfo="none">NullPointerException</literal>. </para><programlisting language="java" format="linespecific">System.out.println(cards[0].rank);  // NullPointerException</programlisting><para><indexterm significance="normal">
-  <primary>nesting</primary>
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>loop</primary>
-<secondary>nested</secondary>
-</indexterm>That code won’t work until we put cards in the array. One way to populate the array is to write nested <literal remap="verb" moreinfo="none">for</literal> loops: </para><programlisting language="java" format="linespecific">int index = 0;
+  <primary></primary>
+
+</indexterm>But if you try to access the instance variables of non-existent <literal moreinfo="none">Card</literal> objects, you will get a <literal moreinfo="none">NullPointerException</literal>. </para>
+<programlisting language="java" format="linespecific">System.out.println(cards[0].rank);  // NullPointerException</programlisting><para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>That code won’t work until we put cards in the array. One way to populate the array is to write nested <literal moreinfo="none">for</literal> loops: </para>
+<programlisting language="java" format="linespecific">int index = 0;
 for (int suit = 0; suit &lt;= 3; suit++) {
     for (int rank = 1; rank &lt;= 13; rank++) {
         cards[index] = new Card(rank, suit);
         index++;
     }
-}</programlisting><para>The outer loop iterates suits from 0 to 3. For each suit, the inner loop iterates ranks from 1 to 13. Since the outer loop runs 4 times, and the inner loop runs 13 times for each suit, the body is executed 52 times. </para><para><indexterm significance="normal">
-  <primary>index</primary>
+}</programlisting><para>The outer loop iterates suits from 0 to 3. For each suit, the inner loop iterates ranks from 1 to 13. Since the outer loop runs 4 times, and the inner loop runs 13 times for each suit, the body is executed 52 times. </para>
 
-</indexterm>We use a separate variable <literal remap="verb" moreinfo="none">index</literal> to keep track of where in the array the next card should go. <xref linkend="fig.cardarray2"/> shows what the array looks like after the first two cards have been created. </para>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>We use a separate variable <literal moreinfo="none">index</literal> to keep track of where in the array the next card should go. <xref linkend="fig.cardarray2"/> shows what the array looks like after the first two cards have been created. </para>
+
   
   <figure id="fig.cardarray2" float="False">
-    <title>Memory diagram of a <literal remap="verb" moreinfo="none">Card array with two cards.</literal/>
+    <title>Memory diagram of a <literal moreinfo="none">Card</literal> array with two cards.</title>
      <mediaobject>
   <imageobject remap="includegraphics">
     <imagedata fileref="figs/cardarray2.pdf"></imagedata>
   </imageobject>
 </mediaobject></figure>
-<para><indexterm significance="normal">
-  <primary>print</primary>
-<secondary>array</secondary>
-</indexterm>When you work with arrays, it is convenient to have a method that displays the contents. We have seen the pattern for traversing an array several times, so the following method should be familiar. </para><programlisting language="java" format="linespecific">public static void printDeck(Card[] cards) {
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>When you work with arrays, it is convenient to have a method that displays the contents. We have seen the pattern for traversing an array several times, so the following method should be familiar. </para>
+<programlisting language="java" format="linespecific">public static void printDeck(Card[] cards) {
     for (Card card : cards) {
         System.out.println(card);
     }
-}</programlisting><para>Since <literal remap="verb" moreinfo="none">cards</literal> has type <literal remap="verb" moreinfo="none">Card[]</literal>, pronounced “card array”, an element of <literal remap="verb" moreinfo="none">cards</literal> has type <literal remap="verb" moreinfo="none">Card</literal>. So <literal remap="verb" moreinfo="none">println</literal> invokes the <literal remap="verb" moreinfo="none">toString</literal> method in the <literal remap="verb" moreinfo="none">Card</literal> class. </para><para>Then again, we don’t have to write our own <literal remap="verb" moreinfo="none">printDeck</literal> method. The <literal remap="verb" moreinfo="none">Arrays</literal> class provides a <literal remap="verb" moreinfo="none">toString</literal> method that invokes <literal remap="verb" moreinfo="none">toString</literal> on the elements of an array and concatenates the results. To can invoke it like this: </para><programlisting language="java" format="linespecific">System.out.println(Arrays.toString(cards))</programlisting></sect1><sect1 id="a0000007489" remap="section">
+}</programlisting><para>Since <literal moreinfo="none">cards</literal> has type <literal moreinfo="none">Card[]</literal>, pronounced “card array”, an element of <literal moreinfo="none">cards</literal> has type <literal moreinfo="none">Card</literal>. So <literal moreinfo="none">println</literal> invokes the <literal moreinfo="none">toString</literal> method in the <literal moreinfo="none">Card</literal> class. </para>
+
+  
+  <para>Then again, we don’t have to write our own <literal moreinfo="none">printDeck</literal> method. The <literal moreinfo="none">Arrays</literal> class provides a <literal moreinfo="none">toString</literal> method that invokes <literal moreinfo="none">toString</literal> on the elements of an array and concatenates the results. </para>
+<programlisting language="java" format="linespecific">System.out.println(Arrays.toString(cards))</programlisting></sect1><sect1 id="a0000010235" remap="section">
   <title>Sequential Search</title>
-    <para><indexterm significance="normal">
-  <primary>traverse</primary>
+    
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>loop</primary>
-<secondary>search</secondary>
-</indexterm><indexterm significance="normal">
-  <primary>sequential search</primary>
+  <primary></primary>
 
-</indexterm>The next method we’ll write is <literal remap="verb" moreinfo="none">search</literal>, which takes an array of cards and a <literal remap="verb" moreinfo="none">Card</literal> object as parameters. It returns the index where the <literal remap="verb" moreinfo="none">Card</literal> appears in the array, or <literal remap="verb" moreinfo="none">-1</literal> if it doesn’t. This version of <literal remap="verb" moreinfo="none">search</literal> uses the algorithm we saw in <xref linkend="traversal"/>, which is called <emphasis role="bold">sequential search</emphasis>: </para><programlisting language="java" format="linespecific">public static int search(Card[] cards, Card target) {
+</indexterm><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>The next method we’ll write is <literal moreinfo="none">search</literal>, which takes an array of cards and a <literal moreinfo="none">Card</literal> object as parameters. It returns the index where the <literal moreinfo="none">Card</literal> appears in the array, or <literal moreinfo="none">-1</literal> if it doesn’t. This version of <literal moreinfo="none">search</literal> uses the algorithm we saw in <xref linkend="traversal"/>, which is called <emphasis role="bold">sequential search</emphasis>: </para>
+<programlisting language="java" format="linespecific">public static int search(Card[] cards, Card target) {
     for (int i = 0; i &lt; cards.length; i++) {
         if (cards[i].equals(target)) {
             return i;
@@ -362,31 +567,59 @@ for (int suit = 0; suit &lt;= 3; suit++) {
     }
     return -1;
 }</programlisting><para><indexterm significance="normal">
-  <primary>statement</primary>
-<secondary>return</secondary>
+  <primary></primary>
+
 </indexterm><indexterm significance="normal">
-  <primary>return</primary>
-<secondary>inside loop</secondary>
-</indexterm>The method returns as soon as it discovers the card, which means we don’t have to traverse the entire array if we find the target. If we get to the end of the loop, we know the card is not in the array. </para><para><indexterm significance="normal">
-  <primary>efficiency</primary>
+  <primary></primary>
 
-</indexterm>If the cards in the array are not in order, there is no way to search faster than sequential search. We have to look at every card, because otherwise we can’t be certain the card we want is not there. But if the cards are in order, we can use better algorithms. </para><para>Sequential search is relatively inefficient, especially for large arrays. If you pay the price to keep the array sorted, finding elements becomes much easier. </para>
-</sect1><sect1 id="a0000007509" remap="section">
+</indexterm>The method returns as soon as it discovers the card, which means we don’t have to traverse the entire array if we find the target. If we get to the end of the loop, we know the card is not in the array. </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>If the cards in the array are not in order, there is no way to search faster than sequential search. We have to look at every card, because otherwise we can’t be certain the card we want is not there. But if the cards are in order, we can use better algorithms. </para>
+
+  
+  <para>Sequential search is relatively inefficient, especially for large arrays. If you pay the price to keep the array sorted, finding elements becomes much easier. </para>
+
+</sect1><sect1 id="a0000010266" remap="section">
   <title>Binary Search</title>
-    <para><indexterm significance="normal">
-  <primary>binary search</primary>
+    
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>When you look for a word in a dictionary, you don’t search page by page from front to back. Since the words are in alphabetical order, you probably use a <emphasis role="bold">binary search</emphasis> algorithm: </para><orderedlist inheritnum="ignore" continuation="restarts">
+</indexterm>When you look for a word in a dictionary, you don’t search page by page from front to back. Since the words are in alphabetical order, you probably use a <emphasis role="bold">binary search</emphasis> algorithm: </para>
+<orderedlist inheritnum="ignore" continuation="restarts">
   
-  <listitem><para>Start on a page near the middle of the dictionary. </para></listitem>
+  <listitem>
   
-  <listitem><para>Compare a word on the page to the word you are looking for. If you find it, stop. </para></listitem>
+  <para>Start on a page near the middle of the dictionary. </para>
+</listitem>
   
-  <listitem><para>If the word on the page comes before the word you are looking for, flip to somewhere later in the dictionary and go to step 2. </para></listitem>
+  <listitem>
   
-  <listitem><para>If the word on the page comes after the word you are looking for, flip to somewhere earlier in the dictionary and go to step 2. </para></listitem>
+  <para>Compare a word on the page to the word you are looking for. If you find it, stop. </para>
+</listitem>
   
-</orderedlist><para>This algorithm is much faster than sequential search, because it rules out half of the remaining words each time you make a comparison. If at any point you find two adjacent words on the page, and your word comes between them, you can conclude that your word is not in the dictionary. </para><para>Getting back to the array of cards, we can write a faster version of <literal remap="verb" moreinfo="none">search</literal> if we know the cards are in order: </para><programlisting language="java" format="linespecific">public static int binarySearch(Card[] cards, Card target) {
+  <listitem>
+  
+  <para>If the word on the page comes before the word you are looking for, flip to somewhere later in the dictionary and go to step 2. </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>If the word on the page comes after the word you are looking for, flip to somewhere earlier in the dictionary and go to step 2. </para>
+</listitem>
+  
+</orderedlist>
+  
+  <para>This algorithm is much faster than sequential search, because it rules out half of the remaining words each time you make a comparison. If at any point you find two adjacent words on the page, and your word comes between them, you can conclude that your word is not in the dictionary. </para>
+
+  
+  <para>Getting back to the array of cards, we can write a faster version of <literal moreinfo="none">search</literal> if we know the cards are in order: </para>
+<programlisting language="java" format="linespecific">public static int binarySearch(Card[] cards, Card target) {
     int low = 0;
     int high = cards.length - 1;
     while (low &lt;= high) {
@@ -402,116 +635,200 @@ for (int suit = 0; suit &lt;= 3; suit++) {
         }
     }
     return -1;
-}</programlisting><para>First, we declare <literal remap="verb" moreinfo="none">low</literal> and <literal remap="verb" moreinfo="none">high</literal> variables to represent the range we are searching. Initially we search the entire array, from <literal remap="verb" moreinfo="none">0</literal> to <literal remap="verb" moreinfo="none">cards.length - 1</literal>. </para><para>Inside the <literal remap="verb" moreinfo="none">while</literal> loop, we repeat the four steps of binary search: </para><orderedlist inheritnum="ignore" continuation="restarts">
-  
-  <listitem><para>Choose an index between <literal remap="verb" moreinfo="none">low</literal> and <literal remap="verb" moreinfo="none">high</literal> – call it <literal remap="verb" moreinfo="none">mid</literal> – and compare the card at <literal remap="verb" moreinfo="none">mid</literal> to the target. </para></listitem>
-  
-  <listitem><para>If you found the target, return its index (which is <literal remap="verb" moreinfo="none">mid</literal>). </para></listitem>
-  
-  <listitem><para>If the card at <literal remap="verb" moreinfo="none">mid</literal> is lower than the target, search the range from <literal remap="verb" moreinfo="none">mid + 1</literal> to <literal remap="verb" moreinfo="none">high</literal>. </para></listitem>
-  
-  <listitem><para>If the card at <literal remap="verb" moreinfo="none">mid</literal> is higher than the target, search the range from <literal remap="verb" moreinfo="none">low</literal> to <literal remap="verb" moreinfo="none">mid - 1</literal>. </para></listitem>
-  
-</orderedlist><para>If <literal remap="verb" moreinfo="none">low</literal> exceeds <literal remap="verb" moreinfo="none">high</literal>, there are no cards in the range, so we terminate the loop and return <literal remap="verb" moreinfo="none">-1</literal>. </para><para>This algorithm only depends on the <literal remap="verb" moreinfo="none">compareTo</literal> method of the object, so we can use this code with object type that provides <literal remap="verb" moreinfo="none">compareTo</literal>. </para>
-</sect1><sect1 id="a0000007564" remap="section">
-  <title>Tracing the Code</title>
-    <para><indexterm significance="normal">
-  <primary>tracing</primary>
+}</programlisting><para>First, we declare <literal moreinfo="none">low</literal> and <literal moreinfo="none">high</literal> variables to represent the range we are searching. Initially we search the entire array, from <literal moreinfo="none">0</literal> to <literal moreinfo="none">cards.length - 1</literal>. </para>
 
-</indexterm>To see how binary search works, it’s helpful to add the following print statement at the beginning of the loop: </para><programlisting language="java" format="linespecific">System.out.println(low + ", " + high);</programlisting><para>Using a sorted deck of cards, we can search for the “Jack of Clubs” like this: </para><programlisting language="java" format="linespecific">Card card = new Card(11, 0);
-System.out.println(binarySearch(cards, card));</programlisting><para>We expect to find this card at position 10 (since the “Ace of Clubs” is at position 0). Here is the output of <literal remap="verb" moreinfo="none">binarySearch</literal>: </para><programlisting format="linespecific">0, 51
+  
+  <para>Inside the <literal moreinfo="none">while</literal> loop, we repeat the four steps of binary search: </para>
+<orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem>
+  
+  <para>Choose an index between <literal moreinfo="none">low</literal> and <literal moreinfo="none">high</literal>—call it <literal moreinfo="none">mid</literal>—and compare the card at <literal moreinfo="none">mid</literal> to the target. </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>If you found the target, return its index (which is <literal moreinfo="none">mid</literal>). </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>If the card at <literal moreinfo="none">mid</literal> is lower than the target, search the range from <literal moreinfo="none">mid + 1</literal> to <literal moreinfo="none">high</literal>. </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>If the card at <literal moreinfo="none">mid</literal> is higher than the target, search the range from <literal moreinfo="none">low</literal> to <literal moreinfo="none">mid - 1</literal>. </para>
+</listitem>
+  
+</orderedlist>
+  
+  <para>If <literal moreinfo="none">low</literal> exceeds <literal moreinfo="none">high</literal>, there are no cards in the range, so we terminate the loop and return <literal moreinfo="none">-1</literal>. </para>
+
+  
+  <para>This algorithm only depends on the <literal moreinfo="none">compareTo</literal> method of the object, so we can use this code with any object type that provides <literal moreinfo="none">compareTo</literal>. </para>
+
+</sect1><sect1 id="a0000010344" remap="section">
+  <title>Tracing the Code</title>
+    
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>To see how binary search works, it’s helpful to add the following print statement at the beginning of the loop: </para>
+<programlisting language="java" format="linespecific">System.out.println(low + ", " + high);</programlisting><para>Using a sorted deck of cards, we can search for the “Jack of Clubs” like this: </para>
+<programlisting language="java" format="linespecific">Card card = new Card(11, 0);
+System.out.println(binarySearch(cards, card));</programlisting><para>We expect to find this card at position 10 (since the “Ace of Clubs” is at position 0). Here is the output of <literal moreinfo="none">binarySearch</literal>: </para><programlisting format="linespecific">0, 51
 0, 24
 0, 11
 6, 11
 9, 11
-10</programlisting><para>You can see the range of cards shrinking as the <literal remap="verb" moreinfo="none">while</literal> loop runs, until eventually index 10 is found. If we search for a card that’s not in the array, like <literal remap="verb" moreinfo="none">new Card(15, 1)</literal> the “15 of Diamonds”, we get the following: </para><programlisting format="linespecific">0, 51
+10</programlisting><para>You can see the range of cards shrinking as the <literal moreinfo="none">while</literal> loop runs, until eventually index 10 is found. If we search for a card that’s not in the array, like <literal moreinfo="none">new Card(15, 1)</literal> the “15 of Diamonds”, we get the following: </para><programlisting format="linespecific">0, 51
 26, 51
 26, 37
 26, 30
 26, 27
--1</programlisting><para>Each time through the loop, we cut the distance between <literal remap="verb" moreinfo="none">low</literal> and <literal remap="verb" moreinfo="none">high</literal> in half. After <emphasis role="math">k</emphasis> iterations, the number of remaining cards is <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mn>52</mml:mn><mml:mo>/</mml:mo><mml:msup><mml:mn>2</mml:mn><mml:mi>k</mml:mi></mml:msup></mml:mrow></mml:math></inlineequation>. To find the number of iterations it takes to complete, we set <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mn>52</mml:mn><mml:mo>/</mml:mo><mml:msup><mml:mn>2</mml:mn><mml:mi>k</mml:mi></mml:msup><mml:mo>=</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:math></inlineequation> and solve for <emphasis role="math">k</emphasis>. The result is <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:msub><mml:mo form="prefix">log</mml:mo><mml:mn>2</mml:mn></mml:msub><mml:mn>52</mml:mn></mml:mrow></mml:math></inlineequation>, which is about 5.7. So we might have to look at 5 or 6 cards, as opposed to all 52 if we did a sequential search. </para><para>More generally, if the array contains <emphasis role="math">n</emphasis> elements, binary search requires <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:msub><mml:mo form="prefix">log</mml:mo><mml:mn>2</mml:mn></mml:msub><mml:mi>n</mml:mi></mml:mrow></mml:math></inlineequation> comparisons, and sequential search requires <emphasis role="math">n</emphasis>. For large values of <emphasis role="math">n</emphasis>, binary search is substantially faster. </para>
-</sect1><sect1 id="a0000007600" remap="section">
-  <title>Scope Revisited</title>
-    <para><indexterm significance="normal">
-  <primary>scope</primary>
+-1</programlisting><para>Each time through the loop, we cut the distance between <literal moreinfo="none">low</literal> and <literal moreinfo="none">high</literal> in half. After <emphasis role="math">k</emphasis> iterations, the number of remaining cards is <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mn>52</mml:mn><mml:mo>/</mml:mo><mml:msup><mml:mn>2</mml:mn><mml:mi>k</mml:mi></mml:msup></mml:mrow></mml:math></inlineequation>. To find the number of iterations it takes to complete, we set <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mn>52</mml:mn><mml:mo>/</mml:mo><mml:msup><mml:mn>2</mml:mn><mml:mi>k</mml:mi></mml:msup><mml:mo>=</mml:mo><mml:mn>1</mml:mn></mml:mrow></mml:math></inlineequation> and solve for <emphasis role="math">k</emphasis>. The result is <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:msub><mml:mo form="prefix">log</mml:mo><mml:mn>2</mml:mn></mml:msub><mml:mn>52</mml:mn></mml:mrow></mml:math></inlineequation>, which is about 5.7. So we might have to look at 5 or 6 cards, as opposed to all 52 if we did a sequential search. </para>
 
-</indexterm>In <xref linkend="stack"/>, we introduced the idea that variables have scope. The scope of a variable is the area of a program where a variable can be used. </para><para>Consider the first few lines of the <literal remap="verb" moreinfo="none">Rectangle.translate</literal> method (in the Java library source code): </para><programlisting language="java" format="linespecific">public void translate(int dx, int dy) {
-    int oldv = this.x;
-    int newv = oldv + dx;
-    if (dx &lt; 0) {
-    ...</programlisting><para>This example uses three kinds of variables: </para><orderedlist inheritnum="ignore" continuation="restarts">
   
-  <listitem><para>Parameters (<literal remap="verb" moreinfo="none">dx</literal> and <literal remap="verb" moreinfo="none">dy</literal>), </para></listitem>
-  
-  <listitem><para><indexterm significance="normal">
-  <primary>this</primary>
+  <para>More generally, if the array contains <emphasis role="math">n</emphasis> elements, binary search requires <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:msub><mml:mo form="prefix">log</mml:mo><mml:mn>2</mml:mn></mml:msub><mml:mi>n</mml:mi></mml:mrow></mml:math></inlineequation> comparisons, and sequential search requires <emphasis role="math">n</emphasis>. For large values of <emphasis role="math">n</emphasis>, binary search is substantially faster. </para>
 
-</indexterm>Local variables (<literal remap="verb" moreinfo="none">oldv</literal> and <literal remap="verb" moreinfo="none">newv</literal>), and </para></listitem>
-  
-  <listitem><para>Attributes (<literal remap="verb" moreinfo="none">this.x</literal>) </para></listitem>
-  
-</orderedlist><para>Parameters and local variables are created when a method is invoked, and they disappear when the method returns. They can be used anywhere inside the method, but not in other methods and not in other classes. </para><para>Attributes are created when an object is created, and they disappear when the object is destroyed. They can be used in any </para><para>When the Java compiler encounters a variable name, it searches backwards for its declaration. The compiler first looks for local variables, then parameters, then attributes. </para>
-</sect1><sect1 id="a0000007627" remap="section">
+</sect1><sect1 id="a0000010386" remap="section">
   <title>Vocabulary</title>
     <variablelist>
   <varlistentry>
     <term>encode:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>encode</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>To represent one set of values using another set of values by constructing a mapping between them. </para></listitem>
+</indexterm>To represent one set of values using another set of values by constructing a mapping between them. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>class variable:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>class variable</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>A variable declared within a class as <literal remap="verb" moreinfo="none">static</literal>. There is only one copy of a class variable, no matter how many objects there are. </para></listitem>
+</indexterm>A variable declared within a class as <literal moreinfo="none">static</literal>. There is only one copy of a class variable, no matter how many objects there are. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>sequential search:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>sequential search</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>An algorithm that searches array elements, one by one, until a target value is found. </para></listitem>
+</indexterm>An algorithm that searches array elements, one by one, until a target value is found. </para>
+</listitem>
   </varlistentry><varlistentry>
     <term>binary search:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>binary search</primary>
+      <listitem>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
 
-</indexterm>An algorithm that searches a sorted array by starting in the middle, comparing an element to the target, and eliminating half of the remaining elements. </para></listitem>
+</indexterm>An algorithm that searches a sorted array by starting in the middle, comparing an element to the target, and eliminating half of the remaining elements. </para>
+</listitem>
   </varlistentry>
 </variablelist>
-</sect1><sect1 id="a0000007639" remap="section">
+</sect1><sect1 id="a0000010403" remap="section">
   <title>Exercises</title>
-    <para>The code for this chapter is in the <literal moreinfo="none">ch12</literal> directory of <literal moreinfo="none">ThinkJavaCode2</literal>. See <xref linkend="code"/> for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples. </para><para><example id="a0000007648" role="exercise">
-  <title/>
-  <para>Encapsulate the deck-building code from <xref linkend="cardarray"/> in a method called <literal remap="verb" moreinfo="none">makeDeck</literal> that takes no parameters and returns a fully-populated array of <literal remap="verb" moreinfo="none">Card</literal>s. </para>
-</example> </para><para><example id="a0000007655" role="exercise">
-  <title/>
-  <para>In some card games, Aces are ranked higher than Kings. Modify the <literal remap="verb" moreinfo="none">compareTo</literal> method to implement this ordering. </para>
-</example> </para><para><example id="a0000007659" role="exercise">
-  <title/>
-  <para><indexterm significance="normal">
-  <primary>histogram</primary>
+    
+  
+  <para>The code for this chapter is in the <literal moreinfo="none">ch12</literal> directory of <literal moreinfo="none">ThinkJavaCode2</literal>. See <xref linkend="code"/> for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples. </para>
 
-</indexterm>In Poker a “flush” is a hand that contains five or more cards of the same suit. A hand can contain any number of cards. </para><orderedlist inheritnum="ignore" continuation="restarts">
   
-  <listitem><para>Write a method called <literal remap="verb" moreinfo="none">suitHist</literal> that takes an array of cards as a parameter and that returns a histogram of the suits in the hand. Your solution should only traverse the array once as in <xref linkend="singlepass"/>. </para></listitem>
+  <para><example id="a0000010412" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
   
-  <listitem><para>Write a method called <literal remap="verb" moreinfo="none">hasFlush</literal> that takes an array of cards as a parameter and returns <literal remap="verb" moreinfo="none">true</literal> if the hand contains a flush (and <literal remap="verb" moreinfo="none">false</literal> otherwise). </para></listitem>
+  <para>Encapsulate the deck-building code from <xref linkend="cardarray"/> in a method called <literal moreinfo="none">makeDeck</literal> that takes no parameters and returns a fully-populated array of <literal moreinfo="none">Card</literal>s. </para>
+
+  
+  <para><example id="a0000010421" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para><example id="a0000010423" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para>In some card games, Aces are ranked higher than Kings. Modify the <literal moreinfo="none">compareTo</literal> method to implement this ordering. </para>
+
+  
+  <para><example id="a0000010428" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para><example id="a0000010430" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>In Poker a “flush” is a hand that contains five or more cards of the same suit. A hand can contain any number of cards. </para>
+<orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem>
+  
+  <para>Write a method called <literal moreinfo="none">suitHist</literal> that takes an array of cards as a parameter and that returns a histogram of the suits in the hand. Your solution should only traverse the array once as in <xref linkend="singlepass"/>. </para>
+</listitem>
+  
+  <listitem>
+  
+  <para>Write a method called <literal moreinfo="none">hasFlush</literal> that takes an array of cards as a parameter and returns <literal moreinfo="none">true</literal> if the hand contains a flush (and <literal moreinfo="none">false</literal> otherwise). </para>
+</listitem>
   
 </orderedlist>
-</example> </para><para><example id="a0000007675" role="exercise">
+  
+  <para><example id="a0000010451" role="exercise">
   <title/>
-  <para>Working with cards is more fun if you can display them on the screen. If you have not already read <xref linkend="graphics"/> about 2D graphics, you should read it before working on this exercise. In the code directory for this chapter, <literal moreinfo="none">ch12</literal>, you will find: </para><itemizedlist>
+  <div></div>
+</example> </para>
+
   
-    <listitem><para><literal moreinfo="none">cardset-oxymoron</literal>: A directory containing images of playing cards. </para></listitem>
+  <para><example id="a0000010453" role="exercise">
+  <title/>
+  <div></div>
+</example> </para>
+
   
-    <listitem><para><literal moreinfo="none">CardTable.java</literal>: A sample program that demonstrates how to read and display images. </para></listitem>
+  <para>Working with cards is more fun if you can display them on the screen. If you have not already read <xref linkend="graphics"/> about 2D graphics, you should read it before working on this exercise. In the code directory for this chapter, <literal moreinfo="none">ch12</literal>, you will find: </para>
+<itemizedlist>
   
-</itemizedlist><para><indexterm significance="normal">
-  <primary>array</primary>
-<secondary>2D</secondary>
-</indexterm>This code demonstrates the use of a 2D array, specifically an array of images. The declaration looks like this: </para><programlisting language="java" format="linespecific">private Image[][] images;</programlisting><para>The variable <literal remap="verb" moreinfo="none">images</literal> refers to a 2D array of <literal remap="verb" moreinfo="none">Image</literal> objects, which are defined in the <literal remap="verb" moreinfo="none">java.awt</literal> package. Here’s the code that creates the array itself: </para><programlisting language="java" format="linespecific">images = new Image[14][4];</programlisting><para>The array has 14 rows (one for each rank plus an unused row for rank 0) and 4 columns (one for each suit). Here’s the loop that populates the array: </para><programlisting language="java" format="linespecific">String cardset = "cardset-oxymoron";
+    <listitem>
+  
+  <para><literal moreinfo="none">cardset-oxymoron</literal>: A directory containing images of playing cards. </para>
+</listitem>
+  
+    <listitem>
+  
+  <para><literal moreinfo="none">CardTable.java</literal>: A sample program that demonstrates how to read and display images. </para>
+</listitem>
+  
+</itemizedlist>
+  
+  <para><indexterm significance="normal">
+  <primary></primary>
+
+</indexterm>This code demonstrates the use of a 2D array, specifically an array of images. The declaration looks like this: </para>
+<programlisting language="java" format="linespecific">private Image[][] images;</programlisting><para>The variable <literal moreinfo="none">images</literal> refers to a 2D array of <literal moreinfo="none">Image</literal> objects, which are defined in the <literal moreinfo="none">java.awt</literal> package. Here’s the code that creates the array itself: </para>
+<programlisting language="java" format="linespecific">images = new Image[14][4];</programlisting><para>The array has 14 rows (one for each rank plus an unused row for rank 0) and 4 columns (one for each suit). Here’s the loop that populates the array: </para>
+<programlisting language="java" format="linespecific">String cardset = "cardset-oxymoron";
 String suits = "cdhs";
 
 for (int suit = 0; suit &lt;= 3; suit++) {
@@ -522,7 +839,25 @@ for (int suit = 0; suit &lt;= 3; suit++) {
                                  cardset, rank, c);
         images[rank][suit] = new ImageIcon(s).getImage();
     }
-}</programlisting><para>The variable <literal remap="verb" moreinfo="none">cardset</literal> contains the name of the directory that contains the image files. <literal remap="verb" moreinfo="none">suits</literal> is a string that contains the single-letter abbreviations for the suits. These strings are used to assemble <literal remap="verb" moreinfo="none">s</literal>, which contains the filename for each image. For example, when <literal remap="verb" moreinfo="none">rank=1</literal> and <literal remap="verb" moreinfo="none">suit=2</literal>, the value of <literal remap="verb" moreinfo="none">s</literal> is <literal remap="verb" moreinfo="none">"cardset-oxymoron/01h.gif"</literal>, which is an image of the Ace of Hearts. </para><para>The last line of the loop reads the image file, extracts an <literal remap="verb" moreinfo="none">Image</literal> object, and assigns it to a location in the array, as specified by the indexes <literal remap="verb" moreinfo="none">rank</literal> and <literal remap="verb" moreinfo="none">suit</literal>. For example, the image of the Ace of Hearts is stored in row 1, column 2. </para><para>If you compile and run <literal moreinfo="none">CardTable.java</literal>, you should see images of a deck of cards laid out on a green table. You can use this class as a starting place to implement your own card games. </para><para>As a starting place, try placing cards on the table in the starting configuration for the solitaire game Klondike (see <ulink url="https://en.wikipedia.org/wiki/Klondike_(solitaire)"/>). </para><para>You can get the image for the back of the card by reading the file <literal remap="verb" moreinfo="none">back192.gif</literal>. </para>
+}</programlisting><para>The variable <literal moreinfo="none">cardset</literal> contains the name of the directory that contains the image files. <literal moreinfo="none">suits</literal> is a string that contains the single-letter abbreviations for the suits. These strings are used to assemble <literal moreinfo="none">s</literal>, which contains the filename for each image. For example, when <literal moreinfo="none">rank=1</literal> and <literal moreinfo="none">suit=2</literal>, the value of <literal moreinfo="none">s</literal> is <literal moreinfo="none">"cardset-oxymoron/01h.gif"</literal>, which is an image of the Ace of Hearts. </para>
+
+  
+  <para>The last line of the loop reads the image file, extracts an <literal moreinfo="none">Image</literal> object, and assigns it to a location in the array, as specified by the indexes <literal moreinfo="none">rank</literal> and <literal moreinfo="none">suit</literal>. For example, the image of the Ace of Hearts is stored in row 1, column 2. </para>
+
+  
+  <para>If you compile and run <literal moreinfo="none">CardTable.java</literal>, you should see images of a deck of cards laid out on a green table. You can use this class as a starting place to implement your own card games. </para>
+
+  
+  <para>As a starting place, try placing cards on the table in the starting configuration for the solitaire game Klondike (see <ulink url="https://en.wikipedia.org/wiki/Klondike_(solitaire)"/>). </para>
+
+  
+  <para>You can get the image for the back of the card by reading the file <literal moreinfo="none">back192.gif</literal>. </para>
+
+  
+  <para><example id="a0000010517" role="exercise">
+  <title/>
+  <div></div>
 </example> </para>
+
 </sect1>
 </chapter>
