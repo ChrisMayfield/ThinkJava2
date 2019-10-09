@@ -399,7 +399,7 @@ So \java{printf} gets the format string, but it doesn't get any values to format
 
 \index{stack trace}
 
-The error message also includes a {\bf stack trace} that shows the method that was running when the error was detected, \java{java.util.Formatter.format}, the method that called it, \java{java.io.PrintStream.format}, the method that called {\em that}, \java{java.io.PrintStream.printf}, and finally the method you actually wrote, \java{Example.main}.
+The error message also includes a {\bf stack trace} that shows the method that was running when the error was detected, \java{java.util.Formatter.format}, the method that ran it, \java{java.io.PrintStream.format}, the method that ran {\em that}, \java{java.io.PrintStream.printf}, and finally the method you actually wrote, \java{Example.main}.
 
 Each line also names the source file of the method and the line it was on (e.g., \java{Example.java:10}).
 That's a lot of information, and it includes method names and files names you have no reason to know at this point.
@@ -625,22 +625,20 @@ Instead, it gets a ``stream of characters'' as shown in Figure~\ref{fig.hopper1}
 \end{center}
 \end{figure}
 
-%TODO define call/invoke or use other term?
-
 The arrow indicates the next character to be read by \java{Scanner}.
-When you call \java{nextInt}, it reads characters until it gets to a non-digit.
-Figure~\ref{fig.hopper2} shows the state of the stream after \java{nextInt} is called.
+When you run \java{nextInt}, it reads characters until it gets to a non-digit.
+Figure~\ref{fig.hopper2} shows the state of the stream after \java{nextInt} runs.
 
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/hopper2.pdf}
-\caption{A stream of characters after \java{nextInt} is called.}
+\caption{A stream of characters after \java{nextInt} runs.}
 \label{fig.hopper2}
 \end{center}
 \end{figure}
 
 At this point, \java{nextInt} returns \java{45}.
-The program then displays the prompt \java{"What is your name? "} and calls \java{nextLine}, which reads characters until it gets to a newline.
+The program then displays the prompt \java{"What is your name? "} and runs \java{nextLine}, which reads characters until it gets to a newline.
 But since the next character is already a newline, \java{nextLine} returns the empty string \java{""}.
 
 To solve this problem, you need an extra \java{nextLine} after \java{nextInt}.
