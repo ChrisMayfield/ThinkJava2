@@ -1,8 +1,10 @@
-Drawn with http://www.plantuml.com/plantuml
+Created with http://www.plantuml.com/plantuml
 
 
 @startuml
 hide members
+hide circle
+
 abstract class java.awt.Graphics
 abstract class Automaton
 

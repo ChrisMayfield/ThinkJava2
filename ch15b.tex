@@ -253,7 +253,7 @@ Figure~\ref{fig:uml2} summarizes the final design.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=0.9\textwidth]{figs/uml2.png}
+\includegraphics[width=0.75\textwidth]{figs/uml2.png}
 \caption{UML class diagram of \java{Conway} and \java{Langton} applications.}
 \label{fig:uml2}
 \end{center}
@@ -265,9 +265,9 @@ Figure~\ref{fig:uml2} summarizes the final design.
 The diagram shows three examples of inheritance: \java{Conway} is an \java{Automaton}, \java{Langton} is an \java{Automaton}, and \java{GridCanvas} is a Canvas.
 It also shows two examples of composition: \java{Automaton} has a \java{GridCanvas}, and \java{GridCanvas} has a 2D-array of \java{Cell}s.
 
-Interestingly, \java{Graphics} is an abstract class.
+\java{Graphics} is an abstract class too, as shown in italics.
 According to the documentation, its design ``allows an application to draw onto components that are realized on various devices, as well as onto off-screen images.''
-That's the beauty of abstraction; our code will work regardless how and where it's drawn.
+That's the beauty of abstraction; our code works regardless how and where it's drawn.
 
 
 \section{Vocabulary}
