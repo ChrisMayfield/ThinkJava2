@@ -244,6 +244,32 @@ Abstract classes are essentially ``incomplete'' class definitions that specify m
 But they also provide attributes and methods to be inherited, thus eliminating repeated code.
 
 
+\section{UML Diagram}
+
+At the beginning of the chapter, with had three classes: \java{Cell}, \java{GridCanvas}, and \java{Conway}.
+We then developed \java{Langton}, which had almost the same \java{main} method as \java{Conway}.
+So we refactored the code and ended with \java{Automaton}.
+Figure~\ref{fig:uml2} summarizes the final design.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{figs/uml2.png}
+\caption{UML class diagram of \java{Conway} and \java{Langton} applications.}
+\label{fig:uml2}
+\end{center}
+\end{figure}
+
+\index{IS-A}
+\index{HAS-A}
+
+The diagram shows three examples of inheritance: \java{Conway} is an \java{Automaton}, \java{Langton} is an \java{Automaton}, and \java{GridCanvas} is a Canvas.
+It also shows two examples of composition: \java{Automaton} has a \java{GridCanvas}, and \java{GridCanvas} has a 2D-array of \java{Cell}s.
+
+Interestingly, \java{Graphics} is an abstract class.
+According to the documentation, its design ``allows an application to draw onto components that are realized on various devices, as well as onto off-screen images.''
+That's the beauty of abstraction; our code will work regardless how and where it's drawn.
+
+
 \section{Vocabulary}
 
 \begin{description}
