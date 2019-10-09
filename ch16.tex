@@ -248,7 +248,7 @@ But they also provide attributes and methods to be inherited, thus eliminating r
 
 At the beginning of the chapter, with had three classes: \java{Cell}, \java{GridCanvas}, and \java{Conway}.
 We then developed \java{Langton}, which had almost the same \java{main} method as \java{Conway}.
-So we refactored the code and ended with \java{Automaton}.
+So we refactored the code and created \java{Automaton}. 
 Figure~\ref{fig:uml2} summarizes the final design.
 
 \begin{figure}[!ht]
@@ -265,9 +265,17 @@ Figure~\ref{fig:uml2} summarizes the final design.
 The diagram shows three examples of inheritance: \java{Conway} is an \java{Automaton}, \java{Langton} is an \java{Automaton}, and \java{GridCanvas} is a Canvas.
 It also shows two examples of composition: \java{Automaton} has a \java{GridCanvas}, and \java{GridCanvas} has a 2D array of \java{Cell}s.
 
-\java{Graphics} is an abstract class too, as shown in italics.
-According to the documentation, its design ``allows an application to draw onto components that are realized on various devices, as well as onto off-screen images.''
-That's the beauty of abstraction; our code works regardless how and where it's drawn.
+The diagram also shows that \java{Automaton} uses \java{JFrame}, \java{GridCanvas} uses \java{Graphics}, and \java{Cell} uses \java{Graphics} and \java{Color}.
+
+\jaba{Automaton} is in italics to indicate that it is an abstract class.
+As it happens, \java{Graphics} is an abstract class, too.
+
+One of the challenges of object-oriented programming is keeping track of a large number of classes and the relationships between them.
+UML class diagrams can help.
+
+
+%According to the documentation, its design ``allows an application to draw onto components that are realized on various devices, as well as onto off-screen images.''
+%That's the beauty of abstraction; our code works regardless how and where it's drawn.
 
 
 \section{Vocabulary}
