@@ -453,26 +453,6 @@ Now that you know about \java{try} and \java{catch}, we can use them to implemen
 Part of the GoL logic is to count the number of live neighbors.
 Most cells have eight neighbors, as shown in Figure~\ref{fig:neighbors}.
 
-\begin{figure}[!ht]
-\begin{center}
-\begin{tabular}{|p{1em}|p{1em}|p{1em}|p{1em}|p{1em}|}
-\hline
-  &   &   &   &   \\
-\hline
-  & 1 & 2 & 3 &   \\
-\hline
-  & 4 & * & 5 &   \\
-\hline
-  & 6 & 7 & 8 &   \\
-\hline
-  &   &   &   &   \\
-\hline
-\end{tabular}
-\caption{Neighbors for a cell in the middle of the grid.}
-\label{fig:neighbors}
-\end{center}
-\end{figure}
-
 However, cells on the edges and in the corners have fewer neighbors.
 If we try to count all possible neighbors, we'll go out of bounds.
 %(Normally in the Game of Life, we don't have this problem because the grid size is infinite.
@@ -491,6 +471,28 @@ public int test(int r, int c) {
     return 0;
 }
 \end{code}
+
+\begin{figure}[!ht]
+\begin{center}
+%\begin{tabular}{|p{1em}|p{1em}|p{1em}|p{1em}|p{1em}|}
+%\hline
+%  &   &   &   &   \\
+%\hline
+%  & 1 & 2 & 3 &   \\
+%\hline
+%  & 4 & * & 5 &   \\
+%\hline
+%  & 6 & 7 & 8 &   \\
+%\hline
+%  &   &   &   &   \\
+%\hline
+%\end{tabular}
+\includegraphics[height=140pt]{figs/grid.pdf}
+\caption{Cells in the interior of the grid have eight neighbors.
+Cells in the corners and along the edges have fewer neighbors.}
+\label{fig:neighbors}
+\end{center}
+\end{figure}
 
 The \java{test} method takes a row index, \java{r}, and a column index, \java{c}.
 It tries to look up the \java{Cell} at that location.
