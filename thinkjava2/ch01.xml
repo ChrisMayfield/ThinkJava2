@@ -1,0 +1,550 @@
+<chapter id="theway">
+  <title>Computer Programming</title><para>The goal of this book is to teach you to think like a computer scientist. This way of thinking combines some of the best features of mathematics, engineering, and natural science. Like mathematicians, computer scientists use formal languages to denote ideas, specifically computations. Like engineers, they design things, assembling components into systems and evaluating trade-offs among alternatives. And like scientists, they observe the behavior of complex systems, form hypotheses, and test predictions. </para><para><indexterm significance="normal">
+  <primary>problem solving</primary>
+
+</indexterm>An important skill for a computer scientist is <emphasis role="bold">problem solving</emphasis>. It involves the ability to formulate problems, think creatively about solutions, and express solutions clearly and accurately. As it turns out, the process of learning to program computers is an excellent opportunity to develop problem-solving skills. On one level you will be learning to write Java programs, a useful skill by itself. But on another level you will use programming as a means to an end. As we go along, that end will become clearer. </para><sect1 id="a0000000245" remap="section">
+  <title>What Is a Computer?</title>
+    <para>When people hear the word computer, they often think of a desktop or laptop. Not surprisingly, searching for “computer” on <ulink url="https://images.google.com/"/> displays rows and rows of these types of machines. However, in a more general sense, a computer can be any type of device that stores and processes data. </para><para>Dictionary.com defines a computer as “a programmable electronic device designed to accept data, perform prescribed mathematical and logical operations at high speed, and display the results of these operations. Mainframes, desktop and laptop computers, tablets, and smartphones are some of the different types of computers.” </para><para><indexterm significance="normal">
+  <primary>hardware</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>processor</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>memory</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>CPU</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>RAM</primary>
+
+</indexterm>Each type of computer has its own unique design, but internally they all share the same type of <emphasis role="bold">hardware</emphasis>. The two most important hardware components are <emphasis role="bold">processors</emphasis> (or CPUs) that perform simple calculations and <emphasis role="bold">memory</emphasis> (or RAM) that temporarily stores information. <xref linkend="fig.cpuram"/> shows what these components look like. </para>
+  
+  <figure id="fig.cpuram" float="False">
+    <title>Example processor and memory hardware.</title>
+     <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/CPU.jpg"></imagedata>
+  </imageobject>
+</mediaobject>  <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/RAM.jpg"></imagedata>
+  </imageobject>
+</mediaobject></figure>
+<para>Users generally see and interact with touchscreens, keyboards, and monitors, but it’s the processors and memory that perform the actual computation. Nowadays it’s fairly standard, even for a smartphone, to have at least eight processors and four gigabytes (four billion cells) of memory. </para>
+</sect1><sect1 id="a0000000268" remap="section">
+  <title>What Is Programming?</title>
+    <para><indexterm significance="normal">
+  <primary>program</primary>
+
+</indexterm>A <emphasis role="bold">program</emphasis> is a sequence of instructions that specifies how to perform a computation on computer hardware. The computation might be something mathematical, like solving a system of equations or finding the roots of a polynomial. It could also be a symbolic computation, like searching and replacing text in a document or (strangely enough) compiling a program. </para><para>The details look different in different languages, but a few basic instructions appear in just about every language: </para><variablelist>
+  <varlistentry>
+    <term>input:</term>
+      <listitem><para>Get data from the keyboard, a file, a sensor, or some other device. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>output:</term>
+      <listitem><para>Display data on the screen, or send data to a file or other device. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>math:</term>
+      <listitem><para>Perform basic mathematical operations like addition and division. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>decision:</term>
+      <listitem><para>Check for certain conditions and execute the appropriate code. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>repetition:</term>
+      <listitem><para>Perform some action repeatedly, usually with some variation. </para></listitem>
+  </varlistentry>
+</variablelist><para><indexterm significance="normal">
+  <primary>programming</primary>
+
+</indexterm>Believe it or not, that’s pretty much all there is to it. Every program you’ve ever used, no matter how complicated, is made up of small instructions that look much like these. So you can think of <emphasis role="bold">programming</emphasis> as the process of breaking down a large, complex task into smaller and smaller subtasks. The process continues until the subtasks are simple enough to be performed with the electronic circuits provided by the hardware. </para>
+</sect1><sect1 id="hello" remap="section">
+  <title>The Hello World Program</title><para><indexterm significance="normal">
+  <primary>Hello.java</primary>
+
+</indexterm>Traditionally, the first program you write when learning a new programming language is called the hello world program. All it does is output the words “Hello, World!” to the screen. In Java, it looks like this: </para><programlisting language="java" format="linespecific">public class Hello {
+
+    public static void main(String[] args) {
+        // generate some simple output
+        System.out.println("Hello, World!");
+    }
+}</programlisting><para>When this program runs it displays: </para><programlisting format="linespecific">Hello, World!</programlisting><para>Notice that the output does not include the quotation marks. </para><para><indexterm significance="normal">
+  <primary>statement</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>print statement</primary>
+
+</indexterm>Java programs are made up of <emphasis>class</emphasis> and <emphasis>method</emphasis> definitions, and methods are made up of <emphasis>statements</emphasis>. A <emphasis role="bold">statement</emphasis> is a line of code that performs a basic action. In the hello world program, this line is a <emphasis role="bold">print statement</emphasis> that displays a message to the user: </para><programlisting language="java" format="linespecific">System.out.println("Hello, World!");</programlisting><para><indexterm significance="normal">
+  <primary>println</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>semicolon</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>; semicolon</primary>
+
+</indexterm><literal moreinfo="none">System.out.println</literal> displays results on the screen; the name <literal moreinfo="none">println</literal> stands for “print line”. Confusingly, <emphasis>print</emphasis> can mean both “display on the screen” and “send to the printer”. In this book, we’ll try to say “display” when we mean output to the screen. Like most statements, the print statement ends with a semicolon (<literal moreinfo="none">;</literal>). </para><para><indexterm significance="normal">
+  <primary>case-sensitive</primary>
+
+</indexterm>Java is “case-sensitive”, which means that uppercase and lowercase are not the same. In the hello world program, <literal moreinfo="none">System</literal> has to begin with an uppercase letter; <literal moreinfo="none">system</literal> and <literal moreinfo="none">SYSTEM</literal> won’t work. </para><para><indexterm significance="normal">
+  <primary>method</primary>
+
+</indexterm>A <emphasis role="bold">method</emphasis> is a named sequence of statements. This program defines one method named <literal moreinfo="none">main</literal>: </para><programlisting language="java" format="linespecific">public static void main(String[] args)</programlisting><para><indexterm significance="normal">
+  <primary>main</primary>
+
+</indexterm>The name and format of <literal moreinfo="none">main</literal> is special: when the program runs, it starts at the first statement in <literal moreinfo="none">main</literal> and ends when it finishes the last statement. Later, we will see programs that define more than one method. </para><para><indexterm significance="normal">
+  <primary>class</primary>
+
+</indexterm>This program defines a class named <literal moreinfo="none">Hello</literal>. For now, a <emphasis role="bold">class</emphasis> is a collection of methods; we’ll have more to say about this later. You can give a class any name you like, but it is conventional to start with a capital letter. The name of the class has to match the name of the file it is in, so this class has to be in a file named <literal moreinfo="none">Hello.java</literal>. </para><para><indexterm significance="normal">
+  <primary>{} curly braces</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>brackets</primary>
+<secondary>curly</secondary>
+</indexterm>Java uses curly braces ({ and }) to group things together. In <literal moreinfo="none">Hello.java</literal>, the outermost braces contain the class definition, and the inner braces contain the method definition. </para><para><indexterm significance="normal">
+  <primary>comment</primary>
+<secondary>end-of-line</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>statement</primary>
+<secondary>comment</secondary>
+</indexterm>The line that begins with two slashes (<literal moreinfo="none">//</literal>) is a <emphasis role="bold">comment</emphasis>, which is a bit of English text that explains the code. When Java sees <literal moreinfo="none">//</literal>, it ignores everything from there until the end of the line. Comments have no effect on the execution of the program, but they make it easier for other programmers (and your future self) to understand what you meant to do. </para>
+</sect1><sect1 id="a0000000371" remap="section">
+  <title>Compiling Java Programs</title>
+    <para><indexterm significance="normal">
+  <primary>high-level language</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>language</primary>
+<secondary>high-level</secondary>
+</indexterm>The programming language you will learn in this book is Java, which is a <emphasis role="bold">high-level language</emphasis>. Other high-level languages you may have heard of include Python, C and C++, PHP, Ruby, and JavaScript. </para><para><indexterm significance="normal">
+  <primary>low-level language</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>language</primary>
+<secondary>low-level</secondary>
+</indexterm>Before they can run, programs in high-level languages have to be translated into a <emphasis role="bold">low-level language</emphasis>, also called “machine language”. This translation takes some time, which is a small disadvantage of high-level languages. But high-level languages have two major advantages: </para><itemizedlist>
+  
+    <listitem><para><indexterm significance="normal">
+  <primary>portable</primary>
+
+</indexterm>It is <emphasis>much</emphasis> easier to program in a high-level language. Programs take less time to write, they are shorter and easier to read, and they are more likely to be correct. </para></listitem>
+  
+    <listitem><para>High-level languages are <emphasis role="bold">portable</emphasis>, meaning they can run on different kinds of computers with few or no modifications. Low-level programs can only run on one kind of computer. </para></listitem>
+  
+</itemizedlist><para><indexterm significance="normal">
+  <primary>interpret</primary>
+
+</indexterm>Two kinds of programs translate high-level languages into low-level languages: interpreters and compilers. An <emphasis role="bold">interpreter</emphasis> reads a high-level program and executes it, meaning that it does what the program says. It processes the program a little at a time, alternately reading lines and performing computations. <xref linkend="fig.interpreter"/> shows the structure of an interpreter. </para>
+  
+  <figure id="fig.interpreter" float="False">
+    <title>How interpreted languages are executed.</title>
+     <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/interpreter.pdf"></imagedata>
+  </imageobject>
+</mediaobject></figure>
+<para><indexterm significance="normal">
+  <primary>compile</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>source code</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>object code</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>executable</primary>
+
+</indexterm>In contrast, a <emphasis role="bold">compiler</emphasis> reads the entire program and translates it completely before the program starts running. In this context, the high-level program is called the <emphasis role="bold">source code</emphasis>. The translated program is called the <emphasis role="bold">object code</emphasis> or the <emphasis role="bold">executable</emphasis>. Once a program is compiled, you can execute it repeatedly without further translation. As a result, compiled programs often run faster than interpreted programs. </para><para>Note that object code, as a low-level language, is not portable. You cannot run an executable compiled for a Windows laptop on an Android phone, for example. In order to run a program on different types of machines, it must be compiled multiple times. It can be difficult to write source code that compiles and runs correctly on different types of machines. </para><para><indexterm significance="normal">
+  <primary>byte code</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>virtual machine</primary>
+
+</indexterm>To address this issue, Java is <emphasis>both</emphasis> compiled and interpreted. Instead of translating source code directly into an executable, the Java compiler generates code for a <emphasis role="bold">virtual machine</emphasis>. This “imaginary” machine has the functionality common to desktops, laptops, tablets, phones, etc. Its language, called Java <emphasis role="bold">byte code</emphasis>, looks like object code and is easy and fast to interpret. </para><para><indexterm significance="normal">
+  <primary>javac</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>JVM</primary>
+
+</indexterm>As a result, it’s possible to compile a Java program on one machine, transfer the byte code to another machine, and run the byte code on the other machine. <xref linkend="fig.compiler"/> shows the steps of the development process. The Java compiler is a program named <literal moreinfo="none">javac</literal>. It translates <literal moreinfo="none">.java</literal> files into <literal moreinfo="none">.class</literal> files that store the resulting byte code. The Java interpreter is another program, named <literal moreinfo="none">java</literal>, which is short for “Java Virtual Machine” (JVM). </para>
+  
+  <figure id="fig.compiler" float="False">
+    <title>The process of compiling and running a Java program.</title>
+     <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/compiler.pdf"></imagedata>
+  </imageobject>
+</mediaobject></figure>
+<para>The programmer writes source code in the file <literal moreinfo="none">Hello.java</literal> and uses <literal moreinfo="none">javac</literal> to compile it. If there are no errors, the compiler saves the byte code in the file <literal moreinfo="none">Hello.class</literal>. To run the program, the programmer uses <literal moreinfo="none">java</literal> to interpret the byte code. The result of the program is then displayed on the screen. </para><para>Although it might seem complicated, these steps are automated for you in most development environments. Usually you only have to press a button or type a single command to compile and interpret your program. On the other hand, it is important to know what steps are happening in the background, so if something goes wrong you can figure out what it is. </para>
+</sect1><sect1 id="goodbye" remap="section">
+  <title>Displaying Two Messages</title>
+    <para>You can put as many statements as you like in the <literal moreinfo="none">main</literal> method. For example, to display more than one line of output: </para><programlisting language="java" format="linespecific">public class Hello2 {
+
+    public static void main(String[] args) {
+        // generate some simple output
+        System.out.println("Hello, World!");  // first line
+        System.out.println("How are you?");   // another line
+    }
+}</programlisting><para>As this example also shows, you can put comments at the end of a line as well as on lines all by themselves. </para><para><indexterm significance="normal">
+  <primary>quote mark</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>string</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>type</primary>
+<secondary>String</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>char</primary>
+
+</indexterm>Phrases that appear in quotation marks are called <emphasis role="bold">strings</emphasis>, because they contain a sequence of characters strung together in memory. Characters can be letters, numbers, punctuation marks, symbols, spaces, tabs, etc. </para><para><indexterm significance="normal">
+  <primary>Goodbye.java</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>newline</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>print</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>statement</primary>
+<secondary>print</secondary>
+</indexterm><literal moreinfo="none">System.out.println</literal> appends a special character, called a <emphasis role="bold">newline</emphasis>, that moves to the beginning of the next line. If you don’t want a newline at the end, you can use <literal moreinfo="none">print</literal> instead of <literal moreinfo="none">println</literal>: </para><programlisting language="java" format="linespecific">public class Goodbye {
+
+    public static void main(String[] args) {
+        System.out.print("Goodbye, ");
+        System.out.println("cruel world");
+    }
+}</programlisting><para>In this example, the first statement does not add a newline, so the output appears on a single line: </para><programlisting format="linespecific">Goodbye, cruel world</programlisting><para>Notice that there is a space at the end of the first string, which appears in the output just before the word <literal moreinfo="none">cruel</literal>. </para>
+</sect1><sect1 id="formatting" remap="section">
+  <title>Formatting Source Code</title><para>In Java source code, some spaces are required. For example, you need at least one space between words, so this program is not legal: </para><programlisting language="java" format="linespecific">publicclassGoodbye{
+
+    publicstaticvoidmain(String[] args) {
+        System.out.print("Goodbye, ");
+        System.out.println("cruel world");
+    }
+}</programlisting><para>But most other spaces are optional. For example, this program <emphasis>is</emphasis> legal: </para><programlisting language="java" format="linespecific">public class Goodbye {
+public static void main(String[] args) {
+System.out.print("Goodbye, ");
+System.out.println("cruel world");
+}
+}</programlisting><para>The newlines are optional, too. So we could just write: </para><programlisting language="java" format="linespecific">public class Goodbye { public static void main(String[] args)
+{ System.out.print("Goodbye, "); System.out.println
+("cruel world");}}</programlisting><para>It still works, but the program is getting harder and harder to read. Newlines and spaces are important for organizing your program visually, making it easier to understand the program and find errors when they occur. </para><para>Many editors will automatically format source code with consistent indenting and line breaks. For example, in DrJava (see <xref linkend="drjava"/>) you can indent your code by selecting all text (Ctrl+A) and pressing the Tab key. </para><para><indexterm significance="normal">
+  <primary>Google style</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>style guide</primary>
+
+</indexterm>Organizations that do a lot of software development usually have strict guidelines on how to format source code. For example, Google publishes its Java coding standards for use in open-source projects: <ulink url="https://google.github.io/styleguide/javaguide.html"/>. </para><para>You probably won’t understand these guidelines now, because they refer to language features we haven’t yet seen. But you might want to refer back to them periodically as you read this book. </para>
+</sect1><sect1 id="a0000000504" remap="section">
+  <title>Escape Sequences</title>
+    <para>It’s possible to display multiple lines of output with only one line of code. You just have to tell Java where to put the line breaks. </para><programlisting language="java" format="linespecific">public class Hello3 {
+
+    public static void main(String[] args) {
+        System.out.print("Hello!\nHow are you doing?\n");
+    }
+}</programlisting><para>The output is two lines, each ending with a newline character: </para><programlisting format="linespecific">Hello!
+How are you doing?</programlisting><para><indexterm significance="normal">
+  <primary>escape sequence</primary>
+
+</indexterm>Each <literal remap="verb" moreinfo="none">\n</literal> is an <emphasis role="bold">escape sequence</emphasis>, or two characters of source code that represent a single character. (The backslash allows you to “escape” the string to write special characters.) Notice there is no space between <literal remap="verb" moreinfo="none">\n</literal> and <literal remap="verb" moreinfo="none">How</literal>. If you add a space there, there will be a space at the beginning of the second line. </para>
+   
+     <table id="tab..escape" remap="tabular">
+     <title>Common escape sequences</title>
+     <tgroup>
+     
+     <tbody>
+     <row>
+     
+       
+       <entry> </entry>
+     
+       
+       <entry><para> <literal remap="verb" moreinfo="none">\n</literal> </para><para> newline </para><para><literal remap="verb" moreinfo="none">\t</literal> </para><para> tab </para><para><literal remap="verb" moreinfo="none">\"</literal> </para><para> double quote </para><para><literal remap="verb" moreinfo="none">\\</literal> </para><para> backslash </para/>
+     
+       
+       <entry> </entry>
+     
+       
+       <entry>Common escape sequences</entry>
+     
+       
+       <entry> </entry>
+     
+       
+       <entry/>
+     
+       
+       <entry> </entry>
+     
+     </row>
+     </tbody>
+     </tgroup>
+     </table>
+   
+   
+<para>Java has a total of eight escape sequences, and the four most commonly used ones are listed in <xref linkend="tab..escape"/>. For example, to write quotation marks inside of strings, you need to escape them with a backslash. </para><programlisting language="java" format="linespecific">System.out.println("She said \"Hello!\" to me.");</programlisting><para>The result is: </para><programlisting format="linespecific">She said "Hello!" to me.</programlisting></sect1><sect1 id="a0000000560" remap="section">
+  <title>What Is Computer Science?</title>
+    <para>This book intentionally omits some details about the Java language (such as the other escape sequences), because our main goal is learning how to think like a computer scientist. Being able to understand computation is much more valuable than just learning how to write code. </para><para>If you’re interested in learning more about Java itself, Oracle maintains an official set of tutorials on their website: <ulink url="https://thinkjava.org/tutorial"/>. The “Language Basics” tutorial (found under “Learning the Java Language”) is a good place to start. </para><para>One of the most interesting aspects of writing programs is deciding how to solve a particular problem, especially when there are multiple solutions. For example, there are numerous ways to sort a list of numbers, and each way has its advantages. In order to determine which way is best for a given situation, we need techniques for describing and analyzing solutions formally. </para><para><indexterm significance="normal">
+  <primary>algorithm</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>computer science</primary>
+
+</indexterm>An <emphasis role="bold">algorithm</emphasis> is a sequence of steps that specifies how to solve a problem. Some algorithms are faster than others, and some use less space in computer memory. <emphasis role="bold">Computer science</emphasis> is the science of algorithms, including their discovery and analysis. As you learn to develop algorithms for problems you haven’t solved before, you will learn to think like a computer scientist. </para><para><indexterm significance="normal">
+  <primary>bug</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>debugging</primary>
+
+</indexterm>Designing algorithms and writing code is difficult and error-prone. For historical reasons, programming errors are called <emphasis role="bold">bugs</emphasis>, and the process of tracking them down and correcting them is called <emphasis role="bold">debugging</emphasis>. As you learn to debug your programs, you will develop new problem-solving skills. You will need to think creatively when unexpected errors happen. </para><para>Although it can be frustrating, debugging is an intellectually rich, challenging, and interesting part of computer science. In some ways, debugging is like detective work. You are confronted with clues, and you have to infer the processes and events that led to the results you see. Thinking about how to correct programs and improve their performance sometimes even leads to the discovery of new algorithms. </para>
+</sect1><sect1 id="sec..examples" remap="section">
+  <title>Debugging Programs</title><para>It is a good idea to read this book in front of a computer so you can try out the examples as you go. You can run many of the examples directly in DrJava’s Interactions Pane (see <xref linkend="interactions"/>). But if you put the code in a source file, it will be easier to try out variations. </para><para><indexterm significance="normal">
+  <primary>error</primary>
+<secondary>message</secondary>
+</indexterm>Whenever you are experimenting with a new feature, you should also try to make mistakes. For example, in the hello world program, what happens if you leave out one of the quotation marks? What if you leave out both? What if you spell <literal moreinfo="none">println</literal> wrong? These kinds of experiments help you remember what you read. They also help with debugging, because you learn what the error messages mean. It is better to make mistakes now and on purpose than later on and accidentally. </para><para><indexterm significance="normal">
+  <primary>experimental debugging</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>debugging</primary>
+<secondary>experimental</secondary>
+</indexterm>Debugging is like an experimental science: once you have an idea about what is going wrong, you modify your program and try again. If your hypothesis was correct, then you can predict the result of the modification, and you take a step closer to a working program. If your hypothesis was wrong, you have to come up with a new one. </para><para>Programming and debugging should go hand in hand. Don’t just write a bunch of code and then perform trial and error debugging until it all works. Instead, start with a program that does <emphasis>something</emphasis> and make small modifications, debugging them as you go, until the program does what you want. That way you will always have a working program, and it will be easier to isolate errors. </para><para><indexterm significance="normal">
+  <primary>Linux</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>Torvalds, Linus</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>Greenfield, Larry</primary>
+
+</indexterm>A great example of this principle is the Linux operating system, which contains millions of lines of code. It started out as a simple program Linus Torvalds used to explore the Intel 80386 chip. According to Larry Greenfield in <emphasis>The Linux Users’ Guide</emphasis>, “One of Linus’s earlier projects was a program that would switch between printing AAAA and BBBB. This later evolved to Linux.” </para><para>Finally, programming sometimes brings out strong emotions. If you are struggling with a difficult bug, you might feel angry, despondent, or embarrassed. Remember that you are not alone, and virtually every programmer has had similar experiences. Don’t hesitate to reach out to a friend and ask questions! </para>
+</sect1><sect1 id="a0000000597" remap="section">
+  <title>Vocabulary</title>
+    <para>Throughout the book, we try to define each term the first time we use it. At the end of each chapter, we include the new terms and their definitions in order of appearance. If you spend some time learning this vocabulary, you will have an easier time reading the following chapters. </para><variablelist>
+  <varlistentry>
+    <term>problem solving:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>problem solving</primary>
+
+</indexterm>The process of formulating a problem, finding a solution, and expressing the solution. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>hardware:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>hardware</primary>
+
+</indexterm>The electronic and mechanical components of a computer, such as CPUs, RAM, and hard disks. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>processor:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>processor</primary>
+
+</indexterm>A computer chip that performs simple instructions like basic arithmetic and logic. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>memory:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>memory</primary>
+
+</indexterm>Circuits that store data as long as the computer is turn on. Not to be confused with permanent storage devices like hard disks and flash. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>program:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>program</primary>
+
+</indexterm>A sequence of instructions that specifies how to perform tasks on a computer. Also known as software. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>programming:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>programming</primary>
+
+</indexterm>The application of problem solving to creating executable computer programs. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>statement:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>statement</primary>
+
+</indexterm>Part of a program that specifies one step of an algorithm. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>print statement:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>print statement</primary>
+
+</indexterm>A statement that causes output to be displayed on the screen. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>method:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>method</primary>
+
+</indexterm>A named sequence of statements. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>class:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>class</primary>
+
+</indexterm>For now, a collection of related methods. (We will see later that there is a lot more to it.) </para></listitem>
+  </varlistentry><varlistentry>
+    <term>comment:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>comment</primary>
+
+</indexterm>A part of a program that contains information about the program but has no effect when the program runs. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>high-level language:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>high-level language</primary>
+
+</indexterm>A programming language that is designed to be easy for humans to read and write. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>low-level language:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>low-level language</primary>
+
+</indexterm>A programming language that is designed to be easy for a computer to run. Also called “machine language”. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>portable:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>portable</primary>
+
+</indexterm>The ability of a program to run on more than one kind of computer. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>interpret:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>interpret</primary>
+
+</indexterm>To run a program in a high-level language by translating it one line at a time and immediately executing the corresponding instructions. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>compile:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>compile</primary>
+
+</indexterm>To translate a program in a high-level language into a low-level language, all at once, in preparation for later execution. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>source code:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>source code</primary>
+
+</indexterm>A program in a high-level language, before being compiled. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>object code:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>object code</primary>
+
+</indexterm>The output of the compiler, after translating the program. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>executable:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>executable</primary>
+
+</indexterm>Another name for object code that is ready to run on specific hardware. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>virtual machine:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>virtual machine</primary>
+
+</indexterm>An emulation of a real machine. The Java Virtual Machine enables a computer to run Java programs. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>byte code:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>byte code</primary>
+
+</indexterm>A special kind of object code used for Java programs. Byte code is similar to object code, but it is portable like a high-level language. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>string:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>string</primary>
+
+</indexterm>A sequence of characters; the primary data type for text. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>newline:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>newline</primary>
+
+</indexterm>A special character signifying the end of a line of text. Also known as line ending, end of line (EOL), or line break. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>escape sequence:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>escape sequence</primary>
+
+</indexterm>A sequence of code that represents a special character when used inside a string. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>algorithm:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>algorithm</primary>
+
+</indexterm>A procedure or formula for solving a problem, with or without a computer. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>computer science:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>computer science</primary>
+
+</indexterm>The scientific and practical approach to computation and its applications. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>bug:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>bug</primary>
+
+</indexterm>An error in a program. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>debugging:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>debugging</primary>
+
+</indexterm>The process of finding and removing errors. </para></listitem>
+  </varlistentry>
+</variablelist>
+</sect1><sect1 id="a0000000657" remap="section">
+  <title>Exercises</title>
+    <para>At the end of each chapter, we include exercises you can do with the things you’ve learned. We encourage you to at least attempt every problem. You can’t learn to program only by reading about it; you have to practice. </para><para>Before you can compile and run Java programs, you might have to download and install a few tools. There are many good options, but we recommend DrJava, which is an “integrated development environment” (IDE) well suited for beginners. Instructions for getting started are in <xref linkend="tools"/>. </para><para>The code for this chapter is in the <literal moreinfo="none">ch01</literal> directory of <literal moreinfo="none">ThinkJavaCode2</literal>. See <xref linkend="code"/> for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples. </para><para><example id="a0000000670" role="exercise">
+  <title/>
+  <para>Computer scientists have the annoying habit of using common English words to mean something other than their common English meaning. For example, in English, statements and comments are the same thing, but in programs they are different. </para><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>In computer jargon, what’s the difference between a statement and a comment? </para></listitem>
+  
+  <listitem><para>What does it mean to say that a program is portable? </para></listitem>
+  
+  <listitem><para>In common English, what does the word compile mean? </para></listitem>
+  
+  <listitem><para>What is an executable? Why is that word used as a noun? </para></listitem>
+  
+</orderedlist><para>The glossary at the end of each chapter is intended to highlight words and phrases that have special meanings in computer science. When you see familiar words, don’t assume that you know what they mean! </para>
+</example> </para><para><example id="a0000000684" role="exercise">
+  <title/>
+  <para>Before you do anything else, find out how to compile and run a Java program. Some environments provide sample programs similar to the example in <xref linkend="hello"/>. </para><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>Type in the hello world program, then compile and run it. </para></listitem>
+  
+  <listitem><para>Add a print statement that displays a second message after the “Hello, World!”. Say something witty like, “How are you?” Compile and run the program again. </para></listitem>
+  
+  <listitem><para>Add a comment to the program (anywhere), recompile, and run it again. The new comment should not affect the result. </para></listitem>
+  
+</orderedlist><para>This exercise may seem trivial, but it is the starting place for many of the programs we will work with. To debug with confidence, you will need to have confidence in your programming environment. </para><para>In some environments, it is easy to lose track of which program is executing. You might find yourself trying to debug one program while you are accidentally running another. Adding (and changing) print statements is a simple way to be sure that the program you are looking at is the program you are running. </para>
+</example> </para><para><example id="a0000000699" role="exercise">
+  <title/>
+  <para>It is a good idea to commit as many errors as you can think of, so that you see what error messages the compiler produces. Sometimes the compiler tells you exactly what is wrong, and all you have to do is fix it. But sometimes the error messages are misleading. Over time you will develop a sense for when you can trust the compiler and when you have to figure things out yourself. </para><para>Starting with the hello world program, try out each of the following errors. After you make each change, compile the program, read the error message (if there is one), and then fix the error. </para><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>Remove one of the open curly braces. </para></listitem>
+  
+  <listitem><para>Remove one of the close curly braces. </para></listitem>
+  
+  <listitem><para>Instead of <literal moreinfo="none">main</literal>, write <literal moreinfo="none">mian</literal>. </para></listitem>
+  
+  <listitem><para>Remove the word <literal moreinfo="none">static</literal>. </para></listitem>
+  
+  <listitem><para>Remove the word <literal moreinfo="none">public</literal>. </para></listitem>
+  
+  <listitem><para>Remove the word <literal moreinfo="none">System</literal>. </para></listitem>
+  
+  <listitem><para>Replace <literal moreinfo="none">println</literal> with <literal moreinfo="none">Println</literal>. </para></listitem>
+  
+  <listitem><para>Replace <literal moreinfo="none">println</literal> with <literal moreinfo="none">print</literal>. </para></listitem>
+  
+  <listitem><para>Delete one of the parentheses. </para></listitem>
+  
+  <listitem><para>Add an extra parenthesis. </para></listitem>
+  
+</orderedlist>
+</example> </para>
+</sect1>
+</chapter>

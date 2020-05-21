@@ -1,0 +1,303 @@
+<appendix id="extras">
+  <title>Extras</title><para>This appendix contains previous sections of the book. We chose to remove them from this edition, because they were not essential to meet the corresponding chapter’s goals. However, you may still find this material useful. </para><sect1 id="a0000010958" remap="section">
+  <title>Unreachable Code</title>
+    <para>Sometimes it is convenient to write multiple <literal remap="verb" moreinfo="none">return</literal> statements, for example, one in each branch of a conditional: </para><programlisting language="java" format="linespecific">public static double absoluteValue(double x) {
+    if (x &lt; 0) {
+        return -x;
+    } else {
+        return x;
+    }
+}</programlisting><para>Since these <literal remap="verb" moreinfo="none">return</literal> statements are in a conditional statement, only one will be executed. As soon as either of them executes, the method terminates without executing any more statements. </para><para><indexterm significance="normal">
+  <primary>dead code</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>unreachable</primary>
+
+</indexterm>Code that appears after a <literal remap="verb" moreinfo="none">return</literal> statement (in the same block), or any place else where it can never be executed, is called <emphasis role="bold">dead code</emphasis>. The compiler will give you an “unreachable statement” error if part of your code is dead. For example, this method contains two lines of dead code: </para><programlisting language="java" format="linespecific">public static double absoluteValue(double x) {
+    if (x &lt; 0) {
+        return -x;
+        System.out.println("This line is dead.");  // error
+    } else {
+        return x;
+    }
+    System.out.println("So is this one.");  // error
+}</programlisting><para>If you put <literal remap="verb" moreinfo="none">return</literal> statements inside a conditional statement, you have to make sure that <emphasis>every possible path</emphasis> through the method reaches a <literal remap="verb" moreinfo="none">return</literal> statement. The compiler will let you know if that’s not the case. For example, the following method is incomplete: </para><programlisting language="java" format="linespecific">public static double absoluteValue(double x) {
+    if (x &lt; 0) {
+        return -x;
+    } else if (x &gt; 0) {
+        return x;
+    }
+    // error: missing return statement
+}</programlisting><para>When <literal remap="verb" moreinfo="none">x</literal> is 0, neither condition is true, so the method ends without hitting a return statement. The error message in this case might be something like “missing return statement”, which is confusing since there are already two. </para><para>Compiler errors like “unreachable statement” and “missing return statement” often indicate a problem with your algorithm, not the code. In the previous example, <literal remap="verb" moreinfo="none">if (x &gt; 0)</literal> is unnecessary because <literal remap="verb" moreinfo="none">x</literal> will always be positive or zero at that point. Changing that <literal remap="verb" moreinfo="none">else if</literal> to an <literal remap="verb" moreinfo="none">else</literal> resolves the error. </para><variablelist>
+  <varlistentry>
+    <term>dead code:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>dead code</primary>
+
+</indexterm>Part of a program that can never be executed, often because it appears after a <literal remap="verb" moreinfo="none">return</literal> statement. </para></listitem>
+  </varlistentry>
+</variablelist>
+</sect1><sect1 id="a0000010991" remap="section">
+  <title>Method Composition</title>
+    <para><indexterm significance="normal">
+  <primary>composition</primary>
+
+</indexterm>Once you define a method, you can use it to build other methods. For example, suppose someone gave you two points – the center of a circle and a point on the perimeter – and asked for the area of the circle. </para><para>Let’s say the center point is stored in the variables <literal remap="verb" moreinfo="none">xc</literal> and <literal remap="verb" moreinfo="none">yc</literal>, and the perimeter point is in <literal remap="verb" moreinfo="none">xp</literal> and <literal remap="verb" moreinfo="none">yp</literal>. The first step is to find the radius of the circle, which is the distance between the two points. Fortunately, we have a method that does just that. </para><programlisting language="java" format="linespecific">double radius = distance(xc, yc, xp, yp);</programlisting><para>The second step is to find the area of a circle with that radius. We have a method for that computation too. </para><programlisting language="java" format="linespecific">double area = calculateArea(radius);</programlisting><para>Putting everything together in a new method, we get: </para><programlisting language="java" format="linespecific">public static double circleArea
+        (double xc, double yc, double xp, double yp) {
+    double radius = distance(xc, yc, xp, yp);
+    double area = calculateArea(radius);
+    return area;
+}</programlisting><para>Temporary variables like <literal remap="verb" moreinfo="none">radius</literal> and <literal remap="verb" moreinfo="none">area</literal> are useful for development and debugging, but once the program is working we can make it more concise by composing the method calls: </para><programlisting language="java" format="linespecific">public static double circleArea
+        (double xc, double yc, double xp, double yp) {
+    return calculateArea(distance(xc, yc, xp, yp));
+}</programlisting><para><indexterm significance="normal">
+  <primary>functional decomposition</primary>
+
+</indexterm>This example demonstrates a process known as <emphasis role="bold">functional decomposition</emphasis>. We broke a complex computation into simple methods, tested the methods in isolation, and then composed the methods to perform the final computation. </para><variablelist>
+  <varlistentry>
+    <term>functional decomposition:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>functional decomposition</primary>
+
+</indexterm>A process for breaking down a complex computation into simple methods, then composing the methods to perform the computation. </para></listitem>
+  </varlistentry>
+</variablelist>
+</sect1><sect1 id="a0000011020" remap="section">
+  <title>Overloading Methods</title>
+    <para>You might have noticed that <literal remap="verb" moreinfo="none">circleArea</literal> and <literal remap="verb" moreinfo="none">calculateArea</literal> perform similar functions. They both find the area of a circle, but they take different parameters. For <literal remap="verb" moreinfo="none">calculateArea</literal>, we have to provide the radius; for <literal remap="verb" moreinfo="none">circleArea</literal> we provide two points. </para><para><indexterm significance="normal">
+  <primary>overload</primary>
+
+</indexterm>If two methods do the same thing, it is natural to give them the same name. Having more than one method with the same name is called <emphasis role="bold">overloading</emphasis>, and it is legal in Java as long as each version of the method takes different parameters. So we could rename <literal remap="verb" moreinfo="none">circleArea</literal> to <literal remap="verb" moreinfo="none">calculateArea</literal>: </para><programlisting language="java" format="linespecific">public static double calculateArea
+        (double xc, double yc, double xp, double yp) {
+    return calculateArea(distance(xc, yc, xp, yp));
+}</programlisting><para>When you invoke an overloaded method, Java knows which version you want by looking at the arguments that you provide. </para><itemizedlist>
+  
+    <listitem><para>For <literal remap="verb" moreinfo="none">calculateArea(3.0)</literal>, Java uses the original <literal remap="verb" moreinfo="none">calculateArea</literal> method that takes a <literal remap="verb" moreinfo="none">double</literal> as an argument and interprets it as the radius. </para></listitem>
+  
+    <listitem><para>For <literal remap="verb" moreinfo="none">calculateArea(1.0, 2.0, 4.0, 6.0)</literal>, Java uses the new version of <literal remap="verb" moreinfo="none">calculateArea</literal> (renamed from <literal remap="verb" moreinfo="none">circleArea</literal>), which interprets the arguments as two points. </para></listitem>
+  
+</itemizedlist><para>In fact, the second version of <literal remap="verb" moreinfo="none">calculateArea</literal> invokes the first version (after invoking the <literal remap="verb" moreinfo="none">distance</literal> method). </para><para>Many Java library methods are overloaded, meaning that there are different versions that accept different numbers or types of parameters. For example, there are variants of <literal remap="verb" moreinfo="none">print</literal> and <literal remap="verb" moreinfo="none">println</literal> that accept a single parameter of any data type. In the <literal remap="verb" moreinfo="none">Math</literal> class, there is a version of <literal remap="verb" moreinfo="none">abs</literal> that works on <literal remap="verb" moreinfo="none">double</literal>s, and there is also a version for <literal remap="verb" moreinfo="none">int</literal>s. </para><para>Although overloading is a useful feature, it should be used with caution. You might get yourself nicely confused if you are trying to debug one version of a method while accidentally invoking a different one. </para><variablelist>
+  <varlistentry>
+    <term>overload:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>overload</primary>
+
+</indexterm>To define more than one method with the same name but with different parameters. </para></listitem>
+  </varlistentry>
+</variablelist>
+</sect1><sect1 id="a0000011062" remap="section">
+  <title>Generating Tables</title>
+    <para><indexterm significance="normal">
+  <primary>table</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>logarithm</primary>
+
+</indexterm>Before computers were readily available, people had to calculate logarithms, sines and cosines, and other common mathematical functions by hand. To make that easier, there were books of tables where you could look up values of various functions. Creating these tables by hand was slow and boring, and the results were often full of errors. </para><para>When computers appeared on the scene, one of the initial reactions was: “This is great! We can use a computer to generate the tables, so there will be no errors.” That turned out to be true (mostly), but shortsighted. Not much later, computers were so pervasive that printed tables became obsolete. </para><para><indexterm significance="normal">
+  <primary>division</primary>
+<secondary>floating-point</secondary>
+</indexterm>Even so, for some operations, computers use tables of values to get an approximate answer, and then perform computations to improve the approximation. In some cases, there have been errors in the underlying tables, most famously in the table the original Intel Pentium used to perform floating-point division (see <ulink url="https://en.wikipedia.org/wiki/Pentium_FDIV_bug"/>). </para><para>Although a “log table” is not as useful as it once was, it still makes a good example of iteration. The following loop displays a table with a sequence of values in the left column and their logarithms in the right column: </para><programlisting language="java" format="linespecific">int i = 1;
+while (i &lt; 10) {
+    double x = i;
+    System.out.println(x + "   " + Math.log(x));
+    i = i + 1;
+}</programlisting><para>The output of this program is: </para><programlisting format="linespecific">1.0   0.0
+2.0   0.6931471805599453
+3.0   1.0986122886681098
+4.0   1.3862943611198906
+5.0   1.6094379124341003
+6.0   1.791759469228055
+7.0   1.9459101490553132
+8.0   2.0794415416798357
+9.0   2.1972245773362196</programlisting><para><literal remap="verb" moreinfo="none">Math.log</literal> computes natural logarithms, that is, logarithms base <emphasis role="math">e</emphasis>. For computer science applications, we often want logarithms with respect to base 2. To compute them, we can apply this equation: </para><informalequation><mml:math mode="display" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:msub><mml:mo form="prefix">log</mml:mo><mml:mn>2</mml:mn></mml:msub><mml:mi>x</mml:mi><mml:mo>=</mml:mo><mml:mfrac><mml:mrow><mml:mi>l</mml:mi><mml:mi>o</mml:mi><mml:msub><mml:mi>g</mml:mi><mml:mi>e</mml:mi></mml:msub><mml:mi>x</mml:mi></mml:mrow><mml:mrow><mml:mi>l</mml:mi><mml:mi>o</mml:mi><mml:msub><mml:mi>g</mml:mi><mml:mi>e</mml:mi></mml:msub><mml:mn>2</mml:mn></mml:mrow></mml:mfrac></mml:mrow></mml:math></informalequation><para> We can modify the loop as follows: </para><programlisting language="java" format="linespecific">int i = 1;
+while (i &lt; 10) {
+    double x = i;
+    System.out.println(x + "   " + Math.log(x) / Math.log(2));
+    i = i + 1;
+}</programlisting><para>And here are the results: </para><programlisting format="linespecific">1.0   0.0
+2.0   1.0
+3.0   1.5849625007211563
+4.0   2.0
+5.0   2.321928094887362
+6.0   2.584962500721156
+7.0   2.807354922057604
+8.0   3.0
+9.0   3.1699250014423126</programlisting><para>Each time through the loop, we add one to <literal remap="verb" moreinfo="none">x</literal>, so the result is an arithmetic sequence. If we multiply <literal remap="verb" moreinfo="none">x</literal> by something instead, we get a geometric sequence: </para><programlisting language="java" format="linespecific">final double LOG2 = Math.log(2);
+int i = 1;
+while (i &lt; 100) {
+    double x = i;
+    System.out.println(x + "   " + Math.log(x) / LOG2);
+    i = i * 2;
+}</programlisting><para><indexterm significance="normal">
+  <primary>final</primary>
+
+</indexterm>The first line stores <literal remap="verb" moreinfo="none">Math.log(2)</literal> in a <literal remap="verb" moreinfo="none">final</literal> variable to avoid computing that value over and over again. The last line multiplies <literal remap="verb" moreinfo="none">x</literal> by 2. The result is: </para><programlisting format="linespecific">1.0   0.0
+2.0   1.0
+4.0   2.0
+8.0   3.0
+16.0   4.0
+32.0   5.0
+64.0   6.0</programlisting><para>This table shows the powers of two and their logarithms, base 2. Log tables may not be useful anymore, but for computer scientists, knowing the powers of two helps a lot! </para>
+</sect1><sect1 id="a0000011104" remap="section">
+  <title>The do-while Loop</title>
+    <para><indexterm significance="normal">
+  <primary>pretest loop</primary>
+
+</indexterm>The <literal remap="verb" moreinfo="none">while</literal> and <literal remap="verb" moreinfo="none">for</literal> statements are <emphasis role="bold">pretest loops</emphasis>; that is, they test the condition first and at the beginning of each pass through the loop. </para><para><indexterm significance="normal">
+  <primary>posttest loop</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>do-while</primary>
+
+</indexterm>Java also provides a <emphasis role="bold">posttest loop</emphasis>: the <literal remap="verb" moreinfo="none">do</literal>-<literal remap="verb" moreinfo="none">while</literal> statement. This type of loop is useful when you need to run the body of the loop at least once. </para><para>For example, in <xref linkend="validate"/> we used the <literal remap="verb" moreinfo="none">return</literal> statement to avoid reading invalid input from the user. We can use a <literal remap="verb" moreinfo="none">do</literal>-<literal remap="verb" moreinfo="none">while</literal> loop to keep reading input until it’s valid: </para><programlisting language="java" format="linespecific">Scanner in = new Scanner(System.in);
+boolean okay;
+do {
+    System.out.print("Enter a number: ");
+    if (in.hasNextDouble()) {
+        okay = true;
+    } else {
+        okay = false;
+        String word = in.next();
+        System.err.println(word + " is not a number");
+    }
+} while (!okay);
+double x = in.nextDouble();</programlisting><para>Although this code looks complicated, it is essentially only three steps: </para><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>Display a prompt. </para></listitem>
+  
+  <listitem><para>Check the input; if invalid, display an error and start over. </para></listitem>
+  
+  <listitem><para>Read the input. </para></listitem>
+  
+</orderedlist><para><indexterm significance="normal">
+  <primary>System.err</primary>
+
+</indexterm>The code uses a flag variable, <literal remap="verb" moreinfo="none">okay</literal>, to indicate whether we need to repeat the loop body. If <literal remap="verb" moreinfo="none">hasNextDouble()</literal> returns <literal remap="verb" moreinfo="none">false</literal>, we consume the invalid input by calling <literal remap="verb" moreinfo="none">next()</literal>. We then display an error message via <literal remap="verb" moreinfo="none">System.err</literal>. The loop terminates when <literal remap="verb" moreinfo="none">hasNextDouble()</literal> return <literal remap="verb" moreinfo="none">true</literal>. </para><variablelist>
+  <varlistentry>
+    <term>pretest loop:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>pretest loop</primary>
+
+</indexterm>A loop that tests the condition before each iteration. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>posttest loop:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>posttest loop</primary>
+
+</indexterm>A loop that tests the condition after each iteration. </para></listitem>
+  </varlistentry>
+</variablelist>
+</sect1><sect1 id="a0000011149" remap="section">
+  <title>Break and Continue</title>
+    <para>Sometimes neither a pretest nor a posttest loop will provide exactly what you need. In the previous example, the “test” needed to happen in the middle of the loop. As a result, we used a flag variable and a nested <literal remap="verb" moreinfo="none">if</literal>-<literal remap="verb" moreinfo="none">else</literal> statement. </para><para><indexterm significance="normal">
+  <primary>break</primary>
+
+</indexterm>A simpler way to solve this problem is to use a <literal remap="verb" moreinfo="none">break</literal> statement. When a program reaches a <literal remap="verb" moreinfo="none">break</literal> statement, it exits the current loop. </para><programlisting language="java" format="linespecific">Scanner in = new Scanner(System.in);
+while (true) {
+    System.out.print("Enter a number: ");
+    if (in.hasNextDouble()) {
+        break;
+    }
+    String word = in.next();
+    System.err.println(word + " is not a number");
+}
+double x = in.nextDouble();</programlisting><para>Using <literal remap="verb" moreinfo="none">true</literal> as a conditional in a <literal remap="verb" moreinfo="none">while</literal> loop is an idiom that means “loop forever”, or in this case “loop until you get to a <literal remap="verb" moreinfo="none">break</literal> statement.” </para><para><indexterm significance="normal">
+  <primary>continue</primary>
+
+</indexterm>In addition to the <literal remap="verb" moreinfo="none">break</literal> statement, which exits the loop, Java provides a <literal remap="verb" moreinfo="none">continue</literal> statement that moves on to the next iteration. For example, the following code reads integers from the keyboard and computes a running total. The <literal remap="verb" moreinfo="none">continue</literal> statement causes the program to skip over any negative values. </para><programlisting language="java" format="linespecific">Scanner in = new Scanner(System.in);
+int x = -1;
+int sum = 0;
+while (x != 0) {
+    x = in.nextInt();
+    if (x &lt;= 0) {
+        continue;
+    }
+    System.out.println("Adding " + x);
+    sum += x;
+}</programlisting><para>Although <literal remap="verb" moreinfo="none">break</literal> and <literal remap="verb" moreinfo="none">continue</literal> statements give you more control of the loop execution, they can make code difficult to understand. Use them sparingly. </para>
+</sect1><sect1 id="a0000011173" remap="section">
+  <title>Modifier Methods</title>
+    <para>In <xref linkend="addingtime"/>, the <literal remap="verb" moreinfo="none">add</literal> method did not modify the parameters <literal remap="verb" moreinfo="none">t1</literal> or <literal remap="verb" moreinfo="none">t2</literal>. Instead, it created and returned a new <literal remap="verb" moreinfo="none">Time</literal> object. </para><para>Alternatively, we could have written a method like this: </para><programlisting language="java" format="linespecific">public void increment(double seconds) {
+    this.second += seconds;
+
+    // carry extra seconds
+    this.minute += this.second / 60;
+    this.second = this.second % 60;
+
+    // carry extra minutes
+    this.hour += this.minute / 60;
+    this.minute = this.minute % 60;
+}</programlisting><para>The <literal remap="verb" moreinfo="none">increment</literal> method modifies an existing <literal remap="verb" moreinfo="none">Time</literal> object. It doesn’t create a new one, and it doesn’t return anything. </para><para><indexterm significance="normal">
+  <primary>modifier method</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>modifier</secondary>
+</indexterm>Methods like <literal remap="verb" moreinfo="none">increment</literal> are called <emphasis role="bold">modifier</emphasis> methods. They are usually void, but sometimes they return a reference to the object they modify. </para><para><indexterm significance="normal">
+  <primary>pure method</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>method</primary>
+<secondary>pure</secondary>
+</indexterm>In contrast, methods like <literal remap="verb" moreinfo="none">add</literal> are called <emphasis role="bold">pure</emphasis> methods, because: </para><itemizedlist>
+  
+    <listitem><para>They don’t modify the parameters. </para></listitem>
+  
+    <listitem><para>They don’t have any other “side effects”, like printing. </para></listitem>
+  
+    <listitem><para>The return value only depends on the parameters, not on any other data. </para></listitem>
+  
+</itemizedlist><para>Modifiers can be more efficient because they don’t create new objects. But they can also be error-prone. Especially when objects are aliased, the effects of modifiers can be confusing. </para><para><indexterm significance="normal">
+  <primary>immutable</primary>
+
+</indexterm>If a class provides only getters and pure methods (no setters or modifiers), then the objects will be immutable. Working with immutable objects can be more difficult at first, but they can save you from long hours of debugging. </para><variablelist>
+  <varlistentry>
+    <term>modifier method:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>modifier method</primary>
+
+</indexterm>A method that changes the state (instance variables) of an object. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>pure method:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>pure method</primary>
+
+</indexterm>A method that depends only on its parameters (including the implicit parameter <literal remap="verb" moreinfo="none">this</literal>) and no other data. </para></listitem>
+  </varlistentry>
+</variablelist>
+</sect1><sect1 id="a0000011215" remap="section">
+  <title>Recursive Search</title>
+    <para><indexterm significance="normal">
+  <primary>recursion</primary>
+
+</indexterm>Another way to implement binary search is with a recursive method. We take <literal remap="verb" moreinfo="none">low</literal> and <literal remap="verb" moreinfo="none">high</literal> as parameters, add a base case, and turn steps 3 and 4 into recursive invocations. </para><programlisting language="java" format="linespecific">public static int binarySearch(Card[] cards, Card target,
+                               int low, int high) {
+    if (high &lt; low) {
+        return -1;
+    }
+    int mid = (low + high) / 2;                     // step 1
+    int comp = cards[mid].compareTo(target);
+
+    if (comp == 0) {                                // step 2
+        return mid;
+    } else if (comp &lt; 0) {                          // step 3
+        return binarySearch(cards, target, mid + 1, high);
+    } else {                                        // step 4
+        return binarySearch(cards, target, low, mid - 1);
+    }
+}</programlisting><para>Instead of a <literal remap="verb" moreinfo="none">while</literal> loop, we have an <literal remap="verb" moreinfo="none">if</literal> statement to terminate the recursion. If <literal remap="verb" moreinfo="none">high</literal> is less than <literal remap="verb" moreinfo="none">low</literal>, there are no cards between them, and we conclude that the card is not in the array. </para><para><indexterm significance="normal">
+  <primary>infinite recursion</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>recursion</primary>
+<secondary>infinite</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>StackOverflowError</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>exception</primary>
+<secondary>StackOverflow</secondary>
+</indexterm>Two common errors in recursive methods are (1) forgetting to include a base case, and (2) writing the recursive call so that the base case is never reached. Either error causes infinite recursion and a <literal remap="verb" moreinfo="none">StackOverflowError</literal>. </para></sect1>
+</appendix>
+<index></index>
+</book>

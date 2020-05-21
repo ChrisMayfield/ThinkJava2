@@ -1,0 +1,611 @@
+<chapter id="immutable">
+  <title>Immutable Objects</title><para><indexterm significance="normal">
+  <primary>object-oriented</primary>
+
+</indexterm>Java is an <emphasis role="bold">object-oriented</emphasis> language, which means that it uses objects to (1) represent data and (2) provide methods related to them. This way of organizing programs is a powerful design concept, and we will introduce it gradually throughout the remainder of the book. </para><para><indexterm significance="normal">
+  <primary>object</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>System.in</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>System.out</primary>
+
+</indexterm>An <emphasis role="bold">object</emphasis> is a collection of data that provides a set of methods. For example, <literal moreinfo="none">Scanner</literal>, which we saw in <xref linkend="scanner"/>, is an object that provides methods for parsing input. <literal moreinfo="none">System.out</literal> and <literal moreinfo="none">System.in</literal> are also objects. </para><para>Strings are objects, too. They contain characters and provide methods for manipulating character data. Other data types, like <literal moreinfo="none">Integer</literal>, contain numbers and provide methods for manipulating number data. We will explore some of these methods in this chapter. </para><sect1 id="a0000006443" remap="section">
+  <title>Primitives vs Objects</title>
+    <para><indexterm significance="normal">
+  <primary>primitive</primary>
+
+</indexterm>Not everything in Java is an object: <literal moreinfo="none">int</literal>, <literal moreinfo="none">double</literal>, <literal moreinfo="none">char</literal>, and <literal moreinfo="none">boolean</literal> are <emphasis role="bold">primitive</emphasis> types. When you declare a variable with a primitive type, Java reserves a small amount of memory to store its value. <xref linkend="fig.mem1"/> shows how the following values are stored in memory. </para><programlisting language="java" format="linespecific">int number = -2;
+char symbol = '!';</programlisting><figure id="fig.mem1" float="False">
+    <title>Memory diagram of two primitive variables.</title>
+     <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/mem1.pdf"></imagedata>
+  </imageobject>
+</mediaobject></figure>
+<para><indexterm significance="normal">
+  <primary>memory diagram</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>diagram</primary>
+<secondary>memory</secondary>
+</indexterm>As we learned in <xref linkend="elements"/>, an array variable stores a <emphasis>reference</emphasis> to an array. For example, the following line declares a variable named <literal moreinfo="none">array</literal> and creates an array of three characters. </para><programlisting language="java" format="linespecific">    char[] array = {'c', 'a', 't'};</programlisting><para><xref linkend="fig.mem2"/> shows them both, with a box to represent the location of the variable and an arrow pointing to the location of the array. </para>
+  
+  <figure id="fig.mem2" float="False">
+    <title>Memory diagram of an array of characters.</title>
+     <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/mem2.pdf"></imagedata>
+  </imageobject>
+</mediaobject></figure>
+<para>Objects work in a similar way. For example, this line declares a <literal moreinfo="none">String</literal> variable named <literal moreinfo="none">word</literal> and creates a <literal moreinfo="none">String</literal> object, as shown in <xref linkend="fig.mem3"/>. </para><programlisting language="java" format="linespecific">String word = "dog";</programlisting><figure id="fig.mem3" float="False">
+    <title>Memory diagram of a <literal moreinfo="none">String</literal> object.</title>
+     <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/mem3.pdf"></imagedata>
+  </imageobject>
+</mediaobject></figure>
+<para>Objects and arrays are usually created with the <literal moreinfo="none">new</literal> keyword, which allocates memory for them. For convenience, you don’t have to use <literal moreinfo="none">new</literal> to create strings: </para><programlisting language="java" format="linespecific">String word = new String("dog");  // creates a string object
+String word = "dog";   // implicitly creates a string object</programlisting><para><indexterm significance="normal">
+  <primary>string</primary>
+<secondary>comparing</secondary>
+</indexterm>Recall from <xref linkend="strcmp"/> that you need to use the <literal moreinfo="none">equals</literal> method to compare strings. The <literal moreinfo="none">equals</literal> method traverses the <literal moreinfo="none">String</literal> objects and tests whether they contain the same characters. </para><para>To test whether two integers or other primitive types are equal, you can simply use the <literal moreinfo="none">==</literal> operator. But two <literal moreinfo="none">String</literal> objects with the same characters would not be considered equal in the <literal moreinfo="none">==</literal> sense. The <literal moreinfo="none">==</literal> operator, when applied to string variables, only tests whether they refer to the <emphasis>same</emphasis> object. </para>
+</sect1><sect1 id="a0000006532" remap="section">
+  <title>The null Keyword</title>
+    <para>Often when you declare an object variable, you assign it to reference an object. But sometimes you want to declare variable that doesn’t refer to an object, at least initially. </para><para><indexterm significance="normal">
+  <primary>null</primary>
+
+</indexterm>In Java, the keyword <literal moreinfo="none">null</literal> is a special value that means “no object”. You can initialize object and array variables this way: </para><programlisting language="java" format="linespecific">String name = null;
+int[] combo = null;</programlisting><para>The value <literal moreinfo="none">null</literal> is represented in memory diagrams by a small box with no arrow, as in <xref linkend="fig.mem4"/>. </para>
+  
+  <figure id="fig.mem4" float="False">
+    <title>Memory diagram showing variables that are <literal moreinfo="none">null</literal>.</title>
+     <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/mem4.pdf"></imagedata>
+  </imageobject>
+</mediaobject></figure>
+<para><indexterm significance="normal">
+  <primary>NullPointerException</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>exception</primary>
+<secondary>NullPointer</secondary>
+</indexterm>If you try to use a variable that is <literal moreinfo="none">null</literal> by invoking a method or accessing an element, Java throws a <literal moreinfo="none">NullPointerException</literal>. </para><programlisting language="java" format="linespecific">System.out.println(name.length());  // NullPointerException
+System.out.println(combo[0]);       // NullPointerException</programlisting><para>On the other hand, it is perfectly fine to pass a <literal moreinfo="none">null</literal> reference as an argument to a method, or to receive one as a return value. In these situations, <literal moreinfo="none">null</literal> is often used to represent a special condition or indicate an error. </para>
+</sect1><sect1 id="a0000006566" remap="section">
+  <title>Strings are Immutable</title>
+    <para>If the Java library didn’t have a <literal moreinfo="none">String</literal> class, we would have to use character arrays to store and manipulate text. Operations like concatenation (<literal moreinfo="none">+</literal>), <literal moreinfo="none">indexOf</literal>, and <literal moreinfo="none">substring</literal> would be difficult and inconvenient. Fortunately, Java does have a <literal moreinfo="none">String</literal> class that provides these and other methods. </para><para><indexterm significance="normal">
+  <primary>toUpperCase</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>toLowerCase</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>immutable</primary>
+
+</indexterm>For example, the methods <literal moreinfo="none">toLowerCase</literal> and <literal moreinfo="none">toUpperCase</literal> convert uppercase letters to lowercase, and vice versa. These methods are often a source of confusion, because it sounds like they modify strings. But neither these methods nor any others can change a string, because strings are <emphasis role="bold">immutable</emphasis>. </para><para>When you invoke <literal moreinfo="none">toUpperCase</literal> on a string, you get a new <literal moreinfo="none">String</literal> object as a result. For example: </para><programlisting language="java" format="linespecific">String name = "Alan Turing";
+String upperName = name.toUpperCase();</programlisting><para>After these statements run, <literal moreinfo="none">upperName</literal> refers to the string <literal moreinfo="none">"ALAN TURING"</literal>. But <literal moreinfo="none">name</literal> still refers to <literal moreinfo="none">"Alan Turing"</literal>. A common mistake is to assume that <literal moreinfo="none">toUpperCase</literal> somehow affects the original string: </para><programlisting language="java" format="linespecific">String name = "Alan Turing";
+name.toUpperCase();           // ignores the return value
+System.out.println(name);</programlisting><para>The previous code displays <literal moreinfo="none">"Alan Turing"</literal>, because the value of <literal moreinfo="none">name</literal>, which refers to the original <literal moreinfo="none">String</literal> object, never changes. If you want to change <literal moreinfo="none">name</literal> to be uppercase, then you need to assign the return value: </para><programlisting language="java" format="linespecific">String name = "Alan Turing";
+name = name.toUpperCase();    // references the new string
+System.out.println(name);</programlisting><para><indexterm significance="normal">
+  <primary>replace</primary>
+
+</indexterm>A similar method is <literal moreinfo="none">replace</literal>, which finds and replaces instances of one string within another. This example replaces <literal moreinfo="none">"Computer Science"</literal> with <literal moreinfo="none">"CS"</literal>: </para><programlisting language="java" format="linespecific">String text = "Computer Science is fun!";
+text = text.replace("Computer Science", "CS");</programlisting><para>As with <literal moreinfo="none">toUpperCase</literal>, assigning the return value (to <literal moreinfo="none">text</literal>) is important. If you don’t assign the return value, invoking <literal moreinfo="none">text.replace</literal> has no effect. </para><para>Strings are immutable by design, because it simplifies passing them as parameters and return values. And since the contents of a string can never change, two variables can reference the same string without one accidentally corrupting the other. </para>
+</sect1><sect1 id="a0000006636" remap="section">
+  <title>Wrapper Classes</title>
+    <para>Primitive types like <literal moreinfo="none">int</literal>, <literal moreinfo="none">double</literal>, and <literal moreinfo="none">char</literal> cannot be <literal moreinfo="none">null</literal>, and they do not provide methods. For example, you can’t invoke <literal moreinfo="none">equals</literal> on an <literal moreinfo="none">int</literal>: </para><programlisting language="java" format="linespecific">int i = 5;
+System.out.println(i.equals(5));  // compiler error</programlisting><para><indexterm significance="normal">
+  <primary>wrapper class</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>class</primary>
+<secondary>wrapper</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>Character</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>Integer</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>Double</primary>
+
+</indexterm>But for each primitive type, there is a corresponding <emphasis role="bold">wrapper class</emphasis> in the Java library. The wrapper class for <literal moreinfo="none">int</literal> is named <literal moreinfo="none">Integer</literal>, with a capital <literal moreinfo="none">I</literal>. </para><programlisting language="java" format="linespecific">Integer i = Integer.valueOf(5);
+System.out.println(i.equals(5));  // displays true</programlisting><para>Other wrapper classes include <literal moreinfo="none">Boolean</literal>, <literal moreinfo="none">Character</literal>, <literal moreinfo="none">Double</literal>, and <literal moreinfo="none">Long</literal>. They are in the <literal moreinfo="none">java.lang</literal> package, so you can use them without importing them. </para><para>Like strings, objects from wrapper classes are immutable, and you have to use the <literal moreinfo="none">equals</literal> method to compare them. </para><programlisting language="java" format="linespecific">Integer x = Integer.valueOf(123);
+Integer y = Integer.valueOf(123);
+if (x == y) {                     // false
+    System.out.println("x and y are the same object");
+}
+if (x.equals(y)) {                // true
+    System.out.println("x and y have the same value");
+}</programlisting><para>Because <literal moreinfo="none">x</literal> and <literal moreinfo="none">y</literal> refer to different objects, this code only displays “x and y have the same value”. </para><para>Each wrapper class defines the constants <literal moreinfo="none">MIN_VALUE</literal> and <literal moreinfo="none">MAX_VALUE</literal>. For example, <literal moreinfo="none">Integer.MIN_VALUE</literal> is <literal moreinfo="none">-2147483648</literal>, and <literal moreinfo="none">Integer.MAX_VALUE</literal> is <literal moreinfo="none">2147483647</literal>. Because these constants are available in wrapper classes, you don’t have to remember them, and you don’t have to write them yourself. </para><para><indexterm significance="normal">
+  <primary>parse</primary>
+
+</indexterm>Wrapper classes also provide methods for converting strings to and from primitive types. For example, <literal moreinfo="none">Integer.parseInt</literal> converts a string to an <literal moreinfo="none">int</literal>. In this context, <emphasis role="bold">parse</emphasis> means “read and translate”. </para><programlisting language="java" format="linespecific">String str = "12345";
+int num = Integer.parseInt(str);</programlisting><para>Other wrapper classes provide similar methods, like <literal moreinfo="none">Double.parseDouble</literal> and <literal moreinfo="none">Boolean.parseBoolean</literal>. They also provide <literal moreinfo="none">toString</literal>, which returns a string representation of a value: </para><programlisting language="java" format="linespecific">int num = 12345;
+String str = Integer.toString(num);</programlisting><para>The result is the <literal moreinfo="none">String</literal> object <literal moreinfo="none">"12345"</literal>. </para><para><indexterm significance="normal">
+  <primary>NumberFormatException</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>exception</primary>
+<secondary>NumberFormat</secondary>
+</indexterm>It’s always possible to convert a primitive value to a string, but not the other way around. For example, if we try to parse an invalid string like this: </para><programlisting language="java" format="linespecific">String str = "five";
+int num = Integer.parseInt(str);  // NumberFormatException</programlisting><para><literal moreinfo="none">parseInt</literal> throws a <literal moreinfo="none">NumberFormatException</literal>, because the characters in the string <literal moreinfo="none">"five"</literal> are not digits. </para>
+</sect1><sect1 id="a0000006733" remap="section">
+  <title>Command-Line Arguments</title>
+    <para><indexterm significance="normal">
+  <primary>args</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>command-line interface</primary>
+
+</indexterm>Now that you know about strings, arrays, and wrapper classes, we can <emphasis>finally</emphasis> explain the <literal moreinfo="none">args</literal> parameter of the <literal moreinfo="none">main</literal> method, which we have been ignoring since <xref linkend="theway"/>. If you are unfamiliar with the command-line interface, please read <xref linkend="commandline"/>. </para><para>Let’s write a program to find the maximum value in a sequence of numbers. Rather than read the numbers from <literal moreinfo="none">System.in</literal> using a <literal moreinfo="none">Scanner</literal>, we’ll pass them as command-line arguments. Here is a starting point: </para><programlisting language="java" format="linespecific">import java.util.Arrays;
+public class Max {
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString(args));
+    }
+}</programlisting><para>You can run this program from the command line by typing: </para><programlisting format="linespecific">java Max</programlisting><para><indexterm significance="normal">
+  <primary>empty array</primary>
+
+</indexterm>The output indicates that <literal moreinfo="none">args</literal> is an <emphasis role="bold">empty array</emphasis>; that is, it has no elements: </para><programlisting format="linespecific">[]</programlisting><para>If you provide additional values on the command line, they are passed as arguments to <literal moreinfo="none">main</literal>. For example, if you run the program like this: </para><programlisting format="linespecific">java Max 10 -3 55 0 14</programlisting><para>The output is: </para><programlisting format="linespecific">[10, -3, 55, 0, 14]</programlisting><para>It’s not clear from the output, but the elements of <literal moreinfo="none">args</literal> are strings. So <literal moreinfo="none">args</literal> is the array <literal moreinfo="none">{"10", "-3", "55", "0", "14"}</literal>. To find the maximum number, we have to convert the arguments to integers. </para><para>The following code uses an enhanced <literal moreinfo="none">for</literal> loop (see <xref linkend="enhanced"/>) to parse the arguments and find the largest value: </para><programlisting language="java" format="linespecific">int max = Integer.MIN_VALUE;
+for (String arg : args) {
+    int value = Integer.parseInt(arg);
+    if (value &gt; max) {
+        max = value;
+    }
+}
+System.out.println("The max is " + max);</programlisting><para>We begin by initializing <literal moreinfo="none">max</literal> to the smallest (most negative) number an <literal moreinfo="none">int</literal> can represent. That way, the first value we parse will replace <literal moreinfo="none">max</literal>. As we find larger values, they will replace <literal moreinfo="none">max</literal> as well. </para><para>If <literal moreinfo="none">args</literal> is empty, the result will be <literal moreinfo="none">MIN_VALUE</literal>. We can prevent this situation from happening by checking <literal moreinfo="none">args</literal> at the beginning of the program: </para><programlisting language="java" format="linespecific">if (args.length == 0) {
+    System.err.println("Usage: java Max &lt;numbers&gt;");
+    return;
+}</programlisting><para>It’s customary for programs that require command-line arguments to display a “usage” message if the arguments are not valid. For example, if you run <literal moreinfo="none">javac</literal> or <literal moreinfo="none">java</literal> from the command line without any arguments, you will get a very long message. </para>
+</sect1><sect1 id="a0000006811" remap="section">
+  <title>Argument Validation</title>
+    <para>As we discussed in <xref linkend="validate"/>, you should never assume that program input will be in the correct format. Sometimes users make mistakes, such as pressing the wrong key or misreading instructions. </para><para><indexterm significance="normal">
+  <primary>hacker</primary>
+
+</indexterm>Or even worse, someone might make intentional “mistakes” to see what your program will do. One way hackers break into computer systems is by entering malicious input that causes a program to fail. </para><para>Programmers can make mistakes too. It’s difficult to write bug-free software, especially when working in teams on large projects. </para><para><indexterm significance="normal">
+  <primary>validate</primary>
+
+</indexterm>For all of these reasons, it’s good practice to validate arguments passed to methods, including the <literal moreinfo="none">main</literal> method. In the previous section, we did this by ensuring that <literal moreinfo="none">args.length</literal> was not zero. </para><para><indexterm significance="normal">
+  <primary>Character</primary>
+
+</indexterm>As a further example, consider a method that checks whether the first word of a sentence is capitalized. We can write this method using the <literal moreinfo="none">Character</literal> wrapper class: </para><programlisting language="java" format="linespecific">public static boolean isCapitalized(String str) {
+    return Character.isUpperCase(str.charAt(0));
+}</programlisting><para><indexterm significance="normal">
+  <primary>NullPointerException</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>exception</primary>
+<secondary>NullPointer</secondary>
+</indexterm>The expression <literal moreinfo="none">str.charAt(0)</literal> makes two assumptions: the string object referenced by <literal moreinfo="none">str</literal> exists, and it has at least one character. What if these assumptions don’t hold at run-time? </para><itemizedlist>
+  
+    <listitem><para>If <literal moreinfo="none">str</literal> is <literal moreinfo="none">null</literal>, invoking <literal moreinfo="none">charAt</literal> will cause a <literal moreinfo="none">NullPointerException</literal>, because you can’t invoke a method on <literal moreinfo="none">null</literal>. </para></listitem>
+  
+    <listitem><para>If <literal moreinfo="none">str</literal> refers to an empty string, which is a <literal moreinfo="none">String</literal> object with no characters, <literal moreinfo="none">charAt</literal> will cause a <literal moreinfo="none">StringIndexOutOfBoundsException</literal>, because there is no character at index <literal moreinfo="none">0</literal>. </para></listitem>
+  
+</itemizedlist><para><indexterm significance="normal">
+  <primary>StringIndexOutOfBoundsException</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>exception</primary>
+<secondary>StringIndexOutOfBounds</secondary>
+</indexterm>We can prevent these exceptions by validating <literal moreinfo="none">str</literal> <emphasis>at the start</emphasis> of the method. If it’s invalid, we return before executing the rest of the method. </para><programlisting language="java" format="linespecific">public static boolean isCapitalized(String str) {
+    if (str == null || str.isEmpty()) {
+        return false;
+    }
+    return Character.isUpperCase(str.charAt(0));
+}</programlisting><para>Notice that <literal moreinfo="none">null</literal> and “empty” are different concepts, as shown in <xref linkend="fig.nullempty"/>. The variable <literal moreinfo="none">str1</literal> is <literal moreinfo="none">null</literal>, meaning that it doesn’t reference an object. The variable <literal moreinfo="none">str2</literal> refers to the empty string, an object that exists. </para>
+  
+  <figure id="fig.nullempty" float="False">
+    <title>Memory diagram of <literal moreinfo="none">null</literal> and empty string.</title>
+     <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/nullempty.pdf"></imagedata>
+  </imageobject>
+</mediaobject></figure>
+<para>Beginners sometimes make the mistake of checking for empty first. Doing so causes a <literal moreinfo="none">NullPointerException</literal>, because you can’t invoke methods on variables that are <literal moreinfo="none">null</literal>. </para><programlisting language="java" format="linespecific">if (str.isEmpty() || str == null) {    // wrong!</programlisting><para><indexterm significance="normal">
+  <primary>short circuit</primary>
+
+</indexterm>Checking for <literal moreinfo="none">null</literal> first prevents the <literal moreinfo="none">NullPointerException</literal>. If <literal moreinfo="none">str</literal> is <literal moreinfo="none">null</literal>, the <literal moreinfo="none">||</literal> operator will short circuit (see <xref linkend="shortcircuit"/>) and evaluate to <literal moreinfo="none">true</literal> immediately. As a result, <literal moreinfo="none">str.isEmpty()</literal> will not be called. </para>
+</sect1><sect1 id="a0000006914" remap="section">
+  <title>BigInteger Arithmetic</title>
+    <para>It might not be clear at this point why you would ever need an integer object when you can just use an <literal moreinfo="none">int</literal> or <literal moreinfo="none">long</literal>. One advantage is the variety of methods that <literal moreinfo="none">Integer</literal> and <literal moreinfo="none">Long</literal> provide. But there is another reason: when you need very large integers that exceed <literal moreinfo="none">Long.MAX_VALUE</literal>. </para><para><indexterm significance="normal">
+  <primary>BigInteger</primary>
+
+</indexterm><literal moreinfo="none">BigInteger</literal> is a Java class that can represent arbitrarily large integers. There is no upper bound except the limitations of memory size and processing speed. Take a minute to read the documentation, which you can find by doing a web search for “Java BigInteger”. </para><para><indexterm significance="normal">
+  <primary>java.math</primary>
+
+</indexterm>To use BigIntegers, you have to <literal moreinfo="none">import java.math.BigInteger</literal> at the beginning of your program. There are several ways to create a BigInteger, but the simplest uses <literal moreinfo="none">valueOf</literal>. The following code converts a <literal moreinfo="none">long</literal> to a BigInteger: </para><programlisting language="java" format="linespecific">long x = 17;
+BigInteger big = BigInteger.valueOf(x);</programlisting><para>You can also create BigIntegers from strings. For example, here is a 20-digit integer that is too big to store using a <literal moreinfo="none">long</literal>. </para><programlisting language="java" format="linespecific">String s = "12345678901234567890";
+BigInteger bigger = new BigInteger(s);</programlisting><para>Notice the difference in the previous two examples: you use <literal moreinfo="none">valueOf</literal> to convert integers, and <literal moreinfo="none">new BigInteger</literal> to convert strings. </para><para>Since BigIntegers are not primitive types, the usual math operators don’t work. Instead, we have to use methods like <literal moreinfo="none">add</literal>. To add two BigIntegers, we invoke <literal moreinfo="none">add</literal> on one and pass the other as an argument. </para><programlisting language="java" format="linespecific">BigInteger a = BigInteger.valueOf(17);
+BigInteger b = BigInteger.valueOf(1700000000);
+BigInteger c = a.add(b);</programlisting><para>Like strings, <literal moreinfo="none">BigInteger</literal> objects are immutable. Methods like <literal moreinfo="none">add</literal>, <literal moreinfo="none">multiply</literal>, and <literal moreinfo="none">pow</literal> all return new BigIntegers, rather than modify an existing one. </para><para>Internally, a BigInteger is implemented using an array of <literal moreinfo="none">int</literal>s, similar to the way a string is implemented using an array of <literal moreinfo="none">char</literal>s. Each <literal moreinfo="none">int</literal> in the array stores a portion of the BigInteger. The methods of <literal moreinfo="none">BigInteger</literal> traverse this array to perform addition, multiplication, etc. </para><para>For very long floating-point values, take a look at <literal moreinfo="none">java.math.BigDecimal</literal>. Interestingly, <literal moreinfo="none">BigDecimal</literal> objects represent floating-point numbers internally using a <literal moreinfo="none">BigInteger</literal>! </para>
+</sect1><sect1 id="encapsulation" remap="section">
+  <title>Incremental Design</title><para><indexterm significance="normal">
+  <primary>design process</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>encapsulation</primary>
+<secondary>and generalization</secondary>
+</indexterm>One challenge of programming, especially for beginners, is figuring out how to divide a program into methods. In this section, we present a <emphasis role="bold">design process</emphasis> that allows you to divide a program into methods as you go along. The process is called “encapsulation and generalization”. The essential steps are: </para><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>Write a few lines of code in <literal moreinfo="none">main</literal> or another method, and test them. </para></listitem>
+  
+  <listitem><para>When they are working, wrap them in a new method, and test again. </para></listitem>
+  
+  <listitem><para>If it’s appropriate, replace literal values with variables and parameters. </para></listitem>
+  
+</orderedlist><para><indexterm significance="normal">
+  <primary>table</primary>
+<secondary>two-dimensional</secondary>
+</indexterm>To demonstrate this process, we’ll develop methods that display multiplication tables. We begin by writing and testing a few lines of code. Here is a loop that displays the multiples of two, all on one line: </para><programlisting language="java" format="linespecific">for (int i = 1; i &lt;= 6; i++) {
+    System.out.printf("%4d", 2 * i);
+}
+System.out.println();</programlisting><para>Each time through the loop, we display the value of <literal moreinfo="none">2 * i</literal>, padded with spaces so it’s four characters wide. Since we use <literal moreinfo="none">System.out.printf</literal>, the output appears on a single line. </para><para>After the loop, we call <literal moreinfo="none">println</literal> to print a newline character. Remember that in some environments, none of the output is displayed until the line is complete. The output of the code so far is: </para><programlisting format="linespecific">   2   4   6   8  10  12</programlisting><para><indexterm significance="normal">
+  <primary>encapsulate</primary>
+
+</indexterm>The next step is <emphasis role="bold">encapsulation</emphasis>; that is, we “wrap” the code in a method: </para><programlisting language="java" format="linespecific">public static void printRow() {
+    for (int i = 1; i &lt;= 6; i++) {
+        System.out.printf("%4d", 2 * i);
+    }
+    System.out.println();
+}</programlisting><para><indexterm significance="normal">
+  <primary>generalize</primary>
+
+</indexterm>Finally, we generalize the method to print multiples of other numbers by replacing the constant value <literal moreinfo="none">2</literal> with a parameter <literal moreinfo="none">n</literal>. This step is called <emphasis role="bold">generalization</emphasis>, because it makes the method more general (less specific). </para><programlisting language="java" format="linespecific">public static void printRow(int n) {
+    for (int i = 1; i &lt;= 6; i++) {
+        System.out.printf("%4d", n * i);  // generalized n
+    }
+    System.out.println();
+}</programlisting><para>Invoking this method with the argument <literal moreinfo="none">2</literal> yields the same output as before. With the argument <literal moreinfo="none">3</literal>, the output is: </para><programlisting format="linespecific">   3   6   9  12  15  18</programlisting><para>By now you can probably guess how we are going to display a multiplication table: we’ll invoke <literal moreinfo="none">printRow</literal> repeatedly with different arguments. In fact, we’ll use another loop to iterate through the rows. </para><programlisting language="java" format="linespecific">for (int i = 1; i &lt;= 6; i++) {
+    printRow(i);
+}</programlisting><para>And the output looks like this: </para><programlisting format="linespecific">   1   2   3   4   5   6
+   2   4   6   8  10  12
+   3   6   9  12  15  18
+   4   8  12  16  20  24
+   5  10  15  20  25  30
+   6  12  18  24  30  36</programlisting></sect1><sect1 id="a0000007043" remap="section">
+  <title>More Generalization</title>
+    <para>The previous result is similar to the “nested loops” approach in <xref linkend="nested"/>. However, the inner loop is now encapsulated in the <literal moreinfo="none">printRow</literal> method. We can encapsulate the outer loop in a method too: </para><programlisting language="java" format="linespecific">public static void printTable() {
+    for (int i = 1; i &lt;= 6; i++) {
+        printRow(i);
+    }
+}</programlisting><para>The initial version of <literal moreinfo="none">printTable</literal> always displays six rows. We can generalize it by replacing the literal <literal moreinfo="none">6</literal> with a parameter: </para><programlisting language="java" format="linespecific">public static void printTable(int rows) {
+    for (int i = 1; i &lt;= rows; i++) {     // generalized rows
+        printRow(i);
+    }
+}</programlisting><para>Here is the output of <literal moreinfo="none">printTable(7)</literal>: </para><programlisting format="linespecific">   1   2   3   4   5   6
+   2   4   6   8  10  12
+   3   6   9  12  15  18
+   4   8  12  16  20  24
+   5  10  15  20  25  30
+   6  12  18  24  30  36
+   7  14  21  28  35  42</programlisting><para>That’s better, but it always displays the same number of columns. We can generalize more by adding a parameter to <literal moreinfo="none">printRow</literal>: </para><programlisting language="java" format="linespecific">public static void printRow(int n, int cols) {
+    for (int i = 1; i &lt;= cols; i++) {     // generalized cols
+        System.out.printf("%4d", n * i);
+    }
+    System.out.println();
+}</programlisting><para>Now <literal moreinfo="none">printRow</literal> takes two parameters: <literal moreinfo="none">n</literal> is the value whose multiples should be displayed, and <literal moreinfo="none">cols</literal> is the number of columns. Since we added a parameter to <literal moreinfo="none">printRow</literal>, we also have to change the line in <literal moreinfo="none">printTable</literal> where it is invoked: </para><programlisting language="java" format="linespecific">public static void printTable(int rows) {
+    for (int i = 1; i &lt;= rows; i++) {
+        printRow(i, rows);
+    }
+}</programlisting><para>When this line executes, it evaluates <literal moreinfo="none">rows</literal> and passes the value, which is 7 in this example, as an argument. In <literal moreinfo="none">printRow</literal>, this value is assigned to <literal moreinfo="none">cols</literal>. As a result, the number of columns equals the number of rows, so we get a square 7x7 table, instead of the previous 7x6 table. </para><para>When you generalize a method appropriately, you often find that it has capabilities you did not plan. For example, you might notice that the multiplication table is symmetric. Since <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mi>a</mml:mi><mml:mi>b</mml:mi><mml:mo>=</mml:mo><mml:mi>b</mml:mi><mml:mi>a</mml:mi></mml:mrow></mml:math></inlineequation>, all the entries in the table appear twice. You could save ink by printing half of the table, and you would only have to change <emphasis>one line</emphasis> of <literal moreinfo="none">printTable</literal>: </para><programlisting language="java" format="linespecific">printRow(i, i);  // using i for both n and cols</programlisting><para>This means the length of each row is the same as its row number. The result is a triangular multiplication table. </para><programlisting format="linespecific">   1
+   2   4
+   3   6   9
+   4   8  12  16
+   5  10  15  20  25
+   6  12  18  24  30  36
+   7  14  21  28  35  42  49</programlisting><para>Generalization makes code more versatile, more likely to be reused, and sometimes easier to write. </para>
+</sect1><sect1 id="a0000007100" remap="section">
+  <title>Vocabulary</title>
+    <variablelist>
+  <varlistentry>
+    <term>object-oriented:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>object-oriented</primary>
+
+</indexterm>A way of organizing code and data into objects, rather than independent methods. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>object:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>object</primary>
+
+</indexterm>A collection of related data that comes with a set of methods that operate on the data. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>primitive:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>primitive</primary>
+
+</indexterm>A data type that stores a single value and provides no methods. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>immutable:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>immutable</primary>
+
+</indexterm>An object that, once created, cannot be modified. Strings are immutable by design. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>wrapper class:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>wrapper class</primary>
+
+</indexterm>Classes in <literal moreinfo="none">java.lang</literal> that provide constants and methods for working with primitive types. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>parse:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>parse</primary>
+
+</indexterm>To read a string and interpret or translate it. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>empty array:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>empty array</primary>
+
+</indexterm>An array with no elements and a length of zero. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>design process:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>design process</primary>
+
+</indexterm>A process for determining what methods a class or program should have. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>encapsulate:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>encapsulate</primary>
+
+</indexterm>To wrap data inside of an object, or to wrap statements inside of a method. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>generalize:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>generalize</primary>
+
+</indexterm>To replace something unnecessarily specific (like a constant value) with something appropriately general (like a variable or parameter). </para></listitem>
+  </varlistentry>
+</variablelist>
+</sect1><sect1 id="a0000007125" remap="section">
+  <title>Exercises</title>
+    <para>The code for this chapter is in the <literal moreinfo="none">ch09</literal> directory of <literal moreinfo="none">ThinkJavaCode2</literal>. See <xref linkend="code"/> for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples. </para><para><example id="a0000007134" role="exercise">
+  <title/>
+  <para><indexterm significance="normal">
+  <primary>concatenate</primary>
+
+</indexterm>The point of this exercise is to explore Java types and fill in some of the details that aren’t covered in the chapter. </para><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>Create a new program named <literal moreinfo="none">Test.java</literal> and write a <literal moreinfo="none">main</literal> method that contains expressions that combine various types using the <literal moreinfo="none">+</literal> operator. For example, what happens when you “add” a <literal moreinfo="none">String</literal> and a <literal moreinfo="none">char</literal>? Does it perform character addition or string concatenation? What is the type of the result? </para></listitem>
+  
+  <listitem><para>Make a bigger copy of the following table and fill it in. At the intersection of each pair of types, you should indicate whether it is legal to use the <literal moreinfo="none">+</literal> operator with these types, what operation is performed (addition or concatenation), and what the type of the result is. </para> 
+   
+   
+     <informaltable remap="tabular" Colsep="1" Frame="all" Rowsep="1">
+     <tgroup cols="6">
+     
+     <tbody>
+     <row>
+     
+       
+       <entry/>
+     
+       
+       <entry><para> boolean </para/>
+     
+       
+       <entry><para>  char  </para/>
+     
+       
+       <entry><para>   int   </para/>
+     
+       
+       <entry><para> double </para/>
+     
+       
+       <entry><para> String </para/>
+     
+     </row><row>
+     
+       
+       <entry><para>boolean </para/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+     </row><row>
+     
+       
+       <entry><para>char </para/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+     </row><row>
+     
+       
+       <entry><para>int </para/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+     </row><row>
+     
+       
+       <entry><para>double </para/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+     </row><row>
+     
+       
+       <entry><para>String </para/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+       
+       <entry/>
+     
+     </row>
+     </tbody>
+     </tgroup>
+     </informaltable>
+   
+ </listitem>
+  
+  <listitem><para>Think about some of the choices the designers of Java made, based on this table. How many of the entries seem unavoidable, as if there was no other choice? How many seem like arbitrary choices from several equally reasonable possibilities? Which entries seem most problematic? </para></listitem>
+  
+  <listitem><para>Here’s a puzzler: normally, the statement <literal moreinfo="none">x++</literal> is exactly equivalent to <literal moreinfo="none">x = x + 1</literal>. But if <literal moreinfo="none">x</literal> is a <literal moreinfo="none">char</literal>, it’s not exactly the same! In that case, <literal moreinfo="none">x++</literal> is legal, but <literal moreinfo="none">x = x + 1</literal> causes an error. Try it out and see what the error message is, then see if you can figure out what is going on. </para></listitem>
+  
+  <listitem><para>What happens when you add <literal moreinfo="none">""</literal> (the empty string) to the other types, for example, <literal moreinfo="none">"" + 5</literal>? </para></listitem>
+  
+</orderedlist>
+</example> </para><para><example id="a0000007246" role="exercise">
+  <title/>
+  <para><indexterm significance="normal">
+  <primary>factorial</primary>
+
+</indexterm>You might be sick of the factorial method by now, but we’re going to do one more version. </para><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>Create a new program called <literal moreinfo="none">Big.java</literal> and write an iterative version of <literal moreinfo="none">factorial</literal> (using a <literal moreinfo="none">for</literal> loop). </para></listitem>
+  
+  <listitem><para>Display a table of the integers from 0 to 30 along with their factorials. At some point around 15, you will probably see that the answers are not correct anymore. Why not? </para></listitem>
+  
+  <listitem><para>Convert <literal moreinfo="none">factorial</literal> so that it performs its calculation using BigIntegers and returns a <literal moreinfo="none">BigInteger</literal> as a result. You can leave the parameter alone; it will still be an integer. </para></listitem>
+  
+  <listitem><para>Try displaying the table again with your modified factorial method. Is it correct up to 30? How high can you make it go? </para></listitem>
+  
+</orderedlist>
+</example> </para><para><example id="a0000007270" role="exercise">
+  <title/>
+  <para>Many encryption algorithms depend on the ability to raise large integers to a power. Here is a method that implements an efficient algorithm for integer exponentiation: </para><programlisting language="java" format="linespecific">public static int pow(int x, int n) {
+    if (n == 0) return 1;
+
+    // find x to the n/2 recursively
+    int t = pow(x, n / 2);
+
+    // if n is even, the result is t squared
+    // if n is odd, the result is t squared times x
+    if (n % 2 == 0) {
+        return t * t;
+    } else {
+        return t * t * x;
+    }
+}</programlisting><para>The problem with this method is that it only works if the result is small enough to be represented by an <literal moreinfo="none">int</literal>. Rewrite it so that the result is a <literal moreinfo="none">BigInteger</literal>. The parameters should still be integers, though. </para><para>You should use the <literal moreinfo="none">BigInteger</literal> methods <literal moreinfo="none">add</literal> and <literal moreinfo="none">multiply</literal>. But don’t use <literal moreinfo="none">BigInteger.pow</literal>; that would spoil the fun. </para>
+</example> </para><para><example id="a0000007289" role="exercise">
+  <title/>
+  <para>One way to calculate <emphasis role="math">e<superscript>x</superscript></emphasis> is to use the following infinite series expansion. The <emphasis role="math">i</emphasis>th term in the series is <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:msup><mml:mi>x</mml:mi><mml:mi>i</mml:mi></mml:msup><mml:mo>/</mml:mo><mml:mi>i</mml:mi><mml:mo>!</mml:mo></mml:mrow></mml:math></inlineequation>. </para><informalequation><mml:math mode="display" xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:msup><mml:mi>e</mml:mi><mml:mi>x</mml:mi></mml:msup><mml:mo>=</mml:mo><mml:mn>1</mml:mn><mml:mo>+</mml:mo><mml:mi>x</mml:mi><mml:mo>+</mml:mo><mml:msup><mml:mi>x</mml:mi><mml:mn>2</mml:mn></mml:msup><mml:mo>/</mml:mo><mml:mn>2</mml:mn><mml:mo>!</mml:mo><mml:mo>+</mml:mo><mml:msup><mml:mi>x</mml:mi><mml:mn>3</mml:mn></mml:msup><mml:mo>/</mml:mo><mml:mn>3</mml:mn><mml:mo>!</mml:mo><mml:mo>+</mml:mo><mml:msup><mml:mi>x</mml:mi><mml:mn>4</mml:mn></mml:msup><mml:mo>/</mml:mo><mml:mn>4</mml:mn><mml:mo>!</mml:mo><mml:mo>+</mml:mo><mml:mo>...</mml:mo></mml:mrow></mml:math></informalequation><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para><indexterm significance="normal">
+  <primary>efficiency</primary>
+
+</indexterm>Write a method called <literal moreinfo="none">myexp</literal> that takes <literal moreinfo="none">x</literal> and <literal moreinfo="none">n</literal> as parameters and estimates <emphasis role="math">e<superscript>x</superscript></emphasis> by adding the first <literal moreinfo="none">n</literal> terms of this series. You can use the <literal moreinfo="none">factorial</literal> method from <xref linkend="factorial"/> or your iterative version from the previous exercise. </para></listitem>
+  
+  <listitem><para>You can make this method more efficient by observing that the numerator of each term is the same as its predecessor multiplied by <literal moreinfo="none">x</literal>, and the denominator is the same as its predecessor multiplied by <literal moreinfo="none">i</literal>. </para><para>Use this observation to eliminate the use of <literal moreinfo="none">Math.pow</literal> and <literal moreinfo="none">factorial</literal>, and check that you get the same result. </para></listitem>
+  
+  <listitem><para>Write a method called <literal moreinfo="none">check</literal> that takes a parameter, <literal moreinfo="none">x</literal>, and displays <literal moreinfo="none">x</literal>, <literal moreinfo="none">myexp(x)</literal>, and <literal moreinfo="none">Math.exp(x)</literal>. The output should look something like: </para><programlisting format="linespecific">1.0     2.708333333333333     2.718281828459045</programlisting><para>You can use the escape sequence <literal moreinfo="none">"t"</literal> to put a tab character between columns of a table. </para></listitem>
+  
+  <listitem><para>Vary the number of terms in the series (the second argument that <literal moreinfo="none">check</literal> sends to <literal moreinfo="none">myexp</literal>) and see the effect on the accuracy of the result. Adjust this value until the estimated value agrees with the correct answer when <literal moreinfo="none">x</literal> is 1. </para></listitem>
+  
+  <listitem><para>Write a loop in <literal moreinfo="none">main</literal> that invokes <literal moreinfo="none">check</literal> with the values 0.1, 1.0, 10.0, and 100.0. How does the accuracy of the result vary as <literal moreinfo="none">x</literal> varies? Compare the number of digits of agreement rather than the difference between the actual and estimated values. </para></listitem>
+  
+  <listitem><para>Add a loop in <literal moreinfo="none">main</literal> that checks <literal moreinfo="none">myexp</literal> with the values -0.1, -1.0, -10.0, and -100.0. Comment on the accuracy. </para></listitem>
+  
+</orderedlist>
+</example> </para><para><example id="a0000007374" role="exercise">
+  <title/>
+  <para>The goal of this exercise is to practice encapsulation and generalization using some of the examples in previous chapters. </para><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>Starting with the code in <xref linkend="traversal"/>, write a method called <literal moreinfo="none">powArray</literal> that takes a <literal moreinfo="none">double</literal> array, <literal moreinfo="none">a</literal>, and returns a new array that contains the elements of <literal moreinfo="none">a</literal> squared. Generalize it to take a second argument and raise the elements of <literal moreinfo="none">a</literal> to the given power. </para></listitem>
+  
+  <listitem><para>Starting with the code in <xref linkend="enhanced"/>, write a method called <literal moreinfo="none">histogram</literal> that takes an <literal moreinfo="none">int</literal> array of scores from 0 to (but not including) 100, and returns a histogram of 100 counters. Generalize it to take the number of counters as an argument. </para></listitem>
+  
+</orderedlist>
+</example> </para><para><example id="a0000007401" role="exercise">
+  <title/>
+  <para><indexterm significance="normal">
+  <primary>encapsulation</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>generalization</primary>
+
+</indexterm>The following code fragment traverses a string and checks whether it has the same number of open and close parentheses: </para><programlisting language="java" format="linespecific">String s = "((3 + 7) * 2)";
+int count = 0;
+
+for (int i = 0; i &lt; s.length(); i++) {
+    char c = s.charAt(i);
+    if (c == '(') {
+        count++;
+    } else if (c == ')') {
+        count--;
+    }
+}
+
+System.out.println(count);</programlisting><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>Encapsulate this fragment in a method that takes a string argument and returns the final value of <literal moreinfo="none">count</literal>. </para></listitem>
+  
+  <listitem><para>Test your method with multiple strings, including some that are balanced and some that are not. </para></listitem>
+  
+  <listitem><para>Generalize the code so that it works on any string. What could you do to generalize it more? </para></listitem>
+  
+</orderedlist>
+</example> </para>
+</sect1>
+</chapter>
