@@ -23,14 +23,14 @@ xxe:
 lint:
 	xmllint -noout $(F)/$(F).xml
 
-oreilly:
-	rsync -a $(F)/*.xml atlas/
-	rsync -a figs/*.pdf atlas/figs/
-	rsync -a figs/*.png atlas/figs/
-	rsync -a figs/*.jpg atlas/figs/
-	cd atlas; git add *.xml figs/*
-	cd atlas; git commit -m "Automated check in."
-	cd atlas; git push
+#oreilly:
+#	rsync -a $(F)/*.xml atlas/
+#	rsync -a figs/*.pdf atlas/figs/
+#	rsync -a figs/*.png atlas/figs/
+#	rsync -a figs/*.jpg atlas/figs/
+#	cd atlas; git add *.xml figs/*
+#	cd atlas; git commit -m "Automated check in."
+#	cd atlas; git push
 
 # if a bug (in ocaml?) causes "make hevea" to fail; use "make -i hevea" instead
 

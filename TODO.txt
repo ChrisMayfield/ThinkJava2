@@ -27,17 +27,14 @@ Chapter 13:
 Chapter 14:
 
 Chapter 15:
-  advanced object-oriented: interfaces, abstract classes, List, simulation?
-  instanceof so that assertEquals works if you write your own equals method
 
 Chapter 16:
-  working with data: 2D arrays, file I/O, exception handling (e.g., IllegalArgumentException)
-  bring back Conway's Game of Life material from V5? or Langton's ant?
 
+Chapter 17:
 
 Appendix A:
-  remove DrJava? (move to online setup instructions)
-  update JUnit to Version 4 or 5; explain what deprecated means? (for assertEquals on double)
+  remove DrJava? (refer instead to online setup instructions for Eclipse, VS Code, etc.)
+  update JUnit to Version 5; explain what deprecated means? (for assertEquals on double)
   move JUnit to Chapter 9 and expand? instead of program development and generalization?
   new section about JaCoCo? new section about JShell?
 
@@ -46,11 +43,11 @@ Appendix B:
 Appendix C:
 
 Appendix D:
-  stack trace (how to read)
+  more about stack traces (e.g., how to read them)
 
 Appendix E:
-  try to eliminate by integrating content back into the main chapters
-  talk more about packages somewhere near the end of the book?
+  try to eliminate by integrating content back into the main chapters?
+  equals(Object) using instanceof -- so that JUnit assertEquals works
 
 
 # spell check main text; ignore code/output/trinket blocks

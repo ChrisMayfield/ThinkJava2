@@ -69,7 +69,9 @@
 %\newenvironment{stdout}{\begin{verbatim}}{\end{verbatim}}
 
 % inline syntax formatting
-\newcommand{\java}{\verb}%}
+%\newcommand{\java}{\verb}%}
+%\newcommand{\java}{\texttt}%}
+\newcommand{\java}[1]{{\tt #1}}%{
 \newcommand{\textcolor}[1]{\relax}
 
 %%%% LATEX/HTML ONLY
@@ -91,11 +93,11 @@
 %\appendix
 %\renewcommand{\chaptermark}[1]{\markboth{Appendix \thechapter ~~ #1}{}}
 
-\setcounter{chapter}{14}
+\setcounter{chapter}{0}
 \setcounter{page}{0}
 
 \tableofcontents
 
-\input{ch15.tex}
+\input{ch01.tex}
 
 \end{document}
