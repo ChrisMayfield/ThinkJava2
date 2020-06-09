@@ -6,10 +6,10 @@ def name(num):
     """chapter number -> filename"""
     if num < 10:
         return "ch0" + str(num) + ".xml"
-    elif num < 15:
+    elif num < 18:
         return "ch" + str(num) + ".xml"
     else:
-        return "app" + chr(num + 82) + ".xml"
+        return "app" + chr(num + 79) + ".xml"
 
 def main(xml):
     src = open(xml, 'U')
@@ -34,7 +34,7 @@ def main(xml):
 
         # it looks like one of these rewrite rules is causing a problem when a literal is inside a caption
         line = line.replace('<literal>', '<literal moreinfo="none">') # \tt
-        
+
         line = line.replace('<mml:math overflow="scroll"', '<mml:math') # inline math
         line = line.replace('mode="display" overflow="scroll"', 'mode="display"') # display math
         line = line.replace('<indexterm>', '<indexterm significance="normal">') # \index

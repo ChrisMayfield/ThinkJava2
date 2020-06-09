@@ -1,405 +1,254 @@
-<chapter id="conway">
-  <title>Arrays of Arrays</title><para>The last two chapters of this book use 2D graphics to illustrate more advanced object-oriented concepts. If you haven’t yet read <xref linkend="graphics"/>, you might want to read it now and get familiar with the <literal moreinfo="none">Canvas</literal>, <literal moreinfo="none">Color</literal>, and <literal moreinfo="none">Graphics</literal> classes from the <literal moreinfo="none">java.awt</literal> package. In this chapter we use these classes to draw images and animations, and to run graphical simulations. </para><sect1 id="a0000010961" remap="section">
-  <title>Conway’s Game of Life</title>
-    <para><emphasis>The Game of Life</emphasis>, or GoL for short, was developed by John Conway and popularized in 1970 in Martin Gardner’s column in Scientific American. Conway calls it a “zero-player game” because no players are needed to choose strategies or make decisions. After you set up the initial conditions, you watch the game play itself. That turns out to be more interesting than it sounds; you can read about it at <ulink url="http://en.wikipedia.org/wiki/Conway’s_Game_of_Life"/>. </para>
+<appendix id="tools">
+  <title>Tools</title><para><indexterm significance="normal">
+  <primary>IDE</primary>
+
+</indexterm>The steps for compiling, running, and debugging Java code depend on your development environment and operating system. We avoided putting these details in the main text, because they can be distracting. Instead, we provide this appendix with a brief introduction to DrJava—an <emphasis role="bold">integrated development environment</emphasis> (IDE) that is helpful for beginners—and other development tools, including Checkstyle for code quality and JUnit for testing. </para><sect1 id="drjava" remap="section">
+  <title>Installing DrJava</title><para>The easiest way to start programming in Java is to use a website that compiles and runs Java code in the browser. Examples include <ulink url="https://repl.it/"/>, <ulink url="https://trinket.io/"/>, <ulink url="https://jdoodle.com/"/>, and others. </para><para>If you are unable to install software on your computer (which is often the case in public schools and Internet cafés), you can use these online development environments for almost everything in this book. </para><para>But if you want to compile and run Java programs on your own computer, you will need: </para><itemizedlist>
   
-  <figure id="fig..glider" float="False">
-    <title>A “Glider” in the Game of Life.</title>
+    <listitem><para><indexterm significance="normal">
+  <primary>JDK</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>JVM</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>virtual machine</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>Javadoc</primary>
+
+</indexterm>The <emphasis role="bold">Java Development Kit</emphasis> (JDK), which includes the compiler, the <emphasis role="bold">Java Virtual Machine</emphasis> (JVM) that interprets the compiled byte code, and other tools such as Javadoc. </para><para><indexterm significance="normal">
+  <primary>text editor</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>DrJava</primary>
+
+</indexterm></para></listitem>
+  
+    <listitem><para>A <emphasis role="bold">text editor</emphasis> such as Atom, Notepad++, or Sublime Text, and/or an IDE such as DrJava, Eclipse, jGrasp, or NetBeans. </para></listitem>
+  
+</itemizedlist><para>The JDK we recommend is OpenJDK, an open-source implementation of Java SE (Standard Edition). The IDE we recommend is DrJava, which is an open-source development environment written in Java (see <xref linkend="fig.drjava1"/>). </para><para>To install OpenJDK, visit <ulink url="https://adoptopenjdk.net"/>. Download and run the installer for your operating system. </para><para><indexterm significance="normal">
+  <primary>JAR</primary>
+
+</indexterm>To install DrJava, visit <ulink url="http://drjava.org/"/> and download the <emphasis role="bold">JAR</emphasis> file. We recommend that you save it to your Desktop or another convenient location. Simply double-click the JAR file to run DrJava. Refer to the DrJava documentation (<ulink url="http://drjava.org/docs/quickstart/"/>) for more details. </para>
+  
+  <figure id="fig.drjava1" float="False">
+    <title>Screenshot of DrJava editing the hello world program.</title>
      <mediaobject>
   <imageobject remap="includegraphics">
-    <imagedata fileref="figs/glider.png"></imagedata>
+    <imagedata fileref="figs/drjava-hello.png"></imagedata>
   </imageobject>
 </mediaobject></figure>
-<para>The game board is a two-dimensional grid of square cells. Each cell is either “alive” or “dead”; the color of the cell indicates its state. <xref linkend="fig..glider"/> shows an example grid configuration; the five black cells are alive. </para><para><indexterm significance="normal">
-  <primary>neighbor</primary>
+<para>When running DrJava for the first time, we recommend you change three settings from the Edit <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mo>&gt;</mml:mo></mml:math></inlineequation> Preferences menu under Miscellaneous: set the Indent Level to 4, check the Automatically Close Block Comments box, and uncheck the Keep Emacs-style Backup Files box. </para>
+</sect1><sect1 id="interactions" remap="section">
+  <title>DrJava Interactions</title><para><indexterm significance="normal">
+  <primary>interactions</primary>
 
-</indexterm>The game proceeds in time steps, during which each cell interacts with its neighbors in the eight adjacent cells. At each time step, the following rules are applied: </para><orderedlist inheritnum="ignore" continuation="restarts">
+</indexterm>One of the most useful features of DrJava is the “Interactions Pane” at the bottom of the window. It provides the ability to try out code quickly, without having to write a class definition and save/compile/run the program. <xref linkend="fig.drjava2"/> shows an example. </para>
   
-  <listitem><para>A live cell with fewer than two live neighbors dies, as if by underpopulation. </para><para>A live cell with more than three live neighbors dies, as if by overpopulation. </para><para>A dead cell with exactly three live neighbors becomes a live cell, as if by reproduction. </para></listitem>
+  <figure id="fig.drjava2" float="False">
+    <title>Screenshot of the Interactions Pane in DrJava.</title>
+     <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/drjava-logic.png"></imagedata>
+  </imageobject>
+</mediaobject></figure>
+<para>There is one subtle detail to note when using the Interactions feature. If you don’t end an expression (or statement) with a semicolon, DrJava automatically displays its value. Notice in <xref linkend="fig.drjava2"/> how the variable declarations end with semicolons, but the logic expressions in the following lines do not. This feature saves you from having to type <literal moreinfo="none">System.out.println</literal> every time. </para><para>What’s nice about this feature is that you don’t have to create a new class, declare a <literal moreinfo="none">main</literal> method, write arbitrary expressions inside <literal moreinfo="none">System.out.println</literal> statements, save the source file, and get all of your code to compile in advance. Also, you can press the up/down arrows on the keyboard to repeat previous commands and experiment with incremental differences. </para>
+</sect1><sect1 id="commandline" remap="section">
+  <title>Command-Line Interface</title><para><indexterm significance="normal">
+  <primary>command-line interface</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>terminal</primary>
+
+</indexterm>One of the most powerful and useful skills you can learn is how to use the <emphasis role="bold">command-line interface</emphasis>, also called the “terminal”. The command line is a direct interface to the operating system. It allows you to run programs, manage files and directories, and monitor system resources. Many advanced tools, both for software development and general-purpose computing, are available only at the command line. </para><para>There are many good tutorials online for learning the command line for your operating system; just search the web for “command line tutorial”. On Unix systems like Linux and OS X, you can get started with just four commands: change the working directory (<literal moreinfo="none">cd</literal>), list directory contents (<literal moreinfo="none">ls</literal>), compile Java programs (<literal moreinfo="none">javac</literal>), and run Java programs (<literal moreinfo="none">java</literal>). </para><para><xref linkend="fig.terminal"/> shows an example where the <literal moreinfo="none">Hello.java</literal> source file is stored in the <literal moreinfo="none">Desktop</literal> directory. After changing to that location and listing the files, we use the <literal moreinfo="none">javac</literal> command to compile <literal moreinfo="none">Hello.java</literal>. Running <literal moreinfo="none">ls</literal> again, we see that the compiler generated a new file, <literal moreinfo="none">Hello.class</literal>, which contains the byte code. We run the program using the <literal moreinfo="none">java</literal> command, which displays the output on the following line. </para>
+  
+  <figure id="fig.terminal" float="False">
+    <title>Compiling and running <literal moreinfo="none">Hello.java</literal> from the command line.</title>
+     <mediaobject>
+  <imageobject remap="includegraphics">
+    <imagedata fileref="figs/terminal.png"></imagedata>
+  </imageobject>
+</mediaobject></figure>
+<para>Note that the <literal moreinfo="none">javac</literal> command requires a <emphasis>filename</emphasis> (or multiple source files separated by spaces), whereas the <literal moreinfo="none">java</literal> command requires a single <emphasis>class name</emphasis>. If you use DrJava, it runs these commands for you behind the scenes and displays the output in the Interactions Pane. </para><para>Taking time to learn this efficient and elegant way of interacting with the operating system will make you more productive. People who don’t use the command line don’t know what they’re missing. </para>
+</sect1><sect1 id="cltesting" remap="section">
+  <title>Command-Line Testing</title><para><indexterm significance="normal">
+  <primary>testing</primary>
+
+</indexterm>As described in <xref linkend="sec..examples"/>, it’s more effective to program and debug your code little by little than to attempt writing everything all at once. And after you’ve completed programming an algorithm, it’s important to test that it works correctly on a variety of inputs. </para><para>Throughout the book, we illustrate techniques for testing your programs. Most, if not all, testing is based on a simple idea: does the program do what we expect it to do? For simple programs, it’s not difficult to run them several times and see what happens. But at some point, you will get tired of typing the same test cases over and over. </para><para>We can automate the process of entering input and comparing “expected output” with “actual output” using the command line. The basic idea is to store the test cases in plain text files and trick Java into thinking they are coming from the keyboard. Here are step-by-step instructions: </para><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>Make sure you can compile and run the <literal moreinfo="none">Convert.java</literal> example in the <literal moreinfo="none">ch03</literal> directory of <literal moreinfo="none">ThinkJavaCode2</literal>. (See <xref linkend="code"/> for instructions on how to download the repository.) </para></listitem>
+  
+  <listitem><para>In the same directory as <literal moreinfo="none">Convert.java</literal>, create a plain text file named <literal moreinfo="none">test.in</literal> (“in” is for input). Enter the following line and save the file: </para><programlisting format="linespecific">193.04</programlisting></listitem>
+  
+  <listitem><para>Create a second plain text file named <literal moreinfo="none">test.exp</literal> (“exp” is for expected). Enter the following line and save the file: </para><programlisting format="linespecific">193.04 cm = 6 ft, 4 in</programlisting></listitem>
+  
+  <listitem><para>Open a terminal, and change to the directory with these files. Run the following command to test the program: </para><programlisting format="linespecific">java Convert &lt; test.in &gt; test.out</programlisting></listitem>
   
 </orderedlist><para><indexterm significance="normal">
-  <primary>stable configuration</primary>
+  <primary>redirection operator</primary>
 
-</indexterm>Notice some consequences of these rules. If you start with a single live cell, it dies. If all cells are dead, no cells come to life. But if you have four cells in a square, they keep each other alive, so that’s a “stable” configuration. </para><para>Another initial configuration is shown in <xref linkend="fig..blinker"/>. If you start with three horizontal cells, the center cell lives, the left and right cells die, and the top and bottom cells come to life. The result after the first time step is three vertical cells. </para><para>During the next time step, the center cell lives, the top and bottom cells die, and the left and right cells come to life. The result is three horizontal cells, so we’re back where we started, and the cycle repeats forever. </para>
+</indexterm><indexterm significance="normal">
+  <primary>operator</primary>
+<secondary>redirection</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>System.in</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>System.out</primary>
+
+</indexterm>On the command line, <literal moreinfo="none">&lt;</literal> and <literal moreinfo="none">&gt;</literal> are <emphasis role="bold">redirection operators</emphasis>. The first one redirects the contents of <literal moreinfo="none">test.in</literal> to <literal moreinfo="none">System.in</literal>, as if it were entered from the keyboard. The second one redirects the contents of <literal moreinfo="none">System.out</literal> to a new file <literal moreinfo="none">test.out</literal>, much like a screen capture. In other words, the <literal moreinfo="none">test.out</literal> file contains the output of your program. </para><para>By the way, it’s perfectly okay to compile your programs in DrJava (or some other environment) and run them from the command line. Knowing both techniques allows you to use the right tool for the job. </para>
   
-  <figure id="fig..blinker" float="False">
-    <title>A “Blinker” in the Game of Life.</title>
+  <figure id="fig.meld" float="False">
+    <title>Using <literal moreinfo="none">meld</literal> to compare expected output with the actual output.</title>
      <mediaobject>
   <imageobject remap="includegraphics">
-    <imagedata fileref="figs/blinker-0.png"></imagedata>
+    <imagedata fileref="figs/meld.png"></imagedata>
   </imageobject>
-</mediaobject> 
+</mediaobject></figure>
+<para>At this point, we just need to compare the contents <literal moreinfo="none">test.out</literal> with <literal moreinfo="none">test.exp</literal>. If the files are the same, then the program outputted what we expected it to output. If not, then we found a bug, and we can use the output to begin debugging our program. Fortunately, there’s a simple way to compare files on the command line: </para><programlisting format="linespecific">diff test.exp test.out</programlisting><para>The <literal moreinfo="none">diff</literal> utility summarizes the differences between two files. If there are no differences, then it displays nothing, which in our case is what we want. If the expected output differs from the actual output, then we need to continue debugging. Usually the program is at fault, and <literal moreinfo="none">diff</literal> provides some insight about what is broken. But there’s also a chance that we have a correct program and the expected output is wrong. </para><para>Interpreting the results from <literal moreinfo="none">diff</literal> can be confusing, but fortunately there are many graphical tools that show the differences between two files. For example, on Windows you can install <literal moreinfo="none">WinMerge</literal>, on Mac you can use <literal moreinfo="none">opendiff</literal> (which comes with Xcode), and on Linux there’s <literal moreinfo="none">meld</literal>, shown in <xref linkend="fig.meld"/>. </para><para>Regardless of what tool you use, the goal is the same. Debug your program until the actual output is <emphasis>identical</emphasis> to the expected output. </para>
+</sect1><sect1 id="checkstyle" remap="section">
+  <title>Running Checkstyle</title><para><indexterm significance="normal">
+  <primary>Checkstyle</primary>
+
+</indexterm>Checkstyle is a command-line tool that can be used to determine if your source code follows a set of style rules. It also checks for common programming mistakes, such as class and method design problems. </para><para>You can download the latest version as a JAR file from <ulink url="https://checkstyle.sourceforge.io/"/>. To run Checkstyle, move (or copy) the JAR file to the same directory as your program. Open a terminal in that location, and run the following command: </para><programlisting format="linespecific">java -jar checkstyle-*-all.jar -c /google_checks.xml *.java</programlisting><para><indexterm significance="normal">
+  <primary>wildcard</primary>
+
+</indexterm>The <literal moreinfo="none">*</literal> characters are <emphasis role="bold">wildcards</emphasis> that match whatever version of Checkstyle you have and whatever Java source files are present. The output indicates the file and line number of each problem. This example refers to a method beginning on line 93, column 5 of <literal moreinfo="none">Hello.java</literal>: </para><programlisting format="linespecific">Hello.java:93:5: Missing a Javadoc comment</programlisting><para>The file <literal moreinfo="none">/google_checks.xml</literal> is inside the JAR file and represents most of Google’s style rules. You can alternatively use <literal moreinfo="none">/sun_checks.xml</literal> or provide your own configuration file. See Checkstyle’s website for more information. </para><para>If you apply Checkstyle to your source code often, you will likely internalize good style habits over time. But there are limits to what automatic style checkers can do. In particular, they can’t evaluate the <emphasis>quality</emphasis> of your comments, the <emphasis>meaning</emphasis> of your variable names, or the <emphasis>structure</emphasis> of your algorithms. </para><para>Good comments make it easier for experienced developers to identify errors in your code. Good variable names communicate the intent of your program and how the data is organized. And good programs are designed to be efficient and demonstrably correct. </para>
+</sect1><sect1 id="debugger" remap="section">
+  <title>Tracing with a Debugger</title><para><indexterm significance="normal">
+  <primary>breakpoint</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>debugger</primary>
+
+</indexterm>A great way to visualize the flow of execution, including how parameters and arguments work, is to use a <emphasis role="bold">debugger</emphasis>. Most debuggers make it possible to: </para><orderedlist inheritnum="ignore" continuation="restarts">
   
-  <mediaobject>
-    <imageobject>
-      <imagedata fileref="images/img-0001.png" contentwidth="74px" contentdepth="27px"></imagedata>
-    </imageobject>
-    <textobject>
-      <phrase>\raisebox{38pt}{~ $\longrightarrow $~ }</phrase>
-    </textobject>
-  </mediaobject>
- <mediaobject>
-  <imageobject remap="includegraphics">
-    <imagedata fileref="figs/blinker-1.png"></imagedata>
-  </imageobject>
-</mediaobject> 
+  <listitem><para>Set a <emphasis role="bold">breakpoint</emphasis>, a line where you want the program to pause. </para></listitem>
   
-  <mediaobject>
-    <imageobject>
-      <imagedata fileref="images/img-0001.png" contentwidth="74px" contentdepth="27px"></imagedata>
-    </imageobject>
-    <textobject>
-      <phrase>\raisebox{38pt}{~ $\longrightarrow $~ }</phrase>
-    </textobject>
-  </mediaobject>
- <mediaobject>
-  <imageobject remap="includegraphics">
-    <imagedata fileref="figs/blinker-0.png"></imagedata>
-  </imageobject>
-</mediaobject> 
+  <listitem><para>Step through the code one line at a time and watch what it does. </para></listitem>
   
-  <mediaobject>
-    <imageobject>
-      <imagedata fileref="images/img-0002.png" contentwidth="162px" contentdepth="27px"></imagedata>
-    </imageobject>
-    <textobject>
-      <phrase>\raisebox{38pt}{~ $\longrightarrow $~  \ldots }</phrase>
-    </textobject>
-  </mediaobject></figure>
-<para>Patterns like this are called “periodic”, because they repeat after a period of two or more time steps. But they are also considered stable, because the total number of live cells doesn’t grow over time. </para><para>Most simple starting configurations either die out quickly or reach a stable configuration. But there are a few starting conditions that display remarkable complexity. One of those is the R-pentomino: it starts with only five cells, runs for 1103 time steps, and ends in a stable configuration with 116 live cells (see <ulink url="http://www.conwaylife.com/wiki/R-pentomino"/>). </para><para>In the following sections, we’ll implement the Game of Life in Java. We’ll first implement the cells, then the grid of cells, and finally the game itself. </para>
-</sect1><sect1 id="a0000011020" remap="section">
-  <title>The Cell Class</title>
-    <para>When drawing a cell, we’ll need to know its location on the screen and size in pixels. To represent the location, we use the <literal moreinfo="none">x</literal> and <literal moreinfo="none">y</literal> coordinates of the upper-left corner. And to represent the size, we use an integer, <literal moreinfo="none">size</literal>. </para><para>To represent the state of a cell, we use an integer, <literal moreinfo="none">state</literal>, which is <literal moreinfo="none">0</literal> for dead cells and <literal moreinfo="none">1</literal> for live cells. We could use a <literal moreinfo="none">boolean</literal> instead, but it’s good practice to design classes to be reusable (e.g., for other games that have more states). </para><para>Here is a <literal moreinfo="none">Cell</literal> class that declares these instance variables: </para><programlisting language="java" format="linespecific">public class Cell {
-    private final int x;
-    private final int y;
-    private final int size;
-    private int state;
-}</programlisting><para>Notice that <literal moreinfo="none">x</literal>, <literal moreinfo="none">y</literal>, and <literal moreinfo="none">size</literal> are constants. Once the cell is created, we don’t want it to move or change size. But <literal moreinfo="none">state</literal> can and should change, so it is not a constant. </para><para>The next step is to write a constructor. Here’s one that takes <literal moreinfo="none">x</literal>, <literal moreinfo="none">y</literal>, and <literal moreinfo="none">size</literal> as parameters, and sets <literal moreinfo="none">state</literal> to a default value. </para><programlisting language="java" format="linespecific">public Cell(int x, int y, int size) {
-    this.x = x;
-    this.y = y;
-    this.size = size;
-    this.state = 0;
-}</programlisting><para>The following method draws a cell. Like the <literal moreinfo="none">paint</literal> method in <xref linkend="graphics"/>, it takes a graphics context as a parameter. </para><programlisting language="java" format="linespecific">public static final Color[] COLORS = {Color.WHITE, Color.BLACK};
-
-public void draw(Graphics g) {
-    g.setColor(COLORS[state]);
-    g.fillRect(x + 1, y + 1, size - 1, size - 1);
-    g.setColor(Color.LIGHT_GRAY);
-    g.drawRect(x, y, size, size);
-}</programlisting><para>The <literal moreinfo="none">draw</literal> method uses the state of the cell to select a color from an array of <literal moreinfo="none">Color</literal> objects. Then it uses to <literal moreinfo="none">fillRect</literal> to draw the center of the cell and <literal moreinfo="none">drawRect</literal> to draw a light gray border. </para><para>We also need methods to get and set the cell’s state. We could just provide <literal moreinfo="none">getState</literal> and <literal moreinfo="none">setState</literal>, but the code will be more readable if we provide methods customized for the Game of Life: </para><programlisting language="java" format="linespecific">public boolean isOff() {
-    return state == 0;
-}
-
-public boolean isOn() {
-    return state == 1;
-}
-
-public void turnOff() {
-    state = 0;
-}
-
-public void turnOn() {
-    state = 1;
-}</programlisting></sect1><sect1 id="a0000011085" remap="section">
-  <title>Two-Dimensional Arrays</title>
-    <para><indexterm significance="normal">
-  <primary>multidimensional array</primary>
-
-</indexterm>To represent a grid of cells, we can use a <emphasis role="bold">multidimensional array</emphasis>. To create a two-dimensional (2D) array, we specify the number of rows and columns: </para><programlisting language="java" format="linespecific">int rows = 4;
-int cols = 3;
-Cell[][] array = new Cell[rows][cols];</programlisting><para>The result is an array with 4 rows and 3 columns. Initially, the elements of the array are <literal moreinfo="none">null</literal>. We can fill the array with <literal moreinfo="none">Cell</literal> objects like this: </para><programlisting language="java" format="linespecific">for (int r = 0; r &lt; rows; r++) {
-    int y = r * size;
-    for (int c = 0; c &lt; cols; c++) {
-        int x = c * size;
-        array[r][c] = new Cell(x, y, size);
-    }
-}</programlisting><para>The loop variables <literal moreinfo="none">r</literal> and <literal moreinfo="none">c</literal> are the row and column indexes of the cells. The variables <literal moreinfo="none">x</literal> and <literal moreinfo="none">y</literal> are the coordinates. For example, if <literal moreinfo="none">size</literal> is 10 pixels, the cell at index (1, 2) would be at coordinates (10, 20) on the screen. </para><para>In Java, a 2D array is really an array of arrays. You can think of it as an array of rows, where each row is an array. <xref linkend="fig..2D-array"/> shows what it looks like. </para>
+  <listitem><para>Check the values of variables and see when and how they change. </para></listitem>
   
-  <figure id="fig..2D-array" float="False">
-    <title>Storing rows and columns with a 2D array.</title>
+</orderedlist><para>For example, open any program in DrJava and move the cursor to the first line of <literal moreinfo="none">main</literal>. Press Ctrl+B to toggle a breakpoint on the current line; it should now be highlighted in red. Press Ctrl+Shift+D to turn on Debug Mode; a new pane should appear at the bottom of the window. These commands are also available from the Debugger menu, in case you forget the shortcut keys. </para><para><indexterm significance="normal">
+  <primary>call stack</primary>
+
+</indexterm>When you run the program, execution pauses at the first breakpoint. The debug pane displays the <emphasis role="bold">call stack</emphasis>, with the current method on top of the stack, as shown in <xref linkend="fig.debugger"/>. You might be surprised to see how many methods were called before the <literal moreinfo="none">main</literal> method! </para>
+  
+  <figure id="fig.debugger" float="False">
+    <title>Screenshot of the DrJava debugger. Execution is currently paused on the first line of <literal moreinfo="none">printTwice</literal>. There is a breakpoint on the first line of <literal moreinfo="none">main</literal>.</title>
      <mediaobject>
   <imageobject remap="includegraphics">
-    <imagedata fileref="figs/2D-array.pdf"></imagedata>
+    <imagedata fileref="figs/debugger.png"></imagedata>
   </imageobject>
 </mediaobject></figure>
 <para><indexterm significance="normal">
-  <primary>row-major order</primary>
+  <primary>tracing</primary>
 
-</indexterm>When we write <literal moreinfo="none">array[r][c]</literal>, Java uses the first index to select a row and the second index to select an element from the row. This way of representing two-dimensional data is know as <emphasis role="bold">row-major order</emphasis>. </para>
-</sect1><sect1 id="a0000011125" remap="section">
-  <title>The GridCanvas Class</title>
-    <para>Now that we have a <literal moreinfo="none">Cell</literal> class and a way to represent a 2D array of cells, we can write a class to represent a grid of cells. We encapsulate the code from the previous section and generalize it to construct a grid with any number of rows and columns: </para><programlisting language="java" format="linespecific">public class GridCanvas extends Canvas {
-    private Cell[][] array;
+</indexterm>To the right are several buttons that allow you to step through the code at your own pace. You can also press Automatic Trace to watch DrJava run your code one line at a time. </para><para>Using a debugger is like having the computer proofread your code out loud. When the program is paused, you can examine (or even change) the value of any variable using the Interactions Pane. </para><para>Tracing allows you to follow the flow of execution and see how data pass from one method to another. You might expect the code do one thing, but then the debugger shows it doing something else. At that moment, you gain insight about what may be wrong with the code. </para><para>You can edit your code while debugging it, but we don’t recommend it. If you add or delete multiple lines of code while the program is paused, the results can be confusing. </para><para>See <ulink url="http://drjava.org/docs/user/ch09.html"/> for more information about using the debugger feature of DrJava. </para>
+</sect1><sect1 id="JUnit" remap="section">
+  <title>Testing with JUnit</title><para><indexterm significance="normal">
+  <primary>unit test</primary>
 
-    public GridCanvas(int rows, int cols, int size) {
-        array = new Cell[rows][cols];
-        for (int r = 0; r &lt; rows; r++) {
-            int y = r * size;
-            for (int c = 0; c &lt; cols; c++) {
-                int x = c * size;
-                array[r][c] = new Cell(x, y, size);
-            }
-        }
-
-        // set the canvas size
-        setSize(cols * size, rows * size);
+</indexterm>When beginners start writing methods, they usually test them by invoking them from <literal moreinfo="none">main</literal> and checking the results by hand. For example, to test <literal moreinfo="none">fibonacci</literal> from <xref linkend="fibonacci"/>, we could write: </para><programlisting language="java" format="linespecific">public static void main(String[] args) {
+    if (fibonacci(1) != 1) {
+        System.err.println("fibonacci(1) is incorrect");
     }
-}</programlisting><para><indexterm significance="normal">
-  <primary>IS-A</primary>
-
-</indexterm><indexterm significance="normal">
-  <primary>HAS-A</primary>
-
-</indexterm><indexterm significance="normal">
-  <primary>Graphics</primary>
-
-</indexterm>Using vocabulary from the previous chapter, <literal moreinfo="none">GridCanvas</literal> “is a” <literal moreinfo="none">Canvas</literal> that “has a” two-dimensional array of cells. By extending the <literal moreinfo="none">Canvas</literal> class from <literal moreinfo="none">java.awt</literal>, we inherit methods for drawing graphics on the screen. </para><para>In fact, the code is surprisingly straightforward: to draw the grid, we simply draw each cell. We use nested <literal moreinfo="none">for</literal> loops to traverse the 2D array: </para><programlisting language="java" format="linespecific">public void draw(Graphics g) {
-    for (Cell[] row : array) {
-        for (Cell cell : row) {
-            cell.draw(g);
-        }
+    if (fibonacci(2) != 1) {
+        System.err.println("fibonacci(2) is incorrect");
     }
-}</programlisting><para>The outer loop traverses the rows; the inner loop traverses the cells in each row. You can almost read this method in English: “For each <literal moreinfo="none">row</literal> in the <literal moreinfo="none">array</literal>, and for each <literal moreinfo="none">cell</literal> in the <literal moreinfo="none">row</literal>, draw the <literal moreinfo="none">cell</literal> in the graphics context.” Each cell contains its coordinates and size, so it knows how to draw itself. </para><para>Classes that extend <literal moreinfo="none">Canvas</literal> are supposed to provide a method called <literal moreinfo="none">paint</literal> that “paints” the contents of the <literal moreinfo="none">Canvas</literal>. It gets invoked when the <literal moreinfo="none">Canvas</literal> is created and any time it needs to be redrawn, for example, when its window is moved or resized. </para><para>Here’s the <literal moreinfo="none">paint</literal> method for <literal moreinfo="none">GridCanvas</literal>. When the window management system calls <literal moreinfo="none">paint</literal>, <literal moreinfo="none">paint</literal> calls <literal moreinfo="none">draw</literal>, which draws the cells. </para><programlisting language="java" format="linespecific">public void paint(Graphics g) {
-    draw(g);
-}</programlisting></sect1><sect1 id="a0000011181" remap="section">
-  <title>Other Grid Methods</title>
-    <para>In addition to <literal moreinfo="none">draw</literal> and <literal moreinfo="none">paint</literal>, the <literal moreinfo="none">Grid</literal> class provides methods for working with the grid itself. <literal moreinfo="none">numRows</literal> and <literal moreinfo="none">numCols</literal> return the number of rows and columns. We can get this information from the 2D array, using <literal moreinfo="none">length</literal>: </para><programlisting language="java" format="linespecific">public int numRows() {
-    return array.length;
-}
-
-public int numCols() {
-    return array[0].length;
-}</programlisting><para>Because we are using row-major order, the 2D array is an array of rows. <literal moreinfo="none">numRows</literal> simply returns the length of the rows array. <literal moreinfo="none">numCols</literal> returns the length of the first row, which is the number of columns. Since the rows all have the same length, we only have to check one. </para><para><literal moreinfo="none">GridCanvas</literal> also provides a method that gets the <literal moreinfo="none">Cell</literal> at a given location, and for convenience when starting the game, a method that turns on the <literal moreinfo="none">Cell</literal> at a given location. </para><programlisting language="java" format="linespecific">public Cell getCell(int r, int c) {
-    return array[r][c];
-}
-
-public void turnOn(int r, int c) {
-    array[r][c].turnOn();
-}</programlisting></sect1><sect1 id="conwaymain" remap="section">
-  <title>Starting the Game</title><para>Now we’re ready to implement the game. To encapsulate the rules of GoL, we define a class named <literal moreinfo="none">Conway</literal>. The <literal moreinfo="none">Conway</literal> class “has a” <literal moreinfo="none">GridCanvas</literal> that represents the state of the game. </para><para>This constructor makes a <literal moreinfo="none">GridCanvas</literal> with 5 rows and 10 columns, with cells that are 20 pixels wide and high. It then sets up the initial conditions. </para><programlisting language="java" format="linespecific">public class Conway {
-    private GridCanvas grid;
-
-    public Conway() {
-        grid = new GridCanvas(5, 10, 20);
-        grid.turnOn(2, 1);
-        grid.turnOn(2, 2);
-        grid.turnOn(2, 3);
-        grid.turnOn(1, 7);
-        grid.turnOn(2, 7);
-        grid.turnOn(3, 7);
+    if (fibonacci(3) != 2) {
+        System.err.println("fibonacci(3) is incorrect");
     }
-}</programlisting><para>Before we implement the rest of the game, we’ll write a <literal moreinfo="none">main</literal> method that creates a <literal moreinfo="none">Conway</literal> object and displays it. We can use this method to test <literal moreinfo="none">Cell</literal> and <literal moreinfo="none">GridCanvas</literal>, and to develop the other methods we need. </para><programlisting language="java" format="linespecific">public static void main(String[] args) {
-    String title = "Conway's Game of Life";
-    Conway game = new Conway();
-    JFrame frame = new JFrame(title);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setResizable(false);
-    frame.add(game.grid);
-    frame.pack();
-    frame.setVisible(true);
-    game.mainloop();
-}</programlisting><para><indexterm significance="normal">
-  <primary>JFrame</primary>
+}</programlisting><para>This test code is self-explanatory, but it’s longer than it needs to be, and it doesn’t scale very well. In addition, the error messages provide limited information. For cases where we know the right answer, we can do better by writing <emphasis role="bold">unit tests</emphasis>. </para><para>JUnit is a common testing tool for Java programs (see <ulink url="https://junit.org/"/>). To use it, you have to create a test class that contains test methods. </para><para>For example, suppose that the <literal moreinfo="none">fibonacci</literal> method belongs to a class named <literal moreinfo="none">Series</literal>. Here is the corresponding JUnit test class and test method: </para><programlisting language="java" format="linespecific">import junit.framework.TestCase;
 
-</indexterm>After constructing the <literal moreinfo="none">game</literal> object, <literal moreinfo="none">main</literal> constructs a <literal moreinfo="none">JFrame</literal>, which creates a window on the screen. The <literal moreinfo="none">JFrame</literal> is configured to exit the program when closed. Resizing the window is disabled. </para><para><literal moreinfo="none">main</literal> then adds the <literal moreinfo="none">GridCanvas</literal> inside the frame, resizes (“packs”) the frame to fit the canvas, and makes the frame visible. <xref linkend="fig..conway"/> shows the result. </para>
-  
-  <figure id="fig..conway" float="False">
-    <title>Screenshot of the initial <literal moreinfo="none">Conway</literal> application.</title>
-     <mediaobject>
-  <imageobject remap="includegraphics">
-    <imagedata fileref="figs/conway.png"></imagedata>
-  </imageobject>
-</mediaobject></figure>
+public class SeriesTest extends TestCase {
 
-</sect1><sect1 id="mainloop" remap="section">
-  <title>The Simulation Loop</title><para>At the end of <literal moreinfo="none">main</literal>, we call <literal moreinfo="none">mainloop</literal>, which uses a <literal moreinfo="none">while</literal> loop to simulate the time steps of the Game of Life. Here’s a rough draft of this method: </para><programlisting language="java" format="linespecific">private void mainloop() {
-    while (true) {
-        this.update();
-        grid.repaint();
-        Thread.sleep(500);    // compiler error
+    public void testFibonacci() {
+        assertEquals(1, Series.fibonacci(1));
+        assertEquals(1, Series.fibonacci(2));
+        assertEquals(2, Series.fibonacci(3));
     }
-}</programlisting><para>During each time step, we update the state of the game and repaint the <literal moreinfo="none">grid</literal>. We will present the <literal moreinfo="none">update</literal> method in <xref linkend="sec..update"/>. </para><para><literal moreinfo="none">repaint</literal> comes from the <literal moreinfo="none">Canvas</literal> class. By default, it calls the <literal moreinfo="none">paint</literal> method we provided, which calls <literal moreinfo="none">draw</literal>. The reason we use it here is that <literal moreinfo="none">repaint</literal> does not require a <literal moreinfo="none">Graphics</literal> object as a parameter. </para><para><indexterm significance="normal">
-  <primary>Thread.sleep</primary>
+}</programlisting><para>This example uses the keyword <literal moreinfo="none">extends</literal>, which indicates that the new class, <literal moreinfo="none">SeriesTest</literal> is based on an existing class, <literal moreinfo="none">TestCase</literal>. The <literal moreinfo="none">TestCase</literal> class is imported from the package <literal moreinfo="none">junit.framework</literal>. </para><para>The names in this example follow convention: if the name of your class is <literal moreinfo="none">Something</literal>, the name of the test class should be <literal moreinfo="none">SomethingTest</literal>. And if there is a method in <literal moreinfo="none">Something</literal> named <literal moreinfo="none">someMethod</literal>, there should be a method in <literal moreinfo="none">SomethingTest</literal> named <literal moreinfo="none">testSomeMethod</literal>. </para><para>Many development environments can generate test classes and test methods automatically. In DrJava, you can select New JUnit Test Case from the File menu to generate an empty test class. </para><para><literal moreinfo="none">assertEquals</literal> is provided by the <literal moreinfo="none">TestCase</literal> class. It takes two arguments and checks whether they are equal. If so, it does nothing; otherwise it displays a detailed error message. The first argument is the “expected value”, which we consider correct, and the second argument is the “actual value” we want to check. If they are not equal, the test fails. </para><para><indexterm significance="normal">
+  <primary>System.err</primary>
 
-</indexterm><indexterm significance="normal">
-  <primary>sleep</primary>
-
-</indexterm><literal moreinfo="none">Thread.sleep(500)</literal> causes the program to “sleep” for 500 milliseconds, or a half second. Otherwise the program would run so fast we would not be able to see the animation. </para><para><indexterm significance="normal">
-  <primary>InterruptedException</primary>
-
-</indexterm><indexterm significance="normal">
-  <primary>Exception</primary>
-<secondary>Interrupted</secondary>
-</indexterm>There’s just one problem: compiling this code results in the error “unreported exception InterruptedException”. This message means we need to do some exception handling. </para>
-</sect1><sect1 id="a0000011313" remap="section">
-  <title>Exception Handling</title>
-    <para>So far, the only exceptions we have seen are run-time errors like “array index out of bounds” and “null pointer”. When one of these exceptions occur, Java displays a message and ends the program. </para><para><indexterm significance="normal">
-  <primary>try</primary>
-
-</indexterm><indexterm significance="normal">
-  <primary>catch</primary>
-
-</indexterm><indexterm significance="normal">
-  <primary>Statement</primary>
-<secondary>try</secondary>
-</indexterm><indexterm significance="normal">
-  <primary>Statement</primary>
-<secondary>catch</secondary>
-</indexterm>If you don’t want the program to end, you can handle exceptions with a <literal moreinfo="none">try</literal>-<literal moreinfo="none">catch</literal> statement. The syntax is similar to an <literal moreinfo="none">if</literal>-<literal moreinfo="none">else</literal> statement, and the logic is, too. Here’s what it looks like: </para><programlisting language="java" format="linespecific">try {
-    Thread.sleep(500);
-} catch (InterruptedException e) {
-    // do nothing
-}</programlisting><para>First, Java runs the code in the try block, which calls <literal moreinfo="none">Thread.sleep</literal> in this example. If an <literal moreinfo="none">InterruptedException</literal> occurs during the try block, Java executes the catch block. In this example, the catch block contains a comment, so it doesn’t do anything. </para><para>If a different exception occurs during the try block, Java does whatever it would do otherwise, which is probably to display a message and end the program. If no exceptions occur during the try block, the catch block doesn’t run and the program continues. </para><para>In this example, the effect of the <literal moreinfo="none">try</literal>-<literal moreinfo="none">catch</literal> statement is to ignore an “interrupted” exception if it occurs. As an alternative, we could use the catch block to display a customized message, end the program, or handle the exception in whatever way is appropriate. For example, if user input causes an exception, we could catch the exception and prompt the user to try again later. </para><para>There’s more to learn about exception handling. You can read about exceptions in the Java tutorials at <ulink url="https://thinkjava.org/exceptions"/>. </para>
-</sect1><sect1 id="a0000011340" remap="section">
-  <title>Counting Neighbors</title>
-    <para><indexterm significance="normal">
-  <primary>neighbor</primary>
-
-</indexterm>Now that you know about <literal moreinfo="none">try</literal> and <literal moreinfo="none">catch</literal>, we can use them to implement a useful method in <literal moreinfo="none">GridCanvas</literal>. Part of the GoL logic is to count the number of live neighbors. Most cells have eight neighbors, as shown in <xref linkend="fig..neighbors"/>. </para><para>However, cells on the edges and in the corners have fewer neighbors. If we try to count all possible neighbors, we’ll go out of bounds. The following method uses a <literal moreinfo="none">try</literal>-<literal moreinfo="none">catch</literal> statement to deal with these special cases. </para><programlisting language="java" format="linespecific">public int test(int r, int c) {
-    try {
-        if (array[r][c].isOn()) {
-            return 1;
-        }
-    } catch (ArrayIndexOutOfBoundsException e) {
-        // cell doesn't exist
-    }
-    return 0;
-}</programlisting><figure id="fig..neighbors" float="False">
-    <title>Cells in the interior of the grid have eight neighbors. Cells in the corners and along the edges have fewer neighbors.</title>
-     <mediaobject>
-  <imageobject remap="includegraphics">
-    <imagedata fileref="figs/grid.pdf"></imagedata>
-  </imageobject>
-</mediaobject></figure>
-<para>The <literal moreinfo="none">test</literal> method takes a row index, <literal moreinfo="none">r</literal>, and a column index, <literal moreinfo="none">c</literal>. It tries to look up the <literal moreinfo="none">Cell</literal> at that location. If both of the indexes are in bounds, the <literal moreinfo="none">Cell</literal> exists. In that case, <literal moreinfo="none">test</literal> returns 1 if the <literal moreinfo="none">Cell</literal> is on. Otherwise, it skips the catch block and returns 0. </para><para>If either of the indexes is out of bounds, the array lookup throws an exception, but the catch block ignores it. Then <literal moreinfo="none">test</literal> resumes and returns 0. So the non-existent cells around the perimeter are considered to be off. </para><para>Now we can use <literal moreinfo="none">test</literal> to implement <literal moreinfo="none">countAlive</literal>, which takes a grid location, <literal moreinfo="none">(r, c)</literal>, and returns the number of live neighbors surrounding that location. </para><programlisting language="java" format="linespecific">private int countAlive(int r, int c) {
-    int count = 0;
-    count += grid.test(r - 1, c - 1);
-    count += grid.test(r - 1, c);
-    count += grid.test(r - 1, c + 1);
-    count += grid.test(r, c - 1);
-    count += grid.test(r, c + 1);
-    count += grid.test(r + 1, c - 1);
-    count += grid.test(r + 1, c);
-    count += grid.test(r + 1, c + 1);
-    return count;
-}</programlisting><para>Because <literal moreinfo="none">test</literal> handles “out of bounds” exceptions, <literal moreinfo="none">countAlive</literal> works for any values of <literal moreinfo="none">r</literal> and <literal moreinfo="none">c</literal>. </para>
-</sect1><sect1 id="sec..update" remap="section">
-  <title>Updating the Grid</title><para>Now we are ready to write <literal moreinfo="none">update</literal>, which gets invoked each time through the simulation loop. It uses the GoL rules to compute the state of the grid after the next time step. </para><programlisting language="java" format="linespecific">public void update() {
-    int[][] counts = countNeighbors();
-    updateGrid(counts);
-}</programlisting><para>The rules of GoL specify that you have to update the cells “simultaneously”; that is, you have to count the neighbors for all cells before you can update any of them. </para><para>We do that by traversing the grid twice: first, <literal moreinfo="none">countNeighbors</literal> counts the live neighbors for each cell and puts the results in an array named <literal moreinfo="none">counts</literal>; second, <literal moreinfo="none">updateGrid</literal> updates the cells. Here’s <literal moreinfo="none">countNeighbors</literal>: </para><programlisting language="java" format="linespecific">private int[][] countNeighbors() {
-    int rows = grid.numRows();
-    int cols = grid.numCols();
-
-    int[][] counts = new int[rows][cols];
-    for (int r = 0; r &lt; rows; r++) {
-        for (int c = 0; c &lt; cols; c++) {
-            counts[r][c] = countAlive(r, c);
-        }
-    }
-    return counts;
-}</programlisting><para><literal moreinfo="none">countNeighbors</literal> traverses the cells in the grid and uses <literal moreinfo="none">countAlive</literal> from the previous section to count the neighbors. The return value is a 2D array of integers with the same size as <literal moreinfo="none">grid</literal>. <xref linkend="fig..countNeigh"/> illustrates an example. </para>
-  
-  <figure id="fig..countNeigh" float="False">
-    <title>The result of <literal moreinfo="none">countNeighbors</literal> for the grid in <xref linkend="conwaymain"/>.</title>
-      <mediaobject>
-  <imageobject remap="includegraphics">
-    <imagedata fileref="figs/conway.png"></imagedata>
-  </imageobject>
-</mediaobject><programlisting format="linespecific">{{0, 0, 0, 0, 0, 0, 1, 1, 1, 0},
- {1, 2, 3, 2, 1, 0, 2, 1, 2, 0},
- {1, 1, 2, 1, 1, 0, 3, 2, 3, 0},
- {1, 2, 3, 2, 1, 0, 2, 1, 2, 0},
- {0, 0, 0, 0, 0, 0, 1, 1, 1, 0}}</programlisting></figure>
-<para>In contrast to the <literal moreinfo="none">draw</literal> method of <literal moreinfo="none">GridCanvas</literal>, which uses enhanced <literal moreinfo="none">for</literal> loops, <literal moreinfo="none">countNeighbors</literal> uses standard <literal moreinfo="none">for</literal> loops. The reason is that, in this example, we need the indexes <literal moreinfo="none">r</literal> and <literal moreinfo="none">c</literal> to store the neighbor counts. </para><para><literal moreinfo="none">updateGrid</literal> uses <literal moreinfo="none">getCell</literal> to select each <literal moreinfo="none">Cell</literal> in the grid and <literal moreinfo="none">updateCell</literal> to do the update. </para><programlisting language="java" format="linespecific">private void updateGrid(int[][] counts) {
-    int rows = grid.numRows();
-    int cols = grid.numCols();
-
-    for (int r = 0; r &lt; rows; r++) {
-        for (int c = 0; c &lt; cols; c++) {
-            Cell cell = grid.getCell(r, c);
-            updateCell(cell, counts[r][c]);
-        }
-    }
-}</programlisting><para><literal moreinfo="none">updateCell</literal> implements the GoL rules: if the cell is alive, it dies if it has fewer than 2 or more than 3 neighbors; if the cell is dead, it comes to life if it has exactly 3. </para><programlisting language="java" format="linespecific">private static void updateCell(Cell cell, int count) {
-    if (cell.isOn()) {
-        if (count &lt; 2 || count &gt; 3) {
-            cell.turnOff();
-        }
-    } else {
-        if (count == 3) {
-            cell.turnOn();
-        }
-    }
-}</programlisting><para>Notice that <literal moreinfo="none">updateGrid</literal> and <literal moreinfo="none">updateCell</literal> are both <literal moreinfo="none">private</literal>, because they are helper methods not intended to be invoked from outside the class. <literal moreinfo="none">updateCell</literal> is also <literal moreinfo="none">static</literal>, because it does not depend on <literal moreinfo="none">grid</literal>. </para><para>Now our implementation of the Game of Life is complete. We think it’s is pretty fun, and we hope you agree. But more importantly, this example is meant to demonstrate the use of 2D arrays and an object-oriented design that’s a little more substantial than previous chapters. </para>
-</sect1><sect1 id="a0000011486" remap="section">
+</indexterm>Using <literal moreinfo="none">assertEquals</literal> is more concise than writing your own <literal moreinfo="none">if</literal> statements and <literal moreinfo="none">System.err</literal> messages. JUnit provides additional assert methods, such as <literal moreinfo="none">assertNull</literal>, <literal moreinfo="none">assertSame</literal>, and <literal moreinfo="none">assertTrue</literal>, that can be used to design a variety of tests. </para><para>To run JUnit directly from DrJava, click the Test button on the toolbar. If all your test methods pass, you will see a green bar in the lower-right corner. Otherwise, DrJava will take you directly to the first assertion that failed. </para>
+</sect1><sect1 id="a0000013323" remap="section">
   <title>Vocabulary</title>
     <variablelist>
   <varlistentry>
-    <term>multidimensional array:</term>
+    <term>IDE:</term>
       <listitem><para><indexterm significance="normal">
-  <primary>multidimensional array</primary>
+  <primary>IDE</primary>
 
-</indexterm>An array with more than one dimension; two-dimensional arrays are “arrays of arrays”. </para></listitem>
+</indexterm>An “integrated development environment” that includes tools for editing, compiling, and debugging programs. </para></listitem>
   </varlistentry><varlistentry>
-    <term>row-major order:</term>
+    <term>JDK:</term>
       <listitem><para><indexterm significance="normal">
-  <primary>row-major order</primary>
+  <primary>JDK</primary>
 
-</indexterm>Storing data in a two-dimensional array first by rows and then by columns. </para></listitem>
+</indexterm>The “Java Development Kit” that contains the compiler, Javadoc, and other tools. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>JVM:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>JVM</primary>
+
+</indexterm>The “Java Virtual Machine” that interprets the compiled byte code. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>text editor:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>text editor</primary>
+
+</indexterm>A program that edits plain text files, the format used by most programming languages. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>JAR:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>JAR</primary>
+
+</indexterm>A “Java Archive”, which is essentially a ZIP file containing classes and other resources. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>command-line interface:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>command-line interface</primary>
+
+</indexterm>A means of interacting with the computer by issuing commands in the form of successive lines of text. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>redirection operator:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>redirection operator</primary>
+
+</indexterm>A command-line feature that substitutes <literal moreinfo="none">System.in</literal> and/or <literal moreinfo="none">System.out</literal> with a plain text file. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>wildcard:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>wildcard</primary>
+
+</indexterm>A command-line feature that allows you to specify a pattern of filenames using the <literal moreinfo="none">*</literal> character. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>debugger:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>debugger</primary>
+
+</indexterm>A tool that allows you to run one statement at a time and see the contents of variables. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>breakpoint:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>breakpoint</primary>
+
+</indexterm>A line of code where the debugger will pause a running program. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>call stack:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>call stack</primary>
+
+</indexterm>The history of method calls and where to resume execution after each method returns. </para></listitem>
+  </varlistentry><varlistentry>
+    <term>unit test:</term>
+      <listitem><para><indexterm significance="normal">
+  <primary>unit test</primary>
+
+</indexterm>Code that exercises a single method of a program, testing for correctness and/or efficiency. </para></listitem>
   </varlistentry>
 </variablelist>
-</sect1><sect1 id="a0000011493" remap="section">
-  <title>Exercises</title>
-    <para>The code for this chapter is in the <literal moreinfo="none">ch15</literal> directory of <literal moreinfo="none">ThinkJavaCode2</literal>. See <xref linkend="code"/> for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples. </para><para><example id="a0000011502" role="exercise">
-  <title/>
-  <para> In <literal moreinfo="none">GridCanvas</literal>, write a method named <literal moreinfo="none">countOn</literal> that returns the total number of cells that are “on”. This method can be used, for example, to track the population in Game of Life over time. </para>
-</example> </para><para><example id="a0000011508" role="exercise">
-  <title/>
-  <para> In our version of the Game of Life, the grid has a finite size. As a result, moving objects such as gliders either crash into the wall or go out of bounds. </para><para>An interesting variation of the Game of Life is a “toroidal” grid, meaning that the cells “wrap around” on the edges. Modify the <literal moreinfo="none">test</literal> method of <literal moreinfo="none">GridCanvas</literal> so that the coordinates <literal moreinfo="none">r</literal> and <literal moreinfo="none">c</literal> map to the opposite side of the grid if they are too low or two high. </para><para>Run your code with a Glider (see <xref linkend="fig..glider"/>) to see if it works. You can initialize the Glider by modifying the constructor in the <literal moreinfo="none">Conway</literal> class, or by reading it from a file (see the next exercise). </para>
-</example> </para><para><example id="a0000011525" role="exercise">
-  <title/>
-  <para>The “LifeWiki” <ulink url="http://conwaylife.com/wiki/"/> has a fascinating collection of patterns for the Game of Life. These patterns are stored in a file format that is easy to read, in files with the suffix “<literal remap="verb" moreinfo="none">.cells</literal>”. </para><para>For example, here is an 8x10 grid with a glider near the upper-left corner: </para><programlisting format="linespecific">!Name: Glider
-..........
-..O.......
-...O......
-.OOO......
-..........
-..........
-..........
-..........</programlisting><para>Lines that begin with <literal moreinfo="none">!</literal> are comments and should be ignored. The rest of the file describes the grid, row by row. A period represents a dead cell, and an uppercase O represents a live cell. See <ulink url="http://conwaylife.com/wiki/Plaintext"/> for more examples. </para><orderedlist inheritnum="ignore" continuation="restarts">
-  
-  <listitem><para>Create a plain text file with the contents shown above, and save the file as <literal remap="verb" moreinfo="none">glider.cells</literal> in the same directory as your code. </para></listitem>
-  
-  <listitem><para>Define a constructor for the <literal moreinfo="none">Conway</literal> class that takes a string representing the name (or path) of a “.cells” file. Here is a starting point: </para><programlisting language="java" format="linespecific">public Conway(String path) {
-    File file = new File(path);
-    Scanner scan = new Scanner(file);
-}</programlisting></listitem>
-  
-  <listitem><para>Modify the main method to invoke the constructor as follows: </para><programlisting language="java" format="linespecific">Conway game = new Conway("glider.cells");</programlisting></listitem>
-  
-  <listitem><para>Handle the <literal moreinfo="none">FileNotFoundException</literal> that may be thrown when creating a <literal moreinfo="none">Scanner</literal> for a <literal moreinfo="none">File</literal> by invoking <literal moreinfo="none">printStackTrace</literal> on the exception object and calling <literal moreinfo="none">System.exit()</literal> with a status of 1, indicating an error. </para></listitem>
-  
-  <listitem><para>Continue implementing the constructor by reading all non-comment lines into an <literal moreinfo="none">ArrayList</literal> using <literal moreinfo="none">hasNextLine</literal> and <literal moreinfo="none">nextLine</literal> of the <literal moreinfo="none">Scanner</literal>. </para></listitem>
-  
-  <listitem><para>Determine the number of rows and columns of the grid by examining the <literal moreinfo="none">ArrayList</literal> contents. </para></listitem>
-  
-  <listitem><para>Create and initialize a <literal moreinfo="none">GridCanvas</literal> based on the <literal moreinfo="none">ArrayList</literal>. </para></listitem>
-  
-</orderedlist><para>Once your constructor is working, you will be able to run many of the patterns on the LifeWiki. You might want to add a margin of empty cells around the initial pattern, to give it room to grow. </para>
-</example> </para><para><example id="a0000011585" role="exercise">
-  <title/>
-  <para> Some files on the LifeWiki use “Run Length Encoding” (RLE) instead of plain text. The basic idea of RLE is to describe the number of dead and alive cells, rather than type out each individual cell. </para><para>For example, <literal remap="verb" moreinfo="none">glider.cells</literal> from the previous exercise could be represented this way with RLE: </para><programlisting format="linespecific">#C Name: Glider
-x = 10, y = 8
-$2bo$3bo$b3o!</programlisting><para>The first line specifies <literal remap="verb" moreinfo="none">x</literal> (the number of columns) and <literal remap="verb" moreinfo="none">y</literal> (the number of rows). Subsequent lines consist of the letters <literal remap="verb" moreinfo="none">b</literal> (dead), <literal remap="verb" moreinfo="none">o</literal> (alive), and <literal remap="verb" moreinfo="none">$</literal> (end of line), optionally preceded by a count. The pattern ends with <literal remap="verb" moreinfo="none">!</literal>, after which any remaining file contents are ignored. </para><para>Lines beginning with <literal moreinfo="none">#</literal> have special meaning and are not part of the pattern. For example, <literal moreinfo="none">#C</literal> is a comment line. You can read more about RLE format on <ulink url="http://conwaylife.com/wiki/RLE"/>. </para><orderedlist inheritnum="ignore" continuation="restarts">
-  
-  <listitem><para>Create a plain text file with the contents shown above, and save the file as <literal remap="verb" moreinfo="none">glider.rle</literal> in the same directory as your code. </para></listitem>
-  
-  <listitem><para>Modify your constructor from the previous exercise to check the last three characters of the <literal moreinfo="none">path</literal>. If they are <literal moreinfo="none">"rle"</literal>, then you will need to process the file as RLE. Otherwise, assume the file is in “.cells” format. </para></listitem>
-  
-  <listitem><para>In the end, your constructor should be able to read and initialize grids in both formats. Test your constructor by modifying the <literal moreinfo="none">main</literal> method to read different files. </para></listitem>
-  
-</orderedlist>
-</example> </para>
 </sect1>
-</chapter>
+</appendix>

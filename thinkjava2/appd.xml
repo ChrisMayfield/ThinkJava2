@@ -1,254 +1,346 @@
-<appendix id="tools">
-  <title>Tools</title><para><indexterm significance="normal">
-  <primary>IDE</primary>
+<appendix id="debugging">
+  <title>Debugging</title><para><indexterm significance="normal">
+  <primary>debugging</primary>
 
-</indexterm>The steps for compiling, running, and debugging Java code depend on your development environment and operating system. We avoided putting these details in the main text, because they can be distracting. Instead, we provide this appendix with a brief introduction to DrJava—an <emphasis role="bold">integrated development environment</emphasis> (IDE) that is helpful for beginners—and other development tools, including Checkstyle for code quality and JUnit for testing. </para><sect1 id="drjava" remap="section">
-  <title>Installing DrJava</title><para>The easiest way to start programming in Java is to use a website that compiles and runs Java code in the browser. Examples include <ulink url="https://repl.it/"/>, <ulink url="https://trinket.io/"/>, <ulink url="https://jdoodle.com/"/>, and others. </para><para>If you are unable to install software on your computer (which is often the case in public schools and Internet cafés), you can use these online development environments for almost everything in this book. </para><para>But if you want to compile and run Java programs on your own computer, you will need: </para><itemizedlist>
+</indexterm>Although there are debugging suggestions throughout the book, we thought it would be useful to say more in an appendix. If you are having a hard time debugging, you might want to review this appendix from time to time. </para><para>The best debugging strategy depends on what kind of error you have: </para><itemizedlist>
   
     <listitem><para><indexterm significance="normal">
-  <primary>JDK</primary>
+  <primary>compile-time error</primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>JVM</primary>
+  <primary>error</primary>
+<secondary>compile-time</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>syntax</primary>
+
+</indexterm><emphasis role="bold">Compile-time errors</emphasis> indicate that there is something wrong with the syntax of the program. Example: omitting the semicolon at the end of a statement. </para></listitem>
+  
+    <listitem><para><indexterm significance="normal">
+  <primary>run-time error</primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>virtual machine</primary>
+  <primary>error</primary>
+<secondary>run-time</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>exception</primary>
+
+</indexterm><emphasis role="bold">Run-time errors</emphasis> are produced if something goes wrong while the program is running. Example: an infinite recursion eventually causes a <literal moreinfo="none">StackOverflowError</literal>. </para></listitem>
+  
+    <listitem><para><indexterm significance="normal">
+  <primary>logic error</primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>Javadoc</primary>
-
-</indexterm>The <emphasis role="bold">Java Development Kit</emphasis> (JDK), which includes the compiler, the <emphasis role="bold">Java Virtual Machine</emphasis> (JVM) that interprets the compiled byte code, and other tools such as Javadoc. </para><para><indexterm significance="normal">
-  <primary>text editor</primary>
+  <primary>error</primary>
+<secondary>logic</secondary>
+</indexterm><emphasis role="bold">Logic errors</emphasis> cause the program to do the wrong thing. Example: an expression may not be evaluated in the order you expect. </para></listitem>
+  
+</itemizedlist><para>The following sections are organized by error type; some techniques are useful for more than one type. </para><sect1 id="a0000013925" remap="section">
+  <title>Compile-Time Errors</title>
+    <para>The best kind of debugging is the kind you don’t have to do because you avoid making errors in the first place. Incremental development, which we presented in <xref linkend="distance"/>, can help. The key is to start with a working program and add small amounts of code at a time. When there is an error, you will have a pretty good idea where it is. </para><para>Nevertheless, you might find yourself in one of the following situations. For each situation, we have some suggestions about how to proceed. </para><sect2 id="a0000013930" remap="subsection">
+  <title>The compiler is spewing error messages.</title>
+    <para><indexterm significance="normal">
+  <primary>compile</primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>DrJava</primary>
+  <primary>error</primary>
+<secondary>message</secondary>
+</indexterm>If the compiler reports 100 error messages, that doesn’t mean there are 100 errors in your program. When the compiler encounters an error, it often gets thrown off track for a while. It tries to recover and pick up again after the first error, but sometimes it reports spurious errors. </para><para>Only the first error message is truly reliable. We suggest that you only fix one error at a time, and then recompile the program. You may find that one semicolon or brace “fixes” 100 errors. </para>
+</sect2><sect2 id="a0000013934" remap="subsection">
+  <title>I’m getting a weird compiler message, and it won’t go away.</title>
+    <para>First of all, read the error message carefully. It may be written in terse jargon, but often there is a carefully hidden kernel of information. </para><para>If nothing else, the message will tell you where in the program the problem occurred. Actually, it tells you where the compiler was when it noticed a problem, which is not necessarily where the error is. Use the information the compiler gives you as a guideline, but if you don’t see an error where the compiler is pointing, broaden the search. </para><para>Generally the error will be prior to the location of the error message, but there are cases where it will be somewhere else entirely. For example, if you get an error message at a method invocation, the actual error may be in the method definition itself. </para><para>If you don’t find the error quickly, take a breath and look more broadly at the entire program. Make sure the program is indented properly; that makes it easier to spot syntax errors. </para><para><indexterm significance="normal">
+  <primary>syntax errors</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>error</primary>
+<secondary>syntax</secondary>
+</indexterm>Now, start looking for common syntax errors: </para><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>Check that all parentheses and brackets are balanced and properly nested. All method definitions should be nested within a class definition. All program statements should be within a method definition. </para></listitem>
+  
+  <listitem><para>Remember that uppercase letters are not the same as lowercase letters. </para></listitem>
+  
+  <listitem><para>Check for semicolons at the end of statements (and no semicolons after curly braces). </para><para><indexterm significance="normal">
+  <primary>quote mark</primary>
 
 </indexterm></para></listitem>
   
-    <listitem><para>A <emphasis role="bold">text editor</emphasis> such as Atom, Notepad++, or Sublime Text, and/or an IDE such as DrJava, Eclipse, jGrasp, or NetBeans. </para></listitem>
+  <listitem><para>Make sure that any strings in the code have matching quotation marks. Make sure that you use double quotes for strings and single quotes for characters. </para></listitem>
   
-</itemizedlist><para>The JDK we recommend is OpenJDK, an open-source implementation of Java SE (Standard Edition). The IDE we recommend is DrJava, which is an open-source development environment written in Java (see <xref linkend="fig.drjava1"/>). </para><para>To install OpenJDK, visit <ulink url="https://adoptopenjdk.net"/>. Download and run the installer for your operating system. </para><para><indexterm significance="normal">
-  <primary>JAR</primary>
-
-</indexterm>To install DrJava, visit <ulink url="http://drjava.org/"/> and download the <emphasis role="bold">JAR</emphasis> file. We recommend that you save it to your Desktop or another convenient location. Simply double-click the JAR file to run DrJava. Refer to the DrJava documentation (<ulink url="http://drjava.org/docs/quickstart/"/>) for more details. </para>
+  <listitem><para>For each assignment statement, make sure that the type on the left is the same as the type on the right. Make sure that the expression on the left is a variable name or something else that you can assign a value to (like an element of an array). </para></listitem>
   
-  <figure id="fig.drjava1" float="False">
-    <title>Screenshot of DrJava editing the hello world program.</title>
-     <mediaobject>
-  <imageobject remap="includegraphics">
-    <imagedata fileref="figs/drjava-hello.png"></imagedata>
-  </imageobject>
-</mediaobject></figure>
-<para>When running DrJava for the first time, we recommend you change three settings from the Edit <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mo>&gt;</mml:mo></mml:math></inlineequation> Preferences menu under Miscellaneous: set the Indent Level to 4, check the Automatically Close Block Comments box, and uncheck the Keep Emacs-style Backup Files box. </para>
-</sect1><sect1 id="interactions" remap="section">
-  <title>DrJava Interactions</title><para><indexterm significance="normal">
-  <primary>interactions</primary>
-
-</indexterm>One of the most useful features of DrJava is the “Interactions Pane” at the bottom of the window. It provides the ability to try out code quickly, without having to write a class definition and save/compile/run the program. <xref linkend="fig.drjava2"/> shows an example. </para>
+  <listitem><para>For each method invocation, make sure that the arguments you provide are in the right order and have the right type, and that the object you are invoking the method on is the right type. </para></listitem>
   
-  <figure id="fig.drjava2" float="False">
-    <title>Screenshot of the Interactions Pane in DrJava.</title>
-     <mediaobject>
-  <imageobject remap="includegraphics">
-    <imagedata fileref="figs/drjava-logic.png"></imagedata>
-  </imageobject>
-</mediaobject></figure>
-<para>There is one subtle detail to note when using the Interactions feature. If you don’t end an expression (or statement) with a semicolon, DrJava automatically displays its value. Notice in <xref linkend="fig.drjava2"/> how the variable declarations end with semicolons, but the logic expressions in the following lines do not. This feature saves you from having to type <literal moreinfo="none">System.out.println</literal> every time. </para><para>What’s nice about this feature is that you don’t have to create a new class, declare a <literal moreinfo="none">main</literal> method, write arbitrary expressions inside <literal moreinfo="none">System.out.println</literal> statements, save the source file, and get all of your code to compile in advance. Also, you can press the up/down arrows on the keyboard to repeat previous commands and experiment with incremental differences. </para>
-</sect1><sect1 id="commandline" remap="section">
-  <title>Command-Line Interface</title><para><indexterm significance="normal">
-  <primary>command-line interface</primary>
-
-</indexterm><indexterm significance="normal">
-  <primary>terminal</primary>
-
-</indexterm>One of the most powerful and useful skills you can learn is how to use the <emphasis role="bold">command-line interface</emphasis>, also called the “terminal”. The command line is a direct interface to the operating system. It allows you to run programs, manage files and directories, and monitor system resources. Many advanced tools, both for software development and general-purpose computing, are available only at the command line. </para><para>There are many good tutorials online for learning the command line for your operating system; just search the web for “command line tutorial”. On Unix systems like Linux and OS X, you can get started with just four commands: change the working directory (<literal moreinfo="none">cd</literal>), list directory contents (<literal moreinfo="none">ls</literal>), compile Java programs (<literal moreinfo="none">javac</literal>), and run Java programs (<literal moreinfo="none">java</literal>). </para><para><xref linkend="fig.terminal"/> shows an example where the <literal moreinfo="none">Hello.java</literal> source file is stored in the <literal moreinfo="none">Desktop</literal> directory. After changing to that location and listing the files, we use the <literal moreinfo="none">javac</literal> command to compile <literal moreinfo="none">Hello.java</literal>. Running <literal moreinfo="none">ls</literal> again, we see that the compiler generated a new file, <literal moreinfo="none">Hello.class</literal>, which contains the byte code. We run the program using the <literal moreinfo="none">java</literal> command, which displays the output on the following line. </para>
+  <listitem><para>If you are invoking a value method, make sure you are doing something with the result. If you are invoking a void method, make sure you are <emphasis>not</emphasis> trying to do something with the result. </para></listitem>
   
-  <figure id="fig.terminal" float="False">
-    <title>Compiling and running <literal moreinfo="none">Hello.java</literal> from the command line.</title>
-     <mediaobject>
-  <imageobject remap="includegraphics">
-    <imagedata fileref="figs/terminal.png"></imagedata>
-  </imageobject>
-</mediaobject></figure>
-<para>Note that the <literal moreinfo="none">javac</literal> command requires a <emphasis>filename</emphasis> (or multiple source files separated by spaces), whereas the <literal moreinfo="none">java</literal> command requires a single <emphasis>class name</emphasis>. If you use DrJava, it runs these commands for you behind the scenes and displays the output in the Interactions Pane. </para><para>Taking time to learn this efficient and elegant way of interacting with the operating system will make you more productive. People who don’t use the command line don’t know what they’re missing. </para>
-</sect1><sect1 id="cltesting" remap="section">
-  <title>Command-Line Testing</title><para><indexterm significance="normal">
-  <primary>testing</primary>
-
-</indexterm>As described in <xref linkend="sec..examples"/>, it’s more effective to program and debug your code little by little than to attempt writing everything all at once. And after you’ve completed programming an algorithm, it’s important to test that it works correctly on a variety of inputs. </para><para>Throughout the book, we illustrate techniques for testing your programs. Most, if not all, testing is based on a simple idea: does the program do what we expect it to do? For simple programs, it’s not difficult to run them several times and see what happens. But at some point, you will get tired of typing the same test cases over and over. </para><para>We can automate the process of entering input and comparing “expected output” with “actual output” using the command line. The basic idea is to store the test cases in plain text files and trick Java into thinking they are coming from the keyboard. Here are step-by-step instructions: </para><orderedlist inheritnum="ignore" continuation="restarts">
+  <listitem><para>If you are invoking an instance method, make sure you are invoking it on an object with the right type. If you are invoking a static method from outside the class where it is defined, make sure you specify the class name (using dot notation). </para></listitem>
   
-  <listitem><para>Make sure you can compile and run the <literal moreinfo="none">Convert.java</literal> example in the <literal moreinfo="none">ch03</literal> directory of <literal moreinfo="none">ThinkJavaCode2</literal>. (See <xref linkend="code"/> for instructions on how to download the repository.) </para></listitem>
+  <listitem><para>Inside an instance method you can refer to the instance variables without specifying an object. If you try that in a static method—with or without <literal moreinfo="none">this</literal>—you get a message like “non-static variable x cannot be referenced from a static context.” </para></listitem>
   
-  <listitem><para>In the same directory as <literal moreinfo="none">Convert.java</literal>, create a plain text file named <literal moreinfo="none">test.in</literal> (“in” is for input). Enter the following line and save the file: </para><programlisting format="linespecific">193.04</programlisting></listitem>
+</orderedlist><para>If nothing works, move on to the next section... </para>
+</sect2><sect2 id="a0000013967" remap="subsection">
+  <title>I can’t get my program to compile no matter what I do.</title>
+    <para>If the compiler says there is an error and you don’t see it, that might be because you and the compiler are not looking at the same code. Check your development environment to make sure the program you are editing is the program the compiler is compiling. </para><para>This situation is often the result of having multiple copies of the same program. You might be editing one version of the file, but compiling a different version. </para><para>If you are not sure, try putting an obvious and deliberate syntax error right at the beginning of the program. Now compile again. If the compiler doesn’t find the new error, there is probably something wrong with the way you set up the development environment. </para><para><indexterm significance="normal">
+  <primary>debugging</primary>
+<secondary>by bisection</secondary>
+</indexterm>If you have examined the code thoroughly, and you are sure the compiler is compiling the right source file, it is time for desperate measures: <emphasis role="bold">debugging by bisection</emphasis>. </para><itemizedlist>
   
-  <listitem><para>Create a second plain text file named <literal moreinfo="none">test.exp</literal> (“exp” is for expected). Enter the following line and save the file: </para><programlisting format="linespecific">193.04 cm = 6 ft, 4 in</programlisting></listitem>
+    <listitem><para>Make a backup of the file you are working on. If you are working on <literal moreinfo="none">Bob.java</literal>, make a copy called <literal moreinfo="none">Bob.java.old</literal>. </para></listitem>
   
-  <listitem><para>Open a terminal, and change to the directory with these files. Run the following command to test the program: </para><programlisting format="linespecific">java Convert &lt; test.in &gt; test.out</programlisting></listitem>
+    <listitem><para>Delete about half the code from <literal moreinfo="none">Bob.java</literal>. Try compiling again. </para><itemizedlist>
   
-</orderedlist><para><indexterm significance="normal">
-  <primary>redirection operator</primary>
+    <listitem><para>If the program compiles now, you know the error is in the code you deleted. Bring back about half of what you deleted and repeat. </para></listitem>
+  
+    <listitem><para>If the program still doesn’t compile, the error must be in the code that remains. Delete about half of the remaining code and repeat. </para></listitem>
+  
+</itemizedlist></listitem>
+  
+    <listitem><para>Once you have found and fixed the error, start bringing back the code you deleted, a little bit at a time. </para></listitem>
+  
+</itemizedlist><para>This process is ugly, but it goes faster than you might think, and it is very reliable. It works for other programming languages too! </para>
+</sect2><sect2 id="a0000013996" remap="subsection">
+  <title>I did what the compiler told me to do, but it still doesn’t work.</title>
+    <para>Some error messages come with tidbits of advice, like “class Golfer must be declared abstract. It does not define int compareTo(java.lang.Object) from interface java.lang.Comparable.” It sounds like the compiler is telling you to declare <literal moreinfo="none">Golfer</literal> as an <literal moreinfo="none">abstract</literal> class, and if you are reading this book, you probably don’t know what that is or how to do it. </para><para>Fortunately, the compiler is wrong. The solution in this case is to make sure <literal moreinfo="none">Golfer</literal> has a method called <literal moreinfo="none">compareTo</literal> that takes an <literal moreinfo="none">Object</literal> as a parameter. </para><para>Don’t let the compiler lead you by the nose. Error messages give you evidence that something is wrong, but the remedies they suggest are unreliable. </para>
+</sect2>
+</sect1><sect1 id="a0000014010" remap="section">
+  <title>Run-Time Errors</title>
+    <para>It’s not always clear what causes a run-time error, but you can often figure things out by adding print statements to your program. </para><sect2 id="a0000014012" remap="subsection">
+  <title>My program hangs.</title>
+    <para><indexterm significance="normal">
+  <primary>hanging</primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>operator</primary>
-<secondary>redirection</secondary>
-</indexterm><indexterm significance="normal">
-  <primary>System.in</primary>
+  <primary>infinite loop</primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>System.out</primary>
+  <primary>infinite recursion</primary>
 
-</indexterm>On the command line, <literal moreinfo="none">&lt;</literal> and <literal moreinfo="none">&gt;</literal> are <emphasis role="bold">redirection operators</emphasis>. The first one redirects the contents of <literal moreinfo="none">test.in</literal> to <literal moreinfo="none">System.in</literal>, as if it were entered from the keyboard. The second one redirects the contents of <literal moreinfo="none">System.out</literal> to a new file <literal moreinfo="none">test.out</literal>, much like a screen capture. In other words, the <literal moreinfo="none">test.out</literal> file contains the output of your program. </para><para>By the way, it’s perfectly okay to compile your programs in DrJava (or some other environment) and run them from the command line. Knowing both techniques allows you to use the right tool for the job. </para>
+</indexterm>If a program stops and seems to be doing nothing, we say it is “hanging”. Often that means it is caught in an infinite loop or an infinite recursion. </para><itemizedlist>
   
-  <figure id="fig.meld" float="False">
-    <title>Using <literal moreinfo="none">meld</literal> to compare expected output with the actual output.</title>
-     <mediaobject>
-  <imageobject remap="includegraphics">
-    <imagedata fileref="figs/meld.png"></imagedata>
-  </imageobject>
-</mediaobject></figure>
-<para>At this point, we just need to compare the contents <literal moreinfo="none">test.out</literal> with <literal moreinfo="none">test.exp</literal>. If the files are the same, then the program outputted what we expected it to output. If not, then we found a bug, and we can use the output to begin debugging our program. Fortunately, there’s a simple way to compare files on the command line: </para><programlisting format="linespecific">diff test.exp test.out</programlisting><para>The <literal moreinfo="none">diff</literal> utility summarizes the differences between two files. If there are no differences, then it displays nothing, which in our case is what we want. If the expected output differs from the actual output, then we need to continue debugging. Usually the program is at fault, and <literal moreinfo="none">diff</literal> provides some insight about what is broken. But there’s also a chance that we have a correct program and the expected output is wrong. </para><para>Interpreting the results from <literal moreinfo="none">diff</literal> can be confusing, but fortunately there are many graphical tools that show the differences between two files. For example, on Windows you can install <literal moreinfo="none">WinMerge</literal>, on Mac you can use <literal moreinfo="none">opendiff</literal> (which comes with Xcode), and on Linux there’s <literal moreinfo="none">meld</literal>, shown in <xref linkend="fig.meld"/>. </para><para>Regardless of what tool you use, the goal is the same. Debug your program until the actual output is <emphasis>identical</emphasis> to the expected output. </para>
-</sect1><sect1 id="checkstyle" remap="section">
-  <title>Running Checkstyle</title><para><indexterm significance="normal">
-  <primary>Checkstyle</primary>
+    <listitem><para>If there is a particular loop that you suspect is the problem, add a print statement immediately before the loop that says “entering the loop” and another immediately after that says “exiting the loop”. </para><para><indexterm significance="normal">
+  <primary>StackOverflowError</primary>
 
-</indexterm>Checkstyle is a command-line tool that can be used to determine if your source code follows a set of style rules. It also checks for common programming mistakes, such as class and method design problems. </para><para>You can download the latest version as a JAR file from <ulink url="https://checkstyle.sourceforge.io/"/>. To run Checkstyle, move (or copy) the JAR file to the same directory as your program. Open a terminal in that location, and run the following command: </para><programlisting format="linespecific">java -jar checkstyle-*-all.jar -c /google_checks.xml *.java</programlisting><para><indexterm significance="normal">
-  <primary>wildcard</primary>
+</indexterm>Run the program. If you get the first message and not the second, you know where the program is getting stuck. Go to the section titled “Infinite loop”.</para></listitem>
+  
+    <listitem><para>Most of the time an infinite recursion will cause the program to run for a while and then produce a <literal moreinfo="none">StackOverflowError</literal>. If that happens, go to the section titled “Infinite recursion”.</para><para>If you are not getting a <literal moreinfo="none">StackOverflowError</literal>, but you suspect there is a problem with a recursive method, you can still use the techniques in the infinite recursion section. </para></listitem>
+  
+    <listitem><para>If neither of the previous suggestions helps, you might not understand the flow of execution in your program. Go to the section titled “Flow of execution”.</para></listitem>
+  
+</itemizedlist><sect3 id="infloop" remap="subsubsection">
+  <title>Infinite Loop</title><para>If you think you have an infinite loop and you know which loop it is, add a print statement at the end of the loop that displays the values of the variables in the condition, and the value of the condition. </para><para>For example: </para><programlisting language="java" format="linespecific">while (x &gt; 0 &amp;&amp; y &lt; 0) {
+    // do something to x
+    // do something to y
 
-</indexterm>The <literal moreinfo="none">*</literal> characters are <emphasis role="bold">wildcards</emphasis> that match whatever version of Checkstyle you have and whatever Java source files are present. The output indicates the file and line number of each problem. This example refers to a method beginning on line 93, column 5 of <literal moreinfo="none">Hello.java</literal>: </para><programlisting format="linespecific">Hello.java:93:5: Missing a Javadoc comment</programlisting><para>The file <literal moreinfo="none">/google_checks.xml</literal> is inside the JAR file and represents most of Google’s style rules. You can alternatively use <literal moreinfo="none">/sun_checks.xml</literal> or provide your own configuration file. See Checkstyle’s website for more information. </para><para>If you apply Checkstyle to your source code often, you will likely internalize good style habits over time. But there are limits to what automatic style checkers can do. In particular, they can’t evaluate the <emphasis>quality</emphasis> of your comments, the <emphasis>meaning</emphasis> of your variable names, or the <emphasis>structure</emphasis> of your algorithms. </para><para>Good comments make it easier for experienced developers to identify errors in your code. Good variable names communicate the intent of your program and how the data is organized. And good programs are designed to be efficient and demonstrably correct. </para>
-</sect1><sect1 id="debugger" remap="section">
-  <title>Tracing with a Debugger</title><para><indexterm significance="normal">
-  <primary>breakpoint</primary>
+    System.out.println("x: " + x);
+    System.out.println("y: " + y);
+    System.out.println("condition: " + (x &gt; 0 &amp;&amp; y &lt; 0));
+}</programlisting><para>Now when you run the program you see three lines of output for each time through the loop. The last time through the loop, the condition should be <literal moreinfo="none">false</literal>. If the loop keeps going, you will see the values of <literal moreinfo="none">x</literal> and <literal moreinfo="none">y</literal>, and you might figure out why they are not getting updated correctly. </para>
+</sect3><sect3 id="infrec" remap="subsubsection">
+  <title>Infinite Recursion</title><para><indexterm significance="normal">
+  <primary>recursion</primary>
+<secondary>infinite</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>infinite recursion</primary>
+
+</indexterm>Most of the time, an infinite recursion will cause the program to throw a <literal moreinfo="none">StackOverflowError</literal>. But if the program is slow, it may take a long time to fill the stack. </para><para>If you know which method is causing an infinite recursion, check that there is a base case. There should be some condition that makes the method return without making a recursive invocation. If not, you need to rethink the algorithm and identify a base case. </para><para>If there is a base case, but the program doesn’t seem to be reaching it, add a print statement at the beginning of the method that displays the parameters. Now when you run the program you see a few lines of output every time the method is invoked, and you can see the values of the parameters. If the parameters are not moving toward the base case, you might see why not. </para>
+</sect3><sect3 id="flowexec" remap="subsubsection">
+  <title>Flow of Execution</title><para><indexterm significance="normal">
+  <primary>flow of execution</primary>
 
 </indexterm><indexterm significance="normal">
-  <primary>debugger</primary>
-
-</indexterm>A great way to visualize the flow of execution, including how parameters and arguments work, is to use a <emphasis role="bold">debugger</emphasis>. Most debuggers make it possible to: </para><orderedlist inheritnum="ignore" continuation="restarts">
-  
-  <listitem><para>Set a <emphasis role="bold">breakpoint</emphasis>, a line where you want the program to pause. </para></listitem>
-  
-  <listitem><para>Step through the code one line at a time and watch what it does. </para></listitem>
-  
-  <listitem><para>Check the values of variables and see when and how they change. </para></listitem>
-  
-</orderedlist><para>For example, open any program in DrJava and move the cursor to the first line of <literal moreinfo="none">main</literal>. Press Ctrl+B to toggle a breakpoint on the current line; it should now be highlighted in red. Press Ctrl+Shift+D to turn on Debug Mode; a new pane should appear at the bottom of the window. These commands are also available from the Debugger menu, in case you forget the shortcut keys. </para><para><indexterm significance="normal">
-  <primary>call stack</primary>
-
-</indexterm>When you run the program, execution pauses at the first breakpoint. The debug pane displays the <emphasis role="bold">call stack</emphasis>, with the current method on top of the stack, as shown in <xref linkend="fig.debugger"/>. You might be surprised to see how many methods were called before the <literal moreinfo="none">main</literal> method! </para>
-  
-  <figure id="fig.debugger" float="False">
-    <title>Screenshot of the DrJava debugger. Execution is currently paused on the first line of <literal moreinfo="none">printTwice</literal>. There is a breakpoint on the first line of <literal moreinfo="none">main</literal>.</title>
-     <mediaobject>
-  <imageobject remap="includegraphics">
-    <imagedata fileref="figs/debugger.png"></imagedata>
-  </imageobject>
-</mediaobject></figure>
-<para><indexterm significance="normal">
   <primary>tracing</primary>
 
-</indexterm>To the right are several buttons that allow you to step through the code at your own pace. You can also press Automatic Trace to watch DrJava run your code one line at a time. </para><para>Using a debugger is like having the computer proofread your code out loud. When the program is paused, you can examine (or even change) the value of any variable using the Interactions Pane. </para><para>Tracing allows you to follow the flow of execution and see how data pass from one method to another. You might expect the code do one thing, but then the debugger shows it doing something else. At that moment, you gain insight about what may be wrong with the code. </para><para>You can edit your code while debugging it, but we don’t recommend it. If you add or delete multiple lines of code while the program is paused, the results can be confusing. </para><para>See <ulink url="http://drjava.org/docs/user/ch09.html"/> for more information about using the debugger feature of DrJava. </para>
-</sect1><sect1 id="JUnit" remap="section">
-  <title>Testing with JUnit</title><para><indexterm significance="normal">
-  <primary>unit test</primary>
+</indexterm>If you are not sure how the flow of execution is moving through your program, add print statements to the beginning of each method with a message like “entering method foo”, where <literal moreinfo="none">foo</literal> is the name of the method. Now when you run the program, it displays a trace of each method as it is invoked. </para><para>You can also display the arguments each method receives. When you run the program, check whether the values are reasonable, and check for one of the most common errors—providing arguments in the wrong order. </para>
+</sect3>
+</sect2><sect2 id="a0000014058" remap="subsection">
+  <title>When I run the program I get an exception.</title>
+    <para><indexterm significance="normal">
+  <primary>exception</primary>
 
-</indexterm>When beginners start writing methods, they usually test them by invoking them from <literal moreinfo="none">main</literal> and checking the results by hand. For example, to test <literal moreinfo="none">fibonacci</literal> from <xref linkend="fibonacci"/>, we could write: </para><programlisting language="java" format="linespecific">public static void main(String[] args) {
-    if (fibonacci(1) != 1) {
-        System.err.println("fibonacci(1) is incorrect");
-    }
-    if (fibonacci(2) != 1) {
-        System.err.println("fibonacci(2) is incorrect");
-    }
-    if (fibonacci(3) != 2) {
-        System.err.println("fibonacci(3) is incorrect");
-    }
-}</programlisting><para>This test code is self-explanatory, but it’s longer than it needs to be, and it doesn’t scale very well. In addition, the error messages provide limited information. For cases where we know the right answer, we can do better by writing <emphasis role="bold">unit tests</emphasis>. </para><para>JUnit is a common testing tool for Java programs (see <ulink url="https://junit.org/"/>). To use it, you have to create a test class that contains test methods. </para><para>For example, suppose that the <literal moreinfo="none">fibonacci</literal> method belongs to a class named <literal moreinfo="none">Series</literal>. Here is the corresponding JUnit test class and test method: </para><programlisting language="java" format="linespecific">import junit.framework.TestCase;
+</indexterm><indexterm significance="normal">
+  <primary>stack trace</primary>
 
-public class SeriesTest extends TestCase {
-
-    public void testFibonacci() {
-        assertEquals(1, Series.fibonacci(1));
-        assertEquals(1, Series.fibonacci(2));
-        assertEquals(2, Series.fibonacci(3));
-    }
-}</programlisting><para>This example uses the keyword <literal moreinfo="none">extends</literal>, which indicates that the new class, <literal moreinfo="none">SeriesTest</literal> is based on an existing class, <literal moreinfo="none">TestCase</literal>. The <literal moreinfo="none">TestCase</literal> class is imported from the package <literal moreinfo="none">junit.framework</literal>. </para><para>The names in this example follow convention: if the name of your class is <literal moreinfo="none">Something</literal>, the name of the test class should be <literal moreinfo="none">SomethingTest</literal>. And if there is a method in <literal moreinfo="none">Something</literal> named <literal moreinfo="none">someMethod</literal>, there should be a method in <literal moreinfo="none">SomethingTest</literal> named <literal moreinfo="none">testSomeMethod</literal>. </para><para>Many development environments can generate test classes and test methods automatically. In DrJava, you can select New JUnit Test Case from the File menu to generate an empty test class. </para><para><literal moreinfo="none">assertEquals</literal> is provided by the <literal moreinfo="none">TestCase</literal> class. It takes two arguments and checks whether they are equal. If so, it does nothing; otherwise it displays a detailed error message. The first argument is the “expected value”, which we consider correct, and the second argument is the “actual value” we want to check. If they are not equal, the test fails. </para><para><indexterm significance="normal">
-  <primary>System.err</primary>
-
-</indexterm>Using <literal moreinfo="none">assertEquals</literal> is more concise than writing your own <literal moreinfo="none">if</literal> statements and <literal moreinfo="none">System.err</literal> messages. JUnit provides additional assert methods, such as <literal moreinfo="none">assertNull</literal>, <literal moreinfo="none">assertSame</literal>, and <literal moreinfo="none">assertTrue</literal>, that can be used to design a variety of tests. </para><para>To run JUnit directly from DrJava, click the Test button on the toolbar. If all your test methods pass, you will see a green bar in the lower-right corner. Otherwise, DrJava will take you directly to the first assertion that failed. </para>
-</sect1><sect1 id="a0000013323" remap="section">
-  <title>Vocabulary</title>
-    <variablelist>
+</indexterm>When an exception occurs, Java displays a message that includes the name of the exception, the line of the program where the exception occurred, and a “stack trace”. The stack trace includes the method that was running, the method that invoked it, the method that invoked that one, and so on. </para><para>The first step is to examine the place in the program where the error occurred and see if you can figure out what happened. </para><variablelist>
   <varlistentry>
-    <term>IDE:</term>
+    <term>NullPointerException:</term>
       <listitem><para><indexterm significance="normal">
-  <primary>IDE</primary>
+  <primary>NullPointerException</primary>
 
-</indexterm>An “integrated development environment” that includes tools for editing, compiling, and debugging programs. </para></listitem>
+</indexterm>You tried to access an instance variable or invoke a method on an object that is currently <literal moreinfo="none">null</literal>. You should figure out which variable is <literal moreinfo="none">null</literal> and then figure out how it got to be that way. </para><para>Remember that when you declare a variable with an array type, its elements are initially <literal moreinfo="none">null</literal> until you assign a value to them. For example, this code causes a <literal moreinfo="none">NullPointerException</literal>: </para><programlisting language="java" format="linespecific">int[] array = new Point[5];
+System.out.println(array[0].x);</programlisting></listitem>
   </varlistentry><varlistentry>
-    <term>JDK:</term>
+    <term>ArrayIndexOutOfBoundsException:</term>
       <listitem><para><indexterm significance="normal">
-  <primary>JDK</primary>
+  <primary>ArrayIndexOutOfBoundsException</primary>
 
-</indexterm>The “Java Development Kit” that contains the compiler, Javadoc, and other tools. </para></listitem>
+</indexterm>The index you are using to access an array is either negative or greater than <literal moreinfo="none">array.length - 1</literal>. If you can find the site where the problem is, add a print statement immediately before it to display the value of the index and the length of the array. Is the array the right size? Is the index the right value? </para><para>Now work your way backwards through the program and see where the array and the index come from. Find the nearest assignment statement and see if it is doing the right thing. If either one is a parameter, go to the place where the method is invoked and see where the values are coming from. </para></listitem>
   </varlistentry><varlistentry>
-    <term>JVM:</term>
+    <term>StackOverflowError:</term>
       <listitem><para><indexterm significance="normal">
-  <primary>JVM</primary>
+  <primary>StackOverflowError</primary>
 
-</indexterm>The “Java Virtual Machine” that interprets the compiled byte code. </para></listitem>
+</indexterm>See “Infinite recursion” on <xref linkend="infrec"/>. </para></listitem>
   </varlistentry><varlistentry>
-    <term>text editor:</term>
+    <term>FileNotFoundException:</term>
       <listitem><para><indexterm significance="normal">
-  <primary>text editor</primary>
+  <primary>FileNotFoundException</primary>
 
-</indexterm>A program that edits plain text files, the format used by most programming languages. </para></listitem>
+</indexterm>This means Java didn’t find the file it was looking for. If you are using a project-based development environment like Eclipse, you might have to import the file into the project. Otherwise make sure the file exists and that the path is correct. This problem depends on your file system, so it can be hard to track down. </para></listitem>
   </varlistentry><varlistentry>
-    <term>JAR:</term>
+    <term>ArithmeticException:</term>
       <listitem><para><indexterm significance="normal">
-  <primary>JAR</primary>
+  <primary>ArithmeticException</primary>
 
-</indexterm>A “Java Archive”, which is essentially a ZIP file containing classes and other resources. </para></listitem>
-  </varlistentry><varlistentry>
-    <term>command-line interface:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>command-line interface</primary>
-
-</indexterm>A means of interacting with the computer by issuing commands in the form of successive lines of text. </para></listitem>
-  </varlistentry><varlistentry>
-    <term>redirection operator:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>redirection operator</primary>
-
-</indexterm>A command-line feature that substitutes <literal moreinfo="none">System.in</literal> and/or <literal moreinfo="none">System.out</literal> with a plain text file. </para></listitem>
-  </varlistentry><varlistentry>
-    <term>wildcard:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>wildcard</primary>
-
-</indexterm>A command-line feature that allows you to specify a pattern of filenames using the <literal moreinfo="none">*</literal> character. </para></listitem>
-  </varlistentry><varlistentry>
-    <term>debugger:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>debugger</primary>
-
-</indexterm>A tool that allows you to run one statement at a time and see the contents of variables. </para></listitem>
-  </varlistentry><varlistentry>
-    <term>breakpoint:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>breakpoint</primary>
-
-</indexterm>A line of code where the debugger will pause a running program. </para></listitem>
-  </varlistentry><varlistentry>
-    <term>call stack:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>call stack</primary>
-
-</indexterm>The history of method calls and where to resume execution after each method returns. </para></listitem>
-  </varlistentry><varlistentry>
-    <term>unit test:</term>
-      <listitem><para><indexterm significance="normal">
-  <primary>unit test</primary>
-
-</indexterm>Code that exercises a single method of a program, testing for correctness and/or efficiency. </para></listitem>
+</indexterm>Something went wrong during an arithmetic operation; for example, division by zero. </para></listitem>
   </varlistentry>
 </variablelist>
+</sect2><sect2 id="a0000014090" remap="subsection">
+  <title>I added so many print statements I get inundated with output.</title>
+    <para><indexterm significance="normal">
+  <primary>print statement</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>statement</primary>
+<secondary>print</secondary>
+</indexterm>One of the problems with using print statements for debugging is that you can end up buried in output. There are two ways to proceed: either simplify the output, or simplify the program. </para><para>To simplify the output, you can remove or comment out print statements that aren’t helping, or combine them, or format the output so it is easier to understand. As you develop a program, you should write code to generate concise, informative traces of what the program is doing. </para><para>To simplify the program, scale down the problem the program is working on. For example, if you are sorting an array, sort a <emphasis>small</emphasis> array. If the program takes input from the user, give it the simplest input that causes the error. </para><para><indexterm significance="normal">
+  <primary>nested</primary>
+
+</indexterm>Also, clean up the code. Remove unnecessary or experimental parts, and reorganize the program to make it easier to read. For example, if you suspect that the error is in a deeply-nested part of the program, rewrite that part with a simpler structure. If you suspect a large method, split it into smaller methods and test them separately. </para><para>The process of finding the minimal test case often leads you to the bug. For example, if you find that a program works when the array has an even number of elements, but not when it has an odd number, that gives you a clue about what is going on. </para><para>Reorganizing the program can help you find subtle bugs. If you make a change that you think doesn’t affect the program, and it does, that can tip you off. </para>
+</sect2>
+</sect1><sect1 id="a0000014101" remap="section">
+  <title>Logic Errors</title>
+    <sect2 id="a0000014102" remap="subsection">
+  <title>My program doesn’t work.</title>
+    <para>Logic errors are hard to find because the compiler and interpreter provide no information about what is wrong. Only you know what the program is supposed to do, and only you know that it isn’t doing it. </para><para>The first step is to make a connection between the code and the behavior you get. You need a hypothesis about what the program is actually doing. Here are some questions to ask yourself: </para><itemizedlist>
+  
+    <listitem><para>Is there something the program was supposed to do, but doesn’t seem to be happening? Find the section of the code that performs that function, and make sure it is executing when you think it should. See “Flow of execution” on <xref linkend="flowexec"/>. </para></listitem>
+  
+    <listitem><para>Is something happening that shouldn’t? Find code in your program that performs that function, and see if it is executing when it shouldn’t. </para></listitem>
+  
+    <listitem><para>Is a section of code producing an unexpected effect? Make sure you understand the code, especially if it invokes methods in the Java library. Read the documentation for those methods, and try them out with simple test cases. They might not do what you think they do. </para></listitem>
+  
+</itemizedlist><para>To program, you need a mental model of what your code does. If it doesn’t do what you expect, the problem might not actually be the program; it might be in your head. </para><para><indexterm significance="normal">
+  <primary>mental model</primary>
+
+</indexterm>The best way to correct your mental model is to break the program into components (usually the classes and methods) and test them independently. Once you find the discrepancy between your model and reality, you can solve the problem. </para><para><indexterm significance="normal">
+  <primary>logic error</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>error</primary>
+<secondary>logic</secondary>
+</indexterm>Here are some common logic errors to check for: </para><itemizedlist>
+  
+    <listitem><para>Remember that integer division always rounds toward zero. If you want fractions, use <literal moreinfo="none">double</literal>. More generally, use integers for countable things and floating-point numbers for measurable things. </para></listitem>
+  
+    <listitem><para>Floating-point numbers are only approximate, so don’t rely on them to be perfectly accurate. You should probably never use the <literal moreinfo="none">==</literal> operator with <literal moreinfo="none">double</literal>s. Instead of writing <literal moreinfo="none">if (d == 1.23)</literal>, do something like <literal moreinfo="none">if (Math.abs(d - 1.23) &lt; .000001)</literal>. </para></listitem>
+  
+    <listitem><para>When you apply the equality operator (<literal moreinfo="none">==</literal>) to objects, it checks whether they are identical. If you meant to check equivalence, you should use the <literal moreinfo="none">equals</literal> method instead. </para></listitem>
+  
+    <listitem><para>By default for user-defined types, <literal moreinfo="none">equals</literal> checks identity. If you want a different notion of equivalence, you have to override it. </para></listitem>
+  
+    <listitem><para>Inheritance can lead to subtle logic errors, because you can run inherited code without realizing it. See “Flow of execution” on <xref linkend="flowexec"/>. </para></listitem>
+  
+</itemizedlist>
+</sect2><sect2 id="a0000014150" remap="subsection">
+  <title>I’ve got a big hairy expression and it doesn’t do what I expect.</title>
+    <para><indexterm significance="normal">
+  <primary>expression</primary>
+<secondary>big and hairy</secondary>
+</indexterm>Writing complex expressions is fine as long as they are readable, but they can be hard to debug. It is often a good idea to break a complex expression into a series of assignments to temporary variables. </para><programlisting language="java" format="linespecific">rect.setLocation(rect.getLocation().translate(
+                 -rect.getWidth(), -rect.getHeight()));</programlisting><para>This example can be rewritten as: </para><programlisting language="java" format="linespecific">int dx = -rect.getWidth();
+int dy = -rect.getHeight();
+Point location = rect.getLocation();
+Point newLocation = location.translate(dx, dy);
+rect.setLocation(newLocation);</programlisting><para>The second version is easier to read, partly because the variable names provide additional documentation. It’s also easier to debug, because you can check the types of the temporary variables and display their values. </para><para><indexterm significance="normal">
+  <primary>temporary variable</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>variable</primary>
+<secondary>temporary</secondary>
+</indexterm><indexterm significance="normal">
+  <primary>order of operations</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>precedence</primary>
+
+</indexterm>Another problem that can occur with big expressions is that the order of operations may not be what you expect. For example, to evaluate <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mfrac><mml:mi>x</mml:mi><mml:mrow><mml:mn>2</mml:mn><mml:mi>π</mml:mi></mml:mrow></mml:mfrac></mml:math></inlineequation>, you might write: </para><programlisting language="java" format="linespecific">double y = x / 2 * Math.PI;</programlisting><para>That is not correct, because multiplication and division have the same precedence, and they are evaluated from left to right. This code computes <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML"><mml:mrow><mml:mfrac><mml:mi>x</mml:mi><mml:mn>2</mml:mn></mml:mfrac><mml:mi>π</mml:mi></mml:mrow></mml:math></inlineequation>. </para><para>If you are not sure of the order of operations, check the documentation, or use parentheses to make it explicit. </para><programlisting language="java" format="linespecific">double y = x / (2 * Math.PI);</programlisting><para>This version is correct, and more readable for other people who haven’t memorized the order of operations. </para>
+</sect2><sect2 id="a0000014174" remap="subsection">
+  <title>My method doesn’t return what I expect.</title>
+    <para><indexterm significance="normal">
+  <primary>return statement</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>statement</primary>
+<secondary>return</secondary>
+</indexterm>If you have a return statement with a complex expression, you don’t have a chance to display the value before returning. </para><programlisting language="java" format="linespecific">public Rectangle intersection(Rectangle a, Rectangle b) {
+    return new Rectangle(
+        Math.min(a.x, b.x), Math.min(a.y, b.y),
+        Math.max(a.x + a.width, b.x + b.width)
+            - Math.min(a.x, b.x)
+        Math.max(a.y + a.height, b.y + b.height)
+            - Math.min(a.y, b.y));
+}</programlisting><para>Instead of writing everything in one statement, use temporary variables: </para><programlisting language="java" format="linespecific">public Rectangle intersection(Rectangle a, Rectangle b) {
+    int x1 = Math.min(a.x, b.x);
+    int y1 = Math.min(a.y, b.y);
+    int x2 = Math.max(a.x + a.width, b.x + b.width);
+    int y2 = Math.max(a.y + a.height, b.y + b.height);
+    Rectangle rect = new Rectangle(x1, y1, x2 - x1, y2 - y1);
+    return rect;
+}</programlisting><para>Now you have the opportunity to display any of the intermediate variables before returning. And by reusing <literal moreinfo="none">x1</literal> and <literal moreinfo="none">y1</literal>, you made the code smaller, too. </para>
+</sect2><sect2 id="a0000014187" remap="subsection">
+  <title>My print statement isn’t doing anything.</title>
+    <para><indexterm significance="normal">
+  <primary>print statement</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>statement</primary>
+<secondary>print</secondary>
+</indexterm>If you use the <literal moreinfo="none">println</literal> method, the output is displayed immediately, but if you use <literal moreinfo="none">print</literal> (at least in some environments), the output gets stored without being displayed until the next newline. If the program terminates without displaying a newline, you may never see the stored output. If you suspect that this is happening, change some or all of the <literal moreinfo="none">print</literal> statements to <literal moreinfo="none">println</literal>. </para>
+</sect2><sect2 id="a0000014198" remap="subsection">
+  <title>I’m really, really stuck and I need help.</title>
+    <para>First, get away from the computer for a few minutes. Computers emit waves that affect the brain, causing the following symptoms: </para><itemizedlist>
+  
+    <listitem><para>Frustration and rage. </para></listitem>
+  
+    <listitem><para>Superstitious beliefs (“the computer hates me”) and magical thinking (“the program only works when I wear my hat backwards”). </para></listitem>
+  
+    <listitem><para>Sour grapes (“this program is lame anyway”). </para></listitem>
+  
+</itemizedlist><para>If you suffer from any of these symptoms, get up and go for a walk. When you are calm, think about the program. What is it doing? What are possible causes of that behavior? When was the last time you had a working program, and what did you do next? </para><para>Sometimes it just takes time to find a bug. People often find bugs when they let their mind wander. Good places to find bugs are buses, showers, and bed. </para>
+</sect2><sect2 id="a0000014210" remap="subsection">
+  <title>No, I really need help.</title>
+    <para>It happens. Even the best programmers get stuck. Sometimes you need another pair of eyes. </para><para>Before you bring someone else in, make sure you have tried the techniques described in this appendix. </para><para>Your program should be as simple as possible, and you should be working on the smallest input that causes the error. You should have print statements in the appropriate places (and the output they produce should be comprehensible). You should understand the problem well enough to describe it concisely. </para><para>When you bring someone in to help, give them the information they need: </para><itemizedlist>
+  
+    <listitem><para>What kind of bug is it? Compile-time, run-time, or logic? </para></listitem>
+  
+    <listitem><para>What was the last thing you did before this error occurred? What were the last lines of code that you wrote, or what is the test case that fails? </para></listitem>
+  
+    <listitem><para>If the bug occurs at compile time or run time, what is the error message, and what part of the program does it indicate? </para></listitem>
+  
+    <listitem><para>What have you tried, and what have you learned? </para></listitem>
+  
+</itemizedlist><para><indexterm significance="normal">
+  <primary>rubber duck</primary>
+
+</indexterm><indexterm significance="normal">
+  <primary>debugging</primary>
+<secondary>rubber duck</secondary>
+</indexterm>By the time you explain the problem to someone, you might see the answer. This phenomenon is so common that some people recommend a debugging technique called “rubber ducking”. Here’s how it works: </para><orderedlist inheritnum="ignore" continuation="restarts">
+  
+  <listitem><para>Buy a standard-issue rubber duck. </para></listitem>
+  
+  <listitem><para>When you are really stuck on a problem, put the rubber duck on the desk in front of you and say, “Rubber duck, I am stuck on a problem. Here’s what’s happening...” </para></listitem>
+  
+  <listitem><para>Explain the problem to the rubber duck. </para></listitem>
+  
+  <listitem><para>Discover the solution. </para></listitem>
+  
+  <listitem><para>Thank the rubber duck. </para></listitem>
+  
+</orderedlist><para>We’re not kidding, it works! See <ulink url="https://en.wikipedia.org/wiki/Rubber_duck_debugging"/>. </para>
+</sect2><sect2 id="a0000014241" remap="subsection">
+  <title>I found the bug!</title>
+    <para>When you find the bug, it is usually obvious how to fix it. But not always. Sometimes what seems to be a bug is really an indication that you don’t understand the program, or there is an error in your algorithm. In these cases, you might have to rethink the algorithm, or adjust your mental model. Take some time away from the computer to think, work through test cases by hand, or draw diagrams to represent the computation. </para><para>After you fix the bug, don’t just start in making new errors. Take a minute to think about what kind of bug it was, why you made the error, how the error manifested itself, and what you could have done to find it faster. Next time you see something similar, you will be able to find the bug more quickly. Or even better, you will learn to avoid that type of bug for good. </para></sect2>
 </sect1>
 </appendix>
+<index></index>
+</book>
