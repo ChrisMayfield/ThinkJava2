@@ -26,15 +26,11 @@ def main(xml):
             line = line[pos:]
             num += 1
             out = open(name(num), 'w')
-        # apply various tweaks
+        # make our xml look more like Atlas's xml
         line = line.replace(' />', '/>')
-        line = line.replace('></entry', '/') # table cell
         line = line.replace('></title', '/') # exercises
         line = line.replace('></ulink', '/') # \url
-
-        # it looks like one of these rewrite rules is causing a problem when a literal is inside a caption
         line = line.replace('<literal>', '<literal moreinfo="none">') # \tt
-
         line = line.replace('<mml:math overflow="scroll"', '<mml:math') # inline math
         line = line.replace('mode="display" overflow="scroll"', 'mode="display"') # display math
         line = line.replace('<indexterm>', '<indexterm significance="normal">') # \index
@@ -42,7 +38,7 @@ def main(xml):
         line = line.replace('<literal remap="verb">', '<literal remap="verb" moreinfo="none">') # \java
         line = line.replace('<programlisting language="java">\n', '<programlisting language="java" format="linespecific">') # \code
         line = line.replace('<programlisting>', '<programlisting format="linespecific">') # \stdout
-        # output the next line
+        # output the resulting line
         out.write(line)
 
 if __name__ == "__main__":

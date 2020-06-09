@@ -263,7 +263,7 @@ How are you doing?</programlisting><para><indexterm significance="normal">
        <entry> </entry>
      
        
-       <entry><para> <literal remap="verb" moreinfo="none">\n</literal> </para><para> newline </para><para><literal remap="verb" moreinfo="none">\t</literal> </para><para> tab </para><para><literal remap="verb" moreinfo="none">\"</literal> </para><para> double quote </para><para><literal remap="verb" moreinfo="none">\\</literal> </para><para> backslash </para/>
+       <entry><para> <literal remap="verb" moreinfo="none">\n</literal> </para><para> newline </para><para><literal remap="verb" moreinfo="none">\t</literal> </para><para> tab </para><para><literal remap="verb" moreinfo="none">\"</literal> </para><para> double quote </para><para><literal remap="verb" moreinfo="none">\\</literal> </para><para> backslash </para></entry>
      
        
        <entry> </entry>
@@ -275,7 +275,7 @@ How are you doing?</programlisting><para><indexterm significance="normal">
        <entry> </entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
        <entry> </entry>

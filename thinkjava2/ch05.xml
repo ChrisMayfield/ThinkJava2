@@ -459,90 +459,90 @@ String hello = "world";</programlisting><informaltable remap="tabular" Colsep="1
      <row>
      
        
-       <entry><para> Expression </para/>
+       <entry><para> Expression </para></entry>
      
        
-       <entry><para> Result </para/>
+       <entry><para> Result </para></entry>
      
      </row><row>
      
        
-       <entry><para><literal moreinfo="none">yes == no || grade &gt; amount</literal> </para/>
+       <entry><para><literal moreinfo="none">yes == no || grade &gt; amount</literal> </para></entry>
      
        
-       <entry/>
+       <entry></entry>
      
      </row><row>
      
        
-       <entry><para><literal moreinfo="none">amount == 40.0 || 50.0</literal> </para/>
+       <entry><para><literal moreinfo="none">amount == 40.0 || 50.0</literal> </para></entry>
      
        
-       <entry/>
+       <entry></entry>
      
      </row><row>
      
        
-       <entry><para><literal moreinfo="none">hiVal != loVal || loVal &lt; 0</literal> </para/>
+       <entry><para><literal moreinfo="none">hiVal != loVal || loVal &lt; 0</literal> </para></entry>
      
        
-       <entry/>
+       <entry></entry>
      
      </row><row>
      
        
-       <entry><para><literal moreinfo="none">True || hello.length() &gt; 0</literal> </para/>
+       <entry><para><literal moreinfo="none">True || hello.length() &gt; 0</literal> </para></entry>
      
        
-       <entry/>
+       <entry></entry>
      
      </row><row>
      
        
-       <entry><para><literal moreinfo="none">hello.isEmpty() </literal><para> yes</para> </para/>
+       <entry><para><literal moreinfo="none">hello.isEmpty() </literal><para> yes</para> </para></entry>
      
        
-       <entry/>
+       <entry></entry>
      
      </row><row>
      
        
-       <entry><para><literal moreinfo="none">grade &lt;= 100 </literal><para> !false</para> </para/>
+       <entry><para><literal moreinfo="none">grade &lt;= 100 </literal><para> !false</para> </para></entry>
      
        
-       <entry/>
+       <entry></entry>
      
      </row><row>
      
        
-       <entry><para><literal moreinfo="none">!yes || no</literal> </para/>
+       <entry><para><literal moreinfo="none">!yes || no</literal> </para></entry>
      
        
-       <entry/>
+       <entry></entry>
      
      </row><row>
      
        
-       <entry><para><literal moreinfo="none">grade &gt; 75 &gt; amount</literal> </para/>
+       <entry><para><literal moreinfo="none">grade &gt; 75 &gt; amount</literal> </para></entry>
      
        
-       <entry/>
+       <entry></entry>
      
      </row><row>
      
        
-       <entry><para><literal moreinfo="none">amount &lt;= hiVal </literal><para> amount &gt;= loVal</para> </para/>
+       <entry><para><literal moreinfo="none">amount &lt;= hiVal </literal><para> amount &gt;= loVal</para> </para></entry>
      
        
-       <entry/>
+       <entry></entry>
      
      </row><row>
      
        
-       <entry><para><literal moreinfo="none">no </literal><para> !no || yes </para><para> !yes</para> </para/>
+       <entry><para><literal moreinfo="none">no </literal><para> !no || yes </para><para> !yes</para> </para></entry>
      
        
-       <entry/>
+       <entry></entry>
      
      </row>
      </tbody>

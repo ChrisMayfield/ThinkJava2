@@ -385,122 +385,122 @@ System.out.println();</programlisting><para>Each time through the loop, we displ
      <row>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry><para> boolean </para/>
+       <entry><para> boolean </para></entry>
      
        
-       <entry><para>  char  </para/>
+       <entry><para>  char  </para></entry>
      
        
-       <entry><para>   int   </para/>
+       <entry><para>   int   </para></entry>
      
        
-       <entry><para> double </para/>
+       <entry><para> double </para></entry>
      
        
-       <entry><para> String </para/>
+       <entry><para> String </para></entry>
      
      </row><row>
      
        
-       <entry><para>boolean </para/>
+       <entry><para>boolean </para></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
      </row><row>
      
        
-       <entry><para>char </para/>
+       <entry><para>char </para></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
      </row><row>
      
        
-       <entry><para>int </para/>
+       <entry><para>int </para></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
      </row><row>
      
        
-       <entry><para>double </para/>
+       <entry><para>double </para></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
      </row><row>
      
        
-       <entry><para>String </para/>
+       <entry><para>String </para></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
-       <entry/>
+       <entry></entry>
      
      </row>
      </tbody>

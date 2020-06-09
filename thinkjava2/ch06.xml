@@ -190,42 +190,42 @@ char letter = fruit.charAt(0);</programlisting><para>The argument <literal morei
      <row>
      
        
-       <entry><para> b </para/>
+       <entry><para> b </para></entry>
      
        
-       <entry><para> a </para/>
+       <entry><para> a </para></entry>
      
        
-       <entry><para> n </para/>
+       <entry><para> n </para></entry>
      
        
-       <entry><para> a </para/>
+       <entry><para> a </para></entry>
      
        
-       <entry><para> n </para/>
+       <entry><para> n </para></entry>
      
        
-       <entry><para> a </para/>
+       <entry><para> a </para></entry>
      
      </row><row>
      
        
-       <entry><para>0 </para/>
+       <entry><para>0 </para></entry>
      
        
-       <entry><para> 1 </para/>
+       <entry><para> 1 </para></entry>
      
        
-       <entry><para> 2 </para/>
+       <entry><para> 2 </para></entry>
      
        
-       <entry><para> 3 </para/>
+       <entry><para> 3 </para></entry>
      
        
-       <entry><para> 4 </para/>
+       <entry><para> 4 </para></entry>
      
        
-       <entry><para> 5 </para/>
+       <entry><para> 5 </para></entry>
      
      </row>
      </tbody>

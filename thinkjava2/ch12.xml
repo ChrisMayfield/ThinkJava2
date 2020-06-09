@@ -38,46 +38,46 @@
      <row>
      
        
-       <entry><para> Clubs </para/>
+       <entry><para> Clubs </para></entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry><para> <emphasis role="math">↦</emphasis> </para></entry>
      
        
-       <entry><para> 0 </para/>
+       <entry><para> 0 </para></entry>
      
      </row><row>
      
        
-       <entry><para>Diamonds </para/>
+       <entry><para>Diamonds </para></entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry><para> <emphasis role="math">↦</emphasis> </para></entry>
      
        
-       <entry><para> 1 </para/>
+       <entry><para> 1 </para></entry>
      
      </row><row>
      
        
-       <entry><para>Hearts </para/>
+       <entry><para>Hearts </para></entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry><para> <emphasis role="math">↦</emphasis> </para></entry>
      
        
-       <entry><para> 2 </para/>
+       <entry><para> 2 </para></entry>
      
      </row><row>
      
        
-       <entry><para>Spades </para/>
+       <entry><para>Spades </para></entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry><para> <emphasis role="math">↦</emphasis> </para></entry>
      
        
-       <entry><para> 3 </para/>
+       <entry><para> 3 </para></entry>
      
      </row>
      </tbody>
@@ -94,46 +94,46 @@
      <row>
      
        
-       <entry><para> Ace </para/>
+       <entry><para> Ace </para></entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry><para> <emphasis role="math">↦</emphasis> </para></entry>
      
        
-       <entry><para> 1 </para/>
+       <entry><para> 1 </para></entry>
      
      </row><row>
      
        
-       <entry><para>Jack </para/>
+       <entry><para>Jack </para></entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry><para> <emphasis role="math">↦</emphasis> </para></entry>
      
        
-       <entry><para> 11 </para/>
+       <entry><para> 11 </para></entry>
      
      </row><row>
      
        
-       <entry><para>Queen </para/>
+       <entry><para>Queen </para></entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry><para> <emphasis role="math">↦</emphasis> </para></entry>
      
        
-       <entry><para> 12 </para/>
+       <entry><para> 12 </para></entry>
      
      </row><row>
      
        
-       <entry><para>King </para/>
+       <entry><para>King </para></entry>
      
        
-       <entry><para> <emphasis role="math">↦</emphasis> </para/>
+       <entry><para> <emphasis role="math">↦</emphasis> </para></entry>
      
        
-       <entry><para> 13 </para/>
+       <entry><para> 13 </para></entry>
      
      </row>
      </tbody>

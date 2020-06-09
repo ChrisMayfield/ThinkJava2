@@ -160,7 +160,7 @@ System.out.printf("%d in = %f cm\n", inch, cm);</programlisting><para>The result
        <entry> </entry>
      
        
-       <entry><para> <literal moreinfo="none">%d</literal> </para><para> integer in base 10 (“decimal”) </para><para> <literal moreinfo="none">12345</literal> </para><para><literal moreinfo="none">%,d</literal> </para><para> integer with comma separators </para><para> <literal moreinfo="none">12,345</literal> </para><para><literal moreinfo="none">%08d</literal> </para><para> padded with zeros, at least 8 digits wide </para><para> <literal moreinfo="none">00012345</literal> </para><para><literal moreinfo="none">%f</literal> </para><para> floating-point number </para><para> <literal moreinfo="none">6.789000</literal> </para><para><literal moreinfo="none">%.2f</literal> </para><para> rounded to 2 decimal places </para><para> <literal moreinfo="none">6.79</literal> </para><para><literal moreinfo="none">%s</literal> </para><para> string of characters </para><para> <literal moreinfo="none">"Hello"</literal> </para><para><literal moreinfo="none">%x</literal> </para><para> integer in base 16 (“hexadecimal”) </para><para> <literal moreinfo="none">bc614e</literal> </para/>
+       <entry><para> <literal moreinfo="none">%d</literal> </para><para> integer in base 10 (“decimal”) </para><para> <literal moreinfo="none">12345</literal> </para><para><literal moreinfo="none">%,d</literal> </para><para> integer with comma separators </para><para> <literal moreinfo="none">12,345</literal> </para><para><literal moreinfo="none">%08d</literal> </para><para> padded with zeros, at least 8 digits wide </para><para> <literal moreinfo="none">00012345</literal> </para><para><literal moreinfo="none">%f</literal> </para><para> floating-point number </para><para> <literal moreinfo="none">6.789000</literal> </para><para><literal moreinfo="none">%.2f</literal> </para><para> rounded to 2 decimal places </para><para> <literal moreinfo="none">6.79</literal> </para><para><literal moreinfo="none">%s</literal> </para><para> string of characters </para><para> <literal moreinfo="none">"Hello"</literal> </para><para><literal moreinfo="none">%x</literal> </para><para> integer in base 16 (“hexadecimal”) </para><para> <literal moreinfo="none">bc614e</literal> </para></entry>
      
        
        <entry> </entry>
@@ -172,7 +172,7 @@ System.out.printf("%d in = %f cm\n", inch, cm);</programlisting><para>The result
        <entry> </entry>
      
        
-       <entry/>
+       <entry></entry>
      
        
        <entry> </entry>
