@@ -260,7 +260,7 @@ You can almost read this method in English: ``For each \java{row} in the \java{a
 Each cell contains its coordinates and size, so it knows how to draw itself.
 
 Classes that extend \java{Canvas} are supposed to provide a method called \java{paint} that ``paints'' the contents of the \java{Canvas}.
-It gets invoked when the \java{Canvas} is created and any time it needs to be redrawn, for example, when its window is moved or resized.
+It gets invoked when the \java{Canvas} is created and anytime it needs to be redrawn, for example, when its window is moved or resized.
 
 Here's the \java{paint} method for \java{GridCanvas}.
 When the window management system calls \java{paint}, \java{paint} calls \java{draw}, which draws the cells.
