@@ -77,8 +77,8 @@ Fixed width
 {\tt ...}    output, urls, commands    replace with \texttt?
 
 Italic
-{\it ...}    filenames, hints          replace with \textit?
-{\em ...}    emphasis                  replace with \emph?
+{\it ...}    filenames, titles         replace with \textit?
+{\em ...}    emphasis, hints           replace with \emph?
 
 Serif
 {\sf ...}    GUI, keystrokes           replace with \textsf?

@@ -33,7 +33,7 @@ You can read \url{https://en.wikipedia.org/wiki/Crazy_Eights} for more details, 
 
 \section{CardCollection}
 
-To implement {\it Crazy Eights}, we need to represent a deck of cards, a discard pile, a draw pile, and a hand for each player.
+To implement Crazy Eights, we need to represent a deck of cards, a discard pile, a draw pile, and a hand for each player.
 And we need to be able to deal, draw, and discard cards.
 
 The \java{Deck} and \java{Pile} classes from the previous chapter meet some of these requirements.
@@ -355,7 +355,7 @@ But not every animal is a mammal, and not every mammal is a cat.
 
 \section{The Player Class}
 
-The \java{Deck} and \java{Hand} classes we have defined so far could be used for any card game; we have not yet implemented any of the rules specific to {\it Crazy Eights}.
+The \java{Deck} and \java{Hand} classes we have defined so far could be used for any card game; we have not yet implemented any of the rules specific to Crazy Eights.
 And that's probably a good thing, since it makes it easy to reuse these classes if we want to make another game in the future.
 
 But now it's time to implement the rules.
@@ -480,7 +480,7 @@ In Section~\ref{shuffle} we introduced top-down development, which is a way of d
 
 In this section we present {\bf bottom-up design}, which goes the other way around: first we identify simple pieces we need, then we assemble them into more complex algorithms.
 
-Looking at the rules of {\it Crazy Eights}, we can identify some of the methods we'll need:
+Looking at the rules of Crazy Eights, we can identify some of the methods we'll need:
 
 \begin{itemize}
 
@@ -753,7 +753,7 @@ Write a new class that extends \java{Player} and overrides \java{play} to implem
 Write a loop that plays the game 100 times and keeps track of how many times each player wins.
 If you implemented multiple strategies in the previous exercise, you can play them against each other to evaluate which one works best.
 
-{\it Hint:} Design a \java{Genius} class that extends \java{Player} and overrides the \java{play} method, and then replace one of the players with a \java{Genius} object.
+{\em Hint:} Design a \java{Genius} class that extends \java{Player} and overrides the \java{play} method, and then replace one of the players with a \java{Genius} object.
 
 \end{exercise}
 
@@ -772,8 +772,8 @@ When we designed the program for this chapter, we tried to minimize the number o
 As a result, we ended up with a few awkward methods.
 For example, \java{cardMatches} is a static method in \java{Player}, but it would be more natural if it were an instance method in \java{Card}.
 
-The problem is that \java{Card} is supposed to be useful for any card game, not just {\it Crazy Eights}.
-You can solve this problem by adding a new class, \java{EightsCard}, that extends \java{Card} and provides a method, \java{match}, that checks whether two cards match according to the rules of {\it Crazy Eights}.
+The problem is that \java{Card} is supposed to be useful for any card game, not just Crazy Eights.
+You can solve this problem by adding a new class, \java{EightsCard}, that extends \java{Card} and provides a method, \java{match}, that checks whether two cards match according to the rules of Crazy Eights.
 
 At the same time, you could create a new class, \java{EightsHand}, that extends \java{Hand} and provides a method, \java{scoreHand}, that adds up the scores of the cards in the hand.
 And while you're at it, you could add a method named \java{scoreCard} to \java{EightsCard}.
