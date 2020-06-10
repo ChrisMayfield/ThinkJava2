@@ -109,15 +109,15 @@ Many advanced tools, both for software development and general-purpose computing
 There are many good tutorials online for learning the command line for your operating system; just search the web for ``command line tutorial''.
 On Unix systems like Linux and OS X, you can get started with just four commands: change the working directory ({\tt cd}), list directory contents ({\tt ls}), compile Java programs ({\tt javac}), and run Java programs ({\tt java}).
 
-Figure~\ref{fig.terminal} shows an example where the {\tt Hello.java} source file is stored in the {\tt Desktop} directory.
-After changing to that location and listing the files, we use the {\tt javac} command to compile {\tt Hello.java}.
-Running {\tt ls} again, we see that the compiler generated a new file, {\tt Hello.class}, which contains the byte code.
+Figure~\ref{fig.terminal} shows an example where the {\it Hello.java} source file is stored in the {\it Desktop} directory.
+After changing to that location and listing the files, we use the {\tt javac} command to compile {\it Hello.java}.
+Running {\tt ls} again, we see that the compiler generated a new file, {\it Hello.class}, which contains the byte code.
 We run the program using the {\tt java} command, which displays the output on the following line.
 
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics[width=4.5in]{figs/terminal.png}
-\caption{Compiling and running {\tt Hello.java} from the command line.}
+\caption{Compiling and running {\it Hello.java} from the command line.}
 \label{fig.terminal}
 \end{center}
 \end{figure}
@@ -142,23 +142,23 @@ Most, if not all, testing is based on a simple idea: does the program do what we
 For simple programs, it's not difficult to run them several times and see what happens.
 But at some point, you will get tired of typing the same test cases over and over.
 
-We can automate the process of entering input and comparing ``expected output'' with ``actual output'' using the command line.
+We can automate the process of entering input and comparing {\em expected output} with {\em actual output} using the command line.
 The basic idea is to store the test cases in plain text files and trick Java into thinking they are coming from the keyboard.
 Here are step-by-step instructions:
 
 \begin{enumerate}
 
-\item Make sure you can compile and run the {\tt Convert.java} example in the {\tt ch03} directory of {\tt ThinkJavaCode2}.
+\item Make sure you can compile and run the {\it Convert.java} example in the {\it ch03} directory of {\it ThinkJavaCode2}.
 (See page~\pageref{code} for instructions on how to download the repository.)
 
-\item In the same directory as {\tt Convert.java}, create a plain text file named {\tt test.in} (``in'' is for input).
+\item In the same directory as {\it Convert.java}, create a plain text file named {\it test.in} (``in'' is for input).
 Enter the following line and save the file:
 
 \begin{stdout}
 193.04
 \end{stdout}
 
-\item Create a second plain text file named {\tt test.exp} (``exp'' is for expected).
+\item Create a second plain text file named {\it test.exp} (``exp'' is for expected).
 Enter the following line and save the file:
 
 \begin{stdout}
@@ -180,9 +180,9 @@ java Convert < test.in > test.out
 \index{System.out}
 
 On the command line, {\tt <} and {\tt >} are {\bf redirection operators}.
-The first one redirects the contents of {\tt test.in} to \java{System.in}, as if it were entered from the keyboard.
-The second one redirects the contents of \java{System.out} to a new file {\tt test.out}, much like a screen capture.
-In other words, the {\tt test.out} file contains the output of your program.
+The first one redirects the contents of {\it test.in} to \java{System.in}, as if it were entered from the keyboard.
+The second one redirects the contents of \java{System.out} to a new file {\it test.out}, much like a screen capture.
+In other words, the {\it test.out} file contains the output of your program.
 
 By the way, it's perfectly okay to compile your programs in DrJava (or some other environment) and run them from the command line.
 Knowing both techniques allows you to use the right tool for the job.
@@ -239,7 +239,7 @@ java -jar checkstyle-*-all.jar -c /google_checks.xml *.java
 
 The {\tt *} characters are {\bf wildcards} that match whatever version of Checkstyle you have and whatever Java source files are present.
 The output indicates the file and line number of each problem.
-This example refers to a method beginning on line 93, column 5 of {\tt Hello.java}:
+This example refers to a method beginning on line 93, column 5 of {\it Hello.java}:
 
 \begin{stdout}
 Hello.java:93:5: Missing a Javadoc comment
@@ -375,7 +375,7 @@ In DrJava, you can select {\sf New JUnit Test Case} from the {\sf File} menu to 
 \java{assertEquals} is provided by the \java{TestCase} class.
 It takes two arguments and checks whether they are equal.
 If so, it does nothing; otherwise it displays a detailed error message.
-The first argument is the ``expected value'', which we consider correct, and the second argument is the ``actual value'' we want to check.
+The first argument is the {\em expected value}, which we consider correct, and the second argument is the {\em actual value} we want to check.
 If they are not equal, the test fails.
 
 \index{System.err}

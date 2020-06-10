@@ -32,6 +32,7 @@ Chapter 16:
 
 Chapter 17:
 
+
 Appendix A:
   remove DrJava? (refer instead to online setup instructions for Eclipse, VS Code, etc.)
   update JUnit to Version 5; explain what deprecated means? (for assertEquals on double)
@@ -50,6 +51,8 @@ Appendix E:
   equals(Object) using instanceof -- so that JUnit assertEquals works
 
 
+==== Final Review ====
+
 # spell check main text; ignore code/output/trinket blocks
 detex -e code,stdout,trinket thinkjava2.tex > thinkjava2.txt
 
@@ -59,3 +62,23 @@ grep -o '\\href{[^}]*}{[^}]*}' *.tex
 
 # search for escapes in \java; remove from Atlas
 grep -no 'java{[^}]*}' *.tex | grep '\\'
+
+
+==== Conventions ====
+
+Quotes
+``...''      non-vocab terms, actual quotations
+
+Bold
+{\bf ...}    vocab terms, list items   replace with \textbf?
+
+Fixed width
+\java{...}   code (inline)
+{\tt ...}    output, urls, commands    replace with \texttt?
+
+Italic
+{\it ...}    filenames, hints          replace with \textit?
+{\em ...}    emphasis                  replace with \emph?
+
+Serif
+{\sf ...}    GUI, keystrokes           replace with \textsf?

@@ -352,7 +352,7 @@ If you have Java installed on your computer, you should already have this file s
 
 \begin{itemize}
 \item On Linux, it's likely under: \verb"/usr/lib/jvm/.../lib"
-\\ If not, you might have to install the {\tt openjdk-...-source} package.
+\\ If not, you might have to install the {\it openjdk-...-source} package.
 
 \item On MacOS, it's likely under: \\ \verb"/Library/Java/JavaVirtualMachines/.../Contents/Home/lib"
 
@@ -360,11 +360,11 @@ If you have Java installed on your computer, you should already have this file s
 \end{itemize}
 
 When you open (or unzip) the file, you will see folders that correspond to Java packages.
-For example, open the {\tt java} folder, and then open the {\tt awt} folder.
-(If you don't see a {\tt java} folder at first, open the {\tt java.desktop} folder.)
-You should now see {\tt Point.java} and {\tt Rectangle.java}, along with the other classes in the \java{java.awt} package.
+For example, open the {\it java} folder, and then open the {\it awt} folder.
+(If you don't see a {\it java} folder at first, open the {\it java.desktop} folder.)
+You should now see {\it Point.java} and {\it Rectangle.java}, along with the other classes in the \java{java.awt} package.
 
-Open {\tt Point.java} in your editor and skim through the file.
+Open {\it Point.java} in your editor and skim through the file.
 It uses language features we haven't discussed yet, so you probably won't understand every line.
 But you can get a sense of what professional Java source code looks like by browsing through the library.
 
@@ -372,7 +372,7 @@ But you can get a sense of what professional Java source code looks like by brow
 \index{HTML}
 \index{Javadoc}
 
-Notice how much of {\tt Point.java} is documentation (see Appendix~\ref{javadoc}).
+Notice how much of {\it Point.java} is documentation (see Appendix~\ref{javadoc}).
 Each method includes comments and tags like \java{@param} and \java{@return}.
 Javadoc reads these comments and generates documentation in HTML.
 You can see the same documentation online by doing a web search for ``Java Point''.
@@ -438,7 +438,7 @@ The scope of a variable is the part of a program where a variable can be used.
 
 Consider the first few lines of the \java{Rectangle.translate} method from the Java library source code:
 
-% TODO: ML suggests adding the header line of the class and the attribute declatrations 
+% TODO: ML suggests adding the header line of the class and the attribute declatrations
 
 \begin{code}
 public void translate(int dx, int dy) {
@@ -572,7 +572,7 @@ You can pass strings (and other immutable objects) to methods without worrying a
 That makes programs easier to debug, and more reliable.
 
 Also, two strings that contain the same characters can be stored in memory only once.
-That can reduces the amount of memory the program uses, and can speed it up. 
+That can reduces the amount of memory the program uses, and can speed it up.
 
 % ABD: Do we want trinket markup in this version?  It seems to require cmplete class definitions, which involve code that's extraneous to the example.
 
@@ -690,7 +690,7 @@ Points and rectangles are mutable by design.
 
 \section{Exercises}
 
-The code for this chapter is in the {\tt ch10} directory of {\tt ThinkJavaCode2}.
+The code for this chapter is in the {\it ch10} directory of {\it ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
 

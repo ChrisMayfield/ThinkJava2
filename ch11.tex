@@ -352,7 +352,7 @@ The naming convention is similar; the method that sets \java{something} is usual
 
 Writing getters and setters can get boring, but many IDEs can generate them for you based on the instance variables.
 
-% NOTE: A thougtful reader might ask a question we don't answer here: if we provide getters and setters, why don't we just make the instance variables public? 
+% NOTE: A thougtful reader might ask a question we don't answer here: if we provide getters and setters, why don't we just make the instance variables public?
 
 
 \section{Displaying Objects}
@@ -399,7 +399,7 @@ When you display an object using \java{print} or \java{println}, Java invokes th
 
 \index{override}
 
-By default it simply displays the type of the object and its address in hexadecimal. 
+By default it simply displays the type of the object and its address in hexadecimal.
 So, if you create a \java{Time} object and display it with \java{println}:
 
 \begin{code}
@@ -471,7 +471,7 @@ You can also invoke \java{toString} indirectly by invoking \java{print} or \java
 System.out.println(time);
 \end{code}
 
-This code displays the \java{String} \java{"11:59:59.9"}. 
+This code displays the \java{String} \java{"11:59:59.9"}.
 
 Either way, when you use \java{this} inside \java{toString}, it refers to the same object as \java{time}.
 
@@ -545,7 +545,7 @@ public boolean equals(Time that) {
 \java{equals} is an instance method, so it doesn't have the keyword \java{static}.
 It uses \java{this} to refer to current object, and \java{that} to refer to the other.
 \java{that} is {\em not} a keyword, so we could have given this parameter a different name.
-But using \java{that} makes the code nicely readable. 
+But using \java{that} makes the code nicely readable.
 
 We can invoke \java{equals} like this:
 
@@ -556,8 +556,8 @@ time1.equals(time3);
 Inside the \java{equals} method, \java{this} refers to the same object as \java{time1}, and \java{that} refers to the same object as \java{time3}.
 Since their instance variables are ``equal'', the result is \java{true}.
 
-Because \java{hour} and \java{minute} are integers, we compare them with \java{==}.  
-But \java{second} is a floating-point number.  
+Because \java{hour} and \java{minute} are integers, we compare them with \java{==}.
+But \java{second} is a floating-point number.
 Because of rounding errors, it is not good to compare floating-point numbers with \java{==} (see Section~\ref{rounderr}).
 Instead, we check whether the difference is smaller than a threshold, \java{DELTA}.
 %(which is short for ``epsilon'', the Greek letter used to represent a small number).
@@ -683,7 +683,7 @@ public Time add(Time t2) {
     sum.hour = this.hour + t2.hour;
     sum.minute = this.minute + t2.minute;
     sum.second = this.second + t2.second;
-    
+
     if (sum.second >= 60.0) {
         sum.second -= 60.0;
         sum.minute += 1;
@@ -759,7 +759,7 @@ Two objects that are ``equal'' but not necessarily identical, as defined by the 
 
 \section{Exercises}
 
-The code for this chapter is in the {\tt ch11} directory of {\tt ThinkJavaCode2}.
+The code for this chapter is in the {\it ch11} directory of {\it ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
 

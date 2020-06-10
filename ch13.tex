@@ -9,10 +9,10 @@ First we define a class to represent a deck of cards.
 Then we present algorithms for shuffling and sorting decks.
 Finally, we introduce \java{ArrayList} from the Java library and use it to represent collections of cards.
 
-%While reading the following sections, we recommend that you create a {\tt Deck.java} file and paste in all the examples.
-%You will need {\tt Card.java} from the previous chapter for it to compile.
+%While reading the following sections, we recommend that you create a {\it Deck.java} file and paste in all the examples.
+%You will need {\it Card.java} from the previous chapter for it to compile.
 
-%The code for this chapter is in {\tt Card.java} and {\tt Deck.java}, which are in the directory {\tt ch13} in the repository for this book.
+%The code for this chapter is in {\it Card.java} and {\it Deck.java}, which are in the directory {\it ch13} in the repository for this book.
 %Instructions for downloading this code are on page~\pageref{code}.
 
 
@@ -145,7 +145,7 @@ In this case, we need a method that chooses a random integer in a given range an
 
 \begin{code}
 private static int randomInt(int low, int high) {
-    // return a random number between low and high, 
+    // return a random number between low and high,
     // including both
 }
 
@@ -575,7 +575,7 @@ public void addCard(Card card) {
 \java{ArrayList} provides a method, \java{add}, that adds an element to the end of the collection, which we think of as the bottom of the pile.
 
 To know when to stop the game, have to check if one of the piles is empty.
-Here's a method to do that: 
+Here's a method to do that:
 
 \begin{code}
 public boolean isEmpty() {
@@ -647,7 +647,7 @@ while (!p1.isEmpty() && !p2.isEmpty()) {
     } else if (diff < 0) {
         p2.addCard(c1);
         p2.addCard(c2);
-    } else {  
+    } else {
         // it's a tie
     }
 \end{code}
@@ -712,7 +712,7 @@ A method that calls another method without doing much additional work.
 
 \section{Exercises}
 
-The code for this chapter is in the {\tt ch13} directory of {\tt ThinkJavaCode2}.
+The code for this chapter is in the {\it ch13} directory of {\it ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
 
@@ -741,7 +741,7 @@ The goal of this exercise is to implement the shuffling algorithm from this chap
 
 % TODO: Do we need to clarify the instructons for finding the starter code?
 
-\item In the repository for this book, you should find the file named {\tt Deck.java}.
+\item In the repository for this book, you should find the file named {\it Deck.java}.
 Check that you can compile it in your environment.
 
 \item Implement the \java{randomInt} method.
@@ -761,7 +761,7 @@ You can use the \java{nextInt} method provided by \java{java.util.Random}, which
 \begin{exercise}  %%V6 Ex13.3
 
 The goal of this exercise is to implement the sorting algorithms from this chapter.
-Use the {\tt Deck.java} file from the previous exercise, or create a new one from scratch.
+Use the {\it Deck.java} file from the previous exercise, or create a new one from scratch.
 
 % TODO: Again, we could provide clearer instructions for setting up the exercises.
 
