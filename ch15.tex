@@ -11,7 +11,7 @@ In this chapter we use these classes to draw images and animations, and to run g
 {\it The Game of Life}, or GoL for short, was developed by John Conway and popularized in 1970 in Martin Gardner's column in Scientific American.
 Conway calls it a ``zero-player game'' because no players are needed to choose strategies or make decisions.
 After you set up the initial conditions, you watch the game play itself.
-That turns out to be more interesting than it sounds; you can read about it at \url{http://en.wikipedia.org/wiki/Conway's_Game_of_Life}.
+That turns out to be more interesting than it sounds; you can read about it at \url{https://en.wikipedia.org/wiki/Conway's_Game_of_Life}.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -69,7 +69,7 @@ But they are also considered stable, because the total number of live cells does
 
 Most simple starting configurations either die out quickly or reach a stable configuration.
 But there are a few starting conditions that display remarkable complexity.
-One of those is the R-pentomino: it starts with only five cells, runs for 1103 time steps, and ends in a stable configuration with 116 live cells (see \url{http://www.conwaylife.com/wiki/R-pentomino}).
+One of those is the R-pentomino: it starts with only five cells, runs for 1103 time steps, and ends in a stable configuration with 116 live cells (see \url{https://www.conwaylife.com/wiki/R-pentomino}).
 
 In the following sections, we'll implement the Game of Life in Java.
 We'll first implement the cells, then the grid of cells, and finally the game itself.
@@ -675,7 +675,7 @@ You can initialize the Glider by modifying the constructor in the \java{Conway} 
 
 % TODO: Remove the solution from the starter code.
 
-The ``LifeWiki'' \url{http://conwaylife.com/wiki/} has a fascinating collection of patterns for the Game of Life.
+The ``LifeWiki'' \url{https://conwaylife.com/wiki/} has a fascinating collection of patterns for the Game of Life.
 These patterns are stored in a file format that is easy to read, in files with the suffix ``\verb|.cells|''.
 
 For example, here is an 8x10 grid with a glider near the upper-left corner:
@@ -695,7 +695,7 @@ For example, here is an 8x10 grid with a glider near the upper-left corner:
 Lines that begin with \java{!} are comments and should be ignored.
 The rest of the file describes the grid, row by row.
 A period represents a dead cell, and an uppercase O represents a live cell.
-See \url{http://conwaylife.com/wiki/Plaintext} for more examples.
+See \url{https://conwaylife.com/wiki/Plaintext} for more examples.
 
 \begin{enumerate}
 
@@ -753,7 +753,7 @@ The pattern ends with \verb|!|, after which any remaining file contents are igno
 
 Lines beginning with \java{#} have special meaning and are not part of the pattern.
 For example, \java{#C} is a comment line.
-You can read more about RLE format on \url{http://conwaylife.com/wiki/RLE}.
+You can read more about RLE format on \url{https://conwaylife.com/wiki/RLE}.
 
 \begin{enumerate}
 
