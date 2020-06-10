@@ -1,6 +1,6 @@
 \chapter{Methods and Testing}
 
-So far we've written programs that have only one method named \java{main}.
+So far, we've written programs that have only one method, named \java{main}.
 In this chapter, we'll show you how to organize programs into multiple methods.
 %We'll learn how to trace the order in which a program runs.
 We'll also take a look at the \java{Math} class, which provides methods for common mathematical operations.
@@ -17,7 +17,7 @@ Some methods perform a computation and return a result.
 %For example, \java{Math.sqrt(25)} computes and returns the value \java{5.0}.
 For example, \java{nextDouble} reads input from the keyboard and returns it as a \java{double}.
 Other methods, like \java{println}, carry out a sequence of actions without returning a result.
-Java uses the keyword \java{void} to define such methods.
+Java uses the keyword \java{void} to define such methods:
 
 %The \java{main} method always begins with the words \java{public static void}.
 %You can define other methods the same way:
@@ -42,7 +42,7 @@ public static void main(String[] args) {
 In this example, the \java{newLine} and \java{main} methods are both \java{public}, which means they can be {\bf invoked} (or ``called'') from other classes.
 %They are both \java{static}, but we won't yet explain what that means.
 And they are both \java{void}, which means that they don't return a result (in contrast to \java{nextDouble}).
-The output of the program is:
+The output of the program is shown here:
 
 \begin{stdout}
 First line.
@@ -52,7 +52,7 @@ Second line.
 
 Notice the extra space between the lines.
 If we wanted more space between them, we could invoke the same method repeatedly.
-Or we could write yet another method (named \java{threeLine}) that displays three blank lines.
+Or we could write yet another method (named \java{threeLine}) that displays three blank lines:
 %Pulling together the code from the previous section, the complete program looks like this:
 
 \index{NewLine.java}
@@ -135,8 +135,8 @@ The \java{NewLine} example demonstrates a few reasons:
 \item Introducing new methods can {\em make the program shorter} by eliminating repetitive code.
 For example, to display nine consecutive newlines, you could invoke \java{threeLine} three times.
 
-\item A common problem-solving technique is to {\em break problems down} into sub-problems.
-Methods allow you to focus on each sub-problem in isolation, and then compose them into a complete solution.
+\item A common problem-solving technique is to {\em break problems down} into subproblems.
+Methods allow you to focus on each subproblem in isolation, and then compose them into a complete solution.
 
 \end{itemize}
 
@@ -200,7 +200,7 @@ printTwice(message);
 \end{code}
 
 The value you provide as an argument must have the same (or compatible) type as the parameter.
-For example, if you try:
+For example, if you try this:
 
 \begin{code}
 printTwice(17);  // syntax error
@@ -229,13 +229,13 @@ For example, \java{Math.sqrt} requires a \java{double}, but if you invoke \java{
 \index{local variable}
 \index{variable!local}
 
-Parameters and other variables only exist inside their own methods.
+Parameters and other variables exist only inside their own methods.
 In the \java{printTwice} example, there is no such thing as \java{s} in the \java{main} method.
 If you try to use it there, you'll get a compiler error.
 
 Similarly, inside \java{printTwice} there is no such thing as \java{message}.
 That variable belongs to \java{main}.
-Because variables only exist inside the methods where they are defined, they are often called {\bf local variables}.
+Because variables exist only inside the methods where they are defined, they are often called {\bf local variables}.
 
 
 \section{Multiple Parameters}
@@ -271,7 +271,7 @@ int minute = 59;
 printTime(hour, minute);
 \end{code}
 
-Beginners sometimes make the mistake of ``declaring'' the arguments:
+Beginners sometimes make the mistake of declaring the arguments:
 
 \begin{code}
 int hour = 11;
@@ -311,6 +311,7 @@ public class PrintTime {
 And \java{main} has two variables, also named \java{hour} and \java{minute}.
 Although they have the same names, these variables are {\em not} the same.
 The \java{hour} in \java{printTime} and the \java{hour} in \java{main} refer to different memory locations, and they can have different values.
+
 For example, you could invoke \java{printTime} like this:
 
 \begin{code}
@@ -336,6 +337,10 @@ One way to keep track of variables is to draw a {\bf stack diagram}, which is a 
 For each method there is a box, called a {\bf frame}, that contains the method's parameters and local variables.
 The name of the method appears outside the frame; the variables and parameters appear inside.
 
+As with memory diagrams, stack diagrams show variables and methods at a particular point in time.
+Figure~\ref{fig.stack} is a stack diagram at the beginning of the \java{printTime} method.
+Notice that \java{main} is on top, because it executed first.
+
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/stack1.pdf}
@@ -343,10 +348,6 @@ The name of the method appears outside the frame; the variables and parameters a
 \label{fig.stack}
 \end{center}
 \end{figure}
-
-As with memory diagrams, stack diagrams show variables and methods at a particular point in time.
-Figure~\ref{fig.stack} is a stack diagram at the beginning of the \java{printTime} method.
-Notice that \java{main} is on top, because it executed first.
 
 \index{scope}
 
@@ -358,8 +359,8 @@ Stack diagrams help you to visualize the {\bf scope} of a variable, which is the
 Stack diagrams are a good mental model for how variables and methods work at run-time.
 Learning to trace the execution of a program on paper (or on a whiteboard) is a useful skill for communicating with other programmers.
 
-There are educational tools that automatically draw stack diagrams for you.
-For example, Java Tutor (\url{https://thinkjava.org/javatutor}) allows you to step through an entire program, both forwards and backwards, and see the stack frames and variables at each step.
+Educational tools can automatically draw stack diagrams for you.
+For example, Java Tutor (\url{https://thinkjava.org/javatutor}) allows you to step through an entire program, both forward and backward, and see the stack frames and variables at each step.
 If you haven't already, you should check out the Java examples on that website.
 
 %Or you can use a ``debugger'', like the one that comes with DrJava (see Appendix~\ref{debugger}).
@@ -374,7 +375,7 @@ If you haven't already, you should check out the Java examples on that website.
 
 You don't always have to write new methods to get work done.
 As a reminder, the Java library contains thousands of classes you can use.
-For example, the \java{Math} class provides common mathematical operations.
+For example, the \java{Math} class provides common mathematical operations:
 
 \begin{code}
 double root = Math.sqrt(17.0);
@@ -391,7 +392,7 @@ The third line finds the sine of 1.5 (the value of \java{angle}).
 \index{pi}
 
 Values for the trigonometric functions---\java{sin}, \java{cos}, and \java{tan}---must be in {\em radians}.
-To convert from degrees to radians, you can divide by 180 and multiply by $\pi$.
+To convert from degrees to radians, you divide by 180 and multiply by $\pi$.
 Conveniently, the \java{Math} class provides a constant named \java{PI} that contains an approximation of $\pi$:
 
 \begin{code}
@@ -404,7 +405,7 @@ Java does not recognize \java{Pi}, \java{pi}, or \java{pie}.
 Also, \java{PI} is the name of a constant, not a method, so it doesn't have parentheses.
 The same is true for the constant \java{Math.E}, which approximates Euler's number.
 
-Converting to and from radians is a common operation, so the \java{Math} class provides methods that do that for you.
+Converting to and from radians is a common operation, so the \java{Math} class provides methods that do that for you:
 
 \begin{code}
 double radians = Math.toRadians(180.0);
@@ -415,7 +416,7 @@ double degrees = Math.toDegrees(Math.PI);
 \index{type!long}
 
 Another useful method is \java{round}, which rounds a floating-point value to the nearest integer and returns a \java{long}.
-The following result is 63 (rounded up from 62.8319).
+The following result is 63 (rounded up from 62.8319):
 
 \begin{code}
 long x = Math.round(Math.PI * 20.0);
@@ -438,7 +439,7 @@ You have probably learned how to evaluate simple expressions like $\sin(\pi/2)$ 
 First, you evaluate the expression in parentheses, which is the argument of the function.
 Then you can evaluate the function itself, either by hand or by punching it into a calculator.
 
-This process can be applied repeatedly to evaluate more complex expressions like $\log(1/\sin(\pi/2))$.
+This process can be applied repeatedly to evaluate more-complex expressions like $\log(1/\sin(\pi/2))$.
 First we evaluate the argument of the innermost function ($\pi/2 = 1.57$), then evaluate the function itself ($\sin(1.57) = 1.0$), and so on.
 
 \index{composition}
@@ -452,7 +453,7 @@ In fact, you can use any expression as an argument to a method, as long as the r
 double x = Math.cos(angle + Math.PI / 2.0);
 \end{code}
 
-This statement divides \java{Math.PI} by two, adds the result to \java{angle}, and computes the cosine of the sum.
+This statement divides \java{Math.PI} by \java{2.0}, adds the result to \java{angle}, and computes the cosine of the sum.
 You can also take the result of one method and pass it as an argument to another:
 
 \begin{code}
@@ -482,7 +483,7 @@ Error: cannot find symbol
 \end{stdout}
 
 The message ``cannot find symbol'' is confusing, but the last two lines provide a useful hint.
-The compiler is looking for a method named \java{pow} in the file \java{Test.java} (the file for this example).
+The compiler is looking for a method named {\tt pow} in the file {\tt Test.java} (the file for this example).
 If you don't specify a class name when referring to a method, the compiler looks in the current class by default.
 
 
@@ -515,14 +516,14 @@ Compared to \java{void} methods, value-returning methods differ in two ways:
 
 \begin{itemize}
 
-\item They declare the type of the return value (the {\bf return type});
+\item They declare the type of the return value (the {\bf return type}).
 
 \item They use at least one \java{return} statement to provide a {\bf return value}.
 
 \end{itemize}
 
 Here's an example from a program named {\it Circle.java}.
-The \java{calculateArea} method takes a \java{double} as a parameter and returns the area of a circle with that radius (i.e., $\pi r^2$).
+The \java{calculateArea} method takes a \java{double} as a parameter and returns the area of a circle with that radius (i.e., $\pi r^2$):
 
 \begin{code}
 public static double calculateArea(double radius) {
@@ -537,7 +538,7 @@ But in the place where we are used to seeing \java{void}, we see \java{double}, 
 \index{return}
 \index{statement!return}
 
-The last line is a new form of the \java{return} statement that means, ``return immediately from this method, and use the following expression as the return value.''
+The last line is a new form of the \java{return} statement that means, ``Return immediately from this method, and use the following expression as the return value.''
 The expression you provide can be arbitrarily complex, so we could have written this method more concisely:
 
 \begin{code}
@@ -549,7 +550,7 @@ public static double calculateArea(double radius) {
 \index{temporary variable}
 \index{variable!temporary}
 
-On the other hand, {\bf temporary variables} like \java{result} often make debugging easier, especially when you are stepping through code using an interactive debugger (see Appendix~\ref{debugger}).
+On the other hand, {\bf temporary variables} like \java{result} often make debugging easier, especially when you are stepping through code by using an interactive debugger (see Appendix~\ref{debugger}).
 
 Figure~\ref{fig.param} illustrates how data values flows through the program.
 When the \java{main} method invokes \java{calculateArea}, the value \java{5.0} is assigned to the parameter \java{radius}.
@@ -577,8 +578,8 @@ If you try to \java{return} with no expression, or \java{return} an expression w
 
 People often make the mistake of writing a lot of code before they try to compile and run it.
 Then they spend way too much time debugging.
-A better approach is what we call {\bf incremental development}.
-The key aspects of incremental development are:
+A better approach is {\bf incremental development}.
+Its key aspects are as follows:
 
 \begin{itemize}
 
@@ -594,6 +595,7 @@ At any point, if there is an error, you will know where to look.
 As an example, suppose you want to find the distance between two points, given by the coordinates $(x_1, y_1)$ and $(x_2, y_2)$.
 By the usual definition:
 
+\vspace{-1ex}
 \[ distance = \sqrt{(x_2 - x_1)^2 +(y_2 - y_1)^2} \]
 
 The first step is to consider what a \java{distance} method should look like in Java.
@@ -614,13 +616,13 @@ public static double distance
 }
 \end{code}
 
-The return statement is a placeholder that is only necessary for the program to compile.
-At this stage the program doesn't do anything useful, but it is good to compile it so we can find any syntax errors before we add more code.
+The \java{return} statement is a placeholder that is necessary only for the program to compile.
+At this stage, the program doesn't do anything useful, but it is good to compile it so we can find any syntax errors before we add more code.
 
 \index{testing}
 
 It's usually a good idea to think about testing {\em before} you develop new methods; doing so can help you figure out how to implement them.
-To test the method, we can invoke it from \java{main} using the sample values:
+To test the method, we can invoke it from \java{main} by using the sample values:
 
 \begin{code}
 double dist = distance(1.0, 2.0, 4.0, 6.0);
@@ -632,11 +634,11 @@ When you are testing a method, it is necessary to know the right answer.
 
 Once we have compiled the stub, we can start adding code one line at a time.
 After each incremental change, we recompile and run the program.
-If there is an error, we have a good idea where to look: the lines we just added.
+If there is an error, we have a good idea of where to look: the lines we just added.
 
-The next step is to find the differences $x_2 - x_1$ and $y_2 - y_1$.
+The next step is to find the differences, $x_2 - x_1$ and $y_2 - y_1$.
 We store those values in temporary variables named \java{dx} and \java{dy}, so that we can examine them with print statements before proceeding.
-They should be 3.0 and 4.0.
+They should be 3.0 and 4.0:
 
 \begin{code}
 public static double distance
@@ -652,12 +654,11 @@ public static double distance
 \index{scaffolding}
 
 We will remove the print statements when the method is finished.
-Code like that is called {\bf scaffolding}, because it is helpful for building the program, but it is not part of the final product.
+Code like that is called {\bf scaffolding}, because it is helpful for building the program but is not part of the final product.
 
 The next step is to square \java{dx} and \java{dy}.
 We could use the \java{Math.pow} method, but it is simpler (and more efficient) to multiply each term by itself.
-
-Then we add the squares and print the result so far.
+Then we add the squares and print the result so far:
 
 \begin{code}
 public static double distance
@@ -671,7 +672,7 @@ public static double distance
 \end{code}
 
 Again, you should compile and run the program at this stage and check the intermediate value, which should be 25.0.
-Finally, we can use \java{Math.sqrt} to compute and return the result.
+Finally, we can use \java{Math.sqrt} to compute and return the result:
 
 \begin{code}
 public static double distance
@@ -774,18 +775,18 @@ It describes an efficient way to test programs that take input from the user and
 \begin{exercise}  %%V6 Ex4.3
 
 The purpose of this exercise is to take code from a previous exercise and redesign it as a method that takes parameters.
-You should start with a working solution to Exercise~\ref{ex:date}.
+Start with a working solution to Exercise~\ref{ex:date}.
 
 \vspace{-1em}
 \begin{enumerate}
 
-\item Write a method called \java{printAmerican} that takes the day, date, month and year as parameters and that displays them in American format.
+\item Write a method called \java{printAmerican} that takes the day, date, month, and year as parameters and displays them in American format.
 
 \item Test your method by invoking it from \java{main} and passing appropriate arguments.
-The output should look something like this (except that the date might be different):
+The output should look something like this (except the date might be different):
 
 \begin{stdout}
-Saturday, July 22, 2015
+Monday, July 22, 2019
 \end{stdout}
 
 \item Once you have debugged \java{printAmerican}, write another method called \java{printEuropean} that displays the date in European format.
@@ -799,7 +800,7 @@ Saturday, July 22, 2015
 \begin{exercise}  %%V6 Ex5.6
 
 This exercise reviews the flow of execution through a program with multiple methods.
-Read the following code and answer the questions.
+Read the following code and answer the questions:
 
 \begin{code}
 public static void main(String[] args) {
@@ -828,9 +829,9 @@ public static void zippo(String quince, int flag) {
 
 \begin{enumerate}
 
-\item Write the number {\tt 1} next to the first line of code in this program that will execute.
+\item Write the number 1 next to the first line of code in this program that will execute.
 
-\item Write the number {\tt 2} next to the second line of code, and so on until the end of the program.
+\item Write the number 2 next to the second line of code, and so on until the end of the program.
 If a line is executed more than once, it might end up with more than one number next to it.
 
 \item What is the value of the parameter \java{blimp} when \java{baffle} gets invoked?
@@ -852,7 +853,7 @@ Answer the following questions without running the program on a computer.
 \item Draw a stack diagram that shows the state of the program the first time \java{ping} is invoked.
 
 \item What is output by the following program?
-Be precise about where there are spaces and where there are newlines.
+Be precise about the placement of spaces and newlines.
 
 %{\em Hint:} Start by describing in words what \java{ping} and \java{baffle} output.
 
@@ -903,7 +904,7 @@ Answer the following questions by trying them out.
 \item What happens if you invoke a value method and don't do anything with the result; that is, if you don't assign it to a variable or use it as part of a larger expression?
 
 \item What happens if you use a void method as part of an expression?
-For example, try \java{System.out.println("boo!") + 7;}
+For example, try \java{System.out.println("boo!") + 7;}.
 
 \end{enumerate}
 
@@ -960,7 +961,7 @@ Some processors even provide a hardware implementation of this operation for flo
 
 \item Create a new program called {\it Multadd.java}.
 
-\item Write a method called \java{multadd} that takes three \java{doubles} as parameters and that returns \java{a * b + c}.
+\item Write a method called \java{multadd} that takes three \java{doubles} as parameters and returns \java{a * b + c}.
 
 \item Write a \java{main} method that tests \java{multadd} by invoking it with a few simple parameters, like \java{1.0, 2.0, 3.0}.
 
@@ -971,7 +972,7 @@ Some processors even provide a hardware implementation of this operation for flo
 & \log 10 + \log 20 &
 \end{eqnarray*}
 
-\item Write a method called \java{expSum} that takes a double as a parameter and that uses \java{multadd} to calculate:
+\item Write a method called \java{expSum} that takes a double as a parameter and uses \java{multadd} to calculate:
 %
 \begin{eqnarray*}
 x e^{-x} + \sqrt{1 - e^{-x}}
