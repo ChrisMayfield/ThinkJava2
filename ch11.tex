@@ -21,7 +21,7 @@ In this chapter, you will learn to design classes that represent {\em useful} ob
 
 \index{instance}
 
-\item Every object belongs to some object type; that is, it is an {\bf instance} of some class.
+\item Every object belongs to an object type; that is, it is an {\bf instance} of a class.
 
 \index{instantiate}
 
@@ -33,7 +33,7 @@ In this chapter, you will learn to design classes that represent {\em useful} ob
 
 \end{itemize}
 
-Think of a class like a blueprint for a house: you can use the same blueprint to build any number of houses.
+Think of a class as a blueprint for a house: you can use the same blueprint to build any number of houses.
 
 \section{The Time Class}
 
@@ -43,13 +43,13 @@ Think of a class like a blueprint for a house: you can use the same blueprint to
 A common reason to define a new class is to encapsulate related data in an object that can be treated as a single unit.
 That way, we can use objects as parameters and return values, rather than passing and returning multiple values.
 %This design principle is called {\bf data encapsulation}.
-We have already seen two types that encapsulate data in this way: \java{Point} and \java{Rectangle}.
+You have already seen two types that encapsulate data in this way: \java{Point} and \java{Rectangle}.
 
 \index{class!Time}
 \index{Time}
 
 Another example, which we will implement ourselves, is \java{Time}, which represents a time of day.
-The data encapsulated in a \java{Time} object include an hour, a minute, and a number of seconds.
+The data encapsulated in a \java{Time} object includes an hour, a minute, and a number of seconds.
 Because every \java{Time} object contains these values, we define attributes to hold them.
 
 \index{instance variable}
@@ -61,7 +61,7 @@ The first step is to decide what type each variable should be.
 It seems clear that \java{hour} and \java{minute} should be integers.
 Just to keep things interesting, let's make \java{second} a double.
 
-Instance variables are declared at the beginning of the class definition, outside of any method.
+Instance variables are declared at the beginning of the class definition, outside any method.
 By itself, this code fragment is a legal class definition:
 
 \begin{code}
@@ -76,7 +76,7 @@ public class Time {
 \index{variable!private}
 
 The \java{Time} class is \java{public}, which means that it can be used in other classes.
-But the instance variables are \java{private}, which means they can only be accessed from inside the \java{Time} class.
+But the instance variables are \java{private}, which means they can be accessed only from inside the \java{Time} class.
 If you try to read or write them from another class, you will get a compiler error.
 
 \index{information hiding}
@@ -92,7 +92,7 @@ This kind of isolation is called {\bf information hiding}.
 \index{method!constructor}
 
 After declaring instance variables, the next step is to define a {\bf constructor}, which is a special method that initializes the object.
-The syntax for constructors is similar to that of other methods, except:
+The syntax for constructors is similar to that of other methods, except for the following:
 
 \index{static}
 
@@ -117,7 +117,7 @@ public Time() {
 \end{code}
 
 This constructor does not take any arguments.
-Each line initializes an instance variable to zero (which is ``midnight'' for a \java{Time} object).
+Each line initializes an instance variable to \java{0} (which is midnight for a \java{Time} object).
 
 \index{this}
 \index{keyword}
@@ -257,7 +257,7 @@ We can access them from within the \java{Time} class, but if we try to read or w
 \index{variable!private}
 
 A class that uses objects defined in another class is called a {\bf client}.
-For example, here is a new class called \java{TimeClient}.
+For example, here is a new class called \java{TimeClient}:
 
 \index{client}
 
@@ -276,22 +276,22 @@ There are three ways to solve this problem:
 
 \begin{itemize}
 
-\item We could make the instance variables public.
+\item Make the instance variables public.
 
-\item We could provide methods to access the instance variables.
+\item Provide methods to access the instance variables.
 
-\item We could decide that it's not a problem, and refuse to let other classes access the instance variables.
+\item Decide that it's not a problem and refuse to let other classes access the instance variables.
 
 \end{itemize}
 
 The first choice is appealing because it's simple.
-But here is the problem: when Class $A$ accesses the instance variables of Class $B$ directly, $A$ becomes dependent on $B$.
-If anything in $B$ changes later, it is likely that $A$ will have to change, too.
+But here is the problem: when class $A$ accesses the instance variables of class $B$ directly, $A$ becomes dependent on $B$.
+If anything in $B$ changes later, it is likely that $A$ will have to change too.
 
 \index{dependent}
 \index{independent}
 
-But if $A$ only uses methods to interact with $B$, $A$ and $B$ are less dependent, which means that we can make changes in $B$ without affecting $A$ (as long as we don't change the method parameters).
+But if $A$ uses only methods to interact with $B$, $A$ and $B$ are less dependent, which means that we can make changes in $B$ without affecting $A$ (as long as we don't change the method parameters).
 So we generally avoid making instance variables public.
 
 The second option is to provide methods that access the instance variables.
@@ -326,7 +326,7 @@ We can fix the compiler error in \java{TimeClient} by using the getter:
 System.out.println(time.getHour());
 \end{code}
 
-If we decide that \java{TimeClient} should also be able to modify the instance variables of \java{Time}, we can provide methods to do that, too:
+If we decide that \java{TimeClient} should also be able to modify the instance variables of \java{Time}, we can provide methods to do that too:
 
 \begin{code}
 public void setHour(int hour) {
@@ -357,8 +357,8 @@ Writing getters and setters can get boring, but many IDEs can generate them for 
 
 \section{Displaying Objects}
 
-To display \java{Time} objects we can write a method to display the hour, minute, and second.
-Using \java{printTime} in Section~\ref{multparam} as a starting point, we could write:
+To display \java{Time} objects, we can write a method to display the hour, minute, and second.
+Using \java{printTime} in Section~\ref{multparam} as a starting point, we could write the following:
 
 \begin{code}
 public static void printTime(Time t) {
@@ -384,7 +384,7 @@ public static void printTime(Time t) {
 }
 \end{code}
 
-As a reminder, you need to use \java{\%d} with integers and \java{\%f} with floating-point numbers.
+As a reminder, you need to use \java{\%d} with integers, and \java{\%f} with floating-point numbers.
 The \java{02} option means ``total width 2, with leading zeros if necessary'', and the \java{04.1} option means ``total width 4, one digit after the decimal point, leading zeros if necessary''.
 The output is the same: {\tt 11:59:59.9}.
 
@@ -399,8 +399,8 @@ When you display an object using \java{print} or \java{println}, Java invokes th
 
 \index{override}
 
-By default it simply displays the type of the object and its address in hexadecimal.
-So, if you create a \java{Time} object and display it with \java{println}:
+By default, it simply displays the type of the object and its address in hexadecimal.
+So, say you create a \java{Time} object and display it with \java{println}:
 
 \begin{code}
 public static void main(String[] args) {
@@ -463,16 +463,14 @@ Time time = new Time(11, 59, 59.9);
 String s = time.toString();
 \end{code}
 
-The value of \java{s} is the \java{String} \java{"11:59:59.9"}.
-
+The value of \java{s} is the string \java{"11:59:59.9"}.
 You can also invoke \java{toString} indirectly by invoking \java{print} or \java{println}:
 
 \begin{code}
 System.out.println(time);
 \end{code}
 
-This code displays the \java{String} \java{"11:59:59.9"}.
-
+This code displays the string \java{"11:59:59.9"}.
 Either way, when you use \java{this} inside \java{toString}, it refers to the same object as \java{time}.
 
 
@@ -484,7 +482,7 @@ Either way, when you use \java{this} inside \java{toString}, it refers to the sa
 \index{method!equals}
 
 We have seen two ways to check whether values are equal: the \java{==} operator and the \java{equals} method.
-With objects you can use either one, but they are not the same.
+With objects, you can use either one, but they are not the same:
 
 \index{identical}
 \index{equivalent}
@@ -497,10 +495,10 @@ With objects you can use either one, but they are not the same.
 
 \end{itemize}
 
-The definition of identity is always the same, so the \java{==} operator always does the same thing.
-But the definition of equivalence is different for different objects, so objects can define their own \java{equals} methods.
+The definition of {\em identity} is always the same, so the \java{==} operator always does the same thing.
+But the definition of {\em equivalence} is different for different objects, so objects can define their own \java{equals} methods.
 
-Consider the following variables and the memory diagram in Figure~\ref{fig.time2}.
+Consider the following variables and the corresponding memory diagram in Figure~\ref{fig.time2}:
 
 \begin{code}
 Time time1 = new Time(9, 30, 0.0);
@@ -543,7 +541,7 @@ public boolean equals(Time that) {
 \end{code}
 
 \java{equals} is an instance method, so it doesn't have the keyword \java{static}.
-It uses \java{this} to refer to current object, and \java{that} to refer to the other.
+It uses \java{this} to refer to the current object, and \java{that} to refer to the other.
 \java{that} is {\em not} a keyword, so we could have given this parameter a different name.
 But using \java{that} makes the code nicely readable.
 
@@ -583,9 +581,9 @@ But other definitions are possible.
 \section{Adding Times}
 \label{addingtime}
 
-Suppose you are going to a movie that starts at 18:50 (that is, 6:50 PM), and the running time is 2 hours 16 minutes.
+Suppose you are going to a movie that starts at 18:50 (that is, 6:50 PM), and the running time is 2 hours, 16 minutes.
 What time does the movie end?
-We'll use \java{Time} objects to figure it out.
+We'll use \java{Time} objects to figure it out:
 
 \begin{code}
 Time startTime = new Time(18, 50, 0.0);
@@ -599,9 +597,9 @@ Here are two ways we could ``add'' the \java{Time} objects:
 
 \begin{itemize}
 
-\item We could write a static method that takes two \java{Time} objects as parameters.
+\item Write a static method that takes two \java{Time} objects as parameters.
 
-\item We could write an instance method that gets invoked on one object and takes the other as a parameter.
+\item Write an instance method that gets invoked on one object and takes the other as a parameter.
 
 \end{itemize}
 
@@ -673,7 +671,7 @@ Static methods and instance methods do the same thing, and you can convert from 
 However, there's a problem with both of these methods; they are not correct.
 The result from either method is {\tt 20:66}, which is not a valid time.
 
-If \java{second} exceeds 59, we have to ``carry'' into the minutes column, and if \java{minute} exceeds 59, we have to carry into \java{hour}.
+If \java{second} exceeds 59, we have to carry into the minutes column, and if \java{minute} exceeds 59, we have to carry into \java{hour}.
 
 Here is a better version of the instance method, \java{add}:
 
@@ -708,12 +706,12 @@ If \java{hour} exceeds 23, we subtract 24 hours, but there's no
 \begin{description}
 
 \term{class}
-Previously, we defined a class as a collection of related methods.
+In Chapter~\ref{theway}, we defined a class as a collection of related methods.
 Now you know that a class is also a template for a new type of object.
 
 \term{instance}
 A member of a class.
-Every object is an instance of some class.
+Every object is an instance of a class.
 
 \term{instantiate}
 Create a new instance of a class in the computer's memory.
@@ -728,7 +726,7 @@ An attribute of an object; a non-static variable defined at the class level.
 The practice of making instance variables \java{private} to limit dependencies between classes.
 
 \term{constructor}
-A special method that initializes the instance variables of a newly-constructed object.
+A special method that initializes the instance variables of a newly constructed object.
 
 \term{shadowing}
 Occurs when a local variable or parameter has the same name as an attribute.
@@ -743,16 +741,16 @@ A method that returns the value of an instance variable.
 A method that assigns a value to an instance variable.
 
 \term{override}
-Replacing a default implementation of a method, such as \java{toString}.
+To replace a default implementation of a method, such as \java{toString}.
 
 \term{instance method}
 A non-static method that has access to \java{this} and the instance variables.
 
 \term{identical}
-References to the same object or the same location in memory are identical.
+References to the same object (at the same location in memory).
 
 \term{equivalent}
-Two objects that are ``equal'' but not necessarily identical, as defined by the \java{equals} method.
+Objects that are equal in value, as defined by the \java{equals} method.
 
 \end{description}
 
@@ -769,7 +767,7 @@ Before you start the exercises, we recommend that you compile and run the exampl
 The implementation of \java{increment} in this chapter is not very efficient.
 Can you rewrite it so it doesn't use any loops?
 
-{\em Hint:} Remember the remainder operator. And yes, it works with floating-point values too.
+{\em Hint:} Remember the remainder operator---it works with floating-point too.
 
 \end{exercise}
 
@@ -778,13 +776,14 @@ Can you rewrite it so it doesn't use any loops?
 \index{Scrabble}
 
 In the board game Scrabble, each tile contains a letter, which is used to spell words in rows and columns, and a score, which is used to determine the value of words.
+The point of this exercise is to practice the mechanical part of creating a new class definition:
 
 \begin{enumerate}
 
 \item Write a definition for a class named \java{Tile} that represents Scrabble tiles.
 The instance variables should include a character named \java{letter} and an integer named \java{value}.
 
-\item Write a constructor that takes parameters named \java{letter} and \java{value} and initializes the instance variables.
+\item Write a constructor that takes parameters named \java{letter} and \java{value}, and initializes the instance variables.
 
 \item Write a method named \java{printTile} that takes a \java{Tile} object as a parameter and displays the instance variables in a reader-friendly format.
 
@@ -796,7 +795,6 @@ The instance variables should include a character named \java{letter} and an int
 
 \end{enumerate}
 
-The point of this exercise is to practice the mechanical part of creating a new class definition.
 \end{exercise}
 
 
@@ -819,22 +817,24 @@ You can use either constructor.
 
 \index{rational number}
 
-A rational number is a number that can be represented as the ratio of two integers.
+A ``rational number'' is a number that can be represented as the ratio of two integers.
 For example, $2/3$ is a rational number, and you can think of 7 as a rational number with an implicit 1 in the denominator.
+
 %The goal of this exercise is to write a class definition for rational numbers.
+The purpose of this exercise is to write a class definition that includes a variety of methods, including constructors, static methods, instance methods, modifiers, and pure methods:
 
 \begin{enumerate}
 
 \item Define a class called \java{Rational}.
 A \java{Rational} object should have two integer instance variables that store the numerator and denominator.
 
-\item Write a constructor that takes no arguments and that sets the numerator to 0 and denominator to 1.
+\item Write a constructor that takes no arguments and sets the numerator to \java{0} and denominator to \java{1}.
 
-\item Write an instance method called \java{printRational} that displays a \java{Rational} in some reasonable format.
+\item Write an instance method called \java{printRational} that displays a \java{Rational} object in a reasonable format.
 
 \item Write a \java{main} method that creates a new object with type \java{Rational}, sets its instance variables to the values of your choice, and displays the object.
 
-\item At this stage, you have a minimal testable program.
+\item You now have a minimal testable program.
 Test it and, if necessary, debug it.
 
 \item Write a \java{toString} method for \java{Rational} and test it using \java{println}.
@@ -842,10 +842,10 @@ Test it and, if necessary, debug it.
 \item Write a second constructor that takes two arguments and uses them to initialize the instance variables.
 
 \item Write an instance method called \java{negate} that reverses the sign of a rational number.
-This method should be a modifier, so it should be void.
+This method should be a modifier, so it should be \java{void}.
 Add lines to \java{main} to test the new method.
 
-\item Write an instance method called \java{invert} that inverts the number by swapping the numerator and denominator.
+\item Write an instance method called \java{invert} that swaps the numerator and denominator.
 It should be a modifier.
 Add lines to \java{main} to test the new method.
 
@@ -856,16 +856,13 @@ As always, test the new method.
 \item Write an instance method named \java{reduce} that reduces a rational number to its lowest terms by finding the greatest common divisor (GCD) of the numerator and denominator and dividing through.
 This method should be a pure method; it should not modify the instance variables of the object on which it is invoked.
 
-{\em Hint:} Finding the GCD only takes a few lines of code.
+{\em Hint:} Finding the GCD takes only a few lines of code.
 Search the web for ``Euclidean algorithm''.
 
 \item Write an instance method called \java{add} that takes a \java{Rational} number as an argument, adds it to \java{this}, and returns a new \java{Rational} object.
-
 There are several ways to add fractions.
 You can use any one you want, but you should make sure that the result of the operation is reduced so that the numerator and denominator have no common divisor (other than 1).
 
 \end{enumerate}
-
-The purpose of this exercise is to write a class definition that includes a variety of methods, including constructors, static methods, instance methods, modifiers, and pure methods.
 
 \end{exercise}
