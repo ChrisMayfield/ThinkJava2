@@ -2,20 +2,27 @@
 \label{javadoc}
 
 \index{comment!end-of-line}
-\index{comment!multi-line}
+\index{comment!multiline}
 \index{comment!documentation}
 
-Java programs have three different types of comments:
+Java programs have three types of comments:
 
-\begin{enumerate}
-\item {\bf End-of-line comments} (\java{//}), which generally contain short phrases that explain specific lines of code.
+\begin{description}
 
-\item {\bf Multi-line comments} (with \java{/*} at the beginning and \textcolor{comment}{\tt */} at the end), which are typically used for copyright statements.
+\item[End-of-line comments] \hfill \\
+These start with \java{//} and generally contain short phrases that explain specific lines of code.
 
-\item {\bf Documentation comments} (with \java{/**} at the beginning and \textcolor{comment}{\tt */} at the end), which describe what each class and method does.
-\end{enumerate}
+%TODO the Java language spec calls these "traditional" comments
 
-End-of-line and multi-line comments are written primarily for yourself.
+\item[Multiline comments] \hfill \\
+These start with \java{/*} and end with \textcolor{comment}{\tt */}, and are typically used for copyright statements.
+
+\item[Documentation comments] \hfill \\
+These start with \java{/**} and end with \textcolor{comment}{\tt */}, and describe what each class and method does.
+
+\end{description}
+
+End-of-line and multiline comments are written primarily for yourself.
 They help you remember specific details about your source code.
 Documentation comments, on the other hand, are written for others.
 They explain how to use your classes and methods in other programs.
@@ -45,8 +52,8 @@ Figure~\ref{fig.scanner} shows a screenshot of the page.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=0.9\textwidth]{figs/scanner.png}
-\caption{Screenshot of the documentation for \java{Scanner}.}
+\includegraphics[width=\textwidth]{figs/scanner.png}
+\caption{The documentation for \java{Scanner}.}
 \label{fig.scanner}
 \end{center}
 \end{figure}
@@ -54,7 +61,7 @@ Figure~\ref{fig.scanner} shows a screenshot of the page.
 Documentation for other classes uses a similar format.
 The first line is the package that contains the class, such as \java{java.util}.
 The second line is the name of the class.
-The ``Implemented Interfaces'' section lists some of the functionality a \java{Scanner} has.
+The ``All Implemented Interfaces'' section lists some of the functionality a \java{Scanner} has.
 %; we won't say more about that for now.
 
 %The next two lines indicate that every \java{Scanner} is also an \java{Object}; that will make more sense after Section~\ref{inheritance}.
@@ -72,20 +79,20 @@ String input = "1 fish 2 fish red fish blue fish";
 Scanner s = new Scanner(input);
 \end{code}
 
-After the narrative, code examples, and some other details, you will find the following tables:
+After the narrative, code examples, and other details, you will find the following tables:
 
 \begin{description}
 
-\item[Constructor summary:]
+\item[Constructor Summary] \hfill \\
 Ways of creating, or constructing, a \java{Scanner}.
 
-\item[Method summary:]
+\item[Method Summary] \hfill \\
 The list of methods that the \java{Scanner} class provides.
 
-\item[Constructor detail:]
+\item[Constructor Detail] \hfill \\
 More information about how to create a \java{Scanner}.
 
-\item[Method detail:]
+\item[Method Detail] \hfill \\
 More information about each method.
 
 \end{description}
@@ -99,10 +106,10 @@ Scans the next token of the input as an int.
 
 \index{signature}
 
-The first line is the method's {\bf signature}, which specifies the name of the method, its parameters (none), and what type it returns (\java{int}).
+The first line is the method's {\bf signature}, which specifies the name of the method, its parameters (none), and the type it returns (\java{int}).
 The next line is a short description of what it does.
 
-The ``Method detail'' explains more:
+The ``Method Detail'' explains more:
 
 \begin{stdout}
 public int nextInt()
@@ -124,7 +131,7 @@ IllegalStateException - if this scanner is closed
 
 The ``Returns'' section describes the result when the method succeeds.
 In contrast, the ``Throws'' section describes possible errors and exceptions that may occur.
-Exceptions are said to be {\em thrown}, like a referee throwing a flag, or like a toddler throwing a fit.
+Exceptions are said to be thrown, like a referee throwing a flag, or like a toddler throwing a fit.
 
 It might take you some time to get comfortable reading documentation and learning which parts to ignore.
 But it's worth the effort.
@@ -187,7 +194,7 @@ It's generally a good idea to document each class and method, so that other prog
 \index{documentation!Javadoc tags}
 
 To organize the documentation into sections, Javadoc supports optional {\bf tags} that begin with the at sign (\java{@}).
-For example, we can use \java{@author} and \java{@version} to provide information about the class.
+For example, we can use \java{@author} and \java{@version} to provide information about the class:
 
 \begin{code}
 /**
@@ -204,7 +211,7 @@ public class DigitUtil {
 Documentation comments should begin with a {\bf description} of the class or method, followed by the tags.
 These two sections are separated by a blank line (not counting the \textcolor{comment}{\tt *}).
 
-For methods, we can use \java{@param} and \java{@return} to provide information about parameters and return values.
+For methods, we can use \java{@param} and \java{@return} to provide information about parameters and return values:
 
 \begin{code}
 /**
@@ -216,12 +223,6 @@ For methods, we can use \java{@param} and \java{@return} to provide information 
 public static boolean isSingleDigit(int x) {
 \end{code}
 
-\index{HTML}
-\index{Javadoc}
-
-Figure~\ref{fig.javadoc} shows part of the resulting HTML page generated by Javadoc.
-Notice the relationship between the Javadoc comment (in the source code) and the resulting documentation (in the HTML page).
-
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics[width=298pt]{figs/javadoc.pdf}
@@ -229,6 +230,12 @@ Notice the relationship between the Javadoc comment (in the source code) and the
 \label{fig.javadoc}
 \end{center}
 \end{figure}
+
+\index{HTML}
+\index{Javadoc}
+
+Figure~\ref{fig.javadoc} shows part of the resulting HTML page generated by Javadoc.
+Notice the relationship between the Javadoc comment (in the source code) and the resulting documentation (in the HTML page).
 
 When writing parameter comments, do not include a hyphen (\java{-}) after the \java{@param} tag.
 Otherwise, you will have two hyphens in the resulting HTML documentation.
@@ -249,8 +256,8 @@ See page~\pageref{code} for instructions on how to download the repository.
 
 Professional-grade source files often begin with a copyright statement.
 This text spans multiple lines, but it is not part of the documentation.
-So we use a multi-line comment (\java{/*}) rather than a documentation comment (\java{/**}).
-Our example source file, {\it Convert.java}, includes the MIT License (\url{https://opensource.org/licenses/MIT}).
+So we use a multiline comment (\java{/*}) rather than a documentation comment (\java{/**}).
+Our example source file, {\it Convert.java}, includes the MIT License (\url{https://opensource.org/licenses/MIT}):
 
 \index{Convert.java}
 
@@ -282,7 +289,7 @@ Our example source file, {\it Convert.java}, includes the MIT License (\url{http
 
 %This program uses a \java{Scanner}, so we have to \java{import} it.
 Import statements generally follow the copyright text.
-After that, we can define the class itself and begin writing the documentation (\java{/**}).
+After that, we can define the class itself and begin writing the documentation (\java{/**}):
 
 \begin{code}
 import java.util.Scanner;
@@ -301,9 +308,8 @@ A common mistake that beginners make is to put \java{import} statements between 
 Doing so separates the documentation from the class itself.
 To avoid this issue, always make the end of the comment (the \textcolor{comment}{\tt */}) ``touch'' the word \java{public}.
 
-
 This class has two constants and three methods.
-The constants are self-explanatory, so there is no need to write documentation for them.
+The constants are self-explanatory, so there is no need to write documentation for them:
 
 \begin{code}
 public static final double CM_PER_INCH = 2.54;
@@ -312,7 +318,7 @@ public static final int IN_PER_FOOT = 12;
 \end{code}
 
 The methods, on the other hand, could use some explanation.
-Each documentation comment includes a description, followed by a blank line, followed by a \java{@param} tag for each parameter, followed by a \java{@return} tag.
+Each documentation comment includes a description, followed by a blank line, followed by a \java{@param} tag for each parameter, followed by a \java{@return} tag:
 
 \begin{code}
 /**
@@ -324,7 +330,9 @@ Each documentation comment includes a description, followed by a blank line, fol
 public static double toImperial(double cm) {
     return cm / CM_PER_INCH;
 }
+\end{code}
 
+\begin{code}
 /**
  * Converts a length in feet and inches to centimeters.
  *
@@ -338,9 +346,10 @@ public static double toMetric(int feet, int inches) {
 }
 \end{code}
 
-The \java{main} method has a similar documentation comment, except there is no \java{@return} tag since the method is \java{void}.
+The \java{main} method has a similar documentation comment, except there is no \java{@return} tag since the method is \java{void}:
 %And because it's longer than a few lines, it includes end-of-line comments (\java{//}) as well.
 
+\begin{small}
 \begin{code}
 /**
  * Tests the conversion methods.
@@ -368,15 +377,16 @@ public static void main(String[] args) {
     System.out.printf("That's %.2f cm\n", result);
 }
 \end{code}
+\end{small}
 
 Here are two ways you can run the Javadoc tool on this example program:
 
-\begin{enumerate}
+\begin{itemize}
 
 \index{command-line interface}
 
 \item From the command line, go to the location for {\it Convert.java}.
-The {\tt -d} option of {\tt javadoc} indicates where to generate the HTML files.
+The {\tt -d} option of {\tt javadoc} indicates where to generate the HTML files:
 
 \begin{stdout}
 javadoc -d doc Convert.java
@@ -384,7 +394,8 @@ javadoc -d doc Convert.java
 
 \item From DrJava, click the {\sf Javadoc} button on the toolbar.
 The IDE will then prompt you for a location to generate the HTML files.
-\end{enumerate}
+
+\end{itemize}
 
 For more examples of what you can do with Javadoc comments, see the source code of any Java library class (e.g., {\it Scanner.java}).
 Section~\ref{src.zip} explains how to find the source files for the Java library on your computer.
