@@ -21,7 +21,7 @@ There are several ways to create graphics in Java; the simplest way is to use \j
 A \java{Canvas} is a blank rectangular area of the screen onto which the application can draw.
 The \java{Graphics} class provides basic drawing methods such as \java{drawLine}, \java{drawRect}, and \java{drawString}.
 
-Here is an example program that draws a circle using the \java{fillOval} method:
+Here is an example program that draws a circle by using the \java{fillOval} method:
 
 \begin{code}
 import java.awt.Canvas;
@@ -54,7 +54,7 @@ You can read about the other methods in the documentation, which you can find by
 \index{JFrame}
 \index{class!JFrame}
 
-In the \java{main} method, we:
+In the \java{main} method, we do the following:
 
 \begin{enumerate}
 
@@ -80,12 +80,12 @@ When the \java{JFrame} closes, it calls \java{System.exit}, which ends the progr
 You are probably used to Cartesian {\bf coordinates}, where $x$ and $y$ values can be positive or negative.
 In contrast, Java uses a coordinate system where the origin is in the upper-left corner.
 That way, $x$ and $y$ can always be positive integers.
-Figure~\ref{fig.coordinates} shows these coordinate systems side-by-side.
+Figure~\ref{fig.coordinates} shows these coordinate systems side by side.
 
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics[width=5in]{figs/coordinates.pdf}
-\caption{Diagram of the difference between Cartesian coordinates and Java graphical coordinates.}
+\caption{The difference between Cartesian coordinates and Java graphical coordinates.}
 \label{fig.coordinates}
 \end{center}
 \end{figure}
@@ -116,7 +116,7 @@ The bounding box itself is not drawn (see Figure~\ref{fig.circle}).
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics{figs/circle.pdf}
-\caption{Diagram of an oval inside its bounding box.}
+\caption{An oval inside its bounding box.}
 \label{fig.circle}
 \end{center}
 \end{figure}
@@ -130,8 +130,8 @@ g.setColor(Color.RED);
 \end{code}
 
 The \java{setColor} method determines the color of everything that gets drawn afterward.
-\java{Color.red} is a constant provided by the \java{Color} class; to use it you have to \java{import java.awt.Color}.
-Other colors include:
+\java{Color.red} is a constant provided by the \java{Color} class; to use it, you have to \java{import java.awt.Color}.
+Other colors include the following:
 
 \begin{stdout}
 BLACK       BLUE      CYAN     DARKGRAY   GRAY    LIGHTGRAY
@@ -199,7 +199,7 @@ The result is shown in Figure~\ref{fig.mickey}.
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics[height=2in]{figs/mickey.png}
-\caption{A ``Hidden Mickey'' drawn using Java graphics.}
+\caption{A Hidden Mickey drawn using Java graphics.}
 \label{fig.mickey}
 \end{center}
 \end{figure}
@@ -247,9 +247,9 @@ Draw the flag of Japan: a red circle on a white background that is wider than it
 \begin{exercise}
 
 Modify {\it Mickey.java} to draw ears on the ears, and ears on those ears, and more ears all the way down until the smallest ears are only 3 pixels wide.
-The result should look like ``Mickey Moose'', shown in Figure~\ref{fig.moose}.
+The result should look like Figure~\ref{fig.moose}.
 %
-{\em Hint:} You should only have to add or modify a few lines of code.
+{\em Hint:} You should have to add or modify only a few lines of code.
 
 \begin{figure}[!ht]
 \begin{center}
