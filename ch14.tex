@@ -3,7 +3,8 @@
 
 \index{Crazy Eights}
 
-In this chapter, we will present a comprehensive example of object-oriented programming.
+In this chapter, we present a more comprehensive example of object-oriented programming.
+
 {\it Crazy Eights} is a classic card game for two or more players.
 The main objective is to be the first player to get rid of all your cards.
 Here's how to play:
@@ -20,7 +21,7 @@ The card must match the rank or suit of the previously played card, or be an eig
 
 \item If the draw pile ever runs out, the discard pile is shuffled (except the top card) and becomes the new draw pile.
 
-\item As soon as a player has no cards, the game ends and all other players score penalty points for their remaining cards.
+\item As soon as a player has no cards, the game ends, and all other players score penalty points for their remaining cards.
 Eights are worth 20, face cards are worth 10, and all others are worth their rank.
 
 \end{itemize}
@@ -46,7 +47,7 @@ It would be helpful to combine their features into one class that meets the need
 %We could potentially use such a class for other collections of cards.
 
 We will define a class named \java{CardCollection} and add the code we want one step at a time.
-Since this class will represent different piles and hands of cards, we'll add a \java{label} attribute to tell them apart.
+Since this class will represent different piles and hands of cards, we'll add a \java{label} attribute to tell them apart:
 
 \index{CardCollection}
 \index{class!CardCollection}
@@ -112,7 +113,7 @@ public Card popCard() {
 
 % TODO: Update the code to be consistent with the changes in popCard and isEmpty
 
-\java{CardCollection} also provides \java{isEmpty}, returns \java{true} if there are no cards left:
+\java{CardCollection} also provides \java{isEmpty}, which returns \java{true} if there are no cards left:
 
 \begin{code}
 public boolean isEmpty() {
@@ -170,7 +171,7 @@ public void shuffle() {
 
 \section{Inheritance}
 
-At this point we have a class that represents a collection of cards.
+At this point, we have a class that represents a collection of cards.
 It provides functionality common to decks of cards, piles of cards, hands of cards, and potentially other collections.
 
 \index{inheritance}
@@ -210,7 +211,7 @@ We could also say that \java{CardCollection} is a {\bf superclass}, and \java{De
 
 \index{Object class}
 
-In Java, classes may only extend one superclass.
+In Java, classes may extend only one superclass.
 Classes that do not specify a superclass with \java{extends} automatically inherit from \java{java.lang.Object}.
 So in this example, \java{Deck} extends \java{CardCollection}, which in turn extends \java{Object}.
 The \java{Object} class provides the default \java{equals} and \java{toString} methods, among other things.
@@ -226,7 +227,7 @@ Deck deck = new Deck("Deck");
 \end{code}
 
 The first line of the constructor uses \java{super}, which is a keyword that refers to the superclass of the current class.
-When \java{super} is used like a method, as in this example, it invokes the constructor of the superclass.
+When \java{super} is used as a method, as in this example, it invokes the constructor of the superclass.
 
 %TODO Blythe suggests a diagram here
 
@@ -275,7 +276,7 @@ And a \java{Hand} is just like a \java{CardCollection}, but it provides an addit
 
 To begin the game, we need to deal cards to each of the players.
 And during the game, we need to move cards between hands and piles.
-If we add the following method to \java{CardCollection}, it can meet both of these requirements.
+If we add the following method to \java{CardCollection}, it can meet both of these requirements:
 
 \begin{code}
 public void deal(CardCollection that, int n) {
@@ -288,7 +289,7 @@ public void deal(CardCollection that, int n) {
 
 The \java{deal} method removes cards from the collection it is invoked on, \java{this}, and adds them to the collection it gets as a parameter, \java{that}.
 The second parameter, \java{n}, is the number of cards to deal.
-We will use this method to implement \java{dealAll}, which deals (or moves) all of the remaining cards.
+We will use this method to implement \java{dealAll}, which deals (or moves) all of the remaining cards:
 
 \begin{code}
 public void dealAll(CardCollection that) {
@@ -297,7 +298,7 @@ public void dealAll(CardCollection that) {
 }
 \end{code}
 
-At this point we can create a \java{Deck} and start dealing cards.
+At this point, we can create a \java{Deck} and start dealing cards.
 Here's a simple example that deals five cards to a hand, and deals the rest into a draw pile:
 
 \begin{code}
@@ -315,7 +316,7 @@ System.out.printf("Draw Pile has %d cards.\n",
 \end{code}
 
 Because the deck is shuffled randomly, you should get a different hand each time you run this example.
-The output will look something like:
+The output will look something like this:
 
 \begin{stdout}
 Hand:
@@ -346,7 +347,7 @@ If a method expects a \java{CardCollection}, you can give it a \java{Hand}, a \j
 
 But it doesn't work the other way around: not every \java{CardCollection} is a \java{Hand}, so if a method expects a \java{Hand}, you have to give it a \java{Hand}, not a \java{CardCollection} or a \java{Deck}.
 
-If it seems strange that an object can belong to more than one type, remember that this happens in real life, too.
+If it seems strange that an object can belong to more than one type, remember that this happens in real life too.
 Every cat is also a mammal, and every mammal is also an animal.
 But not every animal is a mammal, and not every mammal is a cat.
 
@@ -432,9 +433,9 @@ public Card drawForMatch(Eights eights, Card prev) {
 }
 \end{code}
 
-The \java{while} loop runs until it finds a match (we'll assume for now that it always does).
-It uses the \java{Eights} object to draw a card.
-If it matches, it returns the card.
+The \java{while} loop runs until it finds a match (we'll assume for now that it always finds one).
+The loop uses the \java{Eights} object to draw a card.
+If it matches, \java{drawForMatch} returns the card.
 Otherwise it adds the card to the player's hand and repeats.
 
 Both \java{searchForMatch} and \java{drawForMatch} use \java{cardMatches}, which is a static method, also defined in \java{Player}.
@@ -473,12 +474,12 @@ Finally, \java{Player} provides a \java{score} method, which computes penalty po
 
 \index{top-down development}
 
-In Section~\ref{shuffle} we introduced top-down development, which is a way of developing programs by identifying high-level goals, like shuffling a deck, and breaking them into smaller problems, like choosing a random element or swapping two elements.
+In Section~\ref{shuffle}, we introduced top-down development. In this way of developing programs, we identify high-level goals, like shuffling a deck, and break them into smaller problems, like choosing a random element or swapping two elements.
 
 \index{bottom-up design}
 \index{design process}
 
-In this section we present {\bf bottom-up design}, which goes the other way around: first we identify simple pieces we need, then we assemble them into more complex algorithms.
+In this section, we present {\bf bottom-up design}, which goes the other way around: first we identify simple pieces we need and then we assemble them into more-complex algorithms.
 
 Looking at the rules of Crazy Eights, we can identify some of the methods we'll need:
 
@@ -578,7 +579,7 @@ public Card drawCard() {
 \end{code}
 
 %We can switch from one player to the next like this:
-The \java{nextPlayer} method takes the current player as a parameter and returns the player who should go next.
+The \java{nextPlayer} method takes the current player as a parameter and returns the player who should go next:
 
 \begin{code}
 public Player nextPlayer(Player current) {
@@ -591,8 +592,8 @@ public Player nextPlayer(Player current) {
 \end{code}
 
 The last method from our bottom-up design is \java{displayState}.
-It displays the hand of each player, the contents of the discard pile, and how many cards are in the draw pile.
-Finally, it waits for the user to press the {\sf Enter} key.
+It displays the hand of each player, the contents of the discard pile, and the number of cards in the draw pile.
+Finally, it waits for the user to press the {\sf Enter} key:
 
 % TODO: Is there a reason this was commented out?
 % We were probably just trying to save space.
@@ -609,8 +610,8 @@ public void displayState() {
 \end{code}
 
 Using these pieces, we can write \java{takeTurn}, which executes one player's turn.
-It reads the top card off the discard pile and passes it to \java{player.play}, which we saw in the previous section.
-The result is the card the player chose, which is added to the discard pile.
+It reads the top card off the discard pile and passes it to \java{player.play}, which you saw in the previous section.
+The result is the card the player chose, which is added to the discard pile:
 
 \begin{code}
 public void takeTurn(Player player) {
@@ -669,8 +670,8 @@ For example, \java{Hand} extends \java{CardCollection}, so every instance of \ja
 \index{IS-A}
 \index{object-oriented}
 
-Composition is also known as a {\bf HAS-A} relationship, as in ``\java{Eights} HAS-A \java{Scanner}''.
-Inheritance is also known as an {\bf IS-A} relationship, as in ``a \java{Hand} IS-A \java{CardCollection}''.
+Composition is also known as a {\bf HAS-A} relationship, as in ``\java{Eights} has a \java{Scanner}''.
+Inheritance is also known as an {\bf IS-A} relationship, as in ``\java{Hand} is a \java{CardCollection}''.
 This vocabulary provides a concise way to talk about an object-oriented design.
 
 \index{UML}
@@ -678,7 +679,7 @@ This vocabulary provides a concise way to talk about an object-oriented design.
 \index{diagram!class}
 
 There is also a standard way to represent these relationships graphically in UML class diagrams.
-As we saw in Section~\ref{UML}, the UML representation of a class is a box with three sections: the class name, the attributes, and the methods.
+As you saw in Section~\ref{UML}, the UML representation of a class is a box with three sections: the class name, the attributes, and the methods.
 The latter two sections are optional when showing relationships.
 
 %NOTE: I am not using standard arrows for aggregation and composition, but
@@ -717,13 +718,13 @@ An existing class that is extended by another class.
 %To define a method in a subclass that replaces a method with the same name in a superclass.
 
 \term{bottom-up design}
-A way of developing programs by identifying simple pieces, implementing them, and then assembling them into more complex algorithms.
+A way of developing programs by identifying simple pieces, implementing them first, and then assembling them into more-complex algorithms.
 
 \term{HAS-A}
-A relationship between two classes where one class ``has'' an instance of another class as one of its attributes.
+A relationship between two classes in which one class ``has'' an instance of another class as one of its attributes.
 
 \term{IS-A}
-A relationship between two classes where one class extends another class; the subclass ``is'' an instance of the superclass.
+A relationship between two classes in which one class extends another class; the subclass ``is'' an instance of the superclass.
 
 \end{description}
 
@@ -738,7 +739,7 @@ Before you start the exercises, we recommend that you compile and run the exampl
 \begin{exercise}  %%V6 Ex14.1
 
 Design a better strategy for the \java{Player.play} method.
-For example, if there are multiple cards you can play, and one of them is an eight, you might want to play the eight.
+For example, if there are multiple cards you can play, and one of them is an 8, you might want to play the 8.
 
 \index{override}
 
@@ -760,7 +761,7 @@ If you implemented multiple strategies in the previous exercise, you can play th
 
 \begin{exercise}  %%V6 Ex14.3
 
-One limitation of the program we wrote in this chapter is that it only handles two players.
+One limitation of the program we wrote in this chapter is that it handles only two players.
 Modify the \java{Eights} class to create an \java{ArrayList} of players, and modify \java{nextPlayer} to select the next player.
 
 \end{exercise}
