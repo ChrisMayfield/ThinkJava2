@@ -2,16 +2,20 @@
 \label{conway}
 
 The last two chapters of this book use 2D graphics to illustrate more advanced object-oriented concepts.
-If you haven't yet read Appendix~\ref{graphics}, you might want to read it now and get familiar with the \java{Canvas}, \java{Color}, and \java{Graphics} classes from the \java{java.awt} package.
-In this chapter we use these classes to draw images and animations, and to run graphical simulations.
+If you haven't yet read Appendix~\ref{graphics}, you might want to read it now and become familiar with the \java{Canvas}, \java{Color}, and \java{Graphics} classes from the \java{java.awt} package.
+In this chapter, we use these classes to draw images and animations, and to run graphical simulations.
 
 
 \section{Conway's Game of Life}
 
-{\it The Game of Life}, or GoL for short, was developed by John Conway and popularized in 1970 in Martin Gardner's column in Scientific American.
+The Game of Life, or GoL for short, was developed by John Conway and popularized in 1970 in Martin Gardner's column in {\it Scientific American}.
 Conway calls it a ``zero-player game'' because no players are needed to choose strategies or make decisions.
 After you set up the initial conditions, you watch the game play itself.
 That turns out to be more interesting than it sounds; you can read about it at \url{https://en.wikipedia.org/wiki/Conway's_Game_of_Life}.
+
+The game board is a 2D grid of square cells.
+Each cell is either ``alive'' or ``dead''; the color of the cell indicates its state.
+Figure~\ref{fig:glider} shows an example grid configuration; the five black cells are alive.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -21,21 +25,17 @@ That turns out to be more interesting than it sounds; you can read about it at \
 \end{center}
 \end{figure}
 
-The game board is a two-dimensional grid of square cells.
-Each cell is either ``alive'' or ``dead''; the color of the cell indicates its state.
-Figure~\ref{fig:glider} shows an example grid configuration; the five black cells are alive.
-
 \index{neighbor}
 
 The game proceeds in time steps, during which each cell interacts with its neighbors in the eight adjacent cells.
 At each time step, the following rules are applied:
 
-\begin{enumerate}
+\begin{itemize}
 \small
 \item A live cell with fewer than two live neighbors dies, as if by underpopulation.
 \item A live cell with more than three live neighbors dies, as if by overpopulation.
 \item A dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
-\end{enumerate}
+\end{itemize}
 
 \index{stable configuration}
 
@@ -69,7 +69,7 @@ But they are also considered stable, because the total number of live cells does
 
 Most simple starting configurations either die out quickly or reach a stable configuration.
 But there are a few starting conditions that display remarkable complexity.
-One of those is the R-pentomino: it starts with only five cells, runs for 1103 time steps, and ends in a stable configuration with 116 live cells (see \url{https://www.conwaylife.com/wiki/R-pentomino}).
+One of those is the R-pentomino (\url{https://www.conwaylife.com/wiki/R-pentomino}), which starts with only five cells, runs for 1,103 time steps, and ends in a stable configuration with 116 live cells.
 
 In the following sections, we'll implement the Game of Life in Java.
 We'll first implement the cells, then the grid of cells, and finally the game itself.
@@ -100,7 +100,7 @@ Once the cell is created, we don't want it to move or change size.
 But \java{state} can and should change, so it is not a constant.
 
 The next step is to write a constructor.
-Here's one that takes \java{x}, \java{y}, and \java{size} as parameters, and sets {\tt state} to a default value.
+Here's one that takes \java{x}, \java{y}, and \java{size} as parameters, and sets {\tt state} to a default value:
 
 \begin{code}
 public Cell(int x, int y, int size) {
@@ -119,7 +119,7 @@ public Cell(int x, int y, int size) {
 %\end{code}
 
 The following method draws a cell.
-Like the \java{paint} method in Appendix~\ref{graphics}, it takes a graphics context as a parameter.
+Like the \java{paint} method in Appendix~\ref{graphics}, it takes a graphics context as a parameter:
 
 \begin{code}
 public static final Color[] COLORS = {Color.WHITE, Color.BLACK};
@@ -133,7 +133,7 @@ public void draw(Graphics g) {
 \end{code}
 
 The \java{draw} method uses the state of the cell to select a color from an array of \java{Color} objects.
-Then it uses to \java{fillRect} to draw the center of the cell and \java{drawRect} to draw a light gray border.
+Then it uses to \java{fillRect} to draw the center of the cell and \java{drawRect} to draw a light-gray border.
 
 We also need methods to get and set the cell's state.
 We could just provide \java{getState} and \java{setState}, but the code will be more readable if we provide methods customized for the Game of Life:
@@ -165,7 +165,7 @@ public void turnOn() {
 \index{multidimensional array}
 
 To represent a grid of cells, we can use a {\bf multidimensional array}.
-To create a two-dimensional (2D) array, we specify the number of rows and columns:
+To create a 2D array, we specify the number of rows and columns:
 
 \begin{code}
 int rows = 4;
@@ -173,7 +173,7 @@ int cols = 3;
 Cell[][] array = new Cell[rows][cols];
 \end{code}
 
-The result is an array with 4 rows and 3 columns.
+The result is an array with four rows and three columns.
 Initially, the elements of the array are \java{null}.
 We can fill the array with \java{Cell} objects like this:
 
@@ -188,7 +188,7 @@ for (int r = 0; r < rows; r++) {
 \end{code}
 
 The loop variables \java{r} and \java{c} are the row and column indexes of the cells.
-The variables \java{x} and \java{y} are the coordinates.
+The variables \java{x} and \java{y} are the coordinates, respectively.
 For example, if \java{size} is 10 pixels, the cell at index (1, 2) would be at coordinates (10, 20) on the screen.
 
 In Java, a 2D array is really an array of arrays.
@@ -207,7 +207,7 @@ Figure~\ref{fig:2D-array} shows what it looks like.
 
 %\java{array} is an array of references that refer to arrays of \java{Cell} objects.
 When we write \java{array[r][c]}, Java uses the first index to select a row and the second index to select an element from the row.
-This way of representing two-dimensional data is know as {\bf row-major order}.
+This way of representing 2D data is known as {\bf row-major order}.
 
 
 \section{The GridCanvas Class}
@@ -239,7 +239,7 @@ public class GridCanvas extends Canvas {
 \index{HAS-A}
 \index{Graphics}
 
-Using vocabulary from the previous chapter, \java{GridCanvas} ``is~a'' \java{Canvas} that ``has~a'' two-dimensional array of cells.
+Using vocabulary from the previous chapter, \java{GridCanvas} ``is~a'' \java{Canvas} that ``has~a'' 2D array of cells.
 By extending the \java{Canvas} class from \java{java.awt}, we inherit methods for drawing graphics on the screen.
 
 In fact, the code is surprisingly straightforward: to draw the grid, we simply draw each cell.
@@ -260,10 +260,10 @@ You can almost read this method in English: ``For each \java{row} in the \java{a
 Each cell contains its coordinates and size, so it knows how to draw itself.
 
 Classes that extend \java{Canvas} are supposed to provide a method called \java{paint} that ``paints'' the contents of the \java{Canvas}.
-It gets invoked when the \java{Canvas} is created and anytime it needs to be redrawn, for example, when its window is moved or resized.
+It gets invoked when the \java{Canvas} is created and anytime it needs to be redrawn; for example, when its window is moved or resized.
 
 Here's the \java{paint} method for \java{GridCanvas}.
-When the window management system calls \java{paint}, \java{paint} calls \java{draw}, which draws the cells.
+When the window management system calls \java{paint}, \java{paint} calls \java{draw}, which draws the cells:
 
 \begin{code}
 public void paint(Graphics g) {
@@ -291,7 +291,7 @@ public int numCols() {
 Because we are using row-major order, the 2D array is an array of rows.
 \java{numRows} simply returns the length of the rows array.
 \java{numCols} returns the length of the first row, which is the number of columns.
-Since the rows all have the same length, we only have to check one.
+Since the rows all have the same length, we have to check only one.
 
 \java{GridCanvas} also provides a method that gets the \java{Cell} at a given location, and for convenience when starting the game, a method that turns on the \java{Cell} at a given location.
 
@@ -314,7 +314,7 @@ To encapsulate the rules of GoL, we define a class named \java{Conway}.
 The \java{Conway} class ``has~a'' \java{GridCanvas} that represents the state of the game.
 
 This constructor makes a \java{GridCanvas} with 5 rows and 10 columns, with cells that are 20 pixels wide and high.
-It then sets up the initial conditions.
+It then sets up the initial conditions:
 
 \begin{code}
 public class Conway {
@@ -333,7 +333,7 @@ public class Conway {
 \end{code}
 
 Before we implement the rest of the game, we'll write a \java{main} method that creates a \java{Conway} object and displays it.
-We can use this method to test \java{Cell} and \java{GridCanvas}, and to develop the other methods we need.
+We can use this method to test \java{Cell} and \java{GridCanvas}, and to develop the other methods we need:
 
 \begin{code}
 public static void main(String[] args) {
@@ -399,7 +399,7 @@ The reason we use it here is that \java{repaint} does not require a \java{Graphi
 \index{sleep}
 
 \java{Thread.sleep(500)} causes the program to ``sleep'' for 500 milliseconds, or a half second.
-Otherwise the program would run so fast we would not be able to see the animation.
+Otherwise, the program would run so fast we would not be able to see the animation.
 
 \index{InterruptedException}
 \index{Exception!Interrupted}
@@ -410,8 +410,8 @@ This message means we need to do some exception handling.
 
 \section{Exception Handling}
 
-So far, the only exceptions we have seen are run-time errors like ``array index out of bounds'' and ``null pointer''.
-When one of these exceptions occur, Java displays a message and ends the program.
+So far, the only exceptions you have seen are run-time errors like ``array index out of bounds'' and ``null pointer''.
+When one of these exceptions occurs, Java displays a message and ends the program.
 
 If you don't want the program to end, you can handle exceptions with a \java{try}-\java{catch} statement.
 The syntax is similar to an \java{if}-\java{else} statement, and the logic is, too.
@@ -442,7 +442,7 @@ As an alternative, we could use the catch block to display a customized message,
 For example, if user input causes an exception, we could catch the exception and prompt the user to try again later.
 
 There's more to learn about exception handling.
-You can read about exceptions in the Java tutorials at \url{https://thinkjava.org/exceptions}.
+You can read about exceptions in the Java tutorials (see \url{https://thinkjava.org/exceptions}).
 
 
 \section{Counting Neighbors}
@@ -457,7 +457,7 @@ However, cells on the edges and in the corners have fewer neighbors.
 If we try to count all possible neighbors, we'll go out of bounds.
 %(Normally in the Game of Life, we don't have this problem because the grid size is infinite.
 %But we thought that version might be a bit much for this chapter!)
-The following method uses a \java{try}-\java{catch} statement to deal with these special cases.
+The following method uses a \java{try}-\java{catch} statement to deal with these special cases:
 
 \begin{code}
 public int test(int r, int c) {
@@ -496,15 +496,15 @@ Cells in the corners and along the edges have fewer neighbors.}
 
 The \java{test} method takes a row index, \java{r}, and a column index, \java{c}.
 It tries to look up the \java{Cell} at that location.
-If both of the indexes are in bounds, the \java{Cell} exists.
-In that case, \java{test} returns 1 if the \java{Cell} is on.
-Otherwise, it skips the catch block and returns 0.
+If both indexes are in bounds, the \java{Cell} exists.
+In that case, \java{test} returns \java{1} if the \java{Cell} is on.
+Otherwise, it skips the catch block and returns \java{0}.
 
-If either of the indexes is out of bounds, the array lookup throws an exception, but the catch block ignores it.
-Then \java{test} resumes and returns 0.
+If either index is out of bounds, the array lookup throws an exception, but the catch block ignores it.
+Then \java{test} resumes and returns \java{0}.
 So the non-existent cells around the perimeter are considered to be off.
 
-Now we can use \java{test} to implement \java{countAlive}, which takes a grid location, \java{(r, c)}, and returns the number of live neighbors surrounding that location.
+Now we can use \java{test} to implement \java{countAlive}, which takes a grid location, \java{(r, c)}, and returns the number of live neighbors surrounding that location:
 
 \begin{code}
 private int countAlive(int r, int c) {
@@ -528,7 +528,7 @@ Because \java{test} handles ``out of bounds'' exceptions, \java{countAlive} work
 \label{sec:update}
 
 Now we are ready to write \java{update}, which gets invoked each time through the simulation loop.
-It uses the GoL rules to compute the state of the grid after the next time step.
+It uses the GoL rules to compute the state of the grid after the next time step:
 
 \begin{code}
 public void update() {
@@ -583,7 +583,7 @@ Figure~\ref{fig:countNeigh} illustrates an example.
 In contrast to the \java{draw} method of \java{GridCanvas}, which uses enhanced \java{for} loops, \java{countNeighbors} uses standard \java{for} loops.
 The reason is that, in this example, we need the indexes \java{r} and \java{c} to store the neighbor counts.
 
-\java{updateGrid} uses \java{getCell} to select each \java{Cell} in the grid and \java{updateCell} to do the update.
+\java{updateGrid} uses \java{getCell} to select each \java{Cell} in the grid, and \java{updateCell} to do the update:
 
 \begin{code}
 private void updateGrid(int[][] counts) {
@@ -599,7 +599,7 @@ private void updateGrid(int[][] counts) {
 }
 \end{code}
 
-\java{updateCell} implements the GoL rules: if the cell is alive, it dies if it has fewer than 2 or more than 3 neighbors; if the cell is dead, it comes to life if it has exactly 3.
+\java{updateCell} implements the GoL rules: if the cell is alive, it dies if it has fewer than two or more than three neighbors; if the cell is dead, it comes to life if it has exactly three:
 
 \begin{code}
 private static void updateCell(Cell cell, int count) {
@@ -620,7 +620,7 @@ Notice that \java{updateGrid} and \java{updateCell} are both \java{private}, bec
 
 Now our implementation of the Game of Life is complete.
 We think it's is pretty fun, and we hope you agree.
-But more importantly, this example is meant to demonstrate the use of 2D arrays and an object-oriented design that's a little more substantial than previous chapters.
+But more importantly, this example is meant to demonstrate the use of 2D arrays and an object-oriented design that's a little more substantial than in previous chapters.
 
 %In the exercises at the end of this chapter, you'll have a chance to run the code, test other initial conditions, and explore other games with similar rules.
 
@@ -630,10 +630,10 @@ But more importantly, this example is meant to demonstrate the use of 2D arrays 
 \begin{description}
 
 \term{multidimensional array}
-An array with more than one dimension; two-dimensional arrays are ``arrays of arrays''.
+An array with more than one dimension; a 2D array is an ``array of arrays''.
 
 \term{row-major order}
-Storing data in a two-dimensional array first by rows and then by columns.
+Storing data in a 2D array, first by rows and then by columns.
 
 \end{description}
 
@@ -653,7 +653,7 @@ This method can be used, for example, to track the population in Game of Life ov
 
 \begin{exercise}
 In our version of the Game of Life, the grid has a finite size.
-As a result, moving objects such as gliders either crash into the wall or go out of bounds.
+As a result, moving objects such as Gliders either crash into the wall or go out of bounds.
 
 An interesting variation of the Game of Life is a ``toroidal'' grid, meaning that the cells ``wrap around'' on the edges.
 Modify the \java{test} method of \java{GridCanvas} so that the coordinates \java{r} and \java{c} map to the opposite side of the grid if they are too low or two high.
@@ -675,10 +675,10 @@ You can initialize the Glider by modifying the constructor in the \java{Conway} 
 
 % TODO: Remove the solution from the starter code.
 
-The ``LifeWiki'' \url{https://conwaylife.com/wiki/} has a fascinating collection of patterns for the Game of Life.
-These patterns are stored in a file format that is easy to read, in files with the suffix ``\verb|.cells|''.
+The LifeWiki site (\url{https://conwaylife.com/wiki/}) has a fascinating collection of patterns for the Game of Life.
+These patterns are stored in a file format that is easy to read, in files with the suffix ``.cells''.
 
-For example, here is an \mbox{8 x 10} grid with a glider near the upper-left corner:
+For example, here is an \mbox{8 x 10} grid with a Glider near the upper-left corner:
 
 \begin{stdout}
 !Name: Glider
@@ -694,12 +694,12 @@ For example, here is an \mbox{8 x 10} grid with a glider near the upper-left cor
 
 Lines that begin with \java{!} are comments and should be ignored.
 The rest of the file describes the grid, row by row.
-A period represents a dead cell, and an uppercase O represents a live cell.
+A period represents a dead cell, and an uppercase {\tt O} represents a live cell.
 See \url{https://conwaylife.com/wiki/Plaintext} for more examples.
 
 \begin{enumerate}
 
-\item Create a plain text file with the contents shown above, and save the file as \verb|glider.cells| in the same directory as your code.
+\item Create a plain text file with the contents shown above, and save the file as {\it glider.cells} in the same directory as your code.
 
 % ABD: Should this be a constructor?  I would make it a static method that builds and returns a Conway object, on the principle that constructors generally take parameters that line up with the instance variables, and methods that do substantial work should not be constructors.  But that might be a Pythonic principle that isn't Javai-idiomatic.
 
@@ -713,15 +713,15 @@ public Conway(String path) {
 }
 \end{code}
 
-\item Modify the main method to invoke the constructor as follows:
+\item Modify the \java{main} method to invoke the constructor as follows:
 
 \begin{code}
 Conway game = new Conway("glider.cells");
 \end{code}
 
-\item Handle the \java{FileNotFoundException} that may be thrown when creating a \java{Scanner} for a \java{File} by invoking \java{printStackTrace} on the exception object and calling \java{System.exit()} with a status of 1, indicating an error.
+\item Handle the \java{FileNotFoundException} that may be thrown when creating a \java{Scanner} for a \java{File} by invoking \java{printStackTrace} on the exception object and calling \java{System.exit()} with a status of \java{1}, indicating an error.
 
-\item Continue implementing the constructor by reading all non-comment lines into an \java{ArrayList} using \java{hasNextLine} and \java{nextLine} of the \java{Scanner}.
+\item Continue implementing the constructor by reading all non-comment lines into an \java{ArrayList} via \java{hasNextLine} and \java{nextLine} of the \java{Scanner}.
 
 \item Determine the number of rows and columns of the grid by examining the \java{ArrayList} contents.
 
@@ -736,10 +736,10 @@ You might want to add a margin of empty cells around the initial pattern, to giv
 
 
 \begin{exercise}
-Some files on the LifeWiki use ``Run Length Encoding'' (RLE) instead of plain text.
+Some files on the LifeWiki use ``run-length encoding'' (RLE) instead of plain text.
 The basic idea of RLE is to describe the number of dead and alive cells, rather than type out each individual cell.
 
-For example, \verb|glider.cells| from the previous exercise could be represented this way with RLE:
+For example, {\it glider.cells} from the previous exercise could be represented this way with RLE:
 
 \begin{stdout}
 #C Name: Glider
@@ -751,13 +751,13 @@ The first line specifies \verb|x| (the number of columns) and \verb|y| (the numb
 Subsequent lines consist of the letters \verb|b| (dead), \verb|o| (alive), and \verb|$| (end of line), optionally preceded by a count.
 The pattern ends with \verb|!|, after which any remaining file contents are ignored.
 
-Lines beginning with \java{#} have special meaning and are not part of the pattern.
-For example, \java{#C} is a comment line.
+Lines beginning with \verb|#| have special meaning and are not part of the pattern.
+For example, \verb|#C| is a comment line.
 You can read more about RLE format on \url{https://conwaylife.com/wiki/RLE}.
 
 \begin{enumerate}
 
-\item Create a plain text file with the contents shown above, and save the file as \verb|glider.rle| in the same directory as your code.
+\item Create a plain text file with the preceding contents, and save the file as {\it glider.rle} in the same directory as your code.
 
 %ABD: As in the previous exercise, should this be a constructor?  And either way, should it be a separate method, or modify the other method to read both formats?
 
