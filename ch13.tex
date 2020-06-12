@@ -111,10 +111,10 @@ deck.print();
 \index{shuffle}
 
 For most card games, you have to shuffle the deck; that is, put the cards in a random order.
-In Section~\ref{random} we saw how to generate random numbers, but it is not obvious how to use them to shuffle a deck.
+In Section~\ref{random} you saw how to generate random numbers, but it is not obvious how to use them to shuffle a deck.
 
-One possibility is to model the way humans shuffle; for example, we could divide the deck in two halves and then choosing alternately from each one.
-Since humans usually don't shuffle perfectly, after about seven iterations the order of the deck is pretty well randomized.
+One possibility is to model the way humans shuffle; for example, we could divide the deck in two halves and then choose alternately from each one.
+Humans usually don't shuffle perfectly, so after about seven iterations, the order of the deck is pretty well randomized.
 
 But a computer program would have the annoying property of doing a perfect shuffle every time, which is not very random.
 In fact, after eight perfect shuffles, you would find the deck back in the order you started in!
@@ -124,7 +124,7 @@ For more on this, see \url{https://en.wikipedia.org/wiki/Faro_shuffle}.
 
 A better shuffling algorithm is to traverse the deck one card at a time, and at each iteration, choose two cards and swap them.
 To outline this algorithm, we'll use a combination of Java statements and English comments.
-This technique is sometimes called {\bf pseudocode}.
+This technique is sometimes called {\bf pseudocode}:
 
 \index{shuffle}
 
@@ -141,7 +141,7 @@ public void shuffle() {
 \index{method!helper}
 
 The nice thing about pseudocode is that it often makes clear what other methods you are going to need.
-In this case, we need a method that chooses a random integer in a given range and a method that takes two indexes and swaps the cards at those positions.
+In this case, we need a method that chooses a random integer in a given range and a method that takes two indexes and swaps the cards at those positions:
 
 \begin{code}
 private static int randomInt(int low, int high) {
@@ -158,7 +158,7 @@ private void swapCards(int i, int j) {
 \index{swapCards}
 
 Methods like \java{randomInt} and \java{swapCards} are called {\bf helper methods}, because they help you solve parts of the problem.
-Helper methods are often \java{private}, because they are only used by methods in the class, and are not needed by methods in other classes.
+Helper methods are often \java{private}, because they are used only by methods in the class and are not needed by methods in other classes.
 
 \index{top-down design}
 \index{design process}
@@ -182,7 +182,7 @@ Now that we have shuffled the deck, we need a way to put it back in order.
 There is an algorithm for sorting that is ironically similar to the algorithm for shuffling.
 It's called {\bf selection sort}, because it works by traversing the array repeatedly and selecting the lowest (or highest) remaining card each time.
 
-During the first iteration, we find the lowest card and swap it with the card in the 0th position.
+During the first iteration, we find the lowest card and swap it with the card in the zeroth position.
 During the $i$th iteration, we find the lowest card to the right of $i$ and swap it with the $i$th card.
 Here is pseudocode for selection sort:
 
@@ -196,7 +196,7 @@ public void selectionSort() {
 \end{code}
 
 Again, the pseudocode helps with the design of the helper methods.
-For this algorithm we can reuse \java{swapCards} from the previous section, so we only need a method to find the lowest card; we'll call it \java{indexLowest}.
+For this algorithm, we can reuse \java{swapCards} from the previous section, so we need only a method to find the lowest card; we'll call it \java{indexLowest}:
 
 \begin{code}
 private int indexLowest(int low, int high) {
@@ -254,7 +254,7 @@ In the next few sections, we'll explain how to implement this algorithm in Java.
 \label{subdeck}
 
 The first step of merge sort is to split the deck into two ``subdecks'', each with about half of the cards.
-So we need a method that takes a deck, and a range of indexes, and returns a new deck that contains the specified subset of cards.
+So we need a method that takes a deck, and a range of indexes, and returns a new deck that contains the specified subset of cards:
 
 \begin{code}
 public Deck subdeck(int low, int high) {
@@ -355,13 +355,12 @@ We can make it more efficient if we use \java{mergeSort} instead, but that means
 
 \section{Adding Recursion}
 
-To make \java{mergeSort} work recursively, you have to add a base case; otherwise it repeats forever.
-
-The simplest base case is a subdeck with 1 cards.
+To make \java{mergeSort} work recursively, you have to add a base case; otherwise, it repeats forever.
+The simplest base case is a subdeck with one card.
 If there is only one card, it can't be out of order, so we consider it sorted.
 And if it is already sorted, we can just return it.
 
-And it will turn out to be convenient if we handle another base case, a subdeck with 0 cards.
+And it will turn out to be convenient if we handle another base case, a subdeck with zero cards.
 By the same logic, if there are no cards, they can't be out of order.
 So we consider an empty deck to be sorted, and return it.
 
@@ -391,8 +390,7 @@ Well, almost.
 You have to think about the base cases and make sure that you reach them.
 But other than that, writing the recursive version should be no problem.
 %The most difficult part of merge sort is the \java{merge} method, and that part is not recursive.
-
-As an exercise at the end of this chapter, you'll have a chance to finish it off.
+As an exercise at the end of this chapter, you'll have a chance to finish off this example.
 
 
 \section{Static Context}
@@ -426,7 +424,7 @@ deck.print();  // correct
 
 \java{Deck} with a capital \java{D} is a class, and \java{deck} with a lowercase \java{d} is an object.
 
-If you try to invoke \java{print} like this:
+Say you try to invoke \java{print} like this:
 
 \begin{code}
 Deck.print();  // wrong!
@@ -438,7 +436,7 @@ Deck.print();  // wrong!
 \index{static context}
 \index{this}
 
-You get an compiler error like this:
+You get a compiler error like this:
 
 \begin{stdout}
 Non-static method print() cannot be referenced from a
@@ -457,7 +455,7 @@ int i = deck.randomInt(0, 51);  // legal, but not good style
 This is legal, but it is not considered good style, because someone reading this code would expect \java{randomInt} to be an instance method.
 
 Another common error is to use \java{this} in a static method.
-For example, if you write something like this:
+For example, say you write something like this:
 
 \begin{code}
 private static Deck merge(Deck d1, Deck d2) {
@@ -472,7 +470,7 @@ Non-static variable this cannot be referenced from a
 static context.
 \end{stdout}
 
-The problem is that \java{cards} is an instance variable, so it is ``non-static'', so you can't access it from a static method.
+The problem is that \java{cards} is an instance variable, so it is {\em non-static}; therefore, you can't access it from a static method.
 In general, you can't use \java{this} in a static method, because a static method is not invoked on an object.
 
 For beginners, error messages about non-static context can be confusing and frustrating.
@@ -501,7 +499,7 @@ One of the simplest card games that children play is called ``War'' (see \url{ht
 
 Initially, the deck is divided evenly into two piles, one for each player.
 During each round, each player takes the top card from their pile and places it, face up, in the center.
-Whoever has the highest ranking card, ignoring suit, takes the two cards and adds them to the bottom of their pile.
+Whoever has the highest-ranking card, ignoring suit, takes the two cards and adds them to the bottom of their pile.
 The game continues until one player has won the entire deck.
 
 We could use the \java{Deck} class to represent the individual piles.
@@ -522,7 +520,7 @@ It provides methods to add and remove elements, and it grows and shrinks automat
 \index{class!Pile}
 
 We define a new class named \java{Pile} to represent a pile of cards.
-It uses an \java{ArrayList} to store \java{Card} objects.
+It uses an \java{ArrayList} to store \java{Card} objects:
 
 \begin{code}
 public class Pile {
@@ -540,14 +538,12 @@ public class Pile {
 
 When you declare an \java{ArrayList}, you specify the type it contains in angle brackets (\java{<>}).
 This declaration says that \java{cards} is not just an \java{ArrayList}; it's an \java{ArrayList} of \java{Card} objects.
-
 The constructor initializes \java{this.cards} with an empty \java{ArrayList}.
 
 %Java collections can only store objects, not primitives like \java{int}.
 %But you can use wrapper classes, for example \java{ArrayList<Integer>}.
 
 Now let's think about the methods we need to play the game.
-
 At the beginning of each round, each player draws a card from the top of their pile.
 So we define a method to do that:
 
@@ -560,7 +556,6 @@ public Card popCard() {
 \end{code}
 
 \java{popCard} removes the \java{Card} at the beginning of the \java{ArrayList}, which we think of as the top of the pile.
-
 Because we use \java{ArrayList.remove}, it automatically shifts the remaining cards to fill the gap.
 
 At the end of each round, the winner adds cards to the bottom of their pile.
@@ -574,7 +569,7 @@ public void addCard(Card card) {
 
 \java{ArrayList} provides a method, \java{add}, that adds an element to the end of the collection, which we think of as the bottom of the pile.
 
-To know when to stop the game, have to check if one of the piles is empty.
+To know when to stop the game, we have to check if one of the piles is empty.
 Here's a method to do that:
 
 \begin{code}
@@ -631,7 +626,7 @@ p2.addDeck(deck.subdeck(26, 51));
 \end{code}
 
 The game itself is a loop that repeats until one of the piles is empty.
-At each iteration, we draw a card from each pile and compare their ranks.
+At each iteration, we draw a card from each pile and compare their ranks:
 
 \begin{code}
 while (!p1.isEmpty() && !p2.isEmpty()) {
@@ -659,7 +654,7 @@ If there's another tie, they draw another four cards, and so on.
 
 One of the exercises at the end of this chapter asks you to implement the \java{else} block when there's a tie.
 
-After the \java{while} loop ends, we display the winner based on which pile is not empty.
+After the \java{while} loop ends, we display the winner based on which pile is not empty:
 
 \begin{code}
 if (p2.isEmpty()) {
@@ -745,13 +740,13 @@ The goal of this exercise is to implement the shuffling algorithm from this chap
 Check that you can compile it in your environment.
 
 \item Implement the \java{randomInt} method.
-You can use the \java{nextInt} method provided by \java{java.util.Random}, which we saw in Section~\ref{random}.
+You can use the \java{nextInt} method provided by \java{java.util.Random}, which you saw in Section~\ref{random}.
 
 {\em Hint:} To avoid creating a \java{Random} object every time \java{randomInt} is invoked, consider defining a class variable.
 
 \item Write a \java{swapCards} method that takes two indexes and swaps the cards at the given locations.
 
-\item Fill in the \java{shuffle} method using the algorithm in Section~\ref{shuffle}.
+\item Fill in the \java{shuffle} method by using the algorithm in Section~\ref{shuffle}.
 
 \end{enumerate}
 
@@ -761,7 +756,7 @@ You can use the \java{nextInt} method provided by \java{java.util.Random}, which
 \begin{exercise}  %%V6 Ex13.3
 
 The goal of this exercise is to implement the sorting algorithms from this chapter.
-Use the {\it Deck.java} file from the previous exercise, or create a new one from scratch.
+Use the {\it Deck.java} file from the previous exercise or create a new one from scratch.
 
 % TODO: Again, we could provide clearer instructions for setting up the exercises.
 
@@ -770,7 +765,7 @@ Use the {\it Deck.java} file from the previous exercise, or create a new one fro
 \item Implement the \java{indexLowest} method.
 Use the \java{Card.compareTo} method to find the lowest card in a given range of the deck, from \java{lowIndex} to \java{highIndex}, including both.
 
-\item Fill in \java{selectionSort} using the algorithm in Section~\ref{sorting}.
+\item Fill in \java{selectionSort} by using the algorithm in Section~\ref{sorting}.
 
 \item Using the pseudocode in Section~\ref{mergesort}, implement the \java{merge} method.
 The best way to test it is to build and shuffle a deck.
@@ -832,7 +827,7 @@ Whoever wins the tie takes all ten of these cards.
 If one pile does not have at least four cards, the game ends immediately.
 If a tie ends with a tie, draw three more cards, and so on.
 
-Notice that this program depends on \java{Deck.shuffle} so you might have to do Exercise~\ref{ex.shuffle} first.
+Notice that this program depends on \java{Deck.shuffle}, so you might have to do Exercise~\ref{ex.shuffle} first.
 
 \end{exercise}
 
