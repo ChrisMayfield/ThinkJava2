@@ -24,7 +24,7 @@ In this chapter, we present a solution to Langton's Ant and use it to demonstrat
 \section{Langton's Ant}
 
 We begin by defining a \java{Langton} class that has a grid and information about the ant.
-The constructor takes the grid dimensions as parameters.
+The constructor takes the grid dimensions as parameters:
 
 \begin{code}
 public class Langton {
@@ -43,10 +43,10 @@ public class Langton {
 \end{code}
 
 \java{grid} is a \java{GridCanvas} object, which represents the state of the cells.
-\java{xpos} and \java{ypos} are the coordinates of the ant, and \java{head} is the ``heading'' of the ant, that is, what direction it is facing.
-\java{head} is an integer with four possible values, where 0 means the ant is facing ``north'', that is, toward the top of the screen, 1 means ``east'', etc.
+\java{xpos} and \java{ypos} are the coordinates of the ant, and \java{head} is the ``heading'' of the ant; that is, which direction it is facing.
+\java{head} is an integer with four possible values, where \java{0} means the ant is facing ``north'' (i.e., toward the top of the screen), \java{1} means ``east'', etc.
 
-Here's an \java{update} method that implements the rules for Langton's ant:
+Here's an \java{update} method that implements the rules for Langton's Ant:
 
 \begin{code}
 public void update() {
@@ -55,7 +55,7 @@ public void update() {
 }
 \end{code}
 
-The \java{flipCell} method gets the \java{Cell} at the ant's location, figures out which way to turn, and changes the state of the cell.
+The \java{flipCell} method gets the \java{Cell} at the ant's location, figures out which way to turn, and changes the state of the cell:
 
 \begin{code}
 private void flipCell() {
@@ -76,7 +76,7 @@ Notice that to turn right, we add 1 to \java{head}.
 To turn left, we could subtract 1, but \verb"-1 % 4" is \verb"-1" in Java.
 So we add 3 instead, since one left turn is the same as three right turns.
 
-The \java{moveAnt} method moves the ant forward one square, using \java{head} to determine which way is forward.
+The \java{moveAnt} method moves the ant forward one square, using \java{head} to determine which way is forward:
 
 \begin{code}
 private void moveAnt() {
@@ -121,10 +121,10 @@ However, we now have two copies of the \java{main} method---one on \java{Conway}
 \section{Refactoring}
 
 Whenever you see repeated code like \java{main}, you should think about ways to remove it.
-In the Chapter~\ref{eights}, we used inheritance to eliminate repeated code.
+In Chapter~\ref{eights}, we used inheritance to eliminate repeated code.
 We'll do something similar with \java{Conway} and \java{Langton}.
 
-First, we define a superclass named \java{Automaton} where we will put the code that \java{Conway} and \java{Langton} have in common.
+First, we define a superclass named \java{Automaton}, in which we will put the code that \java{Conway} and \java{Langton} have in common:
 
 \begin{code}
 public class Automaton {
@@ -145,7 +145,7 @@ public class Automaton {
 \java{Automaton} declares \java{grid} as an instance variable, so every \java{Automaton} ``has~a'' \java{GridCanvas}.
 It also provides \java{run}, which contains the code that creates and configures the \java{JFrame}.
 
-The \java{run} method takes two parameters: the window \java{title} and the frame \java{rate}, that is, the number of time steps to show per second.
+The \java{run} method takes two parameters: the window \java{title} and the frame \java{rate}; that is, the number of time steps to show per second.
 It uses \java{title} when creating the \java{JFrame}, and it passes \java{rate} to \java{mainloop}:
 
 \begin{code}
@@ -166,7 +166,7 @@ private void mainloop(int rate) {
 }
 \end{code}
 
-\java{mainloop} contains the code we first saw in Section~\ref{mainloop}.
+\java{mainloop} contains the code you first saw in Section~\ref{mainloop}.
 It runs a \java{while} loop forever (or until the window closes).
 Each time through the loop, it runs \java{update} to update \java{grid} and then \java{repaint} to redraw the grid.
 
@@ -181,10 +181,10 @@ We're almost finished; we just need to redesign \java{Conway} and \java{Langton}
 
 \section{Abstract Classes}
 
-So far the implementation works, and if we are not planning to implement any other zero-person games, we could leave well enough alone.
+So far, the implementation works, and if we are not planning to implement any other zero-person games, we could leave well enough alone.
 But there are a few problems with the current design:
 
-\begin{enumerate}
+\begin{itemize}
 
 \item The \java{grid} attribute is \java{private}, making it inaccessible in \java{Conway} and \java{Langton}.
 We could make it \java{public}, but then other (unrelated) classes would have access to it as well.
@@ -194,14 +194,14 @@ We could make it \java{public}, but then other (unrelated) classes would have ac
 \item The \java{Automaton} class does not provide an implementation of \java{update}.
 In order to work properly, subclasses need to provide one.
 
-\end{enumerate}
+\end{itemize}
 
 \index{protected}
 \index{abstract}
 
 Java provides language features to solve these problems:
 
-\begin{enumerate}
+\begin{itemize}
 
 \item We can make the \java{grid} attribute \java{protected}, which means it's accessible to subclasses but not other classes.
 
@@ -210,7 +210,8 @@ If you attempt to create an object for an abstract class, you will get a compile
 
 \item We can declare \java{update} as an \java{abstract} method, meaning that it must be overridden in subclasses.
 If the subclass does not override an abstract method, you will get a compiler error.
-\end{enumerate}
+
+\end{itemize}
 
 Here's what \java{Automaton} looks like as an abstract class:
 
@@ -263,7 +264,7 @@ But they also provide attributes and methods to be inherited, thus eliminating r
 
 \section{UML Diagram}
 
-At the beginning of the chapter, with had three classes: \java{Cell}, \java{GridCanvas}, and \java{Conway}.
+At the beginning of the chapter, we had three classes: \java{Cell}, \java{GridCanvas}, and \java{Conway}.
 We then developed \java{Langton}, which had almost the same \java{main} method as \java{Conway}.
 So we refactored the code and created \java{Automaton}.
 Figure~\ref{fig:uml2} summarizes the final design.
@@ -279,13 +280,18 @@ Figure~\ref{fig:uml2} summarizes the final design.
 \index{IS-A}
 \index{HAS-A}
 
-The diagram shows three examples of inheritance: \java{Conway} is an \java{Automaton}, \java{Langton} is an \java{Automaton}, and \java{GridCanvas} is a Canvas.
+The diagram shows three examples of inheritance: \java{Conway} is an \java{Automaton}, \java{Langton} is an \java{Automaton}, and \java{GridCanvas} is a \java{Canvas}.
 It also shows two examples of composition: \java{Automaton} has a \java{GridCanvas}, and \java{GridCanvas} has a 2D array of \java{Cell}s.
 
 The diagram also shows that \java{Automaton} uses \java{JFrame}, \java{GridCanvas} uses \java{Graphics}, and \java{Cell} uses \java{Graphics} and \java{Color}.
 
 \java{Automaton} is in italics to indicate that it is an abstract class.
 As it happens, \java{Graphics} is an abstract class, too.
+
+\index{concrete class}
+
+Conway and Langton are {\bf concrete classes}, because they provide an implementation for all of their methods.
+In particular, they implement the \java{update} method that was declared \java{abstract} in \java{Automaton}.
 
 %According to the documentation, its design ``allows an application to draw onto components that are realized on various devices, as well as onto off-screen images.''
 %That's the beauty of abstraction; our code works regardless how and where it's drawn.
@@ -299,7 +305,7 @@ UML class diagrams can help.
 \begin{description}
 
 \term{refactor}
-The process of restructuring or reorganizing existing code without changing its behavior.
+To restructure or reorganize existing source code without changing its behavior.
 
 \term{abstract class}
 A class that is declared as \java{abstract}; it cannot be instantiated, and it may (or may not) include abstract methods.
@@ -326,7 +332,8 @@ Now it's your turn: rewrite \java{Langton} as a subclass of \java{Automaton}, re
 
 \begin{exercise}
 
-Mathematically speaking, Game of Life and Langton's Ant are cellular automata, where ``cellular'' means it has cells, and ``automaton'' means it runs itself.
+Mathematically speaking, Game of Life and Langton's Ant are {\em cellular automata}.
+``Cellular'' means it has cells, and ``automaton'' means it runs itself.
 See \url{https://en.wikipedia.org/wiki/Cellular_automaton} for more discussion.
 
 Implement another cellular automaton of your choice.
