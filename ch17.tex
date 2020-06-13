@@ -15,7 +15,7 @@ When designing \java{GridCanvas} to represent a grid of cells, we extended \java
 This design is an example of {\bf specialization}.
 Using the code provided by \java{Canvas}, we created a specialized subclass with minimal additional code.
 
-We didn't write the code for \java{Canvas}; it's part of the Java Library.
+We didn't write the code for \java{Canvas}; it's part of the Java library.
 But we were able to customize it for our own purposes.
 In fact, the \java{Canvas} class was explicitly designed to be extended.
 
@@ -25,11 +25,11 @@ We'll continue to develop graphical simulations as a running example, but this t
 
 \section{Polygon Objects}
 
-The word polygon means ``many angles''; the most basic polygons are triangles (3 angles), rectangles (4 angles), pentagons (5 angles), and so forth.
+The word polygon means ``many angles''; the most basic polygons are triangles (three angles), rectangles (four angles), pentagons (five angles), and so forth.
 Polygons are an important part of computer graphics because they are used to compose more complex images.
 
 Java provides a \java{Polygon} class (in \java{java.awt}) that we can use to represent and draw polygons.
-The following code creates an empty \java{Polygon} and adds three points, forming a triangle.
+The following code creates an empty \java{Polygon} and adds three points, forming a triangle:
 
 \begin{code}
 Polygon p = new Polygon();
@@ -50,7 +50,7 @@ Internally, \java{Polygon} objects have three attributes:
 
 \end{itemize}
 
-When a \java{Polygon} is created, \java{npoints} is 0 and the two arrays are initialized with length 4.
+When a \java{Polygon} is created, \java{npoints} is \java{0} and the two arrays are initialized with length 4.
 As points are added, \java{npoints} is incremented.
 If \java{npoints} exceeds the length of the arrays, larger arrays are created, and the previous values are copied over (similar to how \java{ArrayList} works).
 
@@ -101,10 +101,10 @@ p.color = Color.GREEN;
 
 \section{Regular Polygons}
 
-A ``regular'' polygon has all sides the same length and all angles equal in measure.
+A ``regular polygon'' has all sides the same length and all angles equal in measure.
 Regular polygons are a special case of polygons, so we will use specialization to define a class for them.
 
-We could extend the \java{Polygon} class, like we did in the previous section.
+We could extend the \java{Polygon} class, as we did in the previous section.
 But then we would not have the \java{Color} functionality we just added.
 So we will make \java{RegularPolygon} extend \java{DrawablePolygon}.
 
@@ -171,7 +171,7 @@ This constructor initializes all four \java{DrawablePolygon} attributes, so it d
 
 It initializes \java{xpoints} and \java{ypoints} by creating arrays of integer coordinates.
 Inside the \java{for} loop, it uses \java{Math.sin} and \java{Math.cos} (see Section~\ref{mathmeth}) to compute the coordinates of the vertices as floating-point numbers.
-Then it rounds them off to integers, and stores them in the arrays.
+Then it rounds them off to integers and stores them in the arrays.
 
 When we construct a \java{RegularPolygon}, the vertices are centered at the point $(0, 0)$.
 If we want the center of the polygon to be somewhere else, we can use \java{translate}, which we inherit from \java{Polygon}:
@@ -181,7 +181,7 @@ RegularPolygon rp = new RegularPolygon(6, 50, Color.BLUE);
 rp.translate(100, 100);
 \end{code}
 
-The result is a 6-sided polygon with radius 50 centered at the point $(100, 100)$.
+The result is a six-sided polygon with radius 50 centered at the point $(100, 100)$.
 
 % TODO suggestion from Marc Loy:
 % Maybe a screenshot of a this exact polygon on a 200x200 canvas
@@ -218,7 +218,7 @@ RegularPolygon rp = new RegularPolygon(6);
 \end{code}
 
 Because we provide only one integer argument, Java calls the third constructor, which calls the second one, which calls the first one.
-The result is a \java{RegularPolygon} with the specified value of \java{nsides}, 6, the default value of \java{radius}, 50, and the default color, \java{GRAY}.
+The result is a \java{RegularPolygon} with the specified value of \java{nsides}, \java{6}, the default value of \java{radius}, \java{50}, and the default color, \java{GRAY}.
 
 When writing constructors, it's a good idea to validate the values you get as arguments.
 Doing so prevents run-time errors later in the program, which makes the code easier to debug.
@@ -337,7 +337,7 @@ The second block of code translates the polygons to different locations.
 The third block of code creates the \java{Drawing} and adds the polygons to it.
 And the fourth block of code creates a \java{JFrame}, adds the \java{Drawing} to it, and displays the result.
 
-Most of these pieces should be familiar, but there is one part of this program that might surprise you.
+Most of these pieces should be familiar, but one part of this program might surprise you.
 When we create the \java{RegularPolygon} objects, we assign them to \java{DrawablePolygon} variables.
 %, and then pass them to \java{Drawing.add}, which requires \java{DrawablePolygon} objects.
 It might not be obvious why that's legal.
@@ -350,7 +350,7 @@ The parameter of \java{Drawing.add} has to be a \java{DrawablePolygon}, but it c
 \index{polymorphism}
 
 This design is an example of {\bf polymorphism}, a fancy word that means ``having many forms''.
-\java{Drawing.add} is polymorphic method, because the parameter can be one of many types.
+\java{Drawing.add} is a polymorphic method, because the parameter can be one of many types.
 And the \java{ArrayList} in \java{Drawing} is a polymorphic data structure, because the elements can be different types.
 
 %At compile-time, \java{p1} is treated like a \java{DrawablePolygon}.
@@ -367,7 +367,7 @@ And the \java{ArrayList} in \java{Drawing} is a polymorphic data structure, beca
 
 At this point, we have a simple program that draws polygons; we can make it more fun by adding animation.
 Chapter~\ref{conway} introduced the idea of simulating time steps.
-Here's a loop that runs the animation.
+Here's a loop that runs the animation:
 
 \begin{code}
 while (true) {
@@ -397,7 +397,7 @@ public void step() {
 It invokes \java{step} on each \java{DrawablePolygon} in the list and then repaints (clears and redraws) the canvas.
 
 In order for this code to compile, we need \java{DrawablePolygon} to provide a \java{step} method.
-Here's a version that doesn't do anything; we'll override it in subclasses.
+Here's a version that doesn't do anything; we'll override it in subclasses:
 
 \begin{code}
 public void step() {
@@ -406,7 +406,7 @@ public void step() {
 \end{code}
 
 Now let's design a new type of polygon that blinks.
-We'll define a class named \java{BlinkingPolygon} that extends \java{RegularPolygon} and adds two more attributes: \java{visible}, which indicates whether the polygon is visible, and \java{count}, which counts the number of time steps since the last blink.
+We'll define a class named \java{BlinkingPolygon} that extends \java{RegularPolygon} and adds two more attributes: \java{visible}, which indicates whether the polygon is visible, and \java{count}, which counts the number of time steps since the last blink:
 
 \begin{code}
 public class BlinkingPolygon extends RegularPolygon {
@@ -437,7 +437,7 @@ public class BlinkingPolygon extends RegularPolygon {
 
 The constructor uses \java{super} to call the \java{RegularPolygon} constructor.
 Then it initializes \java{visible} and \java{count}.
-Initially the \java{BlinkingPolygon} is visible.
+Initially, the \java{BlinkingPolygon} is visible.
 
 The \java{draw} method draws the polygon only if it is visible.
 It uses \java{super} to call \java{draw} in the parent class.
@@ -480,7 +480,7 @@ public class Actor {
 
 \end{enumerate}
 
-There's just one problem: \java{DrawablePolygon} already extends \java{Polygon}, and classes can only extend one superclass.
+There's just one problem: \java{DrawablePolygon} already extends \java{Polygon}, and classes can extend only one superclass.
 Also, the \java{Actor} class seems pointless, since the methods it defines don't do anything.
 
 \index{inheritance}
@@ -508,7 +508,7 @@ So there is no need to declare them as \java{public}.
 
 To inherit from an interface, you use the keyword \java{implements} instead of \java{extends}.
 Here's a version of \java{DrawablePolygon} that extends \java{Polygon} and implements \java{Actor}.
-So it inherits methods from \java{Polygon}, and it is required to provide the methods in \java{Actor}, namely \java{step} and \java{draw}.
+So it inherits methods from \java{Polygon}, and it is required to provide the methods in \java{Actor}; namely \java{step} and \java{draw}:
 
 \begin{code}
 public class DrawablePolygon extends Polygon implements Actor {
@@ -524,7 +524,7 @@ Polygon p1 = new DrawablePolygon();
 Actor a2 = new DrawablePolygon();
 \end{code}
 
-And the same is true for subclasses of \java{DrawablePolygon}; these assignments are legal, too:
+And the same is true for subclasses of \java{DrawablePolygon}; these assignments are legal too:
 
 \begin{code}
 Polygon p2 = new RegularPolygon(5, 50, Color.YELLOW);
@@ -540,7 +540,7 @@ And similarly with \java{p1} and \java{p2}.
 % But each of them provides the \java{draw} and \java{step} methods specified in the \java{Actor} interface.
 
 Classes may extend only one superclass, but they may implement as many interfaces as needed.
-Java Library classes often implement multiple interfaces.
+Java library classes often implement multiple interfaces.
 
 
 \section{Event Listeners}
@@ -549,7 +549,7 @@ Java Library classes often implement multiple interfaces.
 
 Now that our \java{Drawing} is based on \java{Actor} instead of \java{DrawablePolygon}, we can draw other types of graphics.
 Here is the beginning of a class that reads an image from a file and shows the image moving across the canvas.
-The class is called \java{Sprite} because a moving image is sometimes called a {\bf sprite}, in the context of computer graphics.
+The class is called \java{Sprite} because a moving image is sometimes called a {\bf sprite}, in the context of computer graphics:
 
 \begin{code}
 public class Sprite implements Actor, KeyListener {
@@ -598,19 +598,19 @@ The \java{step} method changes the position based on \java{dx} and \java{dy}, wh
 \java{KeyListener} is an interface for receiving keyboard events, which means we can detect and respond to key presses.
 A class that implements \java{KeyListener} has to provide the following methods:
 
-\begin{itemize}
+\begin{description}
 
-\item \java{void keyPressed(KeyEvent e);}
+\item \java{void keyPressed(KeyEvent e)}
 \\ Invoked when a key has been ``pressed''.
 This method is invoked repeatedly while a key is being held down.
 
-\item \java{void keyReleased(KeyEvent e);}
+\item \java{void keyReleased(KeyEvent e)}
 \\ Invoked when a key has been ``released'', meaning it is no longer down.
 
-\item \java{void keyTyped(KeyEvent e);}
+\item \java{void keyTyped(KeyEvent e)}
 \\ Invoked when a key has been ``typed'', which generally means it has been both pressed and released.
 
-\end{itemize}
+\end{description}
 
 These methods get invoked when the user presses and releases {\em any} key.
 They take a \java{KeyEvent} object as a parameter, which specifies which key was pressed, released, or typed.
@@ -644,7 +644,7 @@ public void keyPressed(KeyEvent e) {
 The values of \java{dx} and \java{dy} determine how much the sprite moves each time \java{step} is invoked.
 While the user holds down an arrow key, the sprite will move at a constant speed.
 
-Here's an implementation of \java{keyReleased} that runs when the user releases the key.
+Here's an implementation of \java{keyReleased} that runs when the user releases the key:
 
 \begin{code}
 public void keyReleased(KeyEvent e) {
@@ -687,8 +687,8 @@ It adds an \java{Actor} to the list of objects to be drawn.
 The \java{addKeyListener} method is inherited from \java{Canvas}.
 It adds a \java{KeyListener} to the list of objects that will receive key events.
 
-In graphical applications, key events are only sent to components when they have the keyboard focus.
-The \java{setFocusable} method ensures that \java{drawing} will be have the focus initially, without the user having to click on it first.
+In graphical applications, key events are sent to components only when they have the keyboard focus.
+The \java{setFocusable} method ensures that \java{drawing} will have the focus initially, without the user having to click it first.
 
 
 \section{Timers}
@@ -697,7 +697,7 @@ The \java{setFocusable} method ensures that \java{drawing} will be have the focu
 %If that happens, click on the drawing to give it the keyboard focus.
 
 Now that you know about interfaces and events, we can show you a better way to create animations.
-Previously, we implemented the animation loop using \java{while (true)} and \java{Thread.sleep}.
+Previously, we implemented the animation loop by using \java{while (true)} and \java{Thread.sleep}.
 Java provides a \java{Timer} class (in \java{javax.swing}) that encapsulates this behavior.
 
 A \java{Timer} is useful for executing code at regular intervals.
@@ -712,7 +712,7 @@ The constructor for \java{Timer} takes two parameters:
 The \java{ActionListener} interface requires only one method, \java{actionPerformed}.
 This is the method the \java{Timer} invokes after the given delay.
 
-Using a \java{Timer}, we can reorganize the code in \java{main} by defining a class that implements \java{ActionListener}.
+Using a \java{Timer}, we can reorganize the code in \java{main} by defining a class that implements \java{ActionListener}:
 
 \begin{code}
 public class VideoGame implements ActionListener {
@@ -751,7 +751,7 @@ Every 33 milliseconds, the \java{Timer} invokes \java{actionPerformed}, which in
 \java{Drawing.step} invokes \java{step} on all of its \java{Actor} objects, which causes them to update their position, color, or other aspects of their appearance.
 The \java{Drawing.step} then repaints the \java{Canvas}, and the time step is done.
 
-At this point you have all of the elements you need to write your own video games.
+At this point, you have all of the elements you need to write your own video games.
 In the exercises at the end of this chapter, we have some suggestions for getting started.
 
 We hope this final chapter has been a helpful summary of topics presented throughout the book, including input and output, decisions and loops, classes and methods, arrays and objects, inheritance, and graphics.
@@ -772,7 +772,7 @@ Extending a class to add new attributes or methods, or to modify existing behavi
 A language feature that allows objects to be assigned to variables of related types.
 
 \term{sprite}
-A computer graphic which may be moved or otherwise manipulated on the screen.
+A computer graphic that may be moved or otherwise manipulated on the screen.
 
 \end{description}
 
@@ -789,14 +789,14 @@ The following exercises give you a chance to practice using the features in this
 
 
 \begin{exercise}
-The \java{Polygon} class does not provide a \java{toString} method; it inherits the default \java{toString} from \java{java.lang.Object}, which only includes the class's name and memory location.
+The \java{Polygon} class does not provide a \java{toString} method; it inherits the default \java{toString} from \java{java.lang.Object}, which includes only the class's name and memory location.
 Write a more useful \java{toString} method for \java{DrawablePolygon} that includes its $(x, y)$ points.
 \end{exercise}
 
 
 \begin{exercise}
 Write a class \java{MovingPolygon} that extends \java{RegularPolygon} and implements \java{Actor}.
-It should have instance variables \java{posx} and \java{posy} that specify its position and \java{dx} and \java{dy} that specify its velocity (and direction).
+It should have instance variables \java{posx} and \java{posy} that specify its position, and \java{dx} and \java{dy} that specify its velocity (and direction).
 During each time step, it should update its position.
 If it gets to the edge of the \java{Drawing}, it should reverse direction by changing the sign of \java{dx} or \java{dy}.
 \end{exercise}
