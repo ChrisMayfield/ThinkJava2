@@ -246,14 +246,14 @@ In contrast, instance variables like \java{rank} and \java{suit} are allocated w
 Class variables are often used to store constant values that are needed in several places.
 In that case, they should also be declared as \java{final}.
 Note that whether a variable is \java{static} or \java{final} involves two separate considerations:
-\java{static} means the variable is {\em shared}, and \java{final} means the variable is {\em constant}.
+\java{static} means the variable is {\em shared}, and \java{final} means the variable (or in this case, the reference) is {\em constant}.
 
 Naming \java{static final} variables with capital letters is a common convention that makes it easier to recognize their role in the class.
 In the \java{toString} method, we refer to \java{SUITS} and \java{RANKS} as if they were local variables, but we can tell that they are class variables.
 
 One advantage of defining \java{SUITS} and \java{RANKS} as class variables is that they don't need to be created (and garbage-collected) every time \java{toString} is called.
 They may also be needed in other methods and classes, so it's helpful to make them available everywhere.
-Since the array variables are \java{final}, and the strings they reference are immutable, there is no danger in making them \java{public}.
+%Since the array variables are \java{final}, and the strings they reference are immutable, there is no danger in making them \java{public}.
 
 
 \section{The compareTo Method}
