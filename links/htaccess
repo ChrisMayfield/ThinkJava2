@@ -3,7 +3,6 @@ AddType text/css .css
 
 Redirect /thinkjava/index.html /wp/think-java-2e/
 Redirect /thinkjava/apidoc https://docs.oracle.com/en/java/javase/14/docs/api/
-Redirect /thinkjava/collections https://docs.oracle.com/javase/8/docs/technotes/guides/collections/overview.html
 Redirect /thinkjava/tutorial https://docs.oracle.com/javase/tutorial/
 Redirect /thinkjava/java2d https://docs.oracle.com/javase/tutorial/2d/
 Redirect /thinkjava/exceptions https://docs.oracle.com/javase/tutorial/essential/exceptions/
