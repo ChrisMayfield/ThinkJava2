@@ -721,8 +721,8 @@ When it's printed, this string should display the same results as the \java{prin
 \index{StringBuilder}
 \index{efficiency}
 
-{\em Hint:} You can use the \java{+} operator to concatenate strings, but it is not very efficient.
-Consider using \java{java.lang.StringBuilder} instead; see Section~\ref{stringbuilder}.
+{\em Hint:} You can use the \java{+} operator to concatenate strings, but that is not very efficient.
+Consider using \java{StringBuilder} instead; see Section~\ref{stringbuilder}.
 
 \end{exercise}
 
@@ -777,7 +777,7 @@ Finally, pass the two halves to \java{merge} and see if it works.
 You should be able to reuse code from the previous step.
 
 \item Implement \java{mergeSort} recursively.
-Remember that \java{selectionSort} is a modifier and \java{mergeSort} is a pure method, which means that they get invoked differently:
+Remember that \java{selectionSort} is \java{void} and \java{mergeSort} returns a new \java{Deck}, which means that they get invoked differently:
 
 \begin{code}
 deck.selectionSort();      // modifies an existing deck

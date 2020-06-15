@@ -219,7 +219,7 @@ public class Deck {
     /**
      * Helper method for insertion sort.
      */
-    public void insert(Card card, int i) {
+    private void insert(Card card, int i) {
         int j = i;
         while (j > 0 && card.compareTo(this.cards[j - 1]) < 0) {
             this.cards[j] = this.cards[j - 1];

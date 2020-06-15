@@ -111,13 +111,17 @@ public Card popCard() {
 }
 \end{code}
 
-% TODO: Update the code to be consistent with the changes in popCard and isEmpty
-
-\java{CardCollection} also provides \java{isEmpty}, which returns \java{true} if there are no cards left:
+\java{CardCollection} also provides \java{isEmpty}, which returns \java{true} if there are no cards left, and \java{size}, which returns the number of cards:
 
 \begin{code}
 public boolean isEmpty() {
-    return cards.isEmpty()
+    return cards.isEmpty();
+}
+\end{code}
+
+\begin{code}
+public int size() {
+    return cards.size();
 }
 \end{code}
 
@@ -135,7 +139,7 @@ public Card getCard(int i) {
 
 \begin{code}
 public Card lastCard() {
-    int i = size() - 1;
+    int i = cards.size() - 1;
     return cards.get(i);
 }
 \end{code}
@@ -159,7 +163,7 @@ Finally, we use \java{swapCards} to implement \java{shuffle}, which we described
 \begin{code}
 public void shuffle() {
     Random random = new Random();
-    for (int i = size() - 1; i > 0; i--) {
+    for (int i = cards.size() - 1; i > 0; i--) {
         int j = random.nextInt(i + 1);
         swapCards(i, j);
     }
@@ -293,7 +297,7 @@ We will use this method to implement \java{dealAll}, which deals (or moves) all 
 
 \begin{code}
 public void dealAll(CardCollection that) {
-    int n = size();
+    int n = cards.size();
     deal(that, n);
 }
 \end{code}
