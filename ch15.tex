@@ -275,7 +275,7 @@ public void paint(Graphics g) {
 
 \section{Other Grid Methods}
 
-In addition to \java{draw} and \java{paint}, the \java{Grid} class provides methods for working with the grid itself.
+In addition to \java{draw} and \java{paint}, the \java{GridCanvas} class provides methods for working with the grid itself.
 \java{numRows} and \java{numCols} return the number of rows and columns.
 We can get this information from the 2D array, using \java{length}:
 
@@ -703,7 +703,7 @@ See \url{https://conwaylife.com/wiki/Plaintext} for more examples.
 
 \item Create a plain text file with the contents shown above, and save the file as {\it glider.cells} in the same directory as your code.
 
-% ABD: Should this be a constructor?  I would make it a static method that builds and returns a Conway object, on the principle that constructors generally take parameters that line up with the instance variables, and methods that do substantial work should not be constructors.  But that might be a Pythonic principle that isn't Javai-idiomatic.
+% ABD: Should this be a constructor?  I would make it a static method that builds and returns a Conway object, on the principle that constructors generally take parameters that line up with the instance variables, and methods that do substantial work should not be constructors.  But that might be a Pythonic principle that isn't Java-idiomatic.
 
 \item Define a constructor for the \java{Conway} class that takes a string representing the name (or path) of a ``.cells'' file.
 Here is a starting point:

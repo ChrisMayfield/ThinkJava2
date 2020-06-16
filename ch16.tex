@@ -18,7 +18,7 @@ You can read more about it at \url{https://en.wikipedia.org/wiki/Langton's_ant}.
 %Reusing the classes we developed in this chapter, write an implementation of Langton's Ant.
 %We present a solution to this exercise in Appendix~\ref{app:langton}.
 
-In this chapter, we present a solution to Langton's Ant and use it to demonstrate more advanced object-oriented techniques.
+In this chapter, we present an implementation of Langton's Ant and use it to demonstrate more advanced object-oriented techniques.
 
 
 \section{Langton's Ant}
@@ -115,10 +115,11 @@ And that's everything!
 If you run this code with a grid size of \mbox{61 x 61} or larger, you will see the ant eventually settle into a repeating pattern.
 
 Because we designed \java{Cell} and \java{GridCanvas} to be reusable, we didn't have to modify them at all.
-However, we now have two copies of the \java{main} method---one on \java{Conway}, and one in \java{Langton}.
+However, we now have two copies of \java{main} and \java{mainloop}---one in \java{Conway}, and one in \java{Langton}.
 
 
 \section{Refactoring}
+\label{refactor}
 
 Whenever you see repeated code like \java{main}, you should think about ways to remove it.
 In Chapter~\ref{eights}, we used inheritance to eliminate repeated code.
@@ -171,9 +172,9 @@ It runs a \java{while} loop forever (or until the window closes).
 Each time through the loop, it runs \java{update} to update \java{grid} and then \java{repaint} to redraw the grid.
 
 Then it calls \java{Thread.sleep} with a delay that depends on \java{rate}.
-For example, if {\tt rate} is 2, we should draw two frames per second, so the delay is a half second, or 500 milliseconds.
+For example, if \java{rate} is 2, we should draw two frames per second, so the delay is a half second, or 500 milliseconds.
 
-\index{refactoring}
+\index{refactor}
 
 This process of reorganizing existing code, without changing its behavior, is known as {\bf refactoring}.
 We're almost finished; we just need to redesign \java{Conway} and \java{Langton} to extend \java{Automaton}.
@@ -181,7 +182,7 @@ We're almost finished; we just need to redesign \java{Conway} and \java{Langton}
 
 \section{Abstract Classes}
 
-So far, the implementation works, and if we are not planning to implement any other zero-person games, we could leave well enough alone.
+If we were not planning to implement any other zero-person games, we could leave well enough alone.
 But there are a few problems with the current design:
 
 \begin{itemize}
@@ -213,7 +214,7 @@ If the subclass does not override an abstract method, you will get a compiler er
 
 \end{itemize}
 
-Here's what \java{Automaton} looks like as an abstract class:
+Here's what \java{Automaton} looks like as an abstract class (using the methods \java{mainloop} and \java{run} from Section~\ref{refactor}):
 
 \begin{code}
 public abstract class Automaton {
@@ -221,12 +222,12 @@ public abstract class Automaton {
 
     public abstract void update();
 
-    public void run(String title, int delay) {
-        // body of this method omitted
+    private void mainloop(int rate) {
+        // this method invokes update
     }
 
-    private void mainloop(int rate) {
-        // body of this method omitted
+    public void run(String title, int rate) {
+        // this method invokes mainloop
     }
 }
 \end{code}
@@ -249,13 +250,13 @@ public class Conway extends Automaton {
 
     public static void main(String[] args) {
         String title = "Conway's Game of Life";
-        Conway game = new Conway("pulsar.cells", 2);
+        Conway game = new Conway();
         game.run(title, 2);
     }
 }
 \end{code}
 
-\java{Conway} extends \java{Automaton}, so it inherits the \java{protected} instance variable \java{grid} and the methods \java{run} and \java{mainloop}.
+\java{Conway} extends \java{Automaton}, so it inherits the \java{protected} instance variable \java{grid} and the methods \java{mainloop} and \java{run}.
 But because \java{Automaton} is abstract, \java{Conway} has to provide \java{update} and a constructor (which it has already).
 
 Abstract classes are essentially ``incomplete'' class definitions that specify methods to be implemented by subclasses.
@@ -265,7 +266,7 @@ But they also provide attributes and methods to be inherited, thus eliminating r
 \section{UML Diagram}
 
 At the beginning of the chapter, we had three classes: \java{Cell}, \java{GridCanvas}, and \java{Conway}.
-We then developed \java{Langton}, which had almost the same \java{main} method as \java{Conway}.
+We then developed \java{Langton}, which had almost the same \java{main} and \java{mainloop} methods as \java{Conway}.
 So we refactored the code and created \java{Automaton}.
 Figure~\ref{fig:uml2} summarizes the final design.
 

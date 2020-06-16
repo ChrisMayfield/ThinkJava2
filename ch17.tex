@@ -19,7 +19,7 @@ We didn't write the code for \java{Canvas}; it's part of the Java library.
 But we were able to customize it for our own purposes.
 In fact, the \java{Canvas} class was explicitly designed to be extended.
 
-In this chapter, we'll explore the concept of inheritance more fully and explore event-driven programming.
+In this chapter, we'll explore the concept of inheritance more fully and present event-driven programming.
 We'll continue to develop graphical simulations as a running example, but this time in varying shapes and colors!
 
 
@@ -65,7 +65,7 @@ For example, we can extend the \java{Polygon} class by adding a \java{draw} meth
 
 \begin{code}
 public class DrawablePolygon extends Polygon {
-    public Color color;
+    protected Color color;
 
     public DrawablePolygon() {
         super();
@@ -101,7 +101,7 @@ p.color = Color.GREEN;
 
 \section{Regular Polygons}
 
-A ``regular polygon'' has all sides the same length and all angles equal in measure.
+In mathematics, a regular polygon has all sides the same length and all angles equal in measure.
 Regular polygons are a special case of polygons, so we will use specialization to define a class for them.
 
 We could extend the \java{Polygon} class, as we did in the previous section.
@@ -270,8 +270,8 @@ public class Drawing extends Canvas {
 \end{code}
 
 \begin{code}
-    public void add(DrawablePolygon cp) {
-        list.add(cp);
+    public void add(DrawablePolygon dp) {
+        list.add(dp);
     }
 
     public void paint(Graphics g) {
@@ -410,8 +410,8 @@ We'll define a class named \java{BlinkingPolygon} that extends \java{RegularPoly
 
 \begin{code}
 public class BlinkingPolygon extends RegularPolygon {
-    public boolean visible;
-    public int count;
+    protected boolean visible;
+    protected int count;
 
     public BlinkingPolygon(int nsides, int radius, Color c) {
         super(nsides, radius, c);
@@ -508,7 +508,7 @@ So there is no need to declare them as \java{public}.
 
 To inherit from an interface, you use the keyword \java{implements} instead of \java{extends}.
 Here's a version of \java{DrawablePolygon} that extends \java{Polygon} and implements \java{Actor}.
-So it inherits methods from \java{Polygon}, and it is required to provide the methods in \java{Actor}; namely \java{step} and \java{draw}:
+So it inherits methods from \java{Polygon}, and it is required to provide the methods in \java{Actor}; namely \java{draw} and \java{step}:
 
 \begin{code}
 public class DrawablePolygon extends Polygon implements Actor {
