@@ -415,19 +415,23 @@ See ``Flow of execution'' on page~\pageref{flowexec}.
 Writing complex expressions is fine as long as they are readable, but they can be hard to debug.
 It is often a good idea to break a complex expression into a series of assignments to temporary variables:
 
+%%CSM the old example had multiple compiler errors
+%rect.setLocation(rect.getLocation().translate(
+%                 -rect.getWidth(), -rect.getHeight()));
+
 \begin{code}
-rect.setLocation(rect.getLocation().translate(
-                 -rect.getWidth(), -rect.getHeight()));
+rect.translate((int) Math.round(0.5 * rect.getWidth()),
+               (int) Math.round(0.5 * rect.getHeight()));
 \end{code}
 
 This example can be rewritten as follows:
 
 \begin{code}
-int dx = -rect.getWidth();
-int dy = -rect.getHeight();
-Point location = rect.getLocation();
-Point newLocation = location.translate(dx, dy);
-rect.setLocation(newLocation);
+double halfWidth = 0.5 * rect.getWidth();
+double halfHeight = 0.5 * rect.getHeight();
+int dx = (int) Math.round(halfWidth);
+int dy = (int) Math.round(halfHeight);
+rect.translate(dx, dy);
 \end{code}
 
 The second version is easier to read, partly because the variable names provide additional documentation.
