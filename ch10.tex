@@ -624,6 +624,7 @@ for (int i = 0; i < 10; i++) {
     String line = in.nextLine();        // new string
     text = text + line + '\n';    // two more strings
 }
+System.out.print("You entered:\n" + text);
 \end{code}
 
 Inside the \java{for} loop, \java{in.nextLine()} returns a new string each time it is invoked.
@@ -641,8 +642,6 @@ Because \java{StringBuilder} objects are mutable, they can implement concatenati
 
 Here's a version of the program that uses \java{StringBuilder}:
 
-%TODO: ML suggests also showing how to print the results
-
 \begin{code}
 StringBuilder text = new StringBuilder();
 for (int i = 0; i < 10; i++) {
@@ -650,10 +649,17 @@ for (int i = 0; i < 10; i++) {
     text.append(line);
     text.append('\n');
 }
+System.out.print("You entered:\n" + text);
 \end{code}
 
 The \java{append} method takes a \java{String} as a parameter and appends it to the end of the \java{StringBuilder}.
 Each time it is invoked, it modifies the \java{StringBuilder}; it doesn't create any new objects.
+
+If needed, you can return the \java{StringBuilder}'s contents as a string by calling the \java{toString} method:
+
+\begin{code}
+String result = text.toString();
+\end{code}
 
 The \java{StringBuilder} class also provides methods for inserting and deleting parts of strings efficiently.
 Programs that manipulate large amounts of text run much faster if you use \java{StringBuilder} instead of \java{String}.

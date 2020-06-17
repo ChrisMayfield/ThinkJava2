@@ -300,8 +300,8 @@ System.out.printf("Four thirds = %.3f", 4.0 / 3.0);
 
 The first value in the parentheses is a {\bf format string} that specifies how the output should be displayed.
 This format string contains ordinary text followed by a {\bf format specifier}, which is a special sequence that starts with a percent sign.
-The format specifier \java{\%.3f} indicates that the following value should be displayed as floating-point, rounded to three decimal places.
-The result is shown here:
+The format specifier \java{\%.3f} indicates that the following value should be displayed as floating-point, rounded to three decimal places:
+%The result is shown here:
 
 \begin{stdout}
 Four thirds = 1.333
@@ -468,7 +468,7 @@ Keeping that in mind, here's how we can convert centimeters to inches:
 
 \begin{code}
 inch = (int) (cm / CM_PER_INCH);
-System.out.printf("%f cm = %d in\n", cent, inch);
+System.out.printf("%f cm = %d in\n", cm, inch);
 \end{code}
 
 The parentheses after the cast operator require the division to happen before the type cast.
