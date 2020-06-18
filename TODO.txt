@@ -61,7 +61,7 @@ grep -o '\\url{[^}]*}' *.tex
 grep -o '\\href{[^}]*}{[^}]*}' *.tex
 
 # search for escapes in \java; remove from Atlas
-grep -no 'java{[^}]*}' *.tex | grep '\\'
+grep -ho 'java{[^}]*}' *.tex | grep '\\' | sort | uniq
 
 
 ==== Conventions ====

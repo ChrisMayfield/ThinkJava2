@@ -47,6 +47,11 @@ hevea:
 	cp hevea/*.png heveahtml
 	mv index.html $(F)_.css $(F)_?*.html $(F)_*.png heveahtml
 	rm *motif.gif $(F)_.*
+	sed -i 's/\\%/%/g' heveahtml/*.html
+	sed -i 's/\\{/{/g' heveahtml/*.html
+	sed -i 's/\\}/}/g' heveahtml/*.html
+	sed -i 's/\\\\n/\\n/g' heveahtml/*.html
+	sed -i 's/\\\\t/\\t/g' heveahtml/*.html	
 
 .PHONY: trinket
 trinket:
