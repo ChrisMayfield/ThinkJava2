@@ -45,7 +45,6 @@ That way, we can use objects as parameters and return values, rather than passin
 %This design principle is called {\bf data encapsulation}.
 You have already seen two types that encapsulate data in this way: \java{Point} and \java{Rectangle}.
 
-\index{class!Time}
 \index{Time}
 
 Another example, which we will implement ourselves, is \java{Time}, which represents a time of day.
@@ -359,6 +358,8 @@ Writing getters and setters can get boring, but many IDEs can generate them for 
 
 To display \java{Time} objects, we can write a method to display the hour, minute, and second.
 Using \java{printTime} in Section~\ref{multparam} as a starting point, we could write the following:
+
+\index{printTime}
 
 \begin{code}
 public static void printTime(Time t) {

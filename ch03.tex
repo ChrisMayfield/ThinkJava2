@@ -7,7 +7,7 @@ This chapter shows you how to read input from the keyboard, use that input to ca
 
 \section{The System Class}
 
-\index{class!System}
+\index{System.out}
 
 We have been using \java{System.out.println} for a while, but you might not have thought about what it means.
 \java{System} is a class that provides methods related to the ``system'', or environment, where programs run.
@@ -59,15 +59,13 @@ The source code for these classes is usually included with the compiler (see Sec
 \section{The Scanner Class}
 \label{scanner}
 
-\index{Scanner}
-\index{class!Scanner}
-
 %\index{byte}
 %
 %From the operating system's point of view, data from the keyboard arrives in a series of hardware control signals.
 %The operating system translates these signals into a stream of {\bf bytes} (small integers), which in turn need to be translated into characters.
 %\java{System.in} provides the means for reading one byte of input at a time, which is hardly useful for programs that would rather read in an entire word or line of input.
 
+\index{Scanner}
 \index{System.in}
 
 The \java{System} class also provides the special value \java{System.in}, which is an \java{InputStream} that has methods for reading input from the keyboard.
@@ -624,6 +622,8 @@ Instead, it gets a {\em stream of characters} as shown in Figure~\ref{fig.hopper
 \label{fig.hopper1}
 \end{center}
 \end{figure}
+
+\index{state}
 
 The arrow indicates the next character to be read by \java{Scanner}.
 When you run \java{nextInt}, it reads characters until it gets to a non-digit.

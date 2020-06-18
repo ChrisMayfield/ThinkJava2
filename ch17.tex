@@ -244,7 +244,7 @@ public RegularPolygon(int nsides, int radius, Color color) {
 \end{code}
 
 \index{throw}
-\index{Statement!throw}
+\index{statement!throw}
 
 In this example, we \java{throw} an exception to indicate that one of the arguments is invalid.
 By default, these exceptions terminate the program and display an error message along with the stack trace.
@@ -574,8 +574,11 @@ public class Sprite implements Actor, KeyListener {
 The instance variables \java{xpos} and \java{ypos} represent the location of the sprite.
 \java{dx} and \java{dy} represent the velocity of the sprite in the $x$ and $y$ directions.
 
+\index{ImageIO}
+\index{javax.imageio}
+
 The constructor takes as parameters the name of a file and the initial position.
-It uses  \java{ImageIO}, from the \java{javax.imageio} package, to read the file.
+It uses \java{ImageIO}, from the \java{javax.imageio} package, to read the file.
 If an error occurs during reading, an \java{IOException} is caught, and the program displays the stack trace for debugging.
 
 \java{Sprite} implements two interfaces: \java{Actor} and \java{KeyListener}.
@@ -698,6 +701,8 @@ The \java{setFocusable} method ensures that \java{drawing} will have the focus i
 
 %When you run this program, the arrow keys might not work initially.
 %If that happens, click on the drawing to give it the keyboard focus.
+
+\index{efficiency}
 
 Now that you know about interfaces and events, we can show you a better way to create animations.
 Previously, we implemented the animation loop by using \java{while (true)} and \java{Thread.sleep}.

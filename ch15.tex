@@ -82,6 +82,8 @@ When drawing a cell, we'll need to know its location on the screen and size in p
 To represent the location, we use the \java{x} and \java{y} coordinates of the upper-left corner.
 And to represent the size, we use an integer, \java{size}.
 
+\index{state}
+
 To represent the state of a cell, we use an integer, \java{state}, which is \java{0} for dead cells and \java{1} for live cells.
 We could use a \java{boolean} instead, but it's good practice to design classes to be reusable (e.g., for other games that have more states).
 
@@ -243,6 +245,9 @@ public class GridCanvas extends Canvas {
 Using vocabulary from the previous chapter, \java{GridCanvas} ``is~a'' \java{Canvas} that ``has~a'' 2D array of cells.
 By extending the \java{Canvas} class from \java{java.awt}, we inherit methods for drawing graphics on the screen.
 
+\index{nested!arrays}
+\index{traversal}
+
 In fact, the code is surprisingly straightforward: to draw the grid, we simply draw each cell.
 We use nested \java{for} loops to traverse the 2D array:
 
@@ -403,7 +408,7 @@ The reason we use it here is that \java{repaint} does not require a \java{Graphi
 Otherwise, the program would run so fast we would not be able to see the animation.
 
 \index{InterruptedException}
-\index{Exception!Interrupted}
+\index{exception!Interrupted}
 
 There's just one problem: compiling this code results in the error ``unreported exception InterruptedException''.
 This message means we need to do some exception handling.
@@ -420,8 +425,8 @@ Here's what it looks like:
 
 \index{try}
 \index{catch}
-\index{Statement!try}
-\index{Statement!catch}
+\index{statement!try}
+\index{statement!catch}
 
 \begin{code}
 try {

@@ -355,6 +355,7 @@ Stack diagrams help you to visualize the {\bf scope} of a variable, which is the
 
 \index{Java Tutor}
 \index{tracing}
+\index{mental model}
 
 Stack diagrams are a good mental model for how variables and methods work at run-time.
 Learning to trace the execution of a program on paper (or on a whiteboard) is a useful skill for communicating with other programmers.
@@ -370,8 +371,7 @@ If you haven't already, you should check out the Java examples on that website.
 \section{Math Methods}
 \label{mathmeth}
 
-\index{Math class}
-\index{class!Math}
+\index{Math}
 
 You don't always have to write new methods to get work done.
 As a reminder, the Java library contains thousands of classes you can use.
@@ -815,6 +815,7 @@ public static void baffle(String blimp) {
 }
 \end{code}
 
+%TODO remove if/else (and flag) from this method?
 \begin{code}
 public static void zippo(String quince, int flag) {
     if (flag < 0) {
@@ -916,6 +917,7 @@ For example, try \java{System.out.println("boo!") + 7;}.
 Draw a stack diagram that shows the state of the program the {\em second} time \java{zoop} is invoked.
 What is the complete output?
 
+%TODO remove if/else (and bob) from this method?
 \begin{code}
 public static void zoop(String fred, int bob) {
     System.out.println(fred);

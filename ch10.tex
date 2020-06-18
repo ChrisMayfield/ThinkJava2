@@ -23,7 +23,6 @@ For example, $(0,0)$ indicates the origin, and $(x,y)$ indicates the point $x$ u
 \index{AWT}
 \index{java.awt}
 \index{Point}
-\index{class!Point}
 
 % TODO: ML suggest introducing AWT here with a short high-level description
 
@@ -110,6 +109,8 @@ The second line calculates the value \java{25}.
 You can pass objects as parameters in the usual way.
 For example:
 
+\index{printPoint}
+
 \begin{code}
 public static void printPoint(Point p) {
     System.out.println("(" + p.x + ", " + p.y + ")");
@@ -157,7 +158,6 @@ When you call \java{println} with objects, it {\em automatically} calls \java{to
 \label{sec:Rectangle}
 
 \index{Rectangle}
-\index{class!Rectangle}
 
 The \java{java.awt} package also provides a class named \java{Rectangle}.
 To use it, you have to import it:
@@ -615,8 +615,6 @@ Here's an example in which mutable objects are efficient and arguably more natur
 
 Strings are particularly inefficient for this operation.
 For example, consider the following program, which reads 10 lines from \java{System.in} and concatenates them into a single \java{String}:
-
-\index{Append.java}
 
 \begin{code}
 String text = "";

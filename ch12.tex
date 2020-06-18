@@ -37,7 +37,6 @@ If you are unfamiliar with traditional playing cards, now would be a good time t
 \section{Card Objects}
 
 \index{Card}
-\index{class!Card}
 
 If we want to define a class to represent a playing card, it is pretty clear what the instance variables should be: \java{rank} and \java{suit}.
 It is not as obvious what types they should be.
@@ -108,8 +107,6 @@ The result is a reference to a \java{Card} that represents the 3 of Clubs.
 
 
 \section{Card toString}
-
-\index{print!Card}
 
 When you create a new class, the first step is to declare the instance variables and write constructors.
 A good next step is to write \java{toString}, which is useful for debugging and incremental development.
@@ -456,12 +453,12 @@ Figure~\ref{fig.cardarray2} shows what the array looks like after the first two 
 \end{center}
 \end{figure}
 
-\index{print!array}
-
 When you work with arrays, it is convenient to have a method that displays the contents.
 You have seen the pattern for traversing an array several times, so the following method should be familiar:
 
 % ABD: Maybe add reference to where we introduced enhanced loops?
+
+\index{printDeck}
 
 \begin{code}
 public static void printDeck(Card[] cards) {
@@ -498,7 +495,7 @@ The next method we'll write is \java{search}, which takes an array of cards and 
 It returns the index where the \java{Card} appears in the array, or \java{-1} if it doesn't.
 This version of \java{search} uses the algorithm in Section~\ref{traversal}, which is called {\bf sequential search}:
 
-\index{traverse}
+\index{traversal}
 \index{loop!search}
 
 \begin{code}

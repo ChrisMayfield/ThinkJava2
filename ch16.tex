@@ -42,6 +42,8 @@ public class Langton {
 }
 \end{code}
 
+\index{state}
+
 \java{grid} is a \java{GridCanvas} object, which represents the state of the cells.
 \java{xpos} and \java{ypos} are the coordinates of the ant, and \java{head} is the ``heading'' of the ant; that is, which direction it is facing.
 \java{head} is an integer with four possible values, where \java{0} means the ant is facing ``north'' (i.e., toward the top of the screen), \java{1} means ``east'', etc.
@@ -175,6 +177,7 @@ Then it calls \java{Thread.sleep} with a delay that depends on \java{rate}.
 For example, if \java{rate} is 2, we should draw two frames per second, so the delay is a half second, or 500 milliseconds.
 
 \index{refactor}
+\index{design process}
 
 This process of reorganizing existing code, without changing its behavior, is known as {\bf refactoring}.
 We're almost finished; we just need to redesign \java{Conway} and \java{Langton} to extend \java{Automaton}.
@@ -198,7 +201,8 @@ In order to work properly, subclasses need to provide one.
 \end{itemize}
 
 \index{protected}
-\index{abstract}
+\index{abstract class}
+\index{method!abstract}
 
 Java provides language features to solve these problems:
 
@@ -296,6 +300,8 @@ In particular, they implement the \java{update} method that was declared \java{a
 
 %According to the documentation, its design ``allows an application to draw onto components that are realized on various devices, as well as onto off-screen images.''
 %That's the beauty of abstraction; our code works regardless how and where it's drawn.
+
+\index{object-oriented}
 
 One of the challenges of object-oriented programming is keeping track of a large number of classes and the relationships between them.
 UML class diagrams can help.
