@@ -233,9 +233,7 @@ public class Card {
 \index{garbage collection}
 
 Class variables are allocated when the program begins and persist until the program ends.
-In contrast, instance variables like \java{rank} and \java{suit} are allocated when the program creates \java{new} objects, and they are deleted when the object is garbage-collected.
-
-% ABD: Let's check whether garbage collection ends up before this.
+In contrast, instance variables like \java{rank} and \java{suit} are allocated when the program creates \java{new} objects, and they are deleted when the object is garbage-collected (see Section~\ref{garbage}).
 
 \index{final}
 
@@ -457,6 +455,7 @@ When you work with arrays, it is convenient to have a method that displays the c
 You have seen the pattern for traversing an array several times, so the following method should be familiar:
 
 % ABD: Maybe add reference to where we introduced enhanced loops?
+% CSM: It's in Chapter 7, and we added a reference in Chapter 9.
 
 \index{printDeck}
 

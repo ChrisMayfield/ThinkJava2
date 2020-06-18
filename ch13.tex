@@ -429,9 +429,6 @@ Say you try to invoke \java{print} like this:
 Deck.print();  // wrong!
 \end{code}
 
-% DW suggested that at some point we should warn students
-% about using \java{this} in a static method
-
 \index{static context}
 \index{this}
 
@@ -545,7 +542,8 @@ Now let's think about the methods we need to play the game.
 At the beginning of each round, each player draws a card from the top of their pile.
 So we define a method to do that:
 
-%TODO: ML suggests renaming this drawCard.  I am inclined to agree.
+% ABD: ML suggests renaming this drawCard. I am inclined to agree.
+% CSM: we might want to avoid the word "draw" meaning "paint"
 
 \begin{code}
 public Card popCard() {
@@ -578,14 +576,6 @@ public boolean isEmpty() {
 
 So far, these methods don't do very much; they just invoke methods on the instance variable, \java{cards}.
 Methods like these are called {\bf wrapper methods} because they wrap one method with another.
-
-% TODO: Change the code to get rid of size (unless we need it somewhere else) and change empty to isEmpty
-
-%\begin{code}
-%public int size() {
-%    return this.cards.size();
-%}
-%\end{code}
 
 Finally, to start the game, we need to divide the deck into two equal parts.
 We can do that with \java{subdeck} from Section~\ref{subdeck} and a new method, \java{addDeck}:
@@ -732,8 +722,6 @@ The goal of this exercise is to implement the shuffling algorithm from this chap
 
 \begin{enumerate}
 
-% TODO: Do we need to clarify the instructons for finding the starter code?
-
 \item In the repository for this book, you should find the file named {\it Deck.java}.
 Check that you can compile it in your environment.
 
@@ -755,8 +743,6 @@ You can use the \java{nextInt} method provided by \java{java.util.Random}, which
 
 The goal of this exercise is to implement the sorting algorithms from this chapter.
 Use the {\it Deck.java} file from the previous exercise or create a new one from scratch.
-
-% TODO: Again, we could provide clearer instructions for setting up the exercises.
 
 \begin{enumerate}
 
@@ -809,8 +795,6 @@ Your solution should use a helper method, named \java{insert}, that implements t
 
 \begin{exercise}  %%V6.5 NEW
 
-%TODO: Clarify setup instructions
-
 Find and open the file {\it War.java} in the repository.
 The \java{main} method contains all the code from the last section of this chapter.
 Check that you can compile and run this code before proceeding.
@@ -828,4 +812,3 @@ If a tie ends with a tie, draw three more cards, and so on.
 Notice that this program depends on \java{Deck.shuffle}, so you might have to do Exercise~\ref{ex.shuffle} first.
 
 \end{exercise}
-

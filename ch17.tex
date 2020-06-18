@@ -787,8 +787,6 @@ A computer graphic that may be moved or otherwise manipulated on the screen.
 
 \section{Exercises}
 
-% TODO: We need to divide up the code for this chapter, removing the solution code and making the code in ThinkJavaCode2 more consistent with the chapter.
-
 The code for this chapter is in the {\it ch17} directory of {\it ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
@@ -797,29 +795,37 @@ The following exercises give you a chance to practice using the features in this
 
 
 \begin{exercise}
+
 The \java{Polygon} class does not provide a \java{toString} method; it inherits the default \java{toString} from \java{java.lang.Object}, which includes only the class's name and memory location.
 Write a more useful \java{toString} method for \java{DrawablePolygon} that includes its $(x, y)$ points.
+
 \end{exercise}
 
 
 \begin{exercise}
+
 Write a class \java{MovingPolygon} that extends \java{RegularPolygon} and implements \java{Actor}.
 It should have instance variables \java{posx} and \java{posy} that specify its position, and \java{dx} and \java{dy} that specify its velocity (and direction).
 During each time step, it should update its position.
 If it gets to the edge of the \java{Drawing}, it should reverse direction by changing the sign of \java{dx} or \java{dy}.
+
 \end{exercise}
 
 
 \begin{exercise}
+
 Modify the \java{VideoGame} class so it displays a \java{Sprite} and a \java{MovingPolygon} (from the previous exercise).
 Add code that detects collisions between \java{Actor} objects in the same \java{Drawing}, and invoke a method on both objects when they collide.
 
 {\em Hint:} You might want to add a method to the \java{Actor} interface, guaranteeing that all \java{Actor} objects know how to handle collisions.
+
 \end{exercise}
 
 
 \begin{exercise}
+
 Java provides other event listeners that you can implement to make your programs interactive.
 For example, the interfaces \java{MouseListener}, \java{MouseMotionListener}, and \java{MouseWheelListener} allow you to respond to mouse input.
 Use the \java{MouseListener} interface to implement an \java{Actor} that can respond to mouse clicks.
+
 \end{exercise}

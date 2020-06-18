@@ -58,8 +58,6 @@ The flow of execution for a \java{while} statement is as follows:
 This type of flow is called a {\bf loop}, because the last step ``loops back around'' to the first.
 Figure~\ref{fig.while} shows this idea using a flowchart.
 
-%TODO: Add an initialization box to the flowchart
-
 \begin{figure}[!ht]
 \begin{center}
 \includegraphics[width=190pt]{figs/while.pdf}
@@ -197,6 +195,8 @@ Otherwise, the body of the loop is executed (again).
 The \java{for} loop is often easier to read because it puts all the loop-related statements at the top of the loop.
 Doing so allows you to focus on the statements inside the loop body.
 Figure~\ref{fig.for} illustrates \java{for} loops with a flowchart.
+
+%TODO: Add an initialization box to the flowchart
 
 \begin{figure}[!ht]
 \begin{center}
@@ -437,8 +437,6 @@ char last = fruit.charAt(length);      // wrong!
 
 \index{StringIndexOutOfBoundsException}
 \index{exception!StringIndexOutOfBounds}
-
-%TODO Check line break on long identifiers
 
 This code compiles and runs, but invoking the \java{charAt} method throws a \java{StringIndexOutOfBoundsException}.
 The problem is that there is no sixth letter in \java{"banana"}.
