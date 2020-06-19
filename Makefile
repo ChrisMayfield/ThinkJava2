@@ -51,7 +51,8 @@ hevea:
 	sed -i 's/\\{/{/g' heveahtml/*.html
 	sed -i 's/\\}/}/g' heveahtml/*.html
 	sed -i 's/\\\\n/\\n/g' heveahtml/*.html
-	sed -i 's/\\\\t/\\t/g' heveahtml/*.html	
+	sed -i 's/\\\\t/\\t/g' heveahtml/*.html
+	python3 hevea/rename.py heveahtml
 
 .PHONY: trinket
 trinket:
@@ -70,7 +71,7 @@ trinket:
 	sed -i 's/\\{/{/g' trinkethtml/*.html
 	sed -i 's/\\}/}/g' trinkethtml/*.html
 	sed -i 's/\\\\n/\\n/g' trinkethtml/*.html
-	sed -i 's/\\\\t/\\t/g' trinkethtml/*.html	
+	sed -i 's/\\\\t/\\t/g' trinkethtml/*.html
 
 	# perl postprocessing (woot) seems easier than escaping through Latex and Hevea
 	perl -i -pe 's/\[\[\[\[\s?(\S*?)\s?\]\]\]\]/----{\1}----/g' trinkethtml/*.html
