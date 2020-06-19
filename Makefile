@@ -66,9 +66,13 @@ trinket:
 	cp trinket/*.css trinket/*.js trinkethtml
 	mv index.html $(F)_.css $(F)_?*.html $(F)_*.png trinkethtml
 	rm *motif.gif $(F)_.*
+	sed -i 's/\\%/%/g' trinkethtml/*.html
+	sed -i 's/\\{/{/g' trinkethtml/*.html
+	sed -i 's/\\}/}/g' trinkethtml/*.html
+	sed -i 's/\\\\n/\\n/g' trinkethtml/*.html
+	sed -i 's/\\\\t/\\t/g' trinkethtml/*.html	
 
 	# perl postprocessing (woot) seems easier than escaping through Latex and Hevea
-	perl -i -pe 's/100\\%/100%/g' trinkethtml/*.html
 	perl -i -pe 's/\[\[\[\[\s?(\S*?)\s?\]\]\]\]/----{\1}----/g' trinkethtml/*.html
 	perl -i -pe 's/\<a .*? ALT\=\"(Previous|Up|Next)\"\>\<\/a\>//g' trinkethtml/*.html
 	perl -0777 -i -pe 's/\<hr\>//' trinkethtml/*.html

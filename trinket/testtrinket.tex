@@ -10,21 +10,12 @@
 \newcommand{\thetitle}{Think Java}
 \newcommand{\thesubtitle}{How to Think Like a Computer Scientist}
 \newcommand{\theauthors}{Allen B. Downey and Chris Mayfield}
-\newcommand{\theversion}{6.5.0 DRAFT}
+\newcommand{\theversion}{2nd Edition, Version 7.1.0}
 
 %%%% Both LATEX and PLASTEX
 
 \usepackage{graphicx}
 \usepackage{setspace}
-
-%BEGIN LATEX
-\usepackage{comment}
-\excludecomment{htmlonly}
-\includecomment{latexonly}
-
-\usepackage{imakeidx}
-\makeindex[options= -s headings.ist]
-%END LATEX
 
 % automatically index glossary terms
 \newcommand{\term}[1]{%
@@ -52,10 +43,14 @@
 %%%% PLASTEX ONLY
 \ifplastex
 
+\makeindex
+
 \usepackage{localdef}
 
 \usepackage{url}
+\renewcommand{\href}[2]{\url{#1}}
 
+\makeatletter
 \newcount\anchorcnt
 \newcommand*{\Anchor}[1]{%
   \@bsphack%
@@ -65,6 +60,7 @@
     \M@gettitle{}\label{#1}%
     \@esphack%
 }
+\makeatother
 
 % code listing environments:
 % we don't need these for plastex because they get replaced
@@ -73,12 +69,21 @@
 %\newenvironment{stdout}{\begin{verbatim}}{\end{verbatim}}
 
 % inline syntax formatting
-\newcommand{\java}{\verb}%}
+%\newcommand{\java}{\verb}%}
+%\newcommand{\java}{\texttt}%}
+\newcommand{\java}[1]{{\tt #1}}%{
+\newcommand{\textcolor}[1]{\relax}
 
-%%%% LATEX ONLY
+%%%% LATEX/HTML ONLY
 \else
 
-\input{../latexonly.tex}
+%BEGIN LATEX
+\usepackage{comment}
+\excludecomment{htmlonly}
+\includecomment{latexonly}
+%END LATEX
+
+\input{latexonly.tex}
 
 \fi
 

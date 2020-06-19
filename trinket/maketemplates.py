@@ -15,7 +15,6 @@ web_dir = "{{ bookprefix }}"    # Prefix for links
 # Pyquery to get TOC from index
 with open(index_file) as index:
 
-
     # Process chapter TOC from index.
     indextext = index.read()
     d = PyQuery(indextext)
@@ -27,17 +26,16 @@ with open(index_file) as index:
     # Build link swapping dict
     for i, file in enumerate(files[1:]): # skip book index
         special_chapters = {
-            17: "appendix-a.html",
-            18: "appendix-b.html",
-            19: "appendix-c.html",
-            20: "appendix-d.html",
-            21: "appendix-e.html",
+            18: "appendix-a.html",
+            19: "appendix-b.html",
+            20: "appendix-c.html",
+            21: "appendix-d.html",
             22: "book-index.html"
         }
         # Create new output file for chapter
         if i == 0:
             newfile = "preface.html"
-        elif i < 17:
+        elif i < 18:
             newfile = "chapter{0}.html".format(str(i))
         else:
             newfile = special_chapters[i]
@@ -69,7 +67,6 @@ with open(index_file) as index:
         # placeholder for tabs and newlines since re.sub will clobber them otherwise
         # print(re.findall(r'^.*?\\[tn].*?$', chapter_text, flags=re.M))
         chapter_text = re.sub(r'\\([tn])', 'shouldbe\g<1>', chapter_text, flags=re.M)
-
 
         # TODO: transform chapter text somehow
 
@@ -117,7 +114,7 @@ $toc$
             # print(re.findall(r"^.*?shouldbe[tn].*?$", template, flags=re.M))
             template = re.sub(r'shouldbe([tn])', '\\\\\g<1>', template, flags=re.M)
 
-
             # Write template
             nf.write(template.encode('utf8'))
+
 sys.exit(0)
