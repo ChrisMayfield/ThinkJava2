@@ -2,7 +2,8 @@ AddHandler python-program .py
 AddType text/css .css
 
 Redirect /thinkjava/index.html /wp/think-java-2e/
-Redirect /thinkjava/apidoc https://docs.oracle.com/en/java/javase/14/docs/api/
+Redirect /thinkjava/apidoc https://docs.oracle.com/en/java/javase/11/docs/api/
+Redirect /thinkjava/collections https://docs.oracle.com/javase/8/docs/technotes/guides/collections/overview.html
 Redirect /thinkjava/tutorial https://docs.oracle.com/javase/tutorial/
 Redirect /thinkjava/java2d https://docs.oracle.com/javase/tutorial/2d/
 Redirect /thinkjava/exceptions https://docs.oracle.com/javase/tutorial/essential/exceptions/
@@ -10,7 +11,5 @@ Redirect /thinkjava/keywords https://docs.oracle.com/javase/tutorial/java/nutsan
 Redirect /thinkjava/operators https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html
 Redirect /thinkjava/code2zip https://github.com/ChrisMayfield/ThinkJavaCode2/archive/master.zip
 Redirect /thinkjava/javatutor http://pythontutor.com/java.html#mode=edit&heapPrimitives=true&textReferences=false
-Redirect /thinkjava/thinkjava.pdf https://github.com/AllenDowney/ThinkJava/releases/latest/download/thinkjava.pdf
-Redirect /thinkjava/thinkjava2.pdf https://github.com/ChrisMayfield/ThinkJava2/releases/latest/download/thinkjava2.pdf
-Redirect /thinkjava/pdf https://github.com/ChrisMayfield/ThinkJava2/releases/latest/download/thinkjava2.pdf
+Redirect /thinkjava/pdf http://greenteapress.com/thinkjava7/thinkjava2.pdf
 Redirect /thinkjava/html /thinkjava7/html/
