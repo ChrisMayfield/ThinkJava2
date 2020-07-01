@@ -45,7 +45,8 @@ hevea:
 	imagen -png -pdf $(F)_
 	hacha $(F)_.html
 	cp hevea/*.png heveahtml
-	mv index.html $(F)_.css $(F)_?*.html $(F)_*.png heveahtml
+	cat custom.css >> $(F)_.css
+	mv index.html $(F)_?*.html $(F)_*.png $(F)_.css heveahtml
 	rm *motif.gif $(F)_.*
 	sed -i 's/\\%/%/g' heveahtml/*.html
 	sed -i 's/\\{/{/g' heveahtml/*.html
@@ -85,3 +86,14 @@ trinket:
 	# gather images for ease of uploading to CDN
 	mkdir trinkethtml/img
 	cp trinkethtml/*.png trinkethtml/img
+
+DEST = /home/downey/public_html/greent/thinkjava7
+
+distrib:
+	rm -rf dist
+	mkdir dist
+	rsync -a $(F).pdf dist
+	rsync -a heveahtml/ dist/html/
+	rsync -a dist/* $(DEST)
+	chmod -R o+r $(DEST)/*
+	cd $(DEST)/..; sh back
