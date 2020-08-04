@@ -66,7 +66,7 @@ with open(index_file) as index:
             chapter_text = re.sub(old, web_dir + new, chapter_text)
         # placeholder for tabs and newlines since re.sub will clobber them otherwise
         # print(re.findall(r'^.*?\\[tn].*?$', chapter_text, flags=re.M))
-        chapter_text = re.sub(r'\\([tn])', 'shouldbe\g<1>', chapter_text, flags=re.M)
+        chapter_text = re.sub(r'\\([tn\\])', 'shouldbe\g<1>', chapter_text, flags=re.M)
 
         # TODO: transform chapter text somehow
 
@@ -112,7 +112,7 @@ $toc$
 
             # replace tabs and newlines
             # print(re.findall(r"^.*?shouldbe[tn].*?$", template, flags=re.M))
-            template = re.sub(r'shouldbe([tn])', '\\\\\g<1>', template, flags=re.M)
+            template = re.sub(r'shouldbe([tn\\])', '\\\\\g<1>', template, flags=re.M)
 
             # Write template
             nf.write(template.encode('utf8'))
