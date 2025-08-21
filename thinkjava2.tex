@@ -36,6 +36,7 @@
 \newif\ifplastex
 \plastexfalse
 
+
 %%%% PLASTEX ONLY
 \ifplastex
 
@@ -73,16 +74,24 @@
 %%%% LATEX/HTML ONLY
 \else
 
-%BEGIN LATEX
-\usepackage{comment}
-\excludecomment{htmlonly}
-\includecomment{latexonly}
-%END LATEX
+\makeatletter
+\@ifundefined{ifhevea}{\newif\ifhevea \heveafalse}{}
+\makeatother
 
-\input{latexonly.tex}
+\ifhevea
+  % HeVeA-specific setup
+  \typeout{DEBUG: HeVeA is running}
+\else
+  % LaTeX/PDF-only setup
+  \typeout{DEBUG: LaTeX is running}
+  \usepackage{comment}
+  \excludecomment{htmlonly}
+  \includecomment{latexonly}
 
+  \input{latexonly.tex}
 \fi
 
+\fi
 %%%% END OF PREAMBLE
 \begin{document}
 

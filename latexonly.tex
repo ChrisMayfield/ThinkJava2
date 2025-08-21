@@ -1,3 +1,7 @@
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{textcomp}
+
 \usepackage{geometry}
 \geometry{
     %paperwidth=6.0in,
@@ -86,7 +90,6 @@
 \definecolor{strings}{HTML}{B20000}
 
 % syntax highlighting in code listings
-\usepackage{textcomp}
 \usepackage{listings}
 \lstset{
     language=java,
@@ -110,6 +113,7 @@
 \lstnewenvironment{code}
 {\minipage{\linewidth}}
 {\endminipage}
+
 \lstnewenvironment{stdout}
 {\lstset{commentstyle=,keywordstyle=,stringstyle=}\minipage{\linewidth}}
 {\endminipage}
