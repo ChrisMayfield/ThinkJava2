@@ -1,0 +1,252 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Think Java",
+    "section": "",
+    "text": "1 Welcome to Think Java\nThis book is an introduction to computer science and programming intended for people with little or no experience. We start with the most basic concepts and are careful to define all terms when they are first used. The book presents each new idea in a logical progression. Larger topics, like recursion and object-oriented programming, are divided into smaller examples and introduced over the course of several chapters.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Think Java</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#about-this-book",
+    "href": "index.html#about-this-book",
+    "title": "Think Java",
+    "section": "1.1 About This Book",
+    "text": "1.1 About This Book\nThis book is designed to be used in a first course in computer science. It covers the basics of programming and problem solving, with an emphasis on object-oriented design and Java programming.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Think Java</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use-this-book",
+    "href": "index.html#how-to-use-this-book",
+    "title": "Think Java",
+    "section": "1.2 How to Use This Book",
+    "text": "1.2 How to Use This Book\nEach chapter builds on the previous ones, so we recommend reading them in order. The exercises at the end of each chapter are designed to reinforce the concepts and help you develop your programming skills.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Think Java</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#getting-started",
+    "href": "index.html#getting-started",
+    "title": "Think Java",
+    "section": "1.3 Getting Started",
+    "text": "1.3 Getting Started\nTo get started with this book, you’ll need:\n\nJava Development Kit (JDK) - Version 11 or later\nA text editor or IDE - We recommend VS Code, IntelliJ IDEA, or Eclipse\nPatience and persistence - Learning to program takes time and practice",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Think Java</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#acknowledgments",
+    "href": "index.html#acknowledgments",
+    "title": "Think Java",
+    "section": "1.4 Acknowledgments",
+    "text": "1.4 Acknowledgments\nThis book is based on the original “Think Java” by Allen B. Downey and has been updated and expanded by Chris Mayfield. We thank all the students, teachers, and readers who have provided feedback and suggestions over the years.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Think Java</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#license",
+    "href": "index.html#license",
+    "title": "Think Java",
+    "section": "1.5 License",
+    "text": "1.5 License\nThis book is available under the Creative Commons Attribution-NonCommercial 3.0 Unported License.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Think Java</span>"
+    ]
+  },
+  {
+    "objectID": "preface.html",
+    "href": "preface.html",
+    "title": "2  Preface",
+    "section": "",
+    "text": "The Philosophy Behind the Book\nHere are the guiding principles that make the book the way it is:",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface</span>"
+    ]
+  },
+  {
+    "objectID": "preface.html#the-philosophy-behind-the-book",
+    "href": "preface.html#the-philosophy-behind-the-book",
+    "title": "2  Preface",
+    "section": "",
+    "text": "One concept at a time:\n\nWe break down topics that give beginners trouble into a series of small steps, so that they can exercise each new concept in isolation before continuing.\n\nBalance of Java and concepts:\n\nThe book is not primarily about Java; it uses code examples to demonstrate computer science. Most chapters start with language features and end with concepts.\n\nConciseness:\n\nAn important goal of the book is to be small enough so that students can read and understand the entire text in a one-semester college or AP course.\n\nEmphasis on vocabulary:\n\nWe try to introduce the minimum number of terms and define them carefully when they are first used. We also organize them in glossaries at the end of each chapter.\n\nProgram development:\n\nThere are many strategies for writing programs, including bottom-up, top-down, and others. We demonstrate multiple program development techniques, allowing readers to choose methods that work best for them.\n\nMultiple learning curves:\n\nTo write a program, you have to understand the algorithm, know the programming language, and be able to debug errors. We discuss these and other aspects throughout the book and summarize our advice in Appendix 21.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface</span>"
+    ]
+  },
+  {
+    "objectID": "preface.html#object-oriented-programming",
+    "href": "preface.html#object-oriented-programming",
+    "title": "2  Preface",
+    "section": "Object-Oriented Programming",
+    "text": "Object-Oriented Programming\nSome Java books introduce classes and objects immediately; others begin with procedural programming and transition to object-oriented more gradually.\nMany of Java’s object-oriented features are motivated by problems with previous languages, and their implementations are influenced by this history. Some of these features are hard to explain when people aren’t familiar with the problems they solve.\nWe get to object-oriented programming as quickly as possible (beginning with Chapter 9). But we introduce concepts one at a time, as clearly as possible, in a way that allows readers to practice each idea in isolation before moving on. So it takes some time to get there.\nYou can’t write Java programs (even Hello World) without encountering object-oriented features. In some cases we explain a feature briefly when it first appears, and then explain it more deeply later on.\nIf you read the entire book, you will see nearly every topic required for Java SE Programmer I certification. Supplemental lessons are available in the official Java tutorials on Oracle’s website (https://thinkjava.org/tutorial).\nThis book is also well suited to prepare high school students for the AP Computer Science A exam, which includes object-oriented design and implementation. (AP is a registered trademark of The College Board.) A mapping of Think Java section numbers to the AP course is available on our website: https://thinkjava.org/.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface</span>"
+    ]
+  },
+  {
+    "objectID": "preface.html#changes-to-the-second-edition",
+    "href": "preface.html#changes-to-the-second-edition",
+    "title": "2  Preface",
+    "section": "Changes to the Second Edition",
+    "text": "Changes to the Second Edition\nThis new edition was written over several years, with feedback from dozens of instructors and hundreds of students. A complete history of all changes is available on GitHub. Here are some of the highlights:\n\nChapters 1–4:\n\nWe reordered the material in Chapter 1 to present a more interesting balance of theory and practice. Chapters 2–3 are much cleaner now too. Methods are now presented in a single chapter, along with additional in-depth examples.\n\nChapters 5–8:\n\nWe rearranged these chapters a lot, added many examples and new figures, and removed unnecessary details. Strings are covered earlier (before arrays) so that readers can apply them to loop problems. The material on recursion is now a chapter, and we added new sections to explain binary numbers and CodingBat.\n\nChapters 9–12:\n\nOur main goal for these chapters was to provide better explanations and more diagrams. Chapters 9–10 focus more on immutable versus mutable objects, and we added new sections on BigInteger and StringBuilder. The other content is largely the same, but it should be easier to understand now.\n\nChapters 13–17:\n\nWe balanced the amount of content in Chapters 13–14 by moving ArrayLists earlier, and we implement the “War” card game as another example. Chapters 15–17 are brand new in this edition; they cover more advanced topics including 2D arrays, graphics, exceptions, abstract classes, interfaces, and events.\n\nAppendixes:\n\nWe added Appendix 19 to explain documentation comments and Javadoc in more detail. The other three appendixes that were present in the first edition have been revised for clarity and layout.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface</span>"
+    ]
+  },
+  {
+    "objectID": "preface.html#about-the-appendixes",
+    "href": "preface.html#about-the-appendixes",
+    "title": "2  Preface",
+    "section": "About the Appendixes",
+    "text": "About the Appendixes\nThe chapters of this book are meant to be read in order, because each one builds on the previous one. We also include several appendixes with material that can be read at any time:\n\nAppendix A, “Tools”\n\nThis appendix explains how to download and install Java so you can compile programs on your computer. It also provides a brief introduction to DrJava—an integrated development environment designed primarily for students—and other development tools, including Checkstyle for code quality and JUnit for testing.\n\nAppendix B, “Javadoc”\n\nIt’s important to document your classes and methods so that other programmers (including yourself in the future) will know how to use them. This appendix explains how to read documentation, how to write documentation, and how to use the Javadoc tool.\n\nAppendix C, “Graphics”\n\nJava provides libraries for working with graphics and animation, and these topics can be engaging for students. The libraries require object-oriented features that students will not completely understand until after Chapter 10, but they can be used much earlier.\n\nAppendix D, “Debugging”\n\nWe provide debugging suggestions throughout the book, but this appendix provides many more suggestions on how to debug your programs. We recommend that you review this appendix frequently as you work through the book.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface</span>"
+    ]
+  },
+  {
+    "objectID": "preface.html#code",
+    "href": "preface.html#code",
+    "title": "2  Preface",
+    "section": "Using the Code Examples",
+    "text": "Using the Code Examples\nMost of the code examples in this book are available from a Git repository at https://github.com/ChrisMayfield/ThinkJavaCode2. Git is a “version control system” that allows you to keep track of the files that make up a project. A collection of files under Git’s control is called a “repository”.\nGitHub is a hosting service that provides storage for Git repositories and a convenient web interface. It provides several ways to work with the code:\n\nYou can create a copy of the repository on GitHub by clicking the Fork button. If you don’t already have a GitHub account, you’ll need to create one. After forking, you’ll have your own repository on GitHub that you can use to keep track of code you write. Then you can “clone” the repository, which downloads a copy of the files to your computer.\nAlternatively, you could clone the original repository without forking. If you choose this option, you don’t need a GitHub account, but you won’t be able to save your changes on GitHub.\nIf you don’t want to use Git at all, you can download the code in a ZIP archive using the Clone button on the GitHub page, or this link: https://thinkjava.org/code2zip.\n\nAfter you clone the repository or unzip the ZIP file, you should have a directory named ThinkJavaCode2 with a subdirectory for each chapter in the book.\nThe examples in this book were developed and tested using OpenJDK 11. If you are using a more recent version, everything should still work. If you are using an older version, some of the examples might not.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface</span>"
+    ]
+  },
+  {
+    "objectID": "preface.html#acknowledgments",
+    "href": "preface.html#acknowledgments",
+    "title": "2  Preface",
+    "section": "Acknowledgments",
+    "text": "Acknowledgments\nMany people have sent corrections and suggestions over the years, and we appreciate their valuable feedback! This list begins with Version 4.0 of the open source edition, so it omits those who contributed to earlier versions:\n\nEllen Hildreth used this book to teach Data Structures at Wellesley College and submitted a whole stack of corrections and suggestions.\nTania Passfield pointed out that some glossaries had leftover terms that no longer appeared in the text.\nElizabeth Wiethoff noticed that the series expansion of \\(\\exp(-x^2)\\) was wrong. She has also worked on a Ruby version of the book.\nMatt Crawford sent in a whole patch file full of corrections.\nChi-Yu Li pointed out a typo and an error in one of the code examples.\nDoan Thanh Nam corrected an example.\nMuhammad Saied translated the book into Arabic and found several errors in the process.\nMarius Margowski found an inconsistency in a code example.\nLeslie Klein discovered another error in the series expansion of \\(\\exp(-x^2)\\), identified typos in card array figures, and helped clarify several exercises.\nMicah Lindstrom reported half a dozen typos and sent corrections.\nJames Riely ported the textbook source from LaTeX to Sphinx.\nhttp://fpl.cs.depaul.edu/jriely/thinkapjava/\nPeter Knaggs ported the book to C#.\nhttps://www.rigwit.co.uk/think/sharp/\nHeidi Gentry-Kolen recorded several video lectures that follow the book.\nhttps://www.youtube.com/user/digipipeline\nWaldo Ribeiro submitted a pull request that corrected a dozen typos.\nMichael Stewart made several suggestions for improving the first half of the book.\nSteven Richardson adapted the book for an online course and contributed many ideas for improving the text.\nFazl Rahman provided detailed feedback, chapter by chapter, and offered many suggestions for improving the text.\n\nWe are especially grateful to the technical reviewers of the O’Reilly Media first edition: Blythe Samuels, David Wisneski, and Stephen Rose. They found errors, made many great suggestions, and helped make the book much better.\nLikewise, we thank Marc Loy for his thorough review of the O’Reilly Media second edition. He contributed many corrections, insights, and clarifications.\nMany students have given exceptional feedback, including Ian Staton, Tanner Wernecke, Jacob Green, Rasha Abuhantash, Nick Duncan, Kylie Davidson, Shirley Jiang, Elena Trafton, Jennifer Gregorio, and Azeem Mufti.\nOther contributors who found one or more typos: Stijn Debrouwere, Guy Driesen, Andai Velican, Chris Kuszmaul, Daniel Kurikesu, Josh Donath, Rens Findhammer, Elisa Abedrapo, Yousef BaAfif, Bruce Hill, Matt Underwood, Isaac Sultan, Dan Rice, Robert Beard, Daniel Pierce, Michael Giftthaler, Chris Fox, Min Zeng, Markus Geuss, Mauricio Gonzalez, Enrico Sartirana, Kasem Satitwiwat, Jason Miller, Kevin Molloy, Cory Culbertson, Will Crawford, Shawn Brenneman, Tom Nguyen, and Ala-Uddin Mohammad.\nIf you have additional comments or ideas about the text, please send them to: feedback@greenteapress.com.\nAllen Downey and Chris Mayfield",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface</span>"
+    ]
+  },
+  {
+    "objectID": "ch01.html",
+    "href": "ch01.html",
+    "title": "3  Computer Programming",
+    "section": "",
+    "text": "3.1 What Is a Computer?\nWhen people hear the word computer, they often think of a desktop or a laptop. Not surprisingly, searching for “computer” on Google Images (https://images.google.com/) displays rows and rows of these types of machines. However, in a more general sense, a computer can be any type of device that stores and processes data.\nDictionary.com defines a computer as “a programmable electronic device designed to accept data, perform prescribed mathematical and logical operations at high speed, and display the results of these operations. Mainframes, desktop and laptop computers, tablets, and smartphones are some of the different types of computers.”\nEach type of computer has its own unique design, but internally they all share the same type of hardware. The two most important hardware components are processors (or CPUs) that perform simple calculations and memory (or RAM) that temporarily stores information. Figure 1.1 shows what these components look like.\nUsers generally see and interact with touchscreens, keyboards, and monitors, but it’s the processors and memory that perform the actual computation. Nowadays it’s fairly standard, even for a smartphone, to have at least eight processors and four gigabytes (four billion cells) of memory.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Computer Programming</span>"
+    ]
+  },
+  {
+    "objectID": "ch01.html#what-is-a-computer",
+    "href": "ch01.html#what-is-a-computer",
+    "title": "3  Computer Programming",
+    "section": "",
+    "text": "Example processor and memory hardware.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Computer Programming</span>"
+    ]
+  },
+  {
+    "objectID": "ch01.html#what-is-programming",
+    "href": "ch01.html#what-is-programming",
+    "title": "3  Computer Programming",
+    "section": "3.2 What Is Programming?",
+    "text": "3.2 What Is Programming?\nA program is a sequence of instructions that specifies how to perform a computation on computer hardware. The computation might be something mathematical, like solving a system of equations or finding the roots of a polynomial. It could also be a symbolic computation, like searching and replacing text in a document or (strangely enough) compiling a program.\nThe details look different in different languages, but a few basic instructions appear in just about every language:\n\ninput:\n\nGet data from the keyboard, a file, a sensor, or some other device.\n\noutput:\n\nDisplay data on the screen, or send data to a file or other device.\n\nmath:\n\nPerform basic mathematical operations like addition and division.\n\ndecision:\n\nCheck for certain conditions and execute the appropriate code.\n\nrepetition:\n\nPerform an action repeatedly, usually with some variation.\n\n\nBelieve it or not, that’s pretty much all there is to it. Every program you’ve ever used, no matter how complicated, is made up of small instructions that look much like these. So you can think of programming as the process of breaking down a large, complex task into smaller and smaller subtasks. The process continues until the subtasks are simple enough to be performed with the electronic circuits provided by the hardware.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Computer Programming</span>"
+    ]
+  },
+  {
+    "objectID": "ch01.html#hello",
+    "href": "ch01.html#hello",
+    "title": "3  Computer Programming",
+    "section": "3.3 The Hello World Program",
+    "text": "3.3 The Hello World Program\nTraditionally, the first program you write when learning a new programming language is called the “Hello World” program. All it does is output the words Hello, World! to the screen. In Java, it looks like this:\npublic class Hello {\n\n    public static void main(String[] args) {\n        // generate some simple output\n        System.out.println(\"Hello, World!\");\n    }\n}\nWhen this program runs, it displays the following:\nHello, World!\nNotice that the output does not include the quotation marks.\nJava programs are made up of class and method definitions, and methods are made up of statements. A statement is a line of code that performs a basic action. In the Hello World program, this line is a print statement that displays a message to the user:\nSystem.out.println(\"Hello, World!\");\nSystem.out.println displays results on the screen; the name println stands for “print line”. Confusingly, print can mean both “display on the screen” and “send to the printer”. In this book, we’ll try to say “display” when we mean output to the screen. Like most statements, the print statement ends with a semicolon (;).\nJava is “case-sensitive”, which means that uppercase and lowercase are not the same. In the Hello World program, System has to begin with an uppercase letter; system and SYSTEM won’t work.\nA method is a named sequence of statements. This program defines one method named main:\npublic static void main(String[] args)\nThe name and format of main is special: when the program runs, it starts at the first statement in main and ends when it finishes the last statement. Later, you will see programs that define more than one method.\nThis program defines a class named Hello. For now, a class is a collection of methods; we’ll have more to say about this later. You can give a class any name you like, but it is conventional to start with a capital letter. The name of the class has to match the name of the file it is in, so this class has to be in a file named Hello.java.\nJava uses curly braces (\\{ and \\}) to group things together. In Hello.java, the outermost braces contain the class definition, and the inner braces contain the method definition.\nThe line that begins with two slashes (//) is a comment, which is a bit of English text that explains the code. When Java sees //, it ignores everything from there until the end of the line. Comments have no effect on the execution of the program, but they make it easier for other programmers (and your future self) to understand what you meant to do.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Computer Programming</span>"
+    ]
+  },
+  {
+    "objectID": "ch01.html#compiling-java-programs",
+    "href": "ch01.html#compiling-java-programs",
+    "title": "3  Computer Programming",
+    "section": "3.4 Compiling Java Programs",
+    "text": "3.4 Compiling Java Programs\nThe programming language you will learn in this book is Java, which is a high-level language. Other high-level languages you may have heard of include Python, C and C++, PHP, Ruby, and JavaScript.\nBefore they can run, programs in high-level languages have to be translated into a low-level language, also called “machine language”. This translation takes some time, which is a small disadvantage of high-level languages. But high-level languages have two major advantages:\n\nIt is much easier to program in a high-level language. Programs take less time to write, they are shorter and easier to read, and they are more likely to be correct.\nHigh-level languages are portable, meaning they can run on different kinds of computers with few or no modifications. Low-level programs can run on only one kind of computer.\n\nTwo kinds of programs translate high-level languages into low-level languages: interpreters and compilers. An interpreter reads a high-level program and executes it, meaning that it does what the program says. It processes the program a little at a time, alternately reading lines and performing computations. Figure 1.2 shows the structure of an interpreter.\n\n\n\n\n\nHow interpreted languages are executed.\n\n\nIn contrast, a compiler reads the entire program and translates it completely before the program starts running. The high-level program is called the source code. The translated program is called the object code, or the executable. Once a program is compiled, you can execute it repeatedly without further translation of the source code. As a result, compiled programs often run faster than interpreted programs.\nNote that object code, as a low-level language, is not portable. You cannot run an executable compiled for a Windows laptop on an Android phone, for example. To run a program on different types of machines, it must be compiled multiple times. It can be difficult to write source code that compiles and runs correctly on different types of machines.\nTo address this issue, Java is both compiled and interpreted. Instead of translating source code directly into an executable, the Java compiler generates code for a virtual machine. This “imaginary” machine has the functionality common to desktops, laptops, tablets, phones, etc. Its language, called Java byte code, looks like object code and is easy and fast to interpret.\nAs a result, it’s possible to compile a Java program on one machine, transfer the byte code to another machine, and run the byte code on that other machine. Figure 1.3 shows the steps of the development process. The Java compiler is a program named javac. It translates .java files into .class files that store the resulting byte code. The Java interpreter is another program, named java, which is short for “Java Virtual Machine” (JVM).\n\n\n\n\n\nThe process of compiling and running a Java program.\n\n\nThe programmer writes source code in the file Hello.java and uses javac to compile it. If there are no errors, the compiler saves the byte code in the file Hello.class. To run the program, the programmer uses java to interpret the byte code. The result of the program is then displayed on the screen.\nAlthough it might seem complicated, these steps are automated for you in most development environments. Usually, you only have to press a button or type a single command to compile and interpret your program. On the other hand, it is important to know what steps are happening in the background, so if something goes wrong you can figure out what it is.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Computer Programming</span>"
+    ]
+  },
+  {
+    "objectID": "ch01.html#displaying-two-messages",
+    "href": "ch01.html#displaying-two-messages",
+    "title": "3  Computer Programming",
+    "section": "3.5 Displaying Two Messages",
+    "text": "3.5 Displaying Two Messages\nYou can put as many statements as you like in the main method. For example, to display more than one line of output:\npublic class Hello2 {\n\n    public static void main(String[] args) {\n        // generate some simple output\n        System.out.println(\"Hello, World!\");  // first line\n        System.out.println(\"How are you?\");   // another line\n    }\n}\nAs this example also shows, you can put comments at the end of a line as well as on lines all by themselves.\nPhrases that appear in quotation marks are called strings, because they contain a sequence of characters strung together in memory. Characters can be letters, numbers, punctuation marks, symbols, spaces, tabs, etc.\nSystem.out.println appends a special character, called a newline, that moves to the beginning of the next line. If you don’t want a newline at the end, you can use print instead of println:\npublic class Goodbye {\n\n    public static void main(String[] args) {\n        System.out.print(\"Goodbye, \");\n        System.out.println(\"cruel world\");\n    }\n}\n\nIn this example, the first statement does not add a newline, so the output appears on a single line:\nGoodbye, cruel world\nNotice that there is a space at the end of the first string, which appears in the output just before the word cruel.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Computer Programming</span>"
+    ]
+  },
+  {
+    "objectID": "ch01.html#formatting",
+    "href": "ch01.html#formatting",
+    "title": "3  Computer Programming",
+    "section": "3.6 Formatting Source Code",
+    "text": "3.6 Formatting Source Code\nIn Java source code, some spaces are required. For example, you need at least one space between words, so this program is not legal:\npublicclassGoodbye{\n\n    publicstaticvoidmain(String[] args) {\n        System.out.print(\"Goodbye, \");\n        System.out.println(\"cruel world\");\n    }\n}\nBut most other spaces are optional. For example, this program is legal:\npublic class Goodbye {\npublic static void main(String[] args) {\nSystem.out.print(\"Goodbye, \");\nSystem.out.println(\"cruel world\");\n}\n}\nThe newlines are optional, too. So we could just write this:\npublic class Goodbye { public static void main(String[] args)\n{ System.out.print(\"Goodbye, \"); System.out.println\n(\"cruel world\");}}\nIt still works, but the program is getting harder and harder to read. Newlines and spaces are important for visually organizing your program, making it easier to understand the program and find errors when they occur.\nMany editors will automatically format source code with consistent indenting and line breaks. For example, in DrJava (see Appendix 18.1) you can indent your code by selecting all text (Ctrl+A) and pressing the Tab key.\nOrganizations that do a lot of software development usually have strict guidelines on how to format source code. For example, Google publishes its Java coding standards for use in open source projects: https://google.github.io/styleguide/javaguide.html.\nYou probably won’t understand these guidelines now, because they refer to language features you haven’t yet seen. But you might want to refer to them periodically as you read this book.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Computer Programming</span>"
+    ]
+  },
+  {
+    "objectID": "ch01.html#using-escape-sequences",
+    "href": "ch01.html#using-escape-sequences",
+    "title": "3  Computer Programming",
+    "section": "3.7 Using Escape Sequences",
+    "text": "3.7 Using Escape Sequences\nIt’s possible to display multiple lines of output with only one line of code. You just have to tell Java where to put the line breaks:\npublic class Hello3 {\n\n    public static void main(String[] args) {\n        System.out.print(\"Hello!\\nHow are you doing?\\n\");\n    }\n}\nThe output is two lines, each ending with a newline character:\nHello!\nHow are you doing?\nEach \\n is an escape sequence, or two characters of source code that represent a single character. (The backslash allows you to escape the string to write special characters.) Notice there is no space between \\n and How. If you add a space there, there will be a space at the beginning of the second line.\n\n\n\nCommon escape sequences\n\n\n\\n\nnewline\n\n\n\n\n\\t\ntab\n\n\n\\\"\ndouble quote\n\n\n\\\\\nbackslash\n\n\n\n\n\nJava has a total of eight escape sequences, and the four most commonly used ones are listed in Table 1.1. For example, to write quotation marks inside of strings, you need to escape them with a backslash:\nSystem.out.println(\"She said \\\"Hello!\\\" to me.\");\nThe result is as follows:\nShe said \"Hello!\" to me.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Computer Programming</span>"
+    ]
+  },
+  {
+    "objectID": "ch01.html#what-is-computer-science",
+    "href": "ch01.html#what-is-computer-science",
+    "title": "3  Computer Programming",
+    "section": "3.8 What Is Computer Science?",
+    "text": "3.8 What Is Computer Science?\nThis book intentionally omits some details about the Java language (such as the other escape sequences), because our main goal is teaching you how to think like a computer scientist. Being able to understand computation is much more valuable than just learning how to write code.\nIf you’re interested in learning more about Java itself, Oracle maintains an official set of tutorials on its website (https://thinkjava.org/tutorial). The “Language Basics” tutorial, found under “Learning the Java Language”, is a good place to start.\nOne of the most interesting aspects of writing programs is deciding how to solve a particular problem, especially when there are multiple solutions. For example, there are numerous ways to sort a list of numbers, and each way has its advantages. In order to determine which way is best for a given situation, we need techniques for describing and analyzing solutions formally.\nAn algorithm is a sequence of steps that specifies how to solve a problem. Some algorithms are faster than others, and some use less space in computer memory. Computer science is the science of algorithms, including their discovery and analysis. As you learn to develop algorithms for problems you haven’t solved before, you will learn to think like a computer scientist.\nDesigning algorithms and writing code is difficult and error-prone. For historical reasons, programming errors are called bugs, and the process of tracking them down and correcting them is called debugging. As you learn to debug your programs, you will develop new problem-solving skills. You will need to think creatively when unexpected errors happen.\nAlthough it can be frustrating, debugging is an intellectually rich, challenging, and interesting part of computer science. In some ways, debugging is like detective work. You are confronted with clues, and you have to infer the processes and events that led to the results you see. Thinking about how to correct programs and improve their performance sometimes even leads to the discovery of new algorithms.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Computer Programming</span>"
+    ]
+  },
+  {
+    "objectID": "ch01.html#sec:examples",
+    "href": "ch01.html#sec:examples",
+    "title": "3  Computer Programming",
+    "section": "3.9 Debugging Programs",
+    "text": "3.9 Debugging Programs\nIt is a good idea to read this book in front of a computer so you can try out the examples as you go. You can run many of the examples directly in DrJava’s Interactions pane (see Appendix 18.2). But if you put the code in a source file, it will be easier to try out variations.\nWhenever you are experimenting with a new feature, you should also try to make mistakes. For example, in the Hello World program, what happens if you leave out one of the quotation marks? What if you leave out both? What if you spell println wrong? These kinds of experiments help you remember what you read. They also help with debugging, because you learn what the error messages mean. It is better to make mistakes now and on purpose than later on and accidentally.\nDebugging is like an experimental science: once you have an idea about what is going wrong, you modify your program and try again. If your hypothesis was correct, then you can predict the result of the modification, and you take a step closer to a working program. If your hypothesis was wrong, you have to come up with a new one.\nProgramming and debugging should go hand in hand. Don’t just write a bunch of code and then perform trial-and-error debugging until it all works. Instead, start with a program that does something and make small modifications, debugging them as you go, until the program does what you want. That way, you will always have a working program, and isolating errors will be easier.\nA great example of this principle is the Linux operating system, which contains millions of lines of code. It started out as a simple program Linus Torvalds used to explore the Intel 80386 chip. According to Larry Greenfield in The Linux Users’ Guide, “One of Linus’s earlier projects was a program that would switch between printing AAAA and BBBB. This later evolved to Linux.”\nFinally, programming sometimes brings out strong emotions. If you are struggling with a difficult bug, you might feel angry, despondent, or embarrassed. Remember that you are not alone, and virtually every programmer has had similar experiences. Don’t hesitate to reach out to a friend and ask questions!",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Computer Programming</span>"
+    ]
+  },
+  {
+    "objectID": "ch01.html#vocabulary",
+    "href": "ch01.html#vocabulary",
+    "title": "3  Computer Programming",
+    "section": "3.10 Vocabulary",
+    "text": "3.10 Vocabulary\nThroughout the book, we try to define each term the first time we use it. At the end of each chapter, we include the new terms and their definitions in order of appearance. If you spend some time learning this vocabulary, you will have an easier time reading the following chapters.\n\nproblem solving:\n\nThe process of formulating a problem, finding a solution, and expressing the solution.\n\nhardware:\n\nThe electronic and mechanical components of a computer, such as CPUs, RAM, and hard disks.\n\nprocessor:\n\nA computer chip that performs simple instructions like basic arithmetic and logic.\n\nmemory:\n\nCircuits that store data as long as the computer is turned on. Not to be confused with permanent storage devices like hard disks and flash.\n\nprogram:\n\nA sequence of instructions that specifies how to perform tasks on a computer. Also known as “software”.\n\nprogramming:\n\nThe application of problem solving to creating executable computer programs.\n\nstatement:\n\nPart of a program that specifies one step of an algorithm.\n\nprint statement:\n\nA statement that causes output to be displayed on the screen.\n\nmethod:\n\nA named sequence of statements.\n\nclass:\n\nFor now, a collection of related methods. (You will see later that there is a lot more to it.)\n\ncomment:\n\nA part of a program that contains information about the program but has no effect when the program runs.\n\nhigh-level language:\n\nA programming language that is designed to be easy for humans to read and write.\n\nlow-level language:\n\nA programming language that is designed to be easy for a computer to run. Also called “machine language”.\n\nportable:\n\nThe ability of a program to run on more than one kind of computer.\n\ninterpret:\n\nTo run a program in a high-level language by translating it one line at a time and immediately executing the corresponding instructions.\n\ncompile:\n\nTo translate a program in a high-level language into a low-level language, all at once, in preparation for later execution.\n\nsource code:\n\nA program in a high-level language, before being compiled.\n\nobject code:\n\nThe output of the compiler, after translating the program.\n\nexecutable:\n\nAnother name for object code that is ready to run on specific hardware.\n\nvirtual machine:\n\nAn emulation of a real machine. The JVM enables a computer to run Java programs.\n\nbyte code:\n\nA special kind of object code used for Java programs. Byte code is similar to object code, but it is portable like a high-level language.\n\nstring:\n\nA sequence of characters; the primary data type for text.\n\nnewline:\n\nA special character signifying the end of a line of text. Also known as “line ending”, “end of line” (EOL), or “line break”.\n\nescape sequence:\n\nA sequence of code that represents a special character when used inside a string.\n\nalgorithm:\n\nA procedure or formula for solving a problem, with or without a computer.\n\ncomputer science:\n\nThe scientific and practical approach to computation and its applications.\n\nbug:\n\nAn error in a program.\n\ndebugging:\n\nThe process of finding and removing errors.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Computer Programming</span>"
+    ]
+  },
+  {
+    "objectID": "ch01.html#exercises",
+    "href": "ch01.html#exercises",
+    "title": "3  Computer Programming",
+    "section": "3.11 Exercises",
+    "text": "3.11 Exercises\nAt the end of each chapter, we include exercises you can do with the things you’ve learned. We encourage you to at least attempt every problem. You can’t learn to program only by reading about it; you have to practice.\nBefore you can compile and run Java programs, you might have to download and install a few tools. There are many good options, but we recommend DrJava, which is an “integrated development environment” (IDE) well suited for beginners. Instructions for getting started are in Appendix 18.\nThe code for this chapter is in the ch01 directory of ThinkJavaCode2. See page  for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples.\n\nExercise 1.1. Computer scientists have the annoying habit of using common English words to mean something other than their common English meanings. For example, in English, statements and comments are the same thing, but in programs they are different.\n\nIn computer jargon, what’s the difference between a statement* and a comment?*\nWhat does it mean to say that a program is portable?\nIn common English, what does the word compile* mean?*\nWhat is an executable? Why is that word used as a noun?\n\nThe vocabulary section at the end of each chapter is intended to highlight words and phrases that have special meanings in computer science. When you see familiar words, don’t assume that you know what they mean!\n\n\nExercise 1.2. Before you do anything else, find out how to compile and run a Java program. Some environments provide sample programs similar to the example in Section 1.3.\n\nType in the Hello World program; then compile and run it.\nAdd a print statement that displays a second message after the Hello, World!. Say something witty like, How are you?. Compile and run the program again.\nAdd a comment to the program (anywhere), recompile, and run it again. The new comment should not affect the result.\n\nThis exercise may seem trivial, but it is the starting place for many of the programs we will work with. To debug with confidence, you will need to have confidence in your programming environment.\nIn some environments, it is easy to lose track of which program is executing. You might find yourself trying to debug one program while you are accidentally running another. Adding (and changing) print statements is a simple way to be sure that the program you are looking at is the program you are running.\n\n\nExercise 1.3. It is a good idea to commit as many errors as you can think of, so that you see what error messages the compiler produces. Sometimes the compiler tells you exactly what is wrong, and all you have to do is fix it. But sometimes the error messages are misleading. Over time you will develop a sense for when you can trust the compiler and when you have to figure things out yourself.\nStarting with the Hello World program, try out each of the following errors. After you make each change, compile the program, read the error message (if there is one), and then fix the error.\n\nRemove one of the opening curly braces.\nRemove one of the closing curly braces.\nInstead of main, write mian.\nRemove the word static.\nRemove the word public.\nRemove the word System.\nReplace println with Println.\nReplace println with print.\nDelete one parenthesis.\nAdd an extra parenthesis.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Computer Programming</span>"
+    ]
+  }
+]

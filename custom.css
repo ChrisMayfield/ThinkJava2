@@ -1,102 +1,45 @@
+/* Custom styles for Think Java */
 
-div#main {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-auto-rows: minmax(100px, auto);
-    grid-gap: 10px;
-    gap: 10px;
-}
-div#colorbar {
-    display: none;
-    /* background: #DC143C;  */
-}
-div#content {
-    min-width: 0;
-    padding: 10px;
-}
-div#content p:first-of-type {
-    margin-top: 0;
-}
-h1, h2, h3, h4, h5, h6 {
-    margin-bottom: 0;
-}
-h1 span, h2 span, h3 span, h4 span, h5 span, h6 span {
-    display: block;
-}
-
-img {
-    max-width: 100%
-}
-pre.verbatim {
+pre {
+    background-color: #f8f9fa;
+    padding: 0.5em 0.75em;
+    border-radius: 3px;
+    border: 1px solid #e0e0e0;
+    font-size: 0.95em;
     overflow-x: auto;
-    max-width: 100%;
+    margin: 1em 0;
 }
 
-/* navarrow links */
-img.navarrow {
-    padding: 0 5px;
-    text-decoration: none;
-    color: #DC143C;
+
+/* Exercise callout */
+.exercise {
+    background-color: #e7f3ff;
+    border-left: 4px solid #2196F3;
+    padding: 1rem;
+    margin: 1rem 0;
 }
 
-body > a, body > a:link {
-    color: #DC143C;
-}
-body > a:hover {
-    text-decoration: underline;
-}
-
-body div#content a, body div#sidebar a {
-    text-decoration: underline;
+.exercise::before {
+    content: "Exercise";
+    font-weight: bold;
+    color: #1976D2;
+    display: block;
+    margin-bottom: 0.5rem;
 }
 
-img.prevarrow:after {
-    content: " 🡄"
-}
-img.uparrow:after {
-    content: " 🡅"
-}
-img.nextarrow:after {
-    content: " 🡆"
-}
-/* end navarrow links */
-
-div.notice {
-    background-color: #f0f0f0;
-    padding: 8px;
-    border: 1px solid #d0d0d0;
-    margin-bottom: 12px;
+/* Summary callout */
+.summary {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1rem;
+    margin: 1rem 0;
 }
 
-@media (max-width: 800px) {
-    body > hr:first-of-type {
-        color: #DC143C;
-        background-color: #DC143C;
-        height: 12px;
-        margin-bottom: 0px;
-        border: 0;
-    }
-    div#content {
-        padding: 10px 2px;
-    }
-}
-
-@media (min-width: 800px) {
-    hr { border: 0; }
-    div#colorbar {
-        display: block;
-    }
-    div#main {
-        grid-template-columns: 1fr 5fr 200px;
-    }
-    div#content {
-        max-width: 600px;
-    }
-    div#sidebar {
-        max-width: 200px;
-        padding: 0px 10px;
-    }
-    img.prevarrow {
-        margin-left: 15%;
-    }
+.summary::before {
+    content: "Summary";
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 0.5rem;
 }
