@@ -1,0 +1,538 @@
+\chapter{Extras}
+\label{extras}
+
+This appendix contains previous sections of the book.
+We chose to remove them from this edition, because they were not essential to meet the corresponding chapter's goals.
+However, you may still find this material useful.
+
+
+\section{Chapter 4}
+
+%%% V6 Section 6.1 (second half)
+\subsection*{Unreachable Code}
+
+Sometimes it is convenient to write multiple \java{return} statements, for example, one in each branch of a conditional:
+
+\begin{code}
+public static double absoluteValue(double x) {
+    if (x < 0) {
+        return -x;
+    } else {
+        return x;
+    }
+}
+\end{code}
+
+Since these \java{return} statements are in a conditional statement, only one will be executed.
+As soon as either of them executes, the method terminates without executing any more statements.
+
+\index{dead code}
+\index{unreachable}
+
+Code that appears after a \java{return} statement (in the same block), or any place else where it can never be executed, is called {\bf dead code}.
+The compiler will give you an ``unreachable statement'' error if part of your code is dead.
+For example, this method contains two lines of dead code:
+
+\begin{code}
+public static double absoluteValue(double x) {
+    if (x < 0) {
+        return -x;
+        System.out.println("This line is dead.");  // error
+    } else {
+        return x;
+    }
+    System.out.println("So is this one.");  // error
+}
+\end{code}
+
+If you put \java{return} statements inside a conditional statement, you have to make sure that {\em every possible path} through the method reaches a \java{return} statement.
+The compiler will let you know if that's not the case.
+For example, the following method is incomplete:
+
+\begin{code}
+public static double absoluteValue(double x) {
+    if (x < 0) {
+        return -x;
+    } else if (x > 0) {
+        return x;
+    }
+    // error: missing return statement
+}
+\end{code}
+
+When \java{x} is 0, neither condition is true, so the method ends without hitting a return statement.
+The error message in this case might be something like ``missing return statement'', which is confusing since there are already two.
+
+Compiler errors like ``unreachable statement'' and ``missing return statement'' often indicate a problem with your algorithm, not the code.
+In the previous example, \java{if (x > 0)} is unnecessary because \java{x} will always be positive or zero at that point.
+Changing that \java{else if} to an \java{else} resolves the error.
+
+
+\begin{description}
+
+\term{dead code}
+Part of a program that can never be executed, often because it appears after a \java{return} statement.
+
+\end{description}
+
+
+%%% V6 Section 6.3 / V6.5 Section 5.7
+\subsection*{Method Composition}
+
+\index{composition}
+
+Once you define a method, you can use it to build other methods.
+For example, suppose someone gave you two points---the center of a circle and a point on the perimeter---and asked for the area of the circle.
+
+Let's say the center point is stored in the variables \java{xc} and \java{yc}, and the perimeter point is in \java{xp} and \java{yp}.
+The first step is to find the radius of the circle, which is the distance between the two points.
+Fortunately, we have a method that does just that.
+
+\begin{code}
+double radius = distance(xc, yc, xp, yp);
+\end{code}
+
+The second step is to find the area of a circle with that radius.
+We have a method for that computation too.
+
+\begin{code}
+double area = calculateArea(radius);
+\end{code}
+
+Putting everything together in a new method, we get:
+
+\begin{code}
+public static double circleArea
+        (double xc, double yc, double xp, double yp) {
+    double radius = distance(xc, yc, xp, yp);
+    double area = calculateArea(radius);
+    return area;
+}
+\end{code}
+
+Temporary variables like \java{radius} and \java{area} are useful for development and debugging, but once the program is working we can make it more concise by composing the method calls:
+
+\begin{code}
+public static double circleArea
+        (double xc, double yc, double xp, double yp) {
+    return calculateArea(distance(xc, yc, xp, yp));
+}
+\end{code}
+
+\index{functional decomposition}
+
+This example demonstrates a process known as {\bf functional decomposition}.
+We broke a complex computation into simple methods, tested the methods in isolation, and then composed the methods to perform the final computation.
+%This process reduces debugging time and yields code that is more likely to be correct and easier to maintain.
+
+%Computer scientists deal with the complexity of large programs by breaking down computations into simpler methods (which in turn may call other methods).
+%Data is passed around the program via parameters and return values.
+
+
+\begin{description}
+
+\term{functional decomposition}
+A process for breaking down a complex computation into simple methods, then composing the methods to perform the computation.
+
+\end{description}
+
+
+%%% V6 Section 6.4 / V6.5 Section 5.8
+\subsection*{Overloading Methods}
+
+You might have noticed that \java{circleArea} and \java{calculateArea} perform similar functions.
+They both find the area of a circle, but they take different parameters.
+For \java{calculateArea}, we have to provide the radius; for \java{circleArea} we provide two points.
+
+\index{overload}
+
+If two methods do the same thing, it is natural to give them the same name.
+Having more than one method with the same name is called {\bf overloading}, and it is legal in Java as long as each version of the method takes different parameters.
+So we could rename \java{circleArea} to \java{calculateArea}:
+
+\begin{code}
+public static double calculateArea
+        (double xc, double yc, double xp, double yp) {
+    return calculateArea(distance(xc, yc, xp, yp));
+}
+\end{code}
+
+%Note that this new \java{calculateArea} method is {\em not} recursive.
+When you invoke an overloaded method, Java knows which version you want by looking at the arguments that you provide.
+
+\begin{itemize}
+
+\item For \java{calculateArea(3.0)}, Java uses the original \java{calculateArea} method that takes a \java{double} as an argument and interprets it as the radius.
+
+\item For \java{calculateArea(1.0, 2.0, 4.0, 6.0)}, Java uses the new version of \java{calculateArea} (renamed from \java{circleArea}), which interprets the arguments as two points.
+
+\end{itemize}
+
+In fact, the second version of \java{calculateArea} invokes the first version (after invoking the \java{distance} method).
+
+Many Java library methods are overloaded, meaning that there are different versions that accept different numbers or types of parameters.
+For example, there are variants of \java{print} and \java{println} that accept a single parameter of any data type.
+In the \java{Math} class, there is a version of \java{abs} that works on \java{double}s, and there is also a version for \java{int}s.
+
+Although overloading is a useful feature, it should be used with caution.
+You might get yourself nicely confused if you are trying to debug one version of a method while accidentally invoking a different one.
+
+
+\begin{description}
+
+\term{overload}
+To define more than one method with the same name but with different parameters.
+%When you invoke an overloaded method, Java knows which version to use by looking at the arguments you provide.
+
+\end{description}
+
+
+\section{Chapter 6}
+
+%%% V6 Section 7.2
+\subsection*{Generating Tables}
+
+\index{table}
+\index{logarithm}
+
+%Loops are good for generating and displaying tabular data.
+Before computers were readily available, people had to calculate logarithms, sines and cosines, and other common mathematical functions by hand.
+To make that easier, there were books of tables where you could look up values of various functions.
+
+Creating these tables by hand was slow and boring, and the results were often full of errors.
+When computers appeared on the scene, one of the initial reactions was: ``This is great!
+We can use a computer to generate the tables, so there will be no errors.''
+
+That turned out to be true (mostly), but shortsighted.
+Not much later, computers were so pervasive that printed tables became obsolete.
+Even so, for some operations, computers use tables of values to get an approximate answer, and then perform computations to improve the approximation.
+
+\index{division!floating-point}
+
+In some cases, there have been errors in the underlying tables, most famously in the table the original Intel Pentium used to perform floating-point division (see \url{https://en.wikipedia.org/wiki/Pentium_FDIV_bug}).
+
+Although a ``log table'' is not as useful as it once was, it still makes a good example of iteration.
+The following loop displays a table with a sequence of values in the left column and their logarithms in the right column:
+
+\begin{code}
+int i = 1;
+while (i < 10) {
+    double x = i;
+    System.out.println(x + "   " + Math.log(x));
+    i = i + 1;
+}
+\end{code}
+
+The output of this program is:
+
+\begin{stdout}
+1.0   0.0
+2.0   0.6931471805599453
+3.0   1.0986122886681098
+4.0   1.3862943611198906
+5.0   1.6094379124341003
+6.0   1.791759469228055
+7.0   1.9459101490553132
+8.0   2.0794415416798357
+9.0   2.1972245773362196
+\end{stdout}
+
+\java{Math.log} computes natural logarithms, that is, logarithms base $e$.
+For computer science applications, we often want logarithms with respect to base 2.
+To compute them, we can apply this equation:
+%
+\[ \log_2 x = \frac{log_e x}{log_e 2} \]
+%
+We can modify the loop as follows:
+
+\begin{code}
+int i = 1;
+while (i < 10) {
+    double x = i;
+    System.out.println(x + "   " + Math.log(x) / Math.log(2));
+    i = i + 1;
+}
+\end{code}
+
+And here are the results:
+
+\begin{stdout}
+1.0   0.0
+2.0   1.0
+3.0   1.5849625007211563
+4.0   2.0
+5.0   2.321928094887362
+6.0   2.584962500721156
+7.0   2.807354922057604
+8.0   3.0
+9.0   3.1699250014423126
+\end{stdout}
+
+Each time through the loop, we add one to \java{x}, so the result is an arithmetic sequence.
+If we multiply \java{x} by something instead, we get a geometric sequence:
+
+\begin{code}
+final double LOG2 = Math.log(2);
+int i = 1;
+while (i < 100) {
+    double x = i;
+    System.out.println(x + "   " + Math.log(x) / LOG2);
+    i = i * 2;
+}
+\end{code}
+
+\index{final}
+
+The first line stores \java{Math.log(2)} in a \java{final} variable to avoid computing that value over and over again.
+The last line multiplies \java{x} by 2.
+The result is:
+
+\begin{stdout}
+1.0   0.0
+2.0   1.0
+4.0   2.0
+8.0   3.0
+16.0   4.0
+32.0   5.0
+64.0   6.0
+\end{stdout}
+
+This table shows the powers of two and their logarithms, base 2.
+Log tables may not be useful anymore, but for computer scientists, knowing the powers of two helps a lot!
+%When you have an idle moment, you should memorize the powers of two up to 65536 (that's $2^{16}$).
+
+
+%%% V6 Section 7.6
+\subsection*{The do-while Loop}
+
+\index{pretest loop}
+
+The \java{while} and \java{for} statements are {\bf pretest loops}; that is, they test the condition first and at the beginning of each pass through the loop.
+
+\index{posttest loop}
+\index{do-while}
+
+Java also provides a {\bf posttest loop}: the \java{do}-\java{while} statement.
+This type of loop is useful when you need to run the body of the loop at least once.
+
+%NOTE: can we find an example that's better using do-while than using while-break?
+
+For example, in Section~\ref{validate} we used the \java{return} statement to avoid reading invalid input from the user.
+We can use a \java{do}-\java{while} loop to keep reading input until it's valid:
+
+\begin{code}
+Scanner in = new Scanner(System.in);
+boolean okay;
+do {
+    System.out.print("Enter a number: ");
+    if (in.hasNextDouble()) {
+        okay = true;
+    } else {
+        okay = false;
+        String word = in.next();
+        System.err.println(word + " is not a number");
+    }
+} while (!okay);
+double x = in.nextDouble();
+\end{code}
+
+Although this code looks complicated, it is essentially only three steps:
+
+\begin{enumerate}
+\item Display a prompt.
+\item Check the input; if invalid, display an error and start over.
+\item Read the input.
+\end{enumerate}
+
+\index{System.err}
+
+The code uses a flag variable, \java{okay}, to indicate whether we need to repeat the loop body.
+If \java{hasNextDouble()} returns \java{false}, we consume the invalid input by calling \java{next()}.
+We then display an error message via \java{System.err}.
+The loop terminates when \java{hasNextDouble()} return \java{true}.
+
+
+\begin{description}
+
+\term{pretest loop}
+A loop that tests the condition before each iteration.
+
+\term{posttest loop}
+A loop that tests the condition after each iteration.
+
+\end{description}
+
+
+%%% V6 Section 7.7
+\subsection*{Break and Continue}
+
+Sometimes neither a pretest nor a posttest loop will provide exactly what you need.
+In the previous example, the ``test'' needed to happen in the middle of the loop.
+As a result, we used a flag variable and a nested \java{if}-\java{else} statement.
+
+\index{break}
+
+A simpler way to solve this problem is to use a \java{break} statement.
+When a program reaches a \java{break} statement, it exits the current loop.
+
+\begin{code}
+Scanner in = new Scanner(System.in);
+while (true) {
+    System.out.print("Enter a number: ");
+    if (in.hasNextDouble()) {
+        break;
+    }
+    String word = in.next();
+    System.err.println(word + " is not a number");
+}
+double x = in.nextDouble();
+\end{code}
+
+Using \java{true} as a conditional in a \java{while} loop is an idiom that means ``loop forever'', or in this case ``loop until you get to a \java{break} statement.''
+
+\index{continue}
+
+In addition to the \java{break} statement, which exits the loop, Java provides a \java{continue} statement that moves on to the next iteration.
+For example, the following code reads integers from the keyboard and computes a running total.
+The \java{continue} statement causes the program to skip over any negative values.
+
+\begin{code}
+Scanner in = new Scanner(System.in);
+int x = -1;
+int sum = 0;
+while (x != 0) {
+    x = in.nextInt();
+    if (x <= 0) {
+        continue;
+    }
+    System.out.println("Adding " + x);
+    sum += x;
+}
+\end{code}
+
+Although \java{break} and \java{continue} statements give you more control of the loop execution, they can make code difficult to understand.
+Use them sparingly.
+
+
+\section{Chapter 11}
+
+%%% V6 Section 11.9
+\subsection*{Modifier Methods}
+
+In Section~\ref{addingtime}, the \java{add} method did not modify the parameters \java{t1} or \java{t2}.
+Instead, it created and returned a new \java{Time} object.
+
+Alternatively, we could have written a method like this:
+
+\begin{code}
+public void increment(double seconds) {
+    this.second += seconds;
+
+    // carry extra seconds
+    this.minute += this.second / 60;
+    this.second = this.second % 60;
+
+    // carry extra minutes
+    this.hour += this.minute / 60;
+    this.minute = this.minute % 60;
+}
+\end{code}
+
+The \java{increment} method modifies an existing \java{Time} object.
+It doesn't create a new one, and it doesn't return anything.
+
+\index{modifier method}
+\index{method!modifier}
+
+Methods like \java{increment} are called {\bf modifier} methods.
+They are usually void, but sometimes they return a reference to the object they modify.
+
+\index{pure method}
+\index{method!pure}
+
+In contrast, methods like \java{add} are called {\bf pure} methods, because:
+
+\begin{itemize}
+
+\item They don't modify the parameters.
+
+\item They don't have any other ``side effects'', like printing.
+
+\item The return value only depends on the parameters, not on any other data.
+
+\end{itemize}
+
+Modifiers can be more efficient because they don't create new objects.
+But they can also be error-prone.
+Especially when objects are aliased, the effects of modifiers can be confusing.
+
+\index{immutable}
+
+If a class provides only getters and pure methods (no setters or modifiers), then the objects will be immutable.
+Working with immutable objects can be more difficult at first, but they can save you from long hours of debugging.
+
+
+\begin{description}
+
+\term{modifier method}
+A method that changes the state (instance variables) of an object.
+
+\term{pure method}
+A method that depends only on its parameters (including the implicit parameter \java{this}) and no other data.
+
+\end{description}
+
+
+\begin{exercise}  %%V6 Ex11.1
+
+Review the documentation of \java{java.awt.Rectangle}.
+Which methods are pure?
+Which are modifiers?
+
+If you review the documentation of \java{java.lang.String}, you should see that there are no modifiers, because strings are immutable.
+
+\end{exercise}
+
+
+\section{Chapter 12}
+
+%%% V6 Section 12.10
+\subsection*{Recursive Search}
+
+\index{recursion}
+
+Another way to implement binary search is with a recursive method.
+We take \java{low} and \java{high} as parameters, add a base case, and turn steps 3 and 4 into recursive invocations.
+%They indicate the segment of the array that should be searched (including both \java{low} and \java{high}).
+%Here's what that code looks like:
+
+\begin{code}
+public static int binarySearch(Card[] cards, Card target,
+                               int low, int high) {
+    if (high < low) {
+        return -1;
+    }
+    int mid = (low + high) / 2;                     // step 1
+    int comp = cards[mid].compareTo(target);
+
+    if (comp == 0) {                                // step 2
+        return mid;
+    } else if (comp < 0) {                          // step 3
+        return binarySearch(cards, target, mid + 1, high);
+    } else {                                        // step 4
+        return binarySearch(cards, target, low, mid - 1);
+    }
+}
+\end{code}
+
+Instead of a \java{while} loop, we have an \java{if} statement to terminate the recursion.
+%We call this \java{if} statement the base case.
+If \java{high} is less than \java{low}, there are no cards between them, and we conclude that the card is not in the array.
+
+\index{infinite recursion}
+\index{recursion!infinite}
+\index{StackOverflowError}
+\index{exception!StackOverflow}
+
+Two common errors in recursive methods are (1) forgetting to include a base case, and (2) writing the recursive call so that the base case is never reached.
+Either error causes infinite recursion and a \java{StackOverflowError}.

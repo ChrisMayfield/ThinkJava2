@@ -1,0 +1,922 @@
+\chapter{Recursive Methods}
+
+\index{iterative}
+\index{recursive}
+
+Up to this point, we've been using \java{while} and \java{for} loops whenever we've needed to repeat something.
+Methods that use iteration are called {\bf iterative}.
+They are straight-forward, but sometimes more-elegant solutions exist.
+
+In this chapter, we explore one of the most magical things that a method can do: invoke {\em itself} to solve a smaller version of the {\em same} problem.
+A method that invokes itself is called {\bf recursive}.
+
+
+\section{Recursive Void Methods}
+\label{recursion}
+
+\index{countdown}
+
+Consider the following example:
+
+\begin{code}
+public static void countdown(int n) {
+    if (n == 0) {
+        System.out.println("Blastoff!");
+    } else {
+        System.out.println(n);
+        countdown(n - 1);
+    }
+}
+\end{code}
+
+The name of the method is \java{countdown}; it takes a single integer as a parameter.
+If the parameter is 0, it displays the word {\tt Blastoff!}.
+Otherwise, it displays the number and then invokes itself, passing \java{n - 1} as the argument.
+
+What happens if we invoke \java{countdown(3)} from \java{main}?
+
+\vspace{-1ex}
+\begin{quote}
+The execution of \java{countdown} begins with \java{n == 3}, and since \java{n} is not 0, it displays the value 3, and then invokes itself...
+\begin{quote}
+The execution of \java{countdown} begins with \java{n == 2}, and since \java{n} is not 0, it displays the value 2, and then invokes itself...
+\begin{quote}
+The execution of \java{countdown} begins with \java{n == 1}, and since \java{n} is not 0, it displays the value 1, and then invokes itself...
+\begin{quote}
+The execution of \java{countdown} begins with \java{n == 0}, and since \java{n} is 0, it displays the word {\tt Blastoff!}\ and then returns.
+\end{quote}
+The \java{countdown} that got \java{n == 1} returns.
+\end{quote}
+The \java{countdown} that got \java{n == 2} returns.
+\end{quote}
+The \java{countdown} that got \java{n == 3} returns.
+\end{quote}
+\vspace{-1ex}
+
+And then you're back in \java{main}.
+So the total output looks like this:
+
+\begin{stdout}
+3
+2
+1
+Blastoff!
+\end{stdout}
+
+As a second example, we'll rewrite the methods \java{newLine} and \java{threeLine} from Section~\ref{adding_methods}.
+Here they are again:
+
+\begin{code}
+public static void newLine() {
+    System.out.println();
+}
+
+public static void threeLine() {
+    newLine();
+    newLine();
+    newLine();
+}
+\end{code}
+
+\index{newline}
+
+Although these methods work, they would not help if we wanted to display two newlines, or maybe 100.
+A more general alternative would be the following:
+
+\begin{code}
+public static void nLines(int n) {
+    if (n > 0) {
+        System.out.println();
+        nLines(n - 1);
+    }
+}
+\end{code}
+
+This method takes an integer, \java{n}, as a parameter and displays \java{n} newlines.
+The structure is similar to \java{countdown}.
+As long as $n$ is greater than 0, it displays a newline and then invokes itself to display $(n-1)$ additional newlines.
+The total number of newlines is $1 + (n - 1)$, which is just what we wanted: $n$.
+
+
+\section{Recursive Stack Diagrams}
+
+\index{stack diagram}
+\index{diagram!stack}
+\index{state}
+
+In Section~\ref{stack}, we used a stack diagram to represent the state of a program during a method invocation.
+The same kind of diagram can make it easier to interpret a recursive method.
+
+Remember that every time a method gets called, Java creates a new frame that contains the method's parameters and variables.
+Figure~\ref{fig.stack2} is a stack diagram for \java{countdown}, called with \java{n == 3}.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics{figs/stack2.pdf}
+\caption{Stack diagram for the \java{countdown} program.}
+\label{fig.stack2}
+\end{center}
+\end{figure}
+
+By convention, the frame for \java{main} is at the top, and the stack of other frames grows down.
+That way, we can draw stack diagrams on paper without needing to guess how far they will grow.
+The frame for \java{main} is empty because \java{main} does not have any variables.
+(It has the parameter \java{args}, but since we're not using it, we left it out of the diagram.)
+
+\index{base case}
+
+There are four frames for \java{countdown}, each with a different value for the parameter \java{n}.
+The last frame, with \java{n == 0}, is called the {\bf base case}.
+It does not make a recursive call, so there are no more frames below it.
+
+\index{StackOverflowError}
+\index{exception!StackOverflow}
+
+If there is no base case in a recursive method, or if the base case is never reached, the stack would grow forever---at least in theory.
+In practice, the size of the stack is limited.
+If you exceed the limit, you get a \java{StackOverflowError}.
+
+For example, here is a recursive method without a base case:
+
+\begin{code}
+public static void forever(String s) {
+    System.out.println(s);
+    forever(s);
+}
+\end{code}
+
+\index{call stack}
+
+This method displays the given string until the stack overflows, at which point it throws an error.
+Try this example on your computer---you might be surprised by how long the error message is!
+
+
+\section{Value-Returning Methods}
+\label{factorial}
+
+%\index{Turing complete}
+%\index{language!complete}
+%
+%\index{Turing, Alan}
+%\index{Church, Alonzo}
+%
+%Now that we have methods that return values, we have a {\bf Turing complete} programming language.
+%That means Java can compute anything computable, for any reasonable definition of ``computable''.
+%This idea was developed by Alonzo Church and Alan Turing, so it is known as the Church-Turing thesis.
+%You can read more about it at \url{https://en.wikipedia.org/wiki/Turing_thesis}.
+
+To give you an idea of what you can do with the tools you have learned, let's look at methods that evaluate recursively defined mathematical functions.
+
+A recursive definition is similar to a ``circular'' definition, in the sense that the definition refers to the thing being defined.
+Of course, a truly circular definition is not very useful:
+
+\begin{quote}
+{\bf recursive:} \\
+An adjective used to describe a method that is recursive.
+\end{quote}
+
+\index{recursion}
+
+If you saw that definition in the dictionary, you might be annoyed.
+Then again, if you search for ``recursion'' on Google, it displays ``Did you mean: recursion'' as an inside joke.
+People fall for that link all the time.
+
+\index{factorial}
+
+Many mathematical functions are defined recursively, because that is often the simplest way.
+For example, the {\bf factorial} of an integer $n$, which is written $n!$, is defined like this:
+%
+\begin{eqnarray*}
+&&  0! = 1 \\
+&&  n! = n \cdot(n-1)!
+\end{eqnarray*}
+%
+Don't confuse the mathematical symbol $!$, which means {\em factorial}, with the Java operator \java{!}, which means {\em not}.
+This definition says that \java{factorial(0)} is \java{1}, and \java{factorial(n)} is \java{n * factorial(n - 1)}.
+
+So \java{factorial(3)} is \java{3 * factorial(2)}; \java{factorial(2)} is \java{2 * factorial(1)}; \java{factorial(1)} is \java{1 * factorial(0)}; and \java{factorial(0)} is \java{1}.
+Putting it all together, we get \java{3 * 2 * 1 * 1}, which is 6.
+
+If you can formulate a recursive definition of something, you can easily write a Java method to evaluate it.
+The first step is to decide what the parameters and return type are.
+Since \java{factorial} is defined for integers, the method takes an \java{int} as a parameter and returns an \java{int}:
+%So here's a good starting place:
+
+\begin{code}
+public static int factorial(int n) {
+    return 0;  // stub
+}
+\end{code}
+
+Next, we think about the base case.
+If the argument happens to be 0, we return 1:
+
+\begin{code}
+public static int factorial(int n) {
+    if (n == 0) {
+        return 1;
+    }
+    return 0;  // stub
+}
+\end{code}
+
+Otherwise, and this is the interesting part, we have to make a recursive call to find the factorial of $n-1$, and then multiply it by $n$:
+
+\begin{code}
+public static int factorial(int n) {
+    if (n == 0) {
+        return 1;
+    }
+    int recurse = factorial(n - 1);
+    int result = n * recurse;
+    return result;
+}
+\end{code}
+
+To illustrate what is happening, we'll use the temporary variables \java{recurse} and \java{result}.
+In each method call, \java{recurse} stores the factorial of $n - 1$, and \java{result} stores the factorial of $n$.
+
+The flow of execution for this program is similar to \java{countdown} from Section~\ref{recursion}.
+If we invoke \java{factorial} with the value \java{3}:
+
+\vspace{-1ex}
+\begin{quote}
+Since 3 is not 0, we skip the first branch and calculate the factorial of $n-1$...
+\begin{quote}
+Since 2 is not 0, we skip the first branch and calculate the factorial of $n-1$...
+\begin{quote}
+Since 1 is not 0, we skip the first branch and calculate the factorial of $n-1$...
+\begin{quote}
+Since 0 {\em is} 0, we take the first branch and return the value 1 immediately.
+% without making any more recursive invocations.
+\end{quote}
+The return value (1) gets multiplied by \java{n}, which is 1, and the result is returned.
+\end{quote}
+The return value (1) gets multiplied by \java{n}, which is 2, and the result is returned.
+\end{quote}
+The return value (2) gets multiplied by \java{n}, which is 3, and the result, 6, is returned to whatever invoked \java{factorial(3)}.
+\end{quote}
+\vspace{-1ex}
+
+\index{stack diagram}
+\index{diagram!stack}
+
+Figure~\ref{fig.stack3} shows what the stack diagram looks like for this sequence of method invocations.
+The return values are shown being passed up the stack.
+Notice that \java{recurse} and \java{result} do not exist in the last frame, because when \java{n == 0}, the code that declares them does not execute.
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics{figs/stack3.pdf}
+\caption{Stack diagram for the \java{factorial} method.}
+\label{fig.stack3}
+\end{center}
+\end{figure}
+
+
+\section{The Leap of Faith}
+\label{leap_of_faith}
+
+\index{leap of faith}
+
+Following the flow of execution is one way to read programs, but it can quickly become overwhelming.
+Another way to understand recursion is the {\bf leap of faith}:
+when you come to a method invocation, instead of following the flow of execution, you {\em assume} that the method works correctly and returns the appropriate value.
+
+In fact, you are already practicing this leap of faith when you use methods in the Java library.
+When you invoke \java{Math.cos} or \java{System.out.println}, you don't think about the implementations of those methods.
+You just assume that they work properly.
+
+The same is true of other methods.
+For example, consider the method from Section~\ref{boolmeth} that determines whether an integer has only one digit:
+
+\begin{code}
+public static boolean isSingleDigit(int x) {
+    return x > -10 && x < 10;
+}
+\end{code}
+
+Once you convince yourself that this method is correct---by examining and testing the code---you can just use the method without ever looking at the implementation again.
+
+Recursive methods are no different.
+When you get to a recursive call, don't think about the flow of execution.
+Instead, {\em assume} that the recursive call produces the desired result.
+
+For example, ``Assuming that I can find the factorial of $n-1$, can I compute the factorial of $n$?''
+Yes you can, by multiplying by $n$.
+Here's an implementation of \java{factorial} with the temporary variables removed:
+
+\begin{code}
+public static int factorial(int n) {
+    if (n == 0) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+\end{code}
+
+Notice how similar this version is to the original mathematical definition:
+%There is essentially a one-to-one correspondence.
+%
+\begin{eqnarray*}
+&&  0! = 1 \\
+&&  n! = n \cdot(n-1)!
+\end{eqnarray*}
+%
+Of course, it is strange to assume that the method works correctly when you have not finished writing it.
+But that's why it's called a leap of faith!
+
+
+%\section{Fibonacci Sequence}
+\label{fibonacci}
+
+\index{fibonacci}
+
+Another common recursively defined mathematical function is the Fibonacci sequence, which has the following definition:
+%
+\begin{eqnarray*}
+&& fibonacci(1) = 1 \\
+&& fibonacci(2) = 1 \\
+&& fibonacci(n) = fibonacci(n-1) + fibonacci(n-2)
+\end{eqnarray*}
+%
+Notice that each Fibonacci number is the sum of the two preceding Fibonacci numbers.
+Translated into Java, this function is as follows:
+
+\begin{code}
+public static int fibonacci(int n) {
+    if (n == 1 || n == 2) {
+        return 1;
+    }
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+\end{code}
+
+If you try to follow the flow of execution here, even for small values of \java{n}, your head will explode.
+But if we take a leap of faith and assume that the two recursive invocations work correctly, then it is clear, looking at the definition, that our implementation is correct.
+
+
+\section{Counting Up Recursively}
+\label{countup}
+
+The \java{countdown} example in Section~\ref{recursion} has three parts: (1) it checks the base case, (2) it displays something, and (3) it makes a recursive call.
+What do you think happens if you reverse steps 2 and 3, making the recursive call {\em before} displaying?
+
+\begin{code}
+public static void countup(int n) {
+    if (n == 0) {
+        System.out.println("Blastoff!");
+    } else {
+        countup(n - 1);
+        System.out.println(n);
+    }
+}
+\end{code}
+
+The stack diagram is the same as before, and the method is still called $n$ times.
+But now the \java{System.out.println} happens just before each recursive call returns.
+As a result, it counts {\em up} instead of down:
+
+\begin{stdout}
+Blastoff!
+1
+2
+3
+\end{stdout}
+
+Keep this in mind for the next example, which displays numbers in binary.
+
+\section{Binary Number System}
+\label{binary}
+
+You are probably aware that computers can store only 1s and 0s.
+That's because processors and memory are made up of billions of tiny on-off switches.
+
+The value 1 means a switch is on; the value 0 means a switch is off.
+All types of data, whether integer, floating-point, text, audio, video, or something else, are represented by 1s and 0s.
+
+\index{binary}
+
+Fortunately, we can represent any integer as a {\bf binary} number.
+Table~\ref{tab:binary} shows the first eight numbers in binary and decimal.
+
+\begin{table}[!ht]
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Binary & Decimal \\
+\hline
+0 & 0 \\
+\hline
+1 & 1 \\
+\hline
+10 & 2 \\
+\hline
+11 & 3 \\
+\hline
+100 & 4 \\
+\hline
+101 & 5 \\
+\hline
+110 & 6 \\
+\hline
+111 & 7 \\
+\hline
+\end{tabular}
+\caption{The first eight binary numbers.}
+\label{tab:binary}
+\end{center}
+\end{table}
+
+%In the decimal system, each part of a number is referred to as a %``digit''.
+%For example, the number 456 has three digits.
+%In the binary system, each part of a number is referred to as a ``bit''.
+%The number 10111 in binary has five bits.
+
+%When you hear the phrase ``64-bit computer'', it means that the %processors and memory use 64 bits to store integers.
+%That is where the limits for data types like \java{int} and \java{long} %come from.
+
+% ABD: I think we can leave bits out of the discussion, and just talk
+% about different written representations of the same number.
+
+In decimal there are 10 digits, and the written representation of numbers is based on powers of 10.
+For example, the number 456 has 4 in the 100's place, 5 in the 10's place, and 6 in the 1's place.
+So the value is 400 + 50 + 6:
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+4 & 5 & 6 \\
+\hline
+$10^2$ & $10^1$ & $10^0$ \\
+\hline
+\end{tabular}
+\end{center}
+
+In binary there are two digits, and the written representation of numbers is based on powers of two.
+For example, the number 10111 has 1 in the 16's place, 0 in the 8's place, 1 in the 4's place, 1 in the 2's place, and 1 in the 1's place.
+So the value is 16 + 0 + 4 + 2 + 1, which is 23 in decimal.
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+1 & 0 & 1 & 1 & 1 \\
+\hline
+$2^4$ & $2^3$ & $2^2$ & $2^1$ & $2^0$ \\
+\hline
+\end{tabular}
+\end{center}
+
+To get the digits of a decimal number, we can use repeated division.
+For example, if we divide 456 by 10, we get 45 with remainder 6.
+The remainder is the rightmost digit of 456.
+
+If we divide the result again, we get 4 with remainder 5.
+The remainder is the second rightmost digit of 456.
+And if we divide again, we get 0 with remainder 4.
+The remainder is the third rightmost digit of 456, and the result, 0, tells us that we're done.
+
+We can do the same thing in binary if we divide by 2.
+When you divide by 2, the remainder is the right-most digit, either 0 or 1.
+If you divide the result again, you get the second rightmost digit.
+If you keep going, and write down the remainders, you'll have your number in binary:
+
+\begin{stdout}
+23 / 2 is 11 remainder 1
+11 / 2 is  5 remainder 1
+ 5 / 2 is  2 remainder 1
+ 2 / 2 is  1 remainder 0
+ 1 / 2 is  0 remainder 1
+\end{stdout}
+
+Reading these remainders from bottom to top, 23 in binary is 10111.
+
+
+\section{Recursive Binary Method}
+
+Now, to display a number in binary, we can combine the algorithm from the previous section and the ``count up'' pattern from Section~\ref{countup}.
+
+Here is a recursive method that displays any positive integer in binary:
+
+\begin{code}
+public static void displayBinary(int value) {
+    if (value > 0) {
+        displayBinary(value / 2);
+        System.out.print(value % 2);
+    }
+}
+\end{code}
+
+If \java{value} is \java{0}, \java{displayBinary} does nothing (that's the base case).
+If the argument is positive, the method divides it by 2 and calls \java{displayBinary} recursively.
+When the recursive call returns, the method displays one digit of the result and returns (again).
+Figure~\ref{fig.stack4} illustrates this process.
+
+\index{stack diagram}
+\index{diagram!stack}
+
+\begin{figure}[!ht]
+\begin{center}
+\includegraphics[width=190pt]{figs/stack4.pdf}
+\caption{Stack diagram for the \java{displayBinary} method.}
+\label{fig.stack4}
+\end{center}
+\end{figure}
+
+The leftmost digit is near the bottom of the stack, so it gets displayed first.
+The rightmost digit, near the top of the stack, gets displayed last.
+After invoking \java{displayBinary}, we use \java{println} to complete the output:
+
+\begin{code}
+displayBinary(23);      // output is 10111
+System.out.println();
+\end{code}
+
+
+\section{CodingBat Problems}
+
+In the past several chapters, you've seen methods, conditions, loops, strings, arrays, and recursion.
+A great resource for practicing all of these concepts is \url{https://codingbat.com/}.
+
+\index{CodingBat}
+
+{\it CodingBat} is a free website of programming problems developed by Nick Parlante, a computer science lecturer at Stanford University.
+As you work on these problems, CodingBat saves your progress (if you create an account).
+
+To conclude this chapter, we consider two problems in the {\sf Recursion-1} section of CodingBat.
+One of them deals with strings, and the other deals with arrays.
+Both of them have the same recursive idea: check the base case, look at the current index, and recursively handle the rest.
+
+The first problem is available at \url{https://codingbat.com/prob/p118230}:
+
+\begin{quote}
+\textbf{Recursion-1 ~noX}
+
+Given a string, compute recursively a new string where all the \java{'x'} chars have been removed.
+
+\ttfamily
+noX("xaxb") $\rightarrow$ "ab" \\
+noX("abc") $\rightarrow$ "abc" \\
+noX("xx") $\rightarrow$ ""
+\end{quote}
+
+When solving recursive problems, it helps to think about the base case first.
+The base case is the easiest version of the problem; for \java{noX}, it's the empty string.
+If the argument is an empty string, there are no {\tt x}'s to be removed:
+
+\begin{code}
+if (str.length() == 0) {
+    return "";
+}
+\end{code}
+
+% NOTE: Some people like isEmpty(), but I think this is the right
+% idiom for our purposes
+% https://www.techiedelight.com/check-string-empty-or-null-java/
+
+Next comes the more difficult part.
+To solve a problem recursively, you need to think of a simpler instance of the same problem.
+For \java{noX}, it's removing all the {\tt x}'s from a shorter string.
+
+So let's split the string into two parts, the first letter and the rest:
+
+\begin{code}
+char first = str.charAt(0);
+String rest = str.substring(1);
+\end{code}
+
+Now we can make a recursive call to remove the {\tt x}'s from {\tt rest}:
+
+\begin{code}
+String recurse = noX(rest);
+\end{code}
+
+If {\tt first} happens to be an {\tt x}, we're done; we just have to return {\tt recurse}.
+Otherwise, we have to concatenate {\tt first} and {\tt recurse}.
+Here's the \java{if} statement we need:
+
+\begin{code}
+if (first == 'x') {
+    return recurse;
+} else {
+    return first + recurse;
+}
+\end{code}
+
+You can run this solution on CodingBat by pasting these snippets into the provided method definition.
+
+The second problem is available at \url{https://codingbat.com/prob/p135988}:
+
+\begin{quote}
+\textbf{Recursion-1 ~array11}
+
+Given an array of ints, compute recursively the number of times that the value 11 appears in the array.
+
+\ttfamily
+array11([1, 2, 11], 0) $\rightarrow$ 1 \\
+array11([11, 11], 0) $\rightarrow$ 2 \\
+array11([1, 2, 3, 4], 0) $\rightarrow$ 0
+\end{quote}
+
+This problem uses the convention of passing the index as an argument.
+So the base case is when we've reached the end of the array.
+At that point, we know there are no more {\tt 11}s:
+
+\begin{code}
+if (index >= nums.length) {
+    return 0;
+}
+\end{code}
+
+Next we look at the current number (based on the given index), and check if it's an {\tt 11}.
+After that, we can recursively check the rest of the array.
+Similar to the \java{noX} problem, we look at only one integer per method call:
+
+\begin{code}
+int recurse = array11(nums, index + 1);
+if (nums[index] == 11) {
+    return recurse + 1;
+} else {
+    return recurse;
+}
+\end{code}
+
+Again, you can run this solutions on CodingBat by pasting the snippets into the method definition.
+
+\index{Java Tutor}
+
+To see how these solutions actually work, you might find it helpful to step through them with a debugger (see Appendix~\ref{debugger}) or Java Tutor (\url{https://thinkjava.org/javatutor}).
+Then try solving other CodingBat problems on your own.
+
+Learning to think recursively is an important part of learning to think like a computer scientist.
+Many algorithms can be written concisely with recursive methods that perform computations on the way down, on the way up, or both.
+
+
+\section{Vocabulary}
+
+\begin{description}
+
+%\term{void method}
+%A method that does not return a value.
+
+%\term{value method}
+%A method that returns a value.
+
+\term{iterative}
+A method or algorithm that repeats steps by using one or more loops.
+
+\term{recursive}
+A method or algorithm that invokes itself one or more times with different arguments.
+
+%\term{recursion}
+%The process of invoking (and restarting) the same method that is currently executing.
+
+\term{base case}
+A condition that causes a recursive method {\em not} to make another recursive call.
+
+%\term{Turing complete}
+%A programming language that can implement any theoretically possible algorithm.
+
+\term{factorial}
+The product of all the integers up to and including a given integer.
+
+\term{leap of faith}
+A way to read recursive programs by assuming that the recursive call works, rather than following the flow of execution.
+
+\term{binary}
+A system that uses only zeros and ones to represent numbers.
+Also known as ``base 2''.
+
+\end{description}
+
+
+\section{Exercises}
+
+The code for this chapter is in the {\it ch08} directory of {\it ThinkJavaCode2}.
+See page~\pageref{code} for instructions on how to download the repository.
+Before you start the exercises, we recommend that you compile and run the examples.
+
+If you have not already read Appendix~\ref{JUnit}, now might be a good time.
+It describes JUnit, a standard framework for writing test code.
+
+
+\begin{exercise}  %%V6 Ex5.5
+
+The purpose of this exercise is to take a problem and break it into smaller problems, and to solve the smaller problems by writing simple methods.
+Consider the first verse of the song ``99 Bottles of Beer'':
+
+\begin{quote}
+99 bottles of beer on the wall,\\
+99 bottles of beer,\\
+ya' take one down, ya' pass it around,\\
+98 bottles of beer on the wall.
+\end{quote}
+
+Subsequent verses are identical except that the number of bottles gets smaller by one in each verse, until the last verse:
+
+\begin{quote}
+No bottles of beer on the wall,\\
+no bottles of beer,\\
+ya' can't take one down, ya' can't pass it around,\\
+'cause there are no more bottles of beer on the wall!
+\end{quote}
+
+And then the song (finally) ends.
+
+Write a program that displays the entire lyrics of ``99 Bottles of Beer''.
+Your program should include a recursive method that does the hard part, but you might want to write additional methods to separate other parts of the program.
+As you develop your code, test it with a small number of verses, like \java{3}.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex6.7
+
+Write a recursive method named \java{oddSum} that takes a positive odd integer \java{n} and returns the sum of odd integers from 1 to \java{n}.
+Start with a base case, and use temporary variables to debug your solution.
+You might find it helpful to print the value of \java{n} each time \java{oddSum} is invoked.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex6.6
+
+In this exercise, you will use a stack diagram to understand the execution of the following recursive method:
+
+\begin{code}
+public static void main(String[] args) {
+    System.out.println(prod(1, 4));
+}
+
+public static int prod(int m, int n) {
+    if (m == n) {
+        return n;
+    } else {
+        int recurse = prod(m, n - 1);
+        int result = n * recurse;
+        return result;
+    }
+}
+\end{code}
+
+\begin{enumerate}
+
+\item Draw a stack diagram showing the state of the program just before the last invocation of \java{prod} completes.
+
+\item What is the output of this program?
+(Try to answer this question on paper first; then run the code to check your answer.)
+
+\item Explain in a few words what \java{prod} does (without getting into the details of how it works).
+
+\item Rewrite \java{prod} without the temporary variables \java{recurse} and \java{result}.
+%
+{\em Hint:} You need only one line for the \java{else} branch.
+
+\end{enumerate}
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex6.8
+
+The goal of this exercise is to translate a recursive definition into a Java method.
+The Ackermann function is defined for non-negative integers as follows:
+\begin{eqnarray*}
+A(m, n) = \begin{cases}
+              n+1 & \mbox{if } m = 0 \\
+        A(m-1, 1) & \mbox{if } m > 0 \mbox{ and } n = 0 \\
+A(m-1, A(m, n-1)) & \mbox{if } m > 0 \mbox{ and } n > 0
+\end{cases}
+\end{eqnarray*}
+
+Write a recursive method called \java{ack} that takes two \java{int}s as parameters and that computes and returns the value of the Ackermann function.
+
+Test your implementation of Ackermann by invoking it from \java{main} and displaying the return value.
+Note the return value gets very big very quickly.
+You should try it only for small values of $m$ and $n$ (not bigger than 3).
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex6.9
+\label{ex.power}
+
+Write a recursive method called \java{power} that takes a double \java{x} and an integer \java{n} and returns $x^n$.
+
+{\em Hint:} A recursive definition of this operation is $x^n = x \cdot x^{n-1}$.
+Also, remember that anything raised to the zeroth power is 1.
+
+Optional challenge: you can make this method more efficient, when \java{n} is even, using $x^n = \left( x^{n/2} \right)^2$.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex8.8
+
+Many of the patterns you have seen for traversing arrays can also be written recursively.
+It is not common, but it is a useful exercise.
+
+\begin{enumerate}
+
+\item Write a method called \java{maxInRange} that takes an array of integers and two indexes, \java{lowIndex} and \java{highIndex}, and finds the maximum value in the array, but considering only the elements between \java{lowIndex} and \java{highIndex}, including both.
+
+This method should be recursive.
+If the length of the range is 1 (i.e., if \java{lowIndex == highIndex}), we know immediately that the sole element in the range must be the maximum.
+So that's the base case.
+
+If there is more than one element in the range, we can break the array into two pieces, find the maximum in each piece, and then find the maximum of the maxima.
+
+\item Methods like \java{maxInRange} can be awkward to use.
+To find the largest element in an array, we have to provide the range for the entire array:
+
+\begin{code}
+double max = maxInRange(a, 0, a.length - 1);
+\end{code}
+
+Write a method called \java{max} that takes an array and uses \java{maxInRange} to find and return the largest element.
+
+\end{enumerate}
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex9.4
+
+Create a program called {\it Recurse.java} and type in the following methods:
+
+\begin{code}
+/**
+ * Returns the first character of the given String.
+ */
+public static char first(String s) {
+    return s.charAt(0);
+}
+\end{code}
+
+\begin{code}
+/**
+ * Returns all but the first letter of the given String.
+ */
+public static String rest(String s) {
+    return s.substring(1);
+}
+\end{code}
+
+\begin{code}
+/**
+ * Returns all but the first and last letter of the String.
+ */
+public static String middle(String s) {
+    return s.substring(1, s.length() - 1);
+}
+\end{code}
+
+\begin{code}
+/**
+ * Returns the length of the given String.
+ */
+public static int length(String s) {
+    return s.length();
+}
+\end{code}
+
+\newpage
+\begin{enumerate}
+
+\item Write some code in \java{main} that tests each of these methods.
+Make sure they work, and you understand what they do.
+
+\item Using these methods, and without using any other \java{String} methods, write a method called \java{printString} that takes a string as a parameter and displays the letters of the string, one on each line.
+It should be a \java{void} method.
+
+\item Again using only these methods, write a method called \java{printBackward} that does the same thing as \java{printString} but displays the string backward (again, one character per line).
+
+\item Now write a method called \java{reverseString} that takes a string as a parameter and returns a new string as a return value.
+The new string should contain the same letters as the parameter, but in reverse order:
+
+\begin{code}
+String backwards = reverseString("coffee");
+System.out.println(backwards);
+\end{code}
+
+The output of this example code should be as follows:
+
+\begin{stdout}
+eeffoc
+\end{stdout}
+
+\index{palindrome}
+
+\item A palindrome is a word that reads the same both forward and backward, like ``otto'' and ``palindromeemordnilap''.
+Here's one way to test whether a string is a palindrome:
+
+\begin{quotation}
+\noindent
+A single letter is a palindrome, a two-letter word is a palindrome if the letters are the same, and any other word is a palindrome if the first letter is the same as the last and the middle is a palindrome.
+\end{quotation}
+
+Write a recursive method named \java{isPalindrome} that takes a \java{String} and returns a \java{boolean} indicating whether the word is a palindrome.
+
+\end{enumerate}
+
+\end{exercise}

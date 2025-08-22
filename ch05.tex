@@ -1,0 +1,896 @@
+\chapter{Conditionals and Logic}
+
+\index{boolean}
+\index{type!boolean}
+
+The programs in the previous chapters do the same thing every time they are run, regardless of the input.
+For more-complex computations, programs usually react to inputs, check for certain conditions, and generate applicable results.
+This chapter introduces Java language features for expressing logic and making decisions.
+
+
+\section{Relational Operators}
+
+\index{operator!relational}
+\index{relational operator}
+\index{comparison operator}
+
+Java has six {\bf relational operators} that test the relationship between two values (e.g., whether they are equal, or whether one is greater than the other).
+The following expressions show how they are used:
+
+\begin{code}
+x == y          // x is equal to y
+x != y          // x is not equal to y
+x > y           // x is greater than y
+x < y           // x is less than y
+x >= y          // x is greater than or equal to y
+x <= y          // x is less than or equal to y
+\end{code}
+
+\index{Boole, George}
+
+The result of a relational operator is one of two special values: \java{true} or \java{false}.
+These values belong to the data type \java{boolean}, named after the mathematician George Boole.
+He developed an algebraic way of representing logic.
+
+\index{assignment}
+\index{operator!assignment}
+\index{== equals operator}
+
+You are probably familiar with these operators, but notice how Java is different from mathematical symbols like $=$, $\neq$, and $\geq$.
+A common error is to use a single \java{=} instead of a double \java{==} when comparing values.
+Remember that \java{=} is the {\em assignment} operator, and \java{==} is a {\em relational} operator.
+Also, the operators \java{=<} and \java{=>} do not exist.
+
+\index{automatic conversion}
+
+The two sides of a relational operator have to be compatible.
+For example, the expression \java{5 < "6"} is invalid because \java{5} is an \java{int} and \java{"6"} is a \java{String}.
+When comparing values of different numeric types, Java applies the same conversion rules you saw previously with the assignment operator.
+For example, when evaluating the expression \java{5 < 6.0}, Java automatically converts the \java{5} to \java{5.0}.
+
+%Most relational operators don't work with strings.
+%But confusingly, \java{==} and \java{!=} {\em seem} to work with strings---they just don't do what you expect.
+%We'll explain what they do later, but in the meantime, don't use them with strings.
+%Instead, you should use the \java{equals} method:
+%
+%\begin{code}
+%String fruit1 = "Apple";
+%String fruit2 = "Orange";
+%System.out.println(fruit1.equals(fruit2));
+%\end{code}
+%
+%The result of \java{fruit1.equals(fruit2)} is the boolean value \java{false}.
+
+
+\section{The if-else Statement}
+
+\index{conditional statement}
+\index{statement!conditional}
+\index{if statement}
+\index{statement!if}
+
+To write useful programs, we almost always need to check conditions and react accordingly.
+{\bf Conditional statements} give us this ability.
+The simplest conditional statement in Java is the \java{if} statement:
+
+\begin{code}
+if (x > 0) {
+    System.out.println("x is positive");
+}
+\end{code}
+
+\index{block}
+
+The expression in parentheses is called the {\em condition}.
+If it is true, the statements in braces get executed.
+If the condition is false, execution skips over that {\bf block} of code.
+The condition in parentheses can be any \java{boolean} expression.
+
+\index{branch}
+\index{statement!else}
+
+A second form of conditional statement has two possibilities, indicated by \java{if} and \java{else}.
+The possibilities are called {\bf branches}, and the condition determines which branch gets executed:
+
+\begin{code}
+if (x % 2 == 0) {
+    System.out.println("x is even");
+} else {
+    System.out.println("x is odd");
+}
+\end{code}
+
+If the remainder when \java{x} is divided by 2 is 0, we know that \java{x} is even, and the program displays a message to that effect.
+If the condition is false, the second print statement is executed instead.
+Since the condition must be true or false, exactly one of the branches will run.
+
+The braces are optional for branches that have only one statement.
+So we could have written the previous example this way:
+
+\begin{code}
+if (x % 2 == 0)
+    System.out.println("x is even");
+else
+    System.out.println("x is odd");
+\end{code}
+
+However, it's better to use braces---even when they are optional---to avoid making the mistake of adding statements to a one-line \java{if} or \java{else} block.
+This code is misleading because it's not indented correctly:
+
+\begin{code}
+if (x > 0)
+    System.out.println("x is positive");
+    System.out.println("x is not zero");
+\end{code}
+
+Since there are no braces, only the first \java{println} is part of the \java{if} statement.
+Here is what the compiler actually sees:
+
+\begin{code}
+if (x > 0) {
+    System.out.println("x is positive");
+}
+    System.out.println("x is not zero");
+\end{code}
+
+As a result, the second \java{println} runs no matter what.
+Even experienced programmers make this mistake; search the web for Apple's ``goto fail'' bug.
+
+\index{\{\} curly braces}
+
+In all previous examples, notice that there is no semicolon at the end of the \java{if} or \java{else} lines.
+Instead, a new block should be defined using braces.
+Another common mistake is to put a semicolon after the condition, like this:
+
+\begin{code}
+int x = 1;
+if (x % 2 == 0); {  // incorrect semicolon
+    System.out.println("x is even");
+}
+\end{code}
+
+This code will compile, but the program will output \java{"x is even"} regardless of the value of \java{x}.
+Here is the same incorrect code with better formatting:
+
+\begin{code}
+int x = 1;
+if (x % 2 == 0)
+    ;  // empty statement
+{
+    System.out.println("x is even");
+}
+\end{code}
+
+Because of the semicolon, the \java{if} statement compiles as if there are no braces, and the subsequent block runs independently.
+As a general rule, each line of Java code should end with a semicolon or brace---but not both.
+
+The compiler won't complain if you omit optional braces or write empty statements.
+Doing so is allowed by the Java language, but it often results in bugs that are difficult to find.
+Development tools like Checkstyle (see Appendix~\ref{checkstyle}) can warn you about these and other kinds of programming mistakes.
+
+
+\section{Chaining and Nesting}
+
+\index{chaining}
+
+Sometimes you want to check related conditions and choose one of several actions.
+One way to do this is by {\bf chaining} a series of \java{if} and \java{else} blocks:
+
+\begin{code}
+if (x > 0) {
+    System.out.println("x is positive");
+} else if (x < 0) {
+    System.out.println("x is negative");
+} else {
+    System.out.println("x is zero");
+}
+\end{code}
+
+These chains can be as long as you want, although they can be difficult to read if they get out of hand.
+One way to make them easier to read is to use standard indentation, as demonstrated in these examples.
+If you keep all the statements and braces lined up, you are less likely to make syntax errors.
+
+Notice that the last branch is simply \java{else}, not \java{else if (x == 0)}.
+At this point in the chain, we know that \java{x} is not positive and \java{x} is not negative.
+There is no need to test whether \java{x} is 0, because there is no other possibility.
+
+\index{nesting}
+
+In addition to chaining, you can also make complex decisions by {\bf nesting} one conditional statement inside another.
+We could have written the previous example as follows:
+
+\begin{code}
+if (x > 0) {
+    System.out.println("x is positive");
+} else {
+    if (x < 0) {
+        System.out.println("x is negative");
+    } else {
+        System.out.println("x is zero");
+    }
+}
+\end{code}
+
+The outer conditional has two branches.
+The first branch contains a print statement, and the second branch contains another conditional statement, which has two branches of its own.
+These two branches are also print statements, but they could have been conditional statements as well.
+
+\index{nested!conditions}
+
+These kinds of nested structures are common, but they can become difficult to read very quickly.
+Good indentation is essential to make the structure (or intended structure) apparent to the reader.
+
+
+\section{The switch Statement}
+
+If you need to make a series of decisions, chaining \java{else if} blocks can get long and redundant.
+For example, consider a program that converts integers like \java{1}, \java{2}, and \java{3} into words like \java{"one"}, \java{"two"}, and \java{"three"}:
+
+\begin{code}
+if (number == 1) {
+    word = "one";
+} else if (number == 2) {
+    word = "two";
+} else if (number == 3) {
+    word = "three";
+} else {
+    word = "unknown";
+}
+\end{code}
+
+\index{switch statement}
+\index{statement!switch}
+
+This chain could go on and on, especially for banking programs that write numbers in long form (e.g., ``one hundred twenty-three and 45/100 dollars'').
+An alternative way to evaluate many possible values of an expression is to use a \java{switch} statement:
+
+\begin{code}
+switch (number) {
+    case 1:
+        word = "one";
+        break;
+    case 2:
+        word = "two";
+        break;
+    case 3:
+        word = "three";
+        break;
+    default:
+        word = "unknown";
+        break;
+}
+\end{code}
+
+The body of a \java{switch} statement is organized into one or more \java{case} blocks.
+Each \java{case} ends with a \java{break} statement, which exits the \java{switch} body.
+The \java{default} block is optional and executed only if none of the cases apply.
+
+Although \java{switch} statements appear longer than chained \java{else if} blocks, they are particularly useful when multiple cases can be grouped:
+
+\begin{code}
+switch (food) {
+    case "apple":
+    case "banana":
+    case "cherry":
+        System.out.println("Fruit!");
+        break;
+    case "asparagus":
+    case "broccoli":
+    case "carrot":
+        System.out.println("Vegetable!");
+        break;
+}
+\end{code}
+
+%The value in the \java{switch} statement can be an integer or a string, but not a floating-point number.
+
+
+\section{Logical Operators}
+
+\index{logical operator}
+\index{operator!logical}
+\index{and operator}
+\index{or operator}
+\index{not operator}
+
+In addition to the relational operators, Java also has three {\bf logical operators}: \java{&&}, \java{||}, and \java{!}, which respectively stand for {\em and}, {\em or}, and {\em not}.
+The results of these operators are similar to their meanings in English.
+For example:
+
+\begin{itemize}
+
+\item \java{x > 0 && x < 10} is true when \java{x} is greater than 0 {\em and} less than 10.
+
+\item \java{x < 0 || x > 10} is true if either condition is true; that is, if \java{x} is less than 0 {\em or} greater than 10.
+
+\item \java{!(x > 0)} is true if \java{x} is {\em not} greater than 0.
+The parentheses are necessary in this example because, in the order of operations, \java{!} comes before \java{>}.
+
+\end{itemize}
+
+In order for an expression with \java{&&} to be true, both sides of the \java{&&} operator must be true.
+And in order for an expression with \java{||} to be false, both sides of the \java{||} operator must be false.
+
+The \java{&&} operator can be used to simplify nested \java{if} statements.
+For example, the following code can be rewritten with a single condition:
+
+\begin{code}
+if (x == 0) {
+    if (y == 0) {
+        System.out.println("Both x and y are zero");
+    }
+}
+\end{code}
+
+\begin{code}
+// combined
+if (x == 0 && y == 0) {
+    System.out.println("Both x and y are zero");
+}
+\end{code}
+
+Likewise, the \java{||} operator can simplify chained \java{if} statements.
+Since the branches are the same, there is no need to duplicate that code:
+
+\begin{code}
+if (x == 0) {
+    System.out.println("Either x or y is zero");
+} else if (y == 0) {
+    System.out.println("Either x or y is zero");
+}
+\end{code}
+
+\begin{code}
+// combined
+if (x == 0 || y == 0) {
+    System.out.println("Either x or y is zero");
+}
+\end{code}
+
+Then again, if the statements in the branches were different, we could not combine them into one block.
+But it's useful to explore different ways of representing the same logic, especially when it's complex.
+
+\index{short circuit}
+\label{shortcircuit}
+
+Logical operators evaluate the second expression {\em only when necessary}.
+For example, \java{true || anything} is always true, so Java does not need to evaluate the expression \java{anything}.
+Likewise, \java{false && anything} is always false.
+
+Ignoring the second operand, when possible, is called {\bf short-circuit} evaluation, by analogy with an electrical circuit.
+Short-circuit evaluation can save time, especially if \java{anything} takes a long time to evaluate.
+It can also avoid unnecessary errors, if \java{anything} might fail.
+
+
+\section{De Morgan's Laws}
+
+Sometimes you need to negate an expression containing a mix of relational and logical operators.
+For example, to test if \java{x} and \java{y} are both nonzero, you could write the following:
+
+\begin{code}
+if (!(x == 0 || y == 0)) {
+    System.out.println("Neither x nor y is zero");
+}
+\end{code}
+
+\index{De Morgan's laws}
+
+This condition is difficult to read because of the \java{!} and parentheses.
+A better way to negate logic expressions is to apply {\bf De Morgan's laws}:
+
+\begin{itemize}
+\item \java{!(A && B)} ~is the same as~ \java{!A || !B}
+\item \java{!(A || B)} ~is the same as~ \java{!A && !B}
+\end{itemize}
+
+In words, negating a logical expression is the same as negating each term and changing the operator.
+The \java{!} operator takes precedence over \java{&&} and \java{||}, so you don't have to put parentheses around the individual terms \java{!A} and \java{!B}.
+
+De Morgan's laws also apply to the relational operators.
+In this case, negating each term means using the ``opposite'' relational operator:
+
+\begin{itemize}
+\item \java{!(x < 5 && y == 3)} ~is the same as~ \java{x >= 5 || y != 3}
+\item \java{!(x >= 1 || y != 7)} ~is the same as~ \java{x < 1 && y == 7}
+\end{itemize}
+
+It may help to read these examples out loud in English.
+For instance, ``If I don't want the case where $x$ is less than 5 and $y$ is 3, then I need $x$ to be greater than or equal to 5, or I need $y$ to be anything but 3.''
+
+Returning to the previous example, here is the revised condition.
+In English, it reads, ``If $x$ is not zero and $y$ is not zero.''
+The logic is the same, and the source code is easier to read:
+
+\begin{code}
+if (x != 0 && y != 0) {
+    System.out.println("Neither x nor y is zero");
+}
+\end{code}
+
+
+\section{Boolean Variables}
+
+\index{expression}
+\index{type!boolean}
+
+To store a \java{true} or \java{false} value, you need a \java{boolean} variable.
+You can declare and assign them like other variables.
+In this example, the first line is a variable declaration, the second is an assignment, and the third is both:
+
+\begin{code}
+boolean flag;
+flag = true;
+boolean testResult = false;
+\end{code}
+
+\index{initialize}
+\index{statement!initialization}
+
+Since relational and logical operators evaluate to a \java{boolean} value, you can store the result of a comparison in a variable:
+
+\begin{code}
+boolean evenFlag = (x % 2 == 0);    // true if x is even
+boolean positiveFlag = (x > 0);     // true if x is positive
+\end{code}
+
+\index{flag}
+
+The parentheses are unnecessary, but they make the code easier to understand.
+A variable defined in this way is called a {\bf flag}, because it signals, or ``flags'', the presence or absence of a condition.
+
+You can use flag variables as part of a conditional statement:
+
+\begin{code}
+if (evenFlag) {
+    System.out.println("n was even when I checked it");
+}
+\end{code}
+
+Flags may not seem that useful at this point, but they will help simplify complex conditions later.
+Each part of a condition can be stored in a separate flag, and these flags can be combined with logical operators.
+
+Notice that we didn't have to write ~\java{if (evenFlag == true)}.
+Since \java{evenFlag} is a \java{boolean}, it's already a condition.
+To check if a flag is \java{false}, we simply negate the flag:
+
+\begin{code}
+if (!evenFlag) {
+    System.out.println("n was odd when I checked it");
+}
+\end{code}
+
+In general, you should never compare anything to \java{true} or \java{false}.
+Doing so makes the code more verbose and awkward to read out loud.
+
+
+\section{Boolean Methods}
+\label{boolmeth}
+
+\index{boolean}
+\index{method!boolean}
+
+Methods can return \java{boolean} values, just like any other type, which is often convenient for hiding tests inside methods.
+For example:
+
+\begin{code}
+public static boolean isSingleDigit(int x) {
+    if (x > -10 && x < 10) {
+        return true;
+    } else {
+        return false;
+    }
+}
+\end{code}
+
+The name of this method is \java{isSingleDigit}.
+It is common to give \java{boolean} methods names that sound like yes/no questions.
+Since the return type is \java{boolean}, the return statement has to provide a boolean expression.
+
+The code itself is straightforward, although it is longer than it needs to be.
+Remember that the expression \java{x > -10 && x < 10} has type \java{boolean}, so there is nothing wrong with returning it directly (without the \java{if} statement):
+
+\begin{code}
+public static boolean isSingleDigit(int x) {
+    return x > -10 && x < 10;
+}
+\end{code}
+
+In \java{main}, you can invoke the method in the usual ways:
+
+\begin{code}
+System.out.println(isSingleDigit(2));
+boolean bigFlag = !isSingleDigit(17);
+\end{code}
+
+The first line displays {\tt true} because 2 is a single-digit number.
+The second line sets \java{bigFlag} to \java{true}, because 17 is {\em not} a single-digit number.
+
+Conditional statements often invoke \java{boolean} methods and use the result as the condition:
+
+\begin{code}
+if (isSingleDigit(z)) {
+    System.out.println("z is small");
+} else {
+    System.out.println("z is big");
+}
+\end{code}
+
+Examples like this one almost read like English:
+``If is single digit z, print z is small else print z is big.''
+
+
+\section{Validating Input}
+\label{validate}
+
+\index{validate}
+\index{hacker}
+
+One of the most important tasks in any computer program is to {\bf validate} input from the user.
+People often make mistakes while typing, especially on smartphones, and incorrect inputs may cause your program to fail.
+
+Even worse, someone (i.e., a {\bf hacker}) may intentionally try to break into your system by entering unexpected inputs.
+You should never assume that users will input the right kind of data.
+
+Consider this simple program that prompts the user for a number and computes its logarithm:
+
+\begin{code}
+Scanner in = new Scanner(System.in);
+System.out.print("Enter a number: ");
+double x = in.nextDouble();
+double y = Math.log(x);
+System.out.println("The log is " + y);
+\end{code}
+
+In mathematics, the natural logarithm (base $e$) is undefined when $x \le 0$.
+In Java, if you ask for \java{Math.log(-1)}, it returns {\bf NaN}, which stands for ``not a number''.
+We can check for this condition and print an appropriate message:
+
+\begin{code}
+if (x > 0) {
+    double y = Math.log(x);
+    System.out.println("The log is " + y);
+} else {
+    System.out.println("The log is undefined");
+}
+\end{code}
+
+The output is better now, but there is another problem.
+What if the user doesn't enter a number at all?
+What would happen if they typed the word ``hello'', either by accident or on purpose?
+
+\index{InputMismatchException}
+\index{exception!InputMismatch}
+
+\begin{small}
+\begin{stdout}
+Exception in thread "main" java.util.InputMismatchException
+    at java.util.Scanner.throwFor(Scanner.java:864)
+    at java.util.Scanner.next(Scanner.java:1485)
+    at java.util.Scanner.nextDouble(Scanner.java:2413)
+    at Logarithm.main(Logarithm.java:8)
+\end{stdout}
+\end{small}
+
+\index{run-time error}
+\index{testing}
+
+If the user inputs a \java{String} when we expect a \java{double}, Java reports an ``input mismatch'' exception.
+We can prevent this run-time error from happening by testing the input first.
+
+The \java{Scanner} class provides \java{hasNextDouble}, which checks whether the next input can be interpreted as a \java{double}.
+If not, we can display an error message:
+
+\begin{code}
+if (!in.hasNextDouble()) {
+    String word = in.next();
+    System.err.println(word + "is not a number");
+}
+\end{code}
+
+\index{next!Scanner}
+
+In contrast to \java{in.nextLine}, which returns an entire line of input, the \java{in.next} method returns only the next token of input.
+We can use \java{in.next} to show the user exactly which word they typed was not a number.
+
+\index{System.err}
+
+This example also uses \java{System.err}, which is an \java{OutputStream} for error messages and warnings.
+Some development environments display output to \java{System.err} with a different color or in a separate window.
+
+%Notice the use of the \java{!} operator before \java{in.hasNextDouble()}, instead of testing the condition \java{in.hasNextDouble() == false}.
+%Since \java{hasNextDouble} returns a boolean, it is already a condition.
+
+
+\section{Example Program}
+
+In this chapter, you have seen relational and logical operators, \java{if} statements, boolean methods, and validating input.
+The following program shows how the individual code examples in the previous section fit together:
+
+\index{Logarithm.java}
+
+\begin{trinket}{Logarithm.java}
+import java.util.Scanner;
+
+/**
+ * Demonstrates input validation using if statements.
+ */
+public class Logarithm {
+
+    public static void main(String[] args) {
+
+        // prompt for input
+        Scanner in = new Scanner(System.in);
+        System.out.print("Enter a number: ");
+
+        // check the format
+        if (!in.hasNextDouble()) {
+            String word = in.next();
+            System.err.println(word + " is not a number");
+            return;
+        }
+
+        // check the range
+        double x = in.nextDouble();
+        if (x > 0) {
+            double y = Math.log(x);
+            System.out.println("The log is " + y);
+        } else {
+            System.out.println("The log is undefined");
+        }
+    }
+}
+\end{trinket}
+
+\index{return}
+\index{statement!return}
+
+Notice that the \java{return} statement allows you to exit a method before you reach the end of it.
+Returning from \java{main} terminates the program.
+
+What started as five lines of code at the beginning of Section~\ref{validate} is now a 30-line program.
+Making programs robust (and secure) often requires a lot of additional checking, as shown in this example.
+
+\index{comment}
+
+It's important to write comments every few lines to make your code easier to understand.
+Comments not only help other people read your code, but also help you document what you're trying to do.
+If there's a mistake in the code, finding it will be a lot easier when there are good comments.
+
+
+\section{Vocabulary}
+
+\begin{description}
+
+\term{boolean}
+A data type with only two possible values, \java{true} and \java{false}.
+
+\term{relational operator}
+An operator that compares two values and produces a \java{boolean} indicating the relationship between them.
+
+\term{conditional statement}
+A statement that uses a condition to determine which statements to execute.
+
+\term{block}
+A sequence of statements, surrounded by braces, that generally runs as the result of a condition.
+
+\term{branch}
+One of the alternative blocks after a conditional statement.
+For example, an \java{if}-\java{else} statement has two branches.
+
+\term{chaining}
+A way of joining several conditional statements in sequence.
+
+\term{nesting}
+Putting a conditional statement inside one or both branches of another conditional statement.
+
+\term{logical operator}
+An operator that combines boolean values and produces a boolean value.
+
+\term{short circuit}
+A way of evaluating logical operators that evaluates the second operand only if necessary.
+
+\term{De Morgan's laws}
+Mathematical rules that show how to negate a logical expression.
+
+\term{flag}
+A variable (usually \java{boolean}) that represents a condition or status.
+
+\term{validate}
+To confirm that an input value is of the correct type and within the expected range.
+
+\term{hacker}
+A programmer who breaks into computer systems.
+The term hacker may also apply to someone who enjoys writing code.
+
+\term{NaN}
+A special floating-point value that stands for ``not a number''.
+
+\end{description}
+
+
+\section{Exercises}
+
+The code for this chapter is in the {\it ch05} directory of {\it ThinkJavaCode2}.
+See page~\pageref{code} for instructions on how to download the repository.
+Before you start the exercises, we recommend that you compile and run the examples.
+
+If you have not already read Appendix~\ref{checkstyle}, now might be a good time.
+It describes Checkstyle, a tool that analyzes many aspects of your source code.
+
+
+\begin{exercise}  %%V6 Ex5.1
+
+Rewrite the following code by using a single \java{if} statement:
+
+\begin{code}
+if (x > 0) {
+    if (x < 10) {
+        System.out.println("positive single digit number.");
+    }
+}
+\end{code}
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex5.7
+
+Now that we have conditional statements, we can get back to the {\it Guess My Number} game from Exercise~\ref{guess}.
+
+You should already have a program that chooses a random number, prompts the user to guess it, and displays the difference between the guess and the chosen number.
+
+By adding a small amount of code at a time and testing as you go, modify the program so it tells the user whether the guess is too high or too low, and then prompts the user for another guess.
+
+The program should continue until the user gets it right or guesses incorrectly three times.
+If the user guesses the correct number, display a message and terminate the program.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex5.4
+
+Fermat's Last Theorem says that there are no integers $a$, $b$, $c$, and $n$ such that $a^n + b^n = c^n$, except when $n \leq 2$.
+
+Write a program named {\it Fermat.java} that inputs four integers (\java{a}, \java{b}, \java{c}, and \java{n}) and checks to see if Fermat's theorem holds.
+If $n$ is greater than 2 and $a^n + b^n = c^n$, the program should display ``Holy smokes, Fermat was wrong!''
+Otherwise, the program should display ``No, that doesn't work.''
+
+{\em Hint:} You might want to use \java{Math.pow}.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6.5 NEW
+
+Using the following variables, evaluate the logic expressions in the table that follows.
+Write your answers as true, false, or error.
+
+\begin{code}
+boolean yes = true;
+boolean no = false;
+int loVal = -999;
+int hiVal = 999;
+double grade = 87.5;
+double amount = 50.0;
+String hello = "world";
+\end{code}
+
+\vspace{1ex}
+
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+Expression & Result \\
+\hline
+\hline
+\java{yes == no || grade > amount} & \hspace{5em} \\
+\hline
+\java{amount == 40.0 || 50.0} &  \\
+\hline
+\java{hiVal != loVal || loVal < 0} &  \\
+\hline
+\java{True || hello.length() > 0} &  \\
+\hline
+\java{hello.isEmpty() && yes} &  \\
+\hline
+\java{grade <= 100 && !false} &  \\
+\hline
+\java{!yes || no} &  \\
+\hline
+\java{grade > 75 > amount} &  \\
+\hline
+\java{amount <= hiVal && amount >= loVal} &  \\
+\hline
+\java{no && !no || yes && !yes} &  \\
+\hline
+\end{tabular}
+\end{center}
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex6.5
+
+What is the output of the following program?
+Determine the answer without using a computer.
+
+\begin{code}
+public static void main(String[] args) {
+    boolean flag1 = isHoopy(202);
+    boolean flag2 = isFrabjuous(202);
+    System.out.println(flag1);
+    System.out.println(flag2);
+    if (flag1 && flag2) {
+        System.out.println("ping!");
+    }
+    if (flag1 || flag2) {
+        System.out.println("pong!");
+    }
+}
+\end{code}
+
+\begin{code}
+public static boolean isHoopy(int x) {
+    boolean hoopyFlag;
+    if (x % 2 == 0) {
+        hoopyFlag = true;
+    } else {
+        hoopyFlag = false;
+    }
+    return hoopyFlag;
+}
+\end{code}
+
+\begin{code}
+public static boolean isFrabjuous(int x) {
+    boolean frabjuousFlag;
+    if (x > 0) {
+        frabjuousFlag = true;
+    } else {
+        frabjuousFlag = false;
+    }
+    return frabjuousFlag;
+}
+\end{code}
+
+The purpose of this exercise is to make sure you understand logical operators and the flow of execution through methods.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6.5 NEW
+
+Write a program named {\it Quadratic.java} that finds the roots of $ax^2 + bx + c = 0$ using the quadratic formula:
+%
+\[ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} \]
+%
+Prompt the user to input integers for $a$, $b$, and $c$.
+Compute the two solutions for $x$, and display the results.
+
+Your program should be able to handle inputs for which there is only one or no solution.
+Specifically, it should not divide by zero or take the square root of a negative number.
+
+Be sure to validate all inputs.
+The user should never see an input mismatch exception.
+Display specific error messages that include the invalid input.
+
+\end{exercise}
+
+
+\begin{exercise}  %%V6 Ex6.3
+
+If you are given three sticks, you may or may not be able to arrange them in a triangle.
+For example, if one of the sticks is 12 inches long and the other two are 1 inch long, you will not be able to get the short sticks to meet in the middle.
+For any three lengths, there is a simple test to see if it is possible to form a triangle:
+
+\begin{quotation}
+\noindent
+If any of the three lengths is greater than the sum of the other two, you cannot form a triangle.
+\end{quotation}
+
+Write a program named {\it Triangle.java} that inputs three integers, and then outputs whether you can (or cannot) form a triangle from the given lengths.
+%The point of this exercise is to use conditional statements to write a value method.
+Reuse your code from the previous exercise to validate the inputs.
+Display an error if any of the lengths are negative or zero.
+
+\end{exercise}

@@ -1,0 +1,598 @@
+\chapter{Debugging}
+\label{debugging}
+
+\index{debugging}
+
+Although there are debugging suggestions throughout the book, we thought it would be useful to say more in an appendix.
+If you are having a hard time debugging, you might want to review this appendix from time to time.
+
+The best debugging strategy depends on what kind of error you have:
+
+\begin{itemize}
+
+\item {\bf Compile-time errors} indicate that there is something wrong with the syntax of the program.
+Example: omitting the semicolon at the end of a statement.
+
+\index{compile-time error}
+\index{error!compile-time}
+\index{syntax}
+
+\item {\bf Run-time errors} are produced if something goes wrong while the program is running.
+Example: an infinite recursion eventually causes a \java{StackOverflowError}.
+
+\index{run-time error}
+\index{error!run-time}
+\index{exception}
+
+\item {\bf Logic errors} cause the program to do the wrong thing.
+Example: an expression may not be evaluated in the order you expect.
+
+\index{logic error}
+\index{error!logic}
+
+\end{itemize}
+
+The following sections are organized by error type; some techniques are useful for more than one type.
+
+
+\section{Compile-Time Errors}
+
+The best kind of debugging is the kind you don't have to do because you avoid making errors in the first place.
+Incremental development, which we presented in Section~\ref{distance}, can help.
+The key is to start with a working program and add small amounts of code at a time.
+When there is an error, you will have a pretty good idea of where it is.
+
+Nevertheless, you might find yourself in one of the following situations.
+For each situation, we have some suggestions about how to proceed.
+
+
+\subsection*{The compiler is spewing error messages.}
+
+\index{compile}
+\index{error!message}
+
+If the compiler reports 100 error messages, that doesn't mean there are 100 errors in your program.
+When the compiler encounters an error, it often gets thrown off track for a while.
+It tries to recover and pick up again after the first error, but sometimes it reports spurious errors.
+
+Only the first error message is truly reliable.
+We suggest that you fix only one error at a time and then recompile the program.
+You may find that one semicolon or brace ``fixes'' 100 errors.
+
+
+\subsection*{I'm getting a weird compiler message, and it won't go away.}
+
+First of all, read the error message carefully.
+It may be written in terse jargon, but often there is a carefully hidden kernel of information.
+
+If nothing else, the message will tell you where in the program the problem occurred.
+Actually, it tells you where the compiler was when it noticed a problem, which is not necessarily where the error is.
+Use the information the compiler gives you as a guideline, but if you don't see an error where the compiler is pointing, broaden the search.
+
+Generally, the error will be prior to the location of the error message, but in some cases it will be somewhere else entirely.
+For example, if you get an error message at a method invocation, the actual error may be in the method definition itself.
+
+If you don't find the error quickly, take a breath and look more broadly at the entire program.
+Make sure the program is indented properly; that makes it easier to spot syntax errors.
+
+Now, start looking for common syntax errors:
+
+\index{syntax errors}
+\index{error!syntax}
+
+\begin{enumerate}
+
+\item Check that all parentheses and brackets are balanced and properly nested.
+All method definitions should be nested within a class definition.
+All program statements should be within a method definition.
+
+\item Remember that uppercase letters are not the same as lowercase letters.
+
+\item Check for semicolons at the end of statements (and no semicolons after curly braces).
+
+\index{quote mark}
+
+\item Make sure that any strings in the code have matching quotation marks.
+Make sure that you use double quotes for strings, and single quotes for characters.
+
+\item For each assignment statement, make sure that the type on the left is the same as the type on the right.
+Make sure that the expression on the left is a variable name or something else that you can assign a value to (like an element of an array).
+
+\item For each method invocation, make sure that the arguments you provide are in the right order and have the right type, and that the object you are invoking the method on is the right type.
+
+\item If you are invoking a value method, make sure you are doing something with the result.
+If you are invoking a void method, make sure you are {\em not} trying to do something with the result.
+
+\item If you are invoking an instance method, make sure you are invoking it on an object with the right type.
+If you are invoking a static method from outside the class where it is defined, make sure you specify the class name (using dot notation).
+
+\item Inside an instance method, you can refer to the instance variables without specifying an object.
+If you try that in a static method---with or without \java{this}---you get a message like ``non-static variable x cannot be referenced from a static context.''
+
+\end{enumerate}
+
+If nothing works, move on to the next section\ldots
+
+
+\subsection*{I can't get my program to compile no matter what I do.}
+
+If the compiler says there is an error and you don't see it, that might be because you and the compiler are not looking at the same code.
+Check your development environment to make sure the program you are editing is the program the compiler is compiling.
+
+This situation is often the result of having multiple copies of the same program.
+You might be editing one version of the file but compiling a different version.
+
+If you are not sure, try putting an obvious and deliberate syntax error right at the beginning of the program.
+Now compile again.
+If the compiler doesn't find the new error, there is probably something wrong with the way you set up the development environment.
+
+\index{debugging!by bisection}
+
+If you have examined the code thoroughly, and you are sure the compiler is compiling the right source file, it is time for desperate measures---{\bf debugging by bisection}:
+
+\begin{itemize}
+
+\item Make a backup of the file you are working on.
+If you are working on {\it Bob.java}, make a copy called {\it Bob.java.old}.
+
+\item Delete about half the code from {\it Bob.java}.
+Try compiling again.
+
+\begin{itemize}
+
+\item If the program compiles now, you know the error is in the code you deleted.
+Bring back about half of what you deleted and repeat.
+
+\item If the program still doesn't compile, the error must be in the code that remains.
+Delete about half of the remaining code and repeat.
+
+\end{itemize}
+
+\item Once you have found and fixed the error, start bringing back the code you deleted, a little bit at a time.
+
+\end{itemize}
+
+This process is ugly, but it goes faster than you might think and is very reliable.
+It works for other programming languages too!
+
+
+\subsection*{I did what the compiler told me to do, but it still doesn't work.}
+
+Some error messages come with tidbits of advice, like ``class Golfer must be declared abstract.
+It does not define int compareTo(java.lang.Object) from interface java.lang.Comparable.''
+It sounds like the compiler is telling you to declare \java{Golfer} as an \java{abstract} class, and if you are reading this book, you probably don't know what that is or how to do it.
+
+Fortunately, the compiler is wrong.
+The solution in this case is to make sure \java{Golfer} has a method called \java{compareTo} that takes an \java{Object} as a parameter.
+
+Don't let the compiler lead you by the nose.
+Error messages give you evidence that something is wrong, but the remedies they suggest are unreliable.
+
+
+\section{Run-Time Errors}
+
+It's not always clear what causes a run-time error, but you can often figure things out by adding print statements to your program.
+
+
+\subsection*{My program hangs.}
+
+\index{hanging}
+\index{infinite loop}
+
+If a program stops and seems to be doing nothing, we say it is ``hanging''.
+Often that means it is caught in an infinite loop or an infinite recursion.
+
+\begin{itemize}
+
+\item If you suspect that a particular loop is the problem, add a print statement immediately before the loop that says \java{"entering the loop"} and another immediately after that says \java{"exiting the loop"}.
+
+Run the program.
+If you get the first message and not the second, you know where the program is getting stuck.
+Go to the section titled ``Infinite loop''.% on page~\pageref{infloop}.
+
+\index{StackOverflowError}
+
+\item Most of the time, an infinite recursion will cause the program to run for a while and then produce a \java{StackOverflowError}.
+If that happens, go to the section titled ``Infinite recursion''.% on page~\pageref{infrec}.
+
+If you are not getting a \java{StackOverflowError}, but you suspect there is a problem with a recursive method, you can still use the techniques in the infinite recursion section.
+
+\item If neither of the previous suggestions helps, you might not understand the flow of execution in your program.
+Go to the section titled ``Flow of execution''.% on page~\pageref{flowexec}.
+
+\end{itemize}
+
+
+\subsubsection*{Infinite loop}
+\label{infloop}
+
+If you think you have an infinite loop and you know which loop it is, add a print statement at the end of the loop that displays the values of the variables in the condition, and the value of the condition.
+
+For example:
+
+\begin{code}
+while (x > 0 && y < 0) {
+    // do something to x
+    // do something to y
+
+    System.out.println("x: " + x);
+    System.out.println("y: " + y);
+    System.out.println("condition: " + (x > 0 && y < 0));
+}
+\end{code}
+
+Now when you run the program, you see three lines of output for each time through the loop.
+The last time through the loop, the condition should be \java{false}.
+If the loop keeps going, you will see the values of \java{x} and \java{y}, and you might figure out why they are not getting updated correctly.
+
+
+\subsubsection*{Infinite recursion}
+\label{infrec}
+
+\index{recursion!infinite}
+\index{infinite recursion}
+
+Most of the time, an infinite recursion will cause the program to throw a \java{StackOverflowError}.
+But if the program is slow, it may take a long time to fill the stack.
+
+If you know which method is causing an infinite recursion, check that there is a base case.
+There should be a condition that makes the method return without making a recursive invocation.
+If not, you need to rethink the algorithm and identify a base case.
+
+If there is a base case, but the program doesn't seem to be reaching it, add a print statement at the beginning of the method that displays the parameters.
+
+Now when you run the program, you see a few lines of output every time the method is invoked, and you can see the values of the parameters.
+If the parameters are not moving toward the base case, you might see why not.
+
+
+\subsubsection*{Flow of execution}
+\label{flowexec}
+
+\index{flow of execution}
+\index{tracing}
+
+If you are not sure how the flow of execution is moving through your program, add print statements to the beginning of each method with a message like \java{"entering method foo"}, where \java{foo} is the name of the method.
+Now when you run the program, it displays a trace of each method as it is invoked.
+
+You can also display the arguments each method receives.
+When you run the program, check whether the values are reasonable, and check for one of the most common errors---providing arguments in the wrong order.
+
+
+\subsection*{When I run the program, I get an exception.}
+
+\index{exception}
+\index{stack trace}
+
+When an exception occurs, Java displays a message that includes the name of the exception, the line of the program where the exception occurred, and a stack trace.
+The stack trace includes the method that was running, the method that invoked it, the method that invoked that one, and so on.
+
+The first step is to examine the place in the program where the error occurred and see if you can figure out what happened:
+
+\begin{description}
+
+\term{NullPointerException} \hfill
+
+You tried to access an instance variable or invoke a method on an object that is currently \java{null}.
+You should figure out which variable is \java{null} and then figure out how it got to be that way.
+
+Remember that when you declare a variable with an array type, its elements are initially \java{null} until you assign a value to them.
+For example, this code causes a \java{NullPointerException}:
+
+\begin{code}
+int[] array = new Point[5];
+System.out.println(array[0].x);
+\end{code}
+
+\term{ArrayIndexOutOfBoundsException} \hfill
+
+The index you are using to access an array is either negative or greater than \java{array.length - 1}.
+If you can find the site where the problem is, add a print statement immediately before it to display the value of the index and the length of the array.
+Is the array the right size?
+Is the index the right value?
+
+Now work your way backward through the program and see where the array and the index come from.
+Find the nearest assignment statement and see if it is doing the right thing.
+If either one is a parameter, go to the place where the method is invoked and see where the values are coming from.
+
+\term{StackOverflowError} \hfill
+
+See ``Infinite recursion'' on page~\pageref{infrec}.
+
+\term{FileNotFoundException} \hfill
+
+This means Java didn't find the file it was looking for.
+If you are using a project-based development environment like Eclipse, you might have to import the file into the project.
+Otherwise, make sure the file exists and that the path is correct.
+This problem depends on your filesystem, so it can be hard to track down.
+
+\term{ArithmeticException} \hfill
+
+Something went wrong during an arithmetic operation; for example, division by zero.
+
+\end{description}
+
+
+\subsection*{I added so many print statements I get inundated with output.}
+
+\index{print statement}
+\index{statement!print}
+
+One of the problems with using print statements for debugging is that you can end up buried in output.
+There are two ways to proceed: either simplify the output or simplify the program.
+
+To simplify the output, you can remove or comment out print statements that aren't helping, or combine them, or format the output so it is easier to understand.
+As you develop a program, you should write code to generate concise, informative traces of what the program is doing.
+
+To simplify the program, scale down the problem the program is working on.
+For example, if you are sorting an array, sort a {\em small} array.
+If the program takes input from the user, give it the simplest input that causes the error.
+
+\index{nested}
+
+Also, clean up the code.
+Remove unnecessary or experimental parts, and reorganize the program to make it easier to read.
+For example, if you suspect that the error is in a deeply nested part of the program, rewrite that part with a simpler structure.
+If you suspect a large method, split it into smaller methods and test them separately.
+
+The process of finding the minimal test case often leads you to the bug.
+For example, if you find that a program works when the array has an even number of elements, but not when it has an odd number, that gives you a clue about what is going on.
+
+Reorganizing the program can help you find subtle bugs.
+If you make a change that you think doesn't affect the program, and it does, that can tip you off.
+
+
+\section{Logic Errors}
+
+
+\subsection*{My program doesn't work.}
+
+Logic errors are hard to find because the compiler and interpreter provide no information about what is wrong.
+Only you know what the program is supposed to do, and only you know that it isn't doing it.
+
+The first step is to make a connection between the code and the behavior you get.
+You need a hypothesis about what the program is actually doing.
+Here are some questions to ask yourself:
+
+\begin{itemize}
+
+\item Is there something the program was supposed to do that doesn't seem to be happening?
+Find the section of the code that performs that function, and make sure it is executing when you think it should.
+See ``Flow of execution'' on page~\pageref{flowexec}.
+
+\item Is something happening that shouldn't?
+Find code in your program that performs that function, and see if it is executing when it shouldn't.
+
+\item Is a section of code producing an unexpected effect?
+Make sure you understand the code, especially if it invokes methods in the Java library.
+Read the documentation for those methods, and try them out with simple test cases.
+They might not do what you think they do.
+
+\end{itemize}
+
+To program, you need a mental model of what your code does.
+If it doesn't do what you expect, the problem might not actually be the program; it might be in your head.
+
+\index{mental model}
+
+The best way to correct your mental model is to break the program into components (usually the classes and methods) and test them independently.
+Once you find the discrepancy between your model and reality, you can solve the problem.
+
+Here are some common logic errors to check for:
+
+\index{logic error}
+\index{error!logic}
+
+\begin{itemize}
+
+\item Remember that integer division always rounds toward zero.
+If you want fractions, use \java{double}.
+More generally, use integers for countable things and floating-point numbers for measurable things.
+
+\item Floating-point numbers are only approximate, so don't rely on them to be perfectly accurate.
+You should probably never use the \java{==} operator with \java{double}s.
+Instead of writing \java{if (d == 1.23)}, do something like \java{if (Math.abs(d - 1.23) < .000001)}.
+
+% NOTE: should not be possible in Java, because = can't be used in a boolean expression
+%\item If you use the assignment operator (\java{=}) instead of the equality operator (\java{==}) in the condition of an \java{if}, \java{while}, or \java{for} statement, you might get an expression that is syntactically legal and logically wrong.
+
+\item When you apply the equality operator (\java{==}) to objects, it checks whether they are identical.
+If you meant to check equivalence, you should use the \java{equals} method instead.
+
+\item By default for user-defined types, \java{equals} checks identity.
+If you want a different notion of equivalence, you have to override it.
+
+\item Inheritance can lead to subtle logic errors, because you can run inherited code without realizing it.
+See ``Flow of execution'' on page~\pageref{flowexec}.
+
+\end{itemize}
+
+
+\subsection*{I've got a big, hairy expression and it doesn't do what I expect.}
+
+\index{expression!big and hairy}
+
+Writing complex expressions is fine as long as they are readable, but they can be hard to debug.
+It is often a good idea to break a complex expression into a series of assignments to temporary variables:
+
+% CSM: the original example had multiple compiler errors
+%rect.setLocation(rect.getLocation().translate(
+%                 -rect.getWidth(), -rect.getHeight()));
+
+\begin{code}
+rect.translate((int) Math.round(0.5 * rect.getWidth()),
+               (int) Math.round(0.5 * rect.getHeight()));
+\end{code}
+
+This example can be rewritten as follows:
+
+\begin{code}
+double halfWidth = 0.5 * rect.getWidth();
+double halfHeight = 0.5 * rect.getHeight();
+int dx = (int) Math.round(halfWidth);
+int dy = (int) Math.round(halfHeight);
+rect.translate(dx, dy);
+\end{code}
+
+The second version is easier to read, partly because the variable names provide additional documentation.
+It's also easier to debug, because you can check the types of the temporary variables and display their values.
+
+\index{temporary variable}
+\index{variable!temporary}
+\index{order of operations}
+\index{precedence}
+
+Another problem that can occur with big expressions is that the order of operations may not be what you expect.
+For example, to evaluate $\frac{x}{2 \pi}$, you might write this:
+
+\begin{code}
+double y = x / 2 * Math.PI;
+\end{code}
+
+That is not correct, because multiplication and division have the same precedence, and they are evaluated from left to right.
+This code computes $\frac{x}{2}\pi$.
+
+If you are not sure of the order of operations, check the documentation, or use parentheses to make it explicit.
+
+\begin{code}
+double y = x / (2 * Math.PI);
+\end{code}
+
+This version is correct, and more readable for other people who haven't memorized the order of operations.
+
+
+\subsection*{My method doesn't return what I expect.}
+
+\index{return statement}
+\index{statement!return}
+
+If you have a return statement with a complex expression, you don't have a chance to display the value before returning:
+
+\begin{code}
+public Rectangle intersection(Rectangle a, Rectangle b) {
+    return new Rectangle(
+        Math.min(a.x, b.x), Math.min(a.y, b.y),
+        Math.max(a.x + a.width, b.x + b.width)
+            - Math.min(a.x, b.x)
+        Math.max(a.y + a.height, b.y + b.height)
+            - Math.min(a.y, b.y));
+}
+\end{code}
+
+Instead of writing everything in one statement, use temporary variables:
+
+\begin{code}
+public Rectangle intersection(Rectangle a, Rectangle b) {
+    int x1 = Math.min(a.x, b.x);
+    int y1 = Math.min(a.y, b.y);
+    int x2 = Math.max(a.x + a.width, b.x + b.width);
+    int y2 = Math.max(a.y + a.height, b.y + b.height);
+    Rectangle rect = new Rectangle(x1, y1, x2 - x1, y2 - y1);
+    return rect;
+}
+\end{code}
+
+Now you have the opportunity to display any of the intermediate variables before returning.
+And by reusing \java{x1} and \java{y1}, you made the code smaller too.
+
+
+\subsection*{My print statement isn't doing anything.}
+
+\index{print statement}
+\index{statement!print}
+
+If you use the \java{println} method, the output is displayed immediately, but if you use \java{print} (at least in some environments), the output gets stored without being displayed until the next newline.
+If the program terminates without displaying a newline, you may never see the stored output.
+If you suspect that this is happening, change some or all of the \java{print} statements to \java{println}.
+
+
+\subsection*{I'm really, really stuck and I need help.}
+
+First, get away from the computer for a few minutes.
+Computers emit waves that affect the brain, causing the following symptoms:
+
+\begin{itemize}
+
+\item Frustration and rage.
+
+\item Superstitious beliefs (``the computer hates me'') and magical thinking (``the program works only when I wear my hat backward'').
+
+\item Sour grapes (``this program is lame anyway'').
+
+\end{itemize}
+
+If you suffer from any of these symptoms, get up and go for a walk.
+When you are calm, think about the program.
+What is it doing?
+What are possible causes of that behavior?
+When was the last time you had a working program, and what did you do next?
+
+Sometimes it just takes time to find a bug.
+People often find bugs when they let their mind wander.
+Good places to find bugs are buses, showers, and bed.
+
+
+\subsection*{No, I really need help.}
+
+It happens.
+Even the best programmers get stuck.
+Sometimes you need another pair of eyes.
+Before you bring someone else in, make sure you have tried the techniques described in this appendix.
+
+Your program should be as simple as possible, and you should be working on the smallest input that causes the error.
+You should have print statements in the appropriate places (and the output they produce should be comprehensible).
+You should understand the problem well enough to describe it concisely.
+
+When you bring someone in to help, give them the information they need:
+
+\begin{itemize}
+
+\item What kind of bug is it?
+Compile-time, run-time, or logic?
+
+\item What was the last thing you did before this error occurred?
+What were the last lines of code that you wrote, or what is the test case that fails?
+
+\item If the bug occurs at compile time or run time, what is the error message, and what part of the program does it indicate?
+
+\item What have you tried, and what have you learned?
+
+\end{itemize}
+
+By the time you explain the problem to someone, you might see the answer.
+This phenomenon is so common that some people recommend a debugging technique called ``rubber ducking''.
+Here's how it works:
+
+\index{rubber duck}
+\index{debugging!rubber duck}
+
+\begin{enumerate}
+
+\item Buy a standard-issue rubber duck.
+
+\item When you are really stuck on a problem, put the rubber duck on the desk in front of you and say, ``Rubber duck, I am stuck on a problem.
+Here's what's happening\ldots''
+
+\item Explain the problem to the rubber duck.
+
+\item Discover the solution.
+
+\item Thank the rubber duck.
+
+\end{enumerate}
+
+We're not kidding, it works!
+See \url{https://en.wikipedia.org/wiki/Rubber_duck_debugging}.
+
+
+\subsection*{I found the bug!}
+
+When you find the bug, the way to fix it is usually obvious.
+But not always.
+Sometimes what seems to be a bug is really an indication that you don't understand the program, or your algorithm contains an error.
+In these cases, you might have to rethink the algorithm or adjust your mental model.
+Take some time away from the computer to think, work through test cases by hand, or draw diagrams to represent the computation.
+
+After you fix the bug, don't just start in making new errors.
+Take a minute to think about what kind of bug it was, why you made the error, how the error manifested itself, and what you could have done to find it faster.
+Next time you see something similar, you will be able to find the bug more quickly.
+Or even better, you will learn to avoid that type of bug for good.

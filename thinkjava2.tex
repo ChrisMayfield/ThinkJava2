@@ -1,0 +1,295 @@
+\documentclass[12pt]{book}
+
+\title{Think Java}
+\author{Allen B. Downey and Chris Mayfield}
+
+\newcommand{\thetitle}{Think Java}
+\newcommand{\thesubtitle}{How to Think Like a Computer Scientist}
+\newcommand{\theauthors}{Allen B. Downey and Chris Mayfield}
+\newcommand{\theversion}{2nd Edition, Version 7.1.0}
+
+%%%% Both LATEX and PLASTEX
+
+\usepackage{graphicx}
+\usepackage{setspace}
+
+% automatically index glossary terms
+\newcommand{\term}[1]{%
+\item[#1:]\index{#1}}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+% format end of chapter excercises
+\newtheoremstyle{exercise}
+  {12pt}        % space above
+  {12pt}        % space below
+  {}            % body font
+  {}            % indent amount
+  {\bfseries}   % head font
+  {}            % punctuation
+  {12pt}        % head space
+  {}            % custom head
+\theoremstyle{exercise}
+\newtheorem{exercise}{Exercise}[chapter]
+
+\newif\ifplastex
+\plastexfalse
+
+%%%% PLASTEX ONLY
+\ifplastex
+
+\makeindex
+
+\usepackage{localdef}
+
+\usepackage{url}
+\renewcommand{\href}[2]{\url{#1}}
+
+\makeatletter
+\newcount\anchorcnt
+\newcommand*{\Anchor}[1]{%
+  \@bsphack%
+    \Hy@GlobalStepCount\anchorcnt%
+    \edef\@currentHref{anchor.\the\anchorcnt}%
+    \Hy@raisedlink{\hyper@anchorstart{\@currentHref}\hyper@anchorend}%
+    \M@gettitle{}\label{#1}%
+    \@esphack%
+}
+\makeatother
+
+% code listing environments:
+% we don't need these for plastex because they get replaced
+% by preprocess.py
+%\newenvironment{code}{\begin{verbatim}}{\end{verbatim}}
+%\newenvironment{stdout}{\begin{verbatim}}{\end{verbatim}}
+
+% inline syntax formatting
+%\newcommand{\java}{\verb}%}
+%\newcommand{\java}{\texttt}%}
+\newcommand{\java}[1]{{\tt #1}}%{
+\newcommand{\textcolor}[1]{\relax}
+
+%%%% LATEX/HTML ONLY
+\else
+
+%BEGIN LATEX
+\usepackage{comment}
+\excludecomment{htmlonly}
+\includecomment{latexonly}
+%END LATEX
+
+\input{latexonly.tex}
+
+\fi
+
+%%%% END OF PREAMBLE
+\begin{document}
+
+\frontmatter
+
+%%%% PLASTEX ONLY
+\ifplastex
+
+\maketitle
+
+%%%% LATEX/HTML ONLY
+\else
+
+\begin{latexonly}
+
+%--half title-------------------------------------------------
+\thispagestyle{empty}
+
+\begin{flushright}
+\vspace*{2.0in}
+
+\begin{spacing}{3}
+{\huge \thetitle} \\
+{\Large \thesubtitle}
+\end{spacing}
+
+\vspace{0.25in}
+
+\theversion
+
+\vfill
+\end{flushright}
+
+%--verso------------------------------------------------------
+\newpage
+\thispagestyle{empty}
+
+\quad
+
+%--title page-------------------------------------------------
+\newpage
+\thispagestyle{empty}
+
+\begin{flushright}
+\vspace*{2.0in}
+
+\begin{spacing}{3}
+{\huge \thetitle} \\
+{\Large \thesubtitle}
+\end{spacing}
+
+\vspace{0.25in}
+
+\theversion
+
+\vspace{1in}
+
+{\Large \theauthors}
+
+\vspace{0.5in}
+
+{\Large Green Tea Press}
+
+{\small Needham, Massachusetts}
+
+\vfill
+\end{flushright}
+
+%--copyright--------------------------------------------------
+\newpage
+\thispagestyle{empty}
+
+Copyright \copyright ~2020 \theauthors.
+
+\vspace{0.2in}
+
+\begin{flushleft}
+Green Tea Press \\
+9 Washburn Ave \\
+Needham, MA 02492
+\end{flushleft}
+
+Permission is granted to copy, distribute, and/or modify this work under the terms of the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License, which is available at \url{https://creativecommons.org/licenses/by-nc-sa/4.0/}.
+
+The original form of this book is \LaTeX\ source code.
+Compiling this code has the effect of generating a device-independent representation of the book, which can be converted to other formats and printed.
+
+The \LaTeX\ source for this book is available from \url{https://thinkjava.org/} and \url{https://github.com/ChrisMayfield/ThinkJava2}.
+
+%--table of contents------------------------------------------
+
+\cleardoublepage
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+\end{latexonly}
+
+%--HTML title page--------------------------------------------
+
+\begin{htmlonly}
+
+\vspace{1em}
+
+{\Large \thetitle: \thesubtitle}
+
+{\large \theauthors}
+
+\theversion
+
+\vspace{1em}
+
+Copyright \copyright ~2020 \theauthors.
+
+Permission is granted to copy, distribute, and/or modify this work under the terms of the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License, which is available at \url{https://creativecommons.org/licenses/by-nc-sa/4.0/}.
+
+\vspace{1em}
+
+\end{htmlonly}
+
+%-------------------------------------------------------------
+
+%%%% END OF THE PART WE SKIP FOR PLASTEX
+\fi
+
+\input{ch00.tex}
+
+\mainmatter
+
+%~ \part{Programming Fundamentals}
+
+\input{ch01.tex}
+
+\input{ch02.tex}
+
+\input{ch03.tex}
+
+\input{ch04.tex}
+
+\input{ch05.tex}
+
+\input{ch06.tex}
+
+\input{ch07.tex}
+
+\input{ch08.tex}
+
+%~ \part{Object-Oriented Programming}
+
+\input{ch09.tex}
+
+\input{ch10.tex}
+
+\input{ch11.tex}
+
+\input{ch12.tex}
+
+\input{ch13.tex}
+
+\input{ch14.tex}
+
+\input{ch15.tex}
+
+\input{ch16.tex}
+
+\input{ch17.tex}
+
+\appendix
+%\addtocontents{toc}{\protect\newpage}
+
+%~ \part{Appendixes}
+
+%BEGIN LATEX
+\renewcommand{\chaptermark}[1]{\markboth{Appendix \thechapter ~~ #1}{}}
+%END LATEX
+
+\input{appa.tex}
+
+\input{appb.tex}
+
+\input{appc.tex}
+
+\input{appd.tex}
+
+\backmatter
+
+\printindex
+
+%-------------------------------------------------------------
+\ifplastex
+\else
+
+\newpage
+\thispagestyle{empty}
+
+\vspace*{64pt}
+
+{\bf\huge About the Authors}
+
+\vspace*{40pt}
+
+{\bf Allen Downey} is a professor of computer science at Olin College of Engineering.
+He has taught computer science at Wellesley College, Colby College, and UC Berkeley.
+He has a PhD in computer science from UC Berkeley and master's and bachelor's degrees from MIT.
+Allen is the creator of the best-selling Think series for O'Reilly, which includes {\it Think Python}, {\it Think Complexity}, {\it Think DSP}, and {\it Think Bayes}.
+
+{\bf Chris Mayfield} is an associate professor of computer science at James Madison University, with a research focus on CS education and professional development.
+He has a PhD in computer science from Purdue University and bachelor's degrees in CS and German from the University of Utah.
+
+\fi
+\end{document}
