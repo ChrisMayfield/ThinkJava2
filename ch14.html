@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>16&nbsp; Extending Classes – Think Java</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch15.html" rel="next">
+<link href="./ch13.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch14.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Extending Classes</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Think Java</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Think Java</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Computer Programming</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Variables and Operators</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Input and Output</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods and Testing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conditionals and Logic</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Loops and Strings</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Arrays and References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Recursive Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Immutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Mutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Designing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Arrays of Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Objects of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Extending Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reusing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Advanced Topics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Tools</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Javadoc</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Graphics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Debugging</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#cardcollection" id="toc-cardcollection" class="nav-link active" data-scroll-target="#cardcollection"><span class="header-section-number">16.1</span> CardCollection</a></li>
+  <li><a href="#inheritance" id="toc-inheritance" class="nav-link" data-scroll-target="#inheritance"><span class="header-section-number">16.2</span> Inheritance</a></li>
+  <li><a href="#dealing" id="toc-dealing" class="nav-link" data-scroll-target="#dealing"><span class="header-section-number">16.3</span> Dealing Cards</a></li>
+  <li><a href="#the-player-class" id="toc-the-player-class" class="nav-link" data-scroll-target="#the-player-class"><span class="header-section-number">16.4</span> The Player Class</a></li>
+  <li><a href="#the-eights-class" id="toc-the-eights-class" class="nav-link" data-scroll-target="#the-eights-class"><span class="header-section-number">16.5</span> The Eights Class</a></li>
+  <li><a href="#class-relationships" id="toc-class-relationships" class="nav-link" data-scroll-target="#class-relationships"><span class="header-section-number">16.6</span> Class Relationships</a></li>
+  <li><a href="#vocabulary" id="toc-vocabulary" class="nav-link" data-scroll-target="#vocabulary"><span class="header-section-number">16.7</span> Vocabulary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">16.8</span> Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Extending Classes</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In this chapter, we present a more comprehensive example of object-oriented programming.</p>
+<p><em>Crazy Eights</em> is a classic card game for two or more players. The main objective is to be the first player to get rid of all your cards. Here’s how to play:</p>
+<ul>
+<li><p>Deal five or more cards to each player, and then deal one card face up to create the “discard pile”. Place the remaining cards face down to create the “draw pile”.</p></li>
+<li><p>Each player takes turns placing a single card on the discard pile. The card must match the rank or suit of the previously played card, or be an eight, which is a “wild card”.</p></li>
+<li><p>When players don’t have a matching card or an eight, they must draw new cards until they get one.</p></li>
+<li><p>If the draw pile ever runs out, the discard pile is shuffled (except the top card) and becomes the new draw pile.</p></li>
+<li><p>As soon as a player has no cards, the game ends, and all other players score penalty points for their remaining cards. Eights are worth 20, face cards are worth 10, and all others are worth their rank.</p></li>
+</ul>
+<p>You can read <a href="https://en.wikipedia.org/wiki/Crazy_Eights" class="uri">https://en.wikipedia.org/wiki/Crazy_Eights</a> for more details, but we have enough to get started.</p>
+<section id="cardcollection" class="level2" data-number="16.1">
+<h2 data-number="16.1" class="anchored" data-anchor-id="cardcollection"><span class="header-section-number">16.1</span> CardCollection</h2>
+<p>To implement Crazy Eights, we need to represent a deck of cards, a discard pile, a draw pile, and a hand for each player. And we need to be able to deal, draw, and discard cards.</p>
+<p>The <code class="sourceCode java">Deck</code> and <code class="sourceCode java">Pile</code> classes from the previous chapter meet some of these requirements. But unless we make some changes, neither of them represents a hand of cards very well.</p>
+<p>Furthermore, <code class="sourceCode java">Deck</code> and <code class="sourceCode java">Pile</code> are essentially two versions of the same code: one based on arrays, and the other based on <code class="sourceCode java"><span class="bu">ArrayList</span></code>. It would be helpful to combine their features into one class that meets the needs of both.</p>
+<p>We will define a class named <code class="sourceCode java">CardCollection</code> and add the code we want one step at a time. Since this class will represent different piles and hands of cards, we’ll add a <code class="sourceCode java">label</code> attribute to tell them apart:</p>
+<div class="sourceCode" id="cb1" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> CardCollection <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> label<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">ArrayList</span><span class="op">&lt;</span>Card<span class="op">&gt;</span> cards<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">CardCollection</span><span class="op">(</span><span class="bu">String</span> label<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">label</span> <span class="op">=</span> label<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">cards</span> <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;</span>Card<span class="op">&gt;();</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As with the <code class="sourceCode java">Pile</code> class, we need a way to add cards to the collection. Here is the <code class="sourceCode java">addCard</code> method from the previous chapter:</p>
+<div class="sourceCode" id="cb2" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">addCard</span><span class="op">(</span>Card card<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">cards</span><span class="op">.</span><span class="fu">add</span><span class="op">(</span>card<span class="op">);</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Until now, we have used <code class="sourceCode java"><span class="kw">this</span></code> explicitly to make it easy to identify attributes. Inside <code class="sourceCode java">addCard</code> and other instance methods, you can access instance variables without using the keyword <code class="sourceCode java"><span class="kw">this</span></code>. So from here on, we will drop it:</p>
+<div class="sourceCode" id="cb3" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">addCard</span><span class="op">(</span>Card card<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    cards<span class="op">.</span><span class="fu">add</span><span class="op">(</span>card<span class="op">);</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We also need to be able to remove cards from the collection. The following method takes an index, removes the card at that location, and shifts the following cards left to fill the gap:</p>
+<div class="sourceCode" id="cb4" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> Card <span class="fu">popCard</span><span class="op">(</span><span class="dt">int</span> i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cards<span class="op">.</span><span class="fu">remove</span><span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If we are dealing cards from a shuffled deck, we don’t care which card gets removed. It is most efficient to choose the last one, so we don’t have to shift any cards left. Here is an overloaded version of <code class="sourceCode java">popCard</code> that removes and returns the last card:</p>
+<div class="sourceCode" id="cb5" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> Card <span class="fu">popCard</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> i <span class="op">=</span> cards<span class="op">.</span><span class="fu">size</span><span class="op">()</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span>    <span class="co">// from the end of the list</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">popCard</span><span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code class="sourceCode java">CardCollection</code> also provides <code class="sourceCode java">isEmpty</code>, which returns <code class="sourceCode java"><span class="kw">true</span></code> if there are no cards left, and <code class="sourceCode java">size</code>, which returns the number of cards:</p>
+<div class="sourceCode" id="cb6" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isEmpty</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cards<span class="op">.</span><span class="fu">isEmpty</span><span class="op">();</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">int</span> <span class="fu">size</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cards<span class="op">.</span><span class="fu">size</span><span class="op">();</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To access the elements of an <code class="sourceCode java"><span class="bu">ArrayList</span></code>, you can’t use the array <code class="sourceCode java"><span class="op">[]</span></code> operator. Instead, you have to use the methods <code class="sourceCode java">get</code> and <code class="sourceCode java">set</code>. Here is a wrapper for <code class="sourceCode java">get</code>:</p>
+<div class="sourceCode" id="cb8" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> Card <span class="fu">getCard</span><span class="op">(</span><span class="dt">int</span> i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cards<span class="op">.</span><span class="fu">get</span><span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code class="sourceCode java">lastCard</code> gets the last card (but doesn’t remove it):</p>
+<div class="sourceCode" id="cb9" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> Card <span class="fu">lastCard</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> i <span class="op">=</span> cards<span class="op">.</span><span class="fu">size</span><span class="op">()</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cards<span class="op">.</span><span class="fu">get</span><span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In order to control the ways card collections are modified, we don’t provide a wrapper for <code class="sourceCode java">set</code>. The only modifiers we provide are the two versions of <code class="sourceCode java">popCard</code> and the following version of <code class="sourceCode java">swapCards</code>:</p>
+<div class="sourceCode" id="cb10" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">swapCards</span><span class="op">(</span><span class="dt">int</span> i<span class="op">,</span> <span class="dt">int</span> j<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    Card temp <span class="op">=</span> cards<span class="op">.</span><span class="fu">get</span><span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    cards<span class="op">.</span><span class="fu">set</span><span class="op">(</span>i<span class="op">,</span> cards<span class="op">.</span><span class="fu">get</span><span class="op">(</span>j<span class="op">));</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    cards<span class="op">.</span><span class="fu">set</span><span class="op">(</span>j<span class="op">,</span> temp<span class="op">);</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Finally, we use <code class="sourceCode java">swapCards</code> to implement <code class="sourceCode java">shuffle</code>, which we described in Section&nbsp;<a href="ch13.html#shuffle" data-reference-type="ref" data-reference="shuffle">13.2</a>:</p>
+<div class="sourceCode" id="cb11" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">shuffle</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Random</span> random <span class="op">=</span> <span class="kw">new</span> <span class="bu">Random</span><span class="op">();</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> cards<span class="op">.</span><span class="fu">size</span><span class="op">()</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&gt;</span> <span class="dv">0</span><span class="op">;</span> i<span class="op">--)</span> <span class="op">{</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> j <span class="op">=</span> random<span class="op">.</span><span class="fu">nextInt</span><span class="op">(</span>i <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">swapCards</span><span class="op">(</span>i<span class="op">,</span> j<span class="op">);</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="inheritance" class="level2" data-number="16.2">
+<h2 data-number="16.2" class="anchored" data-anchor-id="inheritance"><span class="header-section-number">16.2</span> Inheritance</h2>
+<p>At this point, we have a class that represents a collection of cards. It provides functionality common to decks of cards, piles of cards, hands of cards, and potentially other collections.</p>
+<p>However, each kind of collection will be slightly different. Rather than add every possible feature to <code class="sourceCode java">CardCollection</code>, we can use <strong>inheritance</strong> to define subclasses. A <strong>subclass</strong> is a class that “extends” an existing class; that is, it has the attributes and methods of the existing class, plus more.</p>
+<p>Here is the complete definition of our new and improved <code class="sourceCode java">Deck</code> class:</p>
+<div class="sourceCode" id="cb12" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Deck <span class="kw">extends</span> CardCollection <span class="op">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">Deck</span><span class="op">(</span><span class="bu">String</span> label<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span><span class="op">(</span>label<span class="op">);</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> suit <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> suit <span class="op">&lt;=</span> <span class="dv">3</span><span class="op">;</span> suit<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> rank <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> rank <span class="op">&lt;=</span> <span class="dv">13</span><span class="op">;</span> rank<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                <span class="fu">addCard</span><span class="op">(</span><span class="kw">new</span> <span class="fu">Card</span><span class="op">(</span>rank<span class="op">,</span> suit<span class="op">));</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first line uses the keyword <code class="sourceCode java"><span class="kw">extends</span></code> to indicate that <code class="sourceCode java">Deck</code> extends the class <code class="sourceCode java">CardCollection</code>. That means a <code class="sourceCode java">Deck</code> object has the same instance variables and methods as a <code class="sourceCode java">CardCollection</code>. Another way to say the same thing is that <code class="sourceCode java">Deck</code> “inherits from” <code class="sourceCode java">CardCollection</code>. We could also say that <code class="sourceCode java">CardCollection</code> is a <strong>superclass</strong>, and <code class="sourceCode java">Deck</code> is one of its subclasses.</p>
+<p>In Java, classes may extend only one superclass. Classes that do not specify a superclass with <code class="sourceCode java"><span class="kw">extends</span></code> automatically inherit from <code class="sourceCode java">java<span class="op">.</span><span class="fu">lang</span><span class="op">.</span><span class="fu">Object</span></code>. So in this example, <code class="sourceCode java">Deck</code> extends <code class="sourceCode java">CardCollection</code>, which in turn extends <code class="sourceCode java"><span class="bu">Object</span></code>. The <code class="sourceCode java"><span class="bu">Object</span></code> class provides the default <code class="sourceCode java">equals</code> and <code class="sourceCode java">toString</code> methods, among other things.</p>
+<p>Constructors are <em>not</em> inherited, but all other <code class="sourceCode java"><span class="kw">public</span></code> attributes and methods are. The only additional method in <code class="sourceCode java">Deck</code>, at least for now, is a constructor. So you can create a <code class="sourceCode java">Deck</code> object like this:</p>
+<div class="sourceCode" id="cb13" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Deck deck <span class="op">=</span> <span class="kw">new</span> <span class="fu">Deck</span><span class="op">(</span><span class="st">"Deck"</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first line of the constructor uses <code class="sourceCode java"><span class="kw">super</span></code>, which is a keyword that refers to the superclass of the current class. When <code class="sourceCode java"><span class="kw">super</span></code> is used as a method, as in this example, it invokes the constructor of the superclass.</p>
+<p>So in this case, <code class="sourceCode java"><span class="kw">super</span></code> invokes the <code class="sourceCode java">CardCollection</code> constructor, which initializes the attributes <code class="sourceCode java">label</code> and <code class="sourceCode java">cards</code>. When it returns, the <code class="sourceCode java">Deck</code> constructor resumes and populates the (empty) <code class="sourceCode java"><span class="bu">ArrayList</span></code> with <code class="sourceCode java">Card</code> objects.</p>
+<p>That’s it for the <code class="sourceCode java">Deck</code> class. Next we need a way to represent a hand, which is the collection of cards held by a player, and a pile, which is a collection of cards on the table. We could define two classes, one for hands and one for piles, but there is not much difference between them. So we’ll use one class, called <code class="sourceCode java">Hand</code>, for both hands and piles. Here’s what the definition looks like:</p>
+<div class="sourceCode" id="cb14" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Hand <span class="kw">extends</span> CardCollection <span class="op">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">Hand</span><span class="op">(</span><span class="bu">String</span> label<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span><span class="op">(</span>label<span class="op">);</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">display</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="fu">getLabel</span><span class="op">()</span> <span class="op">+</span> <span class="st">": "</span><span class="op">);</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="fu">size</span><span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="fu">getCard</span><span class="op">(</span>i<span class="op">));</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">();</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Like <code class="sourceCode java">Deck</code>, the <code class="sourceCode java">Hand</code> class extends <code class="sourceCode java">CardCollection</code>. So it inherits methods like <code class="sourceCode java">getLabel</code>, <code class="sourceCode java">size</code>, and <code class="sourceCode java">getCard</code>, which are used in <code class="sourceCode java">display</code>. <code class="sourceCode java">Hand</code> also provides a constructor, which invokes the constructor of <code class="sourceCode java">CardCollection</code>.</p>
+<p>In summary, a <code class="sourceCode java">Deck</code> is just like a <code class="sourceCode java">CardCollection</code>, but it provides a different constructor. And a <code class="sourceCode java">Hand</code> is just like a <code class="sourceCode java">CardCollection</code>, but it provides an additional method, <code class="sourceCode java">display</code>.</p>
+</section>
+<section id="dealing" class="level2" data-number="16.3">
+<h2 data-number="16.3" class="anchored" data-anchor-id="dealing"><span class="header-section-number">16.3</span> Dealing Cards</h2>
+<p>To begin the game, we need to deal cards to each of the players. And during the game, we need to move cards between hands and piles. If we add the following method to <code class="sourceCode java">CardCollection</code>, it can meet both of these requirements:</p>
+<div class="sourceCode" id="cb15" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">deal</span><span class="op">(</span>CardCollection that<span class="op">,</span> <span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        Card card <span class="op">=</span> <span class="fu">popCard</span><span class="op">();</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        that<span class="op">.</span><span class="fu">addCard</span><span class="op">(</span>card<span class="op">);</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code class="sourceCode java">deal</code> method removes cards from the collection it is invoked on, <code class="sourceCode java"><span class="kw">this</span></code>, and adds them to the collection it gets as a parameter, <code class="sourceCode java">that</code>. The second parameter, <code class="sourceCode java">n</code>, is the number of cards to deal. We will use this method to implement <code class="sourceCode java">dealAll</code>, which deals (or moves) all of the remaining cards:</p>
+<div class="sourceCode" id="cb16" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">dealAll</span><span class="op">(</span>CardCollection that<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n <span class="op">=</span> cards<span class="op">.</span><span class="fu">size</span><span class="op">();</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">deal</span><span class="op">(</span>that<span class="op">,</span> n<span class="op">);</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>At this point, we can create a <code class="sourceCode java">Deck</code> and start dealing cards. Here’s a simple example that deals five cards to a hand, and deals the rest into a draw pile:</p>
+<div class="sourceCode" id="cb17" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>Deck deck <span class="op">=</span> <span class="kw">new</span> <span class="fu">Deck</span><span class="op">(</span><span class="st">"Deck"</span><span class="op">);</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>deck<span class="op">.</span><span class="fu">shuffle</span><span class="op">();</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>Hand hand <span class="op">=</span> <span class="kw">new</span> <span class="fu">Hand</span><span class="op">(</span><span class="st">"Hand"</span><span class="op">);</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>deck<span class="op">.</span><span class="fu">deal</span><span class="op">(</span>hand<span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>hand<span class="op">.</span><span class="fu">display</span><span class="op">();</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>Hand drawPile <span class="op">=</span> <span class="kw">new</span> <span class="fu">Hand</span><span class="op">(</span><span class="st">"Draw Pile"</span><span class="op">);</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>deck<span class="op">.</span><span class="fu">dealAll</span><span class="op">(</span>drawPile<span class="op">);</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">printf</span><span class="op">(</span><span class="st">"Draw Pile has </span><span class="sc">%d</span><span class="st"> cards.</span><span class="sc">\n</span><span class="st">"</span><span class="op">,</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>                  drawPile<span class="op">.</span><span class="fu">size</span><span class="op">());</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Because the deck is shuffled randomly, you should get a different hand each time you run this example. The output will look something like this:</p>
+<pre><code>Hand:
+5 of Diamonds
+Ace of Hearts
+6 of Clubs
+6 of Diamonds
+2 of Clubs
+
+Draw Pile has 47 cards.</code></pre>
+<p>If you are a careful reader, you might notice something strange about this example. Take another look at the definition of <code class="sourceCode java">deal</code>. Notice that the first parameter is supposed to be a <code class="sourceCode java">CardCollection</code>. But we invoked it like this:</p>
+<div class="sourceCode" id="cb19" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>Hand hand <span class="op">=</span> <span class="kw">new</span> <span class="fu">Hand</span><span class="op">(</span><span class="st">"Hand"</span><span class="op">);</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>deck<span class="op">.</span><span class="fu">deal</span><span class="op">(</span>hand<span class="op">,</span> <span class="dv">5</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The argument is a <code class="sourceCode java">Hand</code>, not a <code class="sourceCode java">CardCollection</code>. So why is this example legal?</p>
+<p>It’s because <code class="sourceCode java">Hand</code> is a subclass of <code class="sourceCode java">CardCollection</code>, so a <code class="sourceCode java">Hand</code> object is also considered to be a <code class="sourceCode java">CardCollection</code> object. If a method expects a <code class="sourceCode java">CardCollection</code>, you can give it a <code class="sourceCode java">Hand</code>, a <code class="sourceCode java">Deck</code>, or a <code class="sourceCode java">CardCollection</code>.</p>
+<p>But it doesn’t work the other way around: not every <code class="sourceCode java">CardCollection</code> is a <code class="sourceCode java">Hand</code>, so if a method expects a <code class="sourceCode java">Hand</code>, you have to give it a <code class="sourceCode java">Hand</code>, not a <code class="sourceCode java">CardCollection</code> or a <code class="sourceCode java">Deck</code>.</p>
+<p>If it seems strange that an object can belong to more than one type, remember that this happens in real life too. Every cat is also a mammal, and every mammal is also an animal. But not every animal is a mammal, and not every mammal is a cat.</p>
+</section>
+<section id="the-player-class" class="level2" data-number="16.4">
+<h2 data-number="16.4" class="anchored" data-anchor-id="the-player-class"><span class="header-section-number">16.4</span> The Player Class</h2>
+<p>The <code class="sourceCode java">Deck</code> and <code class="sourceCode java">Hand</code> classes we have defined so far could be used for any card game; we have not yet implemented any of the rules specific to Crazy Eights. And that’s probably a good thing, since it makes it easy to reuse these classes if we want to make another game in the future.</p>
+<p>But now it’s time to implement the rules. We’ll use two classes: <code class="sourceCode java">Player</code>, which encapsulates player strategy, and <code class="sourceCode java">Eights</code>, which creates and maintains the state of the game. Here is the beginning of the <code class="sourceCode java">Player</code> definition:</p>
+<div class="sourceCode" id="cb20" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Player <span class="op">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> name<span class="op">;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> Hand hand<span class="op">;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">Player</span><span class="op">(</span><span class="bu">String</span> name<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">name</span> <span class="op">=</span> name<span class="op">;</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">hand</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">Hand</span><span class="op">(</span>name<span class="op">);</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A <code class="sourceCode java">Player</code> has two <code class="sourceCode java"><span class="kw">private</span></code> attributes: a name and a hand. The constructor takes the player’s name as a string and saves it in an instance variable. In this example, we have to use <code class="sourceCode java"><span class="kw">this</span></code> to distinguish between the instance variable and the parameter with the same name.</p>
+<p>The primary method that <code class="sourceCode java">Player</code> provides is <code class="sourceCode java">play</code>, which decides which card to discard during each turn:</p>
+<div class="sourceCode" id="cb21" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> Card <span class="fu">play</span><span class="op">(</span>Eights eights<span class="op">,</span> Card prev<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    Card card <span class="op">=</span> <span class="fu">searchForMatch</span><span class="op">(</span>prev<span class="op">);</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>card <span class="op">==</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>        card <span class="op">=</span> <span class="fu">drawForMatch</span><span class="op">(</span>eights<span class="op">,</span> prev<span class="op">);</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> card<span class="op">;</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first parameter is a reference to the <code class="sourceCode java">Eights</code> object that encapsulates the state of the game (coming up in the next section). The second parameter, <code class="sourceCode java">prev</code>, is the card on top of the discard pile.</p>
+<p><code class="sourceCode java">play</code> invokes two helper methods: <code class="sourceCode java">searchForMatch</code> and <code class="sourceCode java">drawForMatch</code>. Since we have not written them yet, this is an example of top-down design.</p>
+<p>Here’s <code class="sourceCode java">searchForMatch</code>, which looks in the player’s hand for a card that matches the previously played card:</p>
+<div class="sourceCode" id="cb22" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> Card <span class="fu">searchForMatch</span><span class="op">(</span>Card prev<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> hand<span class="op">.</span><span class="fu">size</span><span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        Card card <span class="op">=</span> hand<span class="op">.</span><span class="fu">getCard</span><span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span><span class="fu">cardMatches</span><span class="op">(</span>card<span class="op">,</span> prev<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> hand<span class="op">.</span><span class="fu">popCard</span><span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The strategy is pretty simple: the <code class="sourceCode java"><span class="cf">for</span></code> loop searches for the first card that’s legal to play and returns it. If there are no cards that match, it returns <code class="sourceCode java"><span class="kw">null</span></code>. In that case, we have to draw cards until we get a match, which is what <code class="sourceCode java">drawForMatch</code> does:</p>
+<div class="sourceCode" id="cb23" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> Card <span class="fu">drawForMatch</span><span class="op">(</span>Eights eights<span class="op">,</span> Card prev<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        Card card <span class="op">=</span> eights<span class="op">.</span><span class="fu">drawCard</span><span class="op">();</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>name <span class="op">+</span> <span class="st">" draws "</span> <span class="op">+</span> card<span class="op">);</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span><span class="fu">cardMatches</span><span class="op">(</span>card<span class="op">,</span> prev<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> card<span class="op">;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>        hand<span class="op">.</span><span class="fu">addCard</span><span class="op">(</span>card<span class="op">);</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code class="sourceCode java"><span class="cf">while</span></code> loop runs until it finds a match (we’ll assume for now that it always finds one). The loop uses the <code class="sourceCode java">Eights</code> object to draw a card. If it matches, <code class="sourceCode java">drawForMatch</code> returns the card. Otherwise it adds the card to the player’s hand and repeats.</p>
+<p>Both <code class="sourceCode java">searchForMatch</code> and <code class="sourceCode java">drawForMatch</code> use <code class="sourceCode java">cardMatches</code>, which is a static method, also defined in <code class="sourceCode java">Player</code>. This method is a straightforward translation of the rules of the game:</p>
+<div class="sourceCode" id="cb24" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">boolean</span> <span class="fu">cardMatches</span><span class="op">(</span>Card card1<span class="op">,</span> Card card2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> card1<span class="op">.</span><span class="fu">getSuit</span><span class="op">()</span> <span class="op">==</span> card2<span class="op">.</span><span class="fu">getSuit</span><span class="op">()</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        <span class="op">||</span> card1<span class="op">.</span><span class="fu">getRank</span><span class="op">()</span> <span class="op">==</span> card2<span class="op">.</span><span class="fu">getRank</span><span class="op">()</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        <span class="op">||</span> card1<span class="op">.</span><span class="fu">getRank</span><span class="op">()</span> <span class="op">==</span> <span class="dv">8</span><span class="op">;</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Finally, <code class="sourceCode java">Player</code> provides a <code class="sourceCode java">score</code> method, which computes penalty points for cards left in a player’s hand at the end of the game.</p>
+</section>
+<section id="the-eights-class" class="level2" data-number="16.5">
+<h2 data-number="16.5" class="anchored" data-anchor-id="the-eights-class"><span class="header-section-number">16.5</span> The Eights Class</h2>
+<p>In Section&nbsp;<a href="ch13.html#shuffle" data-reference-type="ref" data-reference="shuffle">13.2</a>, we introduced top-down design. In this way of developing programs, we identify high-level goals, like shuffling a deck, and break them into smaller problems, like choosing a random element or swapping two elements.</p>
+<p>In this section, we present <strong>bottom-up design</strong>, which goes the other way around: first we identify simple pieces we need and then we assemble them into more-complex algorithms.</p>
+<p>Looking at the rules of Crazy Eights, we can identify some of the methods we’ll need:</p>
+<ul>
+<li><p>Create the deck, the players, and the discard and draw piles. Deal the cards and set up the game. (<code class="sourceCode java">Eights</code> constructor)</p></li>
+<li><p>Check whether the game is over. (<code class="sourceCode java">isDone</code>)</p></li>
+<li><p>If the draw pile is empty, shuffle the discard pile and move the cards into the draw pile. (<code class="sourceCode java">reshuffle</code>)</p></li>
+<li><p>Draw a card, reshuffling the discard pile if necessary. (<code class="sourceCode java">drawCard</code>)</p></li>
+<li><p>Keep track of whose turn it is, and switch from one player to the next. (<code class="sourceCode java">nextPlayer</code>)</p></li>
+<li><p>Display the state of the game, and wait for the user before running the next turn. (<code class="sourceCode java">displayState</code>)</p></li>
+</ul>
+<p>Now we can start implementing the pieces. Here is the beginning of the class definition for <code class="sourceCode java">Eights</code>, which encapsulates the state of the game:</p>
+<div class="sourceCode" id="cb25" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Eights <span class="op">{</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> Player one<span class="op">;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> Player two<span class="op">;</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> Hand drawPile<span class="op">;</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> Hand discardPile<span class="op">;</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">Scanner</span> in<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this version, there are always two players. One of the exercises at the end of the chapter asks you to modify this code to handle more players. The <code class="sourceCode java">Eights</code> class also includes a draw pile, a discard pile, and a <code class="sourceCode java"><span class="bu">Scanner</span></code>, which we will use to prompt the user after each turn.</p>
+<p>The constructor for <code class="sourceCode java">Eights</code> initializes the instance variables and deals the cards, similar to Section&nbsp;<a href="#dealing" data-reference-type="ref" data-reference="dealing">14.3</a>. The next piece we’ll need is a method that checks whether the game is over. If either hand is empty, we’re done:</p>
+<div class="sourceCode" id="cb26" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isDone</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> one<span class="op">.</span><span class="fu">getHand</span><span class="op">().</span><span class="fu">isEmpty</span><span class="op">()</span> <span class="op">||</span> two<span class="op">.</span><span class="fu">getHand</span><span class="op">().</span><span class="fu">isEmpty</span><span class="op">();</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When the draw pile is empty, we have to shuffle the discard pile. Here is a method for that:</p>
+<div class="sourceCode" id="cb27" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">reshuffle</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    Card prev <span class="op">=</span> discardPile<span class="op">.</span><span class="fu">popCard</span><span class="op">();</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    discardPile<span class="op">.</span><span class="fu">dealAll</span><span class="op">(</span>drawPile<span class="op">);</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    discardPile<span class="op">.</span><span class="fu">addCard</span><span class="op">(</span>prev<span class="op">);</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    drawPile<span class="op">.</span><span class="fu">shuffle</span><span class="op">();</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first line saves the top card from <code class="sourceCode java">discardPile</code>. The next line transfers the rest of the cards to <code class="sourceCode java">drawPile</code>. Then we put the saved card back into <code class="sourceCode java">discardPile</code> and shuffle <code class="sourceCode java">drawPile</code>. We can use <code class="sourceCode java">reshuffle</code> as part of the <code class="sourceCode java">draw</code> method:</p>
+<div class="sourceCode" id="cb28" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> Card <span class="fu">drawCard</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>drawPile<span class="op">.</span><span class="fu">isEmpty</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">reshuffle</span><span class="op">();</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> drawPile<span class="op">.</span><span class="fu">popCard</span><span class="op">();</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code class="sourceCode java">nextPlayer</code> method takes the current player as a parameter and returns the player who should go next:</p>
+<div class="sourceCode" id="cb29" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> Player <span class="fu">nextPlayer</span><span class="op">(</span>Player current<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>current <span class="op">==</span> one<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> two<span class="op">;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> one<span class="op">;</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The last method from our bottom-up design is <code class="sourceCode java">displayState</code>. It displays the hand of each player, the contents of the discard pile, and the number of cards in the draw pile. Finally, it waits for the user to press the Enter key:</p>
+<div class="sourceCode" id="cb30" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">displayState</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    one<span class="op">.</span><span class="fu">display</span><span class="op">();</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    two<span class="op">.</span><span class="fu">display</span><span class="op">();</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    discardPile<span class="op">.</span><span class="fu">display</span><span class="op">();</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Draw pile:"</span><span class="op">);</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>drawPile<span class="op">.</span><span class="fu">size</span><span class="op">()</span> <span class="op">+</span> <span class="st">" cards"</span><span class="op">);</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    in<span class="op">.</span><span class="fu">nextLine</span><span class="op">();</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Using these pieces, we can write <code class="sourceCode java">takeTurn</code>, which executes one player’s turn. It reads the top card off the discard pile and passes it to <code class="sourceCode java">player<span class="op">.</span><span class="fu">play</span></code>, which you saw in the previous section. The result is the card the player chose, which is added to the discard pile:</p>
+<div class="sourceCode" id="cb31" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">takeTurn</span><span class="op">(</span>Player player<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    Card prev <span class="op">=</span> discardPile<span class="op">.</span><span class="fu">lastCard</span><span class="op">();</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    Card next <span class="op">=</span> player<span class="op">.</span><span class="fu">play</span><span class="op">(</span><span class="kw">this</span><span class="op">,</span> prev<span class="op">);</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    discardPile<span class="op">.</span><span class="fu">addCard</span><span class="op">(</span>next<span class="op">);</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>player<span class="op">.</span><span class="fu">getName</span><span class="op">()</span> <span class="op">+</span> <span class="st">" plays "</span> <span class="op">+</span> next<span class="op">);</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">();</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Finally, we use <code class="sourceCode java">takeTurn</code> and the other methods to write <code class="sourceCode java">playGame</code>:</p>
+<div class="sourceCode" id="cb32" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">playGame</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    Player player <span class="op">=</span> one<span class="op">;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// keep playing until there's a winner</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(!</span><span class="fu">isDone</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">displayState</span><span class="op">();</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">takeTurn</span><span class="op">(</span>player<span class="op">);</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>        player <span class="op">=</span> <span class="fu">nextPlayer</span><span class="op">(</span>player<span class="op">);</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// display the final score</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    one<span class="op">.</span><span class="fu">displayScore</span><span class="op">();</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    two<span class="op">.</span><span class="fu">displayScore</span><span class="op">();</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Done! The result of bottom-up design is similar to top-down: we have a high-level method that calls helper methods. The difference is the development process we used to arrive at this solution.</p>
+</section>
+<section id="class-relationships" class="level2" data-number="16.6">
+<h2 data-number="16.6" class="anchored" data-anchor-id="class-relationships"><span class="header-section-number">16.6</span> Class Relationships</h2>
+<p>This chapter demonstrates two common relationships between classes:</p>
+<dl>
+<dt>composition:</dt>
+<dd>
+<p>Instances of one class contain references to instances of another class. For example, an instance of <code class="sourceCode java">Eights</code> contains references to two <code class="sourceCode java">Player</code> objects, two <code class="sourceCode java">Hand</code> objects, and a <code class="sourceCode java"><span class="bu">Scanner</span></code>.</p>
+</dd>
+<dt>inheritance:</dt>
+<dd>
+<p>One class extends another class. For example, <code class="sourceCode java">Hand</code> extends <code class="sourceCode java">CardCollection</code>, so every instance of <code class="sourceCode java">Hand</code> is also a <code class="sourceCode java">CardCollection</code>.</p>
+</dd>
+</dl>
+<p>Composition is also known as a <strong>HAS-A</strong> relationship, as in “<code class="sourceCode java">Eights</code> has a <code class="sourceCode java"><span class="bu">Scanner</span></code>”. Inheritance is also known as an <strong>IS-A</strong> relationship, as in “<code class="sourceCode java">Hand</code> is a <code class="sourceCode java">CardCollection</code>”. This vocabulary provides a concise way to talk about an object-oriented design.</p>
+<p>There is also a standard way to represent these relationships graphically in UML class diagrams. As you saw in Section&nbsp;<a href="ch10.html#UML" data-reference-type="ref" data-reference="UML">10.7</a>, the UML representation of a class is a box with three sections: the class name, the attributes, and the methods. The latter two sections are optional when showing relationships.</p>
+<figure id="fig.uml1" class="figure">
+<div class="center">
+<p><img src="figs/uml1.png" style="width:75.0%" class="figure-img"></p>
+</div>
+<figcaption>
+UML diagram for the classes in this chapter.
+</figcaption>
+</figure>
+<p>Relationships between classes are represented by arrows: composition arrows have a standard arrow head, and inheritance arrows have a hollow triangle head (usually pointing up). Figure&nbsp;<a href="#fig.uml1" data-reference-type="ref" data-reference="fig.uml1">14.1</a> shows the classes defined in this chapter and the relationships among them.</p>
+<p>UML is an international standard, so almost any software engineer in the world could look at this diagram and understand our design. And class diagrams are only one of many graphical representations defined in the UML standard.</p>
+</section>
+<section id="vocabulary" class="level2" data-number="16.7">
+<h2 data-number="16.7" class="anchored" data-anchor-id="vocabulary"><span class="header-section-number">16.7</span> Vocabulary</h2>
+<dl>
+<dt>inheritance:</dt>
+<dd>
+<p>The ability to define a new class that has the same instance variables and methods of an existing class.</p>
+</dd>
+<dt>subclass:</dt>
+<dd>
+<p>A class that inherits from, or extends, an existing class.</p>
+</dd>
+<dt>superclass:</dt>
+<dd>
+<p>An existing class that is extended by another class.</p>
+</dd>
+<dt>bottom-up design:</dt>
+<dd>
+<p>A way of developing programs by identifying simple pieces, implementing them first, and then assembling them into more-complex algorithms.</p>
+</dd>
+<dt>HAS-A:</dt>
+<dd>
+<p>A relationship between two classes in which one class “has” an instance of another class as one of its attributes.</p>
+</dd>
+<dt>IS-A:</dt>
+<dd>
+<p>A relationship between two classes in which one class extends another class; the subclass “is” an instance of the superclass.</p>
+</dd>
+</dl>
+</section>
+<section id="exercises" class="level2" data-number="16.8">
+<h2 data-number="16.8" class="anchored" data-anchor-id="exercises"><span class="header-section-number">16.8</span> Exercises</h2>
+<p>The code for this chapter is in the <em>ch14</em> directory of <em>ThinkJavaCode2</em>. See page&nbsp; for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples.</p>
+<div class="exercise">
+<p><strong>Exercise 14.1</strong>. <em>Design a better strategy for the <code class="sourceCode java">Player<span class="op">.</span><span class="fu">play</span></code> method. For example, if there are multiple cards you can play, and one of them is an 8, you might want to play the 8.</em></p>
+<p><em>Think of other ways you can minimize penalty points, such as playing the highest-ranking cards first. Write a new class that extends <code class="sourceCode java">Player</code> and overrides <code class="sourceCode java">play</code> to implement your strategy.</em></p>
+</div>
+<div class="exercise">
+<p><strong>Exercise 14.2</strong>. <em>Write a loop that plays the game 100 times and keeps track of how many times each player wins. If you implemented multiple strategies in the previous exercise, you can play them against each other to evaluate which one works best.</em></p>
+<p>**Hint:* Design a <code class="sourceCode java">Genius</code> class that extends <code class="sourceCode java">Player</code> and overrides the <code class="sourceCode java">play</code> method, and then replace one of the players with a <code class="sourceCode java">Genius</code> object.*</p>
+</div>
+<div class="exercise">
+<p><strong>Exercise 14.3</strong>. <em>One limitation of the program we wrote in this chapter is that it handles only two players. Modify the <code class="sourceCode java">Eights</code> class to create an <code class="sourceCode java"><span class="bu">ArrayList</span></code> of players, and modify <code class="sourceCode java">nextPlayer</code> to select the next player.</em></p>
+</div>
+<div class="exercise">
+<p><strong>Exercise 14.4</strong>. <em>When we designed the program for this chapter, we tried to minimize the number of classes. As a result, we ended up with a few awkward methods. For example, <code class="sourceCode java">cardMatches</code> is a static method in <code class="sourceCode java">Player</code>, but it would be more natural if it were an instance method in <code class="sourceCode java">Card</code>.</em></p>
+<p><em>The problem is that <code class="sourceCode java">Card</code> is supposed to be useful for any card game, not just Crazy Eights. You can solve this problem by adding a new class, <code class="sourceCode java">EightsCard</code>, that extends <code class="sourceCode java">Card</code> and provides a method, <code class="sourceCode java">match</code>, that checks whether two cards match according to the rules of Crazy Eights.</em></p>
+<p><em>At the same time, you could create a new class, <code class="sourceCode java">EightsHand</code>, that extends <code class="sourceCode java">Hand</code> and provides a method, <code class="sourceCode java">scoreHand</code>, that adds up the scores of the cards in the hand. And while you’re at it, you could add a method named <code class="sourceCode java">scoreCard</code> to <code class="sourceCode java">EightsCard</code>.</em></p>
+<p><em>Whether or not you actually make these changes, draw a UML class diagram that shows this alternative object hierarchy.</em></p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch13.html" class="pagination-link" aria-label="Objects of Arrays">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Objects of Arrays</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch15.html" class="pagination-link" aria-label="Arrays of Arrays">
+        <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

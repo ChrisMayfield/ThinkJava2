@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>15&nbsp; Objects of Arrays – Think Java</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch14.html" rel="next">
+<link href="./ch12.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch13.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Objects of Arrays</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Think Java</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Think Java</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Computer Programming</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Variables and Operators</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Input and Output</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods and Testing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conditionals and Logic</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Loops and Strings</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Arrays and References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Recursive Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Immutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Mutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Designing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Arrays of Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Objects of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Extending Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reusing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Advanced Topics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Tools</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Javadoc</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Graphics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Debugging</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#deck" id="toc-deck" class="nav-link active" data-scroll-target="#deck"><span class="header-section-number">15.1</span> Decks of Cards</a></li>
+  <li><a href="#shuffle" id="toc-shuffle" class="nav-link" data-scroll-target="#shuffle"><span class="header-section-number">15.2</span> Shuffling Decks</a></li>
+  <li><a href="#sorting" id="toc-sorting" class="nav-link" data-scroll-target="#sorting"><span class="header-section-number">15.3</span> Selection Sort</a></li>
+  <li><a href="#mergesort" id="toc-mergesort" class="nav-link" data-scroll-target="#mergesort"><span class="header-section-number">15.4</span> Merge Sort</a></li>
+  <li><a href="#subdecks" id="toc-subdecks" class="nav-link" data-scroll-target="#subdecks"><span class="header-section-number">15.5</span> Subdecks</a></li>
+  <li><a href="#merging-decks" id="toc-merging-decks" class="nav-link" data-scroll-target="#merging-decks"><span class="header-section-number">15.6</span> Merging Decks</a></li>
+  <li><a href="#adding-recursion" id="toc-adding-recursion" class="nav-link" data-scroll-target="#adding-recursion"><span class="header-section-number">15.7</span> Adding Recursion</a></li>
+  <li><a href="#static-context" id="toc-static-context" class="nav-link" data-scroll-target="#static-context"><span class="header-section-number">15.8</span> Static Context</a></li>
+  <li><a href="#piles-of-cards" id="toc-piles-of-cards" class="nav-link" data-scroll-target="#piles-of-cards"><span class="header-section-number">15.9</span> Piles of Cards</a></li>
+  <li><a href="#playing-war" id="toc-playing-war" class="nav-link" data-scroll-target="#playing-war"><span class="header-section-number">15.10</span> Playing War</a></li>
+  <li><a href="#vocabulary" id="toc-vocabulary" class="nav-link" data-scroll-target="#vocabulary"><span class="header-section-number">15.11</span> Vocabulary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">15.12</span> Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Objects of Arrays</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In the previous chapter, we defined a class to represent cards and used an array of <code class="sourceCode java">Card</code> objects to represent a deck. In this chapter, we take additional steps toward object-oriented programming.</p>
+<p>First we define a class to represent a deck of cards. Then we present algorithms for shuffling and sorting decks. Finally, we introduce <code class="sourceCode java"><span class="bu">ArrayList</span></code> from the Java library and use it to represent collections of cards.</p>
+<section id="deck" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="deck"><span class="header-section-number">15.1</span> Decks of Cards</h2>
+<p>Here is the beginning of a <code class="sourceCode java">Deck</code> class that encapsulates an array of <code class="sourceCode java">Card</code> objects:</p>
+<div class="sourceCode" id="cb1" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Deck <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> Card<span class="op">[]</span> cards<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">Deck</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">cards</span> <span class="op">=</span> <span class="kw">new</span> Card<span class="op">[</span>n<span class="op">];</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> Card<span class="op">[]</span> <span class="fu">getCards</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="fu">cards</span><span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The constructor initializes the instance variable with an array of <code class="sourceCode java">n</code> cards, but it doesn’t create any <code class="sourceCode java">Card</code> objects. Figure&nbsp;<a href="#fig.deckobject" data-reference-type="ref" data-reference="fig.deckobject">13.1</a> shows what a <code class="sourceCode java">Deck</code> looks like with no cards.</p>
+<figure id="fig.deckobject" class="figure">
+<div class="center">
+<p><img src="figs/deckobject-.svg" class="figure-img"></p>
+</div>
+<figcaption>
+Memory diagram of an unpopulated <code class="sourceCode java">Deck</code> object.
+</figcaption>
+</figure>
+<p>We’ll add another constructor that creates a standard 52-card array and populates it with <code class="sourceCode java">Card</code> objects:</p>
+<div class="sourceCode" id="cb2" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="fu">Deck</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">cards</span> <span class="op">=</span> <span class="kw">new</span> Card<span class="op">[</span><span class="dv">52</span><span class="op">];</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> suit <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> suit <span class="op">&lt;=</span> <span class="dv">3</span><span class="op">;</span> suit<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> rank <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> rank <span class="op">&lt;=</span> <span class="dv">13</span><span class="op">;</span> rank<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>            <span class="kw">this</span><span class="op">.</span><span class="fu">cards</span><span class="op">[</span>index<span class="op">]</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">Card</span><span class="op">(</span>rank<span class="op">,</span> suit<span class="op">);</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            index<span class="op">++;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This method is similar to the example in Section&nbsp;<a href="ch12.html#cardarray" data-reference-type="ref" data-reference="cardarray">12.6</a>; we just turned it into a constructor. We can use it to create a complete <code class="sourceCode java">Deck</code> like this:</p>
+<div class="sourceCode" id="cb3" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Deck deck <span class="op">=</span> <span class="kw">new</span> <span class="fu">Deck</span><span class="op">();</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now that we have a <code class="sourceCode java">Deck</code> class, we have a logical place to put methods that pertain to decks. Looking at the methods we have written so far, one obvious candidate is <code class="sourceCode java">printDeck</code> from Section&nbsp;<a href="ch12.html#cardarray" data-reference-type="ref" data-reference="cardarray">12.6</a>. Here’s how it looks, rewritten as an instance method of <code class="sourceCode java">Deck</code>:</p>
+<div class="sourceCode" id="cb4" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">print</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>Card card <span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="fu">cards</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>card<span class="op">);</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice that when we transform a static method into an instance method, the code is shorter. Here’s how we invoke it:</p>
+<div class="sourceCode" id="cb5" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>deck<span class="op">.</span><span class="fu">print</span><span class="op">();</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="shuffle" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="shuffle"><span class="header-section-number">15.2</span> Shuffling Decks</h2>
+<p>For most card games, you have to shuffle the deck; that is, put the cards in a random order. In Section&nbsp;<a href="ch07.html#random" data-reference-type="ref" data-reference="random">7.6</a> you saw how to generate random numbers, but it is not obvious how to use them to shuffle a deck.</p>
+<p>One possibility is to model the way humans shuffle; for example, we could divide the deck in two halves and then choose alternately from each one. Humans usually don’t shuffle perfectly, so after about seven iterations, the order of the deck is pretty well randomized.</p>
+<p>But a computer program would have the annoying property of doing a perfect shuffle every time, which is not very random. In fact, after eight perfect shuffles, you would find the deck back in the order you started in! For more on this, see <a href="https://en.wikipedia.org/wiki/Faro_shuffle" class="uri">https://en.wikipedia.org/wiki/Faro_shuffle</a>.</p>
+<p>A better shuffling algorithm is to traverse the deck one card at a time, and at each iteration, choose two cards and swap them. To outline this algorithm, we’ll use a combination of Java statements and English comments. This technique is sometimes called <strong>pseudocode</strong>:</p>
+<div class="sourceCode" id="cb6" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">shuffle</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> each index i <span class="op">{</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// choose a random number between i and length - 1</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">// swap the ith card and the randomly-chosen card</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The nice thing about pseudocode is that it often makes clear what other methods you are going to need. In this case, we need a method that chooses a random integer in a given range and a method that takes two indexes and swaps the cards at those positions:</p>
+<div class="sourceCode" id="cb7" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="dt">static</span> <span class="dt">int</span> <span class="fu">randomInt</span><span class="op">(</span><span class="dt">int</span> low<span class="op">,</span> <span class="dt">int</span> high<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// return a random number between low and high,</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// including both</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="dt">void</span> <span class="fu">swapCards</span><span class="op">(</span><span class="dt">int</span> i<span class="op">,</span> <span class="dt">int</span> j<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// swap the ith and the jth cards in the array</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Methods like <code class="sourceCode java">randomInt</code> and <code class="sourceCode java">swapCards</code> are called <strong>helper methods</strong>, because they help you solve parts of the problem. Helper methods are often <code class="sourceCode java"><span class="kw">private</span></code>, because they are used only by methods in the class and are not needed by methods in other classes.</p>
+<p>The process of writing pseudocode first and then writing helper methods to make it work is a kind of <strong>top-down design</strong> (see <a href="https://en.wikipedia.org/wiki/Top-down_and_bottom-up_design" class="uri">https://en.wikipedia.org/wiki/Top-down_and_bottom-up_design</a>). It is an alternative to “incremental development” and “encapsulation and generalization”, the other design processes you have seen in this book.</p>
+<p>One of the exercises at the end of the chapter asks you to write the helper methods <code class="sourceCode java">randomInt</code> and <code class="sourceCode java">swapCards</code>, and use them to implement <code class="sourceCode java">shuffle</code>.</p>
+<p>When you do the exercise, notice that <code class="sourceCode java">randomInt</code> is a class method and <code class="sourceCode java">swapCards</code> is an instance method. Do you understand why?</p>
+</section>
+<section id="sorting" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="sorting"><span class="header-section-number">15.3</span> Selection Sort</h2>
+<p>Now that we have shuffled the deck, we need a way to put it back in order. There is an algorithm for sorting that is ironically similar to the algorithm for shuffling. It’s called <strong>selection sort</strong>, because it works by traversing the array repeatedly and selecting the lowest (or highest) remaining card each time.</p>
+<p>During the first iteration, we find the lowest card and swap it with the card in the zeroth position. During the <span class="math inline">\(i\)</span>th iteration, we find the lowest card to the right of <span class="math inline">\(i\)</span> and swap it with the <span class="math inline">\(i\)</span>th card. Here is pseudocode for selection sort:</p>
+<div class="sourceCode" id="cb8" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">selectionSort</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> each index i <span class="op">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// find the lowest card at or to the right of i</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">// swap the ith card and the lowest card found</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Again, the pseudocode helps with the design of the helper methods. For this algorithm, we can reuse <code class="sourceCode java">swapCards</code> from the previous section, so we need only a method to find the lowest card; we’ll call it <code class="sourceCode java">indexLowest</code>:</p>
+<div class="sourceCode" id="cb9" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="dt">int</span> <span class="fu">indexLowest</span><span class="op">(</span><span class="dt">int</span> low<span class="op">,</span> <span class="dt">int</span> high<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// find the lowest card between low and high</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>One of the exercises at the end of the chapter asks you to write <code class="sourceCode java">indexLowest</code>, and then use it and <code class="sourceCode java">swapCards</code> to implement <code class="sourceCode java">selectionSort</code>.</p>
+</section>
+<section id="mergesort" class="level2" data-number="15.4">
+<h2 data-number="15.4" class="anchored" data-anchor-id="mergesort"><span class="header-section-number">15.4</span> Merge Sort</h2>
+<p>Selection sort is a simple algorithm, but it is not very efficient. To sort <span class="math inline">\(n\)</span> items, it has to traverse the array <span class="math inline">\(n-1\)</span> times. Each traversal takes an amount of time proportional to <span class="math inline">\(n\)</span>. The total time, therefore, is proportional to <span class="math inline">\(n^2\)</span>.</p>
+<p>We will develop a more efficient algorithm called <strong>merge sort</strong>. To sort <span class="math inline">\(n\)</span> items, merge sort takes time proportional to <span class="math inline">\(n \log_2 n\)</span>. That may not seem impressive, but as <span class="math inline">\(n\)</span> gets big, the difference between <span class="math inline">\(n^2\)</span> and <span class="math inline">\(n \log_2 n\)</span> can be enormous.</p>
+<p>For example, <span class="math inline">\(\log_2\)</span> of one million is around 20. So if you had to sort a million numbers, merge sort would require 20 million steps. But selection sort would require one trillion steps!</p>
+<p>The idea behind merge sort is this: if you have two decks, each of which has already been sorted, you can quickly merge them into a single, sorted deck. Try this out with a deck of cards:</p>
+<ol type="1">
+<li><p>Form two decks with about 10 cards each, and sort them so they are face up with the lowest cards on top. Place the decks in front of you.</p></li>
+<li><p>Compare the top card from each deck and choose the lower one. Flip it over and add it to the merged deck.</p></li>
+<li><p>Repeat step 2 until one of the decks is empty. Then take the remaining cards and add them to the merged deck.</p></li>
+</ol>
+<p>The result should be a single sorted deck. In the next few sections, we’ll explain how to implement this algorithm in Java.</p>
+</section>
+<section id="subdecks" class="level2" data-number="15.5">
+<h2 data-number="15.5" class="anchored" data-anchor-id="subdecks"><span class="header-section-number">15.5</span> Subdecks</h2>
+<p><span id="subdeck" label="subdeck"></span></p>
+<p>The first step of merge sort is to split the deck into two “subdecks”, each with about half of the cards. So we need a method that takes a deck, and a range of indexes, and returns a new deck that contains the specified subset of cards:</p>
+<div class="sourceCode" id="cb10" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> Deck <span class="fu">subdeck</span><span class="op">(</span><span class="dt">int</span> low<span class="op">,</span> <span class="dt">int</span> high<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    Deck sub <span class="op">=</span> <span class="kw">new</span> <span class="fu">Deck</span><span class="op">(</span>high <span class="op">-</span> low <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> sub<span class="op">.</span><span class="fu">cards</span><span class="op">.</span><span class="fu">length</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        sub<span class="op">.</span><span class="fu">cards</span><span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">cards</span><span class="op">[</span>low <span class="op">+</span> i<span class="op">];</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sub<span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first line creates an unpopulated <code class="sourceCode java">Deck</code> object that contains an array of <code class="sourceCode java"><span class="kw">null</span></code> references. Inside the <code class="sourceCode java"><span class="cf">for</span></code> loop, the subdeck gets populated with references to <code class="sourceCode java">Card</code> objects.</p>
+<p>The length of the subdeck is <code class="sourceCode java">high <span class="op">-</span> low <span class="op">+</span> <span class="dv">1</span></code>, because both the low card and the high card are included. This sort of computation can be confusing, and forgetting the “<code class="sourceCode java"><span class="op">+</span> <span class="dv">1</span></code>” often leads to <strong>off-by-one</strong> errors. Drawing a picture is usually the best way to avoid them.</p>
+<p>Figure&nbsp;<a href="#fig.subdeck" data-reference-type="ref" data-reference="fig.subdeck">13.2</a> is a memory diagram of a subdeck with <code class="sourceCode java">low <span class="op">=</span> <span class="dv">0</span></code> and <code class="sourceCode java">high <span class="op">=</span> <span class="dv">4</span></code>. The result is a hand with five cards that are <em>shared</em> with the original deck; that is, they are aliased.</p>
+<figure id="fig.subdeck" class="figure">
+<div class="center">
+<p><img src="figs/subdeck-.svg" class="figure-img"></p>
+</div>
+<figcaption>
+Memory diagram showing the effect of <code class="sourceCode java">subdeck</code>.
+</figcaption>
+</figure>
+<p>Aliasing might not be a good idea, because changes to shared cards would be reflected in multiple decks. But since <code class="sourceCode java">Card</code> objects are immutable, this kind of aliasing is not a problem. And it saves some memory because we don’t create duplicate <code class="sourceCode java">Card</code> objects.</p>
+</section>
+<section id="merging-decks" class="level2" data-number="15.6">
+<h2 data-number="15.6" class="anchored" data-anchor-id="merging-decks"><span class="header-section-number">15.6</span> Merging Decks</h2>
+<p>The next helper method we need is <code class="sourceCode java">merge</code>, which takes two sorted subdecks and returns a new deck containing all cards from both decks, in order. Here’s what the algorithm looks like in pseudocode, assuming the subdecks are named <code class="sourceCode java">d1</code> and <code class="sourceCode java">d2</code>:</p>
+<div class="sourceCode" id="cb11" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="dt">static</span> Deck <span class="fu">merge</span><span class="op">(</span>Deck d1<span class="op">,</span> Deck d2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// create a new deck, d3, big enough for all the cards</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// use the index i to keep track of where we are at in</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// the first deck, and the index j for the second deck</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// the index k traverses the result deck</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> k <span class="op">&lt;</span> d3<span class="op">.</span><span class="fu">length</span><span class="op">;</span> k<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">// if d1 is empty, use top card from d2</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">// if d2 is empty, use top card from d1</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">// otherwise, compare the top two cards</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>        <span class="co">// add lowest card to the new deck at k</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        <span class="co">// increment i or j (depending on card)</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">// return the new deck</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>An exercise at the end of the chapter asks you to implement <code class="sourceCode java">merge</code>. It’s a little tricky, so be sure to test it with different subdecks. Once your <code class="sourceCode java">merge</code> method is working, you can use it to write a simplified version of merge sort:</p>
+<div class="sourceCode" id="cb12" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> Deck <span class="fu">almostMergeSort</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// divide the deck into two subdecks</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// sort the subdecks using selectionSort</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// merge the subdecks, return the result</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you have working versions of <code class="sourceCode java">subdeck</code>, <code class="sourceCode java">selectionSort</code>, and <code class="sourceCode java">merge</code>, you should have no trouble getting this method working. But it is still not very efficient, because it uses <code class="sourceCode java">selectionSort</code> to sort the subdecks. We can make it more efficient if we use <code class="sourceCode java">mergeSort</code> instead, but that means we have to make it recursive!</p>
+</section>
+<section id="adding-recursion" class="level2" data-number="15.7">
+<h2 data-number="15.7" class="anchored" data-anchor-id="adding-recursion"><span class="header-section-number">15.7</span> Adding Recursion</h2>
+<p>To make <code class="sourceCode java">mergeSort</code> work recursively, you have to add a base case; otherwise, it repeats forever. The simplest base case is a subdeck with one card. If there is only one card, it can’t be out of order, so we consider it sorted. And if it is already sorted, we can just return it.</p>
+<p>And it will turn out to be convenient if we handle another base case, a subdeck with zero cards. By the same logic, if there are no cards, they can’t be out of order. So we consider an empty deck to be sorted, and return it.</p>
+<p>With these base cases, a recursive version of <code class="sourceCode java">mergeSort</code> looks like this:</p>
+<div class="sourceCode" id="cb13" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> Deck <span class="fu">mergeSort</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// if the deck has 0 or 1 cards, return it</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// otherwise, divide the deck into two subdecks</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// sort the subdecks using mergeSort</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// merge the subdecks</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// return the result</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As usual, there are two ways to think about recursive programs: you can follow the flow of execution, or you can make the “leap of faith” (see Section&nbsp;<a href="ch08.html#leap_of_faith" data-reference-type="ref" data-reference="leap_of_faith">8.4</a>). This example should encourage you to make the leap of faith.</p>
+<p>When you use <code class="sourceCode java">selectionSort</code> to sort the subdecks, you don’t feel compelled to follow the flow of execution. You assume it works because you already debugged it. When you make <code class="sourceCode java">mergeSort</code> recursive, you just replace one sorting algorithm with another. There is no reason to read the program differently.</p>
+<p>Well, almost. You have to think about the base cases and make sure that you reach them. But other than that, writing the recursive version should be no problem. As an exercise at the end of this chapter, you’ll have a chance to finish off this example.</p>
+</section>
+<section id="static-context" class="level2" data-number="15.8">
+<h2 data-number="15.8" class="anchored" data-anchor-id="static-context"><span class="header-section-number">15.8</span> Static Context</h2>
+<p>Figure&nbsp;<a href="#fig.deck" data-reference-type="ref" data-reference="fig.deck">13.3</a> shows a UML class diagram for <code class="sourceCode java">Deck</code>, including the instance variable, <code class="sourceCode java">cards</code>, and the methods we have so far. In UML diagrams, <code class="sourceCode java"><span class="kw">private</span></code> attributes and methods begin with a minus sign (<code class="sourceCode java"><span class="op">-</span></code>) and <code class="sourceCode java"><span class="dt">static</span></code> methods are underlined.</p>
+<figure id="fig.deck" class="figure">
+<div class="center">
+<p><img src="figs/deck-.svg" class="figure-img"></p>
+</div>
+<figcaption>
+UML diagram for the <code class="sourceCode java">Deck</code> class.
+</figcaption>
+</figure>
+<p>The helper methods <code class="sourceCode java">randomInt</code> and <code class="sourceCode java">merge</code> are <code class="sourceCode java"><span class="dt">static</span></code>, because they do not read or write any instance variables. All other methods are instance methods, because they access the instance variable, <code class="sourceCode java">cards</code>.</p>
+<p>When you have static methods and instance methods in the same class, it is easy to get them confused.</p>
+<p>To invoke an instance method, you need an instance:</p>
+<div class="sourceCode" id="cb14" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Deck deck <span class="op">=</span> <span class="kw">new</span> <span class="fu">Deck</span><span class="op">();</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>deck<span class="op">.</span><span class="fu">print</span><span class="op">();</span>  <span class="co">// correct</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code class="sourceCode java">Deck</code> with a capital <code class="sourceCode java">D</code> is a class, and <code class="sourceCode java">deck</code> with a lowercase <code class="sourceCode java">d</code> is an object.</p>
+<p>Say you try to invoke <code class="sourceCode java">print</code> like this:</p>
+<div class="sourceCode" id="cb15" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>Deck<span class="op">.</span><span class="fu">print</span><span class="op">();</span>  <span class="co">// wrong!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You get a compiler error like this:</p>
+<pre><code>Non-static method print() cannot be referenced from a
+static context.</code></pre>
+<p>By “static context”, the compiler means you are trying to invoke a method in a context that requires a static method.</p>
+<p>On the other hand, if you have a <code class="sourceCode java">Deck</code> object, you can use it to invoke a static method:</p>
+<div class="sourceCode" id="cb17" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>Deck deck <span class="op">=</span> <span class="kw">new</span> <span class="fu">Deck</span><span class="op">();</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> i <span class="op">=</span> deck<span class="op">.</span><span class="fu">randomInt</span><span class="op">(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">51</span><span class="op">);</span>  <span class="co">// legal, but not good style</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is legal, but it is not considered good style, because someone reading this code would expect <code class="sourceCode java">randomInt</code> to be an instance method.</p>
+<p>Another common error is to use <code class="sourceCode java"><span class="kw">this</span></code> in a static method. For example, say you write something like this:</p>
+<div class="sourceCode" id="cb18" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="dt">static</span> Deck <span class="fu">merge</span><span class="op">(</span>Deck d1<span class="op">,</span> Deck d2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="fu">cards</span><span class="op">;</span>  <span class="co">// wrong!</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You get a compiler error like this:</p>
+<pre><code>Non-static variable this cannot be referenced from a
+static context.</code></pre>
+<p>The problem is that <code class="sourceCode java">cards</code> is an instance variable, so it is <em>non-static</em>; therefore, you can’t access it from a static method. In general, you can’t use <code class="sourceCode java"><span class="kw">this</span></code> in a static method, because a static method is not invoked on an object.</p>
+<p>For beginners, error messages about non-static context can be confusing and frustrating. We hope this section helps.</p>
+</section>
+<section id="piles-of-cards" class="level2" data-number="15.9">
+<h2 data-number="15.9" class="anchored" data-anchor-id="piles-of-cards"><span class="header-section-number">15.9</span> Piles of Cards</h2>
+<p>Now that we have classes that represent cards and decks, let’s use them to make a game. One of the simplest card games that children play is called “War” (see <a href="https://en.wikipedia.org/wiki/War_(card_game)" class="uri">https://en.wikipedia.org/wiki/War_(card_game)</a>).</p>
+<p>Initially, the deck is divided evenly into two piles, one for each player. During each round, each player takes the top card from their pile and places it, face up, in the center. Whoever has the highest-ranking card, ignoring suit, takes the two cards and adds them to the bottom of their pile. The game continues until one player has won the entire deck.</p>
+<p>We could use the <code class="sourceCode java">Deck</code> class to represent the individual piles. However, our implementation of <code class="sourceCode java">Deck</code> uses a <code class="sourceCode java">Card</code> array, and the length of an array can’t change. As the game progresses, we need to be able to add and remove cards from the piles.</p>
+<p>We can solve this problem with an <code class="sourceCode java"><span class="bu">ArrayList</span></code>, which is in the <code class="sourceCode java">java<span class="op">.</span><span class="fu">util</span></code> package. An <code class="sourceCode java"><span class="bu">ArrayList</span></code> is a <strong>collection</strong>, which is an object that contains other objects. It provides methods to add and remove elements, and it grows and shrinks automatically.</p>
+<p>We define a new class named <code class="sourceCode java">Pile</code> to represent a pile of cards. It uses an <code class="sourceCode java"><span class="bu">ArrayList</span></code> to store <code class="sourceCode java">Card</code> objects:</p>
+<div class="sourceCode" id="cb20" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Pile <span class="op">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">ArrayList</span><span class="op">&lt;</span>Card<span class="op">&gt;</span> cards<span class="op">;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">Pile</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">cards</span> <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;</span>Card<span class="op">&gt;();</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When you declare an <code class="sourceCode java"><span class="bu">ArrayList</span></code>, you specify the type it contains in angle brackets (<code class="sourceCode java"><span class="op">&lt;&gt;</span></code>). This declaration says that <code class="sourceCode java">cards</code> is not just an <code class="sourceCode java"><span class="bu">ArrayList</span></code>; it’s an <code class="sourceCode java"><span class="bu">ArrayList</span></code> of <code class="sourceCode java">Card</code> objects. The constructor initializes <code class="sourceCode java"><span class="kw">this</span><span class="op">.</span><span class="fu">cards</span></code> with an empty <code class="sourceCode java"><span class="bu">ArrayList</span></code>.</p>
+<p>Now let’s think about the methods we need to play the game. At the beginning of each round, each player draws a card from the top of their pile. So we define a method to do that:</p>
+<div class="sourceCode" id="cb21" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> Card <span class="fu">popCard</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="fu">cards</span><span class="op">.</span><span class="fu">remove</span><span class="op">(</span><span class="dv">0</span><span class="op">);</span>  <span class="co">// from the top of the pile</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code class="sourceCode java">popCard</code> removes the <code class="sourceCode java">Card</code> at the beginning of the <code class="sourceCode java"><span class="bu">ArrayList</span></code>, which we think of as the top of the pile. Because we use <code class="sourceCode java"><span class="bu">ArrayList</span><span class="op">.</span><span class="fu">remove</span></code>, it automatically shifts the remaining cards to fill the gap.</p>
+<p>At the end of each round, the winner adds cards to the bottom of their pile. So we define a method to do that:</p>
+<div class="sourceCode" id="cb22" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">addCard</span><span class="op">(</span>Card card<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">cards</span><span class="op">.</span><span class="fu">add</span><span class="op">(</span>card<span class="op">);</span>        <span class="co">// to the bottom of the pile</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code class="sourceCode java"><span class="bu">ArrayList</span></code> provides a method, <code class="sourceCode java">add</code>, that adds an element to the end of the collection, which we think of as the bottom of the pile.</p>
+<p>To know when to stop the game, we have to check if one of the piles is empty. Here’s a method to do that:</p>
+<div class="sourceCode" id="cb23" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isEmpty</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="fu">cards</span><span class="op">.</span><span class="fu">isEmpty</span><span class="op">();</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>So far, these methods don’t do very much; they just invoke methods on the instance variable, <code class="sourceCode java">cards</code>. Methods like these are called <strong>wrapper methods</strong> because they wrap one method with another.</p>
+<p>Finally, to start the game, we need to divide the deck into two equal parts. We can do that with <code class="sourceCode java">subdeck</code> from Section&nbsp;<a href="#subdeck" data-reference-type="ref" data-reference="subdeck">[subdeck]</a> and a new method, <code class="sourceCode java">addDeck</code>:</p>
+<div class="sourceCode" id="cb24" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">addDeck</span><span class="op">(</span>Deck deck<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>Card card <span class="op">:</span> deck<span class="op">.</span><span class="fu">getCards</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">cards</span><span class="op">.</span><span class="fu">add</span><span class="op">(</span>card<span class="op">);</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code class="sourceCode java">addDeck</code> takes a <code class="sourceCode java">Deck</code> object, loops through the cards, and adds them to the <code class="sourceCode java">Pile</code>. Notice that it does not remove the cards from the <code class="sourceCode java">Deck</code>, so the <code class="sourceCode java">Deck</code> and the <code class="sourceCode java">Pile</code> share cards. But that won’t be a problem because cards are immutable.</p>
+</section>
+<section id="playing-war" class="level2" data-number="15.10">
+<h2 data-number="15.10" class="anchored" data-anchor-id="playing-war"><span class="header-section-number">15.10</span> Playing War</h2>
+<p>Now we can use <code class="sourceCode java">Deck</code> and <code class="sourceCode java">Pile</code> to implement the game. We’ll start by creating a deck and shuffling:</p>
+<div class="sourceCode" id="cb25" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>Deck deck <span class="op">=</span> <span class="kw">new</span> <span class="fu">Deck</span><span class="op">();</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>deck<span class="op">.</span><span class="fu">shuffle</span><span class="op">();</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then we divide the <code class="sourceCode java">Deck</code> into two piles:</p>
+<div class="sourceCode" id="cb26" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>Pile p1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Pile</span><span class="op">();</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>p1<span class="op">.</span><span class="fu">addDeck</span><span class="op">(</span>deck<span class="op">.</span><span class="fu">subdeck</span><span class="op">(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">25</span><span class="op">));</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>Pile p2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Pile</span><span class="op">();</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>p2<span class="op">.</span><span class="fu">addDeck</span><span class="op">(</span>deck<span class="op">.</span><span class="fu">subdeck</span><span class="op">(</span><span class="dv">26</span><span class="op">,</span> <span class="dv">51</span><span class="op">));</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The game itself is a loop that repeats until one of the piles is empty. At each iteration, we draw a card from each pile and compare their ranks:</p>
+<div class="sourceCode" id="cb27" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(!</span>p1<span class="op">.</span><span class="fu">isEmpty</span><span class="op">()</span> <span class="op">&amp;&amp;</span> <span class="op">!</span>p2<span class="op">.</span><span class="fu">isEmpty</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// pop a card from each pile</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    Card c1 <span class="op">=</span> p1<span class="op">.</span><span class="fu">popCard</span><span class="op">();</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    Card c2 <span class="op">=</span> p2<span class="op">.</span><span class="fu">popCard</span><span class="op">();</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// compare the cards</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> diff <span class="op">=</span> c1<span class="op">.</span><span class="fu">getRank</span><span class="op">()</span> <span class="op">-</span> c2<span class="op">.</span><span class="fu">getRank</span><span class="op">();</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>diff <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>        p1<span class="op">.</span><span class="fu">addCard</span><span class="op">(</span>c1<span class="op">);</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>        p1<span class="op">.</span><span class="fu">addCard</span><span class="op">(</span>c2<span class="op">);</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>diff <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>        p2<span class="op">.</span><span class="fu">addCard</span><span class="op">(</span>c1<span class="op">);</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>        p2<span class="op">.</span><span class="fu">addCard</span><span class="op">(</span>c2<span class="op">);</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>        <span class="co">// it's a tie</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If the two cards have the same rank, it’s a tie. In that case, each player draws four more cards. Whoever has the higher fourth card takes all cards in play. If there’s another tie, they draw another four cards, and so on.</p>
+<p>One of the exercises at the end of this chapter asks you to implement the <code class="sourceCode java"><span class="cf">else</span></code> block when there’s a tie.</p>
+<p>After the <code class="sourceCode java"><span class="cf">while</span></code> loop ends, we display the winner based on which pile is not empty:</p>
+<div class="sourceCode" id="cb28" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>p2<span class="op">.</span><span class="fu">isEmpty</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Player 1 wins!"</span><span class="op">);</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Player 2 wins!"</span><span class="op">);</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code class="sourceCode java"><span class="bu">ArrayList</span></code> provides many other methods that we didn’t use for this example. Take a minute to read the documentation, which you can find by doing a web search for “Java ArrayList”.</p>
+</section>
+<section id="vocabulary" class="level2" data-number="15.11">
+<h2 data-number="15.11" class="anchored" data-anchor-id="vocabulary"><span class="header-section-number">15.11</span> Vocabulary</h2>
+<dl>
+<dt>pseudocode:</dt>
+<dd>
+<p>A way of designing programs by writing rough drafts in a combination of English and Java.</p>
+</dd>
+<dt>helper method:</dt>
+<dd>
+<p>A method that implements part of a more complex algorithm; often it is not particularly useful on its own.</p>
+</dd>
+<dt>top-down design:</dt>
+<dd>
+<p>Breaking down a problem into subproblems, and solving each subproblem one at a time.</p>
+</dd>
+<dt>selection sort:</dt>
+<dd>
+<p>A simple sorting algorithm that searches for the smallest or largest element <span class="math inline">\(n\)</span> times.</p>
+</dd>
+<dt>merge sort:</dt>
+<dd>
+<p>A recursive sorting algorithm that divides an array into two parts, sorts each part (using merge sort), and merges the results.</p>
+</dd>
+<dt>off-by-one:</dt>
+<dd>
+<p>A common programming mistake that results in iterating one time too many, or too few.</p>
+</dd>
+<dt>static context:</dt>
+<dd>
+<p>The parts of a class that run without reference to a specific instance of the class.</p>
+</dd>
+<dt>collection:</dt>
+<dd>
+<p>A Java library class, like <code class="sourceCode java"><span class="bu">ArrayList</span></code>, that represents a group of objects.</p>
+</dd>
+<dt>wrapper method:</dt>
+<dd>
+<p>A method that calls another method without doing much additional work.</p>
+</dd>
+</dl>
+</section>
+<section id="exercises" class="level2" data-number="15.12">
+<h2 data-number="15.12" class="anchored" data-anchor-id="exercises"><span class="header-section-number">15.12</span> Exercises</h2>
+<p>The code for this chapter is in the <em>ch13</em> directory of <em>ThinkJavaCode2</em>. See page&nbsp; for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples.</p>
+<div class="exercise">
+<p><strong>Exercise 13.1</strong>. <em>Write a <code class="sourceCode java">toString</code> method for the <code class="sourceCode java">Deck</code> class. It should return a single string that represents the cards in the deck. When it’s printed, this string should display the same results as the <code class="sourceCode java">print</code> method in Section&nbsp;<a href="#deck" data-reference-type="ref" data-reference="deck">13.1</a>.</em></p>
+<p>**Hint:* You can use the <code class="sourceCode java"><span class="op">+</span></code> operator to concatenate strings, but that is not very efficient. Consider using <code class="sourceCode java"><span class="bu">StringBuilder</span></code> instead; see Section&nbsp;<a href="ch10.html#stringbuilder" data-reference-type="ref" data-reference="stringbuilder">10.11</a>.*</p>
+</div>
+<div id="ex.shuffle" class="exercise">
+<p><strong>Exercise 13.2</strong>.</p>
+<p><em>The goal of this exercise is to implement the shuffling algorithm from this chapter.</em></p>
+<ol type="1">
+<li><p><em>In the repository for this book, you should find the file named </em>Deck.java<em>. Check that you can compile it in your environment.</em></p></li>
+<li><p><em>Implement the <code class="sourceCode java">randomInt</code> method. You can use the <code class="sourceCode java">nextInt</code> method provided by <code class="sourceCode java">java<span class="op">.</span><span class="fu">util</span><span class="op">.</span><span class="fu">Random</span></code>, which you saw in Section&nbsp;<a href="ch07.html#random" data-reference-type="ref" data-reference="random">7.6</a>.</em></p>
+<p>**Hint:* To avoid creating a <code class="sourceCode java"><span class="bu">Random</span></code> object every time <code class="sourceCode java">randomInt</code> is invoked, consider defining a class variable.*</p></li>
+<li><p><em>Write a <code class="sourceCode java">swapCards</code> method that takes two indexes and swaps the cards at the given locations.</em></p></li>
+<li><p><em>Fill in the <code class="sourceCode java">shuffle</code> method by using the algorithm in Section&nbsp;<a href="#shuffle" data-reference-type="ref" data-reference="shuffle">13.2</a>.</em></p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><strong>Exercise 13.3</strong>. <em>The goal of this exercise is to implement the sorting algorithms from this chapter. Use the </em>Deck.java* file from the previous exercise or create a new one from scratch.*</p>
+<ol type="1">
+<li><p><em>Implement the <code class="sourceCode java">indexLowest</code> method. Use the <code class="sourceCode java">Card<span class="op">.</span><span class="fu">compareTo</span></code> method to find the lowest card in a given range of the deck, from <code class="sourceCode java">lowIndex</code> to <code class="sourceCode java">highIndex</code>, including both.</em></p></li>
+<li><p><em>Fill in <code class="sourceCode java">selectionSort</code> by using the algorithm in Section&nbsp;<a href="#sorting" data-reference-type="ref" data-reference="sorting">13.3</a>.</em></p></li>
+<li><p><em>Using the pseudocode in Section&nbsp;<a href="#mergesort" data-reference-type="ref" data-reference="mergesort">13.4</a>, implement the <code class="sourceCode java">merge</code> method. The best way to test it is to build and shuffle a deck. Then use <code class="sourceCode java">subdeck</code> to form two small subdecks, and use selection sort to sort them. Finally, pass the two halves to <code class="sourceCode java">merge</code> and see if it works.</em></p></li>
+<li><p><em>Fill in <code class="sourceCode java">almostMergeSort</code>, which divides the deck in half, then uses <code class="sourceCode java">selectionSort</code> to sort the two halves, and uses <code class="sourceCode java">merge</code> to create a new, sorted deck. You should be able to reuse code from the previous step.</em></p></li>
+<li><p><em>Implement <code class="sourceCode java">mergeSort</code> recursively. Remember that <code class="sourceCode java">selectionSort</code> is <code class="sourceCode java"><span class="dt">void</span></code> and <code class="sourceCode java">mergeSort</code> returns a new <code class="sourceCode java">Deck</code>, which means that they get invoked differently:</em></p>
+<div class="sourceCode" id="cb29" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>deck<span class="op">.</span><span class="fu">selectionSort</span><span class="op">();</span>      <span class="co">// modifies an existing deck</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>deck <span class="op">=</span> deck<span class="op">.</span><span class="fu">mergeSort</span><span class="op">();</span>   <span class="co">// replaces old deck with new</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</div>
+<div class="exercise">
+<p><strong>Exercise 13.4</strong>. <em>You can learn more about the sorting algorithms presented in this chapter at <a href="https://www.toptal.com/developers/sorting-algorithms" class="uri">https://www.toptal.com/developers/sorting-algorithms</a>. This site provides explanations of the algorithms, along with animations that show how they work. It also includes an analysis of their efficiency.</em></p>
+<p><em>For example, “insertion sort” is an algorithm that inserts elements into place, one at a time. Read about it on the website and play the animations. Then write a method named <code class="sourceCode java">insertionSort</code> that implements this algorithm.</em></p>
+<p><em>One goal of this exercise is to practice top-down design. Your solution should use a helper method, named <code class="sourceCode java">insert</code>, that implements the inner loop of the algorithm. <code class="sourceCode java">insertionSort</code> should invoke this method <span class="math inline">\(n-1\)</span> times.</em></p>
+</div>
+<div class="exercise">
+<p><strong>Exercise 13.5</strong>. <em>Find and open the file </em>War.java* in the repository. The <code class="sourceCode java">main</code> method contains all the code from the last section of this chapter. Check that you can compile and run this code before proceeding.*</p>
+<p><em>The program is incomplete; it does not handle the case when two cards have the same rank. Finish implementing the <code class="sourceCode java">main</code> method, beginning at the line that says: <code class="sourceCode java"><span class="co">// it's a tie</span></code>.</em></p>
+<p><em>When there’s a tie, draw three cards from each pile and store them in a collection, along with the original two. Then draw one more card from each pile and compare them. Whoever wins the tie takes all ten of these cards.</em></p>
+<p><em>If one pile does not have at least four cards, the game ends immediately. If a tie ends with a tie, draw three more cards, and so on.</em></p>
+<p><em>Notice that this program depends on <code class="sourceCode java">Deck<span class="op">.</span><span class="fu">shuffle</span></code>, so you might have to do Exercise&nbsp;<a href="#ex.shuffle" data-reference-type="ref" data-reference="ex.shuffle">13.2</a> first.</em></p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch12.html" class="pagination-link" aria-label="Arrays of Objects">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Arrays of Objects</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch14.html" class="pagination-link" aria-label="Extending Classes">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Extending Classes</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>19&nbsp; Advanced Topics – Think Java</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./appa.html" rel="next">
+<link href="./ch16.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch17.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Advanced Topics</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Think Java</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Think Java</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Computer Programming</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Variables and Operators</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Input and Output</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods and Testing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conditionals and Logic</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Loops and Strings</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Arrays and References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Recursive Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Immutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Mutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Designing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Arrays of Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Objects of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Extending Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reusing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Advanced Topics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Tools</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Javadoc</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Graphics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Debugging</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#polygon-objects" id="toc-polygon-objects" class="nav-link active" data-scroll-target="#polygon-objects"><span class="header-section-number">19.1</span> Polygon Objects</a></li>
+  <li><a href="#adding-color" id="toc-adding-color" class="nav-link" data-scroll-target="#adding-color"><span class="header-section-number">19.2</span> Adding Color</a></li>
+  <li><a href="#regular-polygons" id="toc-regular-polygons" class="nav-link" data-scroll-target="#regular-polygons"><span class="header-section-number">19.3</span> Regular Polygons</a></li>
+  <li><a href="#more-constructors" id="toc-more-constructors" class="nav-link" data-scroll-target="#more-constructors"><span class="header-section-number">19.4</span> More Constructors</a></li>
+  <li><a href="#sec:drawing" id="toc-sec:drawing" class="nav-link" data-scroll-target="#sec\:drawing"><span class="header-section-number">19.5</span> An Initial Drawing</a></li>
+  <li><a href="#blinking-polygons" id="toc-blinking-polygons" class="nav-link" data-scroll-target="#blinking-polygons"><span class="header-section-number">19.6</span> Blinking Polygons</a></li>
+  <li><a href="#interfaces" id="toc-interfaces" class="nav-link" data-scroll-target="#interfaces"><span class="header-section-number">19.7</span> Interfaces</a></li>
+  <li><a href="#event-listeners" id="toc-event-listeners" class="nav-link" data-scroll-target="#event-listeners"><span class="header-section-number">19.8</span> Event Listeners</a></li>
+  <li><a href="#timers" id="toc-timers" class="nav-link" data-scroll-target="#timers"><span class="header-section-number">19.9</span> Timers</a></li>
+  <li><a href="#vocabulary" id="toc-vocabulary" class="nav-link" data-scroll-target="#vocabulary"><span class="header-section-number">19.10</span> Vocabulary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">19.11</span> Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Advanced Topics</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>When we first looked at inheritance in Chapter&nbsp;<a href="#eights" data-reference-type="ref" data-reference="eights">14</a>, our purpose was to avoid duplicating code. We noticed that “decks of cards” and “hands of cards” had common functionality, and we designed a <code class="sourceCode java">CardCollection</code> class to provide it. This technique is an example of <strong>generalization</strong>. By generalizing the code, we were able to reuse it in the <code class="sourceCode java">Deck</code> and <code class="sourceCode java">Hand</code> classes.</p>
+<p>In Chapter&nbsp;<a href="#conway" data-reference-type="ref" data-reference="conway">15</a>, we looked at inheritance from a different point of view. When designing <code class="sourceCode java">GridCanvas</code> to represent a grid of cells, we extended <code class="sourceCode java"><span class="bu">Canvas</span></code> and overrode its <code class="sourceCode java">paint</code> method. This design is an example of <strong>specialization</strong>. Using the code provided by <code class="sourceCode java"><span class="bu">Canvas</span></code>, we created a specialized subclass with minimal additional code.</p>
+<p>We didn’t write the code for <code class="sourceCode java"><span class="bu">Canvas</span></code>; it’s part of the Java library. But we were able to customize it for our own purposes. In fact, the <code class="sourceCode java"><span class="bu">Canvas</span></code> class was explicitly designed to be extended.</p>
+<p>In this chapter, we’ll explore the concept of inheritance more fully and present event-driven programming. We’ll continue to develop graphical simulations as a running example, but this time in varying shapes and colors!</p>
+<section id="polygon-objects" class="level2" data-number="19.1">
+<h2 data-number="19.1" class="anchored" data-anchor-id="polygon-objects"><span class="header-section-number">19.1</span> Polygon Objects</h2>
+<p>The word polygon means “many angles”; the most basic polygons are triangles (three angles), rectangles (four angles), pentagons (five angles), and so forth. Polygons are an important part of computer graphics because they are used to compose more complex images.</p>
+<p>Java provides a <code class="sourceCode java"><span class="bu">Polygon</span></code> class (in <code class="sourceCode java">java<span class="op">.</span><span class="fu">awt</span></code>) that we can use to represent and draw polygons. The following code creates an empty <code class="sourceCode java"><span class="bu">Polygon</span></code> and adds three points, forming a triangle:</p>
+<div class="sourceCode" id="cb1" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Polygon</span> p <span class="op">=</span> <span class="kw">new</span> <span class="bu">Polygon</span><span class="op">();</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>p<span class="op">.</span><span class="fu">addPoint</span><span class="op">(</span><span class="dv">57</span><span class="op">,</span> <span class="dv">110</span><span class="op">);</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>p<span class="op">.</span><span class="fu">addPoint</span><span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="dv">35</span><span class="op">);</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>p<span class="op">.</span><span class="fu">addPoint</span><span class="op">(</span><span class="dv">143</span><span class="op">,</span> <span class="dv">110</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Internally, <code class="sourceCode java"><span class="bu">Polygon</span></code> objects have three attributes:</p>
+<ul>
+<li><p><code class="sourceCode java"><span class="kw">public</span> <span class="dt">int</span> npoints<span class="op">;</span></code> <code>&nbsp;&nbsp;&nbsp;</code> <code class="sourceCode java"><span class="co">// total number of points</span></code></p></li>
+<li><p><code class="sourceCode java"><span class="kw">public</span> <span class="dt">int</span><span class="op">[]</span> xpoints<span class="op">;</span></code> <code>&nbsp;</code> <code class="sourceCode java"><span class="co">// array of X coordinates</span></code></p></li>
+<li><p><code class="sourceCode java"><span class="kw">public</span> <span class="dt">int</span><span class="op">[]</span> ypoints<span class="op">;</span></code> <code>&nbsp;</code> <code class="sourceCode java"><span class="co">// array of Y coordinates</span></code></p></li>
+</ul>
+<p>When a <code class="sourceCode java"><span class="bu">Polygon</span></code> is created, <code class="sourceCode java">npoints</code> is <code class="sourceCode java"><span class="dv">0</span></code> and the two arrays are initialized with length 4. As points are added, <code class="sourceCode java">npoints</code> is incremented. If <code class="sourceCode java">npoints</code> exceeds the length of the arrays, larger arrays are created, and the previous values are copied over (similar to how <code class="sourceCode java"><span class="bu">ArrayList</span></code> works).</p>
+<p>The <code class="sourceCode java"><span class="bu">Polygon</span></code> class provides many useful methods, like <code class="sourceCode java">contains</code>, <code class="sourceCode java">intersects</code>, and <code class="sourceCode java">translate</code>. We’ll get to those later, but first we’re going to do some specialization.</p>
+</section>
+<section id="adding-color" class="level2" data-number="19.2">
+<h2 data-number="19.2" class="anchored" data-anchor-id="adding-color"><span class="header-section-number">19.2</span> Adding Color</h2>
+<p>Specialization is useful for adding new features to an existing class, especially when you can’t (or don’t want to) change its design. For example, we can extend the <code class="sourceCode java"><span class="bu">Polygon</span></code> class by adding a <code class="sourceCode java">draw</code> method and a <code class="sourceCode java"><span class="bu">Color</span></code> attribute:</p>
+<div class="sourceCode" id="cb2" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> DrawablePolygon <span class="kw">extends</span> <span class="bu">Polygon</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">protected</span> <span class="bu">Color</span> color<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">DrawablePolygon</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span><span class="op">();</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        color <span class="op">=</span> <span class="bu">Color</span><span class="op">.</span><span class="fu">GRAY</span><span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">draw</span><span class="op">(</span><span class="bu">Graphics</span> g<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        g<span class="op">.</span><span class="fu">setColor</span><span class="op">(</span>color<span class="op">);</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        g<span class="op">.</span><span class="fu">fillPolygon</span><span class="op">(</span><span class="kw">this</span><span class="op">);</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As a reminder, constructors are not inherited when you extend a class. If you don’t define a constructor, the compiler will generate one that does nothing.</p>
+<p>The constructor for <code class="sourceCode java">DrawablePolygon</code> uses <code class="sourceCode java"><span class="kw">super</span></code> to invoke the constructor for <code class="sourceCode java"><span class="bu">Polygon</span></code>, which initializes the attributes <code class="sourceCode java">npoints</code>, <code class="sourceCode java">xpoints</code>, and <code class="sourceCode java">ypoints</code>. Then <code class="sourceCode java">DrawablePolygon</code> initializes the <code class="sourceCode java">color</code> attribute to <code class="sourceCode java">GRAY</code>.</p>
+<p><code class="sourceCode java">DrawablePolygon</code> has the same attributes and methods that <code class="sourceCode java"><span class="bu">Polygon</span></code> has, so you can use <code class="sourceCode java">addPoint</code> as before, or you can directly access <code class="sourceCode java">npoints</code>, <code class="sourceCode java">xpoints</code>, and <code class="sourceCode java">ypoints</code> (since they are <code class="sourceCode java"><span class="kw">public</span></code>). You can also use methods like <code class="sourceCode java">contains</code>, <code class="sourceCode java">intersects</code>, and <code class="sourceCode java">translate</code>.</p>
+<p>The following code creates a <code class="sourceCode java">DrawablePolygon</code> with the same points as in the previous section and sets its color to <code class="sourceCode java">GREEN</code>:</p>
+<div class="sourceCode" id="cb3" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>DrawablePolygon p <span class="op">=</span> <span class="kw">new</span> <span class="fu">DrawablePolygon</span><span class="op">();</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>p<span class="op">.</span><span class="fu">addPoint</span><span class="op">(</span><span class="dv">57</span><span class="op">,</span> <span class="dv">110</span><span class="op">);</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>p<span class="op">.</span><span class="fu">addPoint</span><span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="dv">35</span><span class="op">);</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>p<span class="op">.</span><span class="fu">addPoint</span><span class="op">(</span><span class="dv">143</span><span class="op">,</span> <span class="dv">110</span><span class="op">);</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>p<span class="op">.</span><span class="fu">color</span> <span class="op">=</span> <span class="bu">Color</span><span class="op">.</span><span class="fu">GREEN</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="regular-polygons" class="level2" data-number="19.3">
+<h2 data-number="19.3" class="anchored" data-anchor-id="regular-polygons"><span class="header-section-number">19.3</span> Regular Polygons</h2>
+<p>In mathematics, a regular polygon has all sides the same length and all angles equal in measure. Regular polygons are a special case of polygons, so we will use specialization to define a class for them.</p>
+<p>We could extend the <code class="sourceCode java"><span class="bu">Polygon</span></code> class, as we did in the previous section. But then we would not have the <code class="sourceCode java"><span class="bu">Color</span></code> functionality we just added. So we will make <code class="sourceCode java">RegularPolygon</code> extend <code class="sourceCode java">DrawablePolygon</code>.</p>
+<p>To construct a <code class="sourceCode java">RegularPolygon</code>, we specify the number of sides, the radius (distance from the center to a vertex), and the color. For example:</p>
+<div class="sourceCode" id="cb4" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>RegularPolygon rp <span class="op">=</span> <span class="kw">new</span> <span class="fu">RegularPolygon</span><span class="op">(</span><span class="dv">6</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="bu">Color</span><span class="op">.</span><span class="fu">BLUE</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<figure id="fig:hexagon" class="figure">
+<div class="center">
+<p><img src="figs/hexagon-.svg" class="figure-img"></p>
+</div>
+<figcaption>
+Determining the <span class="math inline"><em>x</em></span> and <span class="math inline"><em>y</em></span> coordinates of vertex V1, given the radius&nbsp;<span class="math inline"><em>r</em></span> and angle&nbsp;<span class="math inline"><em>θ</em></span>. The center of the polygon is at the origin <span class="math inline">(0, 0)</span>.
+</figcaption>
+</figure>
+<p>The constructor uses trigonometry to find the coordinates of each vertex. Figure&nbsp;<a href="#fig:hexagon" data-reference-type="ref" data-reference="fig:hexagon">17.1</a> illustrates the process. The number of sides (<span class="math inline">\(n=6\)</span>) and the radius (<span class="math inline">\(r=50\)</span>) are given as parameters.</p>
+<ul>
+<li><p>Imagine a clock hand starting at V0 and rotating counterclockwise to V1, V2, and so forth. In Figure&nbsp;<a href="#fig:hexagon" data-reference-type="ref" data-reference="fig:hexagon">17.1</a>, the hand is currently at V1.</p></li>
+<li><p>The angle <span class="math inline">\(\theta\)</span> is <span class="math inline">\(2 \pi / n\)</span>, since there are <span class="math inline">\(2\pi\)</span> radians in a circle. In other words, we are dividing the rotation of the clock hand into <span class="math inline">\(n\)</span> equal angles.</p></li>
+<li><p>By definition, <span class="math inline">\(\cos(\theta) = x/r\)</span> and <span class="math inline">\(\sin(\theta) = y/r\)</span>. Therefore, <span class="math inline">\(x = r \cos(\theta)\)</span> and <span class="math inline">\(y = r \sin(\theta)\)</span>.</p></li>
+<li><p>We can determine the other <span class="math inline">\((x, y)\)</span> coordinates by multiplying <span class="math inline">\(\theta\)</span> by <span class="math inline">\(i\)</span>, where <span class="math inline">\(i\)</span> is the vertex number.</p></li>
+</ul>
+<p>Here is the constructor for <code class="sourceCode java">RegularPolygon</code>:</p>
+<div class="sourceCode" id="cb5" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="fu">RegularPolygon</span><span class="op">(</span><span class="dt">int</span> nsides<span class="op">,</span> <span class="dt">int</span> radius<span class="op">,</span> <span class="bu">Color</span> color<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// initialize DrawablePolygon attributes</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">npoints</span> <span class="op">=</span> nsides<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">xpoints</span> <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>nsides<span class="op">];</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">ypoints</span> <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>nsides<span class="op">];</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">color</span> <span class="op">=</span> color<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// the amount to rotate for each vertex (in radians)</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> theta <span class="op">=</span> <span class="fl">2.0</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">PI</span> <span class="op">/</span> nsides<span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// compute x and y coordinates, centered at the origin</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> nsides<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> x <span class="op">=</span> radius <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span><span class="op">(</span>i <span class="op">*</span> theta<span class="op">);</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> y <span class="op">=</span> radius <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span><span class="op">(</span>i <span class="op">*</span> theta<span class="op">);</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        xpoints<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span><span class="op">(</span>x<span class="op">);</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        ypoints<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span><span class="op">(</span>y<span class="op">);</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This constructor initializes all four <code class="sourceCode java">DrawablePolygon</code> attributes, so it doesn’t have to invoke <code class="sourceCode java"><span class="kw">super</span><span class="op">()</span></code>.</p>
+<p>It initializes <code class="sourceCode java">xpoints</code> and <code class="sourceCode java">ypoints</code> by creating arrays of integer coordinates. Inside the <code class="sourceCode java"><span class="cf">for</span></code> loop, it uses <code class="sourceCode java"><span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span></code> and <code class="sourceCode java"><span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span></code> (see Section&nbsp;<a href="ch04.html#mathmeth" data-reference-type="ref" data-reference="mathmeth">4.6</a>) to compute the coordinates of the vertices as floating-point numbers. Then it rounds them off to integers and stores them in the arrays.</p>
+<p>When we construct a <code class="sourceCode java">RegularPolygon</code>, the vertices are centered at the point <span class="math inline">\((0, 0)\)</span>. If we want the center of the polygon to be somewhere else, we can use <code class="sourceCode java">translate</code>, which we inherit from <code class="sourceCode java"><span class="bu">Polygon</span></code>:</p>
+<div class="sourceCode" id="cb6" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>RegularPolygon rp <span class="op">=</span> <span class="kw">new</span> <span class="fu">RegularPolygon</span><span class="op">(</span><span class="dv">6</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="bu">Color</span><span class="op">.</span><span class="fu">BLUE</span><span class="op">);</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>rp<span class="op">.</span><span class="fu">translate</span><span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The result is a six-sided polygon with radius 50 centered at the point <span class="math inline">\((100, 100)\)</span>.</p>
+</section>
+<section id="more-constructors" class="level2" data-number="19.4">
+<h2 data-number="19.4" class="anchored" data-anchor-id="more-constructors"><span class="header-section-number">19.4</span> More Constructors</h2>
+<p>Classes in the Java library often have more than one constructor for convenience. We can do the same with <code class="sourceCode java">RegularPolygon</code>. For example, we can make the <code class="sourceCode java">color</code> parameter optional by defining a second constructor:</p>
+<div class="sourceCode" id="cb7" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="fu">RegularPolygon</span><span class="op">(</span><span class="dt">int</span> nsides<span class="op">,</span> <span class="dt">int</span> radius<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">(</span>nsides<span class="op">,</span> radius<span class="op">,</span> <span class="bu">Color</span><span class="op">.</span><span class="fu">GRAY</span><span class="op">);</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The keyword <code class="sourceCode java"><span class="kw">this</span></code>, when used in a constructor, invokes another constructor in the same class. It has a similar syntax as the keyword <code class="sourceCode java"><span class="kw">super</span></code>, which invokes a constructor in the superclass.</p>
+<p>Similarly, we could make the <code class="sourceCode java">radius</code> parameter optional too:</p>
+<div class="sourceCode" id="cb8" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="fu">RegularPolygon</span><span class="op">(</span><span class="dt">int</span> nsides<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">(</span>nsides<span class="op">,</span> <span class="dv">50</span><span class="op">);</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, suppose we invoke the <code class="sourceCode java">RegularPolygon</code> constructor like this:</p>
+<div class="sourceCode" id="cb9" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>RegularPolygon rp <span class="op">=</span> <span class="kw">new</span> <span class="fu">RegularPolygon</span><span class="op">(</span><span class="dv">6</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Because we provide only one integer argument, Java calls the third constructor, which calls the second one, which calls the first one. The result is a <code class="sourceCode java">RegularPolygon</code> with the specified value of <code class="sourceCode java">nsides</code>, <code class="sourceCode java"><span class="dv">6</span></code>, the default value of <code class="sourceCode java">radius</code>, <code class="sourceCode java"><span class="dv">50</span></code>, and the default color, <code class="sourceCode java">GRAY</code>.</p>
+<p>When writing constructors, it’s a good idea to validate the values you get as arguments. Doing so prevents run-time errors later in the program, which makes the code easier to debug.</p>
+<p>For <code class="sourceCode java">RegularPolygon</code>, the number of sides should be at least three, the radius should be greater than zero, and the color should not be <code class="sourceCode java"><span class="kw">null</span></code>. We can add the following lines to the first constructor:</p>
+<div class="sourceCode" id="cb10" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="fu">RegularPolygon</span><span class="op">(</span><span class="dt">int</span> nsides<span class="op">,</span> <span class="dt">int</span> radius<span class="op">,</span> <span class="bu">Color</span> color<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// validate the arguments</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>nsides <span class="op">&lt;</span> <span class="dv">3</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">IllegalArgumentException</span><span class="op">(</span><span class="st">"invalid nsides"</span><span class="op">);</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>radius <span class="op">&lt;=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">IllegalArgumentException</span><span class="op">(</span><span class="st">"invalid radius"</span><span class="op">);</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>color <span class="op">==</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">NullPointerException</span><span class="op">(</span><span class="st">"invalid color"</span><span class="op">);</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// the rest of the method is omitted</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this example, we <code class="sourceCode java"><span class="cf">throw</span></code> an exception to indicate that one of the arguments is invalid. By default, these exceptions terminate the program and display an error message along with the stack trace.</p>
+<p>Because we added this code to the most general constructor, we don’t have to add it to the others.</p>
+</section>
+<section id="sec:drawing" class="level2" data-number="19.5">
+<h2 data-number="19.5" class="anchored" data-anchor-id="sec:drawing"><span class="header-section-number">19.5</span> An Initial Drawing</h2>
+<p>Now that we have <code class="sourceCode java">DrawablePolygon</code> and <code class="sourceCode java">RegularPolygon</code>, let’s take them for a test drive. We’ll need a <code class="sourceCode java"><span class="bu">Canvas</span></code> for drawing them, so we define a new class, <code class="sourceCode java">Drawing</code>, that extends <code class="sourceCode java"><span class="bu">Canvas</span></code>:</p>
+<div class="sourceCode" id="cb11" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Drawing <span class="kw">extends</span> <span class="bu">Canvas</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">ArrayList</span><span class="op">&lt;</span>DrawablePolygon<span class="op">&gt;</span> list<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">Drawing</span><span class="op">(</span><span class="dt">int</span> width<span class="op">,</span> <span class="dt">int</span> height<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">setSize</span><span class="op">(</span>width<span class="op">,</span> height<span class="op">);</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">setBackground</span><span class="op">(</span><span class="bu">Color</span><span class="op">.</span><span class="fu">WHITE</span><span class="op">);</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        list <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;</span>DrawablePolygon<span class="op">&gt;();</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">add</span><span class="op">(</span>DrawablePolygon dp<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>        list<span class="op">.</span><span class="fu">add</span><span class="op">(</span>dp<span class="op">);</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">paint</span><span class="op">(</span><span class="bu">Graphics</span> g<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span>DrawablePolygon dp <span class="op">:</span> list<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>            dp<span class="op">.</span><span class="fu">draw</span><span class="op">(</span>g<span class="op">);</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code class="sourceCode java">Drawing</code> class has an <code class="sourceCode java"><span class="bu">ArrayList</span></code> of <code class="sourceCode java">DrawablePolygon</code> objects. When we create a <code class="sourceCode java">Drawing</code> object, the list is initially empty. The <code class="sourceCode java">add</code> method takes a <code class="sourceCode java">DrawablePolygon</code> and adds it to the list.</p>
+<p><code class="sourceCode java">Drawing</code> overrides the <code class="sourceCode java">paint</code> method that it inherits from <code class="sourceCode java"><span class="bu">Canvas</span></code>. <code class="sourceCode java">paint</code> loops through the list of <code class="sourceCode java">DrawablePolygon</code> objects and invokes <code class="sourceCode java">draw</code> on each one.</p>
+<p>Here is an example that creates three <code class="sourceCode java">RegularPolygon</code> objects and draws them. Figure&nbsp;<a href="#fig:drawing" data-reference-type="ref" data-reference="fig:drawing">17.2</a> shows the result.</p>
+<div class="sourceCode" id="cb13" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// create some regular polygons</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    DrawablePolygon p1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">RegularPolygon</span><span class="op">(</span><span class="dv">3</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="bu">Color</span><span class="op">.</span><span class="fu">GREEN</span><span class="op">);</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    DrawablePolygon p2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">RegularPolygon</span><span class="op">(</span><span class="dv">6</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="bu">Color</span><span class="op">.</span><span class="fu">ORANGE</span><span class="op">);</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    DrawablePolygon p3 <span class="op">=</span> <span class="kw">new</span> <span class="fu">RegularPolygon</span><span class="op">(</span><span class="dv">360</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="bu">Color</span><span class="op">.</span><span class="fu">BLUE</span><span class="op">);</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// move them out of the corner</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    p1<span class="op">.</span><span class="fu">translate</span><span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="dv">80</span><span class="op">);</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    p2<span class="op">.</span><span class="fu">translate</span><span class="op">(</span><span class="dv">250</span><span class="op">,</span> <span class="dv">120</span><span class="op">);</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    p3<span class="op">.</span><span class="fu">translate</span><span class="op">(</span><span class="dv">400</span><span class="op">,</span> <span class="dv">160</span><span class="op">);</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">// create drawing, add polygons</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    Drawing drawing <span class="op">=</span> <span class="kw">new</span> <span class="fu">Drawing</span><span class="op">(</span><span class="dv">500</span><span class="op">,</span> <span class="dv">250</span><span class="op">);</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    drawing<span class="op">.</span><span class="fu">add</span><span class="op">(</span>p1<span class="op">);</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    drawing<span class="op">.</span><span class="fu">add</span><span class="op">(</span>p2<span class="op">);</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    drawing<span class="op">.</span><span class="fu">add</span><span class="op">(</span>p3<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">// set up the window frame</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">JFrame</span> frame <span class="op">=</span> <span class="kw">new</span> <span class="bu">JFrame</span><span class="op">(</span><span class="st">"Drawing"</span><span class="op">);</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    frame<span class="op">.</span><span class="fu">setDefaultCloseOperation</span><span class="op">(</span><span class="bu">JFrame</span><span class="op">.</span><span class="fu">EXIT_ON_CLOSE</span><span class="op">);</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    frame<span class="op">.</span><span class="fu">add</span><span class="op">(</span>drawing<span class="op">);</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    frame<span class="op">.</span><span class="fu">pack</span><span class="op">();</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    frame<span class="op">.</span><span class="fu">setVisible</span><span class="op">(</span><span class="kw">true</span><span class="op">);</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<figure id="fig:drawing" class="figure">
+<div class="center">
+<p><img src="figs/drawing.png" style="width:4in" class="figure-img"></p>
+</div>
+<figcaption>
+Initial drawing of three <code class="sourceCode java">RegularPolygon</code> objects.
+</figcaption>
+</figure>
+<p>The first block of code creates <code class="sourceCode java">RegularPolygon</code> objects with 3, 6, and 360 sides. As you can see, a polygon with 360 sides is a pretty good approximation of a circle.</p>
+<p>The second block of code translates the polygons to different locations. The third block of code creates the <code class="sourceCode java">Drawing</code> and adds the polygons to it. And the fourth block of code creates a <code class="sourceCode java"><span class="bu">JFrame</span></code>, adds the <code class="sourceCode java">Drawing</code> to it, and displays the result.</p>
+<p>Most of these pieces should be familiar, but one part of this program might surprise you. When we create the <code class="sourceCode java">RegularPolygon</code> objects, we assign them to <code class="sourceCode java">DrawablePolygon</code> variables. It might not be obvious why that’s legal.</p>
+<p><code class="sourceCode java">RegularPolygon</code> extends <code class="sourceCode java">DrawablePolygon</code>, so every <code class="sourceCode java">RegularPolygon</code> object is also a <code class="sourceCode java">DrawablePolygon</code>. The parameter of <code class="sourceCode java">Drawing<span class="op">.</span><span class="fu">add</span></code> has to be a <code class="sourceCode java">DrawablePolygon</code>, but it can be any type of <code class="sourceCode java">DrawablePolygon</code>, including <code class="sourceCode java">RegularPolygon</code> and other subclasses.</p>
+<p>This design is an example of <strong>polymorphism</strong>, a fancy word that means “having many forms”. <code class="sourceCode java">Drawing<span class="op">.</span><span class="fu">add</span></code> is a polymorphic method, because the parameter can be one of many types. And the <code class="sourceCode java"><span class="bu">ArrayList</span></code> in <code class="sourceCode java">Drawing</code> is a polymorphic data structure, because the elements can be different types.</p>
+</section>
+<section id="blinking-polygons" class="level2" data-number="19.6">
+<h2 data-number="19.6" class="anchored" data-anchor-id="blinking-polygons"><span class="header-section-number">19.6</span> Blinking Polygons</h2>
+<p>At this point, we have a simple program that draws polygons; we can make it more fun by adding animation. Chapter&nbsp;<a href="#conway" data-reference-type="ref" data-reference="conway">15</a> introduced the idea of simulating time steps. Here’s a loop that runs the animation:</p>
+<div class="sourceCode" id="cb15" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    drawing<span class="op">.</span><span class="fu">step</span><span class="op">();</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Thread</span><span class="op">.</span><span class="fu">sleep</span><span class="op">(</span><span class="dv">1000</span> <span class="op">/</span> <span class="dv">30</span><span class="op">);</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">InterruptedException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">// do nothing</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Each time through the loop, we call <code class="sourceCode java">step</code> to update the <code class="sourceCode java">Drawing</code>. Then we sleep with a delay calculated to update about 30 times per second.</p>
+<p>Here’s what the <code class="sourceCode java">step</code> method of <code class="sourceCode java">Drawing</code> looks like:</p>
+<div class="sourceCode" id="cb16" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">step</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>DrawablePolygon dp <span class="op">:</span> list<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        dp<span class="op">.</span><span class="fu">step</span><span class="op">();</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">repaint</span><span class="op">();</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>It invokes <code class="sourceCode java">step</code> on each <code class="sourceCode java">DrawablePolygon</code> in the list and then repaints (clears and redraws) the canvas.</p>
+<p>In order for this code to compile, we need <code class="sourceCode java">DrawablePolygon</code> to provide a <code class="sourceCode java">step</code> method. Here’s a version that doesn’t do anything; we’ll override it in subclasses:</p>
+<div class="sourceCode" id="cb17" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">step</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// do nothing</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now let’s design a new type of polygon that blinks. We’ll define a class named <code class="sourceCode java">BlinkingPolygon</code> that extends <code class="sourceCode java">RegularPolygon</code> and adds two more attributes: <code class="sourceCode java">visible</code>, which indicates whether the polygon is visible, and <code class="sourceCode java">count</code>, which counts the number of time steps since the last blink:</p>
+<div class="sourceCode" id="cb18" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> BlinkingPolygon <span class="kw">extends</span> RegularPolygon <span class="op">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">protected</span> <span class="dt">boolean</span> visible<span class="op">;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">protected</span> <span class="dt">int</span> count<span class="op">;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">BlinkingPolygon</span><span class="op">(</span><span class="dt">int</span> nsides<span class="op">,</span> <span class="dt">int</span> radius<span class="op">,</span> <span class="bu">Color</span> c<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span><span class="op">(</span>nsides<span class="op">,</span> radius<span class="op">,</span> c<span class="op">);</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        visible <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">draw</span><span class="op">(</span><span class="bu">Graphics</span> g<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>visible<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>            <span class="kw">super</span><span class="op">.</span><span class="fu">draw</span><span class="op">(</span>g<span class="op">);</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">step</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>        count<span class="op">++;</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>count <span class="op">==</span> <span class="dv">10</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>            visible <span class="op">=</span> <span class="op">!</span>visible<span class="op">;</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>            count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The constructor uses <code class="sourceCode java"><span class="kw">super</span></code> to call the <code class="sourceCode java">RegularPolygon</code> constructor. Then it initializes <code class="sourceCode java">visible</code> and <code class="sourceCode java">count</code>. Initially, the <code class="sourceCode java">BlinkingPolygon</code> is visible.</p>
+<p>The <code class="sourceCode java">draw</code> method draws the polygon only if it is visible. It uses <code class="sourceCode java"><span class="kw">super</span></code> to call <code class="sourceCode java">draw</code> in the parent class. But the parent class is <code class="sourceCode java">RegularPolygon</code>, which does not provide a <code class="sourceCode java">draw</code> method. In this case, <code class="sourceCode java"><span class="kw">super</span></code> invokes <code class="sourceCode java">draw</code> from the <code class="sourceCode java">DrawablePolygon</code> class.</p>
+<p>The <code class="sourceCode java">step</code> method increments <code class="sourceCode java">count</code>. Every 10 time steps, it toggles <code class="sourceCode java">visible</code> and resets <code class="sourceCode java">count</code> to 0.</p>
+</section>
+<section id="interfaces" class="level2" data-number="19.7">
+<h2 data-number="19.7" class="anchored" data-anchor-id="interfaces"><span class="header-section-number">19.7</span> Interfaces</h2>
+<p>You might be getting tired of polygons at this point. Can’t we draw anything else? Of course we can, but <code class="sourceCode java">Drawing</code> is currently based on <code class="sourceCode java">DrawablePolygon</code>. To draw other types of objects, we have to generalize the code.</p>
+<p>The <code class="sourceCode java">Drawing</code> class does essentially three things: (1) it maintains a <code class="sourceCode java">list</code> of objects, (2) it invokes the <code class="sourceCode java">draw</code> method on each object, and (3) it invokes the <code class="sourceCode java">step</code> method on each object.</p>
+<p>So here’s one way we could make the code more general:</p>
+<ol type="1">
+<li><p>Define a new superclass, which we call <code class="sourceCode java">Actor</code>, that provides the two methods needed by <code class="sourceCode java">Drawing</code>:</p>
+<div class="sourceCode" id="cb19" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Actor <span class="op">{</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">draw</span><span class="op">(</span><span class="bu">Graphics</span> g<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// do nothing</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">step</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">// do nothing</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>In the <code class="sourceCode java">Drawing</code> class, replace <code class="sourceCode java">DrawablePolygon</code> with <code class="sourceCode java">Actor</code>.</p></li>
+<li><p>Any class that we want to draw must now extend <code class="sourceCode java">Actor</code>.</p></li>
+</ol>
+<p>There’s just one problem: <code class="sourceCode java">DrawablePolygon</code> already extends <code class="sourceCode java"><span class="bu">Polygon</span></code>, and classes can extend only one superclass. Also, the <code class="sourceCode java">Actor</code> class seems pointless, since the methods it defines don’t do anything.</p>
+<p>Java provides another mechanism for inheritance that solves these problems. We can define <code class="sourceCode java">Actor</code> as an <code class="sourceCode java"><span class="kw">interface</span></code> instead of a <code class="sourceCode java"><span class="kw">class</span></code>, like this:</p>
+<div class="sourceCode" id="cb20" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">interface</span> Actor <span class="op">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">draw</span><span class="op">(</span><span class="bu">Graphics</span> g<span class="op">);</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">step</span><span class="op">();</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Like a class definition, an <strong>interface</strong> definition contains methods. But it contains only the declarations of the methods, not their implementations.</p>
+<p>Like an abstract class, an interface specifies methods that must be provided by subclasses. The difference is that an abstract class can implement some methods; an interface cannot.</p>
+<p>All interface methods are <code class="sourceCode java"><span class="kw">public</span></code> by default, since they are intended to be used by other classes. So there is no need to declare them as <code class="sourceCode java"><span class="kw">public</span></code>.</p>
+<p>To inherit from an interface, you use the keyword <code class="sourceCode java"><span class="kw">implements</span></code> instead of <code class="sourceCode java"><span class="kw">extends</span></code>. Here’s a version of <code class="sourceCode java">DrawablePolygon</code> that extends <code class="sourceCode java"><span class="bu">Polygon</span></code> and implements <code class="sourceCode java">Actor</code>. So it inherits methods from <code class="sourceCode java"><span class="bu">Polygon</span></code>, and it is required to provide the methods in <code class="sourceCode java">Actor</code>; namely <code class="sourceCode java">draw</code> and <code class="sourceCode java">step</code>:</p>
+<div class="sourceCode" id="cb21" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> DrawablePolygon <span class="kw">extends</span> <span class="bu">Polygon</span> <span class="kw">implements</span> Actor <span class="op">{</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// rest of the class omitted</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In terms of inheritance, <code class="sourceCode java">DrawablePolygon</code> is both a <code class="sourceCode java"><span class="bu">Polygon</span></code> and an <code class="sourceCode java">Actor</code>. So the following assignments are legal:</p>
+<div class="sourceCode" id="cb22" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Polygon</span> p1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">DrawablePolygon</span><span class="op">();</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>Actor a2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">DrawablePolygon</span><span class="op">();</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And the same is true for subclasses of <code class="sourceCode java">DrawablePolygon</code>; these assignments are legal too:</p>
+<div class="sourceCode" id="cb23" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Polygon</span> p2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">RegularPolygon</span><span class="op">(</span><span class="dv">5</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="bu">Color</span><span class="op">.</span><span class="fu">YELLOW</span><span class="op">);</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>Actor a2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">RegularPolygon</span><span class="op">(</span><span class="dv">5</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="bu">Color</span><span class="op">.</span><span class="fu">YELLOW</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Interfaces are another example of polymorphism. <code class="sourceCode java">a1</code> and <code class="sourceCode java">a2</code> are the same type of variable, but they refer to objects with different types. And similarly with <code class="sourceCode java">p1</code> and <code class="sourceCode java">p2</code>.</p>
+<p>Classes may extend only one superclass, but they may implement as many interfaces as needed. Java library classes often implement multiple interfaces.</p>
+</section>
+<section id="event-listeners" class="level2" data-number="19.8">
+<h2 data-number="19.8" class="anchored" data-anchor-id="event-listeners"><span class="header-section-number">19.8</span> Event Listeners</h2>
+<p>Now that our <code class="sourceCode java">Drawing</code> is based on <code class="sourceCode java">Actor</code> instead of <code class="sourceCode java">DrawablePolygon</code>, we can draw other types of graphics. Here is the beginning of a class that reads an image from a file and shows the image moving across the canvas. The class is called <code class="sourceCode java">Sprite</code> because a moving image is sometimes called a <strong>sprite</strong>, in the context of computer graphics:</p>
+<div class="sourceCode" id="cb24" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Sprite <span class="kw">implements</span> Actor<span class="op">,</span> <span class="bu">KeyListener</span> <span class="op">{</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">int</span> xpos<span class="op">;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">int</span> ypos<span class="op">;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">int</span> dx<span class="op">;</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">int</span> dy<span class="op">;</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">Image</span> image<span class="op">;</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">Sprite</span><span class="op">(</span><span class="bu">String</span> path<span class="op">,</span> <span class="dt">int</span> xpos<span class="op">,</span> <span class="dt">int</span> ypos<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">xpos</span> <span class="op">=</span> xpos<span class="op">;</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">ypos</span> <span class="op">=</span> ypos<span class="op">;</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>            <span class="kw">this</span><span class="op">.</span><span class="fu">image</span> <span class="op">=</span> <span class="bu">ImageIO</span><span class="op">.</span><span class="fu">read</span><span class="op">(</span><span class="kw">new</span> <span class="bu">File</span><span class="op">(</span>path<span class="op">));</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> exc<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>            exc<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The instance variables <code class="sourceCode java">xpos</code> and <code class="sourceCode java">ypos</code> represent the location of the sprite. <code class="sourceCode java">dx</code> and <code class="sourceCode java">dy</code> represent the velocity of the sprite in the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> directions.</p>
+<p>The constructor takes as parameters the name of a file and the initial position. It uses <code class="sourceCode java"><span class="bu">ImageIO</span></code>, from the <code class="sourceCode java">javax<span class="op">.</span><span class="fu">imageio</span></code> package, to read the file. If an error occurs during reading, an <code class="sourceCode java"><span class="bu">IOException</span></code> is caught, and the program displays the stack trace for debugging.</p>
+<p><code class="sourceCode java">Sprite</code> implements two interfaces: <code class="sourceCode java">Actor</code> and <code class="sourceCode java"><span class="bu">KeyListener</span></code>. <code class="sourceCode java">Actor</code> requires that we provide <code class="sourceCode java">draw</code> and <code class="sourceCode java">step</code> methods:</p>
+<div class="sourceCode" id="cb25" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">draw</span><span class="op">(</span><span class="bu">Graphics</span> g<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>        g<span class="op">.</span><span class="fu">drawImage</span><span class="op">(</span>image<span class="op">,</span> xpos<span class="op">,</span> ypos<span class="op">,</span> <span class="kw">null</span><span class="op">);</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">step</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>        xpos <span class="op">+=</span> dx<span class="op">;</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>        ypos <span class="op">+=</span> dy<span class="op">;</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code class="sourceCode java">draw</code> method draws the image at the sprite’s current position. The <code class="sourceCode java">step</code> method changes the position based on <code class="sourceCode java">dx</code> and <code class="sourceCode java">dy</code>, which are initially zero.</p>
+<p><code class="sourceCode java"><span class="bu">KeyListener</span></code> is an interface for receiving keyboard events, which means we can detect and respond to key presses. A class that implements <code class="sourceCode java"><span class="bu">KeyListener</span></code> has to provide the following methods:</p>
+<div class="description">
+<p><code class="sourceCode java"><span class="dt">void</span> <span class="fu">keyPressed</span><span class="op">(</span><span class="bu">KeyEvent</span> e<span class="op">)</span></code></p>
+<p>Invoked when a key has been “pressed”. This method is invoked repeatedly while a key is being held down.</p>
+<p><code class="sourceCode java"><span class="dt">void</span> <span class="fu">keyReleased</span><span class="op">(</span><span class="bu">KeyEvent</span> e<span class="op">)</span></code></p>
+<p>Invoked when a key has been “released”, meaning it is no longer down.</p>
+<p><code class="sourceCode java"><span class="dt">void</span> <span class="fu">keyTyped</span><span class="op">(</span><span class="bu">KeyEvent</span> e<span class="op">)</span></code></p>
+<p>Invoked when a key has been “typed”, which generally means it has been both pressed and released.</p>
+</div>
+<p>These methods get invoked when the user presses and releases <em>any</em> key. They take a <code class="sourceCode java"><span class="bu">KeyEvent</span></code> object as a parameter, which specifies which key was pressed, released, or typed.</p>
+<p>We can use these methods to design a simple animation using the arrow keys. When the user presses up or down, the sprite will move up or down. When the user presses left or right, the sprite will move left or right.</p>
+<p>Here’s an implementation of <code class="sourceCode java">keyPressed</code> that uses a <code class="sourceCode java"><span class="cf">switch</span></code> statement to test which arrow key was pressed and sets <code class="sourceCode java">dx</code> or <code class="sourceCode java">dy</code> accordingly. (There is no <code class="sourceCode java"><span class="kw">default</span></code> branch, so we ignore all other keys.)</p>
+<div class="sourceCode" id="cb26" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">keyPressed</span><span class="op">(</span><span class="bu">KeyEvent</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">switch</span> <span class="op">(</span>e<span class="op">.</span><span class="fu">getKeyCode</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> <span class="bu">KeyEvent</span><span class="op">.</span><span class="fu">VK_UP</span><span class="op">:</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>            dy <span class="op">=</span> <span class="op">-</span><span class="dv">5</span><span class="op">;</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> <span class="bu">KeyEvent</span><span class="op">.</span><span class="fu">VK_DOWN</span><span class="op">:</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>            dy <span class="op">=</span> <span class="op">+</span><span class="dv">5</span><span class="op">;</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> <span class="bu">KeyEvent</span><span class="op">.</span><span class="fu">VK_LEFT</span><span class="op">:</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>            dx <span class="op">=</span> <span class="op">-</span><span class="dv">5</span><span class="op">;</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> <span class="bu">KeyEvent</span><span class="op">.</span><span class="fu">VK_RIGHT</span><span class="op">:</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>            dx <span class="op">=</span> <span class="op">+</span><span class="dv">5</span><span class="op">;</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The values of <code class="sourceCode java">dx</code> and <code class="sourceCode java">dy</code> determine how much the sprite moves each time <code class="sourceCode java">step</code> is invoked. While the user holds down an arrow key, the sprite will move at a constant speed.</p>
+<p>Here’s an implementation of <code class="sourceCode java">keyReleased</code> that runs when the user releases the key:</p>
+<div class="sourceCode" id="cb27" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">keyReleased</span><span class="op">(</span><span class="bu">KeyEvent</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">switch</span> <span class="op">(</span>e<span class="op">.</span><span class="fu">getKeyCode</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> <span class="bu">KeyEvent</span><span class="op">.</span><span class="fu">VK_UP</span><span class="op">:</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> <span class="bu">KeyEvent</span><span class="op">.</span><span class="fu">VK_DOWN</span><span class="op">:</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>            dy <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> <span class="bu">KeyEvent</span><span class="op">.</span><span class="fu">VK_LEFT</span><span class="op">:</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">case</span> <span class="bu">KeyEvent</span><span class="op">.</span><span class="fu">VK_RIGHT</span><span class="op">:</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>            dx <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When the user releases the key, <code class="sourceCode java">keyReleased</code> sets <code class="sourceCode java">dx</code> or <code class="sourceCode java">dy</code> to 0, so the sprite stops moving in that direction.</p>
+<p>We don’t need the <code class="sourceCode java">keyTyped</code> method for this example, but it’s required by the interface; if we don’t provide one, the compiler will complain. So we provide an implementation that does nothing:</p>
+<div class="sourceCode" id="cb28" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">keyTyped</span><span class="op">(</span><span class="bu">KeyEvent</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// do nothing</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, here’s the code we need to create a <code class="sourceCode java">Sprite</code>, add it to a <code class="sourceCode java">Drawing</code>, and configure it as a <code class="sourceCode java"><span class="bu">KeyListener</span></code>:</p>
+<div class="sourceCode" id="cb29" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>Sprite sprite <span class="op">=</span> <span class="kw">new</span> <span class="fu">Sprite</span><span class="op">(</span><span class="st">"face-smile.png"</span><span class="op">,</span> <span class="dv">25</span><span class="op">,</span> <span class="dv">150</span><span class="op">);</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>drawing<span class="op">.</span><span class="fu">add</span><span class="op">(</span>sprite<span class="op">);</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>drawing<span class="op">.</span><span class="fu">addKeyListener</span><span class="op">(</span>sprite<span class="op">);</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>drawing<span class="op">.</span><span class="fu">setFocusable</span><span class="op">(</span><span class="kw">true</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Recall that the <code class="sourceCode java">add</code> method is one that we wrote in Section&nbsp;<a href="#sec:drawing" data-reference-type="ref" data-reference="sec:drawing">17.5</a>. It adds an <code class="sourceCode java">Actor</code> to the list of objects to be drawn.</p>
+<p>The <code class="sourceCode java">addKeyListener</code> method is inherited from <code class="sourceCode java"><span class="bu">Canvas</span></code>. It adds a <code class="sourceCode java"><span class="bu">KeyListener</span></code> to the list of objects that will receive key events.</p>
+<p>In graphical applications, key events are sent to components only when they have the keyboard focus. The <code class="sourceCode java">setFocusable</code> method ensures that <code class="sourceCode java">drawing</code> will have the focus initially, without the user having to click it first.</p>
+</section>
+<section id="timers" class="level2" data-number="19.9">
+<h2 data-number="19.9" class="anchored" data-anchor-id="timers"><span class="header-section-number">19.9</span> Timers</h2>
+<p>Now that you know about interfaces and events, we can show you a better way to create animations. Previously, we implemented the animation loop by using <code class="sourceCode java"><span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span></code> and <code class="sourceCode java"><span class="bu">Thread</span><span class="op">.</span><span class="fu">sleep</span></code>. Java provides a <code class="sourceCode java"><span class="bu">Timer</span></code> class (in <code class="sourceCode java">javax<span class="op">.</span><span class="fu">swing</span></code>) that encapsulates this behavior.</p>
+<p>A <code class="sourceCode java"><span class="bu">Timer</span></code> is useful for executing code at regular intervals. The constructor for <code class="sourceCode java"><span class="bu">Timer</span></code> takes two parameters:</p>
+<ul>
+<li><p><code class="sourceCode java"><span class="dt">int</span> delay</code> <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code> <code class="sourceCode java"><span class="co">// milliseconds between events</span></code></p></li>
+<li><p><code class="sourceCode java"><span class="bu">ActionListener</span> listener</code> <code>&nbsp;</code> <code class="sourceCode java"><span class="co">// for handling timer events</span></code></p></li>
+</ul>
+<p>The <code class="sourceCode java"><span class="bu">ActionListener</span></code> interface requires only one method, <code class="sourceCode java">actionPerformed</code>. This is the method the <code class="sourceCode java"><span class="bu">Timer</span></code> invokes after the given delay.</p>
+<p>Using a <code class="sourceCode java"><span class="bu">Timer</span></code>, we can reorganize the code in <code class="sourceCode java">main</code> by defining a class that implements <code class="sourceCode java"><span class="bu">ActionListener</span></code>:</p>
+<div class="sourceCode" id="cb30" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> VideoGame <span class="kw">implements</span> <span class="bu">ActionListener</span> <span class="op">{</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> Drawing drawing<span class="op">;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">VideoGame</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>        Sprite sprite <span class="op">=</span> <span class="kw">new</span> <span class="fu">Sprite</span><span class="op">(</span><span class="st">"face-smile.png"</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span><span class="op">);</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>        drawing <span class="op">=</span> <span class="kw">new</span> <span class="fu">Drawing</span><span class="op">(</span><span class="dv">800</span><span class="op">,</span> <span class="dv">600</span><span class="op">);</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>        drawing<span class="op">.</span><span class="fu">add</span><span class="op">(</span>sprite<span class="op">);</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>        drawing<span class="op">.</span><span class="fu">addKeyListener</span><span class="op">(</span>sprite<span class="op">);</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>        drawing<span class="op">.</span><span class="fu">setFocusable</span><span class="op">(</span><span class="kw">true</span><span class="op">);</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">JFrame</span> frame <span class="op">=</span> <span class="kw">new</span> <span class="bu">JFrame</span><span class="op">(</span><span class="st">"Video Game"</span><span class="op">);</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>        frame<span class="op">.</span><span class="fu">setDefaultCloseOperation</span><span class="op">(</span><span class="bu">JFrame</span><span class="op">.</span><span class="fu">EXIT_ON_CLOSE</span><span class="op">);</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>        frame<span class="op">.</span><span class="fu">add</span><span class="op">(</span>drawing<span class="op">);</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>        frame<span class="op">.</span><span class="fu">pack</span><span class="op">();</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>        frame<span class="op">.</span><span class="fu">setVisible</span><span class="op">(</span><span class="kw">true</span><span class="op">);</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">actionPerformed</span><span class="op">(</span><span class="bu">ActionEvent</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>        drawing<span class="op">.</span><span class="fu">step</span><span class="op">();</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>        VideoGame game <span class="op">=</span> <span class="kw">new</span> <span class="fu">VideoGame</span><span class="op">();</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Timer</span> timer <span class="op">=</span> <span class="kw">new</span> <span class="bu">Timer</span><span class="op">(</span><span class="dv">33</span><span class="op">,</span> game<span class="op">);</span></span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>        timer<span class="op">.</span><span class="fu">start</span><span class="op">();</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code class="sourceCode java">main</code> method constructs a <code class="sourceCode java">VideoGame</code> object, which creates a <code class="sourceCode java">Sprite</code>, a <code class="sourceCode java">Drawing</code>, and a <code class="sourceCode java"><span class="bu">JFrame</span></code>. Then it constructs a <code class="sourceCode java"><span class="bu">Timer</span></code> object and starts the timer. Every 33 milliseconds, the <code class="sourceCode java"><span class="bu">Timer</span></code> invokes <code class="sourceCode java">actionPerformed</code>, which invokes <code class="sourceCode java">step</code> on the <code class="sourceCode java">Drawing</code>.</p>
+<p><code class="sourceCode java">Drawing<span class="op">.</span><span class="fu">step</span></code> invokes <code class="sourceCode java">step</code> on all of its <code class="sourceCode java">Actor</code> objects, which causes them to update their position, color, or other aspects of their appearance. The <code class="sourceCode java">Drawing<span class="op">.</span><span class="fu">step</span></code> then repaints the <code class="sourceCode java"><span class="bu">Canvas</span></code>, and the time step is done.</p>
+<p>At this point, you have all of the elements you need to write your own video games. In the exercises at the end of this chapter, we have some suggestions for getting started.</p>
+<p>We hope this final chapter has been a helpful summary of topics presented throughout the book, including input and output, decisions and loops, classes and methods, arrays and objects, inheritance, and graphics. Congratulations on making it to the end!</p>
+</section>
+<section id="vocabulary" class="level2" data-number="19.10">
+<h2 data-number="19.10" class="anchored" data-anchor-id="vocabulary"><span class="header-section-number">19.10</span> Vocabulary</h2>
+<dl>
+<dt>generalization:</dt>
+<dd>
+<p>The process of extracting common code from two or more classes and moving it into a superclass.</p>
+</dd>
+<dt>specialization:</dt>
+<dd>
+<p>Extending a class to add new attributes or methods, or to modify existing behavior.</p>
+</dd>
+<dt>polymorphism:</dt>
+<dd>
+<p>A language feature that allows objects to be assigned to variables of related types.</p>
+</dd>
+<dt>sprite:</dt>
+<dd>
+<p>A computer graphic that may be moved or otherwise manipulated on the screen.</p>
+</dd>
+</dl>
+</section>
+<section id="exercises" class="level2" data-number="19.11">
+<h2 data-number="19.11" class="anchored" data-anchor-id="exercises"><span class="header-section-number">19.11</span> Exercises</h2>
+<p>The code for this chapter is in the <em>ch17</em> directory of <em>ThinkJavaCode2</em>. See page&nbsp; for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples.</p>
+<p>The following exercises give you a chance to practice using the features in this chapter by extending the example code.</p>
+<div class="exercise">
+<p><strong>Exercise 17.1</strong>. <em>The <code class="sourceCode java"><span class="bu">Polygon</span></code> class does not provide a <code class="sourceCode java">toString</code> method; it inherits the default <code class="sourceCode java">toString</code> from <code class="sourceCode java">java<span class="op">.</span><span class="fu">lang</span><span class="op">.</span><span class="fu">Object</span></code>, which includes only the class’s name and memory location. Write a more useful <code class="sourceCode java">toString</code> method for <code class="sourceCode java">DrawablePolygon</code> that includes its <span class="math inline">\((x, y)\)</span> points.</em></p>
+</div>
+<div class="exercise">
+<p><strong>Exercise 17.2</strong>. <em>Write a class <code class="sourceCode java">MovingPolygon</code> that extends <code class="sourceCode java">RegularPolygon</code> and implements <code class="sourceCode java">Actor</code>. It should have instance variables <code class="sourceCode java">posx</code> and <code class="sourceCode java">posy</code> that specify its position, and <code class="sourceCode java">dx</code> and <code class="sourceCode java">dy</code> that specify its velocity (and direction). During each time step, it should update its position. If it gets to the edge of the <code class="sourceCode java">Drawing</code>, it should reverse direction by changing the sign of <code class="sourceCode java">dx</code> or <code class="sourceCode java">dy</code>.</em></p>
+</div>
+<div class="exercise">
+<p><strong>Exercise 17.3</strong>. <em>Modify the <code class="sourceCode java">VideoGame</code> class so it displays a <code class="sourceCode java">Sprite</code> and a <code class="sourceCode java">MovingPolygon</code> (from the previous exercise). Add code that detects collisions between <code class="sourceCode java">Actor</code> objects in the same <code class="sourceCode java">Drawing</code>, and invoke a method on both objects when they collide.</em></p>
+<p>**Hint:* You might want to add a method to the <code class="sourceCode java">Actor</code> interface, guaranteeing that all <code class="sourceCode java">Actor</code> objects know how to handle collisions.*</p>
+</div>
+<div class="exercise">
+<p><strong>Exercise 17.4</strong>. <em>Java provides other event listeners that you can implement to make your programs interactive. For example, the interfaces <code class="sourceCode java"><span class="bu">MouseListener</span></code>, <code class="sourceCode java"><span class="bu">MouseMotionListener</span></code>, and <code class="sourceCode java"><span class="bu">MouseWheelListener</span></code> allow you to respond to mouse input. Use the <code class="sourceCode java"><span class="bu">MouseListener</span></code> interface to implement an <code class="sourceCode java">Actor</code> that can respond to mouse clicks.</em></p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch16.html" class="pagination-link" aria-label="Reusing Classes">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reusing Classes</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./appa.html" class="pagination-link" aria-label="Tools">
+        <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Tools</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

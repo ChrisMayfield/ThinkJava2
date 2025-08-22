@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>13&nbsp; Designing Classes – Think Java</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch12.html" rel="next">
+<link href="./ch10.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch11.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Designing Classes</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Think Java</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Think Java</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Computer Programming</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Variables and Operators</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Input and Output</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods and Testing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conditionals and Logic</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Loops and Strings</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Arrays and References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Recursive Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Immutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Mutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Designing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Arrays of Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Objects of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Extending Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reusing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Advanced Topics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Tools</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Javadoc</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Graphics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Debugging</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-time-class" id="toc-the-time-class" class="nav-link active" data-scroll-target="#the-time-class"><span class="header-section-number">13.1</span> The Time Class</a></li>
+  <li><a href="#constructors" id="toc-constructors" class="nav-link" data-scroll-target="#constructors"><span class="header-section-number">13.2</span> Constructors</a></li>
+  <li><a href="#value-constructors" id="toc-value-constructors" class="nav-link" data-scroll-target="#value-constructors"><span class="header-section-number">13.3</span> Value Constructors</a></li>
+  <li><a href="#getters-and-setters" id="toc-getters-and-setters" class="nav-link" data-scroll-target="#getters-and-setters"><span class="header-section-number">13.4</span> Getters and Setters</a></li>
+  <li><a href="#displaying-objects" id="toc-displaying-objects" class="nav-link" data-scroll-target="#displaying-objects"><span class="header-section-number">13.5</span> Displaying Objects</a></li>
+  <li><a href="#the-tostring-method" id="toc-the-tostring-method" class="nav-link" data-scroll-target="#the-tostring-method"><span class="header-section-number">13.6</span> The toString Method</a></li>
+  <li><a href="#equals" id="toc-equals" class="nav-link" data-scroll-target="#equals"><span class="header-section-number">13.7</span> The equals Method</a></li>
+  <li><a href="#addingtime" id="toc-addingtime" class="nav-link" data-scroll-target="#addingtime"><span class="header-section-number">13.8</span> Adding Times</a></li>
+  <li><a href="#vocabulary" id="toc-vocabulary" class="nav-link" data-scroll-target="#vocabulary"><span class="header-section-number">13.9</span> Vocabulary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">13.10</span> Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Designing Classes</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Whenever you create a new class, you are creating a new object type with the same name. So way back in Section&nbsp;<a href="ch01.html#hello" data-reference-type="ref" data-reference="hello">1.3</a>, when we created the class <code class="sourceCode java">Hello</code>, we also created an object type named <code class="sourceCode java">Hello</code>.</p>
+<p>We didn’t declare any variables with type <code class="sourceCode java">Hello</code>, and we didn’t use <code class="sourceCode java"><span class="kw">new</span></code> to create <code class="sourceCode java">Hello</code> objects. And it wouldn’t have done much good if we had—but we could have!</p>
+<p>In this chapter, you will learn to design classes that represent <em>useful</em> objects. Here are the main ideas:</p>
+<ul>
+<li><p>Again, defining a <strong>class</strong> creates a new object type with the same name.</p></li>
+<li><p>A class definition is a template for objects: it specifies what attributes the objects have and what methods can operate on them.</p></li>
+<li><p>Every object belongs to an object type; that is, it is an <strong>instance</strong> of a class.</p></li>
+<li><p>The <code class="sourceCode java"><span class="kw">new</span></code> operator <strong>instantiates</strong> objects; that is, it creates new instances of a class.</p></li>
+</ul>
+<p>Think of a class as a blueprint for a house: you can use the same blueprint to build any number of houses.</p>
+<section id="the-time-class" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="the-time-class"><span class="header-section-number">13.1</span> The Time Class</h2>
+<p>A common reason to define a new class is to encapsulate related data in an object that can be treated as a single unit. That way, we can use objects as parameters and return values, rather than passing and returning multiple values. You have already seen two types that encapsulate data in this way: <code class="sourceCode java"><span class="bu">Point</span></code> and <code class="sourceCode java"><span class="bu">Rectangle</span></code>.</p>
+<p>Another example, which we will implement ourselves, is <code class="sourceCode java"><span class="bu">Time</span></code>, which represents a time of day. The data encapsulated in a <code class="sourceCode java"><span class="bu">Time</span></code> object includes an hour, a minute, and a number of seconds. Because every <code class="sourceCode java"><span class="bu">Time</span></code> object contains these values, we define attributes to hold them.</p>
+<p>Attributes are also called <strong>instance variables</strong>, because each instance has its own variables (as opposed to “class variables”, coming up in Section&nbsp;<a href="ch12.html#classvar" data-reference-type="ref" data-reference="classvar">12.3</a>).</p>
+<p>The first step is to decide what type each variable should be. It seems clear that <code class="sourceCode java">hour</code> and <code class="sourceCode java">minute</code> should be integers. Just to keep things interesting, let’s make <code class="sourceCode java">second</code> a double.</p>
+<p>Instance variables are declared at the beginning of the class definition, outside any method. By itself, this code fragment is a legal class definition:</p>
+<div class="sourceCode" id="cb1" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> <span class="bu">Time</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">int</span> hour<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">int</span> minute<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">double</span> second<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code class="sourceCode java"><span class="bu">Time</span></code> class is <code class="sourceCode java"><span class="kw">public</span></code>, which means that it can be used in other classes. But the instance variables are <code class="sourceCode java"><span class="kw">private</span></code>, which means they can be accessed only from inside the <code class="sourceCode java"><span class="bu">Time</span></code> class. If you try to read or write them from another class, you will get a compiler error.</p>
+<p>Private instance variables help keep classes isolated from each other, so that changes in one class won’t require changes in other classes. It also simplifies what other programmers need to know to use your classes. This kind of isolation is called <strong>information hiding</strong>.</p>
+</section>
+<section id="constructors" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="constructors"><span class="header-section-number">13.2</span> Constructors</h2>
+<p>After declaring instance variables, the next step is to define a <strong>constructor</strong>, which is a special method that initializes the object. The syntax for constructors is similar to that of other methods, except for the following:</p>
+<ul>
+<li><p>The name of the constructor is the same as the name of the class.</p></li>
+<li><p>Constructors have no return type (and no return value).</p></li>
+<li><p>The keyword <code class="sourceCode java"><span class="dt">static</span></code> is omitted.</p></li>
+</ul>
+<p>Here is an example constructor for the <code class="sourceCode java"><span class="bu">Time</span></code> class:</p>
+<div class="sourceCode" id="cb2" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="bu">Time</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">hour</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">minute</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">second</span> <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This constructor does not take any arguments. Each line initializes an instance variable to <code class="sourceCode java"><span class="dv">0</span></code> (which is midnight for a <code class="sourceCode java"><span class="bu">Time</span></code> object).</p>
+<p>The name <code class="sourceCode java"><span class="kw">this</span></code> is a keyword that refers to the object we are creating. You can use <code class="sourceCode java"><span class="kw">this</span></code> the same way you use the name of any other object. For example, you can read and write the instance variables of <code class="sourceCode java"><span class="kw">this</span></code>, and you can pass <code class="sourceCode java"><span class="kw">this</span></code> as an argument to other methods. But you do not declare <code class="sourceCode java"><span class="kw">this</span></code>, and you can’t make an assignment to it.</p>
+<p>A common error when writing constructors is to put a <code class="sourceCode java"><span class="cf">return</span></code> statement at the end. Like <code class="sourceCode java"><span class="dt">void</span></code> methods, constructors do not return values.</p>
+<p>To create a <code class="sourceCode java"><span class="bu">Time</span></code> object, you must use the <code class="sourceCode java"><span class="kw">new</span></code> operator:</p>
+<div class="sourceCode" id="cb3" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Time</span> time <span class="op">=</span> <span class="kw">new</span> <span class="bu">Time</span><span class="op">();</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When you use <code class="sourceCode java"><span class="kw">new</span></code>, Java creates the object and invokes your constructor to initialize the instance variables. When the constructor is done, <code class="sourceCode java"><span class="kw">new</span></code> returns a reference to the new object. In this example, the reference gets assigned to the variable <code class="sourceCode java">time</code>, which has type <code class="sourceCode java"><span class="bu">Time</span></code>. Figure&nbsp;<a href="#fig.time" data-reference-type="ref" data-reference="fig.time">11.1</a> shows the result.</p>
+<figure id="fig.time" class="figure">
+<div class="center">
+<p><img src="figs/time-.svg" class="figure-img"></p>
+</div>
+<figcaption>
+Memory diagram of a <code class="sourceCode java"><span class="bu">Time</span></code> object.
+</figcaption>
+</figure>
+<p>Beginners sometimes make the mistake of using <code class="sourceCode java"><span class="kw">new</span></code> in the constructor:</p>
+<div class="sourceCode" id="cb4" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="bu">Time</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> <span class="bu">Time</span><span class="op">();</span>         <span class="co">// StackOverflowError</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">hour</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">minute</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">second</span> <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Doing so causes an infinite recursion, since <code class="sourceCode java"><span class="kw">new</span></code> invokes the <em>same</em> constructor, which uses <code class="sourceCode java"><span class="kw">new</span></code> again, which invokes the constructor again, and so on.</p>
+</section>
+<section id="value-constructors" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="value-constructors"><span class="header-section-number">13.3</span> Value Constructors</h2>
+<p>Like other methods, constructors can be overloaded, which means you can provide multiple constructors with different parameters. Java knows which constructor to invoke by matching the arguments you provide with the parameters of the constructor.</p>
+<p>It is common to provide both a “default constructor” that takes no arguments, like the previous one, and a “value constructor”, like this one:</p>
+<div class="sourceCode" id="cb5" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="bu">Time</span><span class="op">(</span><span class="dt">int</span> hour<span class="op">,</span> <span class="dt">int</span> minute<span class="op">,</span> <span class="dt">double</span> second<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">hour</span> <span class="op">=</span> hour<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">minute</span> <span class="op">=</span> minute<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">second</span> <span class="op">=</span> second<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To invoke this constructor, you have to provide arguments to the <code class="sourceCode java"><span class="kw">new</span></code> operator. The following example creates a <code class="sourceCode java"><span class="bu">Time</span></code> object that represents a fraction of a second before noon:</p>
+<div class="sourceCode" id="cb6" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Time</span> time <span class="op">=</span> <span class="kw">new</span> <span class="bu">Time</span><span class="op">(</span><span class="dv">11</span><span class="op">,</span> <span class="dv">59</span><span class="op">,</span> <span class="fl">59.9</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Overloading constructors provides the flexibility to create an object first and then fill in the attributes, or collect all the information before creating the object itself.</p>
+<p>Once you get the hang of it, writing constructors gets boring. You can write them quickly just by looking at the list of instance variables. In fact, some IDEs can generate them for you.</p>
+<p>Here is the complete class definition so far:</p>
+<div class="sourceCode" id="cb7" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> <span class="bu">Time</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">int</span> hour<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">int</span> minute<span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">double</span> second<span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">Time</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">hour</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">minute</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">second</span> <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">Time</span><span class="op">(</span><span class="dt">int</span> hour<span class="op">,</span> <span class="dt">int</span> minute<span class="op">,</span> <span class="dt">double</span> second<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">hour</span> <span class="op">=</span> hour<span class="op">;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">minute</span> <span class="op">=</span> minute<span class="op">;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">second</span> <span class="op">=</span> second<span class="op">;</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice how the second constructor declares the parameters <code class="sourceCode java">hour</code>, <code class="sourceCode java">minute</code>, and <code class="sourceCode java">second</code>. Java allows you to declare parameters (and local variables) with the same names as instance variables. They don’t have to use the same names, but it’s common practice.</p>
+<p>The right side of <code class="sourceCode java"><span class="kw">this</span><span class="op">.</span><span class="fu">hour</span> <span class="op">=</span> hour<span class="op">;</span></code> refers to the parameter <code class="sourceCode java">hour</code>, since it was declared most recently. This situation is called <strong>shadowing</strong>, because the parameter “hides” the instance variable with the same name.</p>
+<p>Java provides the keyword <code class="sourceCode java"><span class="kw">this</span></code> so you can access instance variables, regardless of shadowing. As a result, this constructor copies the values from the parameters to the instance variables.</p>
+</section>
+<section id="getters-and-setters" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="getters-and-setters"><span class="header-section-number">13.4</span> Getters and Setters</h2>
+<p>Recall that the instance variables of <code class="sourceCode java"><span class="bu">Time</span></code> are <code class="sourceCode java"><span class="kw">private</span></code>. We can access them from within the <code class="sourceCode java"><span class="bu">Time</span></code> class, but if we try to read or write them from another class, the compiler reports an error.</p>
+<p>A class that uses objects defined in another class is called a <strong>client</strong>. For example, here is a new class called <code class="sourceCode java">TimeClient</code>:</p>
+<div class="sourceCode" id="cb8" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> TimeClient <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Time</span> time <span class="op">=</span> <span class="kw">new</span> <span class="bu">Time</span><span class="op">(</span><span class="dv">11</span><span class="op">,</span> <span class="dv">59</span><span class="op">,</span> <span class="fl">59.9</span><span class="op">);</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>time<span class="op">.</span><span class="fu">hour</span><span class="op">);</span>      <span class="co">// compiler error</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you compile this code, you get an error message like “hour has private access in Time”. There are three ways to solve this problem:</p>
+<ul>
+<li><p>Make the instance variables public.</p></li>
+<li><p>Provide methods to access the instance variables.</p></li>
+<li><p>Decide that it’s not a problem and refuse to let other classes access the instance variables.</p></li>
+</ul>
+<p>The first choice is appealing because it’s simple. But here is the problem: when class <span class="math inline">\(A\)</span> accesses the instance variables of class <span class="math inline">\(B\)</span> directly, <span class="math inline">\(A\)</span> becomes dependent on <span class="math inline">\(B\)</span>. If anything in <span class="math inline">\(B\)</span> changes later, it is likely that <span class="math inline">\(A\)</span> will have to change too.</p>
+<p>But if <span class="math inline">\(A\)</span> uses only methods to interact with <span class="math inline">\(B\)</span>, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are less dependent, which means that we can make changes in <span class="math inline">\(B\)</span> without affecting <span class="math inline">\(A\)</span> (as long as we don’t change the method parameters). So we generally avoid making instance variables public.</p>
+<p>The second option is to provide methods that access the instance variables. For example, we might want the instance variables to be “read only”; that is, code in other classes should be able to read them but not write them. We can do that by providing one method for each instance variable:</p>
+<div class="sourceCode" id="cb9" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">int</span> <span class="fu">getHour</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="fu">hour</span><span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">int</span> <span class="fu">getMinute</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="fu">minute</span><span class="op">;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">double</span> <span class="fu">getSecond</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="fu">second</span><span class="op">;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Methods like these are formally called “accessors”, but more commonly referred to as <strong>getters</strong>. By convention, the method that gets a variable named <code class="sourceCode java">something</code> is called <code class="sourceCode java">getSomething</code>.</p>
+<p>We can fix the compiler error in <code class="sourceCode java">TimeClient</code> by using the getter:</p>
+<div class="sourceCode" id="cb10" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>time<span class="op">.</span><span class="fu">getHour</span><span class="op">());</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If we decide that <code class="sourceCode java">TimeClient</code> should also be able to modify the instance variables of <code class="sourceCode java"><span class="bu">Time</span></code>, we can provide methods to do that too:</p>
+<div class="sourceCode" id="cb11" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">setHour</span><span class="op">(</span><span class="dt">int</span> hour<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">hour</span> <span class="op">=</span> hour<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">setMinute</span><span class="op">(</span><span class="dt">int</span> minute<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">minute</span> <span class="op">=</span> minute<span class="op">;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">setSecond</span><span class="op">(</span><span class="dt">double</span> second<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">second</span> <span class="op">=</span> second<span class="op">;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These methods are formally called “mutators”, but more commonly known as <strong>setters</strong>. The naming convention is similar; the method that sets <code class="sourceCode java">something</code> is usually called <code class="sourceCode java">setSomething</code>.</p>
+<p>Writing getters and setters can get boring, but many IDEs can generate them for you based on the instance variables.</p>
+</section>
+<section id="displaying-objects" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="displaying-objects"><span class="header-section-number">13.5</span> Displaying Objects</h2>
+<p>To display <code class="sourceCode java"><span class="bu">Time</span></code> objects, we can write a method to display the hour, minute, and second. Using <code class="sourceCode java">printTime</code> in Section&nbsp;<a href="ch04.html#multparam" data-reference-type="ref" data-reference="multparam">4.4</a> as a starting point, we could write the following:</p>
+<div class="sourceCode" id="cb12" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">printTime</span><span class="op">(</span><span class="bu">Time</span> t<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span>t<span class="op">.</span><span class="fu">hour</span><span class="op">);</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">":"</span><span class="op">);</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span>t<span class="op">.</span><span class="fu">minute</span><span class="op">);</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">":"</span><span class="op">);</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>t<span class="op">.</span><span class="fu">second</span><span class="op">);</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The output of this method, given the <code class="sourceCode java">time</code> object from the first example, would be <code>11:59:59.9</code>. We can use <code class="sourceCode java">printf</code> to make the code more concise:</p>
+<div class="sourceCode" id="cb13" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">printTime</span><span class="op">(</span><span class="bu">Time</span> t<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">printf</span><span class="op">(</span><span class="st">"</span><span class="sc">%02d</span><span class="st">:</span><span class="sc">%02d</span><span class="st">:</span><span class="sc">%04.1f\n</span><span class="st">"</span><span class="op">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        t<span class="op">.</span><span class="fu">hour</span><span class="op">,</span> t<span class="op">.</span><span class="fu">minute</span><span class="op">,</span> t<span class="op">.</span><span class="fu">second</span><span class="op">);</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As a reminder, you need to use <code class="sourceCode java">\<span class="op">%</span>d</code> with integers, and <code class="sourceCode java">\<span class="op">%</span>f</code> with floating-point numbers. The <code class="sourceCode java"><span class="bn">02</span></code> option means “total width 2, with leading zeros if necessary”, and the <code class="sourceCode java"><span class="fl">04.1</span></code> option means “total width 4, one digit after the decimal point, leading zeros if necessary”. The output is the same: <code>11:59:59.9</code>.</p>
+<p>There’s nothing wrong with a method like <code class="sourceCode java">printTime</code>, but it is not consistent with object-oriented style. A more idiomatic solution is to provide a special method called <code class="sourceCode java">toString</code>.</p>
+</section>
+<section id="the-tostring-method" class="level2" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="the-tostring-method"><span class="header-section-number">13.6</span> The toString Method</h2>
+<p>Every object has a method called <code class="sourceCode java">toString</code> that returns a string representation of the object. When you display an object using <code class="sourceCode java">print</code> or <code class="sourceCode java">println</code>, Java invokes the object’s <code class="sourceCode java">toString</code> method.</p>
+<p>By default, it simply displays the type of the object and its address in hexadecimal. So, say you create a <code class="sourceCode java"><span class="bu">Time</span></code> object and display it with <code class="sourceCode java">println</code>:</p>
+<div class="sourceCode" id="cb14" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Time</span> time <span class="op">=</span> <span class="kw">new</span> <span class="bu">Time</span><span class="op">(</span><span class="dv">11</span><span class="op">,</span> <span class="dv">59</span><span class="op">,</span> <span class="fl">59.9</span><span class="op">);</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>time<span class="op">);</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The output looks something like this:</p>
+<pre><code>Time@80cc7c0</code></pre>
+<p>This address can be useful for debugging, if you want to keep track of individual objects.</p>
+<p>But you can <strong>override</strong> this behavior by providing your own <code class="sourceCode java">toString</code> method. For example, here is a <code class="sourceCode java">toString</code> method for <code class="sourceCode java"><span class="bu">Time</span></code>:</p>
+<div class="sourceCode" id="cb16" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="bu">String</span> <span class="fu">toString</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">String</span><span class="op">.</span><span class="fu">format</span><span class="op">(</span><span class="st">"</span><span class="sc">%02d</span><span class="st">:</span><span class="sc">%02d</span><span class="st">:</span><span class="sc">%04.1f\n</span><span class="st">"</span><span class="op">,</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">hour</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="fu">minute</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="fu">second</span><span class="op">);</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The definition does not have the keyword <code class="sourceCode java"><span class="dt">static</span></code>, because it is not a static method. It is an <strong>instance method</strong>, so called because when you invoke it, you invoke it on an instance of the class. Instance methods are sometimes called “non-static”; you might see this term in an error message.</p>
+<p>The body of the method is similar to <code class="sourceCode java">printTime</code> in the previous section, with two changes:</p>
+<ul>
+<li><p>Inside the method, we use <code class="sourceCode java"><span class="kw">this</span></code> to refer to the current instance; that is, the object the method is invoked on.</p></li>
+<li><p>Instead of <code class="sourceCode java">printf</code>, it uses <code class="sourceCode java"><span class="bu">String</span><span class="op">.</span><span class="fu">format</span></code>, which returns a formatted <code class="sourceCode java"><span class="bu">String</span></code> rather than displaying it.</p></li>
+</ul>
+<p>Now you can call <code class="sourceCode java">toString</code> directly:</p>
+<div class="sourceCode" id="cb17" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Time</span> time <span class="op">=</span> <span class="kw">new</span> <span class="bu">Time</span><span class="op">(</span><span class="dv">11</span><span class="op">,</span> <span class="dv">59</span><span class="op">,</span> <span class="fl">59.9</span><span class="op">);</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> s <span class="op">=</span> time<span class="op">.</span><span class="fu">toString</span><span class="op">();</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The value of <code class="sourceCode java">s</code> is the string <code class="sourceCode java"><span class="st">"11:59:59.9"</span></code>. You can also invoke <code class="sourceCode java">toString</code> indirectly by invoking <code class="sourceCode java">print</code> or <code class="sourceCode java">println</code>:</p>
+<div class="sourceCode" id="cb18" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>time<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This code displays the string <code class="sourceCode java"><span class="st">"11:59:59.9"</span></code>. Either way, when you use <code class="sourceCode java"><span class="kw">this</span></code> inside <code class="sourceCode java">toString</code>, it refers to the same object as <code class="sourceCode java">time</code>.</p>
+</section>
+<section id="equals" class="level2" data-number="13.7">
+<h2 data-number="13.7" class="anchored" data-anchor-id="equals"><span class="header-section-number">13.7</span> The equals Method</h2>
+<p>We have seen two ways to check whether values are equal: the <code class="sourceCode java"><span class="op">==</span></code> operator and the <code class="sourceCode java">equals</code> method. With objects, you can use either one, but they are not the same:</p>
+<ul>
+<li><p>The <code class="sourceCode java"><span class="op">==</span></code> operator checks whether two references are <strong>identical</strong>; that is, whether they refer to the same object.</p></li>
+<li><p>The <code class="sourceCode java">equals</code> method checks whether two objects are <strong>equivalent</strong>; that is, whether they have the same values.</p></li>
+</ul>
+<p>The definition of <em>identity</em> is always the same, so the <code class="sourceCode java"><span class="op">==</span></code> operator always does the same thing. But the definition of <em>equivalence</em> is different for different objects, so objects can define their own <code class="sourceCode java">equals</code> methods.</p>
+<p>Consider the following variables and the corresponding memory diagram in Figure&nbsp;<a href="#fig.time2" data-reference-type="ref" data-reference="fig.time2">11.2</a>:</p>
+<div class="sourceCode" id="cb19" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Time</span> time1 <span class="op">=</span> <span class="kw">new</span> <span class="bu">Time</span><span class="op">(</span><span class="dv">9</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">);</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Time</span> time2 <span class="op">=</span> time1<span class="op">;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="bu">Time</span> time3 <span class="op">=</span> <span class="kw">new</span> <span class="bu">Time</span><span class="op">(</span><span class="dv">9</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<figure id="fig.time2" class="figure">
+<div class="center">
+<p><img src="figs/time2-.svg" class="figure-img"></p>
+</div>
+<figcaption>
+Memory diagram of three <code class="sourceCode java"><span class="bu">Time</span></code> variables.
+</figcaption>
+</figure>
+<p>The assignment operator copies references, so <code class="sourceCode java">time1</code> and <code class="sourceCode java">time2</code> refer to the same object. Because they are identical, <code class="sourceCode java">time1 <span class="op">==</span> time2</code> is true. But <code class="sourceCode java">time1</code> and <code class="sourceCode java">time3</code> refer to two different objects. Because they are not identical, <code class="sourceCode java">time1 <span class="op">==</span> time3</code> is false.</p>
+<p>By default, the <code class="sourceCode java">equals</code> method does the same thing as <code class="sourceCode java"><span class="op">==</span></code>. For <code class="sourceCode java"><span class="bu">Time</span></code> objects, that’s probably not what we want. For example, <code class="sourceCode java">time1</code> and <code class="sourceCode java">time3</code> represent the same time of day, so we should consider them equivalent.</p>
+<p>We can provide an <code class="sourceCode java">equals</code> method that implements this idea:</p>
+<div class="sourceCode" id="cb20" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">equals</span><span class="op">(</span><span class="bu">Time</span> that<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">final</span> <span class="dt">double</span> DELTA <span class="op">=</span> <span class="fl">0.001</span><span class="op">;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="fu">hour</span> <span class="op">==</span> that<span class="op">.</span><span class="fu">hour</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        <span class="op">&amp;&amp;</span> <span class="kw">this</span><span class="op">.</span><span class="fu">minute</span> <span class="op">==</span> that<span class="op">.</span><span class="fu">minute</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">&amp;&amp;</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span><span class="op">(</span><span class="kw">this</span><span class="op">.</span><span class="fu">second</span> <span class="op">-</span> that<span class="op">.</span><span class="fu">second</span><span class="op">)</span> <span class="op">&lt;</span> DELTA<span class="op">;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code class="sourceCode java">equals</code> is an instance method, so it doesn’t have the keyword <code class="sourceCode java"><span class="dt">static</span></code>. It uses <code class="sourceCode java"><span class="kw">this</span></code> to refer to the current object, and <code class="sourceCode java">that</code> to refer to the other. <code class="sourceCode java">that</code> is <em>not</em> a keyword, so we could have given this parameter a different name. But using <code class="sourceCode java">that</code> makes the code nicely readable.</p>
+<p>We can invoke <code class="sourceCode java">equals</code> like this:</p>
+<div class="sourceCode" id="cb21" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>time1<span class="op">.</span><span class="fu">equals</span><span class="op">(</span>time3<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Inside the <code class="sourceCode java">equals</code> method, <code class="sourceCode java"><span class="kw">this</span></code> refers to the same object as <code class="sourceCode java">time1</code>, and <code class="sourceCode java">that</code> refers to the same object as <code class="sourceCode java">time3</code>. Since their instance variables are “equal”, the result is <code class="sourceCode java"><span class="kw">true</span></code>.</p>
+<p>Because <code class="sourceCode java">hour</code> and <code class="sourceCode java">minute</code> are integers, we compare them with <code class="sourceCode java"><span class="op">==</span></code>. But <code class="sourceCode java">second</code> is a floating-point number. Because of rounding errors, it is not good to compare floating-point numbers with <code class="sourceCode java"><span class="op">==</span></code> (see Section&nbsp;<a href="ch02.html#rounderr" data-reference-type="ref" data-reference="rounderr">2.7</a>). Instead, we check whether the difference is smaller than a threshold, <code class="sourceCode java">DELTA</code>.</p>
+<p>Many objects have a similar notion of equivalence; that is, two objects are considered equal if their instance variables are equal. But other definitions are possible.</p>
+</section>
+<section id="addingtime" class="level2" data-number="13.8">
+<h2 data-number="13.8" class="anchored" data-anchor-id="addingtime"><span class="header-section-number">13.8</span> Adding Times</h2>
+<p>Suppose you are going to a movie that starts at 18:50 (that is, 6:50 PM), and the running time is 2 hours, 16 minutes. What time does the movie end? We’ll use <code class="sourceCode java"><span class="bu">Time</span></code> objects to figure it out:</p>
+<div class="sourceCode" id="cb22" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Time</span> startTime <span class="op">=</span> <span class="kw">new</span> <span class="bu">Time</span><span class="op">(</span><span class="dv">18</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">);</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Time</span> runningTime <span class="op">=</span> <span class="kw">new</span> <span class="bu">Time</span><span class="op">(</span><span class="dv">2</span><span class="op">,</span> <span class="dv">16</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here are two ways we could “add” the <code class="sourceCode java"><span class="bu">Time</span></code> objects:</p>
+<ul>
+<li><p>Write a static method that takes two <code class="sourceCode java"><span class="bu">Time</span></code> objects as parameters.</p></li>
+<li><p>Write an instance method that gets invoked on one object and takes the other as a parameter.</p></li>
+</ul>
+<p>To demonstrate the difference, we’ll do both. Here is the static method:</p>
+<div class="sourceCode" id="cb23" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="bu">Time</span> <span class="fu">add</span><span class="op">(</span><span class="bu">Time</span> t1<span class="op">,</span> <span class="bu">Time</span> t2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Time</span> sum <span class="op">=</span> <span class="kw">new</span> <span class="bu">Time</span><span class="op">();</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    sum<span class="op">.</span><span class="fu">hour</span> <span class="op">=</span> t1<span class="op">.</span><span class="fu">hour</span> <span class="op">+</span> t2<span class="op">.</span><span class="fu">hour</span><span class="op">;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    sum<span class="op">.</span><span class="fu">minute</span> <span class="op">=</span> t1<span class="op">.</span><span class="fu">minute</span> <span class="op">+</span> t2<span class="op">.</span><span class="fu">minute</span><span class="op">;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    sum<span class="op">.</span><span class="fu">second</span> <span class="op">=</span> t1<span class="op">.</span><span class="fu">second</span> <span class="op">+</span> t2<span class="op">.</span><span class="fu">second</span><span class="op">;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sum<span class="op">;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And here’s how we would invoke it:</p>
+<div class="sourceCode" id="cb24" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Time</span> endTime <span class="op">=</span> <span class="bu">Time</span><span class="op">.</span><span class="fu">add</span><span class="op">(</span>startTime<span class="op">,</span> runningTime<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here’s what it looks like as an instance method:</p>
+<div class="sourceCode" id="cb25" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="bu">Time</span> <span class="fu">add</span><span class="op">(</span><span class="bu">Time</span> t2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Time</span> sum <span class="op">=</span> <span class="kw">new</span> <span class="bu">Time</span><span class="op">();</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    sum<span class="op">.</span><span class="fu">hour</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">hour</span> <span class="op">+</span> t2<span class="op">.</span><span class="fu">hour</span><span class="op">;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    sum<span class="op">.</span><span class="fu">minute</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">minute</span> <span class="op">+</span> t2<span class="op">.</span><span class="fu">minute</span><span class="op">;</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    sum<span class="op">.</span><span class="fu">second</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">second</span> <span class="op">+</span> t2<span class="op">.</span><span class="fu">second</span><span class="op">;</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sum<span class="op">;</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And here’s how we would invoke it:</p>
+<div class="sourceCode" id="cb26" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Time</span> endTime <span class="op">=</span> startTime<span class="op">.</span><span class="fu">add</span><span class="op">(</span>runningTime<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice the differences:</p>
+<ul>
+<li><p>The static method has the keyword <code class="sourceCode java"><span class="dt">static</span></code>; the instance method does not.</p></li>
+<li><p>The static method has two parameters, <code class="sourceCode java">t1</code> and <code class="sourceCode java">t2</code>. The instance method has one explicit parameter, <code class="sourceCode java">t2</code>, and the implicit parameter, <code class="sourceCode java"><span class="kw">this</span></code>.</p></li>
+<li><p>We invoked the static method with the <code class="sourceCode java"><span class="bu">Time</span></code> class; we invoked the instance method with the <code class="sourceCode java">startTime</code> object.</p></li>
+</ul>
+<p>That’s all there is to it. Static methods and instance methods do the same thing, and you can convert from one to the other with just a few changes.</p>
+<p>However, there’s a problem with both of these methods; they are not correct. The result from either method is <code>20:66</code>, which is not a valid time.</p>
+<p>If <code class="sourceCode java">second</code> exceeds 59, we have to carry into the minutes column, and if <code class="sourceCode java">minute</code> exceeds 59, we have to carry into <code class="sourceCode java">hour</code>.</p>
+<p>Here is a better version of the instance method, <code class="sourceCode java">add</code>:</p>
+<div class="sourceCode" id="cb27" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="bu">Time</span> <span class="fu">add</span><span class="op">(</span><span class="bu">Time</span> t2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Time</span> sum <span class="op">=</span> <span class="kw">new</span> <span class="bu">Time</span><span class="op">();</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    sum<span class="op">.</span><span class="fu">hour</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">hour</span> <span class="op">+</span> t2<span class="op">.</span><span class="fu">hour</span><span class="op">;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    sum<span class="op">.</span><span class="fu">minute</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">minute</span> <span class="op">+</span> t2<span class="op">.</span><span class="fu">minute</span><span class="op">;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    sum<span class="op">.</span><span class="fu">second</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">second</span> <span class="op">+</span> t2<span class="op">.</span><span class="fu">second</span><span class="op">;</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>sum<span class="op">.</span><span class="fu">second</span> <span class="op">&gt;=</span> <span class="fl">60.0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>        sum<span class="op">.</span><span class="fu">second</span> <span class="op">-=</span> <span class="fl">60.0</span><span class="op">;</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>        sum<span class="op">.</span><span class="fu">minute</span> <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>sum<span class="op">.</span><span class="fu">minute</span> <span class="op">&gt;=</span> <span class="dv">60</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>        sum<span class="op">.</span><span class="fu">minute</span> <span class="op">-=</span> <span class="dv">60</span><span class="op">;</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>        sum<span class="op">.</span><span class="fu">hour</span> <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>sum<span class="op">.</span><span class="fu">hour</span> <span class="op">&gt;=</span> <span class="dv">24</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>        sum<span class="op">.</span><span class="fu">hour</span> <span class="op">-=</span> <span class="dv">24</span><span class="op">;</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sum<span class="op">;</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If <code class="sourceCode java">hour</code> exceeds 23, we subtract 24 hours, but there’s no <code class="sourceCode java">days</code> attribute to carry into.</p>
+</section>
+<section id="vocabulary" class="level2" data-number="13.9">
+<h2 data-number="13.9" class="anchored" data-anchor-id="vocabulary"><span class="header-section-number">13.9</span> Vocabulary</h2>
+<dl>
+<dt>class:</dt>
+<dd>
+<p>In Chapter&nbsp;<a href="#theway" data-reference-type="ref" data-reference="theway">1</a>, we defined a class as a collection of related methods. Now you know that a class is also a template for a new type of object.</p>
+</dd>
+<dt>instance:</dt>
+<dd>
+<p>A member of a class. Every object is an instance of a class.</p>
+</dd>
+<dt>instantiate:</dt>
+<dd>
+<p>Create a new instance of a class in the computer’s memory.</p>
+</dd>
+<dt>instance variable:</dt>
+<dd>
+<p>An attribute of an object; a non-static variable defined at the class level.</p>
+</dd>
+<dt>information hiding:</dt>
+<dd>
+<p>The practice of making instance variables <code class="sourceCode java"><span class="kw">private</span></code> to limit dependencies between classes.</p>
+</dd>
+<dt>constructor:</dt>
+<dd>
+<p>A special method that initializes the instance variables of a newly constructed object.</p>
+</dd>
+<dt>shadowing:</dt>
+<dd>
+<p>Occurs when a local variable or parameter has the same name as an attribute.</p>
+</dd>
+<dt>client:</dt>
+<dd>
+<p>A class that uses objects defined in another class.</p>
+</dd>
+<dt>getter:</dt>
+<dd>
+<p>A method that returns the value of an instance variable.</p>
+</dd>
+<dt>setter:</dt>
+<dd>
+<p>A method that assigns a value to an instance variable.</p>
+</dd>
+<dt>override:</dt>
+<dd>
+<p>To replace a default implementation of a method, such as <code class="sourceCode java">toString</code>.</p>
+</dd>
+<dt>instance method:</dt>
+<dd>
+<p>A non-static method that has access to <code class="sourceCode java"><span class="kw">this</span></code> and the instance variables.</p>
+</dd>
+<dt>identical:</dt>
+<dd>
+<p>References to the same object (at the same location in memory).</p>
+</dd>
+<dt>equivalent:</dt>
+<dd>
+<p>Objects that are equal in value, as defined by the <code class="sourceCode java">equals</code> method.</p>
+</dd>
+</dl>
+</section>
+<section id="exercises" class="level2" data-number="13.10">
+<h2 data-number="13.10" class="anchored" data-anchor-id="exercises"><span class="header-section-number">13.10</span> Exercises</h2>
+<p>The code for this chapter is in the <em>ch11</em> directory of <em>ThinkJavaCode2</em>. See page&nbsp; for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples.</p>
+<div class="exercise">
+<p><strong>Exercise 11.1</strong>. <em>The implementation of <code class="sourceCode java">increment</code> in this chapter is not very efficient. Can you rewrite it so it doesn’t use any loops?</em></p>
+<p>**Hint:* Remember the remainder operator—it works with floating-point too.*</p>
+</div>
+<div class="exercise">
+<p><strong>Exercise 11.2</strong>. <em>In the board game Scrabble, each tile contains a letter, which is used to spell words in rows and columns, and a score, which is used to determine the value of words. The point of this exercise is to practice the mechanical part of creating a new class definition:</em></p>
+<ol type="1">
+<li><p><em>Write a definition for a class named <code class="sourceCode java">Tile</code> that represents Scrabble tiles. The instance variables should include a character named <code class="sourceCode java">letter</code> and an integer named <code class="sourceCode java">value</code>.</em></p></li>
+<li><p><em>Write a constructor that takes parameters named <code class="sourceCode java">letter</code> and <code class="sourceCode java">value</code>, and initializes the instance variables.</em></p></li>
+<li><p><em>Write a method named <code class="sourceCode java">printTile</code> that takes a <code class="sourceCode java">Tile</code> object as a parameter and displays the instance variables in a reader-friendly format.</em></p></li>
+<li><p><em>Write a <code class="sourceCode java">main</code> method that creates a <code class="sourceCode java">Tile</code> object with the letter <code class="sourceCode java">Z</code> and the value <code class="sourceCode java"><span class="dv">10</span></code>, and then uses <code class="sourceCode java">printTile</code> to display the state of the object.</em></p></li>
+<li><p><em>Implement the <code class="sourceCode java">toString</code> and <code class="sourceCode java">equals</code> methods for a <code class="sourceCode java">Tile</code>.</em></p></li>
+<li><p><em>Create getters and setters for each of the attributes.</em></p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><strong>Exercise 11.3</strong>. <em>Write a class definition for <code class="sourceCode java"><span class="bu">Date</span></code>, an object type that contains three integers: <code class="sourceCode java">year</code>, <code class="sourceCode java">month</code>, and <code class="sourceCode java">day</code>. This class should provide two constructors. The first should take no parameters and initialize a default date. The second should take parameters named <code class="sourceCode java">year</code>, <code class="sourceCode java">month</code> and <code class="sourceCode java">day</code>, and use them to initialize the instance variables.</em></p>
+<p><em>Write a <code class="sourceCode java">main</code> method that creates a new <code class="sourceCode java"><span class="bu">Date</span></code> object named <code class="sourceCode java">birthday</code>. The new object should contain your birth date. You can use either constructor.</em></p>
+</div>
+<div class="exercise">
+<p><strong>Exercise 11.4</strong>. <em>A “rational number” is a number that can be represented as the ratio of two integers. For example, <span class="math inline">\(2/3\)</span> is a rational number, and you can think of 7 as a rational number with an implicit 1 in the denominator.</em></p>
+<p><em>The purpose of this exercise is to write a class definition that includes a variety of methods, including constructors, static methods, instance methods, modifiers, and pure methods:</em></p>
+<ol type="1">
+<li><p><em>Define a class called <code class="sourceCode java">Rational</code>. A <code class="sourceCode java">Rational</code> object should have two integer instance variables that store the numerator and denominator.</em></p></li>
+<li><p><em>Write a constructor that takes no arguments and sets the numerator to <code class="sourceCode java"><span class="dv">0</span></code> and denominator to <code class="sourceCode java"><span class="dv">1</span></code>.</em></p></li>
+<li><p><em>Write an instance method called <code class="sourceCode java">printRational</code> that displays a <code class="sourceCode java">Rational</code> object in a reasonable format.</em></p></li>
+<li><p><em>Write a <code class="sourceCode java">main</code> method that creates a new object with type <code class="sourceCode java">Rational</code>, sets its instance variables to the values of your choice, and displays the object.</em></p></li>
+<li><p><em>You now have a minimal testable program. Test it and, if necessary, debug it.</em></p></li>
+<li><p><em>Write a <code class="sourceCode java">toString</code> method for <code class="sourceCode java">Rational</code> and test it using <code class="sourceCode java">println</code>.</em></p></li>
+<li><p><em>Write a second constructor that takes two arguments and uses them to initialize the instance variables.</em></p></li>
+<li><p><em>Write an instance method called <code class="sourceCode java">negate</code> that reverses the sign of a rational number. This method should be a modifier, so it should be <code class="sourceCode java"><span class="dt">void</span></code>. Add lines to <code class="sourceCode java">main</code> to test the new method.</em></p></li>
+<li><p><em>Write an instance method called <code class="sourceCode java">invert</code> that swaps the numerator and denominator. It should be a modifier. Add lines to <code class="sourceCode java">main</code> to test the new method.</em></p></li>
+<li><p><em>Write an instance method called <code class="sourceCode java">toDouble</code> that converts the rational number to a <code class="sourceCode java"><span class="dt">double</span></code> (floating-point number) and returns the result. This method is a pure method; it does not modify the object. As always, test the new method.</em></p></li>
+<li><p><em>Write an instance method named <code class="sourceCode java">reduce</code> that reduces a rational number to its lowest terms by finding the greatest common divisor (GCD) of the numerator and denominator and dividing through. This method should be a pure method; it should not modify the instance variables of the object on which it is invoked.</em></p>
+<p>**Hint:* Finding the GCD takes only a few lines of code. Search the web for “Euclidean algorithm”.*</p></li>
+<li><p><em>Write an instance method called <code class="sourceCode java">add</code> that takes a <code class="sourceCode java">Rational</code> number as an argument, adds it to <code class="sourceCode java"><span class="kw">this</span></code>, and returns a new <code class="sourceCode java">Rational</code> object. There are several ways to add fractions. You can use any one you want, but you should make sure that the result of the operation is reduced so that the numerator and denominator have no common divisor (other than 1).</em></p></li>
+</ol>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch10.html" class="pagination-link" aria-label="Mutable Objects">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Mutable Objects</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch12.html" class="pagination-link" aria-label="Arrays of Objects">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Arrays of Objects</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

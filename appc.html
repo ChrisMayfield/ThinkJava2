@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Preface – Think Java</title>
+<title>22&nbsp; Graphics – Think Java</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./ch01.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./appd.html" rel="next">
+<link href="./appb.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -111,7 +145,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./preface.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preface</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./appc.html"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Graphics</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -144,7 +178,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./preface.html" class="sidebar-item-text sidebar-link active">
+  <a href="./preface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
   </div>
 </li>
@@ -264,7 +298,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./appc.html" class="sidebar-item-text sidebar-link">
+  <a href="./appc.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Graphics</span></span></a>
   </div>
 </li>
@@ -284,12 +318,11 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-philosophy-behind-the-book" id="toc-the-philosophy-behind-the-book" class="nav-link active" data-scroll-target="#the-philosophy-behind-the-book">The Philosophy Behind the Book</a></li>
-  <li><a href="#object-oriented-programming" id="toc-object-oriented-programming" class="nav-link" data-scroll-target="#object-oriented-programming">Object-Oriented Programming</a></li>
-  <li><a href="#changes-to-the-second-edition" id="toc-changes-to-the-second-edition" class="nav-link" data-scroll-target="#changes-to-the-second-edition">Changes to the Second Edition</a></li>
-  <li><a href="#about-the-appendixes" id="toc-about-the-appendixes" class="nav-link" data-scroll-target="#about-the-appendixes">About the Appendixes</a></li>
-  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code">Using the Code Examples</a></li>
-  <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments">Acknowledgments</a></li>
+  <li><a href="#creating-graphics" id="toc-creating-graphics" class="nav-link active" data-scroll-target="#creating-graphics"><span class="header-section-number">22.1</span> Creating Graphics</a></li>
+  <li><a href="#graphics-methods" id="toc-graphics-methods" class="nav-link" data-scroll-target="#graphics-methods"><span class="header-section-number">22.2</span> Graphics Methods</a></li>
+  <li><a href="#example-drawing" id="toc-example-drawing" class="nav-link" data-scroll-target="#example-drawing"><span class="header-section-number">22.3</span> Example Drawing</a></li>
+  <li><a href="#vocabulary" id="toc-vocabulary" class="nav-link" data-scroll-target="#vocabulary"><span class="header-section-number">22.4</span> Vocabulary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">22.5</span> Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -298,7 +331,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preface</span></h1>
+<h1 class="title"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Graphics</span></h1>
 </div>
 
 
@@ -315,138 +348,171 @@ window.Quarto = {
 </header>
 
 
-<p><em>Think Java</em> is an introduction to computer science and programming intended for readers with little or no experience. We start with the most basic concepts and are careful to define all terms when they are first used. The book presents each new idea in a logical progression. Larger topics, like control flow statements and object-oriented programming, are divided into smaller examples and introduced over the course of several chapters.</p>
-<p>This book is intentionally concise. Each chapter is 12–14 pages and covers the material for one week of a college course. It is not meant to be a comprehensive presentation of Java, but rather, an initial exposure to programming constructs and techniques. We begin with small problems and basic algorithms and work up to object-oriented design. In the vocabulary of computer science pedagogy, this book uses the “objects late” approach.</p>
-<section id="the-philosophy-behind-the-book" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="the-philosophy-behind-the-book">The Philosophy Behind the Book</h2>
-<p>Here are the guiding principles that make the book the way it is:</p>
+<p>The Java library includes the package <code class="sourceCode java">java<span class="op">.</span><span class="fu">awt</span></code> for drawing 2D graphics. <strong>AWT</strong> stands for “Abstract Window Toolkit”. We are only going to scratch the surface of graphics programming. You can read more about it in the Java tutorials (see <a href="https://thinkjava.org/java2d" class="uri">https://thinkjava.org/java2d</a>).</p>
+<section id="creating-graphics" class="level2" data-number="22.1">
+<h2 data-number="22.1" class="anchored" data-anchor-id="creating-graphics"><span class="header-section-number">22.1</span> Creating Graphics</h2>
+<p>There are several ways to create graphics in Java; the simplest way is to use <code class="sourceCode java">java<span class="op">.</span><span class="fu">awt</span><span class="op">.</span><span class="fu">Canvas</span></code> and <code class="sourceCode java">java<span class="op">.</span><span class="fu">awt</span><span class="op">.</span><span class="fu">Graphics</span></code>. A <code class="sourceCode java"><span class="bu">Canvas</span></code> is a blank rectangular area of the screen onto which the application can draw. The <code class="sourceCode java"><span class="bu">Graphics</span></code> class provides basic drawing methods such as <code class="sourceCode java">drawLine</code>, <code class="sourceCode java">drawRect</code>, and <code class="sourceCode java">drawString</code>.</p>
+<p>Here is an example program that draws a circle by using the <code class="sourceCode java">fillOval</code> method:</p>
+<div class="sourceCode" id="cb1" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">awt</span><span class="op">.</span><span class="im">Canvas</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">awt</span><span class="op">.</span><span class="im">Graphics</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">javax</span><span class="op">.</span><span class="im">swing</span><span class="op">.</span><span class="im">JFrame</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Drawing <span class="kw">extends</span> <span class="bu">Canvas</span> <span class="op">{</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        <span class="bu">JFrame</span> frame <span class="op">=</span> <span class="kw">new</span> <span class="bu">JFrame</span><span class="op">(</span><span class="st">"My Drawing"</span><span class="op">);</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        frame<span class="op">.</span><span class="fu">setDefaultCloseOperation</span><span class="op">(</span><span class="bu">JFrame</span><span class="op">.</span><span class="fu">EXIT_ON_CLOSE</span><span class="op">);</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        Drawing drawing <span class="op">=</span> <span class="kw">new</span> <span class="fu">Drawing</span><span class="op">();</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        drawing<span class="op">.</span><span class="fu">setSize</span><span class="op">(</span><span class="dv">400</span><span class="op">,</span> <span class="dv">400</span><span class="op">);</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        frame<span class="op">.</span><span class="fu">add</span><span class="op">(</span>drawing<span class="op">);</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        frame<span class="op">.</span><span class="fu">pack</span><span class="op">();</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        frame<span class="op">.</span><span class="fu">setVisible</span><span class="op">(</span><span class="kw">true</span><span class="op">);</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">paint</span><span class="op">(</span><span class="bu">Graphics</span> g<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        g<span class="op">.</span><span class="fu">fillOval</span><span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">);</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code class="sourceCode java">Drawing</code> class extends <code class="sourceCode java"><span class="bu">Canvas</span></code>, so it has all the methods provided by <code class="sourceCode java"><span class="bu">Canvas</span></code>, including <code class="sourceCode java">setSize</code>. You can read about the other methods in the documentation, which you can find by doing a web search for “Java Canvas”.</p>
+<p>In the <code class="sourceCode java">main</code> method, we do the following:</p>
+<ol type="1">
+<li><p>Create a <code class="sourceCode java"><span class="bu">JFrame</span></code> object, which is the window that will contain the canvas.</p></li>
+<li><p>Create a <code class="sourceCode java">Drawing</code> object (which is the canvas), set its width and height, and add it to the frame.</p></li>
+<li><p>Pack the frame (resize it) to fit the canvas, and display it on the screen.</p></li>
+</ol>
+<p>Once the frame is visible, the <code class="sourceCode java">paint</code> method is called whenever the canvas needs to be drawn; for example, when the window is moved or resized. If you run this code, you should see a black circle on a gray background.</p>
+<p>The application doesn’t end after the <code class="sourceCode java">main</code> method returns; instead, it waits for the <code class="sourceCode java"><span class="bu">JFrame</span></code> to close. When the <code class="sourceCode java"><span class="bu">JFrame</span></code> closes, it calls <code class="sourceCode java"><span class="bu">System</span><span class="op">.</span><span class="fu">exit</span></code>, which ends the program.</p>
+</section>
+<section id="graphics-methods" class="level2" data-number="22.2">
+<h2 data-number="22.2" class="anchored" data-anchor-id="graphics-methods"><span class="header-section-number">22.2</span> Graphics Methods</h2>
+<p>You are probably used to Cartesian <strong>coordinates</strong>, where <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> values can be positive or negative. In contrast, Java uses a coordinate system where the origin is in the upper-left corner. That way, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> can always be positive integers. Figure&nbsp;<a href="#fig.coordinates" data-reference-type="ref" data-reference="fig.coordinates">20.1</a> shows these coordinate systems side by side.</p>
+<figure id="fig.coordinates" class="figure">
+<div class="center">
+<embed src="figs/coordinates.pdf" style="width:5in">
+</div>
+<figcaption>
+The difference between Cartesian coordinates and Java graphical coordinates.
+</figcaption>
+</figure>
+<p>Graphical coordinates are measured in <strong>pixels</strong>; each pixel corresponds to a dot on the screen.</p>
+<p>To draw on the canvas, you invoke methods on a <code class="sourceCode java"><span class="bu">Graphics</span></code> object. You don’t have to create the <code class="sourceCode java"><span class="bu">Graphics</span></code> object; it gets created when you create the <code class="sourceCode java"><span class="bu">Canvas</span></code>, and it gets passed as an argument to <code class="sourceCode java">paint</code>.</p>
+<p>The previous example used <code class="sourceCode java">fillOval</code>, which has the following signature:</p>
+<div class="sourceCode" id="cb3" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> Fills an oval bounded by the specified rectangle with</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> the current color<span class="co">.</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a> <span class="co">*/</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">fillOval</span><span class="op">(</span><span class="dt">int</span> x<span class="op">,</span> <span class="dt">int</span> y<span class="op">,</span> <span class="dt">int</span> width<span class="op">,</span> <span class="dt">int</span> height<span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The four parameters specify a <strong>bounding box</strong>, which is the rectangle in which the oval is drawn. <code class="sourceCode java">x</code> and <code class="sourceCode java">y</code> specify the location of the upper-left corner of the bounding box. The bounding box itself is not drawn (see Figure&nbsp;<a href="#fig.circle" data-reference-type="ref" data-reference="fig.circle">20.2</a>).</p>
+<figure id="fig.circle" class="figure">
+<div class="center">
+<embed src="figs/circle.pdf">
+</div>
+<figcaption>
+An oval inside its bounding box.
+</figcaption>
+</figure>
+<p>To choose the color of a shape, invoke <code class="sourceCode java">setColor</code> on the <code class="sourceCode java"><span class="bu">Graphics</span></code> object:</p>
+<div class="sourceCode" id="cb4" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>g<span class="op">.</span><span class="fu">setColor</span><span class="op">(</span><span class="bu">Color</span><span class="op">.</span><span class="fu">RED</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code class="sourceCode java">setColor</code> method determines the color of everything that gets drawn afterward. <code class="sourceCode java"><span class="bu">Color</span><span class="op">.</span><span class="fu">red</span></code> is a constant provided by the <code class="sourceCode java"><span class="bu">Color</span></code> class; to use it, you have to <code class="sourceCode java"><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">awt</span><span class="op">.</span><span class="im">Color</span></code>. Other colors include the following:</p>
+<pre><code>BLACK       BLUE      CYAN     DARKGRAY   GRAY    LIGHTGRAY
+GREEN       MAGENTA   ORANGE   PINK       WHITE   YELLOW</code></pre>
+<p>You can create your own colors by specifying the red, green, and blue (<strong>RGB</strong>) components. For example:</p>
+<div class="sourceCode" id="cb6" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Color</span> purple <span class="op">=</span> <span class="kw">new</span> <span class="bu">Color</span><span class="op">(</span><span class="dv">128</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">128</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Each value is an integer in the range 0 (darkest) to 255 (lightest). The color <code class="sourceCode java"><span class="op">(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">)</span></code> is black, and <code class="sourceCode java"><span class="op">(</span><span class="dv">255</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">255</span><span class="op">)</span></code> is white.</p>
+<p>You can set the background color of the <code class="sourceCode java"><span class="bu">Canvas</span></code> by invoking <code class="sourceCode java">setBackground</code>:</p>
+<div class="sourceCode" id="cb7" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>canvas<span class="op">.</span><span class="fu">setBackground</span><span class="op">(</span><span class="bu">Color</span><span class="op">.</span><span class="fu">WHITE</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="example-drawing" class="level2" data-number="22.3">
+<h2 data-number="22.3" class="anchored" data-anchor-id="example-drawing"><span class="header-section-number">22.3</span> Example Drawing</h2>
+<p>Suppose we want to draw a “Hidden Mickey”, which is an icon that represents Mickey Mouse (see <a href="https://en.wikipedia.org/wiki/Hidden_Mickey" class="uri">https://en.wikipedia.org/wiki/Hidden_Mickey</a>). We can use the oval we just drew as the face, and then add two ears. To make the code more readable, let’s use <code class="sourceCode java"><span class="bu">Rectangle</span></code> objects to represent bounding boxes.</p>
+<p>Here’s a method that takes a <code class="sourceCode java"><span class="bu">Rectangle</span></code> and invokes <code class="sourceCode java">fillOval</code>:</p>
+<div class="sourceCode" id="cb8" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">boxOval</span><span class="op">(</span><span class="bu">Graphics</span> g<span class="op">,</span> <span class="bu">Rectangle</span> bb<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    g<span class="op">.</span><span class="fu">fillOval</span><span class="op">(</span>bb<span class="op">.</span><span class="fu">x</span><span class="op">,</span> bb<span class="op">.</span><span class="fu">y</span><span class="op">,</span> bb<span class="op">.</span><span class="fu">width</span><span class="op">,</span> bb<span class="op">.</span><span class="fu">height</span><span class="op">);</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And here’s a method that draws Mickey Mouse:</p>
+<div class="sourceCode" id="cb9" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">mickey</span><span class="op">(</span><span class="bu">Graphics</span> g<span class="op">,</span> <span class="bu">Rectangle</span> bb<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">boxOval</span><span class="op">(</span>g<span class="op">,</span> bb<span class="op">);</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> hx <span class="op">=</span> bb<span class="op">.</span><span class="fu">width</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> hy <span class="op">=</span> bb<span class="op">.</span><span class="fu">height</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Rectangle</span> half <span class="op">=</span> <span class="kw">new</span> <span class="bu">Rectangle</span><span class="op">(</span>bb<span class="op">.</span><span class="fu">x</span><span class="op">,</span> bb<span class="op">.</span><span class="fu">y</span><span class="op">,</span> hx<span class="op">,</span> hy<span class="op">);</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    half<span class="op">.</span><span class="fu">translate</span><span class="op">(-</span>hx <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> <span class="op">-</span>hy <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">boxOval</span><span class="op">(</span>g<span class="op">,</span> half<span class="op">);</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    half<span class="op">.</span><span class="fu">translate</span><span class="op">(</span>hx <span class="op">*</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">boxOval</span><span class="op">(</span>g<span class="op">,</span> half<span class="op">);</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first line draws the face. The next three lines create a smaller rectangle for the ears. We <code class="sourceCode java">translate</code> the rectangle up and left for the first ear, then to the right for the second ear. The result is shown in Figure&nbsp;<a href="#fig.mickey" data-reference-type="ref" data-reference="fig.mickey">20.3</a>.</p>
+<figure id="fig.mickey" class="figure">
+<div class="center">
+<p><img src="figs/mickey.png" style="height:2in" class="figure-img"></p>
+</div>
+<figcaption>
+A Hidden Mickey drawn using Java graphics.
+</figcaption>
+</figure>
+<p>You can read more about <code class="sourceCode java"><span class="bu">Rectangle</span></code> and <code class="sourceCode java">translate</code> in Chapter&nbsp;<a href="#mutable" data-reference-type="ref" data-reference="mutable">10</a>. See the exercises at the end of this appendix for more example drawings.</p>
+</section>
+<section id="vocabulary" class="level2" data-number="22.4">
+<h2 data-number="22.4" class="anchored" data-anchor-id="vocabulary"><span class="header-section-number">22.4</span> Vocabulary</h2>
 <dl>
-<dt>One concept at a time:</dt>
+<dt>AWT:</dt>
 <dd>
-<p>We break down topics that give beginners trouble into a series of small steps, so that they can exercise each new concept in isolation before continuing.</p>
+<p>The “Abstract Window Toolkit”, a Java package for creating graphical user interfaces.</p>
 </dd>
-<dt>Balance of Java and concepts:</dt>
+<dt>coordinate:</dt>
 <dd>
-<p>The book is not primarily about Java; it uses code examples to demonstrate computer science. Most chapters start with language features and end with concepts.</p>
+<p>A value that specifies a location in a 2D graphical window.</p>
 </dd>
-<dt>Conciseness:</dt>
+<dt>pixel:</dt>
 <dd>
-<p>An important goal of the book is to be small enough so that students can read and understand the entire text in a one-semester college or AP course.</p>
+<p>The unit in which coordinates are measured.</p>
 </dd>
-<dt>Emphasis on vocabulary:</dt>
+<dt>bounding box:</dt>
 <dd>
-<p>We try to introduce the minimum number of terms and define them carefully when they are first used. We also organize them in glossaries at the end of each chapter.</p>
+<p>A way to specify the coordinates of a rectangular area.</p>
 </dd>
-<dt>Program development:</dt>
+<dt>RGB:</dt>
 <dd>
-<p>There are many strategies for writing programs, including bottom-up, top-down, and others. We demonstrate multiple program development techniques, allowing readers to choose methods that work best for them.</p>
-</dd>
-<dt>Multiple learning curves:</dt>
-<dd>
-<p>To write a program, you have to understand the algorithm, know the programming language, and be able to debug errors. We discuss these and other aspects throughout the book and summarize our advice in Appendix&nbsp;<a href="#debugging" data-reference-type="ref" data-reference="debugging">21</a>.</p>
+<p>A color model based on adding red, green, and blue light.</p>
 </dd>
 </dl>
 </section>
-<section id="object-oriented-programming" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="object-oriented-programming">Object-Oriented Programming</h2>
-<p>Some Java books introduce classes and objects immediately; others begin with procedural programming and transition to object-oriented more gradually.</p>
-<p>Many of Java’s object-oriented features are motivated by problems with previous languages, and their implementations are influenced by this history. Some of these features are hard to explain when people aren’t familiar with the problems they solve.</p>
-<p>We get to object-oriented programming as quickly as possible (beginning with Chapter&nbsp;<a href="#immutable" data-reference-type="ref" data-reference="immutable">9</a>). But we introduce concepts one at a time, as clearly as possible, in a way that allows readers to practice each idea in isolation before moving on. So it takes some time to get there.</p>
-<p>You can’t write Java programs (even Hello World) without encountering object-oriented features. In some cases we explain a feature briefly when it first appears, and then explain it more deeply later on.</p>
-<p>If you read the entire book, you will see nearly every topic required for Java SE Programmer I certification. Supplemental lessons are available in the official Java tutorials on Oracle’s website (<a href="https://thinkjava.org/tutorial" class="uri">https://thinkjava.org/tutorial</a>).</p>
-<p>This book is also well suited to prepare high school students for the AP Computer Science A exam, which includes object-oriented design and implementation. (AP is a registered trademark of The College Board.) A mapping of <em>Think Java</em> section numbers to the AP course is available on our website: <a href="https://thinkjava.org/" class="uri">https://thinkjava.org/</a>.</p>
-</section>
-<section id="changes-to-the-second-edition" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="changes-to-the-second-edition">Changes to the Second Edition</h2>
-<p>This new edition was written over several years, with feedback from dozens of instructors and hundreds of students. A complete history of all changes is available on GitHub. Here are some of the highlights:</p>
-<dl>
-<dt>Chapters 1–4:</dt>
-<dd>
-<p>We reordered the material in Chapter&nbsp;1 to present a more interesting balance of theory and practice. Chapters&nbsp;2–3 are much cleaner now too. Methods are now presented in a single chapter, along with additional in-depth examples.</p>
-</dd>
-<dt>Chapters 5–8:</dt>
-<dd>
-<p>We rearranged these chapters a lot, added many examples and new figures, and removed unnecessary details. Strings are covered earlier (before arrays) so that readers can apply them to loop problems. The material on recursion is now a chapter, and we added new sections to explain binary numbers and <em>CodingBat</em>.</p>
-</dd>
-<dt>Chapters 9–12:</dt>
-<dd>
-<p>Our main goal for these chapters was to provide better explanations and more diagrams. Chapters&nbsp;9–10 focus more on immutable versus mutable objects, and we added new sections on BigInteger and StringBuilder. The other content is largely the same, but it should be easier to understand now.</p>
-</dd>
-<dt>Chapters 13–17:</dt>
-<dd>
-<p>We balanced the amount of content in Chapters&nbsp;13–14 by moving ArrayLists earlier, and we implement the “War” card game as another example. Chapters&nbsp;15–17 are brand new in this edition; they cover more advanced topics including 2D arrays, graphics, exceptions, abstract classes, interfaces, and events.</p>
-</dd>
-<dt>Appendixes:</dt>
-<dd>
-<p>We added Appendix&nbsp;<a href="#javadoc" data-reference-type="ref" data-reference="javadoc">19</a> to explain documentation comments and Javadoc in more detail. The other three appendixes that were present in the first edition have been revised for clarity and layout.</p>
-</dd>
-</dl>
-</section>
-<section id="about-the-appendixes" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="about-the-appendixes">About the Appendixes</h2>
-<p>The chapters of this book are meant to be read in order, because each one builds on the previous one. We also include several appendixes with material that can be read at any time:</p>
-<dl>
-<dt>Appendix A, “Tools”</dt>
-<dd>
-<p>This appendix explains how to download and install Java so you can compile programs on your computer. It also provides a brief introduction to DrJava—an integrated development environment designed primarily for students—and other development tools, including Checkstyle for code quality and JUnit for testing.</p>
-</dd>
-<dt>Appendix B, “Javadoc”</dt>
-<dd>
-<p>It’s important to document your classes and methods so that other programmers (including yourself in the future) will know how to use them. This appendix explains how to read documentation, how to write documentation, and how to use the Javadoc tool.</p>
-</dd>
-<dt>Appendix C, “Graphics”</dt>
-<dd>
-<p>Java provides libraries for working with graphics and animation, and these topics can be engaging for students. The libraries require object-oriented features that students will not completely understand until after Chapter&nbsp;<a href="#mutable" data-reference-type="ref" data-reference="mutable">10</a>, but they can be used much earlier.</p>
-</dd>
-<dt>Appendix D, “Debugging”</dt>
-<dd>
-<p>We provide debugging suggestions throughout the book, but this appendix provides many more suggestions on how to debug your programs. We recommend that you review this appendix frequently as you work through the book.</p>
-</dd>
-</dl>
-</section>
-<section id="code" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="code">Using the Code Examples</h2>
-<p>Most of the code examples in this book are available from a Git repository at <a href="https://github.com/ChrisMayfield/ThinkJavaCode2" class="uri">https://github.com/ChrisMayfield/ThinkJavaCode2</a>. Git is a “version control system” that allows you to keep track of the files that make up a project. A collection of files under Git’s control is called a “repository”.</p>
-<p>GitHub is a hosting service that provides storage for Git repositories and a convenient web interface. It provides several ways to work with the code:</p>
-<ul>
-<li><p>You can create a copy of the repository on GitHub by clicking the Fork button. If you don’t already have a GitHub account, you’ll need to create one. After forking, you’ll have your own repository on GitHub that you can use to keep track of code you write. Then you can “clone” the repository, which downloads a copy of the files to your computer.</p></li>
-<li><p>Alternatively, you could clone the original repository without forking. If you choose this option, you don’t need a GitHub account, but you won’t be able to save your changes on GitHub.</p></li>
-<li><p>If you don’t want to use Git at all, you can download the code in a ZIP archive using the Clone button on the GitHub page, or this link: <a href="https://thinkjava.org/code2zip" class="uri">https://thinkjava.org/code2zip</a>.</p></li>
-</ul>
-<p>After you clone the repository or unzip the ZIP file, you should have a directory named <em>ThinkJavaCode2</em> with a subdirectory for each chapter in the book.</p>
-<p>The examples in this book were developed and tested using OpenJDK&nbsp;11. If you are using a more recent version, everything should still work. If you are using an older version, some of the examples might not.</p>
-</section>
-<section id="acknowledgments" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="acknowledgments">Acknowledgments</h2>
-<p>Many people have sent corrections and suggestions over the years, and we appreciate their valuable feedback! This list begins with Version 4.0 of the open source edition, so it omits those who contributed to earlier versions:</p>
-<ul>
-<li><p>Ellen Hildreth used this book to teach Data Structures at Wellesley College and submitted a whole stack of corrections and suggestions.</p></li>
-<li><p>Tania Passfield pointed out that some glossaries had leftover terms that no longer appeared in the text.</p></li>
-<li><p>Elizabeth Wiethoff noticed that the series expansion of <span class="math inline">\(\exp(-x^2)\)</span> was wrong. She has also worked on a Ruby version of the book.</p></li>
-<li><p>Matt Crawford sent in a whole patch file full of corrections.</p></li>
-<li><p>Chi-Yu Li pointed out a typo and an error in one of the code examples.</p></li>
-<li><p>Doan Thanh Nam corrected an example.</p></li>
-<li><p>Muhammad Saied translated the book into Arabic and found several errors in the process.</p></li>
-<li><p>Marius Margowski found an inconsistency in a code example.</p></li>
-<li><p>Leslie Klein discovered another error in the series expansion of <span class="math inline">\(\exp(-x^2)\)</span>, identified typos in card array figures, and helped clarify several exercises.</p></li>
-<li><p>Micah Lindstrom reported half a dozen typos and sent corrections.</p></li>
-<li><p>James Riely ported the textbook source from LaTeX to Sphinx.<br>
-<a href="http://fpl.cs.depaul.edu/jriely/thinkapjava/" class="uri">http://fpl.cs.depaul.edu/jriely/thinkapjava/</a></p></li>
-<li><p>Peter Knaggs ported the book to C#.<br>
-<a href="https://www.rigwit.co.uk/think/sharp/" class="uri">https://www.rigwit.co.uk/think/sharp/</a></p></li>
-<li><p>Heidi Gentry-Kolen recorded several video lectures that follow the book.<br>
-<a href="https://www.youtube.com/user/digipipeline" class="uri">https://www.youtube.com/user/digipipeline</a></p></li>
-<li><p>Waldo Ribeiro submitted a pull request that corrected a dozen typos.</p></li>
-<li><p>Michael Stewart made several suggestions for improving the first half of the book.</p></li>
-<li><p>Steven Richardson adapted the book for an online course and contributed many ideas for improving the text.</p></li>
-<li><p>Fazl Rahman provided detailed feedback, chapter by chapter, and offered many suggestions for improving the text.</p></li>
-</ul>
-<p>We are especially grateful to the technical reviewers of the O’Reilly Media first edition: Blythe Samuels, David Wisneski, and Stephen Rose. They found errors, made many great suggestions, and helped make the book much better.</p>
-<p>Likewise, we thank Marc Loy for his thorough review of the O’Reilly Media second edition. He contributed many corrections, insights, and clarifications.</p>
-<p>Many students have given exceptional feedback, including Ian Staton, Tanner Wernecke, Jacob Green, Rasha Abuhantash, Nick Duncan, Kylie Davidson, Shirley Jiang, Elena Trafton, Jennifer Gregorio, and Azeem Mufti.</p>
-<p>Other contributors who found one or more typos: Stijn Debrouwere, Guy Driesen, Andai Velican, Chris Kuszmaul, Daniel Kurikesu, Josh Donath, Rens Findhammer, Elisa Abedrapo, Yousef BaAfif, Bruce Hill, Matt Underwood, Isaac Sultan, Dan Rice, Robert Beard, Daniel Pierce, Michael Giftthaler, Chris Fox, Min Zeng, Markus Geuss, Mauricio Gonzalez, Enrico Sartirana, Kasem Satitwiwat, Jason Miller, Kevin Molloy, Cory Culbertson, Will Crawford, Shawn Brenneman, Tom Nguyen, and Ala-Uddin Mohammad.</p>
-<p>If you have additional comments or ideas about the text, please send them to: <a href="mailto:feedback@greenteapress.com"><code>feedback@greenteapress.com</code></a>.</p>
-<p>Allen Downey and Chris Mayfield</p>
+<section id="exercises" class="level2" data-number="22.5">
+<h2 data-number="22.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">22.5</span> Exercises</h2>
+<p>The code for this chapter is in the <em>appc</em> directory of <em>ThinkJavaCode2</em>. See page&nbsp; for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples.</p>
+<div class="exercise">
+<p><strong>Exercise 20.1</strong>. <em>Draw the flag of Japan: a red circle on a white background that is wider than it is tall.</em></p>
+</div>
+<div class="exercise">
+<p><strong>Exercise 20.2</strong>. <em>Modify </em>Mickey.java* to draw ears on the ears, and ears on those ears, and more ears all the way down until the smallest ears are only 3 pixels wide. The result should look like Figure&nbsp;<a href="#fig.moose" data-reference-type="ref" data-reference="fig.moose">20.4</a>. <em>Hint:</em> You should have to add or modify only a few lines of code.*</p>
+<figure id="fig.moose" class="figure">
+<div class="center">
+<p><img src="figs/moose.png" style="height:2in" class="figure-img"></p>
+</div>
+<figcaption>
+<em>A recursive shape we call “Mickey Moose”.</em>
+</figcaption>
+</figure>
+</div>
+<div class="exercise">
+<p><strong>Exercise 20.3</strong>. <em>In this exercise, you will draw “Moiré patterns” that seem to shift around as you move. For an explanation of what is going on, see <a href="https://en.wikipedia.org/wiki/Moire_pattern" class="uri">https://en.wikipedia.org/wiki/Moire_pattern</a>.</em></p>
+<ol type="1">
+<li><p><em>Open </em>Moire.java* and read the <code class="sourceCode java">paint</code> method. Draw a sketch of what you expect it to do. Now run it. Did you get what you expected?*</p></li>
+<li><p><em>Modify the program so that the space between the circles is larger or smaller. See what happens to the image.</em></p></li>
+<li><p><em>Modify the program so that the circles are drawn in the center of the screen and concentric, as in Figure&nbsp;<a href="#fig.moire" data-reference-type="ref" data-reference="fig.moire">20.5</a> (left). The distance between the circles should be small enough that the Moiré interference is apparent.</em></p>
+<figure id="fig.moire" class="figure">
+<div class="center">
+<embed src="figs/moire.pdf" style="height:2in">
+</div>
+<figcaption>
+<p><em>Graphical patterns that can exhibit Moiré interference.</em></p>
+</figcaption>
+</figure></li>
+<li><p><em>Write a method named <code class="sourceCode java">radial</code> that draws a radial set of line segments as shown in Figure&nbsp;<a href="#fig.moire" data-reference-type="ref" data-reference="fig.moire">20.5</a> (right), but they should be close enough together to create a Moiré pattern.</em></p></li>
+<li><p><em>Just about any kind of graphical pattern can generate Moiré-like interference patterns. Play around and see what you can create.</em></p></li>
+</ol>
+</div>
 
 
 </section>
@@ -874,13 +940,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Think Java">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Think Java</span></span>
+      <a href="./appb.html" class="pagination-link" aria-label="Javadoc">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Javadoc</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./ch01.html" class="pagination-link" aria-label="Computer Programming">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Computer Programming</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./appd.html" class="pagination-link" aria-label="Debugging">
+        <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Debugging</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>23&nbsp; Debugging – Think Java</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./appc.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./appd.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Debugging</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Think Java</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Think Java</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Computer Programming</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Variables and Operators</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Input and Output</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods and Testing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conditionals and Logic</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Loops and Strings</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Arrays and References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Recursive Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Immutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Mutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Designing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Arrays of Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Objects of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Extending Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reusing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Advanced Topics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Tools</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Javadoc</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Graphics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appd.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Debugging</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#compile-time-errors" id="toc-compile-time-errors" class="nav-link active" data-scroll-target="#compile-time-errors"><span class="header-section-number">23.1</span> Compile-Time Errors</a>
+  <ul class="collapse">
+  <li><a href="#the-compiler-is-spewing-error-messages." id="toc-the-compiler-is-spewing-error-messages." class="nav-link" data-scroll-target="#the-compiler-is-spewing-error-messages.">The compiler is spewing error messages.</a></li>
+  <li><a href="#im-getting-a-weird-compiler-message-and-it-wont-go-away." id="toc-im-getting-a-weird-compiler-message-and-it-wont-go-away." class="nav-link" data-scroll-target="#im-getting-a-weird-compiler-message-and-it-wont-go-away.">I’m getting a weird compiler message, and it won’t go away.</a></li>
+  <li><a href="#i-cant-get-my-program-to-compile-no-matter-what-i-do." id="toc-i-cant-get-my-program-to-compile-no-matter-what-i-do." class="nav-link" data-scroll-target="#i-cant-get-my-program-to-compile-no-matter-what-i-do.">I can’t get my program to compile no matter what I do.</a></li>
+  <li><a href="#i-did-what-the-compiler-told-me-to-do-but-it-still-doesnt-work." id="toc-i-did-what-the-compiler-told-me-to-do-but-it-still-doesnt-work." class="nav-link" data-scroll-target="#i-did-what-the-compiler-told-me-to-do-but-it-still-doesnt-work.">I did what the compiler told me to do, but it still doesn’t work.</a></li>
+  </ul></li>
+  <li><a href="#run-time-errors" id="toc-run-time-errors" class="nav-link" data-scroll-target="#run-time-errors"><span class="header-section-number">23.2</span> Run-Time Errors</a>
+  <ul class="collapse">
+  <li><a href="#my-program-hangs." id="toc-my-program-hangs." class="nav-link" data-scroll-target="#my-program-hangs.">My program hangs.</a></li>
+  <li><a href="#when-i-run-the-program-i-get-an-exception." id="toc-when-i-run-the-program-i-get-an-exception." class="nav-link" data-scroll-target="#when-i-run-the-program-i-get-an-exception.">When I run the program, I get an exception.</a></li>
+  <li><a href="#i-added-so-many-print-statements-i-get-inundated-with-output." id="toc-i-added-so-many-print-statements-i-get-inundated-with-output." class="nav-link" data-scroll-target="#i-added-so-many-print-statements-i-get-inundated-with-output.">I added so many print statements I get inundated with output.</a></li>
+  </ul></li>
+  <li><a href="#logic-errors" id="toc-logic-errors" class="nav-link" data-scroll-target="#logic-errors"><span class="header-section-number">23.3</span> Logic Errors</a>
+  <ul class="collapse">
+  <li><a href="#my-program-doesnt-work." id="toc-my-program-doesnt-work." class="nav-link" data-scroll-target="#my-program-doesnt-work.">My program doesn’t work.</a></li>
+  <li><a href="#ive-got-a-big-hairy-expression-and-it-doesnt-do-what-i-expect." id="toc-ive-got-a-big-hairy-expression-and-it-doesnt-do-what-i-expect." class="nav-link" data-scroll-target="#ive-got-a-big-hairy-expression-and-it-doesnt-do-what-i-expect.">I’ve got a big, hairy expression and it doesn’t do what I expect.</a></li>
+  <li><a href="#my-method-doesnt-return-what-i-expect." id="toc-my-method-doesnt-return-what-i-expect." class="nav-link" data-scroll-target="#my-method-doesnt-return-what-i-expect.">My method doesn’t return what I expect.</a></li>
+  <li><a href="#my-print-statement-isnt-doing-anything." id="toc-my-print-statement-isnt-doing-anything." class="nav-link" data-scroll-target="#my-print-statement-isnt-doing-anything.">My print statement isn’t doing anything.</a></li>
+  <li><a href="#im-really-really-stuck-and-i-need-help." id="toc-im-really-really-stuck-and-i-need-help." class="nav-link" data-scroll-target="#im-really-really-stuck-and-i-need-help.">I’m really, really stuck and I need help.</a></li>
+  <li><a href="#no-i-really-need-help." id="toc-no-i-really-need-help." class="nav-link" data-scroll-target="#no-i-really-need-help.">No, I really need help.</a></li>
+  <li><a href="#i-found-the-bug" id="toc-i-found-the-bug" class="nav-link" data-scroll-target="#i-found-the-bug">I found the bug!</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Debugging</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Although there are debugging suggestions throughout the book, we thought it would be useful to say more in an appendix. If you are having a hard time debugging, you might want to review this appendix from time to time.</p>
+<p>The best debugging strategy depends on what kind of error you have:</p>
+<ul>
+<li><p><strong>Compile-time errors</strong> indicate that there is something wrong with the syntax of the program. Example: omitting the semicolon at the end of a statement.</p></li>
+<li><p><strong>Run-time errors</strong> are produced if something goes wrong while the program is running. Example: an infinite recursion eventually causes a <code class="sourceCode java"><span class="bu">StackOverflowError</span></code>.</p></li>
+<li><p><strong>Logic errors</strong> cause the program to do the wrong thing. Example: an expression may not be evaluated in the order you expect.</p></li>
+</ul>
+<p>The following sections are organized by error type; some techniques are useful for more than one type.</p>
+<section id="compile-time-errors" class="level2" data-number="23.1">
+<h2 data-number="23.1" class="anchored" data-anchor-id="compile-time-errors"><span class="header-section-number">23.1</span> Compile-Time Errors</h2>
+<p>The best kind of debugging is the kind you don’t have to do because you avoid making errors in the first place. Incremental development, which we presented in Section&nbsp;<a href="ch04.html#distance" data-reference-type="ref" data-reference="distance">4.9</a>, can help. The key is to start with a working program and add small amounts of code at a time. When there is an error, you will have a pretty good idea of where it is.</p>
+<p>Nevertheless, you might find yourself in one of the following situations. For each situation, we have some suggestions about how to proceed.</p>
+<section id="the-compiler-is-spewing-error-messages." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="the-compiler-is-spewing-error-messages.">The compiler is spewing error messages.</h3>
+<p>If the compiler reports 100 error messages, that doesn’t mean there are 100 errors in your program. When the compiler encounters an error, it often gets thrown off track for a while. It tries to recover and pick up again after the first error, but sometimes it reports spurious errors.</p>
+<p>Only the first error message is truly reliable. We suggest that you fix only one error at a time and then recompile the program. You may find that one semicolon or brace “fixes” 100 errors.</p>
+</section>
+<section id="im-getting-a-weird-compiler-message-and-it-wont-go-away." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="im-getting-a-weird-compiler-message-and-it-wont-go-away.">I’m getting a weird compiler message, and it won’t go away.</h3>
+<p>First of all, read the error message carefully. It may be written in terse jargon, but often there is a carefully hidden kernel of information.</p>
+<p>If nothing else, the message will tell you where in the program the problem occurred. Actually, it tells you where the compiler was when it noticed a problem, which is not necessarily where the error is. Use the information the compiler gives you as a guideline, but if you don’t see an error where the compiler is pointing, broaden the search.</p>
+<p>Generally, the error will be prior to the location of the error message, but in some cases it will be somewhere else entirely. For example, if you get an error message at a method invocation, the actual error may be in the method definition itself.</p>
+<p>If you don’t find the error quickly, take a breath and look more broadly at the entire program. Make sure the program is indented properly; that makes it easier to spot syntax errors.</p>
+<p>Now, start looking for common syntax errors:</p>
+<ol type="1">
+<li><p>Check that all parentheses and brackets are balanced and properly nested. All method definitions should be nested within a class definition. All program statements should be within a method definition.</p></li>
+<li><p>Remember that uppercase letters are not the same as lowercase letters.</p></li>
+<li><p>Check for semicolons at the end of statements (and no semicolons after curly braces).</p></li>
+<li><p>Make sure that any strings in the code have matching quotation marks. Make sure that you use double quotes for strings, and single quotes for characters.</p></li>
+<li><p>For each assignment statement, make sure that the type on the left is the same as the type on the right. Make sure that the expression on the left is a variable name or something else that you can assign a value to (like an element of an array).</p></li>
+<li><p>For each method invocation, make sure that the arguments you provide are in the right order and have the right type, and that the object you are invoking the method on is the right type.</p></li>
+<li><p>If you are invoking a value method, make sure you are doing something with the result. If you are invoking a void method, make sure you are <em>not</em> trying to do something with the result.</p></li>
+<li><p>If you are invoking an instance method, make sure you are invoking it on an object with the right type. If you are invoking a static method from outside the class where it is defined, make sure you specify the class name (using dot notation).</p></li>
+<li><p>Inside an instance method, you can refer to the instance variables without specifying an object. If you try that in a static method—with or without <code class="sourceCode java"><span class="kw">this</span></code>—you get a message like “non-static variable x cannot be referenced from a static context.”</p></li>
+</ol>
+<p>If nothing works, move on to the next section…</p>
+</section>
+<section id="i-cant-get-my-program-to-compile-no-matter-what-i-do." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="i-cant-get-my-program-to-compile-no-matter-what-i-do.">I can’t get my program to compile no matter what I do.</h3>
+<p>If the compiler says there is an error and you don’t see it, that might be because you and the compiler are not looking at the same code. Check your development environment to make sure the program you are editing is the program the compiler is compiling.</p>
+<p>This situation is often the result of having multiple copies of the same program. You might be editing one version of the file but compiling a different version.</p>
+<p>If you are not sure, try putting an obvious and deliberate syntax error right at the beginning of the program. Now compile again. If the compiler doesn’t find the new error, there is probably something wrong with the way you set up the development environment.</p>
+<p>If you have examined the code thoroughly, and you are sure the compiler is compiling the right source file, it is time for desperate measures—<strong>debugging by bisection</strong>:</p>
+<ul>
+<li><p>Make a backup of the file you are working on. If you are working on <em>Bob.java</em>, make a copy called <em>Bob.java.old</em>.</p></li>
+<li><p>Delete about half the code from <em>Bob.java</em>. Try compiling again.</p>
+<ul>
+<li><p>If the program compiles now, you know the error is in the code you deleted. Bring back about half of what you deleted and repeat.</p></li>
+<li><p>If the program still doesn’t compile, the error must be in the code that remains. Delete about half of the remaining code and repeat.</p></li>
+</ul></li>
+<li><p>Once you have found and fixed the error, start bringing back the code you deleted, a little bit at a time.</p></li>
+</ul>
+<p>This process is ugly, but it goes faster than you might think and is very reliable. It works for other programming languages too!</p>
+</section>
+<section id="i-did-what-the-compiler-told-me-to-do-but-it-still-doesnt-work." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="i-did-what-the-compiler-told-me-to-do-but-it-still-doesnt-work.">I did what the compiler told me to do, but it still doesn’t work.</h3>
+<p>Some error messages come with tidbits of advice, like “class Golfer must be declared abstract. It does not define int compareTo(java.lang.Object) from interface java.lang.Comparable.” It sounds like the compiler is telling you to declare <code class="sourceCode java">Golfer</code> as an <code class="sourceCode java"><span class="kw">abstract</span></code> class, and if you are reading this book, you probably don’t know what that is or how to do it.</p>
+<p>Fortunately, the compiler is wrong. The solution in this case is to make sure <code class="sourceCode java">Golfer</code> has a method called <code class="sourceCode java">compareTo</code> that takes an <code class="sourceCode java"><span class="bu">Object</span></code> as a parameter.</p>
+<p>Don’t let the compiler lead you by the nose. Error messages give you evidence that something is wrong, but the remedies they suggest are unreliable.</p>
+</section>
+</section>
+<section id="run-time-errors" class="level2" data-number="23.2">
+<h2 data-number="23.2" class="anchored" data-anchor-id="run-time-errors"><span class="header-section-number">23.2</span> Run-Time Errors</h2>
+<p>It’s not always clear what causes a run-time error, but you can often figure things out by adding print statements to your program.</p>
+<section id="my-program-hangs." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="my-program-hangs.">My program hangs.</h3>
+<p>If a program stops and seems to be doing nothing, we say it is “hanging”. Often that means it is caught in an infinite loop or an infinite recursion.</p>
+<ul>
+<li><p>If you suspect that a particular loop is the problem, add a print statement immediately before the loop that says <code class="sourceCode java"><span class="st">"entering the loop"</span></code> and another immediately after that says <code class="sourceCode java"><span class="st">"exiting the loop"</span></code>.</p>
+<p>Run the program. If you get the first message and not the second, you know where the program is getting stuck. Go to the section titled “Infinite loop”.</p></li>
+<li><p>Most of the time, an infinite recursion will cause the program to run for a while and then produce a <code class="sourceCode java"><span class="bu">StackOverflowError</span></code>. If that happens, go to the section titled “Infinite recursion”.</p>
+<p>If you are not getting a <code class="sourceCode java"><span class="bu">StackOverflowError</span></code>, but you suspect there is a problem with a recursive method, you can still use the techniques in the infinite recursion section.</p></li>
+<li><p>If neither of the previous suggestions helps, you might not understand the flow of execution in your program. Go to the section titled “Flow of execution”.</p></li>
+</ul>
+<section id="infloop" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="infloop">Infinite loop</h4>
+<p>If you think you have an infinite loop and you know which loop it is, add a print statement at the end of the loop that displays the values of the variables in the condition, and the value of the condition.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb1" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span>x <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> y <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// do something to x</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// do something to y</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"x: "</span> <span class="op">+</span> x<span class="op">);</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"y: "</span> <span class="op">+</span> y<span class="op">);</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"condition: "</span> <span class="op">+</span> <span class="op">(</span>x <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> y <span class="op">&lt;</span> <span class="dv">0</span><span class="op">));</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now when you run the program, you see three lines of output for each time through the loop. The last time through the loop, the condition should be <code class="sourceCode java"><span class="kw">false</span></code>. If the loop keeps going, you will see the values of <code class="sourceCode java">x</code> and <code class="sourceCode java">y</code>, and you might figure out why they are not getting updated correctly.</p>
+</section>
+<section id="infrec" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="infrec">Infinite recursion</h4>
+<p>Most of the time, an infinite recursion will cause the program to throw a <code class="sourceCode java"><span class="bu">StackOverflowError</span></code>. But if the program is slow, it may take a long time to fill the stack.</p>
+<p>If you know which method is causing an infinite recursion, check that there is a base case. There should be a condition that makes the method return without making a recursive invocation. If not, you need to rethink the algorithm and identify a base case.</p>
+<p>If there is a base case, but the program doesn’t seem to be reaching it, add a print statement at the beginning of the method that displays the parameters.</p>
+<p>Now when you run the program, you see a few lines of output every time the method is invoked, and you can see the values of the parameters. If the parameters are not moving toward the base case, you might see why not.</p>
+</section>
+<section id="flowexec" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="flowexec">Flow of execution</h4>
+<p>If you are not sure how the flow of execution is moving through your program, add print statements to the beginning of each method with a message like <code class="sourceCode java"><span class="st">"entering method foo"</span></code>, where <code class="sourceCode java">foo</code> is the name of the method. Now when you run the program, it displays a trace of each method as it is invoked.</p>
+<p>You can also display the arguments each method receives. When you run the program, check whether the values are reasonable, and check for one of the most common errors—providing arguments in the wrong order.</p>
+</section>
+</section>
+<section id="when-i-run-the-program-i-get-an-exception." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="when-i-run-the-program-i-get-an-exception.">When I run the program, I get an exception.</h3>
+<p>When an exception occurs, Java displays a message that includes the name of the exception, the line of the program where the exception occurred, and a stack trace. The stack trace includes the method that was running, the method that invoked it, the method that invoked that one, and so on.</p>
+<p>The first step is to examine the place in the program where the error occurred and see if you can figure out what happened:</p>
+<dl>
+<dt>NullPointerException:</dt>
+<dd>
+<p>You tried to access an instance variable or invoke a method on an object that is currently <code class="sourceCode java"><span class="kw">null</span></code>. You should figure out which variable is <code class="sourceCode java"><span class="kw">null</span></code> and then figure out how it got to be that way.</p>
+<p>Remember that when you declare a variable with an array type, its elements are initially <code class="sourceCode java"><span class="kw">null</span></code> until you assign a value to them. For example, this code causes a <code class="sourceCode java"><span class="bu">NullPointerException</span></code>:</p>
+<div class="sourceCode" id="cb2" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> array <span class="op">=</span> <span class="kw">new</span> <span class="bu">Point</span><span class="op">[</span><span class="dv">5</span><span class="op">];</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>array<span class="op">[</span><span class="dv">0</span><span class="op">].</span><span class="fu">x</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</dd>
+<dt>ArrayIndexOutOfBoundsException:</dt>
+<dd>
+<p>The index you are using to access an array is either negative or greater than <code class="sourceCode java">array<span class="op">.</span><span class="fu">length</span> <span class="op">-</span> <span class="dv">1</span></code>. If you can find the site where the problem is, add a print statement immediately before it to display the value of the index and the length of the array. Is the array the right size? Is the index the right value?</p>
+<p>Now work your way backward through the program and see where the array and the index come from. Find the nearest assignment statement and see if it is doing the right thing. If either one is a parameter, go to the place where the method is invoked and see where the values are coming from.</p>
+</dd>
+<dt>StackOverflowError:</dt>
+<dd>
+<p>See “Infinite recursion” on page&nbsp;.</p>
+</dd>
+<dt>FileNotFoundException:</dt>
+<dd>
+<p>This means Java didn’t find the file it was looking for. If you are using a project-based development environment like Eclipse, you might have to import the file into the project. Otherwise, make sure the file exists and that the path is correct. This problem depends on your filesystem, so it can be hard to track down.</p>
+</dd>
+<dt>ArithmeticException:</dt>
+<dd>
+<p>Something went wrong during an arithmetic operation; for example, division by zero.</p>
+</dd>
+</dl>
+</section>
+<section id="i-added-so-many-print-statements-i-get-inundated-with-output." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="i-added-so-many-print-statements-i-get-inundated-with-output.">I added so many print statements I get inundated with output.</h3>
+<p>One of the problems with using print statements for debugging is that you can end up buried in output. There are two ways to proceed: either simplify the output or simplify the program.</p>
+<p>To simplify the output, you can remove or comment out print statements that aren’t helping, or combine them, or format the output so it is easier to understand. As you develop a program, you should write code to generate concise, informative traces of what the program is doing.</p>
+<p>To simplify the program, scale down the problem the program is working on. For example, if you are sorting an array, sort a <em>small</em> array. If the program takes input from the user, give it the simplest input that causes the error.</p>
+<p>Also, clean up the code. Remove unnecessary or experimental parts, and reorganize the program to make it easier to read. For example, if you suspect that the error is in a deeply nested part of the program, rewrite that part with a simpler structure. If you suspect a large method, split it into smaller methods and test them separately.</p>
+<p>The process of finding the minimal test case often leads you to the bug. For example, if you find that a program works when the array has an even number of elements, but not when it has an odd number, that gives you a clue about what is going on.</p>
+<p>Reorganizing the program can help you find subtle bugs. If you make a change that you think doesn’t affect the program, and it does, that can tip you off.</p>
+</section>
+</section>
+<section id="logic-errors" class="level2" data-number="23.3">
+<h2 data-number="23.3" class="anchored" data-anchor-id="logic-errors"><span class="header-section-number">23.3</span> Logic Errors</h2>
+<section id="my-program-doesnt-work." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="my-program-doesnt-work.">My program doesn’t work.</h3>
+<p>Logic errors are hard to find because the compiler and interpreter provide no information about what is wrong. Only you know what the program is supposed to do, and only you know that it isn’t doing it.</p>
+<p>The first step is to make a connection between the code and the behavior you get. You need a hypothesis about what the program is actually doing. Here are some questions to ask yourself:</p>
+<ul>
+<li><p>Is there something the program was supposed to do that doesn’t seem to be happening? Find the section of the code that performs that function, and make sure it is executing when you think it should. See “Flow of execution” on page&nbsp;.</p></li>
+<li><p>Is something happening that shouldn’t? Find code in your program that performs that function, and see if it is executing when it shouldn’t.</p></li>
+<li><p>Is a section of code producing an unexpected effect? Make sure you understand the code, especially if it invokes methods in the Java library. Read the documentation for those methods, and try them out with simple test cases. They might not do what you think they do.</p></li>
+</ul>
+<p>To program, you need a mental model of what your code does. If it doesn’t do what you expect, the problem might not actually be the program; it might be in your head.</p>
+<p>The best way to correct your mental model is to break the program into components (usually the classes and methods) and test them independently. Once you find the discrepancy between your model and reality, you can solve the problem.</p>
+<p>Here are some common logic errors to check for:</p>
+<ul>
+<li><p>Remember that integer division always rounds toward zero. If you want fractions, use <code class="sourceCode java"><span class="dt">double</span></code>. More generally, use integers for countable things and floating-point numbers for measurable things.</p></li>
+<li><p>Floating-point numbers are only approximate, so don’t rely on them to be perfectly accurate. You should probably never use the <code class="sourceCode java"><span class="op">==</span></code> operator with <code class="sourceCode java"><span class="dt">double</span></code>s. Instead of writing <code class="sourceCode java"><span class="cf">if</span> <span class="op">(</span>d <span class="op">==</span> <span class="fl">1.23</span><span class="op">)</span></code>, do something like <code class="sourceCode java"><span class="cf">if</span> <span class="op">(</span><span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span><span class="op">(</span>d <span class="op">-</span> <span class="fl">1.23</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">.000001</span><span class="op">)</span></code>.</p></li>
+<li><p>When you apply the equality operator (<code class="sourceCode java"><span class="op">==</span></code>) to objects, it checks whether they are identical. If you meant to check equivalence, you should use the <code class="sourceCode java">equals</code> method instead.</p></li>
+<li><p>By default for user-defined types, <code class="sourceCode java">equals</code> checks identity. If you want a different notion of equivalence, you have to override it.</p></li>
+<li><p>Inheritance can lead to subtle logic errors, because you can run inherited code without realizing it. See “Flow of execution” on page&nbsp;.</p></li>
+</ul>
+</section>
+<section id="ive-got-a-big-hairy-expression-and-it-doesnt-do-what-i-expect." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="ive-got-a-big-hairy-expression-and-it-doesnt-do-what-i-expect.">I’ve got a big, hairy expression and it doesn’t do what I expect.</h3>
+<p>Writing complex expressions is fine as long as they are readable, but they can be hard to debug. It is often a good idea to break a complex expression into a series of assignments to temporary variables:</p>
+<div class="sourceCode" id="cb3" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>rect<span class="op">.</span><span class="fu">translate</span><span class="op">((</span><span class="dt">int</span><span class="op">)</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span><span class="op">(</span><span class="fl">0.5</span> <span class="op">*</span> rect<span class="op">.</span><span class="fu">getWidth</span><span class="op">()),</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>               <span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span><span class="op">(</span><span class="fl">0.5</span> <span class="op">*</span> rect<span class="op">.</span><span class="fu">getHeight</span><span class="op">()));</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This example can be rewritten as follows:</p>
+<div class="sourceCode" id="cb4" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> halfWidth <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> rect<span class="op">.</span><span class="fu">getWidth</span><span class="op">();</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> halfHeight <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> rect<span class="op">.</span><span class="fu">getHeight</span><span class="op">();</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> dx <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span><span class="op">(</span>halfWidth<span class="op">);</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> dy <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span><span class="op">(</span>halfHeight<span class="op">);</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>rect<span class="op">.</span><span class="fu">translate</span><span class="op">(</span>dx<span class="op">,</span> dy<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The second version is easier to read, partly because the variable names provide additional documentation. It’s also easier to debug, because you can check the types of the temporary variables and display their values.</p>
+<p>Another problem that can occur with big expressions is that the order of operations may not be what you expect. For example, to evaluate <span class="math inline">\(\frac{x}{2 \pi}\)</span>, you might write this:</p>
+<div class="sourceCode" id="cb5" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> y <span class="op">=</span> x <span class="op">/</span> <span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">PI</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>That is not correct, because multiplication and division have the same precedence, and they are evaluated from left to right. This code computes <span class="math inline">\(\frac{x}{2}\pi\)</span>.</p>
+<p>If you are not sure of the order of operations, check the documentation, or use parentheses to make it explicit.</p>
+<div class="sourceCode" id="cb6" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> y <span class="op">=</span> x <span class="op">/</span> <span class="op">(</span><span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">PI</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This version is correct, and more readable for other people who haven’t memorized the order of operations.</p>
+</section>
+<section id="my-method-doesnt-return-what-i-expect." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="my-method-doesnt-return-what-i-expect.">My method doesn’t return what I expect.</h3>
+<p>If you have a return statement with a complex expression, you don’t have a chance to display the value before returning:</p>
+<div class="sourceCode" id="cb7" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="bu">Rectangle</span> <span class="fu">intersection</span><span class="op">(</span><span class="bu">Rectangle</span> a<span class="op">,</span> <span class="bu">Rectangle</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">new</span> <span class="bu">Rectangle</span><span class="op">(</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span><span class="op">(</span>a<span class="op">.</span><span class="fu">x</span><span class="op">,</span> b<span class="op">.</span><span class="fu">x</span><span class="op">),</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span><span class="op">(</span>a<span class="op">.</span><span class="fu">y</span><span class="op">,</span> b<span class="op">.</span><span class="fu">y</span><span class="op">),</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span><span class="op">(</span>a<span class="op">.</span><span class="fu">x</span> <span class="op">+</span> a<span class="op">.</span><span class="fu">width</span><span class="op">,</span> b<span class="op">.</span><span class="fu">x</span> <span class="op">+</span> b<span class="op">.</span><span class="fu">width</span><span class="op">)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>            <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span><span class="op">(</span>a<span class="op">.</span><span class="fu">x</span><span class="op">,</span> b<span class="op">.</span><span class="fu">x</span><span class="op">)</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span><span class="op">(</span>a<span class="op">.</span><span class="fu">y</span> <span class="op">+</span> a<span class="op">.</span><span class="fu">height</span><span class="op">,</span> b<span class="op">.</span><span class="fu">y</span> <span class="op">+</span> b<span class="op">.</span><span class="fu">height</span><span class="op">)</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>            <span class="op">-</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span><span class="op">(</span>a<span class="op">.</span><span class="fu">y</span><span class="op">,</span> b<span class="op">.</span><span class="fu">y</span><span class="op">));</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Instead of writing everything in one statement, use temporary variables:</p>
+<div class="sourceCode" id="cb8" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="bu">Rectangle</span> <span class="fu">intersection</span><span class="op">(</span><span class="bu">Rectangle</span> a<span class="op">,</span> <span class="bu">Rectangle</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> x1 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span><span class="op">(</span>a<span class="op">.</span><span class="fu">x</span><span class="op">,</span> b<span class="op">.</span><span class="fu">x</span><span class="op">);</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> y1 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span><span class="op">(</span>a<span class="op">.</span><span class="fu">y</span><span class="op">,</span> b<span class="op">.</span><span class="fu">y</span><span class="op">);</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> x2 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span><span class="op">(</span>a<span class="op">.</span><span class="fu">x</span> <span class="op">+</span> a<span class="op">.</span><span class="fu">width</span><span class="op">,</span> b<span class="op">.</span><span class="fu">x</span> <span class="op">+</span> b<span class="op">.</span><span class="fu">width</span><span class="op">);</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> y2 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span><span class="op">(</span>a<span class="op">.</span><span class="fu">y</span> <span class="op">+</span> a<span class="op">.</span><span class="fu">height</span><span class="op">,</span> b<span class="op">.</span><span class="fu">y</span> <span class="op">+</span> b<span class="op">.</span><span class="fu">height</span><span class="op">);</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Rectangle</span> rect <span class="op">=</span> <span class="kw">new</span> <span class="bu">Rectangle</span><span class="op">(</span>x1<span class="op">,</span> y1<span class="op">,</span> x2 <span class="op">-</span> x1<span class="op">,</span> y2 <span class="op">-</span> y1<span class="op">);</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rect<span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now you have the opportunity to display any of the intermediate variables before returning. And by reusing <code class="sourceCode java">x1</code> and <code class="sourceCode java">y1</code>, you made the code smaller too.</p>
+</section>
+<section id="my-print-statement-isnt-doing-anything." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="my-print-statement-isnt-doing-anything.">My print statement isn’t doing anything.</h3>
+<p>If you use the <code class="sourceCode java">println</code> method, the output is displayed immediately, but if you use <code class="sourceCode java">print</code> (at least in some environments), the output gets stored without being displayed until the next newline. If the program terminates without displaying a newline, you may never see the stored output. If you suspect that this is happening, change some or all of the <code class="sourceCode java">print</code> statements to <code class="sourceCode java">println</code>.</p>
+</section>
+<section id="im-really-really-stuck-and-i-need-help." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="im-really-really-stuck-and-i-need-help.">I’m really, really stuck and I need help.</h3>
+<p>First, get away from the computer for a few minutes. Computers emit waves that affect the brain, causing the following symptoms:</p>
+<ul>
+<li><p>Frustration and rage.</p></li>
+<li><p>Superstitious beliefs (“the computer hates me”) and magical thinking (“the program works only when I wear my hat backward”).</p></li>
+<li><p>Sour grapes (“this program is lame anyway”).</p></li>
+</ul>
+<p>If you suffer from any of these symptoms, get up and go for a walk. When you are calm, think about the program. What is it doing? What are possible causes of that behavior? When was the last time you had a working program, and what did you do next?</p>
+<p>Sometimes it just takes time to find a bug. People often find bugs when they let their mind wander. Good places to find bugs are buses, showers, and bed.</p>
+</section>
+<section id="no-i-really-need-help." class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="no-i-really-need-help.">No, I really need help.</h3>
+<p>It happens. Even the best programmers get stuck. Sometimes you need another pair of eyes. Before you bring someone else in, make sure you have tried the techniques described in this appendix.</p>
+<p>Your program should be as simple as possible, and you should be working on the smallest input that causes the error. You should have print statements in the appropriate places (and the output they produce should be comprehensible). You should understand the problem well enough to describe it concisely.</p>
+<p>When you bring someone in to help, give them the information they need:</p>
+<ul>
+<li><p>What kind of bug is it? Compile-time, run-time, or logic?</p></li>
+<li><p>What was the last thing you did before this error occurred? What were the last lines of code that you wrote, or what is the test case that fails?</p></li>
+<li><p>If the bug occurs at compile time or run time, what is the error message, and what part of the program does it indicate?</p></li>
+<li><p>What have you tried, and what have you learned?</p></li>
+</ul>
+<p>By the time you explain the problem to someone, you might see the answer. This phenomenon is so common that some people recommend a debugging technique called “rubber ducking”. Here’s how it works:</p>
+<ol type="1">
+<li><p>Buy a standard-issue rubber duck.</p></li>
+<li><p>When you are really stuck on a problem, put the rubber duck on the desk in front of you and say, “Rubber duck, I am stuck on a problem. Here’s what’s happening…”</p></li>
+<li><p>Explain the problem to the rubber duck.</p></li>
+<li><p>Discover the solution.</p></li>
+<li><p>Thank the rubber duck.</p></li>
+</ol>
+<p>We’re not kidding, it works! See <a href="https://en.wikipedia.org/wiki/Rubber_duck_debugging" class="uri">https://en.wikipedia.org/wiki/Rubber_duck_debugging</a>.</p>
+</section>
+<section id="i-found-the-bug" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="i-found-the-bug">I found the bug!</h3>
+<p>When you find the bug, the way to fix it is usually obvious. But not always. Sometimes what seems to be a bug is really an indication that you don’t understand the program, or your algorithm contains an error. In these cases, you might have to rethink the algorithm or adjust your mental model. Take some time away from the computer to think, work through test cases by hand, or draw diagrams to represent the computation.</p>
+<p>After you fix the bug, don’t just start in making new errors. Take a minute to think about what kind of bug it was, why you made the error, how the error manifested itself, and what you could have done to find it faster. Next time you see something similar, you will be able to find the bug more quickly. Or even better, you will learn to avoid that type of bug for good.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./appc.html" class="pagination-link" aria-label="Graphics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Graphics</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

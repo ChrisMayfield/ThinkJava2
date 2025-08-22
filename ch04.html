@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6&nbsp; Methods and Testing – Think Java</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch05.html" rel="next">
+<link href="./ch03.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch04.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods and Testing</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Think Java</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Think Java</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Computer Programming</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Variables and Operators</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Input and Output</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods and Testing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conditionals and Logic</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Loops and Strings</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Arrays and References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Recursive Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Immutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Mutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Designing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Arrays of Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Objects of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Extending Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reusing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Advanced Topics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Tools</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Javadoc</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Graphics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Debugging</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#adding_methods" id="toc-adding_methods" class="nav-link active" data-scroll-target="#adding_methods"><span class="header-section-number">6.1</span> Defining New Methods</a></li>
+  <li><a href="#flow-of-execution" id="toc-flow-of-execution" class="nav-link" data-scroll-target="#flow-of-execution"><span class="header-section-number">6.2</span> Flow of Execution</a></li>
+  <li><a href="#parameters-and-arguments" id="toc-parameters-and-arguments" class="nav-link" data-scroll-target="#parameters-and-arguments"><span class="header-section-number">6.3</span> Parameters and Arguments</a></li>
+  <li><a href="#multparam" id="toc-multparam" class="nav-link" data-scroll-target="#multparam"><span class="header-section-number">6.4</span> Multiple Parameters</a></li>
+  <li><a href="#stack" id="toc-stack" class="nav-link" data-scroll-target="#stack"><span class="header-section-number">6.5</span> Stack Diagrams</a></li>
+  <li><a href="#mathmeth" id="toc-mathmeth" class="nav-link" data-scroll-target="#mathmeth"><span class="header-section-number">6.6</span> Math Methods</a></li>
+  <li><a href="#composition" id="toc-composition" class="nav-link" data-scroll-target="#composition"><span class="header-section-number">6.7</span> Composition</a></li>
+  <li><a href="#return-values" id="toc-return-values" class="nav-link" data-scroll-target="#return-values"><span class="header-section-number">6.8</span> Return Values</a></li>
+  <li><a href="#distance" id="toc-distance" class="nav-link" data-scroll-target="#distance"><span class="header-section-number">6.9</span> Incremental Development</a></li>
+  <li><a href="#vocabulary" id="toc-vocabulary" class="nav-link" data-scroll-target="#vocabulary"><span class="header-section-number">6.10</span> Vocabulary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">6.11</span> Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods and Testing</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>So far, we’ve written programs that have only one method, named <code class="sourceCode java">main</code>. In this chapter, we’ll show you how to organize programs into multiple methods. We’ll also take a look at the <code class="sourceCode java"><span class="bu">Math</span></code> class, which provides methods for common mathematical operations. Finally, we’ll discuss strategies for incrementally developing and testing your code.</p>
+<section id="adding_methods" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="adding_methods"><span class="header-section-number">6.1</span> Defining New Methods</h2>
+<p>Some methods perform a computation and return a result. For example, <code class="sourceCode java">nextDouble</code> reads input from the keyboard and returns it as a <code class="sourceCode java"><span class="dt">double</span></code>. Other methods, like <code class="sourceCode java">println</code>, carry out a sequence of actions without returning a result. Java uses the keyword <code class="sourceCode java"><span class="dt">void</span></code> to define such methods:</p>
+<div class="sourceCode" id="cb1" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">newLine</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">();</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"First line."</span><span class="op">);</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">newLine</span><span class="op">();</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Second line."</span><span class="op">);</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this example, the <code class="sourceCode java">newLine</code> and <code class="sourceCode java">main</code> methods are both <code class="sourceCode java"><span class="kw">public</span></code>, which means they can be <strong>invoked</strong> (or “called”) from other classes. And they are both <code class="sourceCode java"><span class="dt">void</span></code>, which means that they don’t return a result (in contrast to <code class="sourceCode java">nextDouble</code>). The output of the program is shown here:</p>
+<pre><code>First line.
+
+Second line.</code></pre>
+<p>Notice the extra space between the lines. If we wanted more space between them, we could invoke the same method repeatedly. Or we could write yet another method (named <code class="sourceCode java">threeLine</code>) that displays three blank lines:</p>
+<div class="sourceCode" id="cb3" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> NewLine <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">newLine</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">();</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">threeLine</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">newLine</span><span class="op">();</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">newLine</span><span class="op">();</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">newLine</span><span class="op">();</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"First line."</span><span class="op">);</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">threeLine</span><span class="op">();</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Second line."</span><span class="op">);</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this example, the name of the class is <code class="sourceCode java">NewLine</code>. By convention, class names begin with a capital letter. <code class="sourceCode java">NewLine</code> contains three methods, <code class="sourceCode java">newLine</code>, <code class="sourceCode java">threeLine</code>, and <code class="sourceCode java">main</code>. Remember that Java is case-sensitive, so <code class="sourceCode java">NewLine</code> and <code class="sourceCode java">newLine</code> are not the same.</p>
+<p>By convention, method names begin with a lowercase letter and use “camel case”, which is a cute name for <code class="sourceCode java">jammingWordsTogetherLikeThis</code>. You can use any name you want for methods, except <code class="sourceCode java">main</code> or any of the Java keywords.</p>
+</section>
+<section id="flow-of-execution" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="flow-of-execution"><span class="header-section-number">6.2</span> Flow of Execution</h2>
+<p>When you look at a class definition that contains several methods, it is tempting to read it from top to bottom. But that is <em>not</em> the <strong>flow of execution</strong>, or the order the program actually runs. The <code class="sourceCode java">NewLine</code> program runs methods in the opposite order than they are listed.</p>
+<p>Programs always begin at the first statement of <code class="sourceCode java">main</code>, regardless of where it is in the source file. Statements are executed one at a time, in order, until you reach a method invocation, which you can think of as a detour. Instead of going to the next statement, you jump to the first line of the invoked method, execute all the statements there, and then come back and pick up exactly where you left off.</p>
+<p>That sounds simple enough, but remember that one method can invoke another one. In the middle of <code class="sourceCode java">main</code>, the previous example goes off to execute the statements in <code class="sourceCode java">threeLine</code>. While in <code class="sourceCode java">threeLine</code>, it goes off to execute <code class="sourceCode java">newLine</code>. Then <code class="sourceCode java">newLine</code> invokes <code class="sourceCode java">println</code>, which causes yet another detour.</p>
+<p>Fortunately, Java is good at keeping track of which methods are running. So when <code class="sourceCode java">println</code> completes, it picks up where it left off in <code class="sourceCode java">newLine</code>; when <code class="sourceCode java">newLine</code> completes, it goes back to <code class="sourceCode java">threeLine</code>; and when <code class="sourceCode java">threeLine</code> completes, it gets back to <code class="sourceCode java">main</code>.</p>
+<p>Beginners often wonder why it’s worth the trouble to write other methods, when they could just do everything in <code class="sourceCode java">main</code>. The <code class="sourceCode java">NewLine</code> example demonstrates a few reasons:</p>
+<ul>
+<li><p>Creating a new method allows you to <em>name a block of statements</em>, which makes the code easier to read and understand.</p></li>
+<li><p>Introducing new methods can <em>make the program shorter</em> by eliminating repetitive code. For example, to display nine consecutive newlines, you could invoke <code class="sourceCode java">threeLine</code> three times.</p></li>
+<li><p>A common problem-solving technique is to <em>break problems down</em> into subproblems. Methods allow you to focus on each subproblem in isolation, and then compose them into a complete solution.</p></li>
+</ul>
+<p>Perhaps most importantly, organizing your code into multiple methods allows you to test individual parts of your program separately. It’s easier to get a complex program working if you know that each method works correctly.</p>
+</section>
+<section id="parameters-and-arguments" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="parameters-and-arguments"><span class="header-section-number">6.3</span> Parameters and Arguments</h2>
+<p>Some of the methods we have used require <strong>arguments</strong>, which are the values you provide in parentheses when you invoke the method.</p>
+<p>For example, the <code class="sourceCode java">println</code> method takes a <code class="sourceCode java"><span class="bu">String</span></code> argument. To display a message, you have to provide the message: <code class="sourceCode java"><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Hello"</span><span class="op">)</span></code>. Similarly, the <code class="sourceCode java">printf</code> method can take multiple arguments. The statement <code class="sourceCode java"><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">printf</span><span class="op">(</span><span class="st">"</span><span class="er">\%</span><span class="st">d in = </span><span class="er">\%</span><span class="st">f cm</span><span class="sc">\\</span><span class="st">n"</span><span class="op">,</span> inch<span class="op">,</span> cm<span class="op">)</span></code> has three arguments: the format string, the <code class="sourceCode java">inch</code> value, and the <code class="sourceCode java">cm</code> value.</p>
+<p>When you invoke a method, you provide the arguments. When you define a method, you name the <strong>parameters</strong>, which are variables that indicate what arguments are required. The following class shows an example:</p>
+<div class="sourceCode" id="cb4" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> PrintTwice <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">printTwice</span><span class="op">(</span><span class="bu">String</span> s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>s<span class="op">);</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>s<span class="op">);</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">printTwice</span><span class="op">(</span><span class="st">"Don't make me say this twice!"</span><span class="op">);</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code class="sourceCode java">printTwice</code> method has a parameter named <code class="sourceCode java">s</code> with type <code class="sourceCode java"><span class="bu">String</span></code>. When you invoke <code class="sourceCode java">printTwice</code>, you have to provide an argument with type <code class="sourceCode java"><span class="bu">String</span></code>.</p>
+<p>Before the method executes, the argument gets assigned to the parameter. In the <code class="sourceCode java">printTwice</code> example, the argument <code class="sourceCode java"><span class="st">"Don't make me say this twice!"</span></code> gets assigned to the parameter <code class="sourceCode java">s</code>.</p>
+<p>This process is called <strong>parameter passing</strong>, because the value gets passed from outside the method to the inside. An argument can be any kind of expression, so if you have a <code class="sourceCode java"><span class="bu">String</span></code> variable, you can use its value as an argument:</p>
+<div class="sourceCode" id="cb5" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> message <span class="op">=</span> <span class="st">"Never say never."</span><span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">printTwice</span><span class="op">(</span>message<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The value you provide as an argument must have the same (or compatible) type as the parameter. For example, if you try this:</p>
+<div class="sourceCode" id="cb6" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">printTwice</span><span class="op">(</span><span class="dv">17</span><span class="op">);</span>  <span class="co">// syntax error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You will get an error message like this:</p>
+<pre><code>File: Test.java  [line: 10]
+Error: method printTwice in class Test cannot be applied
+       to given types;
+  required: java.lang.String
+  found: int
+  reason: actual argument int cannot be converted to
+          java.lang.String by method invocation conversion</code></pre>
+<p>This error message says that it found an <code class="sourceCode java"><span class="dt">int</span></code> argument, but the required parameter should be a <code class="sourceCode java"><span class="bu">String</span></code>. In the case of <code class="sourceCode java">printTwice</code>, Java won’t convert the integer <code class="sourceCode java"><span class="dv">17</span></code> to the string <code class="sourceCode java"><span class="st">"17"</span></code> automatically.</p>
+<p>Sometimes Java can convert an argument from one type to another automatically. For example, <code class="sourceCode java"><span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span></code> requires a <code class="sourceCode java"><span class="dt">double</span></code>, but if you invoke <code class="sourceCode java"><span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span><span class="op">(</span><span class="dv">25</span><span class="op">)</span></code>, the integer value <code class="sourceCode java"><span class="dv">25</span></code> is automatically converted to the floating-point value <code class="sourceCode java"><span class="fl">25.0</span></code>.</p>
+<p>Parameters and other variables exist only inside their own methods. In the <code class="sourceCode java">printTwice</code> example, there is no such thing as <code class="sourceCode java">s</code> in the <code class="sourceCode java">main</code> method. If you try to use it there, you’ll get a compiler error.</p>
+<p>Similarly, inside <code class="sourceCode java">printTwice</code> there is no such thing as <code class="sourceCode java">message</code>. That variable belongs to <code class="sourceCode java">main</code>. Because variables exist only inside the methods where they are defined, they are often called <strong>local variables</strong>.</p>
+</section>
+<section id="multparam" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="multparam"><span class="header-section-number">6.4</span> Multiple Parameters</h2>
+<p>Here is an example of a method that takes two parameters:</p>
+<div class="sourceCode" id="cb8" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">printTime</span><span class="op">(</span><span class="dt">int</span> hour<span class="op">,</span> <span class="dt">int</span> minute<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span>hour<span class="op">);</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">":"</span><span class="op">);</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>minute<span class="op">);</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To invoke this method, we have to provide two integers as arguments:</p>
+<div class="sourceCode" id="cb9" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> hour <span class="op">=</span> <span class="dv">11</span><span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> minute <span class="op">=</span> <span class="dv">59</span><span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">printTime</span><span class="op">(</span>hour<span class="op">,</span> minute<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Beginners sometimes make the mistake of declaring the arguments:</p>
+<div class="sourceCode" id="cb10" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> hour <span class="op">=</span> <span class="dv">11</span><span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> minute <span class="op">=</span> <span class="dv">59</span><span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">printTime</span><span class="op">(</span><span class="dt">int</span> hour<span class="op">,</span> <span class="dt">int</span> minute<span class="op">);</span>  <span class="co">// syntax error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>That’s a syntax error, because the compiler sees <code class="sourceCode java"><span class="dt">int</span> hour</code> and <code class="sourceCode java"><span class="dt">int</span> minute</code> as variable declarations, not expressions that represent values. You wouldn’t declare the types of the arguments if they were simply integers:</p>
+<div class="sourceCode" id="cb11" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">printTime</span><span class="op">(</span><span class="dt">int</span> <span class="dv">11</span><span class="op">,</span> <span class="dt">int</span> <span class="dv">59</span><span class="op">);</span>  <span class="co">// syntax error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Pulling together the code fragments, here is the complete program:</p>
+<div class="sourceCode" id="cb12" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> PrintTime <span class="op">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">printTime</span><span class="op">(</span><span class="dt">int</span> hour<span class="op">,</span> <span class="dt">int</span> minute<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span>hour<span class="op">);</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">":"</span><span class="op">);</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>minute<span class="op">);</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> hour <span class="op">=</span> <span class="dv">11</span><span class="op">;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> minute <span class="op">=</span> <span class="dv">59</span><span class="op">;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">printTime</span><span class="op">(</span>hour<span class="op">,</span> minute<span class="op">);</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code class="sourceCode java">printTime</code> has two parameters, named <code class="sourceCode java">hour</code> and <code class="sourceCode java">minute</code>. And <code class="sourceCode java">main</code> has two variables, also named <code class="sourceCode java">hour</code> and <code class="sourceCode java">minute</code>. Although they have the same names, these variables are <em>not</em> the same. The <code class="sourceCode java">hour</code> in <code class="sourceCode java">printTime</code> and the <code class="sourceCode java">hour</code> in <code class="sourceCode java">main</code> refer to different memory locations, and they can have different values.</p>
+<p>For example, you could invoke <code class="sourceCode java">printTime</code> like this:</p>
+<div class="sourceCode" id="cb13" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> hour <span class="op">=</span> <span class="dv">11</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> minute <span class="op">=</span> <span class="dv">59</span><span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">printTime</span><span class="op">(</span>hour <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Before the method is invoked, Java evaluates the arguments; in this example, the results are <code class="sourceCode java"><span class="dv">12</span></code> and <code class="sourceCode java"><span class="dv">0</span></code>. Then it assigns those values to the parameters. Inside <code class="sourceCode java">printTime</code>, the value of <code class="sourceCode java">hour</code> is <code class="sourceCode java"><span class="dv">12</span></code>, not <code class="sourceCode java"><span class="dv">11</span></code>, and the value of <code class="sourceCode java">minute</code> is <code class="sourceCode java"><span class="dv">0</span></code>, not <code class="sourceCode java"><span class="dv">59</span></code>. Furthermore, if <code class="sourceCode java">printTime</code> modifies one of its parameters, that change has no effect on the variables in <code class="sourceCode java">main</code>.</p>
+</section>
+<section id="stack" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="stack"><span class="header-section-number">6.5</span> Stack Diagrams</h2>
+<p>One way to keep track of variables is to draw a <strong>stack diagram</strong>, which is a memory diagram (see Section&nbsp;<a href="ch02.html#state" data-reference-type="ref" data-reference="state">2.3</a>) that shows currently running methods. For each method there is a box, called a <strong>frame</strong>, that contains the method’s parameters and local variables. The name of the method appears outside the frame; the variables and parameters appear inside.</p>
+<p>As with memory diagrams, stack diagrams show variables and methods at a particular point in time. Figure&nbsp;<a href="#fig.stack" data-reference-type="ref" data-reference="fig.stack">4.1</a> is a stack diagram at the beginning of the <code class="sourceCode java">printTime</code> method. Notice that <code class="sourceCode java">main</code> is on top, because it executed first.</p>
+<figure id="fig.stack" class="figure">
+<div class="center">
+<p><img src="figs/stack1-.svg" class="figure-img"></p>
+</div>
+<figcaption>
+Stack diagram for <code class="sourceCode java"><span class="fu">printTime</span><span class="op">(</span>hour <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">)</span></code>.
+</figcaption>
+</figure>
+<p>Stack diagrams help you to visualize the <strong>scope</strong> of a variable, which is the area of a program where a variable can be used.</p>
+<p>Stack diagrams are a good mental model for how variables and methods work at run-time. Learning to trace the execution of a program on paper (or on a whiteboard) is a useful skill for communicating with other programmers.</p>
+<p>Educational tools can automatically draw stack diagrams for you. For example, Java Tutor (<a href="https://thinkjava.org/javatutor" class="uri">https://thinkjava.org/javatutor</a>) allows you to step through an entire program, both forward and backward, and see the stack frames and variables at each step. If you haven’t already, you should check out the Java examples on that website.</p>
+</section>
+<section id="mathmeth" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="mathmeth"><span class="header-section-number">6.6</span> Math Methods</h2>
+<p>You don’t always have to write new methods to get work done. As a reminder, the Java library contains thousands of classes you can use. For example, the <code class="sourceCode java"><span class="bu">Math</span></code> class provides common mathematical operations:</p>
+<div class="sourceCode" id="cb14" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> root <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span><span class="op">(</span><span class="fl">17.0</span><span class="op">);</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> angle <span class="op">=</span> <span class="fl">1.5</span><span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> height <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span><span class="op">(</span>angle<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first line sets <code class="sourceCode java">root</code> to the square root of 17. The third line finds the sine of 1.5 (the value of <code class="sourceCode java">angle</code>). <code class="sourceCode java"><span class="bu">Math</span></code> is in the <code class="sourceCode java">java<span class="op">.</span><span class="fu">lang</span></code> package, so you don’t have to import it.</p>
+<p>Values for the trigonometric functions—<code class="sourceCode java">sin</code>, <code class="sourceCode java">cos</code>, and <code class="sourceCode java">tan</code>—must be in <em>radians</em>. To convert from degrees to radians, you divide by 180 and multiply by <span class="math inline">\(\pi\)</span>. Conveniently, the <code class="sourceCode java"><span class="bu">Math</span></code> class provides a constant named <code class="sourceCode java">PI</code> that contains an approximation of <span class="math inline">\(\pi\)</span>:</p>
+<div class="sourceCode" id="cb15" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> degrees <span class="op">=</span> <span class="dv">90</span><span class="op">;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> angle <span class="op">=</span> degrees <span class="op">/</span> <span class="fl">180.0</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">PI</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice that <code class="sourceCode java">PI</code> is in capital letters. Java does not recognize <code class="sourceCode java">Pi</code>, <code class="sourceCode java">pi</code>, or <code class="sourceCode java">pie</code>. Also, <code class="sourceCode java">PI</code> is the name of a constant, not a method, so it doesn’t have parentheses. The same is true for the constant <code class="sourceCode java"><span class="bu">Math</span><span class="op">.</span><span class="fu">E</span></code>, which approximates Euler’s number.</p>
+<p>Converting to and from radians is a common operation, so the <code class="sourceCode java"><span class="bu">Math</span></code> class provides methods that do that for you:</p>
+<div class="sourceCode" id="cb16" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> radians <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">toRadians</span><span class="op">(</span><span class="fl">180.0</span><span class="op">);</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> degrees <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">toDegrees</span><span class="op">(</span><span class="bu">Math</span><span class="op">.</span><span class="fu">PI</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Another useful method is <code class="sourceCode java">round</code>, which rounds a floating-point value to the nearest integer and returns a <code class="sourceCode java"><span class="dt">long</span></code>. The following result is 63 (rounded up from 62.8319):</p>
+<div class="sourceCode" id="cb17" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">long</span> x <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span><span class="op">(</span><span class="bu">Math</span><span class="op">.</span><span class="fu">PI</span> <span class="op">*</span> <span class="fl">20.0</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A <code class="sourceCode java"><span class="dt">long</span></code> is like an <code class="sourceCode java"><span class="dt">int</span></code>, but bigger. More specifically, an <code class="sourceCode java"><span class="dt">int</span></code> uses 32 bits of memory; the largest value it can hold is <span class="math inline">\(2^{31}-1\)</span>, which is about 2 billion. A <code class="sourceCode java"><span class="dt">long</span></code> uses 64 bits, so the largest value is <span class="math inline">\(2^{63}-1\)</span>, which is about 9 quintillion.</p>
+<p>Take a minute to read the documentation for these and other methods in the <code class="sourceCode java"><span class="bu">Math</span></code> class. The easiest way to find documentation for Java classes is to do a web search for “Java” and the name of the class.</p>
+</section>
+<section id="composition" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="composition"><span class="header-section-number">6.7</span> Composition</h2>
+<p>You have probably learned how to evaluate simple expressions like <span class="math inline">\(\sin(\pi/2)\)</span> and <span class="math inline">\(\log(1/x)\)</span>. First, you evaluate the expression in parentheses, which is the argument of the function. Then you can evaluate the function itself, either by hand or by punching it into a calculator.</p>
+<p>This process can be applied repeatedly to evaluate more-complex expressions like <span class="math inline">\(\log(1/\sin(\pi/2))\)</span>. First we evaluate the argument of the innermost function (<span class="math inline">\(\pi/2 = 1.57\)</span>), then evaluate the function itself (<span class="math inline">\(\sin(1.57) = 1.0\)</span>), and so on.</p>
+<p>Just as with mathematical functions, Java methods can be <strong>composed</strong> to solve complex problems. That means you can use one method as part of another. In fact, you can use any expression as an argument to a method, as long as the resulting value has the correct type:</p>
+<div class="sourceCode" id="cb18" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> x <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span><span class="op">(</span>angle <span class="op">+</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">PI</span> <span class="op">/</span> <span class="fl">2.0</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This statement divides <code class="sourceCode java"><span class="bu">Math</span><span class="op">.</span><span class="fu">PI</span></code> by <code class="sourceCode java"><span class="fl">2.0</span></code>, adds the result to <code class="sourceCode java">angle</code>, and computes the cosine of the sum. You can also take the result of one method and pass it as an argument to another:</p>
+<div class="sourceCode" id="cb19" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> x <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span><span class="op">(</span><span class="bu">Math</span><span class="op">.</span><span class="fu">log</span><span class="op">(</span><span class="fl">10.0</span><span class="op">));</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In Java, the <code class="sourceCode java">log</code> method always uses base <span class="math inline">\(e\)</span>. So this statement finds the log base <span class="math inline">\(e\)</span> of 10, and then raises <span class="math inline">\(e\)</span> to that power. The result gets assigned to <code class="sourceCode java">x</code>.</p>
+<p>Some math methods take more than one argument. For example, <code class="sourceCode java"><span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span></code> takes two arguments and raises the first to the power of the second. This line computes <span class="math inline">\(2^{10}\)</span> and assigns the value <code class="sourceCode java"><span class="fl">1024.0</span></code> to the variable <code class="sourceCode java">x</code>:</p>
+<div class="sourceCode" id="cb20" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> x <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span><span class="op">(</span><span class="fl">2.0</span><span class="op">,</span> <span class="fl">10.0</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When using <code class="sourceCode java"><span class="bu">Math</span></code> methods, beginners often forget the word <code class="sourceCode java"><span class="bu">Math</span></code>. For example, if you just write <code class="sourceCode java">x <span class="op">=</span> <span class="fu">pow</span><span class="op">(</span><span class="fl">2.0</span><span class="op">,</span> <span class="fl">10.0</span><span class="op">)</span></code>, you will get a compiler error:</p>
+<pre><code>File: Test.java  [line: 5]
+Error: cannot find symbol
+  symbol:   method pow(double,double)
+  location: class Test</code></pre>
+<p>The message “cannot find symbol” is confusing, but the last two lines provide a useful hint. The compiler is looking for a method named <code>pow</code> in the file <code>Test.java</code> (the file for this example). If you don’t specify a class name when referring to a method, the compiler looks in the current class by default.</p>
+</section>
+<section id="return-values" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="return-values"><span class="header-section-number">6.8</span> Return Values</h2>
+<p>When you invoke a <code class="sourceCode java"><span class="dt">void</span></code> method, the invocation is usually on a line all by itself. For example:</p>
+<div class="sourceCode" id="cb22" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">printTime</span><span class="op">(</span>hour <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>On the other hand, when you invoke a value-returning method, you have to do something with the return value. We usually assign it to a variable or use it as part of an expression, like this:</p>
+<div class="sourceCode" id="cb23" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> error <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span><span class="op">(</span>expect <span class="op">-</span> actual<span class="op">);</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> height <span class="op">=</span> radius <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span><span class="op">(</span>angle<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Compared to <code class="sourceCode java"><span class="dt">void</span></code> methods, value-returning methods differ in two ways:</p>
+<ul>
+<li><p>They declare the type of the return value (the <strong>return type</strong>).</p></li>
+<li><p>They use at least one <code class="sourceCode java"><span class="cf">return</span></code> statement to provide a <strong>return value</strong>.</p></li>
+</ul>
+<p>Here’s an example from a program named <em>Circle.java</em>. The <code class="sourceCode java">calculateArea</code> method takes a <code class="sourceCode java"><span class="dt">double</span></code> as a parameter and returns the area of a circle with that radius (i.e., <span class="math inline">\(\pi r^2\)</span>):</p>
+<div class="sourceCode" id="cb24" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">double</span> <span class="fu">calculateArea</span><span class="op">(</span><span class="dt">double</span> radius<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> result <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">PI</span> <span class="op">*</span> radius <span class="op">*</span> radius<span class="op">;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result<span class="op">;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As usual, this method is <code class="sourceCode java"><span class="kw">public</span></code> and <code class="sourceCode java"><span class="dt">static</span></code>. But in the place where we are used to seeing <code class="sourceCode java"><span class="dt">void</span></code>, we see <code class="sourceCode java"><span class="dt">double</span></code>, which means that the return value from this method is a <code class="sourceCode java"><span class="dt">double</span></code>.</p>
+<p>The last line is a new form of the <code class="sourceCode java"><span class="cf">return</span></code> statement that means, “Return immediately from this method, and use the following expression as the return value.” The expression you provide can be arbitrarily complex, so we could have written this method more concisely:</p>
+<div class="sourceCode" id="cb25" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">double</span> <span class="fu">calculateArea</span><span class="op">(</span><span class="dt">double</span> radius<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">PI</span> <span class="op">*</span> radius <span class="op">*</span> radius<span class="op">;</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>On the other hand, <strong>temporary variables</strong> like <code class="sourceCode java">result</code> often make debugging easier, especially when you are stepping through code by using an interactive debugger (see Appendix&nbsp;<a href="appa.html#debugger" data-reference-type="ref" data-reference="debugger">18.6</a>).</p>
+<p>Figure&nbsp;<a href="#fig.param" data-reference-type="ref" data-reference="fig.param">4.2</a> illustrates how data values flows through the program. When the <code class="sourceCode java">main</code> method invokes <code class="sourceCode java">calculateArea</code>, the value <code class="sourceCode java"><span class="fl">5.0</span></code> is assigned to the parameter <code class="sourceCode java">radius</code>. <code class="sourceCode java">calculateArea</code> then returns the value <code class="sourceCode java"><span class="fl">78.54</span></code>, which is assigned to the variable <code class="sourceCode java">area</code>.</p>
+<figure id="fig.param" class="figure">
+<div class="center">
+<p><img src="figs/param-.svg" class="figure-img"></p>
+</div>
+<figcaption>
+Passing a parameter and saving the return value.
+</figcaption>
+</figure>
+<p>The type of the expression in the <code class="sourceCode java"><span class="cf">return</span></code> statement must match the return type of the method itself. When you declare that the return type is <code class="sourceCode java"><span class="dt">double</span></code>, you are making a promise that this method will eventually produce a <code class="sourceCode java"><span class="dt">double</span></code> value. If you try to <code class="sourceCode java"><span class="cf">return</span></code> with no expression, or <code class="sourceCode java"><span class="cf">return</span></code> an expression with the wrong type, the compiler will give an error.</p>
+</section>
+<section id="distance" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="distance"><span class="header-section-number">6.9</span> Incremental Development</h2>
+<p>People often make the mistake of writing a lot of code before they try to compile and run it. Then they spend way too much time debugging. A better approach is <strong>incremental development</strong>. Its key aspects are as follows:</p>
+<ul>
+<li><p>Start with a working program and make small, incremental changes. At any point, if there is an error, you will know where to look.</p></li>
+<li><p>Use variables to hold intermediate values so you can check them, either with print statements or by using a debugger.</p></li>
+<li><p>Once the program is working, you can consolidate multiple statements into compound expressions (but only if it does not make the program more difficult to read).</p></li>
+</ul>
+<p>As an example, suppose you want to find the distance between two points, given by the coordinates <span class="math inline">\((x_1, y_1)\)</span> and <span class="math inline">\((x_2, y_2)\)</span>. By the usual definition:</p>
+<p><span class="math display">\[distance = \sqrt{(x_2 - x_1)^2 +(y_2 - y_1)^2}\]</span></p>
+<p>The first step is to consider what a <code class="sourceCode java">distance</code> method should look like in Java. In other words, what are the inputs (parameters) and what is the output (return value)? For this method, the parameters are the two points, and it is natural to represent them using four <code class="sourceCode java"><span class="dt">double</span></code> values. The return value is the distance, which should also have type <code class="sourceCode java"><span class="dt">double</span></code>.</p>
+<p>Already we can write an outline for the method, which is sometimes called a <strong>stub</strong>. The stub includes the method declaration and a <code class="sourceCode java"><span class="cf">return</span></code> statement:</p>
+<div class="sourceCode" id="cb26" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">double</span> distance</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>        <span class="op">(</span><span class="dt">double</span> x1<span class="op">,</span> <span class="dt">double</span> y1<span class="op">,</span> <span class="dt">double</span> x2<span class="op">,</span> <span class="dt">double</span> y2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">0.0</span><span class="op">;</span>  <span class="co">// stub</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code class="sourceCode java"><span class="cf">return</span></code> statement is a placeholder that is necessary only for the program to compile. At this stage, the program doesn’t do anything useful, but it is good to compile it so we can find any syntax errors before we add more code.</p>
+<p>It’s usually a good idea to think about testing <em>before</em> you develop new methods; doing so can help you figure out how to implement them. To test the method, we can invoke it from <code class="sourceCode java">main</code> by using the sample values:</p>
+<div class="sourceCode" id="cb27" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> dist <span class="op">=</span> <span class="fu">distance</span><span class="op">(</span><span class="fl">1.0</span><span class="op">,</span> <span class="fl">2.0</span><span class="op">,</span> <span class="fl">4.0</span><span class="op">,</span> <span class="fl">6.0</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With these values, the horizontal distance is 3.0 and the vertical distance is 4.0. So the result should be 5.0, the hypotenuse of a 3-4-5 triangle. When you are testing a method, it is necessary to know the right answer.</p>
+<p>Once we have compiled the stub, we can start adding code one line at a time. After each incremental change, we recompile and run the program. If there is an error, we have a good idea of where to look: the lines we just added.</p>
+<p>The next step is to find the differences, <span class="math inline">\(x_2 - x_1\)</span> and <span class="math inline">\(y_2 - y_1\)</span>. We store those values in temporary variables named <code class="sourceCode java">dx</code> and <code class="sourceCode java">dy</code>, so that we can examine them with print statements before proceeding. They should be 3.0 and 4.0:</p>
+<div class="sourceCode" id="cb28" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">double</span> distance</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>        <span class="op">(</span><span class="dt">double</span> x1<span class="op">,</span> <span class="dt">double</span> y1<span class="op">,</span> <span class="dt">double</span> x2<span class="op">,</span> <span class="dt">double</span> y2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> dx <span class="op">=</span> x2 <span class="op">-</span> x1<span class="op">;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> dy <span class="op">=</span> y2 <span class="op">-</span> y1<span class="op">;</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"dx is "</span> <span class="op">+</span> dx<span class="op">);</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"dy is "</span> <span class="op">+</span> dy<span class="op">);</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">0.0</span><span class="op">;</span>  <span class="co">// stub</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We will remove the print statements when the method is finished. Code like that is called <strong>scaffolding</strong>, because it is helpful for building the program but is not part of the final product.</p>
+<p>The next step is to square <code class="sourceCode java">dx</code> and <code class="sourceCode java">dy</code>. We could use the <code class="sourceCode java"><span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span></code> method, but it is simpler (and more efficient) to multiply each term by itself. Then we add the squares and print the result so far:</p>
+<div class="sourceCode" id="cb29" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">double</span> distance</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>        <span class="op">(</span><span class="dt">double</span> x1<span class="op">,</span> <span class="dt">double</span> y1<span class="op">,</span> <span class="dt">double</span> x2<span class="op">,</span> <span class="dt">double</span> y2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> dx <span class="op">=</span> x2 <span class="op">-</span> x1<span class="op">;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> dy <span class="op">=</span> y2 <span class="op">-</span> y1<span class="op">;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> dsquared <span class="op">=</span> dx <span class="op">*</span> dx <span class="op">+</span> dy <span class="op">*</span> dy<span class="op">;</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"dsquared is "</span> <span class="op">+</span> dsquared<span class="op">);</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">0.0</span><span class="op">;</span>  <span class="co">// stub</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Again, you should compile and run the program at this stage and check the intermediate value, which should be 25.0. Finally, we can use <code class="sourceCode java"><span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span></code> to compute and return the result:</p>
+<div class="sourceCode" id="cb30" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">double</span> distance</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>        <span class="op">(</span><span class="dt">double</span> x1<span class="op">,</span> <span class="dt">double</span> y1<span class="op">,</span> <span class="dt">double</span> x2<span class="op">,</span> <span class="dt">double</span> y2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> dx <span class="op">=</span> x2 <span class="op">-</span> x1<span class="op">;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> dy <span class="op">=</span> y2 <span class="op">-</span> y1<span class="op">;</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> dsquared <span class="op">=</span> dx <span class="op">*</span> dx <span class="op">+</span> dy <span class="op">*</span> dy<span class="op">;</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> result <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span><span class="op">(</span>dsquared<span class="op">);</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result<span class="op">;</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As you gain more experience programming, you might write and debug more than one line at a time. But if you find yourself spending a lot of time debugging, consider taking smaller steps.</p>
+</section>
+<section id="vocabulary" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="vocabulary"><span class="header-section-number">6.10</span> Vocabulary</h2>
+<dl>
+<dt>void:</dt>
+<dd>
+<p>A special return type indicating the method does not return a value.</p>
+</dd>
+<dt>invoke:</dt>
+<dd>
+<p>To cause a method to execute. Also known as “calling” a method.</p>
+</dd>
+<dt>flow of execution:</dt>
+<dd>
+<p>The order in which Java executes methods and statements. It may not necessarily be from top to bottom in the source file.</p>
+</dd>
+<dt>argument:</dt>
+<dd>
+<p>A value that you provide when you call a method. This value must have the type that the method expects.</p>
+</dd>
+<dt>parameter:</dt>
+<dd>
+<p>A piece of information that a method requires before it can run. Parameters are variables: they contain values and have types.</p>
+</dd>
+<dt>parameter passing:</dt>
+<dd>
+<p>The process of assigning an argument value to a parameter variable.</p>
+</dd>
+<dt>local variable:</dt>
+<dd>
+<p>A variable declared inside a method. Local variables cannot be accessed from outside their method.</p>
+</dd>
+<dt>stack diagram:</dt>
+<dd>
+<p>A graphical representation of the variables belonging to each method. The method calls are “stacked” from top to bottom, in the flow of execution.</p>
+</dd>
+<dt>frame:</dt>
+<dd>
+<p>In a stack diagram, a representation of the variables and parameters for a method, along with their current values.</p>
+</dd>
+<dt>scope:</dt>
+<dd>
+<p>The area of a program where a variable can be used.</p>
+</dd>
+<dt>composition:</dt>
+<dd>
+<p>The ability to combine simple expressions and statements into compound expressions and statements.</p>
+</dd>
+<dt>return type:</dt>
+<dd>
+<p>The type of value a method returns.</p>
+</dd>
+<dt>return value:</dt>
+<dd>
+<p>The value provided as the result of a method invocation.</p>
+</dd>
+<dt>temporary variable:</dt>
+<dd>
+<p>A short-lived variable, often used for debugging.</p>
+</dd>
+<dt>incremental development:</dt>
+<dd>
+<p>A process for creating programs by writing a few lines at a time, compiling, and testing.</p>
+</dd>
+<dt>stub:</dt>
+<dd>
+<p>A placeholder for an incomplete method so that the class will compile.</p>
+</dd>
+<dt>scaffolding:</dt>
+<dd>
+<p>Code that is used during program development but is not part of the final version.</p>
+</dd>
+</dl>
+</section>
+<section id="exercises" class="level2" data-number="6.11">
+<h2 data-number="6.11" class="anchored" data-anchor-id="exercises"><span class="header-section-number">6.11</span> Exercises</h2>
+<p>The code for this chapter is in the <em>ch04</em> directory of <em>ThinkJavaCode2</em>. See page&nbsp; for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples.</p>
+<p>If you have not already read Appendix&nbsp;<a href="appa.html#cltesting" data-reference-type="ref" data-reference="cltesting">18.4</a>, now might be a good time. It describes an efficient way to test programs that take input from the user and display specific output.</p>
+<div class="exercise">
+<p><strong>Exercise 4.1</strong>. <em>The purpose of this exercise is to take code from a previous exercise and redesign it as a method that takes parameters. Start with a working solution to Exercise&nbsp;<a href="#ex:date" data-reference-type="ref" data-reference="ex:date">2.2</a>.</em></p>
+<ol type="1">
+<li><p><em>Write a method called <code class="sourceCode java">printAmerican</code> that takes the day, date, month, and year as parameters and displays them in American format.</em></p></li>
+<li><p><em>Test your method by invoking it from <code class="sourceCode java">main</code> and passing appropriate arguments. The output should look something like this (except the date might be different):</em></p>
+<pre><code>Monday, July 22, 2019</code></pre></li>
+<li><p><em>Once you have debugged <code class="sourceCode java">printAmerican</code>, write another method called <code class="sourceCode java">printEuropean</code> that displays the date in European format.</em></p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><strong>Exercise 4.2</strong>. <em>This exercise reviews the flow of execution through a program with multiple methods. Read the following code and answer the questions:</em></p>
+<div class="sourceCode" id="cb32" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">zippo</span><span class="op">(</span><span class="st">"rattle"</span><span class="op">,</span> <span class="dv">13</span><span class="op">);</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">baffle</span><span class="op">(</span><span class="bu">String</span> blimp<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>blimp<span class="op">);</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">zippo</span><span class="op">(</span><span class="st">"ping"</span><span class="op">,</span> <span class="op">-</span><span class="dv">5</span><span class="op">);</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">zippo</span><span class="op">(</span><span class="bu">String</span> quince<span class="op">,</span> <span class="dt">int</span> flag<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>flag <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>quince <span class="op">+</span> <span class="st">" zoop"</span><span class="op">);</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"ik"</span><span class="op">);</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">baffle</span><span class="op">(</span>quince<span class="op">);</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"boo-wa-ha-ha"</span><span class="op">);</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li><p><em>Write the number 1 next to the first line of code in this program that will execute.</em></p></li>
+<li><p><em>Write the number 2 next to the second line of code, and so on until the end of the program. If a line is executed more than once, it might end up with more than one number next to it.</em></p></li>
+<li><p><em>What is the value of the parameter <code class="sourceCode java">blimp</code> when <code class="sourceCode java">baffle</code> gets invoked?</em></p></li>
+<li><p><em>What is the output of this program?</em></p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><strong>Exercise 4.3</strong>. <em>Answer the following questions without running the program on a computer.</em></p>
+<ol type="1">
+<li><p><em>Draw a stack diagram that shows the state of the program the first time <code class="sourceCode java">ping</code> is invoked.</em></p></li>
+<li><p><em>What is output by the following program? Be precise about the placement of spaces and newlines.</em></p></li>
+</ol>
+<div class="sourceCode" id="cb35" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">zoop</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">baffle</span><span class="op">();</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">"You wugga "</span><span class="op">);</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">baffle</span><span class="op">();</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">"No, I "</span><span class="op">);</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">zoop</span><span class="op">();</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">"I "</span><span class="op">);</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">baffle</span><span class="op">();</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">baffle</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">"wug"</span><span class="op">);</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ping</span><span class="op">();</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb38" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">ping</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"."</span><span class="op">);</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="exercise">
+<p><strong>Exercise 4.4</strong>. <em>If you have a question about whether something is legal, and what happens if it is not, a good way to find out is to ask the compiler. Answer the following questions by trying them out.</em></p>
+<ol type="1">
+<li><p><em>What happens if you invoke a value method and don’t do anything with the result; that is, if you don’t assign it to a variable or use it as part of a larger expression?</em></p></li>
+<li><p><em>What happens if you use a void method as part of an expression? For example, try <code class="sourceCode java"><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"boo!"</span><span class="op">)</span> <span class="op">+</span> <span class="dv">7</span><span class="op">;</span></code>.</em></p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><strong>Exercise 4.5</strong>. <em>Draw a stack diagram that shows the state of the program the </em>second* time <code class="sourceCode java">zoop</code> is invoked. What is the complete output?*</p>
+<div class="sourceCode" id="cb39" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">zoop</span><span class="op">(</span><span class="bu">String</span> fred<span class="op">,</span> <span class="dt">int</span> bob<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>fred<span class="op">);</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>bob <span class="op">==</span> <span class="dv">5</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ping</span><span class="op">(</span><span class="st">"not "</span><span class="op">);</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"!"</span><span class="op">);</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> bizz <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> buzz <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">zoop</span><span class="op">(</span><span class="st">"just for"</span><span class="op">,</span> bizz<span class="op">);</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">clink</span><span class="op">(</span><span class="dv">2</span> <span class="op">*</span> buzz<span class="op">);</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">clink</span><span class="op">(</span><span class="dt">int</span> fork<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">"It's "</span><span class="op">);</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">zoop</span><span class="op">(</span><span class="st">"breakfast "</span><span class="op">,</span> fork<span class="op">);</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb42" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">ping</span><span class="op">(</span><span class="bu">String</span> strangStrung<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"any "</span> <span class="op">+</span> strangStrung <span class="op">+</span> <span class="st">"more "</span><span class="op">);</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="exercise">
+<p><strong>Exercise 4.6</strong>. <em>Many computations can be expressed more concisely using the “multadd” operation, which takes three operands and computes <code class="sourceCode java">a <span class="op">*</span> b <span class="op">+</span> c</code>. Some processors even provide a hardware implementation of this operation for floating-point numbers.</em></p>
+<ol type="1">
+<li><p><em>Create a new program called </em>Multadd.java<em>.</em></p></li>
+<li><p><em>Write a method called <code class="sourceCode java">multadd</code> that takes three <code class="sourceCode java">doubles</code> as parameters and returns <code class="sourceCode java">a <span class="op">*</span> b <span class="op">+</span> c</code>.</em></p></li>
+<li><p><em>Write a <code class="sourceCode java">main</code> method that tests <code class="sourceCode java">multadd</code> by invoking it with a few simple parameters, like <code class="sourceCode java"><span class="fl">1.0</span><span class="op">,</span> <span class="fl">2.0</span><span class="op">,</span> <span class="fl">3.0</span></code>.</em></p></li>
+<li><p><em>Also in <code class="sourceCode java">main</code>, use <code class="sourceCode java">multadd</code> to compute the following values: <span class="math display">\[\begin{aligned}
+&amp; \sin \frac{\pi}{4} + \frac{\cos \frac{\pi}{4}}{2} &amp; \\
+&amp; \log 10 + \log 20 &amp;
+\end{aligned}\]</span></em></p></li>
+<li><p><em>Write a method called <code class="sourceCode java">expSum</code> that takes a double as a parameter and uses <code class="sourceCode java">multadd</code> to calculate: <span class="math display">\[\begin{aligned}
+x e^{-x} + \sqrt{1 - e^{-x}}
+\end{aligned}\]</span> </em>Hint:* The method for raising <span class="math inline">\(e\)</span> to a power is <code class="sourceCode java"><span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span></code>.*</p></li>
+</ol>
+<p><em>In the last part of this exercise, you need to write a method that invokes another method you wrote. Whenever you do that, it is a good idea to test the first method carefully before working on the second. Otherwise, you might find yourself debugging two methods at the same time, which can be difficult.</em></p>
+<p><em>One of the purposes of this exercise is to practice pattern-matching: the ability to recognize a specific problem as an instance of a general category of problems.</em></p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch03.html" class="pagination-link" aria-label="Input and Output">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Input and Output</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch05.html" class="pagination-link" aria-label="Conditionals and Logic">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conditionals and Logic</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

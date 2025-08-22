@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>4&nbsp; Variables and Operators – Think Java</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch03.html" rel="next">
+<link href="./ch01.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch02.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Variables and Operators</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Think Java</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Think Java</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Computer Programming</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Variables and Operators</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Input and Output</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods and Testing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conditionals and Logic</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Loops and Strings</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Arrays and References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Recursive Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Immutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Mutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Designing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Arrays of Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Objects of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Extending Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reusing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Advanced Topics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Tools</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Javadoc</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Graphics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Debugging</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#declaring-variables" id="toc-declaring-variables" class="nav-link active" data-scroll-target="#declaring-variables"><span class="header-section-number">4.1</span> Declaring Variables</a></li>
+  <li><a href="#assigning-variables" id="toc-assigning-variables" class="nav-link" data-scroll-target="#assigning-variables"><span class="header-section-number">4.2</span> Assigning Variables</a></li>
+  <li><a href="#state" id="toc-state" class="nav-link" data-scroll-target="#state"><span class="header-section-number">4.3</span> Memory Diagrams</a></li>
+  <li><a href="#sec:printvar" id="toc-sec:printvar" class="nav-link" data-scroll-target="#sec\:printvar"><span class="header-section-number">4.4</span> Printing Variables</a></li>
+  <li><a href="#arithmetic-operators" id="toc-arithmetic-operators" class="nav-link" data-scroll-target="#arithmetic-operators"><span class="header-section-number">4.5</span> Arithmetic Operators</a></li>
+  <li><a href="#floating-point-numbers" id="toc-floating-point-numbers" class="nav-link" data-scroll-target="#floating-point-numbers"><span class="header-section-number">4.6</span> Floating-Point Numbers</a></li>
+  <li><a href="#rounderr" id="toc-rounderr" class="nav-link" data-scroll-target="#rounderr"><span class="header-section-number">4.7</span> Rounding Errors</a></li>
+  <li><a href="#operators-for-strings" id="toc-operators-for-strings" class="nav-link" data-scroll-target="#operators-for-strings"><span class="header-section-number">4.8</span> Operators for Strings</a></li>
+  <li><a href="#compiler-error-messages" id="toc-compiler-error-messages" class="nav-link" data-scroll-target="#compiler-error-messages"><span class="header-section-number">4.9</span> Compiler Error Messages</a></li>
+  <li><a href="#exception" id="toc-exception" class="nav-link" data-scroll-target="#exception"><span class="header-section-number">4.10</span> Other Types of Errors</a></li>
+  <li><a href="#vocabulary" id="toc-vocabulary" class="nav-link" data-scroll-target="#vocabulary"><span class="header-section-number">4.11</span> Vocabulary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4.12</span> Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Variables and Operators</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This chapter describes how to write statements using <em>variables</em>, which store values like numbers and words, and <em>operators</em>, which are symbols that perform a computation. We also explain three kinds of programming errors and offer additional debugging advice.</p>
+<p>To run the examples in this chapter, you will need to create a new Java class with a <code class="sourceCode java">main</code> method (see Section&nbsp;<a href="ch01.html#hello" data-reference-type="ref" data-reference="hello">1.3</a>). Throughout the book, we often omit class and method definitions to keep the examples concise.</p>
+<section id="declaring-variables" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="declaring-variables"><span class="header-section-number">4.1</span> Declaring Variables</h2>
+<p>One of the most powerful features of a programming language is the ability to define and manipulate variables. A <strong>variable</strong> is a named location in memory that stores a <strong>value</strong>. Values may be numbers, text, images, sounds, and other types of data. To store a value, you first have to declare a variable:</p>
+<div class="sourceCode" id="cb1" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> message<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This statement is called a <strong>declaration</strong>, because it declares that the variable <code class="sourceCode java">message</code> has the type <code class="sourceCode java"><span class="bu">String</span></code>. Each variable has a <strong>type</strong> that determines what kind of values it can store. For example, the <code class="sourceCode java"><span class="dt">int</span></code> type can store integers like <code class="sourceCode java"><span class="dv">1</span></code> and <code class="sourceCode java"><span class="op">-</span><span class="dv">5</span></code>, and the <code class="sourceCode java"><span class="dt">char</span></code> type can store characters like <code class="sourceCode java"><span class="ch">'A'</span></code> and <code class="sourceCode java"><span class="ch">'z'</span></code>.</p>
+<p>Some types begin with a capital letter and some with lowercase. You will learn the significance of this distinction later, but for now you should take care to get it right. There is no such type as <code class="sourceCode java">Int</code> or <code class="sourceCode java">string</code>.</p>
+<p>To declare an integer variable named <code class="sourceCode java">x</code>, you simply type this:</p>
+<div class="sourceCode" id="cb2" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> x<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note that <code class="sourceCode java">x</code> is an arbitrary name for the variable. In general, you should use names that indicate what the variables mean:</p>
+<div class="sourceCode" id="cb3" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> firstName<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> lastName<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> hour<span class="op">,</span> minute<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This example declares two variables with type <code class="sourceCode java"><span class="bu">String</span></code> and two with type <code class="sourceCode java"><span class="dt">int</span></code>. The last line shows how to declare multiple variables with the same type: <code class="sourceCode java">hour</code> and <code class="sourceCode java">minute</code> are both integers. Note that each declaration statement ends with a semicolon (<code class="sourceCode java"><span class="op">;</span></code>).</p>
+<p>Variable names usually begin with a lowercase letter, in contrast to class names (like <code class="sourceCode java">Hello</code>) that start with a capital letter. When a variable name contains more than one word (like <code class="sourceCode java">firstName</code>), it is conventional to capitalize the first letter of each subsequent word. Variable names are case-sensitive, so <code class="sourceCode java">firstName</code> is not the same as <code class="sourceCode java">firstname</code> or <code class="sourceCode java">FirstName</code>.</p>
+<p>You can use any name you want for a variable. But there are about 50 reserved words, called <strong>keywords</strong>, that you are not allowed to use as variable names. These words include <code class="sourceCode java"><span class="kw">public</span></code>, <code class="sourceCode java"><span class="kw">class</span></code>, <code class="sourceCode java"><span class="dt">static</span></code>, <code class="sourceCode java"><span class="dt">void</span></code>, and <code class="sourceCode java"><span class="dt">int</span></code>, which are used by the compiler to analyze the structure of the program.</p>
+<p>You can see the full list of keywords (<a href="https://thinkjava.org/keywords" class="uri">https://thinkjava.org/keywords</a>), but you don’t have to memorize them. Most programming editors provide “syntax highlighting”, which makes different parts of the program appear in different colors. And the compiler will complain even if one does sneak past you and your editor.</p>
+</section>
+<section id="assigning-variables" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="assigning-variables"><span class="header-section-number">4.2</span> Assigning Variables</h2>
+<p>Now that we have declared some variables, we can use them to store values. We do that with an <strong>assignment</strong> statement:</p>
+<div class="sourceCode" id="cb4" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>message <span class="op">=</span> <span class="st">"Hello!"</span><span class="op">;</span>  <span class="co">// give message the value "Hello!"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>hour <span class="op">=</span> <span class="dv">11</span><span class="op">;</span>           <span class="co">// assign the value 11 to hour</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>minute <span class="op">=</span> <span class="dv">59</span><span class="op">;</span>         <span class="co">// set minute to 59</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This example shows three assignments, and the comments illustrate different ways people sometimes talk about assignment statements. The vocabulary can be confusing here, but the idea is straightforward:</p>
+<ul>
+<li><p>When you declare a variable, you create a named storage location.</p></li>
+<li><p>When you make an assignment to a variable, you update its value.</p></li>
+</ul>
+<p>As a general rule, a variable has to have the same type as the value you assign to it. For example, you cannot store a string in <code class="sourceCode java">minute</code> or an integer in <code class="sourceCode java">message</code>. We will show some examples that seem to break this rule, but we’ll get to that later.</p>
+<p>A common source of confusion is that some strings <em>look</em> like integers, but they are not. For example, <code class="sourceCode java">message</code> can contain the string <code class="sourceCode java"><span class="st">"123"</span></code>, which is made up of the characters <code class="sourceCode java"><span class="ch">'1'</span></code>, <code class="sourceCode java"><span class="ch">'2'</span></code>, and <code class="sourceCode java"><span class="ch">'3'</span></code>. But that is not the same thing as the integer <code class="sourceCode java"><span class="dv">123</span></code>:</p>
+<div class="sourceCode" id="cb5" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>message <span class="op">=</span> <span class="st">"123"</span><span class="op">;</span>     <span class="co">// legal</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>message <span class="op">=</span> <span class="dv">123</span><span class="op">;</span>       <span class="co">// not legal</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Variables must be <strong>initialized</strong> (assigned for the first time) before they can be used. You can declare a variable and then assign a value later, as in the previous example. You can also declare and initialize on the same line:</p>
+<div class="sourceCode" id="cb6" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> message <span class="op">=</span> <span class="st">"Hello!"</span><span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> hour <span class="op">=</span> <span class="dv">11</span><span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> minute <span class="op">=</span> <span class="dv">59</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="state" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="state"><span class="header-section-number">4.3</span> Memory Diagrams</h2>
+<p>Because Java uses the <code class="sourceCode java"><span class="op">=</span></code> symbol for assignment, it is tempting to interpret the statement <code class="sourceCode java">a <span class="op">=</span> b</code> as a statement of equality. It is not!</p>
+<p>Equality is commutative, and assignment is not. For example, in mathematics if <span class="math inline">\(a = 7\)</span>, then <span class="math inline">\(7 = a\)</span>. In Java <code class="sourceCode java">a <span class="op">=</span> <span class="dv">7</span><span class="op">;</span></code> is a legal assignment statement, but <code class="sourceCode java"><span class="dv">7</span> <span class="op">=</span> a<span class="op">;</span></code> is not. The left side of an assignment statement has to be a variable name (storage location).</p>
+<p>Also, in mathematics, a statement of equality is true for all time. If <span class="math inline">\(a = b\)</span> now, <span class="math inline">\(a\)</span> is always equal to <span class="math inline">\(b\)</span>. In Java, an assignment statement can make two variables equal, but they don’t have to stay that way:</p>
+<div class="sourceCode" id="cb7" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> b <span class="op">=</span> a<span class="op">;</span>     <span class="co">// a and b are now equal</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">3</span><span class="op">;</span>         <span class="co">// a and b are no longer equal</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The third line changes the value of <code class="sourceCode java">a</code>, but it does not change the value of <code class="sourceCode java">b</code>, so they are no longer equal.</p>
+<p>Taken together, the variables in a program and their current values make up the program’s <strong>state</strong>. Figure&nbsp;<a href="#fig.state" data-reference-type="ref" data-reference="fig.state">2.1</a> shows the state of the program after these assignment statements run.</p>
+<figure id="fig.state" class="figure">
+<div class="center">
+<p><img src="figs/state-.svg" class="figure-img"></p>
+</div>
+<figcaption>
+Memory diagram of the variables <code class="sourceCode java">a</code> and <code class="sourceCode java">b</code>.
+</figcaption>
+</figure>
+<p>Diagrams like this one that show the state of the program are called <strong>memory diagrams</strong>. Each variable is represented with a box showing the name of the variable on the outside and its current value inside.</p>
+<p>As the program runs, the state of memory changes, so memory diagrams show only a particular point in time. For example, if we added the line <code class="sourceCode java"><span class="dt">int</span> c <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></code> to the previous example, the memory diagram would look like Figure&nbsp;<a href="#fig.state2" data-reference-type="ref" data-reference="fig.state2">2.2</a>.</p>
+<figure id="fig.state2" class="figure">
+<div class="center">
+<p><img src="figs/state2-.svg" class="figure-img"></p>
+</div>
+<figcaption>
+Memory diagram of the variables <code class="sourceCode java">a</code>, <code class="sourceCode java">b</code>, and <code class="sourceCode java">c</code>.
+</figcaption>
+</figure>
+</section>
+<section id="sec:printvar" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="sec:printvar"><span class="header-section-number">4.4</span> Printing Variables</h2>
+<p>You can display the current value of a variable by using <code class="sourceCode java">print</code> or <code class="sourceCode java">println</code>. The following statements declare a variable named <code class="sourceCode java">firstLine</code>, assign it the value <code class="sourceCode java"><span class="st">"Hello, again!"</span></code>, and display that value:</p>
+<div class="sourceCode" id="cb8" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> firstLine <span class="op">=</span> <span class="st">"Hello, again!"</span><span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>firstLine<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When we talk about displaying a variable, we generally mean the <em>value</em> of the variable. To display the <em>name</em> of a variable, you have to put it in quotes:</p>
+<div class="sourceCode" id="cb9" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">"The value of firstLine is "</span><span class="op">);</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>firstLine<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For this example, the output is as follows:</p>
+<pre><code>The value of firstLine is Hello, again!</code></pre>
+<p>Conveniently, the code for displaying a variable is the same regardless of its type. For example:</p>
+<div class="sourceCode" id="cb11" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> hour <span class="op">=</span> <span class="dv">11</span><span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> minute <span class="op">=</span> <span class="dv">59</span><span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">"The current time is "</span><span class="op">);</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span>hour<span class="op">);</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">":"</span><span class="op">);</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span>minute<span class="op">);</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"."</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The output of this program is shown here:</p>
+<pre><code>The current time is 11:59.</code></pre>
+<p>To output multiple values on the same line, it’s common to use several <code class="sourceCode java">print</code> statements followed by <code class="sourceCode java">println</code> at the end. But don’t forget the <code class="sourceCode java">println</code>! On many computers, the output from <code class="sourceCode java">print</code> is stored without being displayed until <code class="sourceCode java">println</code> is run; then the entire line is displayed at once. If you omit the <code class="sourceCode java">println</code>, the program might display the stored output at unexpected times or even terminate without displaying anything.</p>
+</section>
+<section id="arithmetic-operators" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="arithmetic-operators"><span class="header-section-number">4.5</span> Arithmetic Operators</h2>
+<p><strong>Operators</strong> are symbols that represent simple computations. For example, the addition operator is <code class="sourceCode java"><span class="op">+</span></code>, subtraction is <code class="sourceCode java"><span class="op">-</span></code>, multiplication is <code class="sourceCode java"><span class="op">*</span></code>, and division is <code class="sourceCode java"><span class="op">/</span></code>.</p>
+<p>The following program converts a time of day to minutes:</p>
+<div class="sourceCode" id="cb13" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> hour <span class="op">=</span> <span class="dv">11</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> minute <span class="op">=</span> <span class="dv">59</span><span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">"Number of minutes since midnight: "</span><span class="op">);</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>hour <span class="op">*</span> <span class="dv">60</span> <span class="op">+</span> minute<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The output is as follows:</p>
+<pre><code>Number of minutes since midnight: 719</code></pre>
+<p>In this program, <code class="sourceCode java">hour <span class="op">*</span> <span class="dv">60</span> <span class="op">+</span> minute</code> is an <strong>expression</strong>, which represents a single value to be computed (<code class="sourceCode java"><span class="dv">719</span></code>). When the program runs, each variable is replaced by its current value, and then the operators are applied. The values that operators work with are called <strong>operands</strong>.</p>
+<p>Expressions are generally a combination of numbers, variables, and operators. When compiled and executed, they become a single value. For example, the expression <code class="sourceCode java"><span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span></code> has the value <code class="sourceCode java"><span class="dv">2</span></code>. In the expression <code class="sourceCode java">hour <span class="op">-</span> <span class="dv">1</span></code>, Java replaces the variable with its value, yielding <code class="sourceCode java"><span class="dv">11</span> <span class="op">-</span> <span class="dv">1</span></code>, which has the value <code class="sourceCode java"><span class="dv">10</span></code>.</p>
+<p>In the expression <code class="sourceCode java">hour <span class="op">*</span> <span class="dv">60</span> <span class="op">+</span> minute</code>, both variables get replaced, yielding <code class="sourceCode java"><span class="dv">11</span> <span class="op">*</span> <span class="dv">60</span> <span class="op">+</span> <span class="dv">59</span></code>. The multiplication happens first, yielding <code class="sourceCode java"><span class="dv">660</span> <span class="op">+</span> <span class="dv">59</span></code>. Then the addition yields <code class="sourceCode java"><span class="dv">719</span></code>.</p>
+<p>Addition, subtraction, and multiplication all do what you expect, but you might be surprised by division. For example, the following fragment tries to compute the fraction of an hour that has elapsed:</p>
+<div class="sourceCode" id="cb15" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">"Fraction of the hour that has passed: "</span><span class="op">);</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>minute <span class="op">/</span> <span class="dv">60</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The output is as follows:</p>
+<pre><code>Fraction of the hour that has passed: 0</code></pre>
+<p>This result often confuses people. The value of <code class="sourceCode java">minute</code> is <code class="sourceCode java"><span class="dv">59</span></code>, and 59 divided by 60 should be 0.98333, not 0. The problem is that Java performs <em>integer division</em> when the operands are integers. By design, integer division always rounds toward zero, even in cases like this one where the next integer is close.</p>
+<p>As an alternative, we can calculate a percentage rather than a fraction:</p>
+<div class="sourceCode" id="cb17" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">"Percent of the hour that has passed: "</span><span class="op">);</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>minute <span class="op">*</span> <span class="dv">100</span> <span class="op">/</span> <span class="dv">60</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The new output is as follows:</p>
+<pre><code>Percent of the hour that has passed: 98</code></pre>
+<p>Again the result is rounded down, but at least now it’s approximately correct.</p>
+</section>
+<section id="floating-point-numbers" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="floating-point-numbers"><span class="header-section-number">4.6</span> Floating-Point Numbers</h2>
+<p>A more general solution is to use <strong>floating-point</strong> numbers, which represent values with decimal places. In Java, the default floating-point type is called <code class="sourceCode java"><span class="dt">double</span></code>, which is short for “double-precision”. You can create <code class="sourceCode java"><span class="dt">double</span></code> variables and assign values to them the same way we did for the other types:</p>
+<div class="sourceCode" id="cb19" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> pi<span class="op">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>pi <span class="op">=</span> <span class="fl">3.14159</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Java performs <em>floating-point division</em> when one or more operands are <code class="sourceCode java"><span class="dt">double</span></code> values. So we can solve the problem from the previous section:</p>
+<div class="sourceCode" id="cb20" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> minute <span class="op">=</span> <span class="fl">59.0</span><span class="op">;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">"Fraction of the hour that has passed: "</span><span class="op">);</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>minute <span class="op">/</span> <span class="fl">60.0</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The output is shown here:</p>
+<pre><code>Fraction of the hour that has passed: 0.9833333333333333</code></pre>
+<p>Although floating-point numbers are useful, they can be a source of confusion. For example, Java distinguishes the integer value <code class="sourceCode java"><span class="dv">1</span></code> from the floating-point value <code class="sourceCode java"><span class="fl">1.0</span></code>, even though they seem to be the same number. They belong to different data types, and strictly speaking, you are not allowed to make assignments between types.</p>
+<p>The following is illegal because the variable on the left is an <code class="sourceCode java"><span class="dt">int</span></code> and the value on the right is a <code class="sourceCode java"><span class="dt">double</span></code>:</p>
+<div class="sourceCode" id="cb22" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> x <span class="op">=</span> <span class="fl">1.1</span><span class="op">;</span>  <span class="co">// compiler error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>It is easy to forget this rule, because in many cases Java <em>automatically</em> converts from one type to another:</p>
+<div class="sourceCode" id="cb23" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> y <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">// legal, but bad style</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The preceding example should be illegal, but Java allows it by converting the <code class="sourceCode java"><span class="dt">int</span></code> value <code class="sourceCode java"><span class="dv">1</span></code> to the <code class="sourceCode java"><span class="dt">double</span></code> value <code class="sourceCode java"><span class="fl">1.0</span></code> automatically. This leniency is convenient, but it often causes problems for beginners. For example:</p>
+<div class="sourceCode" id="cb24" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> y <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> <span class="dv">3</span><span class="op">;</span>  <span class="co">// common mistake</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You might expect the variable <code class="sourceCode java">y</code> to get the value <code class="sourceCode java"><span class="fl">0.333333</span></code>, which is a legal floating-point value. But instead it gets the value <code class="sourceCode java"><span class="fl">0.0</span></code>. The expression on the right divides two integers, so Java does integer division, which yields the <code class="sourceCode java"><span class="dt">int</span></code> value <code class="sourceCode java"><span class="dv">0</span></code>. Converted to <code class="sourceCode java"><span class="dt">double</span></code>, the value assigned to <code class="sourceCode java">y</code> is <code class="sourceCode java"><span class="fl">0.0</span></code>.</p>
+<p>One way to solve this problem (once you figure out the bug) is to make the right-hand side a floating-point expression. The following sets <code class="sourceCode java">y</code> to <code class="sourceCode java"><span class="fl">0.333333</span></code>, as expected:</p>
+<div class="sourceCode" id="cb25" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> y <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> <span class="fl">3.0</span><span class="op">;</span>  <span class="co">// correct</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As a matter of style, you should always assign floating-point values to floating-point variables. The compiler won’t make you do it, but you never know when a simple mistake will come back and haunt you.</p>
+</section>
+<section id="rounderr" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="rounderr"><span class="header-section-number">4.7</span> Rounding Errors</h2>
+<p>Most floating-point numbers are only <em>approximately</em> correct. Some numbers, like reasonably sized integers, can be represented exactly. But repeating fractions, like <span class="math inline">\(1/3\)</span>, and irrational numbers, like <span class="math inline">\(\pi\)</span>, cannot. To represent these numbers, computers have to round off to the nearest floating-point number.</p>
+<p>The difference between the number we want and the floating-point number we get is called <strong>rounding error</strong>. For example, the following two statements should be equivalent:</p>
+<div class="sourceCode" id="cb26" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="fl">0.1</span> <span class="op">*</span> <span class="dv">10</span><span class="op">);</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.1</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                 <span class="op">+</span> <span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.1</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>But on many machines, the output is as follows:</p>
+<pre><code>1.0
+0.9999999999999999</code></pre>
+<p>The problem is that <code class="sourceCode java"><span class="fl">0.1</span></code> is a repeating fraction when converted into binary. So its floating-point representation stored in memory is only approximate. When we add up the approximations, the rounding errors accumulate.</p>
+<p>For many applications (like computer graphics, encryption, statistical analysis, and multimedia rendering), floating-point arithmetic has benefits that outweigh the costs. But if you need <em>absolute</em> precision, use integers instead. For example, consider a bank account with a balance of $123.45:</p>
+<div class="sourceCode" id="cb28" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> balance <span class="op">=</span> <span class="fl">123.45</span><span class="op">;</span>  <span class="co">// potential rounding error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this example, balances will become inaccurate over time as the variable is used in arithmetic operations like deposits and withdrawals. The result would be angry customers and potential lawsuits. You can avoid the problem by representing the balance as an integer:</p>
+<div class="sourceCode" id="cb29" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> balance <span class="op">=</span> <span class="dv">12345</span><span class="op">;</span>      <span class="co">// total number of cents</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This solution works as long as the number of cents doesn’t exceed the largest <code class="sourceCode java"><span class="dt">int</span></code>, which is about 2 billion.</p>
+</section>
+<section id="operators-for-strings" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="operators-for-strings"><span class="header-section-number">4.8</span> Operators for Strings</h2>
+<p>In general, you cannot perform mathematical operations on strings, even if the strings look like numbers. The following expressions are illegal:</p>
+<div class="sourceCode" id="cb30" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="st">"Hello"</span> <span class="op">-</span> <span class="dv">1</span>     <span class="st">"World"</span> <span class="op">/</span> <span class="dv">123</span>     <span class="st">"Hello"</span> <span class="op">*</span> <span class="st">"World"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code class="sourceCode java"><span class="op">+</span></code> operator works with strings, but it might not do what you expect. For strings, the <code class="sourceCode java"><span class="op">+</span></code> operator performs <strong>concatenation</strong>, which means joining end-to-end. So <code class="sourceCode java"><span class="st">"Hello, "</span> <span class="op">+</span> <span class="st">"World!"</span></code> yields the string <code class="sourceCode java"><span class="st">"Hello, World!"</span></code>.</p>
+<p>Likewise if you have a variable called <code class="sourceCode java">name</code> that has type <code class="sourceCode java"><span class="bu">String</span></code>, the expression <code class="sourceCode java"><span class="st">"Hello, "</span> <span class="op">+</span> name</code> appends the value of <code class="sourceCode java">name</code> to the hello string, which creates a personalized greeting.</p>
+<p>Since addition is defined for both numbers and strings, Java performs automatic conversions you may not expect:</p>
+<div class="sourceCode" id="cb31" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span> <span class="op">+</span> <span class="st">"Hello"</span><span class="op">);</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co">// the output is 3Hello</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Hello"</span> <span class="op">+</span> <span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co">// the output is Hello12</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Java executes these operations from left to right. In the first line, <code class="sourceCode java"><span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span></code> is <code class="sourceCode java"><span class="dv">3</span></code>, and <code class="sourceCode java"><span class="dv">3</span> <span class="op">+</span> <span class="st">"Hello"</span></code> is <code class="sourceCode java"><span class="st">"3Hello"</span></code>. But in the second line, <code class="sourceCode java"><span class="st">"Hello"</span> <span class="op">+</span> <span class="dv">1</span></code> is <code class="sourceCode java"><span class="st">"Hello1"</span></code>, and <code class="sourceCode java"><span class="st">"Hello1"</span> <span class="op">+</span> <span class="dv">2</span></code> is <code class="sourceCode java"><span class="st">"Hello12"</span></code>.</p>
+<p>When more than one operator appears in an expression, they are evaluated according to the <strong>order of operations</strong>. Generally speaking, Java evaluates operators from left to right (as you saw in the previous section). But for numeric operators, Java follows mathematical conventions:</p>
+<ul>
+<li><p>Multiplication and division take “precedence” over addition and subtraction, which means they happen first. So <code class="sourceCode java"><span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> <span class="dv">3</span></code> yields 7, not 9, and <code class="sourceCode java"><span class="dv">2</span> <span class="op">+</span> <span class="dv">4</span> <span class="op">/</span> <span class="dv">2</span></code> yields 4, not 3.</p></li>
+<li><p>If the operators have the same precedence, they are evaluated from left to right. So in the expression <code class="sourceCode java">minute <span class="op">*</span> <span class="dv">100</span> <span class="op">/</span> <span class="dv">60</span></code>, the multiplication happens first; if the value of <code class="sourceCode java">minute</code> is 59, we get <code class="sourceCode java"><span class="dv">5900</span> <span class="op">/</span> <span class="dv">60</span></code>, which yields 98. If these same operations had gone from right to left, the result would have been <code class="sourceCode java"><span class="dv">59</span> <span class="op">*</span> <span class="dv">1</span></code>, which is incorrect.</p></li>
+<li><p>Anytime you want to override the order of operations (or you are not sure what it is) you can use parentheses. Expressions in parentheses are evaluated first, so <code class="sourceCode java"><span class="op">(</span><span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span><span class="op">)</span> <span class="op">*</span> <span class="dv">3</span></code> is 9. You can also use parentheses to make an expression easier to read, as in <code class="sourceCode java"><span class="op">(</span>minute <span class="op">*</span> <span class="dv">100</span><span class="op">)</span> <span class="op">/</span> <span class="dv">60</span></code>, even though it doesn’t change the result.</p></li>
+</ul>
+<p>See the official Java tutorials for a complete table of operator precedence (<a href="https://thinkjava.org/operators" class="uri">https://thinkjava.org/operators</a>). If the order of operations is not obvious when looking at an expression, you can always add parentheses to make it more clear. But over time, you should internalize these kinds of details about the Java language.</p>
+</section>
+<section id="compiler-error-messages" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="compiler-error-messages"><span class="header-section-number">4.9</span> Compiler Error Messages</h2>
+<p>Three kinds of errors can occur in a program: compile-time errors, run-time errors, and logic errors. It is useful to distinguish among them in order to track them down more quickly.</p>
+<p><strong>Compile-time</strong> errors occur when you violate the rules of the Java language. For example, parentheses and braces have to come in matching pairs. So <code class="sourceCode java"><span class="op">(</span><span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span><span class="op">)</span></code> is legal, but <code class="sourceCode java"><span class="dv">8</span>)</code> is not. In the latter case, the program cannot be compiled, and the compiler displays a “syntax error”.</p>
+<p>Error messages from the compiler usually indicate where in the program the error occurred. Sometimes they can tell you exactly what the error is. As an example, let’s get back to the Hello World program from Section&nbsp;<a href="ch01.html#hello" data-reference-type="ref" data-reference="hello">1.3</a>:</p>
+<div class="sourceCode" id="cb32" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Hello <span class="op">{</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">// generate some simple output</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Hello, World!"</span><span class="op">);</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you forget the semicolon at the end of the print statement, you might get an error message like this:</p>
+<pre><code>File: Hello.java  [line: 5]
+Error: ';' expected</code></pre>
+<p>That’s pretty good: the location of the error is correct, and the error message tells you what’s wrong. But error messages are not always easy to understand. Sometimes the compiler reports the place in the program where the error was <em>detected</em>, not where it actually occurred. And sometimes the description of the problem is more confusing than helpful.</p>
+<p>For example, if you forget the closing brace at the end of <code class="sourceCode java">main</code> (line 6), you might get a message like this:</p>
+<pre><code>File: Hello.java  [line: 7]
+Error: reached end of file while parsing</code></pre>
+<p>There are two problems here. First, the error message is written from the compiler’s point of view, not yours. <strong>Parsing</strong> is the process of reading a program before translating; if the compiler gets to the end of the file while still parsing, that means something was omitted. But the compiler doesn’t know what. It also doesn’t know where. The compiler discovers the error at the end of the program (line 7), but the missing brace should be on the previous line.</p>
+<p>Error messages contain useful information, so you should make an effort to read and understand them. But don’t take them too literally. During the first few weeks of your programming career, you will probably spend a lot of time tracking down syntax and other compile-time errors. As you gain experience, you will make fewer mistakes and find them more quickly.</p>
+</section>
+<section id="exception" class="level2" data-number="4.10">
+<h2 data-number="4.10" class="anchored" data-anchor-id="exception"><span class="header-section-number">4.10</span> Other Types of Errors</h2>
+<p>The second type of error is a <strong>run-time error</strong>, so-called because it does not appear until after the program has started running. In Java, these errors occur while the interpreter is executing byte code and something goes wrong. These errors are also called “exceptions” because they usually indicate that something unexpected has happened.</p>
+<p>Run-time errors are rare in the simple programs you will see in the first few chapters, so it might be a while before you encounter one. When a run-time error occurs, the program “crashes” (terminates) and displays an error message that explains what happened and where. For example, if you accidentally divide by zero, you will get a message like this:</p>
+<div class="small">
+<pre><code>Exception in thread "main" java.lang.ArithmeticException: / by zero
+    at Hello.main(Hello.java:5)</code></pre>
+</div>
+<p>Error messages are very useful for debugging. The first line includes the name of the exception, <code class="sourceCode java"><span class="bu">ArithmeticException</span></code>, and a message that indicates more specifically what happened, division by zero. The next line shows the method where the error occurred; <code class="sourceCode java">Hello<span class="op">.</span><span class="fu">main</span></code> indicates the method <code class="sourceCode java">main</code> in the class <code class="sourceCode java">Hello</code>. It also reports the file where the method is defined, <code>Hello.java</code>, and the line number where the error occurred, <code>5</code>.</p>
+<p>The third type of error is a <strong>logic error</strong>. If your program has a logic error, it will compile and run without generating error messages, but it will not do the right thing. Instead, it will do exactly what you told it to do. For example, here is a version of the Hello World program with a logic error:</p>
+<div class="sourceCode" id="cb36" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Hello <span class="op">{</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Hello, "</span><span class="op">);</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"World!"</span><span class="op">);</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This program compiles and runs just fine, but the output is as follows:</p>
+<pre><code>Hello,
+World!</code></pre>
+<p>Assuming that we wanted the output on one line, this is not correct. The problem is that the first line uses <code class="sourceCode java">println</code>, when we probably meant to use <code class="sourceCode java">print</code> (see the “Goodbye, cruel world” example of Section&nbsp;<a href="#goodbye" data-reference-type="ref" data-reference="goodbye">[goodbye]</a>).</p>
+<p>Identifying logic errors can be hard because you have to work backward, looking at the output of the program, trying to figure out why it is doing the wrong thing, and how to make it do the right thing. Usually, the compiler and the interpreter can’t help you, since they don’t know what the right thing is.</p>
+</section>
+<section id="vocabulary" class="level2" data-number="4.11">
+<h2 data-number="4.11" class="anchored" data-anchor-id="vocabulary"><span class="header-section-number">4.11</span> Vocabulary</h2>
+<dl>
+<dt>variable:</dt>
+<dd>
+<p>A named storage location for values. All variables have a type, which is declared when the variable is created.</p>
+</dd>
+<dt>value:</dt>
+<dd>
+<p>A number, string, or other data that can be stored in a variable. Every value belongs to a type (e.g., <code class="sourceCode java"><span class="dt">int</span></code> or <code class="sourceCode java"><span class="bu">String</span></code>).</p>
+</dd>
+<dt>type:</dt>
+<dd>
+<p>Mathematically speaking, a set of values. The type of a variable determines which values it can have.</p>
+</dd>
+<dt>declaration:</dt>
+<dd>
+<p>A statement that creates a new variable and specifies its type.</p>
+</dd>
+<dt>keyword:</dt>
+<dd>
+<p>A reserved word used by the compiler to analyze programs. You cannot use keywords (like <code class="sourceCode java"><span class="kw">public</span></code>, <code class="sourceCode java"><span class="kw">class</span></code>, and <code class="sourceCode java"><span class="dt">void</span></code>) as variable names.</p>
+</dd>
+<dt>assignment:</dt>
+<dd>
+<p>A statement that gives a value to a variable.</p>
+</dd>
+<dt>initialize:</dt>
+<dd>
+<p>To assign a variable for the first time.</p>
+</dd>
+<dt>state:</dt>
+<dd>
+<p>The variables in a program and their current values.</p>
+</dd>
+<dt>memory diagram:</dt>
+<dd>
+<p>A graphical representation of the state of a program at a point in time.</p>
+</dd>
+<dt>operator:</dt>
+<dd>
+<p>A symbol that represents a computation like addition, multiplication, or string concatenation.</p>
+</dd>
+<dt>operand:</dt>
+<dd>
+<p>One of the values on which an operator operates. Most operators in Java require two operands.</p>
+</dd>
+<dt>expression:</dt>
+<dd>
+<p>A combination of variables, operators, and values that represents a single value. Expressions also have types, as determined by their operators and operands.</p>
+</dd>
+<dt>floating-point:</dt>
+<dd>
+<p>A data type that represents numbers with an integer part and a fractional part. In Java, the default floating-point type is <code class="sourceCode java"><span class="dt">double</span></code>.</p>
+</dd>
+<dt>rounding error:</dt>
+<dd>
+<p>The difference between the number we want to represent and the nearest floating-point number.</p>
+</dd>
+<dt>concatenate:</dt>
+<dd>
+<p>To join two values, often strings, end to end.</p>
+</dd>
+<dt>order of operations:</dt>
+<dd>
+<p>The rules that determine in what order expressions are evaluated. Also known as “operator precedence”.</p>
+</dd>
+<dt>compile-time error:</dt>
+<dd>
+<p>An error in the source code that makes it impossible to compile. Also called a “syntax error”.</p>
+</dd>
+<dt>parse:</dt>
+<dd>
+<p>To analyze the structure of a program; what the compiler does first.</p>
+</dd>
+<dt>run-time error:</dt>
+<dd>
+<p>An error in a program that makes it impossible to run to completion. Also called an “exception”.</p>
+</dd>
+<dt>logic error:</dt>
+<dd>
+<p>An error in a program that makes it do something other than what the programmer intended.</p>
+</dd>
+</dl>
+</section>
+<section id="exercises" class="level2" data-number="4.12">
+<h2 data-number="4.12" class="anchored" data-anchor-id="exercises"><span class="header-section-number">4.12</span> Exercises</h2>
+<p>The code for this chapter is in the <em>ch02</em> directory of <em>ThinkJavaCode2</em>. See page&nbsp; for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples.</p>
+<p>If you have not already read Appendix&nbsp;<a href="appa.html#interactions" data-reference-type="ref" data-reference="interactions">18.2</a>, now might be a good time. It describes the DrJava Interactions pane, which is a useful way to develop and test short fragments of code without writing a complete class definition.</p>
+<div class="exercise">
+<p><strong>Exercise 2.1</strong>. <em>If you are using this book in a class, you might enjoy this exercise. Find a partner and play </em>Stump the Chump<em>:</em></p>
+<p><em>Start with a program that compiles and runs correctly. One player looks away, while the other player adds an error to the program. Then the first player tries to find and fix the error. You get two points if you find the error without compiling the program, one point if you find it using the compiler, and your opponent gets a point if you don’t find it.</em></p>
+</div>
+<div id="ex:date" class="exercise">
+<p><strong>Exercise 2.2</strong>.</p>
+<p><em>The point of this exercise is (1) to use string concatenation to display values with different types (<code class="sourceCode java"><span class="dt">int</span></code> and <code class="sourceCode java"><span class="bu">String</span></code>), and (2) to practice developing programs gradually by adding a few statements at a time.</em></p>
+<ol type="1">
+<li><p><em>Create a new program named </em>Date.java<em>. Copy or type in something like the Hello World program and make sure you can compile and run it.</em></p></li>
+<li><p><em>Following the example in Section&nbsp;<a href="#sec:printvar" data-reference-type="ref" data-reference="sec:printvar">2.4</a>, write a program that creates variables named <code class="sourceCode java">day</code>, <code class="sourceCode java">date</code>, <code class="sourceCode java">month</code>, and <code class="sourceCode java">year</code>. The variable <code class="sourceCode java">day</code> will contain the day of the week (like Friday), and <code class="sourceCode java">date</code> will contain the day of the month (like the 13th). Assign values to those variables that represent today’s date.</em></p></li>
+<li><p><em>Display the value of each variable on a line by itself. This is an intermediate step that is useful for checking that everything is working so far. Compile and run your program before moving on.</em></p></li>
+<li><p><em>Modify the program so that it displays the date in standard American format; for example: <code>Thursday, July 18, 2019</code>.</em></p></li>
+<li><p><em>Modify the program so it also displays the date in European format. The final output should be as follows:</em></p>
+<pre><code>American format: Thursday, July 18, 2019
+European format: Thursday 18 July 2019</code></pre></li>
+</ol>
+</div>
+<div class="exercise">
+<p><strong>Exercise 2.3</strong>. <em>The point of this exercise is to (1) use some of the arithmetic operators, and (2) start thinking about compound entities (like time of day) that are represented with multiple values.</em></p>
+<ol type="1">
+<li><p><em>Create a new program called </em>Time.java<em>. From now on, we won’t remind you to start with a small, working program, but you should.</em></p></li>
+<li><p><em>Following the example program in Section&nbsp;<a href="#sec:printvar" data-reference-type="ref" data-reference="sec:printvar">2.4</a>, create variables named <code class="sourceCode java">hour</code>, <code class="sourceCode java">minute</code>, and <code class="sourceCode java">second</code>. Assign values that are roughly the current time. Use a 24-hour clock so that at 2:00 PM the value of <code class="sourceCode java">hour</code> is <code class="sourceCode java"><span class="dv">14</span></code>.</em></p></li>
+<li><p><em>Make the program calculate and display the number of seconds since midnight.</em></p></li>
+<li><p><em>Calculate and display the number of seconds remaining in the day.</em></p></li>
+<li><p><em>Calculate and display the percentage of the day that has passed. You might run into problems when computing percentages with integers, so consider using floating-point.</em></p></li>
+<li><p><em>Change the values of <code class="sourceCode java">hour</code>, <code class="sourceCode java">minute</code>, and <code class="sourceCode java">second</code> to reflect the current time. Then write code to compute the elapsed time since you started working on this exercise.</em></p></li>
+</ol>
+<p>**Hint:* You might want to use additional variables to hold values during the computation. Variables that are used in a computation but never displayed are sometimes called “intermediate” or “temporary” variables.*</p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch01.html" class="pagination-link" aria-label="Computer Programming">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Computer Programming</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch03.html" class="pagination-link" aria-label="Input and Output">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Input and Output</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

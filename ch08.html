@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10&nbsp; Recursive Methods – Think Java</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch09.html" rel="next">
+<link href="./ch07.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch08.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Recursive Methods</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Think Java</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Think Java</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Computer Programming</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Variables and Operators</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Input and Output</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods and Testing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conditionals and Logic</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Loops and Strings</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Arrays and References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Recursive Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Immutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Mutable Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Designing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Arrays of Objects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Objects of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Extending Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reusing Classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Advanced Topics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Tools</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Javadoc</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Graphics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Debugging</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#recursion" id="toc-recursion" class="nav-link active" data-scroll-target="#recursion"><span class="header-section-number">10.1</span> Recursive Void Methods</a></li>
+  <li><a href="#recursive-stack-diagrams" id="toc-recursive-stack-diagrams" class="nav-link" data-scroll-target="#recursive-stack-diagrams"><span class="header-section-number">10.2</span> Recursive Stack Diagrams</a></li>
+  <li><a href="#factorial" id="toc-factorial" class="nav-link" data-scroll-target="#factorial"><span class="header-section-number">10.3</span> Value-Returning Methods</a></li>
+  <li><a href="#leap_of_faith" id="toc-leap_of_faith" class="nav-link" data-scroll-target="#leap_of_faith"><span class="header-section-number">10.4</span> The Leap of Faith</a></li>
+  <li><a href="#countup" id="toc-countup" class="nav-link" data-scroll-target="#countup"><span class="header-section-number">10.5</span> Counting Up Recursively</a></li>
+  <li><a href="#binary" id="toc-binary" class="nav-link" data-scroll-target="#binary"><span class="header-section-number">10.6</span> Binary Number System</a></li>
+  <li><a href="#recursive-binary-method" id="toc-recursive-binary-method" class="nav-link" data-scroll-target="#recursive-binary-method"><span class="header-section-number">10.7</span> Recursive Binary Method</a></li>
+  <li><a href="#codingbat-problems" id="toc-codingbat-problems" class="nav-link" data-scroll-target="#codingbat-problems"><span class="header-section-number">10.8</span> CodingBat Problems</a></li>
+  <li><a href="#vocabulary" id="toc-vocabulary" class="nav-link" data-scroll-target="#vocabulary"><span class="header-section-number">10.9</span> Vocabulary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">10.10</span> Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Recursive Methods</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Up to this point, we’ve been using <code class="sourceCode java"><span class="cf">while</span></code> and <code class="sourceCode java"><span class="cf">for</span></code> loops whenever we’ve needed to repeat something. Methods that use iteration are called <strong>iterative</strong>. They are straight-forward, but sometimes more-elegant solutions exist.</p>
+<p>In this chapter, we explore one of the most magical things that a method can do: invoke <em>itself</em> to solve a smaller version of the <em>same</em> problem. A method that invokes itself is called <strong>recursive</strong>.</p>
+<section id="recursion" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="recursion"><span class="header-section-number">10.1</span> Recursive Void Methods</h2>
+<p>Consider the following example:</p>
+<div class="sourceCode" id="cb1" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">countdown</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Blastoff!"</span><span class="op">);</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>n<span class="op">);</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">countdown</span><span class="op">(</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The name of the method is <code class="sourceCode java">countdown</code>; it takes a single integer as a parameter. If the parameter is 0, it displays the word <code>Blastoff!</code>. Otherwise, it displays the number and then invokes itself, passing <code class="sourceCode java">n <span class="op">-</span> <span class="dv">1</span></code> as the argument.</p>
+<p>What happens if we invoke <code class="sourceCode java"><span class="fu">countdown</span><span class="op">(</span><span class="dv">3</span><span class="op">)</span></code> from <code class="sourceCode java">main</code>?</p>
+<blockquote class="blockquote">
+<p>The execution of <code class="sourceCode java">countdown</code> begins with <code class="sourceCode java">n <span class="op">==</span> <span class="dv">3</span></code>, and since <code class="sourceCode java">n</code> is not 0, it displays the value 3, and then invokes itself...</p>
+<blockquote class="blockquote">
+<p>The execution of <code class="sourceCode java">countdown</code> begins with <code class="sourceCode java">n <span class="op">==</span> <span class="dv">2</span></code>, and since <code class="sourceCode java">n</code> is not 0, it displays the value 2, and then invokes itself...</p>
+<blockquote class="blockquote">
+<p>The execution of <code class="sourceCode java">countdown</code> begins with <code class="sourceCode java">n <span class="op">==</span> <span class="dv">1</span></code>, and since <code class="sourceCode java">n</code> is not 0, it displays the value 1, and then invokes itself...</p>
+<blockquote class="blockquote">
+<p>The execution of <code class="sourceCode java">countdown</code> begins with <code class="sourceCode java">n <span class="op">==</span> <span class="dv">0</span></code>, and since <code class="sourceCode java">n</code> is 0, it displays the word <code>Blastoff!</code>&nbsp;and then returns.</p>
+</blockquote>
+<p>The <code class="sourceCode java">countdown</code> that got <code class="sourceCode java">n <span class="op">==</span> <span class="dv">1</span></code> returns.</p>
+</blockquote>
+<p>The <code class="sourceCode java">countdown</code> that got <code class="sourceCode java">n <span class="op">==</span> <span class="dv">2</span></code> returns.</p>
+</blockquote>
+<p>The <code class="sourceCode java">countdown</code> that got <code class="sourceCode java">n <span class="op">==</span> <span class="dv">3</span></code> returns.</p>
+</blockquote>
+<p>And then you’re back in <code class="sourceCode java">main</code>. So the total output looks like this:</p>
+<pre><code>3
+2
+1
+Blastoff!</code></pre>
+<p>As a second example, we’ll rewrite the methods <code class="sourceCode java">newLine</code> and <code class="sourceCode java">threeLine</code> from Section&nbsp;<a href="ch04.html#adding_methods" data-reference-type="ref" data-reference="adding_methods">4.1</a>. Here they are again:</p>
+<div class="sourceCode" id="cb3" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">newLine</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">();</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">threeLine</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">newLine</span><span class="op">();</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">newLine</span><span class="op">();</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">newLine</span><span class="op">();</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Although these methods work, they would not help if we wanted to display two newlines, or maybe 100. A more general alternative would be the following:</p>
+<div class="sourceCode" id="cb4" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">nLines</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">();</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">nLines</span><span class="op">(</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This method takes an integer, <code class="sourceCode java">n</code>, as a parameter and displays <code class="sourceCode java">n</code> newlines. The structure is similar to <code class="sourceCode java">countdown</code>. As long as <span class="math inline">\(n\)</span> is greater than 0, it displays a newline and then invokes itself to display <span class="math inline">\((n-1)\)</span> additional newlines. The total number of newlines is <span class="math inline">\(1 + (n - 1)\)</span>, which is just what we wanted: <span class="math inline">\(n\)</span>.</p>
+</section>
+<section id="recursive-stack-diagrams" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="recursive-stack-diagrams"><span class="header-section-number">10.2</span> Recursive Stack Diagrams</h2>
+<p>In Section&nbsp;<a href="ch04.html#stack" data-reference-type="ref" data-reference="stack">4.5</a>, we used a stack diagram to represent the state of a program during a method invocation. The same kind of diagram can make it easier to interpret a recursive method.</p>
+<p>Remember that every time a method gets called, Java creates a new frame that contains the method’s parameters and variables. Figure&nbsp;<a href="#fig.stack2" data-reference-type="ref" data-reference="fig.stack2">8.1</a> is a stack diagram for <code class="sourceCode java">countdown</code>, called with <code class="sourceCode java">n <span class="op">==</span> <span class="dv">3</span></code>.</p>
+<figure id="fig.stack2" class="figure">
+<div class="center">
+<p><img src="figs/stack2-.svg" class="figure-img"></p>
+</div>
+<figcaption>
+Stack diagram for the <code class="sourceCode java">countdown</code> program.
+</figcaption>
+</figure>
+<p>By convention, the frame for <code class="sourceCode java">main</code> is at the top, and the stack of other frames grows down. That way, we can draw stack diagrams on paper without needing to guess how far they will grow. The frame for <code class="sourceCode java">main</code> is empty because <code class="sourceCode java">main</code> does not have any variables. (It has the parameter <code class="sourceCode java">args</code>, but since we’re not using it, we left it out of the diagram.)</p>
+<p>There are four frames for <code class="sourceCode java">countdown</code>, each with a different value for the parameter <code class="sourceCode java">n</code>. The last frame, with <code class="sourceCode java">n <span class="op">==</span> <span class="dv">0</span></code>, is called the <strong>base case</strong>. It does not make a recursive call, so there are no more frames below it.</p>
+<p>If there is no base case in a recursive method, or if the base case is never reached, the stack would grow forever—at least in theory. In practice, the size of the stack is limited. If you exceed the limit, you get a <code class="sourceCode java"><span class="bu">StackOverflowError</span></code>.</p>
+<p>For example, here is a recursive method without a base case:</p>
+<div class="sourceCode" id="cb5" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">forever</span><span class="op">(</span><span class="bu">String</span> s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>s<span class="op">);</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">forever</span><span class="op">(</span>s<span class="op">);</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This method displays the given string until the stack overflows, at which point it throws an error. Try this example on your computer—you might be surprised by how long the error message is!</p>
+</section>
+<section id="factorial" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="factorial"><span class="header-section-number">10.3</span> Value-Returning Methods</h2>
+<p>To give you an idea of what you can do with the tools you have learned, let’s look at methods that evaluate recursively defined mathematical functions.</p>
+<p>A recursive definition is similar to a “circular” definition, in the sense that the definition refers to the thing being defined. Of course, a truly circular definition is not very useful:</p>
+<blockquote class="blockquote">
+<p><strong>recursive:</strong><br>
+An adjective used to describe a method that is recursive.</p>
+</blockquote>
+<p>If you saw that definition in the dictionary, you might be annoyed. Then again, if you search for “recursion” on Google, it displays “Did you mean: recursion” as an inside joke. People fall for that link all the time.</p>
+<p>Many mathematical functions are defined recursively, because that is often the simplest way. For example, the <strong>factorial</strong> of an integer <span class="math inline">\(n\)</span>, which is written <span class="math inline">\(n!\)</span>, is defined like this: <span class="math display">\[\begin{aligned}
+&amp;&amp;  0! = 1 \\
+&amp;&amp;  n! = n \cdot(n-1)!
+\end{aligned}\]</span> Don’t confuse the mathematical symbol <span class="math inline">\(!\)</span>, which means <em>factorial</em>, with the Java operator <code class="sourceCode java"><span class="op">!</span></code>, which means <em>not</em>. This definition says that <code class="sourceCode java"><span class="fu">factorial</span><span class="op">(</span><span class="dv">0</span><span class="op">)</span></code> is <code class="sourceCode java"><span class="dv">1</span></code>, and <code class="sourceCode java"><span class="fu">factorial</span><span class="op">(</span>n<span class="op">)</span></code> is <code class="sourceCode java">n <span class="op">*</span> <span class="fu">factorial</span><span class="op">(</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">)</span></code>.</p>
+<p>So <code class="sourceCode java"><span class="fu">factorial</span><span class="op">(</span><span class="dv">3</span><span class="op">)</span></code> is <code class="sourceCode java"><span class="dv">3</span> <span class="op">*</span> <span class="fu">factorial</span><span class="op">(</span><span class="dv">2</span><span class="op">)</span></code>; <code class="sourceCode java"><span class="fu">factorial</span><span class="op">(</span><span class="dv">2</span><span class="op">)</span></code> is <code class="sourceCode java"><span class="dv">2</span> <span class="op">*</span> <span class="fu">factorial</span><span class="op">(</span><span class="dv">1</span><span class="op">)</span></code>; <code class="sourceCode java"><span class="fu">factorial</span><span class="op">(</span><span class="dv">1</span><span class="op">)</span></code> is <code class="sourceCode java"><span class="dv">1</span> <span class="op">*</span> <span class="fu">factorial</span><span class="op">(</span><span class="dv">0</span><span class="op">)</span></code>; and <code class="sourceCode java"><span class="fu">factorial</span><span class="op">(</span><span class="dv">0</span><span class="op">)</span></code> is <code class="sourceCode java"><span class="dv">1</span></code>. Putting it all together, we get <code class="sourceCode java"><span class="dv">3</span> <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> <span class="dv">1</span> <span class="op">*</span> <span class="dv">1</span></code>, which is 6.</p>
+<p>If you can formulate a recursive definition of something, you can easily write a Java method to evaluate it. The first step is to decide what the parameters and return type are. Since <code class="sourceCode java">factorial</code> is defined for integers, the method takes an <code class="sourceCode java"><span class="dt">int</span></code> as a parameter and returns an <code class="sourceCode java"><span class="dt">int</span></code>:</p>
+<div class="sourceCode" id="cb6" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">int</span> <span class="fu">factorial</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span>  <span class="co">// stub</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next, we think about the base case. If the argument happens to be 0, we return 1:</p>
+<div class="sourceCode" id="cb7" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">int</span> <span class="fu">factorial</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span>  <span class="co">// stub</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Otherwise, and this is the interesting part, we have to make a recursive call to find the factorial of <span class="math inline">\(n-1\)</span>, and then multiply it by <span class="math inline">\(n\)</span>:</p>
+<div class="sourceCode" id="cb8" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">int</span> <span class="fu">factorial</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> recurse <span class="op">=</span> <span class="fu">factorial</span><span class="op">(</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> result <span class="op">=</span> n <span class="op">*</span> recurse<span class="op">;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result<span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To illustrate what is happening, we’ll use the temporary variables <code class="sourceCode java">recurse</code> and <code class="sourceCode java">result</code>. In each method call, <code class="sourceCode java">recurse</code> stores the factorial of <span class="math inline">\(n - 1\)</span>, and <code class="sourceCode java">result</code> stores the factorial of <span class="math inline">\(n\)</span>.</p>
+<p>The flow of execution for this program is similar to <code class="sourceCode java">countdown</code> from Section&nbsp;<a href="#recursion" data-reference-type="ref" data-reference="recursion">8.1</a>. If we invoke <code class="sourceCode java">factorial</code> with the value <code class="sourceCode java"><span class="dv">3</span></code>:</p>
+<blockquote class="blockquote">
+<p>Since 3 is not 0, we skip the first branch and calculate the factorial of <span class="math inline">\(n-1\)</span>...</p>
+<blockquote class="blockquote">
+<p>Since 2 is not 0, we skip the first branch and calculate the factorial of <span class="math inline">\(n-1\)</span>...</p>
+<blockquote class="blockquote">
+<p>Since 1 is not 0, we skip the first branch and calculate the factorial of <span class="math inline">\(n-1\)</span>...</p>
+<blockquote class="blockquote">
+<p>Since 0 <em>is</em> 0, we take the first branch and return the value 1 immediately.</p>
+</blockquote>
+<p>The return value (1) gets multiplied by <code class="sourceCode java">n</code>, which is 1, and the result is returned.</p>
+</blockquote>
+<p>The return value (1) gets multiplied by <code class="sourceCode java">n</code>, which is 2, and the result is returned.</p>
+</blockquote>
+<p>The return value (2) gets multiplied by <code class="sourceCode java">n</code>, which is 3, and the result, 6, is returned to whatever invoked <code class="sourceCode java"><span class="fu">factorial</span><span class="op">(</span><span class="dv">3</span><span class="op">)</span></code>.</p>
+</blockquote>
+<p>Figure&nbsp;<a href="#fig.stack3" data-reference-type="ref" data-reference="fig.stack3">8.2</a> shows what the stack diagram looks like for this sequence of method invocations. The return values are shown being passed up the stack. Notice that <code class="sourceCode java">recurse</code> and <code class="sourceCode java">result</code> do not exist in the last frame, because when <code class="sourceCode java">n <span class="op">==</span> <span class="dv">0</span></code>, the code that declares them does not execute.</p>
+<figure id="fig.stack3" class="figure">
+<div class="center">
+<p><img src="figs/stack3-.svg" class="figure-img"></p>
+</div>
+<figcaption>
+Stack diagram for the <code class="sourceCode java">factorial</code> method.
+</figcaption>
+</figure>
+</section>
+<section id="leap_of_faith" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="leap_of_faith"><span class="header-section-number">10.4</span> The Leap of Faith</h2>
+<p>Following the flow of execution is one way to read programs, but it can quickly become overwhelming. Another way to understand recursion is the <strong>leap of faith</strong>: when you come to a method invocation, instead of following the flow of execution, you <em>assume</em> that the method works correctly and returns the appropriate value.</p>
+<p>In fact, you are already practicing this leap of faith when you use methods in the Java library. When you invoke <code class="sourceCode java"><span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span></code> or <code class="sourceCode java"><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span></code>, you don’t think about the implementations of those methods. You just assume that they work properly.</p>
+<p>The same is true of other methods. For example, consider the method from Section&nbsp;<a href="ch05.html#boolmeth" data-reference-type="ref" data-reference="boolmeth">5.8</a> that determines whether an integer has only one digit:</p>
+<div class="sourceCode" id="cb9" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">boolean</span> <span class="fu">isSingleDigit</span><span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">&gt;</span> <span class="op">-</span><span class="dv">10</span> <span class="op">&amp;&amp;</span> x <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once you convince yourself that this method is correct—by examining and testing the code—you can just use the method without ever looking at the implementation again.</p>
+<p>Recursive methods are no different. When you get to a recursive call, don’t think about the flow of execution. Instead, <em>assume</em> that the recursive call produces the desired result.</p>
+<p>For example, “Assuming that I can find the factorial of <span class="math inline">\(n-1\)</span>, can I compute the factorial of <span class="math inline">\(n\)</span>?” Yes you can, by multiplying by <span class="math inline">\(n\)</span>. Here’s an implementation of <code class="sourceCode java">factorial</code> with the temporary variables removed:</p>
+<div class="sourceCode" id="cb10" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">int</span> <span class="fu">factorial</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n <span class="op">*</span> <span class="fu">factorial</span><span class="op">(</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice how similar this version is to the original mathematical definition: <span class="math display">\[\begin{aligned}
+&amp;&amp;  0! = 1 \\
+&amp;&amp;  n! = n \cdot(n-1)!
+\end{aligned}\]</span> Of course, it is strange to assume that the method works correctly when you have not finished writing it. But that’s why it’s called a leap of faith!</p>
+<p><span id="fibonacci" label="fibonacci"></span></p>
+<p>Another common recursively defined mathematical function is the Fibonacci sequence, which has the following definition: <span class="math display">\[\begin{aligned}
+&amp;&amp; fibonacci(1) = 1 \\
+&amp;&amp; fibonacci(2) = 1 \\
+&amp;&amp; fibonacci(n) = fibonacci(n-1) + fibonacci(n-2)
+\end{aligned}\]</span> Notice that each Fibonacci number is the sum of the two preceding Fibonacci numbers. Translated into Java, this function is as follows:</p>
+<div class="sourceCode" id="cb11" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">int</span> <span class="fu">fibonacci</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">==</span> <span class="dv">1</span> <span class="op">||</span> n <span class="op">==</span> <span class="dv">2</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">fibonacci</span><span class="op">(</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">)</span> <span class="op">+</span> <span class="fu">fibonacci</span><span class="op">(</span>n <span class="op">-</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you try to follow the flow of execution here, even for small values of <code class="sourceCode java">n</code>, your head will explode. But if we take a leap of faith and assume that the two recursive invocations work correctly, then it is clear, looking at the definition, that our implementation is correct.</p>
+</section>
+<section id="countup" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="countup"><span class="header-section-number">10.5</span> Counting Up Recursively</h2>
+<p>The <code class="sourceCode java">countdown</code> example in Section&nbsp;<a href="#recursion" data-reference-type="ref" data-reference="recursion">8.1</a> has three parts: (1) it checks the base case, (2) it displays something, and (3) it makes a recursive call. What do you think happens if you reverse steps 2 and 3, making the recursive call <em>before</em> displaying?</p>
+<div class="sourceCode" id="cb12" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">countup</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Blastoff!"</span><span class="op">);</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">countup</span><span class="op">(</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>n<span class="op">);</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The stack diagram is the same as before, and the method is still called <span class="math inline">\(n\)</span> times. But now the <code class="sourceCode java"><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span></code> happens just before each recursive call returns. As a result, it counts <em>up</em> instead of down:</p>
+<pre><code>Blastoff!
+1
+2
+3</code></pre>
+<p>Keep this in mind for the next example, which displays numbers in binary.</p>
+</section>
+<section id="binary" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="binary"><span class="header-section-number">10.6</span> Binary Number System</h2>
+<p>You are probably aware that computers can store only 1s and 0s. That’s because processors and memory are made up of billions of tiny on-off switches.</p>
+<p>The value 1 means a switch is on; the value 0 means a switch is off. All types of data, whether integer, floating-point, text, audio, video, or something else, are represented by 1s and 0s.</p>
+<p>Fortunately, we can represent any integer as a <strong>binary</strong> number. Table&nbsp;<a href="#tab:binary" data-reference-type="ref" data-reference="tab:binary">8.1</a> shows the first eight numbers in binary and decimal.</p>
+<div class="center">
+<div id="tab:binary">
+<table class="caption-top table">
+<caption>The first eight binary numbers.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Binary</th>
+<th style="text-align: center;">Decimal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">101</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">110</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">111</td>
+<td style="text-align: center;">7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>In decimal there are 10 digits, and the written representation of numbers is based on powers of 10. For example, the number 456 has 4 in the 100’s place, 5 in the 10’s place, and 6 in the 1’s place. So the value is 400 + 50 + 6:</p>
+<div class="center">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(10^2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(10^1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(10^0\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In binary there are two digits, and the written representation of numbers is based on powers of two. For example, the number 10111 has 1 in the 16’s place, 0 in the 8’s place, 1 in the 4’s place, 1 in the 2’s place, and 1 in the 1’s place. So the value is 16 + 0 + 4 + 2 + 1, which is 23 in decimal.</p>
+<div class="center">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">0</th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(2^4\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2^3\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2^2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2^1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2^0\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>To get the digits of a decimal number, we can use repeated division. For example, if we divide 456 by 10, we get 45 with remainder 6. The remainder is the rightmost digit of 456.</p>
+<p>If we divide the result again, we get 4 with remainder 5. The remainder is the second rightmost digit of 456. And if we divide again, we get 0 with remainder 4. The remainder is the third rightmost digit of 456, and the result, 0, tells us that we’re done.</p>
+<p>We can do the same thing in binary if we divide by 2. When you divide by 2, the remainder is the right-most digit, either 0 or 1. If you divide the result again, you get the second rightmost digit. If you keep going, and write down the remainders, you’ll have your number in binary:</p>
+<pre><code>23 / 2 is 11 remainder 1
+11 / 2 is  5 remainder 1
+ 5 / 2 is  2 remainder 1
+ 2 / 2 is  1 remainder 0
+ 1 / 2 is  0 remainder 1</code></pre>
+<p>Reading these remainders from bottom to top, 23 in binary is 10111.</p>
+</section>
+<section id="recursive-binary-method" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="recursive-binary-method"><span class="header-section-number">10.7</span> Recursive Binary Method</h2>
+<p>Now, to display a number in binary, we can combine the algorithm from the previous section and the “count up” pattern from Section&nbsp;<a href="#countup" data-reference-type="ref" data-reference="countup">8.5</a>.</p>
+<p>Here is a recursive method that displays any positive integer in binary:</p>
+<div class="sourceCode" id="cb15" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">displayBinary</span><span class="op">(</span><span class="dt">int</span> value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>value <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">displayBinary</span><span class="op">(</span>value <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span>value <span class="op">%</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If <code class="sourceCode java">value</code> is <code class="sourceCode java"><span class="dv">0</span></code>, <code class="sourceCode java">displayBinary</code> does nothing (that’s the base case). If the argument is positive, the method divides it by 2 and calls <code class="sourceCode java">displayBinary</code> recursively. When the recursive call returns, the method displays one digit of the result and returns (again). Figure&nbsp;<a href="#fig.stack4" data-reference-type="ref" data-reference="fig.stack4">8.3</a> illustrates this process.</p>
+<figure id="fig.stack4" class="figure">
+<div class="center">
+<p><img src="figs/stack4-.svg" style="width:2.63889in" class="figure-img"></p>
+</div>
+<figcaption>
+Stack diagram for the <code class="sourceCode java">displayBinary</code> method.
+</figcaption>
+</figure>
+<p>The leftmost digit is near the bottom of the stack, so it gets displayed first. The rightmost digit, near the top of the stack, gets displayed last. After invoking <code class="sourceCode java">displayBinary</code>, we use <code class="sourceCode java">println</code> to complete the output:</p>
+<div class="sourceCode" id="cb16" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">displayBinary</span><span class="op">(</span><span class="dv">23</span><span class="op">);</span>      <span class="co">// output is 10111</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">();</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="codingbat-problems" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="codingbat-problems"><span class="header-section-number">10.8</span> CodingBat Problems</h2>
+<p>In the past several chapters, you’ve seen methods, conditions, loops, strings, arrays, and recursion. A great resource for practicing all of these concepts is <a href="https://codingbat.com/" class="uri">https://codingbat.com/</a>.</p>
+<p><em>CodingBat</em> is a free website of programming problems developed by Nick Parlante, a computer science lecturer at Stanford University. As you work on these problems, CodingBat saves your progress (if you create an account).</p>
+<p>To conclude this chapter, we consider two problems in the Recursion-1 section of CodingBat. One of them deals with strings, and the other deals with arrays. Both of them have the same recursive idea: check the base case, look at the current index, and recursively handle the rest.</p>
+<p>The first problem is available at <a href="https://codingbat.com/prob/p118230" class="uri">https://codingbat.com/prob/p118230</a>:</p>
+<blockquote class="blockquote">
+<p><strong>Recursion-1 &nbsp;noX</strong></p>
+<p>Given a string, compute recursively a new string where all the <code class="sourceCode java"><span class="ch">'x'</span></code> chars have been removed.</p>
+<p>noX("xaxb") <span class="math inline">\(\rightarrow\)</span> "ab"<br>
+noX("abc") <span class="math inline">\(\rightarrow\)</span> "abc"<br>
+noX("xx") <span class="math inline">\(\rightarrow\)</span> ""</p>
+</blockquote>
+<p>When solving recursive problems, it helps to think about the base case first. The base case is the easiest version of the problem; for <code class="sourceCode java">noX</code>, it’s the empty string. If the argument is an empty string, there are no <code>x</code>’s to be removed:</p>
+<div class="sourceCode" id="cb17" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>str<span class="op">.</span><span class="fu">length</span><span class="op">()</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">""</span><span class="op">;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next comes the more difficult part. To solve a problem recursively, you need to think of a simpler instance of the same problem. For <code class="sourceCode java">noX</code>, it’s removing all the <code>x</code>’s from a shorter string.</p>
+<p>So let’s split the string into two parts, the first letter and the rest:</p>
+<div class="sourceCode" id="cb18" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> first <span class="op">=</span> str<span class="op">.</span><span class="fu">charAt</span><span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> rest <span class="op">=</span> str<span class="op">.</span><span class="fu">substring</span><span class="op">(</span><span class="dv">1</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now we can make a recursive call to remove the <code>x</code>’s from <code>rest</code>:</p>
+<div class="sourceCode" id="cb19" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> recurse <span class="op">=</span> <span class="fu">noX</span><span class="op">(</span>rest<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If <code>first</code> happens to be an <code>x</code>, we’re done; we just have to return <code>recurse</code>. Otherwise, we have to concatenate <code>first</code> and <code>recurse</code>. Here’s the <code class="sourceCode java"><span class="cf">if</span></code> statement we need:</p>
+<div class="sourceCode" id="cb20" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>first <span class="op">==</span> <span class="ch">'x'</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> recurse<span class="op">;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> first <span class="op">+</span> recurse<span class="op">;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can run this solution on CodingBat by pasting these snippets into the provided method definition.</p>
+<p>The second problem is available at <a href="https://codingbat.com/prob/p135988" class="uri">https://codingbat.com/prob/p135988</a>:</p>
+<blockquote class="blockquote">
+<p><strong>Recursion-1 &nbsp;array11</strong></p>
+<p>Given an array of ints, compute recursively the number of times that the value 11 appears in the array.</p>
+<p>array11([1, 2, 11], 0) <span class="math inline">\(\rightarrow\)</span> 1<br>
+array11([11, 11], 0) <span class="math inline">\(\rightarrow\)</span> 2<br>
+array11([1, 2, 3, 4], 0) <span class="math inline">\(\rightarrow\)</span> 0</p>
+</blockquote>
+<p>This problem uses the convention of passing the index as an argument. So the base case is when we’ve reached the end of the array. At that point, we know there are no more <code>11</code>s:</p>
+<div class="sourceCode" id="cb21" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>index <span class="op">&gt;=</span> nums<span class="op">.</span><span class="fu">length</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next we look at the current number (based on the given index), and check if it’s an <code>11</code>. After that, we can recursively check the rest of the array. Similar to the <code class="sourceCode java">noX</code> problem, we look at only one integer per method call:</p>
+<div class="sourceCode" id="cb22" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> recurse <span class="op">=</span> <span class="fu">array11</span><span class="op">(</span>nums<span class="op">,</span> index <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>nums<span class="op">[</span>index<span class="op">]</span> <span class="op">==</span> <span class="dv">11</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> recurse <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> recurse<span class="op">;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Again, you can run this solutions on CodingBat by pasting the snippets into the method definition.</p>
+<p>To see how these solutions actually work, you might find it helpful to step through them with a debugger (see Appendix&nbsp;<a href="appa.html#debugger" data-reference-type="ref" data-reference="debugger">18.6</a>) or Java Tutor (<a href="https://thinkjava.org/javatutor" class="uri">https://thinkjava.org/javatutor</a>). Then try solving other CodingBat problems on your own.</p>
+<p>Learning to think recursively is an important part of learning to think like a computer scientist. Many algorithms can be written concisely with recursive methods that perform computations on the way down, on the way up, or both.</p>
+</section>
+<section id="vocabulary" class="level2" data-number="10.9">
+<h2 data-number="10.9" class="anchored" data-anchor-id="vocabulary"><span class="header-section-number">10.9</span> Vocabulary</h2>
+<dl>
+<dt>iterative:</dt>
+<dd>
+<p>A method or algorithm that repeats steps by using one or more loops.</p>
+</dd>
+<dt>recursive:</dt>
+<dd>
+<p>A method or algorithm that invokes itself one or more times with different arguments.</p>
+</dd>
+<dt>base case:</dt>
+<dd>
+<p>A condition that causes a recursive method <em>not</em> to make another recursive call.</p>
+</dd>
+<dt>factorial:</dt>
+<dd>
+<p>The product of all the integers up to and including a given integer.</p>
+</dd>
+<dt>leap of faith:</dt>
+<dd>
+<p>A way to read recursive programs by assuming that the recursive call works, rather than following the flow of execution.</p>
+</dd>
+<dt>binary:</dt>
+<dd>
+<p>A system that uses only zeros and ones to represent numbers. Also known as “base 2”.</p>
+</dd>
+</dl>
+</section>
+<section id="exercises" class="level2" data-number="10.10">
+<h2 data-number="10.10" class="anchored" data-anchor-id="exercises"><span class="header-section-number">10.10</span> Exercises</h2>
+<p>The code for this chapter is in the <em>ch08</em> directory of <em>ThinkJavaCode2</em>. See page&nbsp; for instructions on how to download the repository. Before you start the exercises, we recommend that you compile and run the examples.</p>
+<p>If you have not already read Appendix&nbsp;<a href="appa.html#JUnit" data-reference-type="ref" data-reference="JUnit">18.7</a>, now might be a good time. It describes JUnit, a standard framework for writing test code.</p>
+<div class="exercise">
+<p><strong>Exercise 8.1</strong>. <em>The purpose of this exercise is to take a problem and break it into smaller problems, and to solve the smaller problems by writing simple methods. Consider the first verse of the song “99 Bottles of Beer”:</em></p>
+<blockquote class="blockquote">
+<p><em>99 bottles of beer on the wall,<br>
+99 bottles of beer,<br>
+ya’ take one down, ya’ pass it around,<br>
+98 bottles of beer on the wall.</em></p>
+</blockquote>
+<p><em>Subsequent verses are identical except that the number of bottles gets smaller by one in each verse, until the last verse:</em></p>
+<blockquote class="blockquote">
+<p><em>No bottles of beer on the wall,<br>
+no bottles of beer,<br>
+ya’ can’t take one down, ya’ can’t pass it around,<br>
+’cause there are no more bottles of beer on the wall!</em></p>
+</blockquote>
+<p><em>And then the song (finally) ends.</em></p>
+<p><em>Write a program that displays the entire lyrics of “99 Bottles of Beer”. Your program should include a recursive method that does the hard part, but you might want to write additional methods to separate other parts of the program. As you develop your code, test it with a small number of verses, like <code class="sourceCode java"><span class="dv">3</span></code>.</em></p>
+</div>
+<div class="exercise">
+<p><strong>Exercise 8.2</strong>. <em>Write a recursive method named <code class="sourceCode java">oddSum</code> that takes a positive odd integer <code class="sourceCode java">n</code> and returns the sum of odd integers from 1 to <code class="sourceCode java">n</code>. Start with a base case, and use temporary variables to debug your solution. You might find it helpful to print the value of <code class="sourceCode java">n</code> each time <code class="sourceCode java">oddSum</code> is invoked.</em></p>
+</div>
+<div class="exercise">
+<p><strong>Exercise 8.3</strong>. <em>In this exercise, you will use a stack diagram to understand the execution of the following recursive method:</em></p>
+<div class="sourceCode" id="cb23" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="fu">prod</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">4</span><span class="op">));</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">int</span> <span class="fu">prod</span><span class="op">(</span><span class="dt">int</span> m<span class="op">,</span> <span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>m <span class="op">==</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> n<span class="op">;</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> recurse <span class="op">=</span> <span class="fu">prod</span><span class="op">(</span>m<span class="op">,</span> n <span class="op">-</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> result <span class="op">=</span> n <span class="op">*</span> recurse<span class="op">;</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> result<span class="op">;</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li><p><em>Draw a stack diagram showing the state of the program just before the last invocation of <code class="sourceCode java">prod</code> completes.</em></p></li>
+<li><p><em>What is the output of this program? (Try to answer this question on paper first; then run the code to check your answer.)</em></p></li>
+<li><p><em>Explain in a few words what <code class="sourceCode java">prod</code> does (without getting into the details of how it works).</em></p></li>
+<li><p><em>Rewrite <code class="sourceCode java">prod</code> without the temporary variables <code class="sourceCode java">recurse</code> and <code class="sourceCode java">result</code>. </em>Hint:* You need only one line for the <code class="sourceCode java"><span class="cf">else</span></code> branch.*</p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><strong>Exercise 8.4</strong>. <em>The goal of this exercise is to translate a recursive definition into a Java method. The Ackermann function is defined for non-negative integers as follows: <span class="math display">\[\begin{aligned}
+A(m, n) = \begin{cases}
+              n+1 &amp; \mbox{if } m = 0 \\
+        A(m-1, 1) &amp; \mbox{if } m &gt; 0 \mbox{ and } n = 0 \\
+A(m-1, A(m, n-1)) &amp; \mbox{if } m &gt; 0 \mbox{ and } n &gt; 0
+\end{cases}
+\end{aligned}\]</span></em></p>
+<p><em>Write a recursive method called <code class="sourceCode java">ack</code> that takes two <code class="sourceCode java"><span class="dt">int</span></code>s as parameters and that computes and returns the value of the Ackermann function.</em></p>
+<p><em>Test your implementation of Ackermann by invoking it from <code class="sourceCode java">main</code> and displaying the return value. Note the return value gets very big very quickly. You should try it only for small values of <span class="math inline">\(m\)</span> and <span class="math inline">\(n\)</span> (not bigger than 3).</em></p>
+</div>
+<div id="ex.power" class="exercise">
+<p><strong>Exercise 8.5</strong>.</p>
+<p><em>Write a recursive method called <code class="sourceCode java">power</code> that takes a double <code class="sourceCode java">x</code> and an integer <code class="sourceCode java">n</code> and returns <span class="math inline">\(x^n\)</span>.</em></p>
+<p>**Hint:* A recursive definition of this operation is <span class="math inline">\(x^n = x \cdot x^{n-1}\)</span>. Also, remember that anything raised to the zeroth power is 1.*</p>
+<p><em>Optional challenge: you can make this method more efficient, when <code class="sourceCode java">n</code> is even, using <span class="math inline">\(x^n = \left( x^{n/2} \right)^2\)</span>.</em></p>
+</div>
+<div class="exercise">
+<p><strong>Exercise 8.6</strong>. <em>Many of the patterns you have seen for traversing arrays can also be written recursively. It is not common, but it is a useful exercise.</em></p>
+<ol type="1">
+<li><p><em>Write a method called <code class="sourceCode java">maxInRange</code> that takes an array of integers and two indexes, <code class="sourceCode java">lowIndex</code> and <code class="sourceCode java">highIndex</code>, and finds the maximum value in the array, but considering only the elements between <code class="sourceCode java">lowIndex</code> and <code class="sourceCode java">highIndex</code>, including both.</em></p>
+<p><em>This method should be recursive. If the length of the range is 1 (i.e., if <code class="sourceCode java">lowIndex <span class="op">==</span> highIndex</code>), we know immediately that the sole element in the range must be the maximum. So that’s the base case.</em></p>
+<p><em>If there is more than one element in the range, we can break the array into two pieces, find the maximum in each piece, and then find the maximum of the maxima.</em></p></li>
+<li><p><em>Methods like <code class="sourceCode java">maxInRange</code> can be awkward to use. To find the largest element in an array, we have to provide the range for the entire array:</em></p>
+<div class="sourceCode" id="cb24" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> max <span class="op">=</span> <span class="fu">maxInRange</span><span class="op">(</span>a<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> a<span class="op">.</span><span class="fu">length</span> <span class="op">-</span> <span class="dv">1</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>Write a method called <code class="sourceCode java">max</code> that takes an array and uses <code class="sourceCode java">maxInRange</code> to find and return the largest element.</em></p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><strong>Exercise 8.7</strong>. <em>Create a program called </em>Recurse.java* and type in the following methods:*</p>
+<div class="sourceCode" id="cb25" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> Returns the first character of the given String<span class="co">.</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a> <span class="co">*/</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">char</span> <span class="fu">first</span><span class="op">(</span><span class="bu">String</span> s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> s<span class="op">.</span><span class="fu">charAt</span><span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> Returns all but the first letter of the given String<span class="co">.</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a> <span class="co">*/</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="bu">String</span> <span class="fu">rest</span><span class="op">(</span><span class="bu">String</span> s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> s<span class="op">.</span><span class="fu">substring</span><span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> Returns all but the first and last letter of the String<span class="co">.</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a> <span class="co">*/</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="bu">String</span> <span class="fu">middle</span><span class="op">(</span><span class="bu">String</span> s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> s<span class="op">.</span><span class="fu">substring</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> s<span class="op">.</span><span class="fu">length</span><span class="op">()</span> <span class="op">-</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> Returns the length of the given String<span class="co">.</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a> <span class="co">*/</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">int</span> <span class="fu">length</span><span class="op">(</span><span class="bu">String</span> s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> s<span class="op">.</span><span class="fu">length</span><span class="op">();</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li><p><em>Write some code in <code class="sourceCode java">main</code> that tests each of these methods. Make sure they work, and you understand what they do.</em></p></li>
+<li><p><em>Using these methods, and without using any other <code class="sourceCode java"><span class="bu">String</span></code> methods, write a method called <code class="sourceCode java">printString</code> that takes a string as a parameter and displays the letters of the string, one on each line. It should be a <code class="sourceCode java"><span class="dt">void</span></code> method.</em></p></li>
+<li><p><em>Again using only these methods, write a method called <code class="sourceCode java">printBackward</code> that does the same thing as <code class="sourceCode java">printString</code> but displays the string backward (again, one character per line).</em></p></li>
+<li><p><em>Now write a method called <code class="sourceCode java">reverseString</code> that takes a string as a parameter and returns a new string as a return value. The new string should contain the same letters as the parameter, but in reverse order:</em></p>
+<div class="sourceCode" id="cb29" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> backwards <span class="op">=</span> <span class="fu">reverseString</span><span class="op">(</span><span class="st">"coffee"</span><span class="op">);</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>backwards<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>The output of this example code should be as follows:</em></p>
+<pre><code>eeffoc</code></pre></li>
+<li><p><em>A palindrome is a word that reads the same both forward and backward, like “otto” and “palindromeemordnilap”. Here’s one way to test whether a string is a palindrome:</em></p>
+<blockquote class="blockquote">
+<p><em>A single letter is a palindrome, a two-letter word is a palindrome if the letters are the same, and any other word is a palindrome if the first letter is the same as the last and the middle is a palindrome.</em></p>
+</blockquote>
+<p><em>Write a recursive method named <code class="sourceCode java">isPalindrome</code> that takes a <code class="sourceCode java"><span class="bu">String</span></code> and returns a <code class="sourceCode java"><span class="dt">boolean</span></code> indicating whether the word is a palindrome.</em></p></li>
+</ol>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch07.html" class="pagination-link" aria-label="Arrays and References">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Arrays and References</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch09.html" class="pagination-link" aria-label="Immutable Objects">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Immutable Objects</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
