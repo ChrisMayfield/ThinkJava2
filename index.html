@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Allen B. Downey and Chris Mayfield">
-<meta name="dcterms.date" content="2025-08-21">
 
 <title>Think Java</title>
 <style>
@@ -32,7 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./preface.html" rel="next">
+<link href="./ch01.html" rel="next">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -70,6 +69,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="custom.css">
 </head>
@@ -83,7 +111,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Think Java</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Front Matter</a></li><li class="breadcrumb-item"><a href="./index.html">Preface</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -108,144 +136,171 @@ ul.task-list li input[type="checkbox"] {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Front Matter</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Think Java</span></span></a>
+ <span class="menu-text">Preface</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./preface.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Chapters</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Computer Programming</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Computer Programming</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Variables and Operators</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Variables and Operators</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Input and Output</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Input and Output</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Methods and Testing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Methods and Testing</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch05.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conditionals and Logic</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Conditionals and Logic</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Loops and Strings</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Loops and Strings</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Arrays and References</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Arrays and References</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Recursive Methods</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Recursive Methods</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch09.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Immutable Objects</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Immutable Objects</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Mutable Objects</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Mutable Objects</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch11.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Designing Classes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Designing Classes</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Arrays of Objects</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Arrays of Objects</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch13.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Objects of Arrays</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Objects of Arrays</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch14.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Extending Classes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Extending Classes</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch15.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch16.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reusing Classes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Reusing Classes</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch17.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Advanced Topics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Advanced Topics</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./appa.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Tools</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Tools</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./appb.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Javadoc</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Javadoc</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./appc.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Graphics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Graphics</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./appd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Debugging</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Debugging</span></span></a>
   </div>
 </li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -256,13 +311,14 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#welcome-to-think-java" id="toc-welcome-to-think-java" class="nav-link active" data-scroll-target="#welcome-to-think-java"><span class="header-section-number">1</span> Welcome to Think Java</a>
+  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
   <ul class="collapse">
-  <li><a href="#about-this-book" id="toc-about-this-book" class="nav-link" data-scroll-target="#about-this-book"><span class="header-section-number">1.1</span> About This Book</a></li>
-  <li><a href="#how-to-use-this-book" id="toc-how-to-use-this-book" class="nav-link" data-scroll-target="#how-to-use-this-book"><span class="header-section-number">1.2</span> How to Use This Book</a></li>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started"><span class="header-section-number">1.3</span> Getting Started</a></li>
-  <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments"><span class="header-section-number">1.4</span> Acknowledgments</a></li>
-  <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license"><span class="header-section-number">1.5</span> License</a></li>
+  <li><a href="#the-philosophy-behind-the-book" id="toc-the-philosophy-behind-the-book" class="nav-link" data-scroll-target="#the-philosophy-behind-the-book">The Philosophy Behind the Book</a></li>
+  <li><a href="#object-oriented-programming" id="toc-object-oriented-programming" class="nav-link" data-scroll-target="#object-oriented-programming">Object-Oriented Programming</a></li>
+  <li><a href="#changes-to-the-second-edition" id="toc-changes-to-the-second-edition" class="nav-link" data-scroll-target="#changes-to-the-second-edition">Changes to the Second Edition</a></li>
+  <li><a href="#about-the-appendixes" id="toc-about-the-appendixes" class="nav-link" data-scroll-target="#about-the-appendixes">About the Appendixes</a></li>
+  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code">Using the Code Examples</a></li>
+  <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments">Acknowledgments</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -270,10 +326,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Front Matter</a></li><li class="breadcrumb-item"><a href="./index.html">Preface</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Think Java</h1>
-<p class="subtitle lead">How to Think Like a Computer Scientist</p>
 </div>
 
 
@@ -290,7 +345,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 21, 2025</p>
+      <p class="date">Invalid Date</p>
     </div>
   </div>
   
@@ -302,33 +357,140 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="welcome-to-think-java" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Welcome to Think Java</h1>
-<p>This book is an introduction to computer science and programming intended for people with little or no experience. We start with the most basic concepts and are careful to define all terms when they are first used. The book presents each new idea in a logical progression. Larger topics, like recursion and object-oriented programming, are divided into smaller examples and introduced over the course of several chapters.</p>
-<section id="about-this-book" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="about-this-book"><span class="header-section-number">1.1</span> About This Book</h2>
-<p>This book is designed to be used in a first course in computer science. It covers the basics of programming and problem solving, with an emphasis on object-oriented design and Java programming.</p>
+<section id="preface" class="level1 unnumbered">
+<h1 class="unnumbered">Preface</h1>
+<p><em>Think Java</em> is an introduction to computer science and programming intended for readers with little or no experience. We start with the most basic concepts and are careful to define all terms when they are first used. The book presents each new idea in a logical progression. Larger topics, like control flow statements and object-oriented programming, are divided into smaller examples and introduced over the course of several chapters.</p>
+<p>This book is intentionally concise. Each chapter is 12–14 pages and covers the material for one week of a college course. It is not meant to be a comprehensive presentation of Java, but rather, an initial exposure to programming constructs and techniques. We begin with small problems and basic algorithms and work up to object-oriented design. In the vocabulary of computer science pedagogy, this book uses the “objects late” approach.</p>
+<section id="the-philosophy-behind-the-book" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="the-philosophy-behind-the-book">The Philosophy Behind the Book</h2>
+<p>Here are the guiding principles that make the book the way it is:</p>
+<dl>
+<dt>One concept at a time:</dt>
+<dd>
+<p>We break down topics that give beginners trouble into a series of small steps, so that they can exercise each new concept in isolation before continuing.</p>
+</dd>
+<dt>Balance of Java and concepts:</dt>
+<dd>
+<p>The book is not primarily about Java; it uses code examples to demonstrate computer science. Most chapters start with language features and end with concepts.</p>
+</dd>
+<dt>Conciseness:</dt>
+<dd>
+<p>An important goal of the book is to be small enough so that students can read and understand the entire text in a one-semester college or AP course.</p>
+</dd>
+<dt>Emphasis on vocabulary:</dt>
+<dd>
+<p>We try to introduce the minimum number of terms and define them carefully when they are first used. We also organize them in glossaries at the end of each chapter.</p>
+</dd>
+<dt>Program development:</dt>
+<dd>
+<p>There are many strategies for writing programs, including bottom-up, top-down, and others. We demonstrate multiple program development techniques, allowing readers to choose methods that work best for them.</p>
+</dd>
+<dt>Multiple learning curves:</dt>
+<dd>
+<p>To write a program, you have to understand the algorithm, know the programming language, and be able to debug errors. We discuss these and other aspects throughout the book and summarize our advice in Appendix&nbsp;<a href="#debugging" data-reference-type="ref" data-reference="debugging">21</a>.</p>
+</dd>
+</dl>
 </section>
-<section id="how-to-use-this-book" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="how-to-use-this-book"><span class="header-section-number">1.2</span> How to Use This Book</h2>
-<p>Each chapter builds on the previous ones, so we recommend reading them in order. The exercises at the end of each chapter are designed to reinforce the concepts and help you develop your programming skills.</p>
+<section id="object-oriented-programming" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="object-oriented-programming">Object-Oriented Programming</h2>
+<p>Some Java books introduce classes and objects immediately; others begin with procedural programming and transition to object-oriented more gradually.</p>
+<p>Many of Java’s object-oriented features are motivated by problems with previous languages, and their implementations are influenced by this history. Some of these features are hard to explain when people aren’t familiar with the problems they solve.</p>
+<p>We get to object-oriented programming as quickly as possible (beginning with Chapter&nbsp;<a href="ch09.html" data-reference-type="ref" data-reference="immutable">9</a>). But we introduce concepts one at a time, as clearly as possible, in a way that allows readers to practice each idea in isolation before moving on. So it takes some time to get there.</p>
+<p>You can’t write Java programs (even Hello World) without encountering object-oriented features. In some cases we explain a feature briefly when it first appears, and then explain it more deeply later on.</p>
+<p>If you read the entire book, you will see nearly every topic required for Java SE Programmer I certification. Supplemental lessons are available in the official Java tutorials on Oracle’s website (<a href="https://thinkjava.org/tutorial" class="uri">https://thinkjava.org/tutorial</a>).</p>
+<p>This book is also well suited to prepare high school students for the AP Computer Science A exam, which includes object-oriented design and implementation. (AP is a registered trademark of The College Board.) A mapping of <em>Think Java</em> section numbers to the AP course is available on our website: <a href="https://thinkjava.org/" class="uri">https://thinkjava.org/</a>.</p>
 </section>
-<section id="getting-started" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="getting-started"><span class="header-section-number">1.3</span> Getting Started</h2>
-<p>To get started with this book, you’ll need:</p>
-<ol type="1">
-<li><strong>Java Development Kit (JDK)</strong> - Version 11 or later</li>
-<li><strong>A text editor or IDE</strong> - We recommend VS Code, IntelliJ IDEA, or Eclipse</li>
-<li><strong>Patience and persistence</strong> - Learning to program takes time and practice</li>
-</ol>
+<section id="changes-to-the-second-edition" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="changes-to-the-second-edition">Changes to the Second Edition</h2>
+<p>This new edition was written over several years, with feedback from dozens of instructors and hundreds of students. A complete history of all changes is available on GitHub. Here are some of the highlights:</p>
+<dl>
+<dt>Chapters 1–4:</dt>
+<dd>
+<p>We reordered the material in Chapter&nbsp;1 to present a more interesting balance of theory and practice. Chapters&nbsp;2–3 are much cleaner now too. Methods are now presented in a single chapter, along with additional in-depth examples.</p>
+</dd>
+<dt>Chapters 5–8:</dt>
+<dd>
+<p>We rearranged these chapters a lot, added many examples and new figures, and removed unnecessary details. Strings are covered earlier (before arrays) so that readers can apply them to loop problems. The material on recursion is now a chapter, and we added new sections to explain binary numbers and <em>CodingBat</em>.</p>
+</dd>
+<dt>Chapters 9–12:</dt>
+<dd>
+<p>Our main goal for these chapters was to provide better explanations and more diagrams. Chapters&nbsp;9–10 focus more on immutable versus mutable objects, and we added new sections on BigInteger and StringBuilder. The other content is largely the same, but it should be easier to understand now.</p>
+</dd>
+<dt>Chapters 13–17:</dt>
+<dd>
+<p>We balanced the amount of content in Chapters&nbsp;13–14 by moving ArrayLists earlier, and we implement the “War” card game as another example. Chapters&nbsp;15–17 are brand new in this edition; they cover more advanced topics including 2D arrays, graphics, exceptions, abstract classes, interfaces, and events.</p>
+</dd>
+<dt>Appendixes:</dt>
+<dd>
+<p>We added Appendix&nbsp;<a href="#javadoc" data-reference-type="ref" data-reference="javadoc">19</a> to explain documentation comments and Javadoc in more detail. The other three appendixes that were present in the first edition have been revised for clarity and layout.</p>
+</dd>
+</dl>
 </section>
-<section id="acknowledgments" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="acknowledgments"><span class="header-section-number">1.4</span> Acknowledgments</h2>
-<p>This book is based on the original “Think Java” by Allen B. Downey and has been updated and expanded by Chris Mayfield. We thank all the students, teachers, and readers who have provided feedback and suggestions over the years.</p>
+<section id="about-the-appendixes" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="about-the-appendixes">About the Appendixes</h2>
+<p>The chapters of this book are meant to be read in order, because each one builds on the previous one. We also include several appendixes with material that can be read at any time:</p>
+<dl>
+<dt>Appendix A, “Tools”</dt>
+<dd>
+<p>This appendix explains how to download and install Java so you can compile programs on your computer. It also provides a brief introduction to DrJava—an integrated development environment designed primarily for students—and other development tools, including Checkstyle for code quality and JUnit for testing.</p>
+</dd>
+<dt>Appendix B, “Javadoc”</dt>
+<dd>
+<p>It’s important to document your classes and methods so that other programmers (including yourself in the future) will know how to use them. This appendix explains how to read documentation, how to write documentation, and how to use the Javadoc tool.</p>
+</dd>
+<dt>Appendix C, “Graphics”</dt>
+<dd>
+<p>Java provides libraries for working with graphics and animation, and these topics can be engaging for students. The libraries require object-oriented features that students will not completely understand until after Chapter&nbsp;<a href="ch10.html" data-reference-type="ref" data-reference="mutable">10</a>, but they can be used much earlier.</p>
+</dd>
+<dt>Appendix D, “Debugging”</dt>
+<dd>
+<p>We provide debugging suggestions throughout the book, but this appendix provides many more suggestions on how to debug your programs. We recommend that you review this appendix frequently as you work through the book.</p>
+</dd>
+</dl>
 </section>
-<section id="license" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="license"><span class="header-section-number">1.5</span> License</h2>
-<p>This book is available under the Creative Commons Attribution-NonCommercial 3.0 Unported License.</p>
+<section id="code" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="code">Using the Code Examples</h2>
+<p>Most of the code examples in this book are available from a Git repository at <a href="https://github.com/ChrisMayfield/ThinkJavaCode2" class="uri">https://github.com/ChrisMayfield/ThinkJavaCode2</a>. Git is a “version control system” that allows you to keep track of the files that make up a project. A collection of files under Git’s control is called a “repository”.</p>
+<p>GitHub is a hosting service that provides storage for Git repositories and a convenient web interface. It provides several ways to work with the code:</p>
+<ul>
+<li><p>You can create a copy of the repository on GitHub by clicking the Fork button. If you don’t already have a GitHub account, you’ll need to create one. After forking, you’ll have your own repository on GitHub that you can use to keep track of code you write. Then you can “clone” the repository, which downloads a copy of the files to your computer.</p></li>
+<li><p>Alternatively, you could clone the original repository without forking. If you choose this option, you don’t need a GitHub account, but you won’t be able to save your changes on GitHub.</p></li>
+<li><p>If you don’t want to use Git at all, you can download the code in a ZIP archive using the Clone button on the GitHub page, or this link: <a href="https://thinkjava.org/code2zip" class="uri">https://thinkjava.org/code2zip</a>.</p></li>
+</ul>
+<p>After you clone the repository or unzip the ZIP file, you should have a directory named <em>ThinkJavaCode2</em> with a subdirectory for each chapter in the book.</p>
+<p>The examples in this book were developed and tested using OpenJDK&nbsp;11. If you are using a more recent version, everything should still work. If you are using an older version, some of the examples might not.</p>
+</section>
+<section id="acknowledgments" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="acknowledgments">Acknowledgments</h2>
+<p>Many people have sent corrections and suggestions over the years, and we appreciate their valuable feedback! This list begins with Version 4.0 of the open source edition, so it omits those who contributed to earlier versions:</p>
+<ul>
+<li><p>Ellen Hildreth used this book to teach Data Structures at Wellesley College and submitted a whole stack of corrections and suggestions.</p></li>
+<li><p>Tania Passfield pointed out that some glossaries had leftover terms that no longer appeared in the text.</p></li>
+<li><p>Elizabeth Wiethoff noticed that the series expansion of <span class="math inline">\(\exp(-x^2)\)</span> was wrong. She has also worked on a Ruby version of the book.</p></li>
+<li><p>Matt Crawford sent in a whole patch file full of corrections.</p></li>
+<li><p>Chi-Yu Li pointed out a typo and an error in one of the code examples.</p></li>
+<li><p>Doan Thanh Nam corrected an example.</p></li>
+<li><p>Muhammad Saied translated the book into Arabic and found several errors in the process.</p></li>
+<li><p>Marius Margowski found an inconsistency in a code example.</p></li>
+<li><p>Leslie Klein discovered another error in the series expansion of <span class="math inline">\(\exp(-x^2)\)</span>, identified typos in card array figures, and helped clarify several exercises.</p></li>
+<li><p>Micah Lindstrom reported half a dozen typos and sent corrections.</p></li>
+<li><p>James Riely ported the textbook source from LaTeX to Sphinx.<br>
+<a href="http://fpl.cs.depaul.edu/jriely/thinkapjava/" class="uri">http://fpl.cs.depaul.edu/jriely/thinkapjava/</a></p></li>
+<li><p>Peter Knaggs ported the book to C#.<br>
+<a href="https://www.rigwit.co.uk/think/sharp/" class="uri">https://www.rigwit.co.uk/think/sharp/</a></p></li>
+<li><p>Heidi Gentry-Kolen recorded several video lectures that follow the book.<br>
+<a href="https://www.youtube.com/user/digipipeline" class="uri">https://www.youtube.com/user/digipipeline</a></p></li>
+<li><p>Waldo Ribeiro submitted a pull request that corrected a dozen typos.</p></li>
+<li><p>Michael Stewart made several suggestions for improving the first half of the book.</p></li>
+<li><p>Steven Richardson adapted the book for an online course and contributed many ideas for improving the text.</p></li>
+<li><p>Fazl Rahman provided detailed feedback, chapter by chapter, and offered many suggestions for improving the text.</p></li>
+</ul>
+<p>We are especially grateful to the technical reviewers of the O’Reilly Media first edition: Blythe Samuels, David Wisneski, and Stephen Rose. They found errors, made many great suggestions, and helped make the book much better.</p>
+<p>Likewise, we thank Marc Loy for his thorough review of the O’Reilly Media second edition. He contributed many corrections, insights, and clarifications.</p>
+<p>Many students have given exceptional feedback, including Ian Staton, Tanner Wernecke, Jacob Green, Rasha Abuhantash, Nick Duncan, Kylie Davidson, Shirley Jiang, Elena Trafton, Jennifer Gregorio, and Azeem Mufti.</p>
+<p>Other contributors who found one or more typos: Stijn Debrouwere, Guy Driesen, Andai Velican, Chris Kuszmaul, Daniel Kurikesu, Josh Donath, Rens Findhammer, Elisa Abedrapo, Yousef BaAfif, Bruce Hill, Matt Underwood, Isaac Sultan, Dan Rice, Robert Beard, Daniel Pierce, Michael Giftthaler, Chris Fox, Min Zeng, Markus Geuss, Mauricio Gonzalez, Enrico Sartirana, Kasem Satitwiwat, Jason Miller, Kevin Molloy, Cory Culbertson, Will Crawford, Shawn Brenneman, Tom Nguyen, and Ala-Uddin Mohammad.</p>
+<p>If you have additional comments or ideas about the text, please send them to: <a href="mailto:feedback@greenteapress.com"><code>feedback@greenteapress.com</code></a>.</p>
+<p>Allen Downey and Chris Mayfield</p>
 
 
 </section>
@@ -759,8 +921,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./preface.html" class="pagination-link" aria-label="Preface">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Preface</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ch01.html" class="pagination-link" aria-label="Computer Programming">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Computer Programming</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
