@@ -49,7 +49,7 @@ The source code for these classes is usually included with the compiler (see Sec
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/system.pdf}
+\includegraphics[alt={Diagram showing the structure of System.out.println with System class containing out variable of type PrintStream}]{figs/system.pdf}
 \caption{\java{System.out.println} refers to the \java{out} variable of the \java{System} class, which is a \java{PrintStream} that provides a method called \java{println}.}
 \label{fig.system}
 \end{center}
@@ -148,7 +148,7 @@ Figure~\ref{fig.package} shows how these ``language elements'' are related.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics[width=284pt]{figs/package.pdf}
+\includegraphics[width=284pt,alt={Hierarchy diagram showing Java language elements from largest to smallest: packages containing classes, classes containing methods, methods containing statements, statements containing expressions, and expressions containing tokens}]{figs/package.pdf}
 \caption{Elements of the Java language, from largest to smallest.}
 \label{fig.package}
 \end{center}
@@ -617,7 +617,7 @@ Instead, it gets a {\em stream of characters} as shown in Figure~\ref{fig.hopper
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/hopper1.pdf}
+\includegraphics[alt={Diagram showing a stream of characters with an arrow pointing to the next character to be read by Scanner}]{figs/hopper1.pdf}
 \caption{A stream of characters as seen by a \java{Scanner}.}
 \label{fig.hopper1}
 \end{center}
@@ -631,7 +631,7 @@ Figure~\ref{fig.hopper2} shows the state of the stream after \java{nextInt} runs
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/hopper2.pdf}
+\includegraphics[alt={Diagram showing the state of the character stream after nextInt has read the numeric value}]{figs/hopper2.pdf}
 \caption{A stream of characters after \java{nextInt} runs.}
 \label{fig.hopper2}
 \end{center}

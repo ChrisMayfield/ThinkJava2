@@ -19,7 +19,7 @@ Figure~\ref{fig:glider} shows an example grid configuration; the five black cell
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/glider.png}
+\includegraphics[alt={Grid showing a Glider pattern in Conway's Game of Life with five black cells arranged in a specific formation that will move diagonally across the grid}]{figs/glider.png}
 \caption{A ``Glider'' in the Game of Life.}
 \label{fig:glider}
 \end{center}
@@ -59,7 +59,7 @@ The result is three horizontal cells, so we're back where we started, and the cy
 %\raisebox{38pt}{~$\longrightarrow$~}
 %\includegraphics{figs/blinker-0.png}
 %\raisebox{38pt}{~$\longrightarrow$~ \ldots}
-\includegraphics[trim=0 20 0 20,clip,width=0.95\linewidth]{figs/figure15-2.png}
+\includegraphics[trim=0 20 0 20,clip,width=0.95\linewidth,alt={Grid showing a Blinker pattern in Conway's Game of Life with three horizontal black cells that will oscillate between horizontal and vertical orientations}]{figs/figure15-2.png}
 \caption{A ``Blinker'' in the Game of Life.}
 \label{fig:blinker}
 \end{center}
@@ -200,7 +200,7 @@ Figure~\ref{fig:2D-array} shows what it looks like.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/2D-array.pdf}
+\includegraphics[alt={Diagram showing how a 2D array is structured as an array of arrays, with rows and columns clearly labeled to demonstrate the row-major order storage}]{figs/2D-array.pdf}
 \caption{Storing rows and columns with a 2D array.}
 \label{fig:2D-array}
 \end{center}
@@ -371,7 +371,7 @@ Figure~\ref{fig:conway} shows the result.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/conway.png}
+\includegraphics[alt={Screenshot showing the Conway's Game of Life application window with a grid of cells, some alive (black) and some dead (white), displayed in a graphical interface}]{figs/conway.png}
 \caption{Screenshot of the initial \java{Conway} application.}
 \label{fig:conway}
 \end{center}
@@ -493,7 +493,7 @@ public int test(int r, int c) {
 %  &   &   &   &   \\
 %\hline
 %\end{tabular}
-\includegraphics[height=140pt]{figs/grid.pdf}
+\includegraphics[height=140pt,alt={Grid diagram showing how cells in the interior have eight neighbors, while cells on edges have five neighbors, and corner cells have only three neighbors}]{figs/grid.pdf}
 \caption{Cells in the interior of the grid have eight neighbors.
 Cells in the corners and along the edges have fewer neighbors.}
 \label{fig:neighbors}
@@ -581,7 +581,7 @@ Figure~\ref{fig:countNeigh} illustrates an example.
 % {0, 0, 0, 0, 0, 0, 1, 1, 1, 0}}
 %\end{verbatim}
 %\end{minipage}
-\includegraphics[trim=0 15 0 15,clip,width=0.93\linewidth]{figs/figure15-6.png}
+\includegraphics[trim=0 15 0 15,clip,width=0.93\linewidth,alt={Grid showing the result of countNeighbors method with numbers indicating how many live neighbors each cell has, demonstrating the neighbor counting algorithm for Conway's Game of Life}]{figs/figure15-6.png}
 \caption{The result of \java{countNeighbors} for the grid in Section~\ref{conwaymain}.}
 \label{fig:countNeigh}
 \end{center}

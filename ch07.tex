@@ -94,7 +94,7 @@ Figure~\ref{fig.array} shows a memory diagram of the \java{counts} array so far.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/array.pdf}
+\includegraphics[alt={Memory diagram showing an int array with four elements initialized to zero, with indexes 0-3 and a reference arrow pointing to the array}]{figs/array.pdf}
 \caption{Memory diagram of an \java{int} array.}
 \label{fig.array}
 \end{center}
@@ -135,7 +135,7 @@ Figure~\ref{fig.array2} shows the result of these statements.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/array2.pdf}
+\includegraphics[alt={Memory diagram showing the same array after assignment statements have changed the values of elements at indexes 0, 1, 2, and 3}]{figs/array2.pdf}
 \caption{Memory diagram after several assignment statements.}
 \label{fig.array2}
 \end{center}
@@ -260,7 +260,7 @@ These statements create an array of three \java{double}s and make two different 
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/array3.pdf}
+\includegraphics[alt={Memory diagram showing two variables a and b both pointing to the same array, demonstrating aliasing where changes to one variable affect the other}]{figs/array3.pdf}
 \caption{Memory diagram of two variables referring to the same array.}
 \label{fig.array3}
 \end{center}
@@ -295,7 +295,7 @@ Figure~\ref{fig.array4} shows the state of the array variables after invoking \j
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/array4.pdf}
+\includegraphics[alt={Memory diagram showing two variables a and b pointing to separate arrays after using Arrays.copyOf, demonstrating independent array copies}]{figs/array4.pdf}
 \caption{Memory diagram of two variables referring to different arrays.}
 \label{fig.array4}
 \end{center}

@@ -46,7 +46,7 @@ Figure~\ref{fig.deckobject} shows what a \java{Deck} looks like with no cards.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/deckobject.pdf}
+\includegraphics[alt={Memory diagram showing a Deck object with a cards array containing null references, representing an unpopulated deck}]{figs/deckobject.pdf}
 \caption{Memory diagram of an unpopulated \java{Deck} object.}
 \label{fig.deckobject}
 \end{center}
@@ -293,7 +293,7 @@ The result is a hand with five cards that are {\em shared} with the original dec
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/subdeck.pdf}
+\includegraphics[alt={Memory diagram showing a subdeck with low=0 and high=4, containing 5 cards that are aliased (shared) with the original deck}]{figs/subdeck.pdf}
 \caption{Memory diagram showing the effect of \java{subdeck}.}
 \label{fig.subdeck}
 \end{center}
@@ -403,7 +403,7 @@ In UML diagrams, \java{private} attributes and methods begin with a minus sign (
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/deck.pdf}
+\includegraphics[alt={UML class diagram showing Deck class with private cards array attribute and public methods including constructors, print, shuffle, selectionSort, mergeSort, and subdeck}]{figs/deck.pdf}
 \caption{UML diagram for the \java{Deck} class.}
 \label{fig.deck}
 \end{center}

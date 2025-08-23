@@ -147,7 +147,7 @@ Each element of the array is a reference to a \java{String}.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/stringarray.pdf}
+\includegraphics[alt={Memory diagram showing an array of string references pointing to String objects containing "Clubs", "Diamonds", "Hearts", and "Spades"}]{figs/stringarray.pdf}
 \caption{Memory diagram of an array of strings.}
 \label{fig.stringarray}
 \end{center}
@@ -388,7 +388,7 @@ Card[] cards = new Card[52];
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/cardarray.pdf}
+\includegraphics[alt={Memory diagram showing a Card array with 52 elements, all initially containing null references, representing an unpopulated deck of cards}]{figs/cardarray.pdf}
 \caption{Memory diagram of an unpopulated \java{Card} array.}
 \label{fig.cardarray}
 \end{center}
@@ -445,7 +445,7 @@ Figure~\ref{fig.cardarray2} shows what the array looks like after the first two 
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/cardarray2.pdf}
+\includegraphics[alt={Memory diagram showing a Card array where the first two elements point to Card objects (Ace of Clubs and 2 of Clubs), while the remaining elements still contain null references}]{figs/cardarray2.pdf}
 \caption{Memory diagram of a \java{Card} array with two cards.}
 \label{fig.cardarray2}
 \end{center}

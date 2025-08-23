@@ -58,7 +58,7 @@ Figure~\ref{fig.reference} shows the result.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/reference.pdf}
+\includegraphics[alt={Memory diagram showing a variable named blank with an arrow pointing to a Point object containing attributes x=3 and y=4}]{figs/reference.pdf}
 \caption{Memory diagram showing a variable that refers to a \java{Point} object.}
 \label{fig.reference}
 \end{center}
@@ -177,7 +177,7 @@ Figure~\ref{fig.rectangle} shows the effect of this assignment.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/rectangle.pdf}
+\includegraphics[alt={Memory diagram showing a Rectangle object with attributes x=0, y=0, width=100, and height=200}]{figs/rectangle.pdf}
 \caption{Memory diagram showing a \java{Rectangle} object.}
 \label{fig.rectangle}
 \end{center}
@@ -229,7 +229,7 @@ The result is shown in Figure~\ref{fig.rectangle2}.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/rectangle2.pdf}
+\includegraphics[alt={Memory diagram showing the same Rectangle object after its x and y attributes have been updated to x=50 and y=100}]{figs/rectangle2.pdf}
 \caption{Memory diagram showing updated attributes.}
 \label{fig.rectangle2}
 \end{center}
@@ -292,7 +292,7 @@ Figure~\ref{fig.aliasing} shows the result: \java{box1} and \java{box2} refer to
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/aliasing.pdf}
+\includegraphics[alt={Memory diagram showing two variables box1 and box2 both pointing to the same Rectangle object, demonstrating aliasing}]{figs/aliasing.pdf}
 \caption{Memory diagram showing two variables that refer to the same \java{Rectangle} object.}
 \label{fig.aliasing}
 \end{center}
@@ -309,7 +309,7 @@ The result is shown in Figure~\ref{fig.aliasing2}.
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/aliasing2.pdf}
+\includegraphics[alt={Memory diagram showing the same aliased Rectangle object after the grow method has modified its attributes to x=-50, y=-50, width=200, and height=300}]{figs/aliasing2.pdf}
 \caption{Memory diagram showing the effect of invoking \java{grow}.}
 \label{fig.aliasing2}
 \end{center}
@@ -405,7 +405,7 @@ Figure~\ref{fig.umlPoint} shows two examples, the UML {\bf class diagrams} for t
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/point-rect.pdf}
+\includegraphics[alt={UML class diagrams showing Point class with attributes x:int, y:int and methods distance(), and Rectangle class with attributes x:int, y:int, width:int, height:int and methods translate(), grow()}]{figs/point-rect.pdf}
 \caption{UML class diagrams for \java{Point} and \java{Rectangle}.}
 \label{fig.umlPoint}
 \end{center}
@@ -538,7 +538,7 @@ As shown in Figure~\ref{fig.reference3}, after the second assignment, there are 
 
 \begin{figure}[!ht]
 \begin{center}
-\includegraphics{figs/reference3.pdf}
+\includegraphics[alt={Memory diagram showing a variable that was previously pointing to a Point object, but now contains null, with no arrow pointing to any object}]{figs/reference3.pdf}
 \caption{Memory diagram showing the effect of setting a variable to \java{null}.}
 \label{fig.reference3}
 \end{center}
