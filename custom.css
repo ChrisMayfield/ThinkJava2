@@ -43,3 +43,22 @@ pre {
     display: block;
     margin-bottom: 0.5rem;
 }
+
+/* Notice callout */
+.notice {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notice h1, .notice h2, .notice h3, .notice h4, .notice h5, .notice h6 {
+    margin-top: 0;
+    color: #495057;
+}
+
+.notice p:last-child {
+    margin-bottom: 0;
+}

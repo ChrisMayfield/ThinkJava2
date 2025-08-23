@@ -361,10 +361,30 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+<div class="notice">
+<h4 class="anchored">Notices</h4>
+<p>
+    This is the free HTML version of <it>Think Java 2e</it>.
+    Print versions are available from
+    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
+    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
+</p>
+
+<p>
+    We are working on making this site accessible in compliance with
+    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
+    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
+</p>
+
+<p>
+    Are you using one of our books in a class? We'd like to know about it.
+    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+</p>
+</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch01.html">Chapters</a></li><li class="breadcrumb-item"><a href="./ch09.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Immutable Objects</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="immutable" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Immutable Objects</span></span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Immutable Objects</span></h1>
 </div>
 
 
@@ -391,7 +411,9 @@ window.Quarto = {
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> symbol <span class="op">=</span> <span class="ch">'!'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <figure id="fig.mem1" class="figure">
 <div class="center">
-<p><img src="figs/mem1-.svg" class="figure-img"></p>
+<p>
+<img src="figs/mem1-.svg" alt="Memory diagram showing two primitive variables: int number with value -2 and char symbol with value '!' stored directly in memory" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram of two primitive variables.
@@ -402,7 +424,9 @@ Memory diagram of two primitive variables.
 <p>Figure&nbsp;<a href="#fig.mem2" data-reference-type="ref" data-reference="fig.mem2">9.2</a> shows them both, with a box to represent the location of the variable and an arrow pointing to the location of the array.</p>
 <figure id="fig.mem2" class="figure">
 <div class="center">
-<p><img src="figs/mem2-.svg" class="figure-img"></p>
+<p>
+<img src="figs/mem2-.svg" alt="Memory diagram showing a char array variable with an arrow pointing to an array containing the characters 'c', 'a', 't'" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram of an array of characters.
@@ -412,7 +436,9 @@ Memory diagram of an array of characters.
 <div class="sourceCode" id="cb3" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> word <span class="op">=</span> <span class="st">"dog"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <figure id="fig.mem3" class="figure">
 <div class="center">
-<p><img src="figs/mem3-.svg" class="figure-img"></p>
+<p>
+<img src="figs/mem3-.svg" alt="Memory diagram showing a String variable with an arrow pointing to a String object containing the characters 'd', 'o', 'g'" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram of a <code class="sourceCode java"><span class="bu">String</span></code> object.
@@ -433,7 +459,9 @@ Memory diagram of a <code class="sourceCode java"><span class="bu">String</span>
 <p>The value <code class="sourceCode java"><span class="kw">null</span></code> is represented in memory diagrams by a small box with no arrow, as in Figure&nbsp;<a href="#fig.mem4" data-reference-type="ref" data-reference="fig.mem4">9.4</a>.</p>
 <figure id="fig.mem4" class="figure">
 <div class="center">
-<p><img src="figs/mem4-.svg" class="figure-img"></p>
+<p>
+<img src="figs/mem4-.svg" alt="Memory diagram showing two variables that are null, represented by boxes with no arrows pointing to any objects" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram showing variables that are <code class="sourceCode java"><span class="kw">null</span></code>.
@@ -499,7 +527,7 @@ Memory diagram showing variables that are <code class="sourceCode java"><span cl
 </section>
 <section id="command-line-arguments" class="level2" data-number="9.5">
 <h2 data-number="9.5" class="anchored" data-anchor-id="command-line-arguments"><span class="header-section-number">9.5</span> Command-Line Arguments</h2>
-<p>Now that you know about strings, arrays, and wrapper classes, we can <em>finally</em> explain the <code class="sourceCode java">args</code> parameter of the <code class="sourceCode java">main</code> method, which we have been ignoring since Chapter&nbsp;<a href="ch01.html" data-reference-type="ref" data-reference="theway">1</a>. If you are unfamiliar with the command-line interface, please read Appendix&nbsp;<a href="appa.html#commandline" data-reference-type="ref" data-reference="commandline">18.3</a>.</p>
+<p>Now that you know about strings, arrays, and wrapper classes, we can <em>finally</em> explain the <code class="sourceCode java">args</code> parameter of the <code class="sourceCode java">main</code> method, which we have been ignoring since Chapter&nbsp;<a href="#theway" data-reference-type="ref" data-reference="theway">1</a>. If you are unfamiliar with the command-line interface, please read Appendix&nbsp;<a href="appa.html#commandline" data-reference-type="ref" data-reference="commandline">18.3</a>.</p>
 <p>Let’s write a program to find the maximum value in a sequence of numbers. Rather than read the numbers from <code class="sourceCode java"><span class="bu">System</span><span class="op">.</span><span class="fu">in</span></code> by using a <code class="sourceCode java"><span class="bu">Scanner</span></code>, we’ll pass them as command-line arguments. Here is a starting point:</p>
 <div class="sourceCode" id="cb17" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">Arrays</span><span class="op">;</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Max <span class="op">{</span></span>
@@ -558,7 +586,9 @@ Memory diagram showing variables that are <code class="sourceCode java"><span cl
 <p>Notice that <code class="sourceCode java"><span class="kw">null</span></code> and <em>empty</em> are different concepts, as shown in Figure&nbsp;<a href="#fig.nullempty" data-reference-type="ref" data-reference="fig.nullempty">9.5</a>. The variable <code class="sourceCode java">str1</code> is <code class="sourceCode java"><span class="kw">null</span></code>, meaning that it doesn’t reference an object. The variable <code class="sourceCode java">str2</code> refers to the empty string, an object that exists.</p>
 <figure id="fig.nullempty" class="figure">
 <div class="center">
-<p><img src="figs/nullempty-.svg" class="figure-img"></p>
+<p>
+<img src="figs/nullempty-.svg" alt="Memory diagram comparing null and empty string: str1 shows a box with no arrow (null), while str2 shows an arrow pointing to an empty String object" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram of <code class="sourceCode java"><span class="kw">null</span></code> and empty string.
@@ -704,7 +734,7 @@ Memory diagram of <code class="sourceCode java"><span class="kw">null</span></co
 </dd>
 <dt>parse:</dt>
 <dd>
-<p>In Chapter&nbsp;<a href="ch02.html" data-reference-type="ref" data-reference="variables">2</a>, we defined <em>parse</em> as what the compiler does to analyze a program. Now you know that it means to read a string and interpret or translate it.</p>
+<p>In Chapter&nbsp;<a href="#variables" data-reference-type="ref" data-reference="variables">2</a>, we defined <em>parse</em> as what the compiler does to analyze a program. Now you know that it means to read a string and interpret or translate it.</p>
 </dd>
 <dt>empty array:</dt>
 <dd>

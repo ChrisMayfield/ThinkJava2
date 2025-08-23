@@ -362,6 +362,26 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+<div class="notice">
+<h4 class="anchored">Notices</h4>
+<p>
+    This is the free HTML version of <it>Think Java 2e</it>.
+    Print versions are available from
+    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
+    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
+</p>
+
+<p>
+    We are working on making this site accessible in compliance with
+    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
+    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
+</p>
+
+<p>
+    Are you using one of our books in a class? We'd like to know about it.
+    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+</p>
+</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch01.html">Chapters</a></li><li class="breadcrumb-item"><a href="./ch13.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Objects of Arrays</span></a></li></ol></nav>
 <div class="quarto-title">
@@ -401,7 +421,9 @@ window.Quarto = {
 <p>The constructor initializes the instance variable with an array of <code class="sourceCode java">n</code> cards, but it doesn’t create any <code class="sourceCode java">Card</code> objects. Figure&nbsp;<a href="#fig.deckobject" data-reference-type="ref" data-reference="fig.deckobject">13.1</a> shows what a <code class="sourceCode java">Deck</code> looks like with no cards.</p>
 <figure id="fig.deckobject" class="figure">
 <div class="center">
-<p><img src="figs/deckobject-.svg" class="figure-img"></p>
+<p>
+<img src="figs/deckobject-.svg" alt="Memory diagram showing a Deck object with a cards array containing null references, representing an unpopulated deck" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram of an unpopulated <code class="sourceCode java">Deck</code> object.
@@ -500,7 +522,9 @@ Memory diagram of an unpopulated <code class="sourceCode java">Deck</code> objec
 <p>Figure&nbsp;<a href="#fig.subdeck" data-reference-type="ref" data-reference="fig.subdeck">13.2</a> is a memory diagram of a subdeck with <code class="sourceCode java">low <span class="op">=</span> <span class="dv">0</span></code> and <code class="sourceCode java">high <span class="op">=</span> <span class="dv">4</span></code>. The result is a hand with five cards that are <em>shared</em> with the original deck; that is, they are aliased.</p>
 <figure id="fig.subdeck" class="figure">
 <div class="center">
-<p><img src="figs/subdeck-.svg" class="figure-img"></p>
+<p>
+<img src="figs/subdeck-.svg" alt="Memory diagram showing a subdeck with low=0 and high=4, containing 5 cards that are aliased (shared) with the original deck" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram showing the effect of <code class="sourceCode java">subdeck</code>.
@@ -559,7 +583,9 @@ Memory diagram showing the effect of <code class="sourceCode java">subdeck</code
 <p>Figure&nbsp;<a href="#fig.deck" data-reference-type="ref" data-reference="fig.deck">13.3</a> shows a UML class diagram for <code class="sourceCode java">Deck</code>, including the instance variable, <code class="sourceCode java">cards</code>, and the methods we have so far. In UML diagrams, <code class="sourceCode java"><span class="kw">private</span></code> attributes and methods begin with a minus sign (<code class="sourceCode java"><span class="op">-</span></code>) and <code class="sourceCode java"><span class="dt">static</span></code> methods are underlined.</p>
 <figure id="fig.deck" class="figure">
 <div class="center">
-<p><img src="figs/deck-.svg" class="figure-img"></p>
+<p>
+<img src="figs/deck-.svg" alt="UML class diagram showing Deck class with private cards array attribute and public methods including constructors, print, shuffle, selectionSort, mergeSort, and subdeck" class="figure-img">
+</p>
 </div>
 <figcaption>
 UML diagram for the <code class="sourceCode java">Deck</code> class.

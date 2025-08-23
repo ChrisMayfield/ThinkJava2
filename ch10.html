@@ -363,10 +363,30 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+<div class="notice">
+<h4 class="anchored">Notices</h4>
+<p>
+    This is the free HTML version of <it>Think Java 2e</it>.
+    Print versions are available from
+    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
+    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
+</p>
+
+<p>
+    We are working on making this site accessible in compliance with
+    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
+    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
+</p>
+
+<p>
+    Are you using one of our books in a class? We'd like to know about it.
+    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+</p>
+</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch01.html">Chapters</a></li><li class="breadcrumb-item"><a href="./ch10.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Mutable Objects</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="mutable" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Mutable Objects</span></span></h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Mutable Objects</span></h1>
 </div>
 
 
@@ -396,7 +416,9 @@ window.Quarto = {
 <p>The first line declares that <code class="sourceCode java">blank</code> has type <code class="sourceCode java"><span class="bu">Point</span></code>. The second line creates the new <code class="sourceCode java"><span class="bu">Point</span></code> with the coordinates <span class="math inline">\(x=3\)</span> and <span class="math inline">\(y=4\)</span>. The result of the <code class="sourceCode java"><span class="kw">new</span></code> operator is a <em>reference</em> to the object. Figure&nbsp;<a href="#fig.reference" data-reference-type="ref" data-reference="fig.reference">10.1</a> shows the result.</p>
 <figure id="fig.reference" class="figure">
 <div class="center">
-<p><img src="figs/reference-.svg" class="figure-img"></p>
+<p>
+<img src="figs/reference-.svg" alt="Memory diagram showing a variable named blank with an arrow pointing to a Point object containing attributes x=3 and y=4" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram showing a variable that refers to a <code class="sourceCode java"><span class="bu">Point</span></code> object.
@@ -443,7 +465,9 @@ Memory diagram showing a variable that refers to a <code class="sourceCode java"
 <p>Figure&nbsp;<a href="#fig.rectangle" data-reference-type="ref" data-reference="fig.rectangle">10.2</a> shows the effect of this assignment.</p>
 <figure id="fig.rectangle" class="figure">
 <div class="center">
-<p><img src="figs/rectangle-.svg" class="figure-img"></p>
+<p>
+<img src="figs/rectangle-.svg" alt="Memory diagram showing a Rectangle object with attributes x=0, y=0, width=100, and height=200" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram showing a <code class="sourceCode java"><span class="bu">Rectangle</span></code> object.
@@ -469,7 +493,9 @@ Memory diagram showing a <code class="sourceCode java"><span class="bu">Rectangl
 <p>The result is shown in Figure&nbsp;<a href="#fig.rectangle2" data-reference-type="ref" data-reference="fig.rectangle2">10.3</a>.</p>
 <figure id="fig.rectangle2" class="figure">
 <div class="center">
-<p><img src="figs/rectangle2-.svg" class="figure-img"></p>
+<p>
+<img src="figs/rectangle2-.svg" alt="Memory diagram showing the same Rectangle object after its x and y attributes have been updated to x=50 and y=100" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram showing updated attributes.
@@ -497,7 +523,9 @@ Memory diagram showing updated attributes.
 <p>Figure&nbsp;<a href="#fig.aliasing" data-reference-type="ref" data-reference="fig.aliasing">10.4</a> shows the result: <code class="sourceCode java">box1</code> and <code class="sourceCode java">box2</code> refer to the same object, so any changes that affect one variable also affect the other.</p>
 <figure id="fig.aliasing" class="figure">
 <div class="center">
-<p><img src="figs/aliasing-.svg" class="figure-img"></p>
+<p>
+<img src="figs/aliasing-.svg" alt="Memory diagram showing two variables box1 and box2 both pointing to the same Rectangle object, demonstrating aliasing" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram showing two variables that refer to the same <code class="sourceCode java"><span class="bu">Rectangle</span></code> object.
@@ -508,7 +536,9 @@ Memory diagram showing two variables that refer to the same <code class="sourceC
 <p>The result is shown in Figure&nbsp;<a href="#fig.aliasing2" data-reference-type="ref" data-reference="fig.aliasing2">10.5</a>.</p>
 <figure id="fig.aliasing2" class="figure">
 <div class="center">
-<p><img src="figs/aliasing2-.svg" class="figure-img"></p>
+<p>
+<img src="figs/aliasing2-.svg" alt="Memory diagram showing the same aliased Rectangle object after the grow method has modified its attributes to x=-50, y=-50, width=200, and height=300" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram showing the effect of invoking <code class="sourceCode java">grow</code>.
@@ -544,7 +574,9 @@ If not, you might have to install the <em>openjdk-...-source</em> package.</p></
 <p><strong>Unified Modeling Language</strong> (UML) defines a graphical way to summarize this information. Figure&nbsp;<a href="#fig.umlPoint" data-reference-type="ref" data-reference="fig.umlPoint">10.6</a> shows two examples, the UML <strong>class diagrams</strong> for the <code class="sourceCode java"><span class="bu">Point</span></code> and <code class="sourceCode java"><span class="bu">Rectangle</span></code> classes.</p>
 <figure id="fig.umlPoint" class="figure">
 <div class="center">
-<p><img src="figs/point-rect-.svg" class="figure-img"></p>
+<p>
+<img src="figs/point-rect-.svg" alt="UML class diagrams showing Point class with attributes x:int, y:int and methods distance(), and Rectangle class with attributes x:int, y:int, width:int, height:int and methods translate(), grow()" class="figure-img">
+</p>
 </div>
 <figcaption>
 UML class diagrams for <code class="sourceCode java"><span class="bu">Point</span></code> and <code class="sourceCode java"><span class="bu">Rectangle</span></code>.
@@ -583,7 +615,9 @@ UML class diagrams for <code class="sourceCode java"><span class="bu">Point</spa
 <p>The first line creates a new <code class="sourceCode java"><span class="bu">Point</span></code> object and makes <code class="sourceCode java">blank</code> refer to it. The second line changes <code class="sourceCode java">blank</code> so that instead of referring to the object, it refers to nothing. As shown in Figure&nbsp;<a href="#fig.reference3" data-reference-type="ref" data-reference="fig.reference3">10.7</a>, after the second assignment, there are no references to the <code class="sourceCode java"><span class="bu">Point</span></code> object.</p>
 <figure id="fig.reference3" class="figure">
 <div class="center">
-<p><img src="figs/reference3-.svg" class="figure-img"></p>
+<p>
+<img src="figs/reference3-.svg" alt="Memory diagram showing a variable that was previously pointing to a Point object, but now contains null, with no arrow pointing to any object" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram showing the effect of setting a variable to <code class="sourceCode java"><span class="kw">null</span></code>.

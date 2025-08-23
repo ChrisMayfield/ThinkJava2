@@ -362,10 +362,30 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+<div class="notice">
+<h4 class="anchored">Notices</h4>
+<p>
+    This is the free HTML version of <it>Think Java 2e</it>.
+    Print versions are available from
+    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
+    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
+</p>
+
+<p>
+    We are working on making this site accessible in compliance with
+    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
+    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
+</p>
+
+<p>
+    Are you using one of our books in a class? We'd like to know about it.
+    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+</p>
+</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch01.html">Chapters</a></li><li class="breadcrumb-item"><a href="./ch02.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Variables and Operators</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="variables" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Variables and Operators</span></span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Variables and Operators</span></h1>
 </div>
 
 
@@ -433,7 +453,9 @@ window.Quarto = {
 <p>Taken together, the variables in a program and their current values make up the program’s <strong>state</strong>. Figure&nbsp;<a href="#fig.state" data-reference-type="ref" data-reference="fig.state">2.1</a> shows the state of the program after these assignment statements run.</p>
 <figure id="fig.state" class="figure">
 <div class="center">
-<p><img src="figs/state-.svg" class="figure-img"></p>
+<p>
+<img src="figs/state-.svg" alt="Memory diagram showing two variables a and b with their values" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram of the variables <code class="sourceCode java">a</code> and <code class="sourceCode java">b</code>.
@@ -443,7 +465,9 @@ Memory diagram of the variables <code class="sourceCode java">a</code> and <code
 <p>As the program runs, the state of memory changes, so memory diagrams show only a particular point in time. For example, if we added the line <code class="sourceCode java"><span class="dt">int</span> c <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></code> to the previous example, the memory diagram would look like Figure&nbsp;<a href="#fig.state2" data-reference-type="ref" data-reference="fig.state2">2.2</a>.</p>
 <figure id="fig.state2" class="figure">
 <div class="center">
-<p><img src="figs/state2-.svg" class="figure-img"></p>
+<p>
+<img src="figs/state2-.svg" alt="Memory diagram showing three variables a, b, and c with their values" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram of the variables <code class="sourceCode java">a</code>, <code class="sourceCode java">b</code>, and <code class="sourceCode java">c</code>.

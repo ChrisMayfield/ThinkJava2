@@ -333,10 +333,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+<div class="notice">
+<h4 class="anchored">Notices</h4>
+<p>
+    This is the free HTML version of <it>Think Java 2e</it>.
+    Print versions are available from
+    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
+    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
+</p>
+
+<p>
+    We are working on making this site accessible in compliance with
+    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
+    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
+</p>
+
+<p>
+    Are you using one of our books in a class? We'd like to know about it.
+    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+</p>
+</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch01.html">Chapters</a></li><li class="breadcrumb-item"><a href="./ch15.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="conway" class="quarto-section-identifier"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></span></h1>
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></h1>
 </div>
 
 
@@ -360,7 +380,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The game board is a 2D grid of square cells. Each cell is either “alive” or “dead”; the color of the cell indicates its state. Figure&nbsp;<a href="#fig:glider" data-reference-type="ref" data-reference="fig:glider">15.1</a> shows an example grid configuration; the five black cells are alive.</p>
 <figure id="fig:glider" class="figure">
 <div class="center">
-<p><img src="figs/glider.png" class="figure-img"></p>
+<p>
+<img src="figs/glider.png" alt="Grid showing a Glider pattern in Conway's Game of Life with five black cells arranged in a specific formation that will move diagonally across the grid" class="figure-img">
+</p>
 </div>
 <figcaption>
 A “Glider” in the Game of Life.
@@ -377,7 +399,9 @@ A “Glider” in the Game of Life.
 <p>During the next time step, the center cell lives, the top and bottom cells die, and the left and right cells come to life. The result is three horizontal cells, so we’re back where we started, and the cycle repeats forever.</p>
 <figure id="fig:blinker" class="figure">
 <div class="center">
-<p><img src="figs/figure15-2.png" style="width:95.0%" class="figure-img"></p>
+<p>
+<img src="figs/figure15-2.png" style="width:95.0%" alt="Grid showing a Blinker pattern in Conway's Game of Life with three horizontal black cells that will oscillate between horizontal and vertical orientations" class="figure-img">
+</p>
 </div>
 <figcaption>
 A “Blinker” in the Game of Life.
@@ -451,7 +475,9 @@ A “Blinker” in the Game of Life.
 <p>In Java, a 2D array is really an array of arrays. You can think of it as an array of rows, where each row is an array. Figure&nbsp;<a href="#fig:2D-array" data-reference-type="ref" data-reference="fig:2D-array">15.3</a> shows what it looks like.</p>
 <figure id="fig:2D-array" class="figure">
 <div class="center">
-<p><img src="figs/2D-array-.svg" class="figure-img"></p>
+<p>
+<img src="figs/2D-array-.svg" alt="Diagram showing how a 2D array is structured as an array of arrays, with rows and columns clearly labeled to demonstrate the row-major order storage" class="figure-img">
+</p>
 </div>
 <figcaption>
 Storing rows and columns with a 2D array.
@@ -548,7 +574,9 @@ Storing rows and columns with a 2D array.
 <p><code class="sourceCode java">main</code> then adds the <code class="sourceCode java">GridCanvas</code> inside the frame, resizes (“packs”) the frame to fit the canvas, and makes the frame visible. Figure&nbsp;<a href="#fig:conway" data-reference-type="ref" data-reference="fig:conway">15.4</a> shows the result.</p>
 <figure id="fig:conway" class="figure">
 <div class="center">
-<p><img src="figs/conway.png" class="figure-img"></p>
+<p>
+<img src="figs/conway.png" alt="Screenshot showing the Conway's Game of Life application window with a grid of cells, some alive (black) and some dead (white), displayed in a graphical interface" class="figure-img">
+</p>
 </div>
 <figcaption>
 Screenshot of the initial <code class="sourceCode java">Conway</code> application.
@@ -600,7 +628,9 @@ Screenshot of the initial <code class="sourceCode java">Conway</code> applicatio
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <figure id="fig:neighbors" class="figure">
 <div class="center">
-<p><img src="figs/grid-.svg" style="height:1.94444in" class="figure-img"></p>
+<p>
+<img src="figs/grid-.svg" style="height:1.94444in" alt="Grid diagram showing how cells in the interior have eight neighbors, while cells on edges have five neighbors, and corner cells have only three neighbors" class="figure-img">
+</p>
 </div>
 <figcaption>
 Cells in the interior of the grid have eight neighbors. Cells in the corners and along the edges have fewer neighbors.
@@ -647,7 +677,9 @@ Cells in the interior of the grid have eight neighbors. Cells in the corners and
 <p><code class="sourceCode java">countNeighbors</code> traverses the cells in the grid and uses <code class="sourceCode java">countAlive</code> from the previous section to count the neighbors. The return value is a 2D array of integers with the same size as <code class="sourceCode java">grid</code>. Figure&nbsp;<a href="#fig:countNeigh" data-reference-type="ref" data-reference="fig:countNeigh">15.6</a> illustrates an example.</p>
 <figure id="fig:countNeigh" class="figure">
 <div class="center">
-<p><img src="figs/figure15-6.png" style="width:93.0%" class="figure-img"></p>
+<p>
+<img src="figs/figure15-6.png" style="width:93.0%" alt="Grid showing the result of countNeighbors method with numbers indicating how many live neighbors each cell has, demonstrating the neighbor counting algorithm for Conway's Game of Life" class="figure-img">
+</p>
 </div>
 <figcaption>
 The result of <code class="sourceCode java">countNeighbors</code> for the grid in Section&nbsp;<a href="#conwaymain" data-reference-type="ref" data-reference="conwaymain">15.6</a>.

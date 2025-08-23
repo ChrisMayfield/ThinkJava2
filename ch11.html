@@ -360,6 +360,26 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+<div class="notice">
+<h4 class="anchored">Notices</h4>
+<p>
+    This is the free HTML version of <it>Think Java 2e</it>.
+    Print versions are available from
+    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
+    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
+</p>
+
+<p>
+    We are working on making this site accessible in compliance with
+    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
+    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
+</p>
+
+<p>
+    Are you using one of our books in a class? We'd like to know about it.
+    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+</p>
+</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch01.html">Chapters</a></li><li class="breadcrumb-item"><a href="./ch11.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Designing Classes</span></a></li></ol></nav>
 <div class="quarto-title">
@@ -429,7 +449,9 @@ window.Quarto = {
 <p>When you use <code class="sourceCode java"><span class="kw">new</span></code>, Java creates the object and invokes your constructor to initialize the instance variables. When the constructor is done, <code class="sourceCode java"><span class="kw">new</span></code> returns a reference to the new object. In this example, the reference gets assigned to the variable <code class="sourceCode java">time</code>, which has type <code class="sourceCode java"><span class="bu">Time</span></code>. Figure&nbsp;<a href="#fig.time" data-reference-type="ref" data-reference="fig.time">11.1</a> shows the result.</p>
 <figure id="fig.time" class="figure">
 <div class="center">
-<p><img src="figs/time-.svg" class="figure-img"></p>
+<p>
+<img src="figs/time-.svg" alt="Memory diagram showing a Time object with private attributes hour=11, minute=59, and second=59.9" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram of a <code class="sourceCode java"><span class="bu">Time</span></code> object.
@@ -589,7 +611,9 @@ Memory diagram of a <code class="sourceCode java"><span class="bu">Time</span></
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="bu">Time</span> time3 <span class="op">=</span> <span class="kw">new</span> <span class="bu">Time</span><span class="op">(</span><span class="dv">9</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="fl">0.0</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <figure id="fig.time2" class="figure">
 <div class="center">
-<p><img src="figs/time2-.svg" class="figure-img"></p>
+<p>
+<img src="figs/time2-.svg" alt="Memory diagram showing three Time variables: time1 and time2 both pointing to the same Time object, while time3 points to a different Time object with identical values" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram of three <code class="sourceCode java"><span class="bu">Time</span></code> variables.
@@ -677,7 +701,7 @@ Memory diagram of three <code class="sourceCode java"><span class="bu">Time</spa
 <dl>
 <dt>class:</dt>
 <dd>
-<p>In Chapter&nbsp;<a href="ch01.html" data-reference-type="ref" data-reference="theway">1</a>, we defined a class as a collection of related methods. Now you know that a class is also a template for a new type of object.</p>
+<p>In Chapter&nbsp;<a href="#theway" data-reference-type="ref" data-reference="theway">1</a>, we defined a class as a collection of related methods. Now you know that a class is also a template for a new type of object.</p>
 </dd>
 <dt>instance:</dt>
 <dd>

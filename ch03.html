@@ -362,6 +362,26 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+<div class="notice">
+<h4 class="anchored">Notices</h4>
+<p>
+    This is the free HTML version of <it>Think Java 2e</it>.
+    Print versions are available from
+    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
+    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
+</p>
+
+<p>
+    We are working on making this site accessible in compliance with
+    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
+    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
+</p>
+
+<p>
+    Are you using one of our books in a class? We'd like to know about it.
+    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+</p>
+</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch01.html">Chapters</a></li><li class="breadcrumb-item"><a href="./ch03.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Input and Output</span></a></li></ol></nav>
 <div class="quarto-title">
@@ -395,7 +415,9 @@ window.Quarto = {
 <p>As shown in Figure&nbsp;<a href="#fig.system" data-reference-type="ref" data-reference="fig.system">3.1</a>, <code class="sourceCode java"><span class="bu">System</span></code> is defined in a file called <em>System.java</em>, and <code class="sourceCode java"><span class="bu">PrintStream</span></code> is defined in <em>PrintStream.java</em>. These files are part of the Java <strong>library</strong>, which is an extensive collection of classes that you can use in your programs. The source code for these classes is usually included with the compiler (see Section&nbsp;<a href="ch10.html#src.zip" data-reference-type="ref" data-reference="src.zip">10.6</a>).</p>
 <figure id="fig.system" class="figure">
 <div class="center">
-<p><img src="figs/system-.svg" class="figure-img"></p>
+<p>
+<img src="figs/system-.svg" alt="Diagram showing the structure of System.out.println with System class containing out variable of type PrintStream" class="figure-img">
+</p>
 </div>
 <figcaption>
 <code class="sourceCode java"><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span></code> refers to the <code class="sourceCode java">out</code> variable of the <code class="sourceCode java"><span class="bu">System</span></code> class, which is a <code class="sourceCode java"><span class="bu">PrintStream</span></code> that provides a method called <code class="sourceCode java">println</code>.
@@ -436,7 +458,9 @@ window.Quarto = {
 <p>At this point, we have seen nearly all of the organizational units that make up Java programs. Figure&nbsp;<a href="#fig.package" data-reference-type="ref" data-reference="fig.package">3.2</a> shows how these “language elements” are related.</p>
 <figure id="fig.package" class="figure">
 <div class="center">
-<p><img src="figs/package-.svg" style="width:3.94444in" class="figure-img"></p>
+<p>
+<img src="figs/package-.svg" style="width:3.94444in" alt="Hierarchy diagram showing Java language elements from largest to smallest: packages containing classes, classes containing methods, methods containing statements, statements containing expressions, and expressions containing tokens" class="figure-img">
+</p>
 </div>
 <figcaption>
 Elements of the Java language, from largest to smallest.
@@ -647,7 +671,9 @@ Format specifier '%d'
 <p>To understand what is happening, you need to realize that <code class="sourceCode java"><span class="bu">Scanner</span></code> doesn’t see input as multiple lines as we do. Instead, it gets a <em>stream of characters</em> as shown in Figure&nbsp;<a href="#fig.hopper1" data-reference-type="ref" data-reference="fig.hopper1">3.3</a>.</p>
 <figure id="fig.hopper1" class="figure">
 <div class="center">
-<p><img src="figs/hopper1-.svg" class="figure-img"></p>
+<p>
+<img src="figs/hopper1-.svg" alt="Diagram showing a stream of characters with an arrow pointing to the next character to be read by Scanner" class="figure-img">
+</p>
 </div>
 <figcaption>
 A stream of characters as seen by a <code class="sourceCode java"><span class="bu">Scanner</span></code>.
@@ -656,7 +682,9 @@ A stream of characters as seen by a <code class="sourceCode java"><span class="b
 <p>The arrow indicates the next character to be read by <code class="sourceCode java"><span class="bu">Scanner</span></code>. When you run <code class="sourceCode java">nextInt</code>, it reads characters until it gets to a non-digit. Figure&nbsp;<a href="#fig.hopper2" data-reference-type="ref" data-reference="fig.hopper2">3.4</a> shows the state of the stream after <code class="sourceCode java">nextInt</code> runs.</p>
 <figure id="fig.hopper2" class="figure">
 <div class="center">
-<p><img src="figs/hopper2-.svg" class="figure-img"></p>
+<p>
+<img src="figs/hopper2-.svg" alt="Diagram showing the state of the character stream after nextInt has read the numeric value" class="figure-img">
+</p>
 </div>
 <figcaption>
 A stream of characters after <code class="sourceCode java">nextInt</code> runs.

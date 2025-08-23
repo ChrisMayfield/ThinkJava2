@@ -360,6 +360,26 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+<div class="notice">
+<h4 class="anchored">Notices</h4>
+<p>
+    This is the free HTML version of <it>Think Java 2e</it>.
+    Print versions are available from
+    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
+    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
+</p>
+
+<p>
+    We are working on making this site accessible in compliance with
+    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
+    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
+</p>
+
+<p>
+    Are you using one of our books in a class? We'd like to know about it.
+    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+</p>
+</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch01.html">Chapters</a></li><li class="breadcrumb-item"><a href="./ch08.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Recursive Methods</span></a></li></ol></nav>
 <div class="quarto-title">
@@ -440,7 +460,9 @@ Blastoff!</code></pre>
 <p>Remember that every time a method gets called, Java creates a new frame that contains the method’s parameters and variables. Figure&nbsp;<a href="#fig.stack2" data-reference-type="ref" data-reference="fig.stack2">8.1</a> is a stack diagram for <code class="sourceCode java">countdown</code>, called with <code class="sourceCode java">n <span class="op">==</span> <span class="dv">3</span></code>.</p>
 <figure id="fig.stack2" class="figure">
 <div class="center">
-<p><img src="figs/stack2-.svg" class="figure-img"></p>
+<p>
+<img src="figs/stack2-.svg" alt="Stack diagram showing the call stack for countdown method with four frames, each containing parameter n with values 3, 2, 1, and 0 as the base case" class="figure-img">
+</p>
 </div>
 <figcaption>
 Stack diagram for the <code class="sourceCode java">countdown</code> program.
@@ -510,7 +532,9 @@ An adjective used to describe a method that is recursive.</p>
 <p>Figure&nbsp;<a href="#fig.stack3" data-reference-type="ref" data-reference="fig.stack3">8.2</a> shows what the stack diagram looks like for this sequence of method invocations. The return values are shown being passed up the stack. Notice that <code class="sourceCode java">recurse</code> and <code class="sourceCode java">result</code> do not exist in the last frame, because when <code class="sourceCode java">n <span class="op">==</span> <span class="dv">0</span></code>, the code that declares them does not execute.</p>
 <figure id="fig.stack3" class="figure">
 <div class="center">
-<p><img src="figs/stack3-.svg" class="figure-img"></p>
+<p>
+<img src="figs/stack3-.svg" alt="Stack diagram showing the call stack for factorial method with frames showing parameter n and return values being passed up the stack" class="figure-img">
+</p>
 </div>
 <figcaption>
 Stack diagram for the <code class="sourceCode java">factorial</code> method.
@@ -687,7 +711,9 @@ Stack diagram for the <code class="sourceCode java">factorial</code> method.
 <p>If <code class="sourceCode java">value</code> is <code class="sourceCode java"><span class="dv">0</span></code>, <code class="sourceCode java">displayBinary</code> does nothing (that’s the base case). If the argument is positive, the method divides it by 2 and calls <code class="sourceCode java">displayBinary</code> recursively. When the recursive call returns, the method displays one digit of the result and returns (again). Figure&nbsp;<a href="#fig.stack4" data-reference-type="ref" data-reference="fig.stack4">8.3</a> illustrates this process.</p>
 <figure id="fig.stack4" class="figure">
 <div class="center">
-<p><img src="figs/stack4-.svg" style="width:2.63889in" class="figure-img"></p>
+<p>
+<img src="figs/stack4-.svg" style="width:2.63889in" alt="Stack diagram showing the call stack for displayBinary method, illustrating how binary digits are processed and displayed in reverse order" class="figure-img">
+</p>
 </div>
 <figcaption>
 Stack diagram for the <code class="sourceCode java">displayBinary</code> method.

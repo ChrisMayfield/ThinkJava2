@@ -361,6 +361,26 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+<div class="notice">
+<h4 class="anchored">Notices</h4>
+<p>
+    This is the free HTML version of <it>Think Java 2e</it>.
+    Print versions are available from
+    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
+    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
+</p>
+
+<p>
+    We are working on making this site accessible in compliance with
+    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
+    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
+</p>
+
+<p>
+    Are you using one of our books in a class? We'd like to know about it.
+    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+</p>
+</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch01.html">Chapters</a></li><li class="breadcrumb-item"><a href="./ch12.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Arrays of Objects</span></a></li></ol></nav>
 <div class="quarto-title">
@@ -385,7 +405,7 @@ window.Quarto = {
 <ul>
 <li><p>In this chapter, we define a <code class="sourceCode java">Card</code> class and write methods that work with cards and arrays of cards.</p></li>
 <li><p>In Chapter&nbsp;<a href="ch13.html#deck" data-reference-type="ref" data-reference="deck">13.1</a>, we define a <code class="sourceCode java">Deck</code> class that encapsulates an array of cards, and we write methods that operate on decks.</p></li>
-<li><p>In Chapter&nbsp;<a href="ch14.html" data-reference-type="ref" data-reference="eights">14</a>, we introduce a way to define new classes that extend existing classes. Then we use <code class="sourceCode java">Card</code> and <code class="sourceCode java">Deck</code> to implement the game Crazy Eights.</p></li>
+<li><p>In Chapter&nbsp;<a href="#eights" data-reference-type="ref" data-reference="eights">14</a>, we introduce a way to define new classes that extend existing classes. Then we use <code class="sourceCode java">Card</code> and <code class="sourceCode java">Deck</code> to implement the game Crazy Eights.</p></li>
 </ul>
 <p>There are 52 cards in a standard deck. Each card belongs to one of four suits and one of 13 ranks. The suits are Clubs, Diamonds, Hearts, and Spades. The ranks are Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, and King.</p>
 <p>If you are unfamiliar with traditional playing cards, now would be a good time to get a deck or read through <a href="https://en.wikipedia.org/wiki/Standard_52-card_deck" class="uri">https://en.wikipedia.org/wiki/Standard_52-card_deck</a>.</p>
@@ -475,7 +495,9 @@ window.Quarto = {
 <p>The memory diagram in Figure&nbsp;<a href="#fig.stringarray" data-reference-type="ref" data-reference="fig.stringarray">12.1</a> shows the result. Each element of the array is a reference to a <code class="sourceCode java"><span class="bu">String</span></code>.</p>
 <figure id="fig.stringarray" class="figure">
 <div class="center">
-<p><img src="figs/stringarray-.svg" class="figure-img"></p>
+<p>
+<img src="figs/stringarray-.svg" alt="Memory diagram showing an array of string references pointing to String objects containing &quot;Clubs&quot;, &quot;Diamonds&quot;, &quot;Hearts&quot;, and &quot;Spades&quot;" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram of an array of strings.
@@ -579,7 +601,9 @@ Memory diagram of an array of strings.
 <div class="sourceCode" id="cb15" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>Card<span class="op">[]</span> cards <span class="op">=</span> <span class="kw">new</span> Card<span class="op">[</span><span class="dv">52</span><span class="op">];</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <figure id="fig.cardarray" class="figure">
 <div class="center">
-<p><img src="figs/cardarray-.svg" class="figure-img"></p>
+<p>
+<img src="figs/cardarray-.svg" alt="Memory diagram showing a Card array with 52 elements, all initially containing null references, representing an unpopulated deck of cards" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram of an unpopulated <code class="sourceCode java">Card</code> array.
@@ -604,7 +628,9 @@ Memory diagram of an unpopulated <code class="sourceCode java">Card</code> array
 <p>We use a separate variable <code class="sourceCode java">index</code> to keep track of where in the array the next card should go. Figure&nbsp;<a href="#fig.cardarray2" data-reference-type="ref" data-reference="fig.cardarray2">12.3</a> shows what the array looks like after the first two cards have been created.</p>
 <figure id="fig.cardarray2" class="figure">
 <div class="center">
-<p><img src="figs/cardarray2-.svg" class="figure-img"></p>
+<p>
+<img src="figs/cardarray2-.svg" alt="Memory diagram showing a Card array where the first two elements point to Card objects (Ace of Clubs and 2 of Clubs), while the remaining elements still contain null references" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram of a <code class="sourceCode java">Card</code> array with two cards.

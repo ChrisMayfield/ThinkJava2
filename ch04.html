@@ -361,6 +361,26 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+<div class="notice">
+<h4 class="anchored">Notices</h4>
+<p>
+    This is the free HTML version of <it>Think Java 2e</it>.
+    Print versions are available from
+    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
+    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
+</p>
+
+<p>
+    We are working on making this site accessible in compliance with
+    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
+    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
+</p>
+
+<p>
+    Are you using one of our books in a class? We'd like to know about it.
+    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+</p>
+</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch01.html">Chapters</a></li><li class="breadcrumb-item"><a href="./ch04.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Methods and Testing</span></a></li></ol></nav>
 <div class="quarto-title">
@@ -516,7 +536,9 @@ Error: method printTwice in class Test cannot be applied
 <p>As with memory diagrams, stack diagrams show variables and methods at a particular point in time. Figure&nbsp;<a href="#fig.stack" data-reference-type="ref" data-reference="fig.stack">4.1</a> is a stack diagram at the beginning of the <code class="sourceCode java">printTime</code> method. Notice that <code class="sourceCode java">main</code> is on top, because it executed first.</p>
 <figure id="fig.stack" class="figure">
 <div class="center">
-<p><img src="figs/stack1-.svg" class="figure-img"></p>
+<p>
+<img src="figs/stack1-.svg" alt="Stack diagram showing the call stack with main method on top and printTime method below, illustrating method scope and variable visibility" class="figure-img">
+</p>
 </div>
 <figcaption>
 Stack diagram for <code class="sourceCode java"><span class="fu">printTime</span><span class="op">(</span>hour <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">)</span></code>.
@@ -589,7 +611,9 @@ Error: cannot find symbol
 <p>Figure&nbsp;<a href="#fig.param" data-reference-type="ref" data-reference="fig.param">4.2</a> illustrates how data values flows through the program. When the <code class="sourceCode java">main</code> method invokes <code class="sourceCode java">calculateArea</code>, the value <code class="sourceCode java"><span class="fl">5.0</span></code> is assigned to the parameter <code class="sourceCode java">radius</code>. <code class="sourceCode java">calculateArea</code> then returns the value <code class="sourceCode java"><span class="fl">78.54</span></code>, which is assigned to the variable <code class="sourceCode java">area</code>.</p>
 <figure id="fig.param" class="figure">
 <div class="center">
-<p><img src="figs/param-.svg" class="figure-img"></p>
+<p>
+<img src="figs/param-.svg" alt="Diagram showing the flow of data from main method to calculateArea method, with parameter radius receiving value 5.0 and return value 78.54 being assigned to variable area" class="figure-img">
+</p>
 </div>
 <figcaption>
 Passing a parameter and saving the return value.

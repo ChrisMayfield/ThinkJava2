@@ -332,10 +332,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+<div class="notice">
+<h4 class="anchored">Notices</h4>
+<p>
+    This is the free HTML version of <it>Think Java 2e</it>.
+    Print versions are available from
+    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
+    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
+</p>
+
+<p>
+    We are working on making this site accessible in compliance with
+    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
+    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
+</p>
+
+<p>
+    Are you using one of our books in a class? We'd like to know about it.
+    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+</p>
+</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch01.html">Chapters</a></li><li class="breadcrumb-item"><a href="./ch01.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Computer Programming</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="theway" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Computer Programming</span></span></h1>
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Computer Programming</span></h1>
 </div>
 
 
@@ -362,7 +382,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figure id="fig.cpuram" class="figure">
 <div class="center">
 <p>
-<img src="figs/CPU.jpg" style="height:11em" alt="image" class="figure-img"> <img src="figs/RAM.jpg" style="height:11em" alt="image" class="figure-img">
+<img src="figs/CPU.jpg" style="height:11em" alt="Photograph of a computer processor chip showing the integrated circuit components" class="figure-img"> <img src="figs/RAM.jpg" style="height:11em" alt="Photograph of a computer memory module showing the RAM chips and circuit board" class="figure-img">
 </p>
 </div>
 <figcaption>
@@ -434,7 +454,9 @@ Example processor and memory hardware.
 <p>Two kinds of programs translate high-level languages into low-level languages: interpreters and compilers. An <strong>interpreter</strong> reads a high-level program and executes it, meaning that it does what the program says. It processes the program a little at a time, alternately reading lines and performing computations. Figure&nbsp;<a href="#fig.interpreter" data-reference-type="ref" data-reference="fig.interpreter">1.2</a> shows the structure of an interpreter.</p>
 <figure id="fig.interpreter" class="figure">
 <div class="center">
-<p><img src="figs/interpreter-.svg" class="figure-img"></p>
+<p>
+<img src="figs/interpreter-.svg" alt="Diagram showing the process of how interpreted languages are executed step by step" class="figure-img">
+</p>
 </div>
 <figcaption>
 How interpreted languages are executed.
@@ -446,7 +468,9 @@ How interpreted languages are executed.
 <p>As a result, it’s possible to compile a Java program on one machine, transfer the byte code to another machine, and run the byte code on that other machine. Figure&nbsp;<a href="#fig.compiler" data-reference-type="ref" data-reference="fig.compiler">1.3</a> shows the steps of the development process. The Java compiler is a program named <code>javac</code>. It translates <em>.java</em> files into <em>.class</em> files that store the resulting byte code. The Java interpreter is another program, named <code>java</code>, which is short for “Java Virtual Machine” (JVM).</p>
 <figure id="fig.compiler" class="figure">
 <div class="center">
-<p><img src="figs/compiler-.svg" class="figure-img"></p>
+<p>
+<img src="figs/compiler-.svg" alt="Diagram showing the Java development process from source code compilation to byte code execution" class="figure-img">
+</p>
 </div>
 <figcaption>
 The process of compiling and running a Java program.

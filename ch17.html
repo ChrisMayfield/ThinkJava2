@@ -361,6 +361,26 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+<div class="notice">
+<h4 class="anchored">Notices</h4>
+<p>
+    This is the free HTML version of <it>Think Java 2e</it>.
+    Print versions are available from
+    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
+    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
+</p>
+
+<p>
+    We are working on making this site accessible in compliance with
+    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
+    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
+</p>
+
+<p>
+    Are you using one of our books in a class? We'd like to know about it.
+    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+</p>
+</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch01.html">Chapters</a></li><li class="breadcrumb-item"><a href="./ch17.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Advanced Topics</span></a></li></ol></nav>
 <div class="quarto-title">
@@ -381,8 +401,8 @@ window.Quarto = {
 </header>
 
 
-<p>When we first looked at inheritance in Chapter&nbsp;<a href="ch14.html" data-reference-type="ref" data-reference="eights">14</a>, our purpose was to avoid duplicating code. We noticed that “decks of cards” and “hands of cards” had common functionality, and we designed a <code class="sourceCode java">CardCollection</code> class to provide it. This technique is an example of <strong>generalization</strong>. By generalizing the code, we were able to reuse it in the <code class="sourceCode java">Deck</code> and <code class="sourceCode java">Hand</code> classes.</p>
-<p>In Chapter&nbsp;<a href="ch15.html" data-reference-type="ref" data-reference="conway">15</a>, we looked at inheritance from a different point of view. When designing <code class="sourceCode java">GridCanvas</code> to represent a grid of cells, we extended <code class="sourceCode java"><span class="bu">Canvas</span></code> and overrode its <code class="sourceCode java">paint</code> method. This design is an example of <strong>specialization</strong>. Using the code provided by <code class="sourceCode java"><span class="bu">Canvas</span></code>, we created a specialized subclass with minimal additional code.</p>
+<p>When we first looked at inheritance in Chapter&nbsp;<a href="#eights" data-reference-type="ref" data-reference="eights">14</a>, our purpose was to avoid duplicating code. We noticed that “decks of cards” and “hands of cards” had common functionality, and we designed a <code class="sourceCode java">CardCollection</code> class to provide it. This technique is an example of <strong>generalization</strong>. By generalizing the code, we were able to reuse it in the <code class="sourceCode java">Deck</code> and <code class="sourceCode java">Hand</code> classes.</p>
+<p>In Chapter&nbsp;<a href="#conway" data-reference-type="ref" data-reference="conway">15</a>, we looked at inheritance from a different point of view. When designing <code class="sourceCode java">GridCanvas</code> to represent a grid of cells, we extended <code class="sourceCode java"><span class="bu">Canvas</span></code> and overrode its <code class="sourceCode java">paint</code> method. This design is an example of <strong>specialization</strong>. Using the code provided by <code class="sourceCode java"><span class="bu">Canvas</span></code>, we created a specialized subclass with minimal additional code.</p>
 <p>We didn’t write the code for <code class="sourceCode java"><span class="bu">Canvas</span></code>; it’s part of the Java library. But we were able to customize it for our own purposes. In fact, the <code class="sourceCode java"><span class="bu">Canvas</span></code> class was explicitly designed to be extended.</p>
 <p>In this chapter, we’ll explore the concept of inheritance more fully and present event-driven programming. We’ll continue to develop graphical simulations as a running example, but this time in varying shapes and colors!</p>
 <section id="polygon-objects" class="level2" data-number="17.1">
@@ -436,7 +456,9 @@ window.Quarto = {
 <div class="sourceCode" id="cb4" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>RegularPolygon rp <span class="op">=</span> <span class="kw">new</span> <span class="fu">RegularPolygon</span><span class="op">(</span><span class="dv">6</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="bu">Color</span><span class="op">.</span><span class="fu">BLUE</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <figure id="fig:hexagon" class="figure">
 <div class="center">
-<p><img src="figs/hexagon-.svg" class="figure-img"></p>
+<p>
+<img src="figs/hexagon-.svg" alt="Diagram showing a hexagon with center at origin (0,0), radius r, and vertex V1 at angle θ, with trigonometric relationships showing how x = r cos(θ) and y = r sin(θ)" class="figure-img">
+</p>
 </div>
 <figcaption>
 Determining the <span class="math inline"><em>x</em></span> and <span class="math inline"><em>y</em></span> coordinates of vertex V1, given the radius&nbsp;<span class="math inline"><em>r</em></span> and angle&nbsp;<span class="math inline"><em>θ</em></span>. The center of the polygon is at the origin <span class="math inline">(0, 0)</span>.
@@ -559,7 +581,9 @@ Determining the <span class="math inline"><em>x</em></span> and <span class="mat
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <figure id="fig:drawing" class="figure">
 <div class="center">
-<p><img src="figs/drawing.png" style="width:4in" class="figure-img"></p>
+<p>
+<img src="figs/drawing.png" style="width:4in" alt="Screenshot showing a drawing application with three regular polygons: a triangle (3 sides), a hexagon (6 sides), and a circle-like polygon (360 sides), demonstrating how polygons with many sides approximate circles" class="figure-img">
+</p>
 </div>
 <figcaption>
 Initial drawing of three <code class="sourceCode java">RegularPolygon</code> objects.
@@ -573,7 +597,7 @@ Initial drawing of three <code class="sourceCode java">RegularPolygon</code> obj
 </section>
 <section id="blinking-polygons" class="level2" data-number="17.6">
 <h2 data-number="17.6" class="anchored" data-anchor-id="blinking-polygons"><span class="header-section-number">17.6</span> Blinking Polygons</h2>
-<p>At this point, we have a simple program that draws polygons; we can make it more fun by adding animation. Chapter&nbsp;<a href="ch15.html" data-reference-type="ref" data-reference="conway">15</a> introduced the idea of simulating time steps. Here’s a loop that runs the animation:</p>
+<p>At this point, we have a simple program that draws polygons; we can make it more fun by adding animation. Chapter&nbsp;<a href="#conway" data-reference-type="ref" data-reference="conway">15</a> introduced the idea of simulating time steps. Here’s a loop that runs the animation:</p>
 <div class="sourceCode" id="cb15" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    drawing<span class="op">.</span><span class="fu">step</span><span class="op">();</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>

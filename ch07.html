@@ -361,6 +361,26 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+<div class="notice">
+<h4 class="anchored">Notices</h4>
+<p>
+    This is the free HTML version of <it>Think Java 2e</it>.
+    Print versions are available from
+    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
+    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
+</p>
+
+<p>
+    We are working on making this site accessible in compliance with
+    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
+    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
+</p>
+
+<p>
+    Are you using one of our books in a class? We'd like to know about it.
+    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+</p>
+</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch01.html">Chapters</a></li><li class="breadcrumb-item"><a href="./ch07.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Arrays and References</span></a></li></ol></nav>
 <div class="quarto-title">
@@ -415,7 +435,9 @@ window.Quarto = {
 <p>When you create an array with the <code class="sourceCode java"><span class="kw">new</span></code> operator, the elements are initialized to zero. Figure&nbsp;<a href="#fig.array" data-reference-type="ref" data-reference="fig.array">7.1</a> shows a memory diagram of the <code class="sourceCode java">counts</code> array so far.</p>
 <figure id="fig.array" class="figure">
 <div class="center">
-<p><img src="figs/array-.svg" class="figure-img"></p>
+<p>
+<img src="figs/array-.svg" alt="Memory diagram showing an int array with four elements initialized to zero, with indexes 0-3 and a reference arrow pointing to the array" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram of an <code class="sourceCode java"><span class="dt">int</span></code> array.
@@ -433,7 +455,9 @@ Memory diagram of an <code class="sourceCode java"><span class="dt">int</span></
 <p>Figure&nbsp;<a href="#fig.array2" data-reference-type="ref" data-reference="fig.array2">7.2</a> shows the result of these statements.</p>
 <figure id="fig.array2" class="figure">
 <div class="center">
-<p><img src="figs/array2-.svg" class="figure-img"></p>
+<p>
+<img src="figs/array2-.svg" alt="Memory diagram showing the same array after assignment statements have changed the values of elements at indexes 0, 1, 2, and 3" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram after several assignment statements.
@@ -484,7 +508,9 @@ Memory diagram after several assignment statements.
 <p>These statements create an array of three <code class="sourceCode java"><span class="dt">double</span></code>s and make two different variables refer to it, as shown in Figure&nbsp;<a href="#fig.array3" data-reference-type="ref" data-reference="fig.array3">7.3</a>.</p>
 <figure id="fig.array3" class="figure">
 <div class="center">
-<p><img src="figs/array3-.svg" class="figure-img"></p>
+<p>
+<img src="figs/array3-.svg" alt="Memory diagram showing two variables a and b both pointing to the same array, demonstrating aliasing where changes to one variable affect the other" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram of two variables referring to the same array.
@@ -501,7 +527,9 @@ Memory diagram of two variables referring to the same array.
 <p>The second parameter is the number of elements you want to copy, so <code class="sourceCode java">copyOf</code> can also be used to copy part of an array. Figure&nbsp;<a href="#fig.array4" data-reference-type="ref" data-reference="fig.array4">7.4</a> shows the state of the array variables after invoking <code class="sourceCode java"><span class="bu">Arrays</span><span class="op">.</span><span class="fu">copyOf</span></code>.</p>
 <figure id="fig.array4" class="figure">
 <div class="center">
-<p><img src="figs/array4-.svg" class="figure-img"></p>
+<p>
+<img src="figs/array4-.svg" alt="Memory diagram showing two variables a and b pointing to separate arrays after using Arrays.copyOf, demonstrating independent array copies" class="figure-img">
+</p>
 </div>
 <figcaption>
 Memory diagram of two variables referring to different arrays.
