@@ -1,0 +1,74 @@
+/* Custom styles for Think Java */
+
+pre {
+    background-color: #f8f9fa;
+    padding: 0.5em 0.75em;
+    border-radius: 3px;
+    border: 1px solid #e0e0e0;
+    font-size: 0.95em;
+    overflow-x: auto;
+    margin: 1em 0;
+}
+
+
+/* Exercise callout */
+.exercise {
+    background-color: #e7f3ff;
+    border-left: 4px solid #2196F3;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.exercise::before {
+    content: "Exercise";
+    font-weight: bold;
+    color: #1976D2;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* Summary callout */
+.summary {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.summary::before {
+    content: "Summary";
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* Notice callout */
+.notice {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notice h1, .notice h2, .notice h3, .notice h4, .notice h5, .notice h6 {
+    margin-top: 0;
+    color: #495057;
+}
+
+.notice p:last-child {
+    margin-bottom: 0;
+}
+
+/* Sans-serif styling for UI elements (converted from \textsf{}) */
+.sans-serif {
+    font-weight: 500;
+    color: #d35400;
+    background-color: #fff3e0;
+    padding: 0.0em 0.2em;
+    border-radius: 3px;
+    border: 0px solid #ffe0b2;
+}

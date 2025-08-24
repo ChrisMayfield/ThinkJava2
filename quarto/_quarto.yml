@@ -1,0 +1,64 @@
+project:
+  type: book
+
+book:
+  title: "Think Java"
+  subtitle: "How to Think Like a Computer Scientist"
+  author: "Allen Downey and Chris Mayfield"
+  date: "2025-08-22"
+  keyword: "Java, programming, computer science, education, AP Computer Science, object-oriented programming, algorithms, problem solving"
+  chapters:
+    - part: "Front Matter"
+      chapters:
+        - index.qmd
+    - part: "Chapters"
+      chapters:
+        - ch01.qmd
+        - ch02.qmd
+        - ch03.qmd
+        - ch04.qmd
+        - ch05.qmd
+        - ch06.qmd
+        - ch07.qmd
+        - ch08.qmd
+        - ch09.qmd
+        - ch10.qmd
+        - ch11.qmd
+        - ch12.qmd
+        - ch13.qmd
+        - ch14.qmd
+        - ch15.qmd
+        - ch16.qmd
+        - ch17.qmd
+    - part: "Appendices"
+      chapters:
+        - appa.qmd
+        - appb.qmd
+        - appc.qmd
+        - appd.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    number-sections: true
+    code-fold: true
+    fig-cap-location: bottom
+    external-links: true
+    css: custom.css
+  pdf:
+    documentclass: book
+    geometry:
+      - top=1in
+      - bottom=1in
+      - left=1in
+      - right=1in
+    fontsize: 11pt
+    linestretch: 1.1
+    colorlinks: true
+
+execute:
+  echo: true
+  eval: false
+  warning: false
+  error: false

@@ -1,23 +1,65 @@
-# ThinkJava2
-LaTeX source for Think Java, 2nd edition. Copyright (c) 2020 Allen B. Downey and Chris Mayfield. This edition was published in December 2019 by [O'Reilly Media](https://www.oreilly.com/library/view/think-java-2nd/9781492072492/) (ISBN 9781492072508).
+# Think Java
 
-Permission is granted to copy, distribute, and/or modify this work under the terms of the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License, which is available at https://creativecommons.org/licenses/by-nc-sa/4.0/.
+Second Edition
 
-The original form of this book is the LaTeX source code available from http://greenteapress.com/wp/think-java-2e/ and https://github.com/ChrisMayfield/ThinkJava2.
+**Think Java** is an introduction to computer science and programming intended for people with little or no experience. The goal is to help students learn to design and implement object-oriented solutions to non-trivial problems.
 
-The illustrations were drawn using xfig (http://www.xfig.org/) and dia (https://wiki.gnome.org/Apps/Dia/). These tools are free and open-source.
+This book is free to read online and available for purchase in print and electronic formats.
 
-Compiling the LaTeX source has the effect of generating a device-independent representation of the book, which can be converted to other formats and printed.
+Are you using this book in a class? We'd like to know about it! Please consider filling out [this short survey](http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA).
 
-To compile the PDF version from source:
+## Reading the Book
 
-    pdflatex thinkjava2.tex
-    pdflatex thinkjava2.tex
-    pdflatex thinkjava2.tex
+** Free HTML Version**: [Read online at GitHub Pages](https://chrisamayfield.github.io/ThinkJava2/)
 
-The source code includes a Makefile that automates this process. On Linux, you may need to install texlive-latex-extra and texlive-fonts-recommended.
+** Purchase Options** (affiliate links):
+- [Bookshop.org](https://bookshop.org/a/98697/9781492072508) - Support independent bookstores
+- [Amazon](https://amzn.to/2BEmdAn) - Kindle and paperback editions
 
-To build the HTML versions, the hevea package is required. Use the Makefile as follows:
 
-    make hevea    # static html
-    make trinket  # interactive
+## Building from Source
+
+*Note: Most readers won't need to build from source. The free HTML version is available online.*
+
+### Prerequisites
+- LaTeX distribution (texlive-latex-extra, texlive-fonts-recommended on Linux)
+- Python 3.6+ for conversion scripts
+- Quarto for HTML generation
+
+### Build Commands
+```bash
+# PDF version (LaTeX)
+make pdf
+
+# HTML version (Quarto)
+make html
+
+# Legacy HTML versions
+make hevea    # static HTML
+make trinket  # interactive version
+```
+
+## Repository Structure
+
+```
+ThinkJava2/
+├── quarto/              # Quarto book project
+│   ├── _quarto.yml      # Book configuration
+│   ├── split_book.py    # LaTeX to QMD converter
+│   ├── convert.py       # LaTeX command converter
+│   └── custom.css       # Custom styling
+├── book/                # Generated Quarto output
+├── code/                # Example Java programs
+├── figs/                # Source figures (xfig, dia)
+├── ch*.tex             # Chapter source files
+├── app*.tex            # Appendix source files
+├── thinkjava2.tex      # Main LaTeX file
+└── Makefile            # Build automation
+```
+
+## License
+
+Copyright (c) 2020 Allen B. Downey and Chris Mayfield.
+
+This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. See [LICENSE](LICENSE) for details.
+
