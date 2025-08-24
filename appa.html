@@ -358,30 +358,10 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
-<div class="notice">
-<h4 class="anchored">Notices</h4>
-<p>
-    This is the free HTML version of <it>Think Java 2e</it>.
-    Print versions are available from
-    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
-    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
-</p>
-
-<p>
-    We are working on making this site accessible in compliance with
-    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
-    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
-</p>
-
-<p>
-    Are you using one of our books in a class? We'd like to know about it.
-    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
-</p>
-</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./appa.html">Appendices</a></li><li class="breadcrumb-item"><a href="./appa.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Tools</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Tools</span></h1>
+<h1 class="title"><span id="tools" class="quarto-section-identifier"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Tools</span></span></h1>
 </div>
 
 
@@ -414,20 +394,24 @@ window.Quarto = {
 <p>To install DrJava, visit <a href="http://drjava.org/" class="uri">http://drjava.org/</a> and download the <strong>JAR</strong> file. We recommend that you save it to your <code>Desktop</code> folder or another convenient location. Simply double-click the JAR file to run DrJava. Refer to the DrJava documentation (<a href="http://drjava.org/docs/quickstart/" class="uri">http://drjava.org/docs/quickstart/</a>) for more details.</p>
 <figure id="fig.drjava1" class="figure">
 <div class="center">
-<p><img src="figs/drjava-hello.png" style="width:95.0%" class="figure-img"></p>
+<p>
+<img src="figs/drjava-hello.png" style="width:95.0%" alt="Screenshot of DrJava IDE showing the Hello World program being edited in the main editor pane with Java syntax highlighting" class="figure-img">
+</p>
 </div>
 <figcaption>
 DrJava editing the Hello World program.
 </figcaption>
 </figure>
-<p>When running DrJava for the first time, we recommend you change three settings from the Edit <span class="math inline">\(&gt;\)</span> Preferences menu under Miscellaneous: set the Indent Level to 4, check the Automatically Close Block Comments box, and uncheck the Keep Emacs-style Backup Files box.</p>
+<p>When running DrJava for the first time, we recommend you change three settings from the <span class="sans-serif">Edit <span class="math inline">\(&gt;\)</span> Preferences</span> menu under <span class="sans-serif">Miscellaneous</span>: set the <span class="sans-serif">Indent Level</span> to 4, check the <span class="sans-serif">Automatically Close Block Comments</span> box, and uncheck the <span class="sans-serif">Keep Emacs-style Backup Files</span> box.</p>
 </section>
 <section id="interactions" class="level2" data-number="18.2">
 <h2 data-number="18.2" class="anchored" data-anchor-id="interactions"><span class="header-section-number">18.2</span> DrJava Interactions</h2>
 <p>One of the most useful features of DrJava is the “Interactions” pane at the bottom of the window. It provides the ability to try out code quickly, without having to write a class definition and save/compile/run the program. Figure&nbsp;<a href="#fig.drjava2" data-reference-type="ref" data-reference="fig.drjava2">18.2</a> shows an example.</p>
 <figure id="fig.drjava2" class="figure">
 <div class="center">
-<p><img src="figs/drjava-logic.png" style="width:95.0%" class="figure-img"></p>
+<p>
+<img src="figs/drjava-logic.png" style="width:95.0%" alt="Screenshot of DrJava IDE showing the Interactions pane at the bottom with variable declarations and logic expressions being tested interactively" class="figure-img">
+</p>
 </div>
 <figcaption>
 The Interactions pane in DrJava.
@@ -443,7 +427,9 @@ The Interactions pane in DrJava.
 <p>Figure&nbsp;<a href="#fig.terminal" data-reference-type="ref" data-reference="fig.terminal">18.3</a> shows an example in which the <em>Hello.java</em> source file is stored in the <em>Desktop</em> directory. After changing to that location and listing the files, we use the <code>javac</code> command to compile <em>Hello.java</em>. Running <code>ls</code> again, we see that the compiler generated a new file, <em>Hello.class</em>, which contains the byte code. We run the program by using the <code>java</code> command, which displays the output on the following line.</p>
 <figure id="fig.terminal" class="figure">
 <div class="center">
-<p><img src="figs/terminal.png" style="width:4.5in" class="figure-img"></p>
+<p>
+<img src="figs/terminal.png" style="width:4.5in" alt="Terminal/command line interface showing the process of compiling Hello.java with javac and running it with java, demonstrating the complete workflow from source code to execution" class="figure-img">
+</p>
 </div>
 <figcaption>
 Compiling and running <span><em>Hello.java</em></span> from the command line.
@@ -470,7 +456,9 @@ Compiling and running <span><em>Hello.java</em></span> from the command line.
 <p>By the way, it’s perfectly okay to compile your programs in DrJava (or another environment) and run them from the command line. Knowing both techniques allows you to use the right tool for the job.</p>
 <figure id="fig.meld" class="figure">
 <div class="center">
-<p><img src="figs/meld.png" style="width:95.0%" class="figure-img"></p>
+<p>
+<img src="figs/meld.png" style="width:95.0%" alt="Screenshot of the meld file comparison tool showing side-by-side comparison of expected output and actual output files, highlighting differences between them" class="figure-img">
+</p>
 </div>
 <figcaption>
 Using <span><code>meld</code></span> to compare expected output with the actual output.
@@ -501,17 +489,19 @@ Using <span><code>meld</code></span> to compare expected output with the actual 
 <li><p>Step through the code one line at a time and watch what it does.</p></li>
 <li><p>Check the values of variables and see when and how they change.</p></li>
 </ul>
-<p>For example, open any program in DrJava and move the cursor to the first line of <code class="sourceCode java">main</code>. Press Ctrl+B to toggle a breakpoint on the current line; it should now be highlighted in red. Press Ctrl+Shift+D to turn on “Debug Mode”; a new pane should appear at the bottom of the window. These commands are also available from the Debugger menu, in case you forget the shortcut keys.</p>
+<p>For example, open any program in DrJava and move the cursor to the first line of <code class="sourceCode java">main</code>. Press <span class="sans-serif">Ctrl+B</span> to toggle a breakpoint on the current line; it should now be highlighted in red. Press <span class="sans-serif">Ctrl+Shift+D</span> to turn on “Debug Mode”; a new pane should appear at the bottom of the window. These commands are also available from the <span class="sans-serif">Debugger</span> menu, in case you forget the shortcut keys.</p>
 <p>When you run the program, execution pauses at the first breakpoint. The debugging pane displays the <strong>call stack</strong>, with the current method on top of the stack, as shown in Figure&nbsp;<a href="#fig.debugger" data-reference-type="ref" data-reference="fig.debugger">18.5</a>. You might be surprised to see how many methods were called before the <code class="sourceCode java">main</code> method!</p>
 <figure id="fig.debugger" class="figure">
 <div class="center">
-<p><img src="figs/debugger.png" style="width:95.0%" class="figure-img"></p>
+<p>
+<img src="figs/debugger.png" style="width:95.0%" alt="Screenshot of DrJava debugger interface showing the call stack, breakpoints, and debugging controls, with execution paused on a specific line of code" class="figure-img">
+</p>
 </div>
 <figcaption>
 The DrJava debugger. Execution is currently paused on the first line of <code class="sourceCode java">printTwice</code>. There is a breakpoint on the first line of <code class="sourceCode java">main</code>.
 </figcaption>
 </figure>
-<p>To the right are several buttons that allow you to step through the code at your own pace. You can also click Automatic Trace to watch DrJava run your code one line at a time.</p>
+<p>To the right are several buttons that allow you to step through the code at your own pace. You can also click <span class="sans-serif">Automatic Trace</span> to watch DrJava run your code one line at a time.</p>
 <p>Using a debugger is like having the computer proofread your code out loud. When the program is paused, you can examine (or even change) the value of any variable by using the Interactions pane.</p>
 <p>Tracing allows you to follow the flow of execution and see how data passes from one method to another. You might expect the code do one thing, but then the debugger shows it doing something else. At that moment, you gain insight about what may be wrong with the code.</p>
 <p>You can edit your code while debugging it, but we don’t recommend it. If you add or delete multiple lines of code while the program is paused, the results can be confusing.</p>
@@ -546,10 +536,10 @@ The DrJava debugger. Execution is currently paused on the first line of <code cl
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This example uses the keyword <code class="sourceCode java"><span class="kw">extends</span></code>, which indicates that the new class, <code class="sourceCode java">SeriesTest</code>, is based on an existing class, <code class="sourceCode java">TestCase</code>. The <code class="sourceCode java">TestCase</code> class is imported from the package <code class="sourceCode java">junit<span class="op">.</span><span class="fu">framework</span></code>.</p>
 <p>The names in this example follow convention: if the name of your class is <code class="sourceCode java">Something</code>, the name of the test class should be <code class="sourceCode java">SomethingTest</code>. And if there is a method in <code class="sourceCode java">Something</code> named <code class="sourceCode java">someMethod</code>, there should be a method in <code class="sourceCode java">SomethingTest</code> named <code class="sourceCode java">testSomeMethod</code>.</p>
-<p>Many development environments can generate test classes and test methods automatically. In DrJava, you can select New JUnit Test Case from the File menu to generate an empty test class.</p>
+<p>Many development environments can generate test classes and test methods automatically. In DrJava, you can select <span class="sans-serif">New JUnit Test Case</span> from the <span class="sans-serif">File</span> menu to generate an empty test class.</p>
 <p><code class="sourceCode java">assertEquals</code> is provided by the <code class="sourceCode java">TestCase</code> class. It takes two arguments and checks whether they are equal. If so, it does nothing; otherwise, it displays a detailed error message. The first argument is the <em>expected value</em>, which we consider correct, and the second argument is the <em>actual value</em> we want to check. If they are not equal, the test fails.</p>
 <p>Using <code class="sourceCode java">assertEquals</code> is more concise than writing your own <code class="sourceCode java"><span class="cf">if</span></code> statements and <code class="sourceCode java"><span class="bu">System</span><span class="op">.</span><span class="fu">err</span></code> messages. JUnit provides additional assert methods, such as <code class="sourceCode java">assertNull</code>, <code class="sourceCode java">assertSame</code>, and <code class="sourceCode java">assertTrue</code>, which can be used to design a variety of tests.</p>
-<p>To run JUnit directly from DrJava, click the Test button on the toolbar. If all your test methods pass, you will see a green bar in the lower-right corner. Otherwise, DrJava will take you directly to the first assertion that failed.</p>
+<p>To run JUnit directly from DrJava, click the <span class="sans-serif">Test</span> button on the toolbar. If all your test methods pass, you will see a green bar in the lower-right corner. Otherwise, DrJava will take you directly to the first assertion that failed.</p>
 </section>
 <section id="vocabulary" class="level2" data-number="18.8">
 <h2 data-number="18.8" class="anchored" data-anchor-id="vocabulary"><span class="header-section-number">18.8</span> Vocabulary</h2>

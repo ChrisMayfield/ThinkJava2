@@ -329,30 +329,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
-<div class="notice">
-<h4 class="anchored">Notices</h4>
-<p>
-    This is the free HTML version of <it>Think Java 2e</it>.
-    Print versions are available from
-    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
-    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
-</p>
-
-<p>
-    We are working on making this site accessible in compliance with
-    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
-    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
-</p>
-
-<p>
-    Are you using one of our books in a class? We'd like to know about it.
-    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
-</p>
-</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch01.html">Chapters</a></li><li class="breadcrumb-item"><a href="./ch14.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Extending Classes</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Extending Classes</span></h1>
+<h1 class="title"><span id="eights" class="quarto-section-identifier"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Extending Classes</span></span></h1>
 </div>
 
 
@@ -628,7 +608,7 @@ Draw Pile has 47 cards.</code></pre>
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> one<span class="op">;</span></span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The last method from our bottom-up design is <code class="sourceCode java">displayState</code>. It displays the hand of each player, the contents of the discard pile, and the number of cards in the draw pile. Finally, it waits for the user to press the Enter key:</p>
+<p>The last method from our bottom-up design is <code class="sourceCode java">displayState</code>. It displays the hand of each player, the contents of the discard pile, and the number of cards in the draw pile. Finally, it waits for the user to press the <span class="sans-serif">Enter</span> key:</p>
 <div class="sourceCode" id="cb30" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">displayState</span><span class="op">()</span> <span class="op">{</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    one<span class="op">.</span><span class="fu">display</span><span class="op">();</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    two<span class="op">.</span><span class="fu">display</span><span class="op">();</span></span>

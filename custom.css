@@ -62,3 +62,13 @@ pre {
 .notice p:last-child {
     margin-bottom: 0;
 }
+
+/* Sans-serif styling for UI elements (converted from \textsf{}) */
+.sans-serif {
+    font-weight: 500;
+    color: #d35400;
+    background-color: #fff3e0;
+    padding: 0.0em 0.2em;
+    border-radius: 3px;
+    border: 0px solid #ffe0b2;
+}

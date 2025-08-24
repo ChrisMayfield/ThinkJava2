@@ -333,30 +333,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
-<div class="notice">
-<h4 class="anchored">Notices</h4>
-<p>
-    This is the free HTML version of <it>Think Java 2e</it>.
-    Print versions are available from
-    <a href="https://bookshop.org/a/98697/9781492072508">Bookshop.org</a> and
-    <a href="https://amzn.to/2BEmdAn">Amazon</a> (affiliate links).
-</p>
-
-<p>
-    We are working on making this site accessible in compliance with
-    <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines</a>.
-    If you have suggestions for improvements, please <a href="https://github.com/ChrisMayfield/ThinkJava2/issues">file an issue</a>.
-</p>
-
-<p>
-    Are you using one of our books in a class? We'd like to know about it.
-    Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onclick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
-</p>
-</div>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch01.html">Chapters</a></li><li class="breadcrumb-item"><a href="./ch15.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></h1>
+<h1 class="title"><span id="conway" class="quarto-section-identifier"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Arrays of Arrays</span></span></h1>
 </div>
 
 
@@ -373,7 +353,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>The last three chapters of this book use 2D graphics to illustrate more advanced object-oriented concepts. If you haven’t yet read Appendix&nbsp;<a href="#graphics" data-reference-type="ref" data-reference="graphics">20</a>, you might want to read it now and become familiar with the <code class="sourceCode java"><span class="bu">Canvas</span></code>, <code class="sourceCode java"><span class="bu">Color</span></code>, and <code class="sourceCode java"><span class="bu">Graphics</span></code> classes from the <code class="sourceCode java">java<span class="op">.</span><span class="fu">awt</span></code> package. In this chapter, we use these classes to draw images and animations, and to run graphical simulations.</p>
+<p>The last three chapters of this book use 2D graphics to illustrate more advanced object-oriented concepts. If you haven’t yet read Appendix&nbsp;<a href="appc.html" data-reference-type="ref" data-reference="graphics">20</a>, you might want to read it now and become familiar with the <code class="sourceCode java"><span class="bu">Canvas</span></code>, <code class="sourceCode java"><span class="bu">Color</span></code>, and <code class="sourceCode java"><span class="bu">Graphics</span></code> classes from the <code class="sourceCode java">java<span class="op">.</span><span class="fu">awt</span></code> package. In this chapter, we use these classes to draw images and animations, and to run graphical simulations.</p>
 <section id="conways-game-of-life" class="level2" data-number="15.1">
 <h2 data-number="15.1" class="anchored" data-anchor-id="conways-game-of-life"><span class="header-section-number">15.1</span> Conway’s Game of Life</h2>
 <p>The Game of Life, or GoL for short, was developed by John Conway and popularized in 1970 in Martin Gardner’s column in <em>Scientific American</em>. Conway calls it a “zero-player game” because no players are needed to choose strategies or make decisions. After you set up the initial conditions, you watch the game play itself. That turns out to be more interesting than it sounds; you can read about it at <a href="https://en.wikipedia.org/wiki/Conway's_Game_of_Life" class="uri">https://en.wikipedia.org/wiki/Conway's_Game_of_Life</a>.</p>
@@ -430,7 +410,7 @@ A “Blinker” in the Game of Life.
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">size</span> <span class="op">=</span> size<span class="op">;</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">state</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The following method draws a cell. Like the <code class="sourceCode java">paint</code> method in Appendix&nbsp;<a href="#graphics" data-reference-type="ref" data-reference="graphics">20</a>, it takes a graphics context as a parameter:</p>
+<p>The following method draws a cell. Like the <code class="sourceCode java">paint</code> method in Appendix&nbsp;<a href="appc.html" data-reference-type="ref" data-reference="graphics">20</a>, it takes a graphics context as a parameter:</p>
 <div class="sourceCode" id="cb3" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">Color</span><span class="op">[]</span> COLORS <span class="op">=</span> <span class="op">{</span><span class="bu">Color</span><span class="op">.</span><span class="fu">WHITE</span><span class="op">,</span> <span class="bu">Color</span><span class="op">.</span><span class="fu">BLACK</span><span class="op">};</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">draw</span><span class="op">(</span><span class="bu">Graphics</span> g<span class="op">)</span> <span class="op">{</span></span>
