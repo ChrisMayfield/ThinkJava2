@@ -46,6 +46,8 @@ format:
     fig-cap-location: bottom
     external-links: true
     css: custom.css
+    include-before-body: header.html
+    #include-after-body: footer.html
   pdf:
     documentclass: book
     geometry:

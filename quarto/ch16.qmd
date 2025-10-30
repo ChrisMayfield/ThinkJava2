@@ -1,0 +1,384 @@
+---
+chapter: 16
+---
+
+# Reusing Classes {#reusing-classes}
+
+In Chapter [15](#conway){reference-type="ref" reference="conway"}, we
+developed classes to implement Conway's Game of Life. We can reuse the
+`Cell`{.java} and `GridCanvas`{.java} classes to implement other
+simulations. One of the most interesting zero-player games is *Langton's
+Ant*, which models an "ant" that walks around a grid. The ant follows
+only two simple rules:
+
+1.  If the ant is on a white cell, it turns to the right, makes the cell
+    black, and moves forward.
+
+2.  If the ant is on a black cell, it turns to the left, makes the cell
+    white, and moves forward.
+
+Because the rules are simple, you might expect the ant to do something
+simple, like make a square or repeat a simple pattern. But starting on a
+grid with all white cells, the ant makes more than 10,000 steps in a
+seemingly random pattern before it settles into a repeating loop of 104
+steps. You can read more about it at
+<https://en.wikipedia.org/wiki/Langton's_ant>.
+
+In this chapter, we present an implementation of Langton's Ant and use
+it to demonstrate more advanced object-oriented techniques.
+
+## Langton's Ant
+
+We begin by defining a `Langton`{.java} class that has a grid and
+information about the ant. The constructor takes the grid dimensions as
+parameters:
+
+``` {.java language="Java"}
+public class Langton {
+    private GridCanvas grid;
+    private int xpos;
+    private int ypos;
+    private int head; // 0=North, 1=East, 2=South, 3=West
+
+    public Langton(int rows, int cols) {
+        grid = new GridCanvas(rows, cols, 10);
+        xpos = rows / 2;
+        ypos = cols / 2;
+        head = 0;
+    }
+}
+```
+
+`grid`{.java} is a `GridCanvas`{.java} object, which represents the
+state of the cells. `xpos`{.java} and `ypos`{.java} are the coordinates
+of the ant, and `head`{.java} is the "heading" of the ant; that is,
+which direction it is facing. `head`{.java} is an integer with four
+possible values, where `0`{.java} means the ant is facing "north" (i.e.,
+toward the top of the screen), `1`{.java} means "east", etc.
+
+Here's an `update`{.java} method that implements the rules for Langton's
+Ant:
+
+``` {.java language="Java"}
+public void update() {
+    flipCell();
+    moveAnt();
+}
+```
+
+The `flipCell`{.java} method gets the `Cell`{.java} at the ant's
+location, figures out which way to turn, and changes the state of the
+cell:
+
+``` {.java language="Java"}
+private void flipCell() {
+    Cell cell = grid.getCell(xpos, ypos);
+    if (cell.isOff()) {
+        head = (head + 1) % 4;    // turn right
+        cell.turnOn();
+    } else {
+        head = (head + 3) % 4;    // turn left
+        cell.turnOff();
+    }
+}
+```
+
+We use the remainder operator, `%`, to make `head`{.java} wrap around:
+if `head`{.java} is 3 and we turn right, it wraps around to 0; if
+`head`{.java} is 0 and we turn left, it wraps around to 3.
+
+Notice that to turn right, we add 1 to `head`{.java}. To turn left, we
+could subtract 1, but `-1 % 4` is `-1` in Java. So we add 3 instead,
+since one left turn is the same as three right turns.
+
+The `moveAnt`{.java} method moves the ant forward one square, using
+`head`{.java} to determine which way is forward:
+
+``` {.java language="Java"}
+private void moveAnt() {
+    if (head == 0) {
+        ypos -= 1;
+    } else if (head == 1) {
+        xpos += 1;
+    } else if (head == 2) {
+        ypos += 1;
+    } else {
+        xpos -= 1;
+    }
+}
+```
+
+Here is the `main`{.java} method we use to create and display the
+`Langton`{.java} object:
+
+``` {.java language="Java"}
+public static void main(String[] args) {
+    String title = "Langton's Ant";
+    Langton game = new Langton(61, 61);
+    JFrame frame = new JFrame(title);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setResizable(false);
+    frame.add(game.grid);
+    frame.pack();
+    frame.setVisible(true);
+    game.mainloop();
+}
+```
+
+Most of this code is the same as the `main`{.java} we used to create and
+run `Conway`{.java}, in Section [15.6](#conwaymain){reference-type="ref"
+reference="conwaymain"}. It creates and configures a `JFrame`{.java} and
+runs `mainloop`{.java}.
+
+And that's everything! If you run this code with a grid size of 61 x 61
+or larger, you will see the ant eventually settle into a repeating
+pattern.
+
+Because we designed `Cell`{.java} and `GridCanvas`{.java} to be
+reusable, we didn't have to modify them at all. However, we now have two
+copies of `main`{.java} and `mainloop`{.java}---one in `Conway`{.java},
+and one in `Langton`{.java}.
+
+## Refactoring {#refactor}
+
+Whenever you see repeated code like `main`{.java}, you should think
+about ways to remove it. In Chapter [14](#eights){reference-type="ref"
+reference="eights"}, we used inheritance to eliminate repeated code.
+We'll do something similar with `Conway`{.java} and `Langton`{.java}.
+
+First, we define a superclass named `Automaton`{.java}, in which we will
+put the code that `Conway`{.java} and `Langton`{.java} have in common:
+
+``` {.java language="Java"}
+public class Automaton {
+    private GridCanvas grid;
+
+    public void run(String title, int rate) {
+        JFrame frame = new JFrame(title);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.add(this.grid);
+        frame.pack();
+        frame.setVisible(true);
+        this.mainloop(rate);
+    }
+}
+```
+
+`Automaton`{.java} declares `grid`{.java} as an instance variable, so
+every `Automaton`{.java} "has a" `GridCanvas`{.java}. It also provides
+`run`{.java}, which contains the code that creates and configures the
+`JFrame`{.java}.
+
+The `run`{.java} method takes two parameters: the window `title`{.java}
+and the frame `rate`{.java}; that is, the number of time steps to show
+per second. It uses `title`{.java} when creating the `JFrame`{.java},
+and it passes `rate`{.java} to `mainloop`{.java}:
+
+``` {.java language="Java"}
+private void mainloop(int rate) {
+    while (true) {
+
+        // update the drawing
+        this.update();
+        grid.repaint();
+
+        // delay the simulation
+        try {
+            Thread.sleep(1000 / rate);
+        } catch (InterruptedException e) {
+            // do nothing
+        }
+    }
+}
+```
+
+`mainloop`{.java} contains the code you first saw in
+Section [15.7](#mainloop){reference-type="ref" reference="mainloop"}. It
+runs a `while`{.java} loop forever (or until the window closes). Each
+time through the loop, it runs `update`{.java} to update `grid`{.java}
+and then `repaint`{.java} to redraw the grid.
+
+Then it calls `Thread.sleep`{.java} with a delay that depends on
+`rate`{.java}. For example, if `rate`{.java} is 2, we should draw two
+frames per second, so the delay is a half second, or 500 milliseconds.
+
+This process of reorganizing existing code, without changing its
+behavior, is known as **refactoring**. We're almost finished; we just
+need to redesign `Conway`{.java} and `Langton`{.java} to extend
+`Automaton`{.java}.
+
+## Abstract Classes
+
+If we were not planning to implement any other zero-person games, we
+could leave well enough alone. But there are a few problems with the
+current design:
+
+-   The `grid`{.java} attribute is `private`{.java}, making it
+    inaccessible in `Conway`{.java} and `Langton`{.java}. We could make
+    it `public`{.java}, but then other (unrelated) classes would have
+    access to it as well.
+
+-   The `Automaton`{.java} class has no constructors, and even if it
+    did, there would be no reason to create an instance of this class.
+
+-   The `Automaton`{.java} class does not provide an implementation of
+    `update`{.java}. In order to work properly, subclasses need to
+    provide one.
+
+Java provides language features to solve these problems:
+
+-   We can make the `grid`{.java} attribute `protected`{.java}, which
+    means it's accessible to subclasses but not other classes.
+
+-   We can make the class `abstract`{.java}, which means it cannot be
+    instantiated. If you attempt to create an object for an abstract
+    class, you will get a compiler error.
+
+-   We can declare `update`{.java} as an `abstract`{.java} method,
+    meaning that it must be overridden in subclasses. If the subclass
+    does not override an abstract method, you will get a compiler error.
+
+Here's what `Automaton`{.java} looks like as an abstract class (using
+the methods `mainloop`{.java} and `run`{.java} from
+Section [16.2](#refactor){reference-type="ref" reference="refactor"}):
+
+``` {.java language="Java"}
+public abstract class Automaton {
+    protected GridCanvas grid;
+
+    public abstract void update();
+
+    private void mainloop(int rate) {
+        // this method invokes update
+    }
+
+    public void run(String title, int rate) {
+        // this method invokes mainloop
+    }
+}
+```
+
+Notice that the `update`{.java} method has no body. The declaration
+specifies the name, arguments, and return type. But it does not provide
+an implementation, because it is an abstract method.
+
+Notice also the word `abstract`{.java} on the first line, which declares
+that `Automaton`{.java} is an abstract class. In order to have any
+abstract methods, a class must be declared as abstract.
+
+Any class that extends `Automaton`{.java} must provide an implementation
+of `update`{.java}; the declaration here allows the compiler to check.
+
+Here's what `Conway`{.java} looks like as a subclass of
+`Automaton`{.java}:
+
+``` {.java language="Java"}
+public class Conway extends Automaton {
+
+    // same methods as before, except mainloop is removed
+
+    public static void main(String[] args) {
+        String title = "Conway's Game of Life";
+        Conway game = new Conway();
+        game.run(title, 2);
+    }
+}
+```
+
+`Conway`{.java} extends `Automaton`{.java}, so it inherits the
+`protected`{.java} instance variable `grid`{.java} and the methods
+`mainloop`{.java} and `run`{.java}. But because `Automaton`{.java} is
+abstract, `Conway`{.java} has to provide `update`{.java} and a
+constructor (which it has already).
+
+Abstract classes are essentially "incomplete" class definitions that
+specify methods to be implemented by subclasses. But they also provide
+attributes and methods to be inherited, thus eliminating repeated code.
+
+## UML Diagram
+
+At the beginning of the chapter, we had three classes: `Cell`{.java},
+`GridCanvas`{.java}, and `Conway`{.java}. We then developed
+`Langton`{.java}, which had almost the same `main`{.java} and
+`mainloop`{.java} methods as `Conway`{.java}. So we refactored the code
+and created `Automaton`{.java}.
+Figure [16.1](#fig:uml2){reference-type="ref" reference="fig:uml2"}
+summarizes the final design.
+
+<figure id="fig:uml2">
+<div class="center">
+<p><img src="figs/uml2.png" style="width:75.0%"
+alt="UML class diagram showing inheritance relationships with Automaton as abstract parent class, Conway and Langton as concrete subclasses, GridCanvas extending Canvas, and composition relationships showing how classes contain other objects" /></p>
+</div>
+<figcaption>UML class diagram of <code
+class="sourceCode java">Conway</code> and <code
+class="sourceCode java">Langton</code> applications.</figcaption>
+</figure>
+
+The diagram shows three examples of inheritance: `Conway`{.java} is an
+`Automaton`{.java}, `Langton`{.java} is an `Automaton`{.java}, and
+`GridCanvas`{.java} is a `Canvas`{.java}. It also shows two examples of
+composition: `Automaton`{.java} has a `GridCanvas`{.java}, and
+`GridCanvas`{.java} has a 2D array of `Cell`{.java}s.
+
+The diagram also shows that `Automaton`{.java} uses `JFrame`{.java},
+`GridCanvas`{.java} uses `Graphics`{.java}, and `Cell`{.java} uses
+`Graphics`{.java} and `Color`{.java}.
+
+`Automaton`{.java} is in italics to indicate that it is an abstract
+class. As it happens, `Graphics`{.java} is an abstract class, too.
+
+Conway and Langton are **concrete classes**, because they provide an
+implementation for all of their methods. In particular, they implement
+the `update`{.java} method that was declared `abstract`{.java} in
+`Automaton`{.java}.
+
+One of the challenges of object-oriented programming is keeping track of
+a large number of classes and the relationships between them. UML class
+diagrams can help.
+
+## Vocabulary
+
+refactor:
+
+:   To restructure or reorganize existing source code without changing
+    its behavior.
+
+abstract class:
+
+:   A class that is declared as `abstract`{.java}; it cannot be
+    instantiated, and it may (or may not) include abstract methods.
+
+concrete class:
+
+:   A class that is *not* declared as `abstract`{.java}; each of its
+    methods must have an implementation.
+
+## Exercises
+
+The code for this chapter is in the *ch16* directory of
+*ThinkJavaCode2*. See page  for instructions on how to download the
+repository. Before you start the exercises, we recommend that you
+compile and run the examples.
+
+::: exercise
+**Exercise 16.1**. *The last section of this chapter introduced
+`Automaton`{.java} as an abstract class and rewrote `Conway`{.java} as a
+subclass of `Automaton`{.java}. Now it's your turn: rewrite
+`Langton`{.java} as a subclass of `Automaton`{.java}, removing the code
+that's no longer needed.*
+:::
+
+::: exercise
+**Exercise 16.2**. *Mathematically speaking, Game of Life and Langton's
+Ant are *cellular automata*. "Cellular" means it has cells, and
+"automaton" means it runs itself. See
+<https://en.wikipedia.org/wiki/Cellular_automaton> for more discussion.*
+
+*Implement another cellular automaton of your choice. You may have to
+modify `Cell`{.java} and/or `GridCanvas`{.java}, in addition to
+extending `Automaton`{.java}. For example, Brian's Brain
+(<https://en.wikipedia.org/wiki/Brian's_Brain>) requires three states:
+"on", "dying", and "off".*
+:::

@@ -1,0 +1,296 @@
+---
+chapter: C
+---
+
+# Graphics {#graphics}
+
+The Java library includes the package `java.awt`{.java} for drawing 2D
+graphics. **AWT** stands for "Abstract Window Toolkit". We are only
+going to scratch the surface of graphics programming. You can read more
+about it in the Java tutorials (see <https://thinkjava.org/java2d>).
+
+## Creating Graphics
+
+There are several ways to create graphics in Java; the simplest way is
+to use `java.awt.Canvas`{.java} and `java.awt.Graphics`{.java}. A
+`Canvas`{.java} is a blank rectangular area of the screen onto which the
+application can draw. The `Graphics`{.java} class provides basic drawing
+methods such as `drawLine`{.java}, `drawRect`{.java}, and
+`drawString`{.java}.
+
+Here is an example program that draws a circle by using the
+`fillOval`{.java} method:
+
+``` {.java language="Java"}
+import java.awt.Canvas;
+import java.awt.Graphics;
+import javax.swing.JFrame;
+
+public class Drawing extends Canvas {
+```
+
+``` {.java language="Java"}
+public static void main(String[] args) {
+        JFrame frame = new JFrame("My Drawing");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Drawing drawing = new Drawing();
+        drawing.setSize(400, 400);
+        frame.add(drawing);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    public void paint(Graphics g) {
+        g.fillOval(100, 100, 200, 200);
+    }
+}
+```
+
+The `Drawing`{.java} class extends `Canvas`{.java}, so it has all the
+methods provided by `Canvas`{.java}, including `setSize`{.java}. You can
+read about the other methods in the documentation, which you can find by
+doing a web search for "Java Canvas".
+
+In the `main`{.java} method, we do the following:
+
+1.  Create a `JFrame`{.java} object, which is the window that will
+    contain the canvas.
+
+2.  Create a `Drawing`{.java} object (which is the canvas), set its
+    width and height, and add it to the frame.
+
+3.  Pack the frame (resize it) to fit the canvas, and display it on the
+    screen.
+
+Once the frame is visible, the `paint`{.java} method is called whenever
+the canvas needs to be drawn; for example, when the window is moved or
+resized. If you run this code, you should see a black circle on a gray
+background.
+
+The application doesn't end after the `main`{.java} method returns;
+instead, it waits for the `JFrame`{.java} to close. When the
+`JFrame`{.java} closes, it calls `System.exit`{.java}, which ends the
+program.
+
+## Graphics Methods
+
+You are probably used to Cartesian **coordinates**, where $x$ and $y$
+values can be positive or negative. In contrast, Java uses a coordinate
+system where the origin is in the upper-left corner. That way, $x$ and
+$y$ can always be positive integers.
+Figure [20.1](#fig.coordinates){reference-type="ref"
+reference="fig.coordinates"} shows these coordinate systems side by
+side.
+
+<figure id="fig.coordinates">
+<div class="center">
+<embed src="figs/coordinates.pdf" style="width:5in" />
+</div>
+<figcaption>The difference between Cartesian coordinates and Java
+graphical coordinates.</figcaption>
+</figure>
+
+Graphical coordinates are measured in **pixels**; each pixel corresponds
+to a dot on the screen.
+
+To draw on the canvas, you invoke methods on a `Graphics`{.java} object.
+You don't have to create the `Graphics`{.java} object; it gets created
+when you create the `Canvas`{.java}, and it gets passed as an argument
+to `paint`{.java}.
+
+The previous example used `fillOval`{.java}, which has the following
+signature:
+
+``` {.java language="Java"}
+/**
+ * Fills an oval bounded by the specified rectangle with
+ * the current color.
+ */
+public void fillOval(int x, int y, int width, int height)
+```
+
+The four parameters specify a **bounding box**, which is the rectangle
+in which the oval is drawn. `x`{.java} and `y`{.java} specify the
+location of the upper-left corner of the bounding box. The bounding box
+itself is not drawn (see Figure [20.2](#fig.circle){reference-type="ref"
+reference="fig.circle"}).
+
+<figure id="fig.circle">
+<div class="center">
+<embed src="figs/circle.pdf" />
+</div>
+<figcaption>An oval inside its bounding box.</figcaption>
+</figure>
+
+To choose the color of a shape, invoke `setColor`{.java} on the
+`Graphics`{.java} object:
+
+``` {.java language="Java"}
+g.setColor(Color.RED);
+```
+
+The `setColor`{.java} method determines the color of everything that
+gets drawn afterward. `Color.red`{.java} is a constant provided by the
+`Color`{.java} class; to use it, you have to
+`import java.awt.Color`{.java}. Other colors include the following:
+
+    BLACK       BLUE      CYAN     DARKGRAY   GRAY    LIGHTGRAY
+    GREEN       MAGENTA   ORANGE   PINK       WHITE   YELLOW
+
+You can create your own colors by specifying the red, green, and blue
+(**RGB**) components. For example:
+
+``` {.java language="Java"}
+Color purple = new Color(128, 0, 128);
+```
+
+Each value is an integer in the range 0 (darkest) to 255 (lightest). The
+color `(0, 0, 0)`{.java} is black, and `(255, 255, 255)`{.java} is
+white.
+
+You can set the background color of the `Canvas`{.java} by invoking
+`setBackground`{.java}:
+
+``` {.java language="Java"}
+canvas.setBackground(Color.WHITE);
+```
+
+## Example Drawing
+
+Suppose we want to draw a "Hidden Mickey", which is an icon that
+represents Mickey Mouse (see
+<https://en.wikipedia.org/wiki/Hidden_Mickey>). We can use the oval we
+just drew as the face, and then add two ears. To make the code more
+readable, let's use `Rectangle`{.java} objects to represent bounding
+boxes.
+
+Here's a method that takes a `Rectangle`{.java} and invokes
+`fillOval`{.java}:
+
+``` {.java language="Java"}
+public void boxOval(Graphics g, Rectangle bb) {
+    g.fillOval(bb.x, bb.y, bb.width, bb.height);
+}
+```
+
+And here's a method that draws Mickey Mouse:
+
+``` {.java language="Java"}
+public void mickey(Graphics g, Rectangle bb) {
+    boxOval(g, bb);
+
+    int hx = bb.width / 2;
+    int hy = bb.height / 2;
+    Rectangle half = new Rectangle(bb.x, bb.y, hx, hy);
+
+    half.translate(-hx / 2, -hy / 2);
+    boxOval(g, half);
+
+    half.translate(hx * 2, 0);
+    boxOval(g, half);
+}
+```
+
+The first line draws the face. The next three lines create a smaller
+rectangle for the ears. We `translate`{.java} the rectangle up and left
+for the first ear, then to the right for the second ear. The result is
+shown in Figure [20.3](#fig.mickey){reference-type="ref"
+reference="fig.mickey"}.
+
+<figure id="fig.mickey">
+<div class="center">
+<img src="figs/mickey.png" style="height:2in" />
+</div>
+<figcaption>A Hidden Mickey drawn using Java graphics.</figcaption>
+</figure>
+
+You can read more about `Rectangle`{.java} and `translate`{.java} in
+Chapter [10](#mutable){reference-type="ref" reference="mutable"}. See
+the exercises at the end of this appendix for more example drawings.
+
+## Vocabulary
+
+AWT:
+
+:   The "Abstract Window Toolkit", a Java package for creating graphical
+    user interfaces.
+
+coordinate:
+
+:   A value that specifies a location in a 2D graphical window.
+
+pixel:
+
+:   The unit in which coordinates are measured.
+
+bounding box:
+
+:   A way to specify the coordinates of a rectangular area.
+
+RGB:
+
+:   A color model based on adding red, green, and blue light.
+
+## Exercises
+
+The code for this chapter is in the *appc* directory of
+*ThinkJavaCode2*. See page  for instructions on how to download the
+repository. Before you start the exercises, we recommend that you
+compile and run the examples.
+
+::: exercise
+**Exercise 20.1**. *Draw the flag of Japan: a red circle on a white
+background that is wider than it is tall.*
+:::
+
+::: exercise
+**Exercise 20.2**. *Modify *Mickey.java* to draw ears on the ears, and
+ears on those ears, and more ears all the way down until the smallest
+ears are only 3 pixels wide. The result should look like
+Figure [20.4](#fig.moose){reference-type="ref" reference="fig.moose"}.
+*Hint:* You should have to add or modify only a few lines of code.*
+
+<figure id="fig.moose">
+<div class="center">
+<img src="figs/moose.png" style="height:2in" />
+</div>
+<figcaption><em>A recursive shape we call “Mickey
+Moose”.</em></figcaption>
+</figure>
+:::
+
+::: exercise
+**Exercise 20.3**. *In this exercise, you will draw "Moiré patterns"
+that seem to shift around as you move. For an explanation of what is
+going on, see <https://en.wikipedia.org/wiki/Moire_pattern>.*
+
+1.  *Open *Moire.java* and read the `paint`{.java} method. Draw a sketch
+    of what you expect it to do. Now run it. Did you get what you
+    expected?*
+
+2.  *Modify the program so that the space between the circles is larger
+    or smaller. See what happens to the image.*
+
+3.  *Modify the program so that the circles are drawn in the center of
+    the screen and concentric, as in
+    Figure [20.5](#fig.moire){reference-type="ref"
+    reference="fig.moire"} (left). The distance between the circles
+    should be small enough that the Moiré interference is apparent.*
+
+    <figure id="fig.moire">
+    <div class="center">
+    <embed src="figs/moire.pdf" style="height:2in" />
+    </div>
+    <figcaption><em>Graphical patterns that can exhibit Moiré
+    interference.</em></figcaption>
+    </figure>
+
+4.  *Write a method named `radial`{.java} that draws a radial set of
+    line segments as shown in
+    Figure [20.5](#fig.moire){reference-type="ref"
+    reference="fig.moire"} (right), but they should be close enough
+    together to create a Moiré pattern.*
+
+5.  *Just about any kind of graphical pattern can generate Moiré-like
+    interference patterns. Play around and see what you can create.*
+:::

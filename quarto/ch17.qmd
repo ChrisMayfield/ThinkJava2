@@ -1,0 +1,905 @@
+---
+chapter: 17
+---
+
+# Advanced Topics {#advanced-topics}
+
+When we first looked at inheritance in
+Chapter [14](#eights){reference-type="ref" reference="eights"}, our
+purpose was to avoid duplicating code. We noticed that "decks of cards"
+and "hands of cards" had common functionality, and we designed a
+`CardCollection`{.java} class to provide it. This technique is an
+example of **generalization**. By generalizing the code, we were able to
+reuse it in the `Deck`{.java} and `Hand`{.java} classes.
+
+In Chapter [15](#conway){reference-type="ref" reference="conway"}, we
+looked at inheritance from a different point of view. When designing
+`GridCanvas`{.java} to represent a grid of cells, we extended
+`Canvas`{.java} and overrode its `paint`{.java} method. This design is
+an example of **specialization**. Using the code provided by
+`Canvas`{.java}, we created a specialized subclass with minimal
+additional code.
+
+We didn't write the code for `Canvas`{.java}; it's part of the Java
+library. But we were able to customize it for our own purposes. In fact,
+the `Canvas`{.java} class was explicitly designed to be extended.
+
+In this chapter, we'll explore the concept of inheritance more fully and
+present event-driven programming. We'll continue to develop graphical
+simulations as a running example, but this time in varying shapes and
+colors!
+
+## Polygon Objects
+
+The word polygon means "many angles"; the most basic polygons are
+triangles (three angles), rectangles (four angles), pentagons (five
+angles), and so forth. Polygons are an important part of computer
+graphics because they are used to compose more complex images.
+
+Java provides a `Polygon`{.java} class (in `java.awt`{.java}) that we
+can use to represent and draw polygons. The following code creates an
+empty `Polygon`{.java} and adds three points, forming a triangle:
+
+``` {.java language="Java"}
+Polygon p = new Polygon();
+p.addPoint(57, 110);
+p.addPoint(100, 35);
+p.addPoint(143, 110);
+```
+
+Internally, `Polygon`{.java} objects have three attributes:
+
+-   `public int npoints;`{.java} `   `
+    `// total number of points`{.java}
+
+-   `public int[] xpoints;`{.java} ` `
+    `// array of X coordinates`{.java}
+
+-   `public int[] ypoints;`{.java} ` `
+    `// array of Y coordinates`{.java}
+
+When a `Polygon`{.java} is created, `npoints`{.java} is `0`{.java} and
+the two arrays are initialized with length 4. As points are added,
+`npoints`{.java} is incremented. If `npoints`{.java} exceeds the length
+of the arrays, larger arrays are created, and the previous values are
+copied over (similar to how `ArrayList`{.java} works).
+
+The `Polygon`{.java} class provides many useful methods, like
+`contains`{.java}, `intersects`{.java}, and `translate`{.java}. We'll
+get to those later, but first we're going to do some specialization.
+
+## Adding Color
+
+Specialization is useful for adding new features to an existing class,
+especially when you can't (or don't want to) change its design. For
+example, we can extend the `Polygon`{.java} class by adding a
+`draw`{.java} method and a `Color`{.java} attribute:
+
+``` {.java language="Java"}
+public class DrawablePolygon extends Polygon {
+    protected Color color;
+
+    public DrawablePolygon() {
+        super();
+        color = Color.GRAY;
+    }
+
+    public void draw(Graphics g) {
+        g.setColor(color);
+        g.fillPolygon(this);
+    }
+}
+```
+
+As a reminder, constructors are not inherited when you extend a class.
+If you don't define a constructor, the compiler will generate one that
+does nothing.
+
+The constructor for `DrawablePolygon`{.java} uses `super`{.java} to
+invoke the constructor for `Polygon`{.java}, which initializes the
+attributes `npoints`{.java}, `xpoints`{.java}, and `ypoints`{.java}.
+Then `DrawablePolygon`{.java} initializes the `color`{.java} attribute
+to `GRAY`{.java}.
+
+`DrawablePolygon`{.java} has the same attributes and methods that
+`Polygon`{.java} has, so you can use `addPoint`{.java} as before, or you
+can directly access `npoints`{.java}, `xpoints`{.java}, and
+`ypoints`{.java} (since they are `public`{.java}). You can also use
+methods like `contains`{.java}, `intersects`{.java}, and
+`translate`{.java}.
+
+The following code creates a `DrawablePolygon`{.java} with the same
+points as in the previous section and sets its color to `GREEN`{.java}:
+
+``` {.java language="Java"}
+DrawablePolygon p = new DrawablePolygon();
+p.addPoint(57, 110);
+p.addPoint(100, 35);
+p.addPoint(143, 110);
+p.color = Color.GREEN;
+```
+
+## Regular Polygons
+
+In mathematics, a regular polygon has all sides the same length and all
+angles equal in measure. Regular polygons are a special case of
+polygons, so we will use specialization to define a class for them.
+
+We could extend the `Polygon`{.java} class, as we did in the previous
+section. But then we would not have the `Color`{.java} functionality we
+just added. So we will make `RegularPolygon`{.java} extend
+`DrawablePolygon`{.java}.
+
+To construct a `RegularPolygon`{.java}, we specify the number of sides,
+the radius (distance from the center to a vertex), and the color. For
+example:
+
+``` {.java language="Java"}
+RegularPolygon rp = new RegularPolygon(6, 50, Color.BLUE);
+```
+
+<figure id="fig:hexagon">
+<div class="center">
+<p><img src="figs/hexagon-.svg"
+alt="Diagram showing a hexagon with center at origin (0,0), radius r, and vertex V1 at angle θ, with trigonometric relationships showing how x = r cos(θ) and y = r sin(θ)" /></p>
+</div>
+<figcaption>Determining the <span class="math inline"><em>x</em></span>
+and <span class="math inline"><em>y</em></span> coordinates of vertex
+V1, given the radius <span class="math inline"><em>r</em></span> and
+angle <span class="math inline"><em>θ</em></span>. The center of the
+polygon is at the origin <span
+class="math inline">(0, 0)</span>.</figcaption>
+</figure>
+
+The constructor uses trigonometry to find the coordinates of each
+vertex. Figure [17.1](#fig:hexagon){reference-type="ref"
+reference="fig:hexagon"} illustrates the process. The number of sides
+($n=6$) and the radius ($r=50$) are given as parameters.
+
+-   Imagine a clock hand starting at V0 and rotating counterclockwise to
+    V1, V2, and so forth. In
+    Figure [17.1](#fig:hexagon){reference-type="ref"
+    reference="fig:hexagon"}, the hand is currently at V1.
+
+-   The angle $\theta$ is $2 \pi / n$, since there are $2\pi$ radians in
+    a circle. In other words, we are dividing the rotation of the clock
+    hand into $n$ equal angles.
+
+-   By definition, $\cos(\theta) = x/r$ and $\sin(\theta) = y/r$.
+    Therefore, $x = r \cos(\theta)$ and $y = r \sin(\theta)$.
+
+-   We can determine the other $(x, y)$ coordinates by multiplying
+    $\theta$ by $i$, where $i$ is the vertex number.
+
+Here is the constructor for `RegularPolygon`{.java}:
+
+``` {.java language="Java"}
+public RegularPolygon(int nsides, int radius, Color color) {
+
+    // initialize DrawablePolygon attributes
+    this.npoints = nsides;
+    this.xpoints = new int[nsides];
+    this.ypoints = new int[nsides];
+    this.color = color;
+
+    // the amount to rotate for each vertex (in radians)
+    double theta = 2.0 * Math.PI / nsides;
+
+    // compute x and y coordinates, centered at the origin
+    for (int i = 0; i < nsides; i++) {
+        double x = radius * Math.cos(i * theta);
+        double y = radius * Math.sin(i * theta);
+        xpoints[i] = (int) Math.round(x);
+        ypoints[i] = (int) Math.round(y);
+    }
+}
+```
+
+This constructor initializes all four `DrawablePolygon`{.java}
+attributes, so it doesn't have to invoke `super()`{.java}.
+
+It initializes `xpoints`{.java} and `ypoints`{.java} by creating arrays
+of integer coordinates. Inside the `for`{.java} loop, it uses
+`Math.sin`{.java} and `Math.cos`{.java} (see
+Section [4.6](#mathmeth){reference-type="ref" reference="mathmeth"}) to
+compute the coordinates of the vertices as floating-point numbers. Then
+it rounds them off to integers and stores them in the arrays.
+
+When we construct a `RegularPolygon`{.java}, the vertices are centered
+at the point $(0, 0)$. If we want the center of the polygon to be
+somewhere else, we can use `translate`{.java}, which we inherit from
+`Polygon`{.java}:
+
+``` {.java language="Java"}
+RegularPolygon rp = new RegularPolygon(6, 50, Color.BLUE);
+rp.translate(100, 100);
+```
+
+The result is a six-sided polygon with radius 50 centered at the point
+$(100, 100)$.
+
+## More Constructors
+
+Classes in the Java library often have more than one constructor for
+convenience. We can do the same with `RegularPolygon`{.java}. For
+example, we can make the `color`{.java} parameter optional by defining a
+second constructor:
+
+``` {.java language="Java"}
+public RegularPolygon(int nsides, int radius) {
+    this(nsides, radius, Color.GRAY);
+}
+```
+
+The keyword `this`{.java}, when used in a constructor, invokes another
+constructor in the same class. It has a similar syntax as the keyword
+`super`{.java}, which invokes a constructor in the superclass.
+
+Similarly, we could make the `radius`{.java} parameter optional too:
+
+``` {.java language="Java"}
+public RegularPolygon(int nsides) {
+    this(nsides, 50);
+}
+```
+
+Now, suppose we invoke the `RegularPolygon`{.java} constructor like
+this:
+
+``` {.java language="Java"}
+RegularPolygon rp = new RegularPolygon(6);
+```
+
+Because we provide only one integer argument, Java calls the third
+constructor, which calls the second one, which calls the first one. The
+result is a `RegularPolygon`{.java} with the specified value of
+`nsides`{.java}, `6`{.java}, the default value of `radius`{.java},
+`50`{.java}, and the default color, `GRAY`{.java}.
+
+When writing constructors, it's a good idea to validate the values you
+get as arguments. Doing so prevents run-time errors later in the
+program, which makes the code easier to debug.
+
+For `RegularPolygon`{.java}, the number of sides should be at least
+three, the radius should be greater than zero, and the color should not
+be `null`{.java}. We can add the following lines to the first
+constructor:
+
+``` {.java language="Java"}
+public RegularPolygon(int nsides, int radius, Color color) {
+
+    // validate the arguments
+    if (nsides < 3) {
+        throw new IllegalArgumentException("invalid nsides");
+    }
+    if (radius <= 0) {
+        throw new IllegalArgumentException("invalid radius");
+    }
+    if (color == null) {
+        throw new NullPointerException("invalid color");
+    }
+
+    // the rest of the method is omitted
+```
+
+In this example, we `throw`{.java} an exception to indicate that one of
+the arguments is invalid. By default, these exceptions terminate the
+program and display an error message along with the stack trace.
+
+Because we added this code to the most general constructor, we don't
+have to add it to the others.
+
+## An Initial Drawing {#sec:drawing}
+
+Now that we have `DrawablePolygon`{.java} and `RegularPolygon`{.java},
+let's take them for a test drive. We'll need a `Canvas`{.java} for
+drawing them, so we define a new class, `Drawing`{.java}, that extends
+`Canvas`{.java}:
+
+``` {.java language="Java"}
+public class Drawing extends Canvas {
+    private ArrayList<DrawablePolygon> list;
+
+    public Drawing(int width, int height) {
+        setSize(width, height);
+        setBackground(Color.WHITE);
+        list = new ArrayList<DrawablePolygon>();
+    }
+```
+
+``` {.java language="Java"}
+public void add(DrawablePolygon dp) {
+        list.add(dp);
+    }
+
+    public void paint(Graphics g) {
+        for (DrawablePolygon dp : list) {
+            dp.draw(g);
+        }
+    }
+}
+```
+
+The `Drawing`{.java} class has an `ArrayList`{.java} of
+`DrawablePolygon`{.java} objects. When we create a `Drawing`{.java}
+object, the list is initially empty. The `add`{.java} method takes a
+`DrawablePolygon`{.java} and adds it to the list.
+
+`Drawing`{.java} overrides the `paint`{.java} method that it inherits
+from `Canvas`{.java}. `paint`{.java} loops through the list of
+`DrawablePolygon`{.java} objects and invokes `draw`{.java} on each one.
+
+Here is an example that creates three `RegularPolygon`{.java} objects
+and draws them. Figure [17.2](#fig:drawing){reference-type="ref"
+reference="fig:drawing"} shows the result.
+
+``` {.java language="Java"}
+public static void main(String[] args) {
+
+    // create some regular polygons
+    DrawablePolygon p1 = new RegularPolygon(3, 50, Color.GREEN);
+    DrawablePolygon p2 = new RegularPolygon(6, 50, Color.ORANGE);
+    DrawablePolygon p3 = new RegularPolygon(360, 50, Color.BLUE);
+
+    // move them out of the corner
+    p1.translate(100, 80);
+    p2.translate(250, 120);
+    p3.translate(400, 160);
+
+    // create drawing, add polygons
+    Drawing drawing = new Drawing(500, 250);
+    drawing.add(p1);
+    drawing.add(p2);
+    drawing.add(p3);
+```
+
+``` {.java language="Java"}
+// set up the window frame
+    JFrame frame = new JFrame("Drawing");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.add(drawing);
+    frame.pack();
+    frame.setVisible(true);
+}
+```
+
+<figure id="fig:drawing">
+<div class="center">
+<p><img src="figs/drawing.png" style="width:4in"
+alt="Screenshot showing a drawing application with three regular polygons: a triangle (3 sides), a hexagon (6 sides), and a circle-like polygon (360 sides), demonstrating how polygons with many sides approximate circles" /></p>
+</div>
+<figcaption>Initial drawing of three <code
+class="sourceCode java">RegularPolygon</code> objects.</figcaption>
+</figure>
+
+The first block of code creates `RegularPolygon`{.java} objects with 3,
+6, and 360 sides. As you can see, a polygon with 360 sides is a pretty
+good approximation of a circle.
+
+The second block of code translates the polygons to different locations.
+The third block of code creates the `Drawing`{.java} and adds the
+polygons to it. And the fourth block of code creates a `JFrame`{.java},
+adds the `Drawing`{.java} to it, and displays the result.
+
+Most of these pieces should be familiar, but one part of this program
+might surprise you. When we create the `RegularPolygon`{.java} objects,
+we assign them to `DrawablePolygon`{.java} variables. It might not be
+obvious why that's legal.
+
+`RegularPolygon`{.java} extends `DrawablePolygon`{.java}, so every
+`RegularPolygon`{.java} object is also a `DrawablePolygon`{.java}. The
+parameter of `Drawing.add`{.java} has to be a `DrawablePolygon`{.java},
+but it can be any type of `DrawablePolygon`{.java}, including
+`RegularPolygon`{.java} and other subclasses.
+
+This design is an example of **polymorphism**, a fancy word that means
+"having many forms". `Drawing.add`{.java} is a polymorphic method,
+because the parameter can be one of many types. And the
+`ArrayList`{.java} in `Drawing`{.java} is a polymorphic data structure,
+because the elements can be different types.
+
+## Blinking Polygons
+
+At this point, we have a simple program that draws polygons; we can make
+it more fun by adding animation.
+Chapter [15](#conway){reference-type="ref" reference="conway"}
+introduced the idea of simulating time steps. Here's a loop that runs
+the animation:
+
+``` {.java language="Java"}
+while (true) {
+    drawing.step();
+    try {
+        Thread.sleep(1000 / 30);
+    } catch (InterruptedException e) {
+        // do nothing
+    }
+}
+```
+
+Each time through the loop, we call `step`{.java} to update the
+`Drawing`{.java}. Then we sleep with a delay calculated to update about
+30 times per second.
+
+Here's what the `step`{.java} method of `Drawing`{.java} looks like:
+
+``` {.java language="Java"}
+public void step() {
+    for (DrawablePolygon dp : list) {
+        dp.step();
+    }
+    repaint();
+}
+```
+
+It invokes `step`{.java} on each `DrawablePolygon`{.java} in the list
+and then repaints (clears and redraws) the canvas.
+
+In order for this code to compile, we need `DrawablePolygon`{.java} to
+provide a `step`{.java} method. Here's a version that doesn't do
+anything; we'll override it in subclasses:
+
+``` {.java language="Java"}
+public void step() {
+    // do nothing
+}
+```
+
+Now let's design a new type of polygon that blinks. We'll define a class
+named `BlinkingPolygon`{.java} that extends `RegularPolygon`{.java} and
+adds two more attributes: `visible`{.java}, which indicates whether the
+polygon is visible, and `count`{.java}, which counts the number of time
+steps since the last blink:
+
+``` {.java language="Java"}
+public class BlinkingPolygon extends RegularPolygon {
+    protected boolean visible;
+    protected int count;
+
+    public BlinkingPolygon(int nsides, int radius, Color c) {
+        super(nsides, radius, c);
+        visible = true;
+        count = 0;
+    }
+
+    public void draw(Graphics g) {
+        if (visible) {
+            super.draw(g);
+        }
+    }
+
+    public void step() {
+        count++;
+        if (count == 10) {
+            visible = !visible;
+            count = 0;
+        }
+    }
+}
+```
+
+The constructor uses `super`{.java} to call the `RegularPolygon`{.java}
+constructor. Then it initializes `visible`{.java} and `count`{.java}.
+Initially, the `BlinkingPolygon`{.java} is visible.
+
+The `draw`{.java} method draws the polygon only if it is visible. It
+uses `super`{.java} to call `draw`{.java} in the parent class. But the
+parent class is `RegularPolygon`{.java}, which does not provide a
+`draw`{.java} method. In this case, `super`{.java} invokes `draw`{.java}
+from the `DrawablePolygon`{.java} class.
+
+The `step`{.java} method increments `count`{.java}. Every 10 time steps,
+it toggles `visible`{.java} and resets `count`{.java} to 0.
+
+## Interfaces
+
+You might be getting tired of polygons at this point. Can't we draw
+anything else? Of course we can, but `Drawing`{.java} is currently based
+on `DrawablePolygon`{.java}. To draw other types of objects, we have to
+generalize the code.
+
+The `Drawing`{.java} class does essentially three things: (1) it
+maintains a `list`{.java} of objects, (2) it invokes the `draw`{.java}
+method on each object, and (3) it invokes the `step`{.java} method on
+each object.
+
+So here's one way we could make the code more general:
+
+1.  Define a new superclass, which we call `Actor`{.java}, that provides
+    the two methods needed by `Drawing`{.java}:
+
+    ``` {.java language="Java"}
+    public class Actor {
+        public void draw(Graphics g) {
+            // do nothing
+        }
+        public void step() {
+            // do nothing
+        }
+    }
+    ```
+
+2.  In the `Drawing`{.java} class, replace `DrawablePolygon`{.java} with
+    `Actor`{.java}.
+
+3.  Any class that we want to draw must now extend `Actor`{.java}.
+
+There's just one problem: `DrawablePolygon`{.java} already extends
+`Polygon`{.java}, and classes can extend only one superclass. Also, the
+`Actor`{.java} class seems pointless, since the methods it defines don't
+do anything.
+
+Java provides another mechanism for inheritance that solves these
+problems. We can define `Actor`{.java} as an `interface`{.java} instead
+of a `class`{.java}, like this:
+
+``` {.java language="Java"}
+public interface Actor {
+    void draw(Graphics g);
+    void step();
+}
+```
+
+Like a class definition, an **interface** definition contains methods.
+But it contains only the declarations of the methods, not their
+implementations.
+
+Like an abstract class, an interface specifies methods that must be
+provided by subclasses. The difference is that an abstract class can
+implement some methods; an interface cannot.
+
+All interface methods are `public`{.java} by default, since they are
+intended to be used by other classes. So there is no need to declare
+them as `public`{.java}.
+
+To inherit from an interface, you use the keyword `implements`{.java}
+instead of `extends`{.java}. Here's a version of
+`DrawablePolygon`{.java} that extends `Polygon`{.java} and implements
+`Actor`{.java}. So it inherits methods from `Polygon`{.java}, and it is
+required to provide the methods in `Actor`{.java}; namely `draw`{.java}
+and `step`{.java}:
+
+``` {.java language="Java"}
+public class DrawablePolygon extends Polygon implements Actor {
+    // rest of the class omitted
+}
+```
+
+In terms of inheritance, `DrawablePolygon`{.java} is both a
+`Polygon`{.java} and an `Actor`{.java}. So the following assignments are
+legal:
+
+``` {.java language="Java"}
+Polygon p1 = new DrawablePolygon();
+Actor a2 = new DrawablePolygon();
+```
+
+And the same is true for subclasses of `DrawablePolygon`{.java}; these
+assignments are legal too:
+
+``` {.java language="Java"}
+Polygon p2 = new RegularPolygon(5, 50, Color.YELLOW);
+Actor a2 = new RegularPolygon(5, 50, Color.YELLOW);
+```
+
+Interfaces are another example of polymorphism. `a1`{.java} and
+`a2`{.java} are the same type of variable, but they refer to objects
+with different types. And similarly with `p1`{.java} and `p2`{.java}.
+
+Classes may extend only one superclass, but they may implement as many
+interfaces as needed. Java library classes often implement multiple
+interfaces.
+
+## Event Listeners
+
+Now that our `Drawing`{.java} is based on `Actor`{.java} instead of
+`DrawablePolygon`{.java}, we can draw other types of graphics. Here is
+the beginning of a class that reads an image from a file and shows the
+image moving across the canvas. The class is called `Sprite`{.java}
+because a moving image is sometimes called a **sprite**, in the context
+of computer graphics:
+
+``` {.java language="Java"}
+public class Sprite implements Actor, KeyListener {
+    private int xpos;
+    private int ypos;
+    private int dx;
+    private int dy;
+    private Image image;
+
+    public Sprite(String path, int xpos, int ypos) {
+        this.xpos = xpos;
+        this.ypos = ypos;
+        try {
+            this.image = ImageIO.read(new File(path));
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+    }
+}
+```
+
+The instance variables `xpos`{.java} and `ypos`{.java} represent the
+location of the sprite. `dx`{.java} and `dy`{.java} represent the
+velocity of the sprite in the $x$ and $y$ directions.
+
+The constructor takes as parameters the name of a file and the initial
+position. It uses `ImageIO`{.java}, from the `javax.imageio`{.java}
+package, to read the file. If an error occurs during reading, an
+`IOException`{.java} is caught, and the program displays the stack trace
+for debugging.
+
+`Sprite`{.java} implements two interfaces: `Actor`{.java} and
+`KeyListener`{.java}. `Actor`{.java} requires that we provide
+`draw`{.java} and `step`{.java} methods:
+
+``` {.java language="Java"}
+public void draw(Graphics g) {
+        g.drawImage(image, xpos, ypos, null);
+    }
+
+    public void step() {
+        xpos += dx;
+        ypos += dy;
+    }
+```
+
+The `draw`{.java} method draws the image at the sprite's current
+position. The `step`{.java} method changes the position based on
+`dx`{.java} and `dy`{.java}, which are initially zero.
+
+`KeyListener`{.java} is an interface for receiving keyboard events,
+which means we can detect and respond to key presses. A class that
+implements `KeyListener`{.java} has to provide the following methods:
+
+::: description
+`void keyPressed(KeyEvent e)`{.java}
+
+Invoked when a key has been "pressed". This method is invoked repeatedly
+while a key is being held down.
+
+`void keyReleased(KeyEvent e)`{.java}
+
+Invoked when a key has been "released", meaning it is no longer down.
+
+`void keyTyped(KeyEvent e)`{.java}
+
+Invoked when a key has been "typed", which generally means it has been
+both pressed and released.
+:::
+
+These methods get invoked when the user presses and releases *any* key.
+They take a `KeyEvent`{.java} object as a parameter, which specifies
+which key was pressed, released, or typed.
+
+We can use these methods to design a simple animation using the arrow
+keys. When the user presses up or down, the sprite will move up or down.
+When the user presses left or right, the sprite will move left or right.
+
+Here's an implementation of `keyPressed`{.java} that uses a
+`switch`{.java} statement to test which arrow key was pressed and sets
+`dx`{.java} or `dy`{.java} accordingly. (There is no `default`{.java}
+branch, so we ignore all other keys.)
+
+``` {.java language="Java"}
+public void keyPressed(KeyEvent e) {
+    switch (e.getKeyCode()) {
+        case KeyEvent.VK_UP:
+            dy = -5;
+            break;
+        case KeyEvent.VK_DOWN:
+            dy = +5;
+            break;
+        case KeyEvent.VK_LEFT:
+            dx = -5;
+            break;
+        case KeyEvent.VK_RIGHT:
+            dx = +5;
+            break;
+    }
+}
+```
+
+The values of `dx`{.java} and `dy`{.java} determine how much the sprite
+moves each time `step`{.java} is invoked. While the user holds down an
+arrow key, the sprite will move at a constant speed.
+
+Here's an implementation of `keyReleased`{.java} that runs when the user
+releases the key:
+
+``` {.java language="Java"}
+public void keyReleased(KeyEvent e) {
+    switch (e.getKeyCode()) {
+        case KeyEvent.VK_UP:
+        case KeyEvent.VK_DOWN:
+            dy = 0;
+            break;
+        case KeyEvent.VK_LEFT:
+        case KeyEvent.VK_RIGHT:
+            dx = 0;
+            break;
+    }
+}
+```
+
+When the user releases the key, `keyReleased`{.java} sets `dx`{.java} or
+`dy`{.java} to 0, so the sprite stops moving in that direction.
+
+We don't need the `keyTyped`{.java} method for this example, but it's
+required by the interface; if we don't provide one, the compiler will
+complain. So we provide an implementation that does nothing:
+
+``` {.java language="Java"}
+public void keyTyped(KeyEvent e) {
+    // do nothing
+}
+```
+
+Now, here's the code we need to create a `Sprite`{.java}, add it to a
+`Drawing`{.java}, and configure it as a `KeyListener`{.java}:
+
+``` {.java language="Java"}
+Sprite sprite = new Sprite("face-smile.png", 25, 150);
+drawing.add(sprite);
+drawing.addKeyListener(sprite);
+drawing.setFocusable(true);
+```
+
+Recall that the `add`{.java} method is one that we wrote in
+Section [17.5](#sec:drawing){reference-type="ref"
+reference="sec:drawing"}. It adds an `Actor`{.java} to the list of
+objects to be drawn.
+
+The `addKeyListener`{.java} method is inherited from `Canvas`{.java}. It
+adds a `KeyListener`{.java} to the list of objects that will receive key
+events.
+
+In graphical applications, key events are sent to components only when
+they have the keyboard focus. The `setFocusable`{.java} method ensures
+that `drawing`{.java} will have the focus initially, without the user
+having to click it first.
+
+## Timers
+
+Now that you know about interfaces and events, we can show you a better
+way to create animations. Previously, we implemented the animation loop
+by using `while (true)`{.java} and `Thread.sleep`{.java}. Java provides
+a `Timer`{.java} class (in `javax.swing`{.java}) that encapsulates this
+behavior.
+
+A `Timer`{.java} is useful for executing code at regular intervals. The
+constructor for `Timer`{.java} takes two parameters:
+
+-   `int delay`{.java} `               `
+    `// milliseconds between events`{.java}
+
+-   `ActionListener listener`{.java} ` `
+    `// for handling timer events`{.java}
+
+The `ActionListener`{.java} interface requires only one method,
+`actionPerformed`{.java}. This is the method the `Timer`{.java} invokes
+after the given delay.
+
+Using a `Timer`{.java}, we can reorganize the code in `main`{.java} by
+defining a class that implements `ActionListener`{.java}:
+
+``` {.java language="Java"}
+public class VideoGame implements ActionListener {
+    private Drawing drawing;
+
+    public VideoGame() {
+        Sprite sprite = new Sprite("face-smile.png", 50, 50);
+        drawing = new Drawing(800, 600);
+        drawing.add(sprite);
+        drawing.addKeyListener(sprite);
+        drawing.setFocusable(true);
+
+        JFrame frame = new JFrame("Video Game");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(drawing);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        drawing.step();
+    }
+
+    public static void main(String[] args) {
+        VideoGame game = new VideoGame();
+        Timer timer = new Timer(33, game);
+        timer.start();
+    }
+}
+```
+
+The `main`{.java} method constructs a `VideoGame`{.java} object, which
+creates a `Sprite`{.java}, a `Drawing`{.java}, and a `JFrame`{.java}.
+Then it constructs a `Timer`{.java} object and starts the timer. Every
+33 milliseconds, the `Timer`{.java} invokes `actionPerformed`{.java},
+which invokes `step`{.java} on the `Drawing`{.java}.
+
+`Drawing.step`{.java} invokes `step`{.java} on all of its `Actor`{.java}
+objects, which causes them to update their position, color, or other
+aspects of their appearance. The `Drawing.step`{.java} then repaints the
+`Canvas`{.java}, and the time step is done.
+
+At this point, you have all of the elements you need to write your own
+video games. In the exercises at the end of this chapter, we have some
+suggestions for getting started.
+
+We hope this final chapter has been a helpful summary of topics
+presented throughout the book, including input and output, decisions and
+loops, classes and methods, arrays and objects, inheritance, and
+graphics. Congratulations on making it to the end!
+
+## Vocabulary
+
+generalization:
+
+:   The process of extracting common code from two or more classes and
+    moving it into a superclass.
+
+specialization:
+
+:   Extending a class to add new attributes or methods, or to modify
+    existing behavior.
+
+polymorphism:
+
+:   A language feature that allows objects to be assigned to variables
+    of related types.
+
+sprite:
+
+:   A computer graphic that may be moved or otherwise manipulated on the
+    screen.
+
+## Exercises
+
+The code for this chapter is in the *ch17* directory of
+*ThinkJavaCode2*. See page  for instructions on how to download the
+repository. Before you start the exercises, we recommend that you
+compile and run the examples.
+
+The following exercises give you a chance to practice using the features
+in this chapter by extending the example code.
+
+::: exercise
+**Exercise 17.1**. *The `Polygon`{.java} class does not provide a
+`toString`{.java} method; it inherits the default `toString`{.java} from
+`java.lang.Object`{.java}, which includes only the class's name and
+memory location. Write a more useful `toString`{.java} method for
+`DrawablePolygon`{.java} that includes its $(x, y)$ points.*
+:::
+
+::: exercise
+**Exercise 17.2**. *Write a class `MovingPolygon`{.java} that extends
+`RegularPolygon`{.java} and implements `Actor`{.java}. It should have
+instance variables `posx`{.java} and `posy`{.java} that specify its
+position, and `dx`{.java} and `dy`{.java} that specify its velocity (and
+direction). During each time step, it should update its position. If it
+gets to the edge of the `Drawing`{.java}, it should reverse direction by
+changing the sign of `dx`{.java} or `dy`{.java}.*
+:::
+
+::: exercise
+**Exercise 17.3**. *Modify the `VideoGame`{.java} class so it displays a
+`Sprite`{.java} and a `MovingPolygon`{.java} (from the previous
+exercise). Add code that detects collisions between `Actor`{.java}
+objects in the same `Drawing`{.java}, and invoke a method on both
+objects when they collide.*
+
+**Hint:* You might want to add a method to the `Actor`{.java} interface,
+guaranteeing that all `Actor`{.java} objects know how to handle
+collisions.*
+:::
+
+::: exercise
+**Exercise 17.4**. *Java provides other event listeners that you can
+implement to make your programs interactive. For example, the interfaces
+`MouseListener`{.java}, `MouseMotionListener`{.java}, and
+`MouseWheelListener`{.java} allow you to respond to mouse input. Use the
+`MouseListener`{.java} interface to implement an `Actor`{.java} that can
+respond to mouse clicks.*
+:::

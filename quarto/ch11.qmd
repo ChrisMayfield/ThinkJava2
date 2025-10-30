@@ -1,0 +1,814 @@
+---
+chapter: 11
+---
+
+# Designing Classes {#designing-classes}
+
+Whenever you create a new class, you are creating a new object type with
+the same name. So way back in Section [1.3](#hello){reference-type="ref"
+reference="hello"}, when we created the class `Hello`{.java}, we also
+created an object type named `Hello`{.java}.
+
+We didn't declare any variables with type `Hello`{.java}, and we didn't
+use `new`{.java} to create `Hello`{.java} objects. And it wouldn't have
+done much good if we had---but we could have!
+
+In this chapter, you will learn to design classes that represent
+*useful* objects. Here are the main ideas:
+
+-   Again, defining a **class** creates a new object type with the same
+    name.
+
+-   A class definition is a template for objects: it specifies what
+    attributes the objects have and what methods can operate on them.
+
+-   Every object belongs to an object type; that is, it is an
+    **instance** of a class.
+
+-   The `new`{.java} operator **instantiates** objects; that is, it
+    creates new instances of a class.
+
+Think of a class as a blueprint for a house: you can use the same
+blueprint to build any number of houses.
+
+## The Time Class
+
+A common reason to define a new class is to encapsulate related data in
+an object that can be treated as a single unit. That way, we can use
+objects as parameters and return values, rather than passing and
+returning multiple values. You have already seen two types that
+encapsulate data in this way: `Point`{.java} and `Rectangle`{.java}.
+
+Another example, which we will implement ourselves, is `Time`{.java},
+which represents a time of day. The data encapsulated in a `Time`{.java}
+object includes an hour, a minute, and a number of seconds. Because
+every `Time`{.java} object contains these values, we define attributes
+to hold them.
+
+Attributes are also called **instance variables**, because each instance
+has its own variables (as opposed to "class variables", coming up in
+Section [12.3](#classvar){reference-type="ref" reference="classvar"}).
+
+The first step is to decide what type each variable should be. It seems
+clear that `hour`{.java} and `minute`{.java} should be integers. Just to
+keep things interesting, let's make `second`{.java} a double.
+
+Instance variables are declared at the beginning of the class
+definition, outside any method. By itself, this code fragment is a legal
+class definition:
+
+``` {.java language="Java"}
+public class Time {
+    private int hour;
+    private int minute;
+    private double second;
+}
+```
+
+The `Time`{.java} class is `public`{.java}, which means that it can be
+used in other classes. But the instance variables are `private`{.java},
+which means they can be accessed only from inside the `Time`{.java}
+class. If you try to read or write them from another class, you will get
+a compiler error.
+
+Private instance variables help keep classes isolated from each other,
+so that changes in one class won't require changes in other classes. It
+also simplifies what other programmers need to know to use your classes.
+This kind of isolation is called **information hiding**.
+
+## Constructors
+
+After declaring instance variables, the next step is to define a
+**constructor**, which is a special method that initializes the object.
+The syntax for constructors is similar to that of other methods, except
+for the following:
+
+-   The name of the constructor is the same as the name of the class.
+
+-   Constructors have no return type (and no return value).
+
+-   The keyword `static`{.java} is omitted.
+
+Here is an example constructor for the `Time`{.java} class:
+
+``` {.java language="Java"}
+public Time() {
+    this.hour = 0;
+    this.minute = 0;
+    this.second = 0.0;
+}
+```
+
+This constructor does not take any arguments. Each line initializes an
+instance variable to `0`{.java} (which is midnight for a `Time`{.java}
+object).
+
+The name `this`{.java} is a keyword that refers to the object we are
+creating. You can use `this`{.java} the same way you use the name of any
+other object. For example, you can read and write the instance variables
+of `this`{.java}, and you can pass `this`{.java} as an argument to other
+methods. But you do not declare `this`{.java}, and you can't make an
+assignment to it.
+
+A common error when writing constructors is to put a `return`{.java}
+statement at the end. Like `void`{.java} methods, constructors do not
+return values.
+
+To create a `Time`{.java} object, you must use the `new`{.java}
+operator:
+
+``` {.java language="Java"}
+public static void main(String[] args) {
+    Time time = new Time();
+}
+```
+
+When you use `new`{.java}, Java creates the object and invokes your
+constructor to initialize the instance variables. When the constructor
+is done, `new`{.java} returns a reference to the new object. In this
+example, the reference gets assigned to the variable `time`{.java},
+which has type `Time`{.java}.
+Figure [11.1](#fig.time){reference-type="ref" reference="fig.time"}
+shows the result.
+
+<figure id="fig.time">
+<div class="center">
+<p><img src="figs/time-.svg"
+alt="Memory diagram showing a Time object with private attributes hour=11, minute=59, and second=59.9" /></p>
+</div>
+<figcaption>Memory diagram of a <code
+class="sourceCode java"><span class="bu">Time</span></code>
+object.</figcaption>
+</figure>
+
+Beginners sometimes make the mistake of using `new`{.java} in the
+constructor:
+
+``` {.java language="Java"}
+public Time() {
+    new Time();         // StackOverflowError
+    this.hour = 0;
+    this.minute = 0;
+    this.second = 0.0;
+}
+```
+
+Doing so causes an infinite recursion, since `new`{.java} invokes the
+*same* constructor, which uses `new`{.java} again, which invokes the
+constructor again, and so on.
+
+## Value Constructors
+
+Like other methods, constructors can be overloaded, which means you can
+provide multiple constructors with different parameters. Java knows
+which constructor to invoke by matching the arguments you provide with
+the parameters of the constructor.
+
+It is common to provide both a "default constructor" that takes no
+arguments, like the previous one, and a "value constructor", like this
+one:
+
+``` {.java language="Java"}
+public Time(int hour, int minute, double second) {
+    this.hour = hour;
+    this.minute = minute;
+    this.second = second;
+}
+```
+
+To invoke this constructor, you have to provide arguments to the
+`new`{.java} operator. The following example creates a `Time`{.java}
+object that represents a fraction of a second before noon:
+
+``` {.java language="Java"}
+Time time = new Time(11, 59, 59.9);
+```
+
+Overloading constructors provides the flexibility to create an object
+first and then fill in the attributes, or collect all the information
+before creating the object itself.
+
+Once you get the hang of it, writing constructors gets boring. You can
+write them quickly just by looking at the list of instance variables. In
+fact, some IDEs can generate them for you.
+
+Here is the complete class definition so far:
+
+``` {.java language="Java"}
+public class Time {
+    private int hour;
+    private int minute;
+    private double second;
+
+    public Time() {
+        this.hour = 0;
+        this.minute = 0;
+        this.second = 0.0;
+    }
+
+    public Time(int hour, int minute, double second) {
+        this.hour = hour;
+        this.minute = minute;
+        this.second = second;
+    }
+}
+```
+
+Notice how the second constructor declares the parameters `hour`{.java},
+`minute`{.java}, and `second`{.java}. Java allows you to declare
+parameters (and local variables) with the same names as instance
+variables. They don't have to use the same names, but it's common
+practice.
+
+The right side of `this.hour = hour;`{.java} refers to the parameter
+`hour`{.java}, since it was declared most recently. This situation is
+called **shadowing**, because the parameter "hides" the instance
+variable with the same name.
+
+Java provides the keyword `this`{.java} so you can access instance
+variables, regardless of shadowing. As a result, this constructor copies
+the values from the parameters to the instance variables.
+
+## Getters and Setters
+
+Recall that the instance variables of `Time`{.java} are
+`private`{.java}. We can access them from within the `Time`{.java}
+class, but if we try to read or write them from another class, the
+compiler reports an error.
+
+A class that uses objects defined in another class is called a
+**client**. For example, here is a new class called `TimeClient`{.java}:
+
+``` {.java language="Java"}
+public class TimeClient {
+
+    public static void main(String[] args) {
+        Time time = new Time(11, 59, 59.9);
+        System.out.println(time.hour);      // compiler error
+    }
+}
+```
+
+If you compile this code, you get an error message like "hour has
+private access in Time". There are three ways to solve this problem:
+
+-   Make the instance variables public.
+
+-   Provide methods to access the instance variables.
+
+-   Decide that it's not a problem and refuse to let other classes
+    access the instance variables.
+
+The first choice is appealing because it's simple. But here is the
+problem: when class $A$ accesses the instance variables of class $B$
+directly, $A$ becomes dependent on $B$. If anything in $B$ changes
+later, it is likely that $A$ will have to change too.
+
+But if $A$ uses only methods to interact with $B$, $A$ and $B$ are less
+dependent, which means that we can make changes in $B$ without affecting
+$A$ (as long as we don't change the method parameters). So we generally
+avoid making instance variables public.
+
+The second option is to provide methods that access the instance
+variables. For example, we might want the instance variables to be "read
+only"; that is, code in other classes should be able to read them but
+not write them. We can do that by providing one method for each instance
+variable:
+
+``` {.java language="Java"}
+public int getHour() {
+    return this.hour;
+}
+
+public int getMinute() {
+    return this.minute;
+}
+
+public double getSecond() {
+    return this.second;
+}
+```
+
+Methods like these are formally called "accessors", but more commonly
+referred to as **getters**. By convention, the method that gets a
+variable named `something`{.java} is called `getSomething`{.java}.
+
+We can fix the compiler error in `TimeClient`{.java} by using the
+getter:
+
+``` {.java language="Java"}
+System.out.println(time.getHour());
+```
+
+If we decide that `TimeClient`{.java} should also be able to modify the
+instance variables of `Time`{.java}, we can provide methods to do that
+too:
+
+``` {.java language="Java"}
+public void setHour(int hour) {
+    this.hour = hour;
+}
+
+public void setMinute(int minute) {
+    this.minute = minute;
+}
+
+public void setSecond(double second) {
+    this.second = second;
+}
+```
+
+These methods are formally called "mutators", but more commonly known as
+**setters**. The naming convention is similar; the method that sets
+`something`{.java} is usually called `setSomething`{.java}.
+
+Writing getters and setters can get boring, but many IDEs can generate
+them for you based on the instance variables.
+
+## Displaying Objects
+
+To display `Time`{.java} objects, we can write a method to display the
+hour, minute, and second. Using `printTime`{.java} in
+Section [4.4](#multparam){reference-type="ref" reference="multparam"} as
+a starting point, we could write the following:
+
+``` {.java language="Java"}
+public static void printTime(Time t) {
+    System.out.print(t.hour);
+    System.out.print(":");
+    System.out.print(t.minute);
+    System.out.print(":");
+    System.out.println(t.second);
+}
+```
+
+The output of this method, given the `time`{.java} object from the first
+example, would be `11:59:59.9`. We can use `printf`{.java} to make the
+code more concise:
+
+``` {.java language="Java"}
+public static void printTime(Time t) {
+    System.out.printf("%02d:%02d:%04.1f\n",
+        t.hour, t.minute, t.second);
+}
+```
+
+As a reminder, you need to use `\%d`{.java} with integers, and
+`\%f`{.java} with floating-point numbers. The `02`{.java} option means
+"total width 2, with leading zeros if necessary", and the `04.1`{.java}
+option means "total width 4, one digit after the decimal point, leading
+zeros if necessary". The output is the same: `11:59:59.9`.
+
+There's nothing wrong with a method like `printTime`{.java}, but it is
+not consistent with object-oriented style. A more idiomatic solution is
+to provide a special method called `toString`{.java}.
+
+## The toString Method
+
+Every object has a method called `toString`{.java} that returns a string
+representation of the object. When you display an object using
+`print`{.java} or `println`{.java}, Java invokes the object's
+`toString`{.java} method.
+
+By default, it simply displays the type of the object and its address in
+hexadecimal. So, say you create a `Time`{.java} object and display it
+with `println`{.java}:
+
+``` {.java language="Java"}
+public static void main(String[] args) {
+    Time time = new Time(11, 59, 59.9);
+    System.out.println(time);
+}
+```
+
+The output looks something like this:
+
+    Time@80cc7c0
+
+This address can be useful for debugging, if you want to keep track of
+individual objects.
+
+But you can **override** this behavior by providing your own
+`toString`{.java} method. For example, here is a `toString`{.java}
+method for `Time`{.java}:
+
+``` {.java language="Java"}
+public String toString() {
+    return String.format("%02d:%02d:%04.1f\n",
+        this.hour, this.minute, this.second);
+}
+```
+
+The definition does not have the keyword `static`{.java}, because it is
+not a static method. It is an **instance method**, so called because
+when you invoke it, you invoke it on an instance of the class. Instance
+methods are sometimes called "non-static"; you might see this term in an
+error message.
+
+The body of the method is similar to `printTime`{.java} in the previous
+section, with two changes:
+
+-   Inside the method, we use `this`{.java} to refer to the current
+    instance; that is, the object the method is invoked on.
+
+-   Instead of `printf`{.java}, it uses `String.format`{.java}, which
+    returns a formatted `String`{.java} rather than displaying it.
+
+Now you can call `toString`{.java} directly:
+
+``` {.java language="Java"}
+Time time = new Time(11, 59, 59.9);
+String s = time.toString();
+```
+
+The value of `s`{.java} is the string `"11:59:59.9"`{.java}. You can
+also invoke `toString`{.java} indirectly by invoking `print`{.java} or
+`println`{.java}:
+
+``` {.java language="Java"}
+System.out.println(time);
+```
+
+This code displays the string `"11:59:59.9"`{.java}. Either way, when
+you use `this`{.java} inside `toString`{.java}, it refers to the same
+object as `time`{.java}.
+
+## The equals Method {#equals}
+
+We have seen two ways to check whether values are equal: the `==`{.java}
+operator and the `equals`{.java} method. With objects, you can use
+either one, but they are not the same:
+
+-   The `==`{.java} operator checks whether two references are
+    **identical**; that is, whether they refer to the same object.
+
+-   The `equals`{.java} method checks whether two objects are
+    **equivalent**; that is, whether they have the same values.
+
+The definition of *identity* is always the same, so the `==`{.java}
+operator always does the same thing. But the definition of *equivalence*
+is different for different objects, so objects can define their own
+`equals`{.java} methods.
+
+Consider the following variables and the corresponding memory diagram in
+Figure [11.2](#fig.time2){reference-type="ref" reference="fig.time2"}:
+
+``` {.java language="Java"}
+Time time1 = new Time(9, 30, 0.0);
+Time time2 = time1;
+Time time3 = new Time(9, 30, 0.0);
+```
+
+<figure id="fig.time2">
+<div class="center">
+<p><img src="figs/time2-.svg"
+alt="Memory diagram showing three Time variables: time1 and time2 both pointing to the same Time object, while time3 points to a different Time object with identical values" /></p>
+</div>
+<figcaption>Memory diagram of three <code
+class="sourceCode java"><span class="bu">Time</span></code>
+variables.</figcaption>
+</figure>
+
+The assignment operator copies references, so `time1`{.java} and
+`time2`{.java} refer to the same object. Because they are identical,
+`time1 == time2`{.java} is true. But `time1`{.java} and `time3`{.java}
+refer to two different objects. Because they are not identical,
+`time1 == time3`{.java} is false.
+
+By default, the `equals`{.java} method does the same thing as
+`==`{.java}. For `Time`{.java} objects, that's probably not what we
+want. For example, `time1`{.java} and `time3`{.java} represent the same
+time of day, so we should consider them equivalent.
+
+We can provide an `equals`{.java} method that implements this idea:
+
+``` {.java language="Java"}
+public boolean equals(Time that) {
+    final double DELTA = 0.001;
+    return this.hour == that.hour
+        && this.minute == that.minute
+        && Math.abs(this.second - that.second) < DELTA;
+}
+```
+
+`equals`{.java} is an instance method, so it doesn't have the keyword
+`static`{.java}. It uses `this`{.java} to refer to the current object,
+and `that`{.java} to refer to the other. `that`{.java} is *not* a
+keyword, so we could have given this parameter a different name. But
+using `that`{.java} makes the code nicely readable.
+
+We can invoke `equals`{.java} like this:
+
+``` {.java language="Java"}
+time1.equals(time3);
+```
+
+Inside the `equals`{.java} method, `this`{.java} refers to the same
+object as `time1`{.java}, and `that`{.java} refers to the same object as
+`time3`{.java}. Since their instance variables are "equal", the result
+is `true`{.java}.
+
+Because `hour`{.java} and `minute`{.java} are integers, we compare them
+with `==`{.java}. But `second`{.java} is a floating-point number.
+Because of rounding errors, it is not good to compare floating-point
+numbers with `==`{.java} (see
+Section [2.7](#rounderr){reference-type="ref" reference="rounderr"}).
+Instead, we check whether the difference is smaller than a threshold,
+`DELTA`{.java}.
+
+Many objects have a similar notion of equivalence; that is, two objects
+are considered equal if their instance variables are equal. But other
+definitions are possible.
+
+## Adding Times {#addingtime}
+
+Suppose you are going to a movie that starts at 18:50 (that is, 6:50
+PM), and the running time is 2 hours, 16 minutes. What time does the
+movie end? We'll use `Time`{.java} objects to figure it out:
+
+``` {.java language="Java"}
+Time startTime = new Time(18, 50, 0.0);
+Time runningTime = new Time(2, 16, 0.0);
+```
+
+Here are two ways we could "add" the `Time`{.java} objects:
+
+-   Write a static method that takes two `Time`{.java} objects as
+    parameters.
+
+-   Write an instance method that gets invoked on one object and takes
+    the other as a parameter.
+
+To demonstrate the difference, we'll do both. Here is the static method:
+
+``` {.java language="Java"}
+public static Time add(Time t1, Time t2) {
+    Time sum = new Time();
+    sum.hour = t1.hour + t2.hour;
+    sum.minute = t1.minute + t2.minute;
+    sum.second = t1.second + t2.second;
+    return sum;
+}
+```
+
+And here's how we would invoke it:
+
+``` {.java language="Java"}
+Time endTime = Time.add(startTime, runningTime);
+```
+
+Here's what it looks like as an instance method:
+
+``` {.java language="Java"}
+public Time add(Time t2) {
+    Time sum = new Time();
+    sum.hour = this.hour + t2.hour;
+    sum.minute = this.minute + t2.minute;
+    sum.second = this.second + t2.second;
+    return sum;
+}
+```
+
+And here's how we would invoke it:
+
+``` {.java language="Java"}
+Time endTime = startTime.add(runningTime);
+```
+
+Notice the differences:
+
+-   The static method has the keyword `static`{.java}; the instance
+    method does not.
+
+-   The static method has two parameters, `t1`{.java} and `t2`{.java}.
+    The instance method has one explicit parameter, `t2`{.java}, and the
+    implicit parameter, `this`{.java}.
+
+-   We invoked the static method with the `Time`{.java} class; we
+    invoked the instance method with the `startTime`{.java} object.
+
+That's all there is to it. Static methods and instance methods do the
+same thing, and you can convert from one to the other with just a few
+changes.
+
+However, there's a problem with both of these methods; they are not
+correct. The result from either method is `20:66`, which is not a valid
+time.
+
+If `second`{.java} exceeds 59, we have to carry into the minutes column,
+and if `minute`{.java} exceeds 59, we have to carry into `hour`{.java}.
+
+Here is a better version of the instance method, `add`{.java}:
+
+``` {.java language="Java"}
+public Time add(Time t2) {
+    Time sum = new Time();
+    sum.hour = this.hour + t2.hour;
+    sum.minute = this.minute + t2.minute;
+    sum.second = this.second + t2.second;
+
+    if (sum.second >= 60.0) {
+        sum.second -= 60.0;
+        sum.minute += 1;
+    }
+    if (sum.minute >= 60) {
+        sum.minute -= 60;
+        sum.hour += 1;
+    }
+    if (sum.hour >= 24) {
+        sum.hour -= 24;
+    }
+    return sum;
+}
+```
+
+If `hour`{.java} exceeds 23, we subtract 24 hours, but there's no
+`days`{.java} attribute to carry into.
+
+## Vocabulary
+
+class:
+
+:   In Chapter [1](#theway){reference-type="ref" reference="theway"}, we
+    defined a class as a collection of related methods. Now you know
+    that a class is also a template for a new type of object.
+
+instance:
+
+:   A member of a class. Every object is an instance of a class.
+
+instantiate:
+
+:   Create a new instance of a class in the computer's memory.
+
+instance variable:
+
+:   An attribute of an object; a non-static variable defined at the
+    class level.
+
+information hiding:
+
+:   The practice of making instance variables `private`{.java} to limit
+    dependencies between classes.
+
+constructor:
+
+:   A special method that initializes the instance variables of a newly
+    constructed object.
+
+shadowing:
+
+:   Occurs when a local variable or parameter has the same name as an
+    attribute.
+
+client:
+
+:   A class that uses objects defined in another class.
+
+getter:
+
+:   A method that returns the value of an instance variable.
+
+setter:
+
+:   A method that assigns a value to an instance variable.
+
+override:
+
+:   To replace a default implementation of a method, such as
+    `toString`{.java}.
+
+instance method:
+
+:   A non-static method that has access to `this`{.java} and the
+    instance variables.
+
+identical:
+
+:   References to the same object (at the same location in memory).
+
+equivalent:
+
+:   Objects that are equal in value, as defined by the `equals`{.java}
+    method.
+
+## Exercises
+
+The code for this chapter is in the *ch11* directory of
+*ThinkJavaCode2*. See page  for instructions on how to download the
+repository. Before you start the exercises, we recommend that you
+compile and run the examples.
+
+::: exercise
+**Exercise 11.1**. *The implementation of `increment`{.java} in this
+chapter is not very efficient. Can you rewrite it so it doesn't use any
+loops?*
+
+**Hint:* Remember the remainder operator---it works with floating-point
+too.*
+:::
+
+::: exercise
+**Exercise 11.2**. *In the board game Scrabble, each tile contains a
+letter, which is used to spell words in rows and columns, and a score,
+which is used to determine the value of words. The point of this
+exercise is to practice the mechanical part of creating a new class
+definition:*
+
+1.  *Write a definition for a class named `Tile`{.java} that represents
+    Scrabble tiles. The instance variables should include a character
+    named `letter`{.java} and an integer named `value`{.java}.*
+
+2.  *Write a constructor that takes parameters named `letter`{.java} and
+    `value`{.java}, and initializes the instance variables.*
+
+3.  *Write a method named `printTile`{.java} that takes a `Tile`{.java}
+    object as a parameter and displays the instance variables in a
+    reader-friendly format.*
+
+4.  *Write a `main`{.java} method that creates a `Tile`{.java} object
+    with the letter `Z`{.java} and the value `10`{.java}, and then uses
+    `printTile`{.java} to display the state of the object.*
+
+5.  *Implement the `toString`{.java} and `equals`{.java} methods for a
+    `Tile`{.java}.*
+
+6.  *Create getters and setters for each of the attributes.*
+:::
+
+::: exercise
+**Exercise 11.3**. *Write a class definition for `Date`{.java}, an
+object type that contains three integers: `year`{.java}, `month`{.java},
+and `day`{.java}. This class should provide two constructors. The first
+should take no parameters and initialize a default date. The second
+should take parameters named `year`{.java}, `month`{.java} and
+`day`{.java}, and use them to initialize the instance variables.*
+
+*Write a `main`{.java} method that creates a new `Date`{.java} object
+named `birthday`{.java}. The new object should contain your birth date.
+You can use either constructor.*
+:::
+
+::: exercise
+**Exercise 11.4**. *A "rational number" is a number that can be
+represented as the ratio of two integers. For example, $2/3$ is a
+rational number, and you can think of 7 as a rational number with an
+implicit 1 in the denominator.*
+
+*The purpose of this exercise is to write a class definition that
+includes a variety of methods, including constructors, static methods,
+instance methods, modifiers, and pure methods:*
+
+1.  *Define a class called `Rational`{.java}. A `Rational`{.java} object
+    should have two integer instance variables that store the numerator
+    and denominator.*
+
+2.  *Write a constructor that takes no arguments and sets the numerator
+    to `0`{.java} and denominator to `1`{.java}.*
+
+3.  *Write an instance method called `printRational`{.java} that
+    displays a `Rational`{.java} object in a reasonable format.*
+
+4.  *Write a `main`{.java} method that creates a new object with type
+    `Rational`{.java}, sets its instance variables to the values of your
+    choice, and displays the object.*
+
+5.  *You now have a minimal testable program. Test it and, if necessary,
+    debug it.*
+
+6.  *Write a `toString`{.java} method for `Rational`{.java} and test it
+    using `println`{.java}.*
+
+7.  *Write a second constructor that takes two arguments and uses them
+    to initialize the instance variables.*
+
+8.  *Write an instance method called `negate`{.java} that reverses the
+    sign of a rational number. This method should be a modifier, so it
+    should be `void`{.java}. Add lines to `main`{.java} to test the new
+    method.*
+
+9.  *Write an instance method called `invert`{.java} that swaps the
+    numerator and denominator. It should be a modifier. Add lines to
+    `main`{.java} to test the new method.*
+
+10. *Write an instance method called `toDouble`{.java} that converts the
+    rational number to a `double`{.java} (floating-point number) and
+    returns the result. This method is a pure method; it does not modify
+    the object. As always, test the new method.*
+
+11. *Write an instance method named `reduce`{.java} that reduces a
+    rational number to its lowest terms by finding the greatest common
+    divisor (GCD) of the numerator and denominator and dividing through.
+    This method should be a pure method; it should not modify the
+    instance variables of the object on which it is invoked.*
+
+    **Hint:* Finding the GCD takes only a few lines of code. Search the
+    web for "Euclidean algorithm".*
+
+12. *Write an instance method called `add`{.java} that takes a
+    `Rational`{.java} number as an argument, adds it to `this`{.java},
+    and returns a new `Rational`{.java} object. There are several ways
+    to add fractions. You can use any one you want, but you should make
+    sure that the result of the operation is reduced so that the
+    numerator and denominator have no common divisor (other than 1).*
+:::

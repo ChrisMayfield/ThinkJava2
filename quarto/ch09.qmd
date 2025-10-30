@@ -1,0 +1,948 @@
+---
+chapter: 9
+---
+
+# Immutable Objects {#immutable}
+
+Java is an **object-oriented** language, which means that it uses
+objects to (1) represent data and (2) provide methods related to them.
+This way of organizing programs is a powerful design concept, and we
+will introduce it gradually throughout the remainder of the book.
+
+An **object** is a collection of data that provides a set of methods.
+For example, `Scanner`{.java}, which you saw in
+Section [3.2](#scanner){reference-type="ref" reference="scanner"}, is an
+object that provides methods for parsing input. `System.out`{.java} and
+`System.in`{.java} are also objects.
+
+Strings are objects, too. They contain characters and provide methods
+for manipulating character data. Other data types, like
+`Integer`{.java}, contain numbers and provide methods for manipulating
+number data. We will explore some of these methods in this chapter.
+
+## Primitives vs Objects
+
+Not everything in Java is an object: `int`{.java}, `double`{.java},
+`char`{.java}, and `boolean`{.java} are **primitive** types. When you
+declare a variable with a primitive type, Java reserves a small amount
+of memory to store its value.
+Figure [9.1](#fig.mem1){reference-type="ref" reference="fig.mem1"} shows
+how the following values are stored in memory:
+
+``` {.java language="Java"}
+int number = -2;
+char symbol = '!';
+```
+
+<figure id="fig.mem1">
+<div class="center">
+<p><img src="figs/mem1-.svg"
+alt="Memory diagram showing two primitive variables: int number with value -2 and char symbol with value &#39;!&#39; stored directly in memory" /></p>
+</div>
+<figcaption>Memory diagram of two primitive variables.</figcaption>
+</figure>
+
+As you learned in Section [7.2](#elements){reference-type="ref"
+reference="elements"}, an array variable stores a *reference* to an
+array. For example, the following line declares a variable named
+`array`{.java} and creates an array of three characters:
+
+``` {.java language="Java"}
+char[] array = {'c', 'a', 't'};
+```
+
+Figure [9.2](#fig.mem2){reference-type="ref" reference="fig.mem2"} shows
+them both, with a box to represent the location of the variable and an
+arrow pointing to the location of the array.
+
+<figure id="fig.mem2">
+<div class="center">
+<p><img src="figs/mem2-.svg"
+alt="Memory diagram showing a char array variable with an arrow pointing to an array containing the characters &#39;c&#39;, &#39;a&#39;, &#39;t&#39;" /></p>
+</div>
+<figcaption>Memory diagram of an array of characters.</figcaption>
+</figure>
+
+Objects work in a similar way. For example, this line declares a
+`String`{.java} variable named `word`{.java} and creates a
+`String`{.java} object, as shown in
+Figure [9.3](#fig.mem3){reference-type="ref" reference="fig.mem3"}:
+
+``` {.java language="Java"}
+String word = "dog";
+```
+
+<figure id="fig.mem3">
+<div class="center">
+<p><img src="figs/mem3-.svg"
+alt="Memory diagram showing a String variable with an arrow pointing to a String object containing the characters &#39;d&#39;, &#39;o&#39;, &#39;g&#39;" /></p>
+</div>
+<figcaption>Memory diagram of a <code
+class="sourceCode java"><span class="bu">String</span></code>
+object.</figcaption>
+</figure>
+
+Objects and arrays are usually created with the `new`{.java} keyword,
+which allocates memory for them. For convenience, you don't have to use
+`new`{.java} to create strings:
+
+``` {.java language="Java"}
+String word1 = new String("dog");  // creates a string object
+String word2 = "dog";   // implicitly creates a string object
+```
+
+Recall from Section [6.10](#strcmp){reference-type="ref"
+reference="strcmp"} that you need to use the `equals`{.java} method to
+compare strings. The `equals`{.java} method traverses the
+`String`{.java} objects and tests whether they contain the same
+characters.
+
+To test whether two integers or other primitive types are equal, you can
+simply use the `==`{.java} operator. But two `String`{.java} objects
+with the same characters would not be considered equal in the
+`==`{.java} sense. The `==`{.java} operator, when applied to string
+variables, tests only whether they refer to the *same* object.
+
+## The null Keyword
+
+Often when you declare an object variable, you assign it to reference an
+object. But sometimes you want to declare a variable that doesn't refer
+to an object, at least initially.
+
+In Java, the keyword `null`{.java} is a special value that means "no
+object". You can initialize object and array variables this way:
+
+``` {.java language="Java"}
+String name = null;
+int[] combo = null;
+```
+
+The value `null`{.java} is represented in memory diagrams by a small box
+with no arrow, as in Figure [9.4](#fig.mem4){reference-type="ref"
+reference="fig.mem4"}.
+
+<figure id="fig.mem4">
+<div class="center">
+<p><img src="figs/mem4-.svg"
+alt="Memory diagram showing two variables that are null, represented by boxes with no arrows pointing to any objects" /></p>
+</div>
+<figcaption>Memory diagram showing variables that are <code
+class="sourceCode java"><span class="kw">null</span></code>.</figcaption>
+</figure>
+
+If you try to use a variable that is `null`{.java} by invoking a method
+or accessing an element, Java throws a `NullPointerException`{.java}:
+
+``` {.java language="Java"}
+System.out.println(name.length());  // NullPointerException
+System.out.println(combo[0]);       // NullPointerException
+```
+
+On the other hand, it is perfectly fine to pass a `null`{.java}
+reference as an argument to a method, or to receive one as a return
+value. In these situations, `null`{.java} is often used to represent a
+special condition or indicate an error.
+
+## Strings Are Immutable
+
+If the Java library didn't have a `String`{.java} class, we would have
+to use character arrays to store and manipulate text. Operations like
+concatenation (`+`{.java}), `indexOf`{.java}, and `substring`{.java}
+would be difficult and inconvenient. Fortunately, Java does have a
+`String`{.java} class that provides these and other methods.
+
+For example, the methods `toLowerCase`{.java} and `toUpperCase`{.java}
+convert uppercase letters to lowercase, and vice versa. These methods
+are often a source of confusion, because it sounds like they modify
+strings. But neither these methods nor any others can change a string,
+because strings are **immutable**.
+
+When you invoke `toUpperCase`{.java} on a string, you get a new
+`String`{.java} object as a result. For example:
+
+``` {.java language="Java"}
+String name = "Alan Turing";
+String upperName = name.toUpperCase();
+```
+
+After these statements run, `upperName`{.java} refers to the string
+`"ALAN TURING"`{.java}. But `name`{.java} still refers to
+`"Alan Turing"`{.java}. A common mistake is to assume that
+`toUpperCase`{.java} somehow affects the original string:
+
+``` {.java language="Java"}
+String name = "Alan Turing";
+name.toUpperCase();           // ignores the return value
+System.out.println(name);
+```
+
+The previous code displays `"Alan Turing"`{.java}, because the value of
+`name`{.java}, which refers to the original `String`{.java} object,
+never changes. If you want to change `name`{.java} to be uppercase, then
+you need to assign the return value:
+
+``` {.java language="Java"}
+String name = "Alan Turing";
+name = name.toUpperCase();    // references the new string
+System.out.println(name);
+```
+
+A similar method is `replace`{.java}, which finds and replaces instances
+of one string within another. This example replaces
+`"Computer Science"`{.java} with `"CS"`{.java}:
+
+``` {.java language="Java"}
+String text = "Computer Science is fun!";
+text = text.replace("Computer Science", "CS");
+```
+
+As with `toUpperCase`{.java}, assigning the return value (to
+`text`{.java}) is important. If you don't assign the return value,
+invoking `text.replace`{.java} has no effect.
+
+Strings are immutable by design, because it simplifies passing them as
+parameters and return values. And since the contents of a string can
+never change, two variables can reference the same string without one
+accidentally corrupting the other.
+
+## Wrapper Classes
+
+Primitive types like `int`{.java}, `double`{.java}, and `char`{.java}
+cannot be `null`{.java}, and they do not provide methods. For example,
+you can't invoke `equals`{.java} on an `int`{.java}:
+
+``` {.java language="Java"}
+int i = 5;
+System.out.println(i.equals(5));  // compiler error
+```
+
+But for each primitive type, there is a corresponding **wrapper class**
+in the Java library. The wrapper class for `int`{.java} is named
+`Integer`{.java}, with a capital `I`{.java}:
+
+``` {.java language="Java"}
+Integer i = Integer.valueOf(5);
+System.out.println(i.equals(5));  // displays true
+```
+
+Other wrapper classes include `Boolean`{.java}, `Character`{.java},
+`Double`{.java}, and `Long`{.java}. They are in the `java.lang`{.java}
+package, so you can use them without importing them.
+
+Like strings, objects from wrapper classes are immutable, and you have
+to use the `equals`{.java} method to compare them:
+
+``` {.java language="Java"}
+Integer x = Integer.valueOf(123);
+Integer y = Integer.valueOf(123);
+if (x == y) {                     // false
+    System.out.println("x and y are the same object");
+}
+if (x.equals(y)) {                // true
+    System.out.println("x and y have the same value");
+}
+```
+
+Because `x`{.java} and `y`{.java} refer to different objects, this code
+displays only "x and y have the same value".
+
+Each wrapper class defines the constants `MIN_VALUE`{.java} and
+`MAX_VALUE`{.java}. For example, `Integer.MIN_VALUE`{.java} is
+`-2147483648`{.java}, and `Integer.MAX_VALUE`{.java} is
+`2147483647`{.java}. Because these constants are available in wrapper
+classes, you don't have to remember them, and you don't have to write
+them yourself.
+
+Wrapper classes also provide methods for converting strings to and from
+primitive types. For example, `Integer.parseInt`{.java} converts a
+string to an `int`{.java}. In this context, **parse** means "read and
+translate".
+
+``` {.java language="Java"}
+String str = "12345";
+int num = Integer.parseInt(str);
+```
+
+Other wrapper classes provide similar methods, like
+`Double.parseDouble`{.java} and `Boolean.parseBoolean`{.java}. They also
+provide `toString`{.java}, which returns a string representation of a
+value:
+
+``` {.java language="Java"}
+int num = 12345;
+String str = Integer.toString(num);
+```
+
+The result is the `String`{.java} object `"12345"`{.java}.
+
+It's always possible to convert a primitive value to a string, but not
+the other way around. For example, say we try to parse an invalid string
+like this:
+
+``` {.java language="Java"}
+String str = "five";
+int num = Integer.parseInt(str);  // NumberFormatException
+```
+
+`parseInt`{.java} throws a `NumberFormatException`{.java}, because the
+characters in the string `"five"`{.java} are not digits.
+
+## Command-Line Arguments
+
+Now that you know about strings, arrays, and wrapper classes, we can
+*finally* explain the `args`{.java} parameter of the `main`{.java}
+method, which we have been ignoring since
+Chapter [1](#theway){reference-type="ref" reference="theway"}. If you
+are unfamiliar with the command-line interface, please read
+Appendix [18.3](#commandline){reference-type="ref"
+reference="commandline"}.
+
+Let's write a program to find the maximum value in a sequence of
+numbers. Rather than read the numbers from `System.in`{.java} by using a
+`Scanner`{.java}, we'll pass them as command-line arguments. Here is a
+starting point:
+
+``` {.java language="Java"}
+import java.util.Arrays;
+public class Max {
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString(args));
+    }
+}
+```
+
+You can run this program from the command line by typing this:
+
+    java Max
+
+The output indicates that `args`{.java} is an **empty array**; that is,
+it has no elements:
+
+    []
+
+If you provide additional values on the command line, they are passed as
+arguments to `main`{.java}. For example, say you run the program like
+this:
+
+    java Max 10 -3 55 0 14
+
+The output is shown here:
+
+    [10, -3, 55, 0, 14]
+
+It's not clear from the output, but the elements of `args`{.java} are
+strings. So `args`{.java} is the array
+`\{"10", "-3", "55", "0", "14"\}`{.java}. To find the maximum number, we
+have to convert the arguments to integers.
+
+The following code uses an enhanced `for`{.java} loop (see
+Section [7.8](#enhanced){reference-type="ref" reference="enhanced"}) to
+parse the arguments and find the largest value:
+
+``` {.java language="Java"}
+int max = Integer.MIN_VALUE;
+for (String arg : args) {
+    int value = Integer.parseInt(arg);
+    if (value > max) {
+        max = value;
+    }
+}
+System.out.println("The max is " + max);
+```
+
+We begin by initializing `max`{.java} to the smallest (most negative)
+number an `int`{.java} can represent. That way, the first value we parse
+will replace `max`{.java}. As we find larger values, they will replace
+`max`{.java} as well.
+
+If `args`{.java} is empty, the result will be `MIN_VALUE`{.java}. We can
+prevent this situation from happening by checking `args`{.java} at the
+beginning of the program:
+
+``` {.java language="Java"}
+if (args.length == 0) {
+    System.err.println("Usage: java Max <numbers>");
+    return;
+}
+```
+
+It's customary for programs that require command-line arguments to
+display a "usage" message if the arguments are not valid. For example,
+if you run `javac` or `java` from the command line without any
+arguments, you will get a very long message.
+
+## Argument Validation
+
+As we discussed in Section [5.9](#validate){reference-type="ref"
+reference="validate"}, you should never assume that program input will
+be in the correct format. Sometimes users make mistakes, such as
+pressing the wrong key or misreading instructions.
+
+Or even worse, someone might make intentional "mistakes" to see what
+your program will do. One way hackers break into computer systems is by
+entering malicious input that causes a program to fail.
+
+Programmers can make mistakes too. It's difficult to write bug-free
+software, especially when working in teams on large projects.
+
+For all of these reasons, it's good practice to validate arguments
+passed to methods, including the `main`{.java} method. In the previous
+section, we did this by ensuring that `args.length`{.java} was not 0.
+
+As a further example, consider a method that checks whether the first
+word of a sentence is capitalized. We can write this method using the
+`Character`{.java} wrapper class:
+
+``` {.java language="Java"}
+public static boolean isCapitalized(String str) {
+    return Character.isUpperCase(str.charAt(0));
+}
+```
+
+The expression `str.charAt(0)`{.java} makes two assumptions: the string
+object referenced by `str`{.java} exists, and it has at least one
+character. What if these assumptions don't hold at run-time?
+
+-   If `str`{.java} is `null`{.java}, invoking `charAt`{.java} will
+    cause a `NullPointerException`{.java}, because you can't invoke a
+    method on `null`{.java}.
+
+-   If `str`{.java} refers to an empty string, which is a
+    `String`{.java} object with no characters, `charAt`{.java} will
+    cause a `StringIndexOutOfBoundsException`{.java}, because there is
+    no character at index `0`{.java}.
+
+We can prevent these exceptions by validating `str`{.java} *at the
+start* of the method. If it's invalid, we return before executing the
+rest of the method:
+
+``` {.java language="Java"}
+public static boolean isCapitalized(String str) {
+    if (str == null || str.isEmpty()) {
+        return false;
+    }
+    return Character.isUpperCase(str.charAt(0));
+}
+```
+
+Notice that `null`{.java} and *empty* are different concepts, as shown
+in Figure [9.5](#fig.nullempty){reference-type="ref"
+reference="fig.nullempty"}. The variable `str1`{.java} is `null`{.java},
+meaning that it doesn't reference an object. The variable `str2`{.java}
+refers to the empty string, an object that exists.
+
+<figure id="fig.nullempty">
+<div class="center">
+<p><img src="figs/nullempty-.svg"
+alt="Memory diagram comparing null and empty string: str1 shows a box with no arrow (null), while str2 shows an arrow pointing to an empty String object" /></p>
+</div>
+<figcaption>Memory diagram of <code
+class="sourceCode java"><span class="kw">null</span></code> and empty
+string.</figcaption>
+</figure>
+
+Beginners sometimes make the mistake of checking for empty first. Doing
+so causes a `NullPointerException`{.java}, because you can't invoke
+methods on variables that are `null`{.java}:
+
+``` {.java language="Java"}
+if (str.isEmpty() || str == null) {    // wrong!
+```
+
+Checking for `null`{.java} first prevents the
+`NullPointerException`{.java}. If `str`{.java} is `null`{.java}, the
+`||`{.java} operator will short circuit (see
+Section [\[shortcircuit\]](#shortcircuit){reference-type="ref"
+reference="shortcircuit"}) and evaluate to `true`{.java} immediately. As
+a result, `str.isEmpty()`{.java} will not be called.
+
+## BigInteger Arithmetic
+
+It might not be clear at this point why you would ever need an integer
+object when you can just use an `int`{.java} or `long`{.java}. One
+advantage is the variety of methods that `Integer`{.java} and
+`Long`{.java} provide. But there is another reason: when you need very
+large integers that exceed `Long.MAX_VALUE`{.java}.
+
+`BigInteger`{.java} is a Java class that can represent arbitrarily large
+integers. There is no upper bound except the limitations of memory size
+and processing speed. Take a minute to read the documentation, which you
+can find by doing a web search for "Java BigInteger".
+
+To use BigIntegers, you have to `import java.math.BigInteger`{.java} at
+the beginning of your program. There are several ways to create a
+BigInteger, but the simplest uses `valueOf`{.java}. The following code
+converts a `long`{.java} to a `BigInteger`{.java}:
+
+``` {.java language="Java"}
+long x = 17;
+BigInteger big = BigInteger.valueOf(x);
+```
+
+You can also create BigIntegers from strings. For example, here is a
+20-digit integer that is too big to store using a `long`{.java}:
+
+``` {.java language="Java"}
+String s = "12345678901234567890";
+BigInteger bigger = new BigInteger(s);
+```
+
+Notice the difference in the previous two examples: you use
+`valueOf`{.java} to convert integers, and `new BigInteger`{.java} to
+convert strings.
+
+Since BigIntegers are not primitive types, the usual math operators
+don't work. Instead, we have to use methods like `add`{.java}. To add
+two BigIntegers, we invoke `add`{.java} on one and pass the other as an
+argument:
+
+``` {.java language="Java"}
+BigInteger a = BigInteger.valueOf(17);
+BigInteger b = BigInteger.valueOf(1700000000);
+BigInteger c = a.add(b);
+```
+
+Like strings, `BigInteger`{.java} objects are immutable. Methods like
+`add`{.java}, `multiply`{.java}, and `pow`{.java} all return new
+BigIntegers, rather than modify an existing one.
+
+Internally, a `BigInteger`{.java} is implemented using an array of
+`int`{.java}s, similar to the way a string is implemented using an array
+of `char`{.java}s. Each `int`{.java} in the array stores a portion of
+the BigInteger. The methods of `BigInteger`{.java} traverse this array
+to perform addition, multiplication, etc.
+
+For very long floating-point values, take a look at
+`java.math.BigDecimal`{.java}. Interestingly, `BigDecimal`{.java}
+objects represent floating-point numbers internally by using a
+`BigInteger`{.java}!
+
+## Incremental Design {#encapsulation}
+
+One challenge of programming, especially for beginners, is figuring out
+how to divide a program into methods. In this section, we present a
+**design process** that allows you to divide a program into methods as
+you go along. The process is called "encapsulation and generalization".
+The essential steps are as follows:
+
+1.  Write a few lines of code in `main`{.java} or another method, and
+    test them.
+
+2.  When they are working, wrap them in a new method and test again.
+
+3.  If it's appropriate, replace literal values with variables and
+    parameters.
+
+To demonstrate this process, we'll develop methods that display
+multiplication tables. We begin by writing and testing a few lines of
+code. Here is a loop that displays the multiples of two, all on one
+line:
+
+``` {.java language="Java"}
+for (int i = 1; i <= 6; i++) {
+    System.out.printf("%4d", 2 * i);
+}
+System.out.println();
+```
+
+Each time through the loop, we display the value of `2 * i`{.java},
+padded with spaces so it's four characters wide. Since we use
+`System.out.printf`{.java}, the output appears on a single line.
+
+After the loop, we call `println`{.java} to print a newline character.
+Remember that in some environments, none of the output is displayed
+until the line is complete. The output of the code so far is shown here:
+
+    2   4   6   8  10  12
+
+The next step is to **encapsulate** the code; that is, we "wrap" the
+code in a method:
+
+``` {.java language="Java"}
+public static void printRow() {
+    for (int i = 1; i <= 6; i++) {
+        System.out.printf("%4d", 2 * i);
+    }
+    System.out.println();
+}
+```
+
+Finally, we **generalize** the method to print multiples of other
+numbers by replacing the constant value `2`{.java} with a parameter
+`n`{.java}. This step is called "generalization", because it makes the
+method more general (less specific):
+
+``` {.java language="Java"}
+public static void printRow(int n) {
+    for (int i = 1; i <= 6; i++) {
+        System.out.printf("%4d", n * i);  // generalized n
+    }
+    System.out.println();
+}
+```
+
+Invoking this method with the argument `2`{.java} yields the same output
+as before. With the argument `3`{.java}, the output is as follows:
+
+    3   6   9  12  15  18
+
+By now, you can probably guess how we are going to display a
+multiplication table: we'll invoke `printRow`{.java} repeatedly with
+different arguments. In fact, we'll use another loop to iterate through
+the rows:
+
+``` {.java language="Java"}
+for (int i = 1; i <= 6; i++) {
+    printRow(i);
+}
+```
+
+And the output looks like this:
+
+    1   2   3   4   5   6
+       2   4   6   8  10  12
+       3   6   9  12  15  18
+       4   8  12  16  20  24
+       5  10  15  20  25  30
+       6  12  18  24  30  36
+
+## More Generalization
+
+The previous result is similar to the "nested loops" approach in
+Section [6.4](#nested){reference-type="ref" reference="nested"}.
+However, the inner loop is now encapsulated in the `printRow`{.java}
+method. We can encapsulate the outer loop in a method too:
+
+``` {.java language="Java"}
+public static void printTable() {
+    for (int i = 1; i <= 6; i++) {
+        printRow(i);
+    }
+}
+```
+
+The initial version of `printTable`{.java} always displays six rows. We
+can generalize it by replacing the literal `6`{.java} with a parameter:
+
+``` {.java language="Java"}
+public static void printTable(int rows) {
+    for (int i = 1; i <= rows; i++) {     // generalized rows
+        printRow(i);
+    }
+}
+```
+
+Here is the output of `printTable(7)`{.java}:
+
+    1   2   3   4   5   6
+       2   4   6   8  10  12
+       3   6   9  12  15  18
+       4   8  12  16  20  24
+       5  10  15  20  25  30
+       6  12  18  24  30  36
+       7  14  21  28  35  42
+
+That's better, but it always displays the same number of columns. We can
+generalize more by adding a parameter to `printRow`{.java}:
+
+``` {.java language="Java"}
+public static void printRow(int n, int cols) {
+    for (int i = 1; i <= cols; i++) {     // generalized cols
+        System.out.printf("%4d", n * i);
+    }
+    System.out.println();
+}
+```
+
+Now `printRow`{.java} takes two parameters: `n`{.java} is the value
+whose multiples should be displayed, and `cols`{.java} is the number of
+columns. Since we added a parameter to `printRow`{.java}, we also have
+to change the line in `printTable`{.java} where it is invoked:
+
+``` {.java language="Java"}
+public static void printTable(int rows) {
+    for (int i = 1; i <= rows; i++) {
+        printRow(i, rows);
+    }
+}
+```
+
+When this line executes, it evaluates `rows`{.java} and passes the
+value, which is `7`{.java} in this example, as an argument. In
+`printRow`{.java}, this value is assigned to `cols`{.java}. As a result,
+the number of columns equals the number of rows, so we get a square
+7 x 7 table, instead of the previous 7 x 6 table.
+
+When you generalize a method appropriately, you often find that it has
+capabilities you did not plan. For example, you might notice that the
+multiplication table is symmetric. Since $ab = ba$, all the entries in
+the table appear twice. You could save ink by printing half of the
+table, and you would have to change only *one line* of
+`printTable`{.java}:
+
+``` {.java language="Java"}
+printRow(i, i);  // using i for both n and cols
+```
+
+This means the length of each row is the same as its row number. The
+result is a triangular multiplication table:
+
+    1
+       2   4
+       3   6   9
+       4   8  12  16
+       5  10  15  20  25
+       6  12  18  24  30  36
+       7  14  21  28  35  42  49
+
+Generalization makes code more versatile, more likely to be reused, and
+sometimes easier to write.
+
+## Vocabulary
+
+object-oriented:
+
+:   A way of organizing code and data into objects, rather than
+    independent methods.
+
+object:
+
+:   A collection of related data that comes with a set of methods that
+    operate on the data.
+
+primitive:
+
+:   A data type that stores a single value and provides no methods.
+
+immutable:
+
+:   An object that, once created, cannot be modified. Strings are
+    immutable by design.
+
+wrapper class:
+
+:   Classes in `java.lang`{.java} that provide constants and methods for
+    working with primitive types.
+
+parse:
+
+:   In Chapter [2](#variables){reference-type="ref"
+    reference="variables"}, we defined *parse* as what the compiler does
+    to analyze a program. Now you know that it means to read a string
+    and interpret or translate it.
+
+empty array:
+
+:   An array with no elements and a length of zero.
+
+design process:
+
+:   A process for determining what methods a class or program should
+    have.
+
+encapsulate:
+
+:   To wrap data inside an object, or to wrap statements inside a
+    method.
+
+generalize:
+
+:   To replace something unnecessarily specific (like a constant value)
+    with something appropriately general (like a variable or parameter).
+
+## Exercises
+
+The code for this chapter is in the *ch09* directory of
+*ThinkJavaCode2*. See page  for instructions on how to download the
+repository. Before you start the exercises, we recommend that you
+compile and run the examples.
+
+::: exercise
+**Exercise 9.1**. *The point of this exercise is to explore Java types
+and fill in some of the details that aren't covered in the chapter.*
+
+1.  *Create a new program named *Test.java* and write a `main`{.java}
+    method that contains expressions that combine various types using
+    the `+`{.java} operator. For example, what happens when you "add" a
+    `String`{.java} and a `char`{.java}? Does it perform character
+    addition or string concatenation? What is the type of the result?*
+
+2.  *Make a bigger copy of the following table and fill it in. At the
+    intersection of each pair of types, you should indicate whether it
+    is legal to use the `+`{.java} operator with these types, the
+    operation that is performed (addition or concatenation), and the
+    type of the result.*
+
+    ::: center
+                  *boolean*   * char *   *  int  *   *double*   *String*
+      ----------- ----------- ---------- ----------- ---------- ----------
+      *boolean*                                                 
+      *char*                                                    
+      *int*                                                     
+      *double*                                                  
+      *String*                                                  
+    :::
+
+3.  *Think about some of the choices the designers of Java made, based
+    on this table. How many of the entries seem unavoidable, as if there
+    was no other choice? How many seem like arbitrary choices from
+    several equally reasonable possibilities? Which entries seem most
+    problematic?*
+
+4.  *Here's a puzzler: normally, the statement `x++`{.java} is exactly
+    equivalent to `x = x + 1`{.java}. But if `x`{.java} is a
+    `char`{.java}, it's not exactly the same! In that case, `x++`{.java}
+    is legal, but `x = x + 1`{.java} causes an error. Try it out. See
+    what the error message is, and then see if you can figure out what
+    is going on.*
+
+5.  *What happens when you add `""`{.java} (the empty string) to the
+    other types; for example, `"" + 5`{.java}?*
+:::
+
+::: exercise
+**Exercise 9.2**. *You might be sick of the `factorial`{.java} method by
+now, but we're going to do one more version.*
+
+1.  *Create a new program called *Big.java* and write an iterative
+    version of `factorial`{.java} (using a `for`{.java} loop).*
+
+2.  *Display a table of the integers from 0 to 30 along with their
+    factorials. At some point around 15, you will probably see that the
+    answers are not correct anymore. Why not?*
+
+3.  *Convert `factorial`{.java} so that it performs its calculation
+    using BigIntegers and returns a `BigInteger`{.java} as a result. You
+    can leave the parameter alone; it will still be an integer.*
+
+4.  *Try displaying the table again with your modified factorial method.
+    Is it correct up to 30? How high can you make it go?*
+:::
+
+::: exercise
+**Exercise 9.3**. *Many encryption algorithms depend on the ability to
+raise large integers to a power. Here is a method that implements an
+efficient algorithm for integer exponentiation:*
+
+``` {.java language="Java"}
+public static int pow(int x, int n) {
+    if (n == 0) return 1;
+
+    // find x to the n/2 recursively
+    int t = pow(x, n / 2);
+
+    // if n is even, the result is t squared
+    // if n is odd, the result is t squared times x
+    if (n % 2 == 0) {
+        return t * t;
+    } else {
+        return t * t * x;
+    }
+}
+```
+
+*The problem with this method is that it works only if the result is
+small enough to be represented by an `int`{.java}. Rewrite it so that
+the result is a `BigInteger`{.java}. The parameters should still be
+integers, though.*
+
+*You should use the `BigInteger`{.java} methods `add`{.java} and
+`multiply`{.java}. But don't use `BigInteger.pow`{.java}; that would
+spoil the fun.*
+:::
+
+::: exercise
+**Exercise 9.4**. *One way to calculate $e^x$ is to use the following
+infinite series expansion. The $i$th term in the series is $x^i / i!$.
+$$e^x = 1 + x + x^2 / 2! + x^3 / 3! + x^4 / 4! + \ldots$$*
+
+1.  *Write a method called `myexp`{.java} that takes `x`{.java} and
+    `n`{.java} as parameters and estimates $e^x$ by adding the first
+    `n`{.java} terms of this series. You can use the `factorial`{.java}
+    method from Section [8.3](#factorial){reference-type="ref"
+    reference="factorial"} or your iterative version from the previous
+    exercise.*
+
+2.  *You can make this method more efficient by observing that the
+    numerator of each term is the same as its predecessor multiplied by
+    `x`{.java}, and the denominator is the same as its predecessor
+    multiplied by `i`{.java}.*
+
+    *Use this observation to eliminate the use of `Math.pow`{.java} and
+    `factorial`{.java}, and check that you get the same result.*
+
+3.  *Write a method called `check`{.java} that takes a parameter,
+    `x`{.java}, and displays `x`{.java}, `myexp(x)`{.java}, and
+    `Math.exp(x)`{.java}. The output should look like this:*
+
+        1.0     2.708333333333333     2.718281828459045
+
+    *Use the escape sequence `'\\t'`{.java} to display a tab character
+    between each of the values.*
+
+4.  *Vary the number of terms in the series (the second argument that
+    `check`{.java} sends to `myexp`{.java}) and see the effect on the
+    accuracy of the result. Adjust this value until the estimated value
+    agrees with the correct answer when `x`{.java} is 1.*
+
+5.  *Write a loop in `main`{.java} that invokes `check`{.java} with the
+    values 0.1, 1.0, 10.0, and 100.0. How does the accuracy of the
+    result vary as `x`{.java} varies? Compare the number of digits of
+    agreement rather than the difference between the actual and
+    estimated values.*
+
+6.  *Add a loop in `main`{.java} that checks `myexp`{.java} with the
+    values -0.1, -1.0, -10.0, and -100.0. Comment on the accuracy.*
+:::
+
+::: exercise
+**Exercise 9.5**. *The goal of this exercise is to practice
+encapsulation and generalization using some of the examples in previous
+chapters.*
+
+1.  *Starting with the code in
+    Section [7.5](#traversal){reference-type="ref"
+    reference="traversal"}, write a method called `powArray`{.java} that
+    takes a `double`{.java} array, `a`{.java}, and returns a new array
+    that contains the elements of `a`{.java} squared. Generalize it to
+    take a second argument and raise the elements of `a`{.java} to the
+    given power.*
+
+2.  *Starting with the code in
+    Section [7.8](#enhanced){reference-type="ref" reference="enhanced"},
+    write a method called `histogram`{.java} that takes an `int`{.java}
+    array of scores from 0 to (but not including) 100, and returns a
+    histogram of 100 counters. Generalize it to take the number of
+    counters as an argument.*
+:::
+
+::: exercise
+**Exercise 9.6**. *The following code fragment traverses a string and
+checks whether it has the same number of opening and closing
+parentheses:*
+
+``` {.java language="Java"}
+String s = "((3 + 7) * 2)";
+int count = 0;
+
+for (int i = 0; i < s.length(); i++) {
+    char c = s.charAt(i);
+    if (c == '(') {
+        count++;
+    } else if (c == ')') {
+        count--;
+    }
+}
+
+System.out.println(count);
+```
+
+1.  *Encapsulate this fragment in a method that takes a string argument
+    and returns the final value of `count`{.java}.*
+
+2.  *Test your method with multiple strings, including some that are
+    balanced and some that are not.*
+
+3.  *Generalize the code so that it works on any string. What could you
+    do to generalize it more?*
+:::
