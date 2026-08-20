@@ -119,7 +119,7 @@ they can be used. You can declare a variable and then assign a value
 later, as in the previous example. You can also declare and initialize
 on the same line:
 
-``` {.java language="Java"}
+``` {.java .javarunner-repl language="Java"}
 String message = "Hello!";
 int hour = 11;
 int minute = 59;
@@ -214,7 +214,7 @@ For this example, the output is as follows:
 Conveniently, the code for displaying a variable is the same regardless
 of its type. For example:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 int hour = 11;
 int minute = 59;
 System.out.print("The current time is ");
@@ -244,7 +244,7 @@ multiplication is `*`{.java}, and division is `/`{.java}.
 
 The following program converts a time of day to minutes:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 int hour = 11;
 int minute = 59;
 System.out.print("Number of minutes since midnight: ");
@@ -392,7 +392,7 @@ The difference between the number we want and the floating-point number
 we get is called **rounding error**. For example, the following two
 statements should be equivalent:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 System.out.println(0.1 * 10);
 System.out.println(0.1 + 0.1 + 0.1 + 0.1 + 0.1
                  + 0.1 + 0.1 + 0.1 + 0.1 + 0.1);
@@ -452,7 +452,7 @@ greeting.
 Since addition is defined for both numbers and strings, Java performs
 automatic conversions you may not expect:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 System.out.println(1 + 2 + "Hello");
 // the output is 3Hello
 
@@ -512,7 +512,7 @@ the error occurred. Sometimes they can tell you exactly what the error
 is. As an example, let's get back to the Hello World program from
 Section [1.3](#hello){reference-type="ref" reference="hello"}:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 public class Hello {
 
     public static void main(String[] args) {
@@ -589,7 +589,7 @@ but it will not do the right thing. Instead, it will do exactly what you
 told it to do. For example, here is a version of the Hello World program
 with a logic error:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 public class Hello {
 
     public static void main(String[] args) {

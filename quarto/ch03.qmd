@@ -102,7 +102,7 @@ that reads a line of input from the keyboard and returns a
 `String`{.java}. Here's a complete example that reads two lines and
 repeats them back to the user:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 import java.util.Scanner;
 
 public class Echo {
@@ -505,7 +505,7 @@ create a `Scanner`{.java}, (3) get input from the keyboard, (4) format
 output with `printf`{.java}, and (5) divide and mod integers. Now we
 will put everything together in a complete program:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 import java.util.Scanner;
 
 /**
@@ -780,7 +780,7 @@ it's finished, it should work like this:*
 *To choose a random number, you can use the `Random`{.java} class in
 `java.util`{.java}. Here's how it works:*
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 import java.util.Random;
 
 public class GuessStarter {

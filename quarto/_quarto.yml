@@ -37,6 +37,13 @@ book:
         - appc.qmd
         - appd.qmd
 
+filters:
+  - filters/javarunner.lua
+
+resources:
+  - assets/javarunner/javarunner.js
+  - assets/javarunner/javarunner.css
+
 format:
   html:
     theme: cosmo
@@ -45,7 +52,12 @@ format:
     code-fold: true
     fig-cap-location: bottom
     external-links: true
-    css: custom.css
+    css:
+      - custom.css
+      - assets/javarunner/javarunner.css
+    include-in-header:
+      - text: |
+          <script src="assets/javarunner/javarunner.js"></script>
     include-before-body: header.html
     #include-after-body: footer.html
   pdf:

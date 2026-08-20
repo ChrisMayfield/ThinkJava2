@@ -17,7 +17,7 @@ loops to add repetition to your code. We'll also take a first look at
 Using a `while`{.java} statement, we can repeat the same code multiple
 times:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 int n = 3;
 while (n > 0) {
     System.out.println(n);
@@ -161,7 +161,7 @@ common that there is another statement, the `for`{.java} loop, that
 expresses it more concisely. For example, we can rewrite the 2-4-6-8
 loop this way:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 for (int i = 2; i <= 8; i += 2) {
     System.out.print(i + ", ");
 }
@@ -229,7 +229,7 @@ Like conditional statements, loops can be nested one inside the other.
 Nested loops allow you to iterate over two variables. For example, we
 can generate a "multiplication table" like this:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 for (int x = 1; x <= 10; x++) {
     for (int y = 1; y <= 10; y++) {
         System.out.printf("%4d", x * y);
@@ -281,7 +281,7 @@ Strings provide a method named `charAt`{.java}. It returns a
 `char`{.java}, a data type that stores an individual character (as
 opposed to strings of them):
 
-``` {.java language="Java"}
+``` {.java .javarunner-repl language="Java"}
 String fruit = "banana";
 char letter = fruit.charAt(0);
 ```

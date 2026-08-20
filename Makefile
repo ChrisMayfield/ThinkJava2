@@ -1,99 +1,220 @@
-F=thinkjava2
+# Think Java 2e - Build System
+# =============================
 
-all:
-	pdflatex $(F).tex
-	pdflatex $(F).tex
-	pdflatex $(F).tex
+# Configuration
+PROJECT_NAME = ThinkJava2
+BOOK_NAME = thinkjava2
+MAIN_FILE = $(BOOK_NAME).tex
+BUILD_DIR = build
+DIST_DIR = dist
 
-clean:
-	rm -f comment.cut $(F).aux $(F).idx $(F).ilg $(F).ind $(F).log $(F).out $(F).toc
+# Tools and commands
+PDFLATEX = pdflatex
+PYTHON = python3
+PYTHON2 = python2
+HEVEA = hevea
+IMAGEN = imagen
+HACHA = hacha
+RSYNC = rsync
 
-plastex:
-	# Before running plastex, we need the current directory in PYTHONPATH
-	# export PYTHONPATH=$PYTHONPATH:.
-	latexpand --keep-comments $(F).tex > $(F).expand
-	python2 preprocess.py $(F).expand > $(F).plastex
-	plastex --renderer=DocBook --theme=book --image-resolution=300 --filename=$(F).xml $(F).plastex
-	cd $(F); python2 ../postprocess.py $(F).xml > temp; mv temp $(F).xml
-	cd $(F); python ../xmlsplit.py $(F).xml
+# Default target
+.DEFAULT_GOAL := help
 
-xxe:
-	xmlcopyeditor ~/ThinkJava2/$(F)/$(F).xml &
+# Help target
+.PHONY: help
+help: ## Show this help message
+	@echo "Think Java 2e - Available build targets:"
+	@echo ""
+	@echo "📚 Book Generation:"
+	@echo "  pdf          - Generate PDF version (default)"
+	@echo "  html         - Generate modern HTML with Quarto"
+	@echo "  hevea        - Generate legacy HTML with HeVeA"
+	@echo "  trinket      - Generate interactive HTML version"
+	@echo ""
+	@echo "🧹 Maintenance:"
+	@echo "  clean        - Remove build artifacts"
+	@echo "  distclean    - Remove all generated files"
+	@echo ""
+	@echo "📦 Distribution:"
+	@echo "  distrib      - Package for distribution"
+	@echo ""
+	@echo "🔧 Development:"
+	@echo "  plastex      - Generate DocBook XML"
+	@echo "  lint         - Validate generated XML"
+	@echo ""
+	@echo "🐍 Environment (conda/mamba):"
+	@echo "  create_environment  - Create conda env from environment.yml"
+	@echo "  update_environment  - Update env (mamba --prune)"
+	@echo "  delete_environment  - Remove conda env"
+	@echo ""
+	@echo "Usage: make [target]"
 
-lint:
-	xmllint -noout $(F)/$(F).xml
+# =============================================================================
+# Conda / mamba environment
+# =============================================================================
 
-#oreilly:
-#	rsync -a $(F)/*.xml atlas/
-#	rsync -a figs/*.pdf atlas/figs/
-#	rsync -a figs/*.png atlas/figs/
-#	rsync -a figs/*.jpg atlas/figs/
-#	cd atlas; git add *.xml figs/*
-#	cd atlas; git commit -m "Automated check in."
-#	cd atlas; git push
+.PHONY: create_environment
+create_environment: ## Create conda environment from environment.yml
+	mamba env create -f environment.yml
+	@echo ""
+	@echo ">>> Environment created successfully!"
+	@echo ">>> Activate with: conda activate $(PROJECT_NAME)"
+	@echo ">>> Also install Quarto separately: https://quarto.org/docs/get-started/"
 
-# if a bug (in ocaml?) causes "make hevea" to fail; use "make -i hevea" instead
+.PHONY: update_environment
+update_environment: ## Update environment from environment.yml (with --prune)
+	mamba env update -f environment.yml --prune
+	@echo ">>> Environment updated successfully!"
+
+.PHONY: delete_environment
+delete_environment: ## Remove conda environment
+	mamba env remove --name $(PROJECT_NAME)
+	@echo ">>> Environment $(PROJECT_NAME) removed"
+
+# =============================================================================
+# Book Generation Targets
+# =============================================================================
+
+.PHONY: pdf
+pdf: ## Generate PDF version (requires 3 passes for references)
+	@echo "📖 Generating PDF version..."
+	$(PDFLATEX) $(MAIN_FILE)
+	$(PDFLATEX) $(MAIN_FILE)  # Second pass for references
+	$(PDFLATEX) $(MAIN_FILE)  # Third pass for final layout
+	@echo "✅ PDF generated: $(BOOK_NAME).pdf"
+
+.PHONY: html
+html: ## Generate modern HTML with Quarto
+	@echo "🌐 Generating modern HTML with Quarto..."
+	cd quarto && quarto render
+	@echo "✅ HTML generated in quarto/_book/"
 
 .PHONY: hevea
-hevea:
-	cp $(F).tex $(F)_.tex
-	rm -rf heveahtml
-	mkdir heveahtml
-	hevea -O -exec xxdate.exe -e latexonly.tex hevea/htmlonly.tex $(F)_
-	hevea -O -exec xxdate.exe -e latexonly.tex hevea/htmlonly.tex $(F)_
-	imagen -png -pdf $(F)_
-	imagen -png -pdf $(F)_
-	hacha $(F)_.html
-	cp hevea/*.png heveahtml
-	cat custom.css >> $(F)_.css
-	mv index.html $(F)_?*.html $(F)_*.png $(F)_.css heveahtml
-	rm *motif.gif $(F)_.*
+hevea: ## Generate legacy HTML with HeVeA
+	@echo "🔄 Generating legacy HTML with HeVeA..."
+	@mkdir -p heveahtml
+	cp $(MAIN_FILE) $(BOOK_NAME)_.tex
+	$(HEVEA) -O -exec xxdate.exe -e latexonly.tex hevea/htmlonly.tex $(BOOK_NAME)_
+	$(HEVEA) -O -exec xxdate.exe -e latexonly.tex hevea/htmlonly.tex $(BOOK_NAME)_
+	$(IMAGEN) -png -pdf $(BOOK_NAME)_
+	$(HACHA) $(BOOK_NAME)_.html
+	cp hevea/*.png heveahtml/
+	cat custom.css >> $(BOOK_NAME)_.css
+	mv index.html $(BOOK_NAME)_?*.html $(BOOK_NAME)_*.png $(BOOK_NAME)_.css heveahtml/
+	rm -f *motif.gif $(BOOK_NAME)_.*
+	@echo "🧹 Cleaning up HTML files..."
 	sed -i 's/\\%/%/g' heveahtml/*.html
 	sed -i 's/\\{/{/g' heveahtml/*.html
 	sed -i 's/\\}/}/g' heveahtml/*.html
 	sed -i 's/\\\\n/\\n/g' heveahtml/*.html
 	sed -i 's/\\\\t/\\t/g' heveahtml/*.html
-	python3 hevea/rename.py heveahtml
+	$(PYTHON) hevea/rename.py heveahtml
+	@echo "✅ Legacy HTML generated in heveahtml/"
 
 .PHONY: trinket
-trinket:
-	cp $(F).tex $(F)_.tex
-	rm -rf trinkethtml
-	mkdir trinkethtml
-	hevea -O -exec xxdate.exe -e latexonly.tex trinket/htmlonly.tex $(F)_
-	hevea -O -exec xxdate.exe -e latexonly.tex trinket/htmlonly.tex $(F)_
-	imagen -png -pdf $(F)_
-	imagen -png -pdf $(F)_
-	hacha $(F)_.html
-	cp trinket/*.css trinket/*.js trinkethtml
-	mv index.html $(F)_.css $(F)_?*.html $(F)_*.png trinkethtml
-	rm *motif.gif $(F)_.*
+trinket: ## Generate interactive HTML version
+	@echo "🎮 Generating interactive HTML with Trinket..."
+	@mkdir -p trinkethtml
+	cp $(MAIN_FILE) $(BOOK_NAME)_.tex
+	$(HEVEA) -O -exec xxdate.exe -e latexonly.tex trinket/htmlonly.tex $(BOOK_NAME)_
+	$(HEVEA) -O -exec xxdate.exe -e latexonly.tex trinket/htmlonly.tex $(BOOK_NAME)_
+	$(IMAGEN) -png -pdf $(BOOK_NAME)_
+	$(IMAGEN) -png -pdf $(BOOK_NAME)_
+	$(HACHA) $(BOOK_NAME)_.html
+	cp trinket/*.css trinket/*.js trinkethtml/
+	mv index.html $(BOOK_NAME)_.css $(BOOK_NAME)_?*.html $(BOOK_NAME)_*.png trinkethtml/
+	rm -f *motif.gif $(BOOK_NAME)_.*
+	@echo "🧹 Cleaning up HTML files..."
 	sed -i 's/\\%/%/g' trinkethtml/*.html
 	sed -i 's/\\{/{/g' trinkethtml/*.html
 	sed -i 's/\\}/}/g' trinkethtml/*.html
 	sed -i 's/\\\\n/\\n/g' trinkethtml/*.html
 	sed -i 's/\\\\t/\\t/g' trinkethtml/*.html
-
-	# perl postprocessing (woot) seems easier than escaping through Latex and Hevea
+	@echo "🔧 Running post-processing..."
 	perl -i -pe 's/\[\[\[\[\s?(\S*?)\s?\]\]\]\]/----{\1}----/g' trinkethtml/*.html
 	perl -i -pe 's/\<a .*? ALT\=\"(Previous|Up|Next)\"\>\<\/a\>//g' trinkethtml/*.html
 	perl -0777 -i -pe 's/\<hr\>//' trinkethtml/*.html
+	@echo "📝 Generating Nunjucks templates..."
+	mkdir -p trinkethtml/nunjucks
+	$(PYTHON) trinket/maketemplates.py
+	@echo "🖼️  Organizing images..."
+	mkdir -p trinkethtml/img
+	cp trinkethtml/*.png trinkethtml/img/
+	@echo "✅ Interactive HTML generated in trinkethtml/"
 
-	# produce nunjucks templates for our app
-	mkdir trinkethtml/nunjucks
-	python trinket/maketemplates.py
+# =============================================================================
+# Development Tools
+# =============================================================================
 
-	# gather images for ease of uploading to CDN
-	mkdir trinkethtml/img
-	cp trinkethtml/*.png trinkethtml/img
+.PHONY: plastex
+plastex: ## Generate DocBook XML with plasTeX
+	@echo "📄 Generating DocBook XML..."
+	latexpand --keep-comments $(MAIN_FILE).tex > $(BOOK_NAME).expand
+	$(PYTHON2) preprocess.py $(BOOK_NAME).expand > $(BOOK_NAME).plastex
+	plastex --renderer=DocBook --theme=book --image-resolution=300 --filename=$(BOOK_NAME).xml $(BOOK_NAME).plastex
+	cd $(BOOK_NAME) && $(PYTHON2) ../postprocess.py $(BOOK_NAME).xml > temp && mv temp $(BOOK_NAME).xml
+	cd $(BOOK_NAME) && $(PYTHON) ../xmlsplit.py $(BOOK_NAME).xml
+	@echo "✅ DocBook XML generated in $(BOOK_NAME)/"
 
-DEST = /home/downey/public_html/greent/thinkjava7
+.PHONY: lint
+lint: ## Validate generated XML
+	@echo "🔍 Validating XML..."
+	xmllint -noout $(BOOK_NAME)/$(BOOK_NAME).xml
+	@echo "✅ XML validation passed"
 
-distrib:
-	rm -rf dist
-	mkdir dist
-	rsync -a $(F).pdf dist
-	rsync -a heveahtml/ dist/html/
-	rsync -a dist/* $(DEST)
+# =============================================================================
+# Maintenance Targets
+# =============================================================================
+
+.PHONY: clean
+clean: ## Remove build artifacts
+	@echo "🧹 Cleaning build artifacts..."
+	rm -f comment.cut $(BOOK_NAME).aux $(BOOK_NAME).idx $(BOOK_NAME).ilg $(BOOK_NAME).ind
+	rm -f $(BOOK_NAME).log $(BOOK_NAME).out $(BOOK_NAME).toc $(BOOK_NAME).dvi
+	rm -f $(BOOK_NAME).4ct $(BOOK_NAME).4tc $(BOOK_NAME).idv $(BOOK_NAME).lg
+	rm -f $(BOOK_NAME).xref $(BOOK_NAME).tmp $(BOOK_NAME).css $(BOOK_NAME).html
+	rm -f $(BOOK_NAME)_*.tex $(BOOK_NAME)_*.html $(BOOK_NAME)_*.css $(BOOK_NAME)_*.png
+	@echo "✅ Cleanup complete"
+
+.PHONY: distclean
+distclean: clean ## Remove all generated files
+	@echo "🧹 Deep cleaning..."
+	rm -rf $(BUILD_DIR) $(DIST_DIR) heveahtml trinkethtml
+	rm -rf $(BOOK_NAME)/
+	rm -f $(BOOK_NAME).pdf $(BOOK_NAME).expand $(BOOK_NAME).plastex
+	@echo "✅ Deep cleanup complete"
+
+# =============================================================================
+# Distribution
+# =============================================================================
+
+DEST = /home/downey/public_html/greenteapress/thinkjava7
+
+.PHONY: distrib
+distrib: ## Package for distribution
+	@echo "📦 Packaging for distribution..."
+	rm -rf $(DIST_DIR)
+	mkdir -p $(DIST_DIR)
+	$(RSYNC) -a $(BOOK_NAME).pdf $(DIST_DIR)/
+	$(RSYNC) -a heveahtml/ $(DIST_DIR)/html/
+	$(RSYNC) -a $(DIST_DIR)/* $(DEST)/
 	chmod -R o+r $(DEST)/*
-	cd $(DEST)/..; sh back
+	cd $(DEST)/.. && sh back
+	@echo "✅ Distribution complete"
+
+# =============================================================================
+# Legacy targets (kept for compatibility)
+# =============================================================================
+
+.PHONY: all
+all: pdf ## Alias for pdf target
+
+.PHONY: xxe
+xxe: ## Open XML in XML Copy Editor (legacy)
+	xmlcopyeditor ~/ThinkJava2/$(BOOK_NAME)/$(BOOK_NAME).xml &
+
+# =============================================================================
+# Special notes
+# =============================================================================
+# Note: If HeVeA fails due to OCaml bugs, use: make -i hevea
+# Note: Most users should use 'make html' for the modern Quarto version

@@ -585,7 +585,7 @@ In this chapter, you have seen relational and logical operators,
 following program shows how the individual code examples in the previous
 section fit together:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 import java.util.Scanner;
 
 /**

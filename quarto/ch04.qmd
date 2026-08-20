@@ -46,7 +46,7 @@ between them, we could invoke the same method repeatedly. Or we could
 write yet another method (named `threeLine`{.java}) that displays three
 blank lines:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 public class NewLine {
 
     public static void newLine() {
@@ -144,7 +144,7 @@ When you invoke a method, you provide the arguments. When you define a
 method, you name the **parameters**, which are variables that indicate
 what arguments are required. The following class shows an example:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 public class PrintTwice {
 
     public static void printTwice(String s) {
@@ -254,7 +254,7 @@ printTime(int 11, int 59);  // syntax error
 
 Pulling together the code fragments, here is the complete program:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 public class PrintTime {
 
     public static void printTime(int hour, int minute) {
