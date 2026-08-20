@@ -89,12 +89,9 @@ allowed, and there are special uses for such arrays.
 You can initialize an array with a comma-separated sequence of elements
 enclosed in braces, like this:
 
-``` {.java language="Java"}
+``` {.java .javarunner-repl language="Java"}
 int[] a = {1, 2, 3, 4};
 ```
-
-This statement creates an array variable, `a`{.java}, and makes it refer
-to an array with four elements.
 
 ## Accessing Elements {#elements}
 
@@ -189,7 +186,7 @@ You can use `println`{.java} to display an array, but it probably
 doesn't do what you would like. For example, say you print an array like
 this:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 int[] a = {1, 2, 3, 4};
 System.out.println(a);
 ```

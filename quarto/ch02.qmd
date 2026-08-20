@@ -193,7 +193,7 @@ or `println`{.java}. The following statements declare a variable named
 `firstLine`{.java}, assign it the value `"Hello, again!"`{.java}, and
 display that value:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 String firstLine = "Hello, again!";
 System.out.println(firstLine);
 ```
@@ -276,7 +276,8 @@ Addition, subtraction, and multiplication all do what you expect, but
 you might be surprised by division. For example, the following fragment
 tries to compute the fraction of an hour that has elapsed:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
+int minute = 59;
 System.out.print("Fraction of the hour that has passed: ");
 System.out.println(minute / 60);
 ```
@@ -293,7 +294,8 @@ like this one where the next integer is close.
 
 As an alternative, we can calculate a percentage rather than a fraction:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
+int minute = 59;
 System.out.print("Percent of the hour that has passed: ");
 System.out.println(minute * 100 / 60);
 ```
@@ -322,7 +324,7 @@ Java performs *floating-point division* when one or more operands are
 `double`{.java} values. So we can solve the problem from the previous
 section:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 double minute = 59.0;
 System.out.print("Fraction of the hour that has passed: ");
 System.out.println(minute / 60.0);
