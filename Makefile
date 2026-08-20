@@ -35,8 +35,10 @@ help: ## Show this help message
 	@echo "  clean        - Remove build artifacts"
 	@echo "  distclean    - Remove all generated files"
 	@echo ""
-	@echo "📦 Distribution:"
-	@echo "  distrib      - Package for distribution"
+	@echo "📦 Distribution (ThinkDSP-style):"
+	@echo "  distrib           - Confirm thinkjava2.pdf is ready to commit/push"
+	@echo "  publish-gtp-dry   - Dry-run rsync PDF to Green Tea Press"
+	@echo "  publish-gtp       - rsync PDF to GTP (stable URLs; needs Host gtp)"
 	@echo ""
 	@echo "🔧 Development:"
 	@echo "  plastex      - Generate DocBook XML"
@@ -186,22 +188,39 @@ distclean: clean ## Remove all generated files
 	@echo "✅ Deep cleanup complete"
 
 # =============================================================================
-# Distribution
+# Distribution (ThinkDSP-style)
 # =============================================================================
+# GitHub is canonical for the LaTeX PDF: build with `make pdf`, then commit and
+# push thinkjava2.pdf (see `make distrib`). Quarto HTML stays on GitHub Pages.
+#
+# Green Tea Press keeps stable URLs (e.g. greenteapress.com/thinkjava7/).
+# Mirror the PDF from any machine with ~/.ssh/config Host gtp:
+#   make publish-gtp-dry && make publish-gtp
+# Never uses --delete; PDF only (no HeVeA HTML in this ritual).
 
-DEST = /home/downey/public_html/greenteapress/thinkjava7
+.PHONY: distrib publish-gtp-dry publish-gtp
 
-.PHONY: distrib
-distrib: ## Package for distribution
-	@echo "📦 Packaging for distribution..."
-	rm -rf $(DIST_DIR)
-	mkdir -p $(DIST_DIR)
-	$(RSYNC) -a $(BOOK_NAME).pdf $(DIST_DIR)/
-	$(RSYNC) -a heveahtml/ $(DIST_DIR)/html/
-	$(RSYNC) -a $(DIST_DIR)/* $(DEST)/
-	chmod -R o+r $(DEST)/*
-	cd $(DEST)/.. && sh back
-	@echo "✅ Distribution complete"
+distrib: ## Stage LaTeX PDF for GitHub commit (does not upload)
+	@test -f $(BOOK_NAME).pdf || (echo ">>> missing $(BOOK_NAME).pdf; run make pdf" && exit 1)
+	@echo ">>> Ready for GitHub (git add/commit/push $(BOOK_NAME).pdf):"
+	@ls -lh $(BOOK_NAME).pdf
+	@echo ">>> Optional GTP mirror: make publish-gtp-dry && make publish-gtp"
+
+# Override if needed: make publish-gtp GTP_HOST=gtp GTP_DIR=greenteapress.com/thinkjava7
+GTP_HOST ?= gtp
+GTP_DIR  ?= greenteapress.com/thinkjava7
+RSYNC_GTP = $(RSYNC) -avz --itemize-changes $(BOOK_NAME).pdf \
+	$(GTP_HOST):$(GTP_DIR)/
+
+publish-gtp-dry: ## Dry-run rsync PDF to Green Tea Press
+	@test -f $(BOOK_NAME).pdf || (echo ">>> missing $(BOOK_NAME).pdf; run make pdf" && exit 1)
+	$(RSYNC_GTP) -n
+	@echo ">>> Dry run only. If that looks right: make publish-gtp"
+
+publish-gtp: ## rsync PDF to GTP (never --delete; PDF only)
+	@test -f $(BOOK_NAME).pdf || (echo ">>> missing $(BOOK_NAME).pdf; run make pdf" && exit 1)
+	$(RSYNC_GTP)
+	@echo ">>> Published to $(GTP_HOST):$(GTP_DIR)/"
 
 # =============================================================================
 # Legacy targets (kept for compatibility)

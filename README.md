@@ -12,6 +12,8 @@ Are you using this book in a class? We'd like to know about it! Please consider 
 
 ** Free HTML Version**: [Read online at GitHub Pages](https://chrisamayfield.github.io/ThinkJava2/)
 
+** Free PDF**: [Download from GitHub](https://github.com/ChrisMayfield/ThinkJava2/raw/master/thinkjava2.pdf) (canonical). Stable mirror: [greenteapress.com/thinkjava7/thinkjava2.pdf](https://greenteapress.com/thinkjava7/thinkjava2.pdf).
+
 ** Purchase Options** (affiliate links):
 - [Bookshop.org](https://bookshop.org/a/98697/9781492072508) - Support independent bookstores
 - [Amazon](https://amzn.to/2BEmdAn) - Kindle and paperback editions
@@ -41,7 +43,7 @@ No JDK is required for the interactive HTML book: [java-runner](https://github.c
 # HTML version (Quarto) — primary interactive book path
 make html
 
-# PDF version (LaTeX)
+# PDF version (LaTeX) — canonical PDF for GitHub + GTP
 make pdf
 
 # Legacy HTML versions
@@ -49,6 +51,21 @@ make hevea    # static HTML
 make trinket  # interactive version (Trinket.io; being replaced by java-runner)
 ```
 
+### Publishing the PDF
+
+Same pattern as ThinkDSP: **GitHub is canonical**; Green Tea Press keeps old URLs in sync.
+
+```bash
+make pdf                 # build thinkjava2.pdf
+make distrib             # confirm the PDF is ready to commit
+git add thinkjava2.pdf && git commit && git push
+
+# Optional: mirror to greenteapress.com/thinkjava7/ (requires ~/.ssh/config Host gtp)
+make publish-gtp-dry
+make publish-gtp
+```
+
+`publish-gtp` rsyncs **only** the PDF (no `--delete`, no HeVeA HTML). HTML for readers is Quarto on GitHub Pages.
 ## Repository Structure
 
 ```

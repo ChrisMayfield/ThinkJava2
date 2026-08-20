@@ -13,9 +13,8 @@ checkstyle*.jar
 *.synctex.gz
 *.toc
 
-# PDF builds
+# PDF builds — thinkjava2.pdf is tracked (GitHub canonical + GTP mirror)
 onechap.pdf
-thinkjava2.pdf
 
 # HTML builds
 heveahtml/*

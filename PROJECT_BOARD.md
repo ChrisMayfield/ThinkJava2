@@ -4,9 +4,9 @@ Numbered tasks for tracking work. Each task has a permanent number; add new task
 
 ### Current focus (2026-08-20)
 
+- **Task 6:** In progress — ThinkDSP-style PDF distrib (GitHub canonical; GTP `rsync` mirror).
+- **Task 5:** Build Quarto PDF and decide which PDF is canonical — not started (distrib uses **LaTeX** `thinkjava2.pdf` until then).
 - **Task 7:** Done — `defer` + visible code fallback; remaining gains are upstream (see java-runner#3).
-- **Task 5:** Build Quarto PDF and decide which PDF is canonical — not started.
-- **Task 6:** Redesign distribution like ThinkDSP (GitHub canonical; GTP optional mirror) — not started.
 - **Task 3:** Done — interactive coverage expanded (46 editors + 5 REPLs).
 - **Task 4:** Done — LaTeX TOC restored ([issue #30](https://github.com/ChrisMayfield/ThinkJava2/issues/30)); [comment posted](https://github.com/ChrisMayfield/ThinkJava2/issues/30#issuecomment-5357911014).
 - **Task 1–2:** Done on branch `java-runner` (see [issue #31](https://github.com/ChrisMayfield/ThinkJava2/issues/31) / [PR #32](https://github.com/ChrisMayfield/ThinkJava2/pull/32)).
@@ -176,39 +176,39 @@ Empty Contents was a **failed / incomplete LaTeX build** problem, not a missing 
 
 ## Task 6: Redesign distribution (ThinkDSP-style)
 
-**Status:** Not started
+**Status:** Done (machinery); GTP mirror when releasing
 
-**Context:** ThinkJava2 still uses bob-local `make distrib` → `DEST = /home/downey/public_html/greenteapress/thinkjava7` + `sh back`. That is the same fragile pattern ThinkDSP moved away from ([ThinkDSP Task 10](https://github.com/AllenDowney/ThinkDSP/blob/master/PROJECT_BOARD.md) / [Task 11](https://github.com/AllenDowney/ThinkDSP/blob/master/PROJECT_BOARD.md)): publish cannot run off one machine’s home directory tree.
+**Context:** ThinkJava2 used bob-local `make distrib` → `DEST = /home/downey/public_html/greenteapress/thinkjava7` + `sh back`. That is the same fragile pattern ThinkDSP moved away from ([ThinkDSP Task 10](https://github.com/AllenDowney/ThinkDSP/blob/master/PROJECT_BOARD.md) / [Task 11](https://github.com/AllenDowney/ThinkDSP/blob/master/PROJECT_BOARD.md)): publish cannot run off one machine’s home directory tree.
 
-**ThinkDSP pattern to mirror:**
+**ThinkDSP pattern:**
 
 | Layer | Role |
 |-------|------|
-| **GitHub** | Canonical PDF (commit/push after `make pdf`; stop treating the binary as local-only) |
-| **GTP** `greenteapress.com/thinkjava7/` (or current tree) | Stable old URLs + WP landing; optional `rsync` mirror from any machine with `Host gtp` |
-| **HTML** | Quarto / GitHub Pages (already the interactive path); do not require HeVeA rebuild for PDF release |
+| **GitHub** | Canonical PDF (`thinkjava2.pdf` committed after `make pdf`) |
+| **GTP** `greenteapress.com/thinkjava7/` | Stable old URLs; `rsync` via `Host gtp` (`make publish-gtp`) |
+| **HTML** | Quarto / GitHub Pages; not part of the PDF release ritual |
 
-**Goal:** Replace bob-only `make distrib` with: build → commit PDF to GitHub → optional `rsync` to GTP. Align with Task 5’s canonical-PDF choice (LaTeX vs Quarto artifact).
+**Goal:** Replace bob-only `make distrib` with: build → commit PDF to GitHub → optional `rsync` to GTP.
 
-### Scope
+### Done
 
-- [ ] Stop depending on `/home/downey/public_html/greenteapress/...` and `sh back` for the default release path
-- [ ] Update `make distrib` (or replace) to stage the chosen PDF for GitHub commit (see ThinkDSP `book/Makefile` distrib)
-- [ ] README: GitHub download link for PDF; document optional GTP mirror (`rsync` via `Host gtp`)
-- [ ] Decide whether `thinkjava2.pdf` leaves `.gitignore` (ThinkDSP commits the ebook binaries)
-- [ ] Optional: one-time GTP inventory for `thinkjava7` / thinkjava.org URLs (like ThinkDSP Task 11)
-- [ ] Leave HeVeA HTML out of the PDF release ritual unless explicitly needed
+- [x] Stop depending on `/home/downey/public_html/greenteapress/...` and `sh back` for the default release path
+- [x] `make distrib` stages/checks LaTeX PDF for GitHub commit; `publish-gtp-dry` / `publish-gtp` mirror to GTP
+- [x] README: GitHub download link + GTP mirror docs
+- [x] `thinkjava2.pdf` no longer gitignored (tracked like ThinkDSP ebook binaries)
+- [x] HeVeA HTML left out of the PDF release ritual
+- [ ] Optional: one-time GTP inventory for `thinkjava7` / thinkjava.org URLs
+- [ ] Run `make publish-gtp` when ready to refresh the live GTP copy
 
-### Out of scope
+### Canonical PDF (vs Task 5)
 
-- Migrating every Green Tea Press book in one go
-- GitHub Actions deploy (unless we want it later; ThinkDSP deferred CI)
+Until Task 5 finishes a formal Quarto-vs-LaTeX comparison, **distribution uses the LaTeX** `thinkjava2.pdf` (what GTP already serves).
 
 ### Deliverables
 
 1. New distrib docs + Makefile targets
 2. PDF available from GitHub; GTP mirror steps documented
-3. Board note linking Task 5 decision to which file is published
+3. Board note: LaTeX PDF for distrib pending Task 5
 
 ---
 
