@@ -4,8 +4,10 @@ Numbered tasks for tracking work. Each task has a permanent number; add new task
 
 ### Current focus (2026-08-20)
 
-- **Task 1–3:** Done on branch `java-runner` (see [issue #31](https://github.com/ChrisMayfield/ThinkJava2/issues/31)).
-- Next: commit / PR when ready.
+- **Task 5:** Build Quarto PDF and decide which PDF is canonical — not started.
+- **Task 6:** Redesign distribution like ThinkDSP (GitHub canonical; GTP optional mirror) — not started.
+- **Task 4:** Done — LaTeX TOC restored ([issue #30](https://github.com/ChrisMayfield/ThinkJava2/issues/30)); [comment posted](https://github.com/ChrisMayfield/ThinkJava2/issues/30#issuecomment-5357911014).
+- **Task 1–3:** Done on branch `java-runner` (see [issue #31](https://github.com/ChrisMayfield/ThinkJava2/issues/31) / [PR #32](https://github.com/ChrisMayfield/ThinkJava2/pull/32)).
 
 ---
 
@@ -94,3 +96,97 @@ Numbered tasks for tracking work. Each task has a permanent number; add new task
 1. Candidate judgment recorded above
 2. Annotated additional fences + 2 REPL examples
 3. Re-test HTML build after Task 3 edits
+
+
+---
+
+## Task 4: Fix empty TOC in LaTeX PDF
+
+**Status:** Done (2026-08-20)
+
+**Context:** [Issue #30](https://github.com/ChrisMayfield/ThinkJava2/issues/30) reports a missing table of contents in the PDF. Confirmed on the **LaTeX** release path (`thinkjava2.pdf` / Green Tea Press `thinkjava7`): a **Contents** heading appears, but **no entries**. The Quarto PDF (`quarto/_book/Think-Java.pdf`) already has a full TOC. A commenter reproduced from source. Assignee: Allen Downey.
+
+**Goal:** Restore a populated `\tableofcontents` in the LaTeX PDF build.
+
+### Root cause
+
+Empty Contents was a **failed / incomplete LaTeX build** problem, not a missing `\tableofcontents`. With TeX Live 2025:
+
+1. `listings` `upquote=true` needs T1 (`\textquotedbl unavailable in encoding OT1`) — build aborted before `\end{document}`, so `.toc` never got written (0 bytes). One completed pass without a prior `.toc` typesets a blank Contents page.
+2. In a ch05 exercise `tabular`, `\java{... && ...}` breaks on `&` (alignment tab). Fix: delimiter-form `\lstinline|...|` / `\lstinline+...+` (same style as `\java`, which is already `\lstinline`).
+
+### Fix
+
+- [x] `\usepackage[T1]{fontenc}` in [`latexonly.tex`](latexonly.tex)
+- [x] Four ch05 table cells → `\lstinline|...|` (one with `||` uses `+...+`)
+- [x] [`Makefile`](Makefile): `pdflatex -interaction=nonstopmode`; continue all 3 passes; require `thinkjava2.pdf`
+- [x] Rebuild: **372 pages**, full Contents (Preface + chapters/sections), **0** `!` errors in log
+- [x] Comment on issue #30
+
+### Deliverables
+
+1. Findings + fix on this board — done
+2. Working LaTeX PDF TOC — done (`make pdf`)
+3. Note on #30 — [comment](https://github.com/ChrisMayfield/ThinkJava2/issues/30#issuecomment-5357911014)
+
+---
+
+## Task 5: Quarto PDF vs LaTeX — choose canonical PDF
+
+**Status:** Not started
+
+**Context:** Two PDF pipelines exist. Quarto already produces a TOC; LaTeX is what Green Tea Press has shipped (`thinkjava7/thinkjava2.pdf`). After Task 4, we should consciously pick a canonical PDF for distribution.
+
+**Goal:** Build the Quarto PDF, compare it to the (fixed) LaTeX PDF, and decide which is canonical for releases / thinkjava.org / GitHub.
+
+### Scope
+
+- [ ] `quarto render` PDF (or confirm `quarto/_book/Think-Java.pdf`) builds cleanly
+- [ ] Side-by-side notes: TOC, typography, page count, code listings, figures, front matter
+- [ ] Decision: canonical = Quarto | LaTeX | both for different channels
+- [ ] Document decision in README / this board; update distrib targets if needed
+
+### Deliverables
+
+1. Short comparison notes
+2. Explicit canonical choice recorded here
+3. Follow-up issues/PRs if distrib paths need switching
+
+---
+
+## Task 6: Redesign distribution (ThinkDSP-style)
+
+**Status:** Not started
+
+**Context:** ThinkJava2 still uses bob-local `make distrib` → `DEST = /home/downey/public_html/greenteapress/thinkjava7` + `sh back`. That is the same fragile pattern ThinkDSP moved away from ([ThinkDSP Task 10](https://github.com/AllenDowney/ThinkDSP/blob/master/PROJECT_BOARD.md) / [Task 11](https://github.com/AllenDowney/ThinkDSP/blob/master/PROJECT_BOARD.md)): publish cannot run off one machine’s home directory tree.
+
+**ThinkDSP pattern to mirror:**
+
+| Layer | Role |
+|-------|------|
+| **GitHub** | Canonical PDF (commit/push after `make pdf`; stop treating the binary as local-only) |
+| **GTP** `greenteapress.com/thinkjava7/` (or current tree) | Stable old URLs + WP landing; optional `rsync` mirror from any machine with `Host gtp` |
+| **HTML** | Quarto / GitHub Pages (already the interactive path); do not require HeVeA rebuild for PDF release |
+
+**Goal:** Replace bob-only `make distrib` with: build → commit PDF to GitHub → optional `rsync` to GTP. Align with Task 5’s canonical-PDF choice (LaTeX vs Quarto artifact).
+
+### Scope
+
+- [ ] Stop depending on `/home/downey/public_html/greenteapress/...` and `sh back` for the default release path
+- [ ] Update `make distrib` (or replace) to stage the chosen PDF for GitHub commit (see ThinkDSP `book/Makefile` distrib)
+- [ ] README: GitHub download link for PDF; document optional GTP mirror (`rsync` via `Host gtp`)
+- [ ] Decide whether `thinkjava2.pdf` leaves `.gitignore` (ThinkDSP commits the ebook binaries)
+- [ ] Optional: one-time GTP inventory for `thinkjava7` / thinkjava.org URLs (like ThinkDSP Task 11)
+- [ ] Leave HeVeA HTML out of the PDF release ritual unless explicitly needed
+
+### Out of scope
+
+- Migrating every Green Tea Press book in one go
+- GitHub Actions deploy (unless we want it later; ThinkDSP deferred CI)
+
+### Deliverables
+
+1. New distrib docs + Makefile targets
+2. PDF available from GitHub; GTP mirror steps documented
+3. Board note linking Task 5 decision to which file is published
+

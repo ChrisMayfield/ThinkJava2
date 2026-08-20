@@ -78,9 +78,10 @@ delete_environment: ## Remove conda environment
 .PHONY: pdf
 pdf: ## Generate PDF version (requires 3 passes for references)
 	@echo "📖 Generating PDF version..."
-	$(PDFLATEX) $(MAIN_FILE)
-	$(PDFLATEX) $(MAIN_FILE)  # Second pass for references
-	$(PDFLATEX) $(MAIN_FILE)  # Third pass for final layout
+	-$(PDFLATEX) -interaction=nonstopmode $(MAIN_FILE)
+	-$(PDFLATEX) -interaction=nonstopmode $(MAIN_FILE)
+	-$(PDFLATEX) -interaction=nonstopmode $(MAIN_FILE)
+	@test -f $(BOOK_NAME).pdf
 	@echo "✅ PDF generated: $(BOOK_NAME).pdf"
 
 .PHONY: html
