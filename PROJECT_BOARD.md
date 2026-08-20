@@ -4,7 +4,7 @@ Numbered tasks for tracking work. Each task has a permanent number; add new task
 
 ### Current focus (2026-08-20)
 
-- **Task 6:** In progress — ThinkDSP-style PDF distrib (GitHub canonical; GTP `rsync` mirror).
+- **Task 6:** Done — GitHub-canonical LaTeX PDF + optional `publish-gtp` mirror.
 - **Task 5:** Build Quarto PDF and decide which PDF is canonical — not started (distrib uses **LaTeX** `thinkjava2.pdf` until then).
 - **Task 7:** Done — `defer` + visible code fallback; remaining gains are upstream (see java-runner#3).
 - **Task 3:** Done — interactive coverage expanded (46 editors + 5 REPLs).
