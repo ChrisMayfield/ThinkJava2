@@ -339,10 +339,12 @@ reminder, the Java library contains thousands of classes you can use.
 For example, the `Math`{.java} class provides common mathematical
 operations:
 
-``` {.java language="Java"}
+``` {.java .javarunner-repl language="Java"}
 double root = Math.sqrt(17.0);
 double angle = 1.5;
 double height = Math.sin(angle);
+long rounded = Math.round(Math.PI * 20.0);
+double power = Math.pow(2.0, 10.0);
 ```
 
 The first line sets `root`{.java} to the square root of 17. The third

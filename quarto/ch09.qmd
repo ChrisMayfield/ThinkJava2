@@ -170,7 +170,7 @@ After these statements run, `upperName`{.java} refers to the string
 `"Alan Turing"`{.java}. A common mistake is to assume that
 `toUpperCase`{.java} somehow affects the original string:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 String name = "Alan Turing";
 name.toUpperCase();           // ignores the return value
 System.out.println(name);
@@ -181,7 +181,7 @@ The previous code displays `"Alan Turing"`{.java}, because the value of
 never changes. If you want to change `name`{.java} to be uppercase, then
 you need to assign the return value:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 String name = "Alan Turing";
 name = name.toUpperCase();    // references the new string
 System.out.println(name);
@@ -232,7 +232,7 @@ package, so you can use them without importing them.
 Like strings, objects from wrapper classes are immutable, and you have
 to use the `equals`{.java} method to compare them:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 Integer x = Integer.valueOf(123);
 Integer y = Integer.valueOf(123);
 if (x == y) {                     // false
@@ -538,7 +538,7 @@ multiplication tables. We begin by writing and testing a few lines of
 code. Here is a loop that displays the multiples of two, all on one
 line:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 for (int i = 1; i <= 6; i++) {
     System.out.printf("%4d", 2 * i);
 }

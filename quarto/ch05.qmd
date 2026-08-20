@@ -256,7 +256,8 @@ Although `switch`{.java} statements appear longer than chained
 `else if`{.java} blocks, they are particularly useful when multiple
 cases can be grouped:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
+String food = "banana";
 switch (food) {
     case "apple":
     case "banana":

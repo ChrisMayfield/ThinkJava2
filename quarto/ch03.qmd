@@ -21,7 +21,7 @@ output.
 In fact, we can use `System.out.println`{.java} to display the value of
 `System.out`{.java}:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 System.out.println(System.out);
 ```
 
@@ -252,8 +252,9 @@ centimeters in an inch does not. Once we assign a value to
 `cmPerInch`{.java}, it should never change. Java provides the keyword
 `final`{.java}, a language feature that enforces this rule:
 
-``` {.java language="Java"}
+``` {.java .javarunner-repl language="Java"}
 final double CM_PER_INCH = 2.54;
+int inch = 100;
 ```
 
 Declaring that a variable is `final`{.java} means that it cannot be
@@ -269,7 +270,7 @@ character (`_`{.java}) between words.
 When you output a `double`{.java} by using `print`{.java} or
 `println`{.java}, it displays up to 16 decimal places:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 System.out.print(4.0 / 3.0);
 ```
 
@@ -282,7 +283,7 @@ method, called `printf`{.java}, that gives you more control of the
 format. The "f" in `printf`{.java} stands for "formatted". Here's an
 example:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 System.out.printf("Four thirds = %.3f", 4.0 / 3.0);
 ```
 

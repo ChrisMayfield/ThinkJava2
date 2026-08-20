@@ -86,7 +86,8 @@ In the first example, we can prove that the loop terminates when
 whether a loop terminates. For example, this loop continues until
 `n`{.java} is 1 (which makes the condition `false`{.java}):
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
+int n = 3;
 while (n != 1) {
     System.out.println(n);
     if (n % 2 == 0) {         // n is even
@@ -120,7 +121,7 @@ For more information, see
 Here is another `while`{.java} loop example; this one displays the
 numbers 1 to 5:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 int i = 1;
 while (i <= 5) {
     System.out.println(i);
@@ -138,7 +139,7 @@ If you want to increment or decrement a variable by an amount other than
 `1`{.java}, you can use `+=`{.java} and `-=`{.java}. For example,
 `i += 2`{.java} increments `i`{.java} by `2`{.java}:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 int i = 2;
 while (i <= 8) {
     System.out.print(i + ", ");
@@ -314,7 +315,7 @@ are legal because they represent a single character.
 The increment and decrement operators also work with characters. So this
 loop displays the letters of the alphabet:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 System.out.print("Roman alphabet: ");
 for (char c = 'A'; c <= 'Z'; c++) {
     System.out.print(c);
@@ -335,7 +336,7 @@ In Unicode, each character is represented by a "code point", which you
 can think of as an integer. The code points for uppercase Greek letters
 run from 913 to 937, so we can display the Greek alphabet like this:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 System.out.print("Greek alphabet: ");
 for (int i = 913; i <= 937; i++) {
     System.out.print((char) i);
@@ -353,7 +354,7 @@ the corresponding character. Try running the code and see what happens.
 versa. For example, we could have printed letters of the alphabet by
 using a `while`{.java} loop:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 System.out.print("Roman alphabet: ");
 char c = 'A';
 while (c <= 'Z') {
@@ -577,7 +578,7 @@ returns `false`{.java}.
 If two strings differ, we can use `compareTo`{.java} to see which comes
 first in alphabetical order:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 String name1 = "Alan Turing";
 String name2 = "Ada Lovelace";
 int diff = name1.compareTo(name2);

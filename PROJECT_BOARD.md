@@ -6,8 +6,9 @@ Numbered tasks for tracking work. Each task has a permanent number; add new task
 
 - **Task 5:** Build Quarto PDF and decide which PDF is canonical — not started.
 - **Task 6:** Redesign distribution like ThinkDSP (GitHub canonical; GTP optional mirror) — not started.
+- **Task 3:** Done — interactive coverage expanded (46 editors + 5 REPLs).
 - **Task 4:** Done — LaTeX TOC restored ([issue #30](https://github.com/ChrisMayfield/ThinkJava2/issues/30)); [comment posted](https://github.com/ChrisMayfield/ThinkJava2/issues/30#issuecomment-5357911014).
-- **Task 1–3:** Done on branch `java-runner` (see [issue #31](https://github.com/ChrisMayfield/ThinkJava2/issues/31) / [PR #32](https://github.com/ChrisMayfield/ThinkJava2/pull/32)).
+- **Task 1–2:** Done on branch `java-runner` (see [issue #31](https://github.com/ChrisMayfield/ThinkJava2/issues/31) / [PR #32](https://github.com/ChrisMayfield/ThinkJava2/pull/32)).
 
 ---
 
@@ -70,32 +71,50 @@ Numbered tasks for tracking work. Each task has a permanent number; add new task
 
 ## Task 3: Expand interactive coverage (extra mile)
 
-**Status:** Done (initial pass, 2026-08-20)
+**Status:** Done (2026-08-20)
 
 **Context:** java-runner can run incomplete snippets and supports REPL via `text/x-java-repl`.
 
 **Goal:** After Task 2 parity, selectively add more interactives and optional REPL blocks.
 
-### Added `.javarunner` (incomplete / statement snippets)
+### Added `.javarunner` (editors)
 
-- ch01: bare `println("Hello, World!")`; escaped-quote println
-- ch02: print current time; minutes since midnight; floating-point `0.1` sum; string `+` associativity
-- ch06: countdown `while`; for-loop “appreciate”; multiplication table
+**Initial pass:** ch01 bare/`escaped` println; ch02 time / minutes / `0.1` sum / string `+`; ch06 countdown / for-appreciate / multiplication table.
+
+**Next pass (completed):**
+
+| Chapter | What |
+|---------|------|
+| ch02 | `firstLine` println; int + double fraction/percent of hour (added local `minute`) |
+| ch03 | `println(System.out)`; `print`/`printf` of `4.0/3.0` |
+| ch05 | `switch (food)` — added `String food = "banana"` |
+| ch06 | Collatz — added `int n = 3`; `i++` / `i += 2` whiles; Roman/Greek alphabets (`for` + `while`); `compareTo` names |
+| ch07 | `println(a)` on `{1,2,3,4}` (default array `toString`) |
+| ch09 | immutability pitfall + fix; `Integer` `==`/`equals`; `printf` row of `2*i` |
 
 ### Added `.javarunner-repl`
 
-- ch02: `message` / `hour` / `minute` declarations (REPL init)
-- ch06: `fruit` / `charAt(0)` (REPL init)
+- ch02: `message` / `hour` / `minute` (also supports trying `minute/60` vs `minute/60.0`)
+- ch03: `CM_PER_INCH` + `inch` conversion sandbox
+- ch04: `Math.sqrt` / `sin` / `round` / `pow` assignments
+- ch06: `fruit` / `charAt(0)`
+- ch07: `int[] a = {1, 2, 3, 4}`
 
 ### Kept static (intentionally)
 
-- Compiler-error demos, infinite-loop examples, fragments that depend on undeclared prior state, wrong/`==` string comparisons meant as cautionary text
+- Compiler-error demos (e.g. `int x = 1.1`)
+- Infinite-loop examples (e.g. `while` with no update; `forever`)
+- Fragments that still depend on undeclared prior state
+- Cautionary broken control flow (e.g. `if (...); {` empty-statement trap in ch05)
+- Method-only fences with no `main` / call site
+- Book-specific / AWT types in incomplete form (`Point`, `Rectangle`, `Card`, `Time`, `Graphics`, …)
+- ch08+ recursion / OOP stubs without a full self-contained program
 
 ### Deliverables
 
-1. Candidate judgment recorded above
-2. Annotated additional fences + 2 REPL examples
-3. Re-test HTML build after Task 3 edits
+1. Candidate judgment + completed annotation lists above
+2. Editors + REPLs annotated in Quarto sources
+3. Re-test: `make html` after annotations
 
 
 ---

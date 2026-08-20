@@ -72,3 +72,10 @@ pre {
     border-radius: 3px;
     border: 0px solid #ffe0b2;
 }
+
+/* java-runner: hide Test until upstream supports opt-out
+   (https://github.com/ChrisMayfield/java-runner/issues/1).
+   Book demos rarely have @Test methods; the button only confuses readers. */
+.jr-btn-test {
+    display: none !important;
+}
