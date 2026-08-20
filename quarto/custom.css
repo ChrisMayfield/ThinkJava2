@@ -79,3 +79,19 @@ pre {
 .jr-btn-test {
     display: none !important;
 }
+
+/* Show static code until java-runner replaces the sibling <script>
+   with a .jr-widget (filter emits .jr-pending wrappers). */
+.jr-pending-code {
+    background-color: #f8f9fa;
+    padding: 0.5em 0.75em;
+    border-radius: 3px;
+    border: 1px solid #e0e0e0;
+    font-size: 0.95em;
+    overflow-x: auto;
+    margin: 0 0 0.5em 0;
+}
+
+.jr-pending:has(.jr-widget) > .jr-pending-code {
+    display: none;
+}

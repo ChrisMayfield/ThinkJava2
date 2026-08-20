@@ -4,6 +4,7 @@ Numbered tasks for tracking work. Each task has a permanent number; add new task
 
 ### Current focus (2026-08-20)
 
+- **Task 7:** Done — `defer` + visible code fallback; remaining gains are upstream (see java-runner#3).
 - **Task 5:** Build Quarto PDF and decide which PDF is canonical — not started.
 - **Task 6:** Redesign distribution like ThinkDSP (GitHub canonical; GTP optional mirror) — not started.
 - **Task 3:** Done — interactive coverage expanded (46 editors + 5 REPLs).
@@ -208,4 +209,56 @@ Empty Contents was a **failed / incomplete LaTeX build** problem, not a missing 
 1. New distrib docs + Makefile targets
 2. PDF available from GitHub; GTP mirror steps documented
 3. Board note linking Task 5 decision to which file is published
+
+---
+
+## Task 7: Improve java-runner page-load performance
+
+**Status:** Done (ThinkJava2 side)
+
+**Context:** The Quarto HTML now includes java-runner on pages with interactive Java editors and REPLs. java-runner can take noticeable time to load and initialize. The book content should render as quickly as possible even if the interactive Java environment is not ready yet.
+
+**Goal:** Make java-runner non-blocking where possible, measure where the startup time is going, and identify optimizations that belong in ThinkJava2 versus upstream java-runner.
+
+### Investigation (light)
+
+- [x] `javarunner.js` ≈ 793 KB on disk (~250 KB gzip-9); bundled, not fully minified
+- [x] Auto-init supports deferred load (`DOMContentLoaded` / ready DOM)
+- [ ] Full browser Performance panel timing left to manual check
+- Upstream tracking: [java-runner#3](https://github.com/ChrisMayfield/java-runner/issues/3)
+
+### ThinkJava2 changes
+
+- [x] Load `javarunner.js` with `defer` in `_quarto.yml`
+- [x] Lua filter wraps runners in `.jr-pending` with a visible `<pre class="jr-pending-code">` fallback
+- [x] CSS hides the fallback once `.jr-widget` appears (`:has(.jr-widget)`)
+- [ ] Browser smoke-test of editors/REPLs (manual)
+
+### Possible upstream improvements
+
+Tracked in [java-runner#3](https://github.com/ChrisMayfield/java-runner/issues/3):
+
+- [ ] Production minification of the distributed JavaScript
+- [ ] Lazy initialization / lazy-load heavy runtime
+- [ ] Code splitting if useful
+
+### Preferred loading model
+
+```text
+HTML arrives
+    ↓
+book page renders immediately (code visible via .jr-pending-code)
+    ↓
+deferred javarunner.js runs
+    ↓
+.jr-widget replaces interactive blocks; fallback hidden
+    ↓
+(Run / runtime readiness still owned by java-runner)
+```
+
+### Deliverables
+
+1. Non-blocking `defer` + visible code fallback in ThinkJava2
+2. Upstream issue for library-side optimizations (#3)
+3. Manual browser re-test of interactive editors and REPLs
 
