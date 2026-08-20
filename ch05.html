@@ -102,6 +102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script defer="" src="assets/javarunner/javarunner.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -134,6 +135,7 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="custom.css">
+<link rel="stylesheet" href="assets/javarunner/javarunner.css">
 </head>
 
 <body class="nav-sidebar floating">
@@ -514,18 +516,36 @@ window.Quarto = {
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The body of a <code class="sourceCode java"><span class="cf">switch</span></code> statement is organized into one or more <code class="sourceCode java"><span class="cf">case</span></code> blocks. Each <code class="sourceCode java"><span class="cf">case</span></code> ends with a <code class="sourceCode java"><span class="cf">break</span></code> statement, which exits the <code class="sourceCode java"><span class="cf">switch</span></code> body. The <code class="sourceCode java"><span class="kw">default</span></code> block is optional and executed only if none of the cases apply.</p>
 <p>Although <code class="sourceCode java"><span class="cf">switch</span></code> statements appear longer than chained <code class="sourceCode java"><span class="cf">else</span> <span class="cf">if</span></code> blocks, they are particularly useful when multiple cases can be grouped:</p>
-<div class="sourceCode" id="cb13" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">switch</span> <span class="op">(</span>food<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">"apple"</span><span class="op">:</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">"banana"</span><span class="op">:</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">"cherry"</span><span class="op">:</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Fruit!"</span><span class="op">);</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span><span class="op">;</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">"asparagus"</span><span class="op">:</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">"broccoli"</span><span class="op">:</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">"carrot"</span><span class="op">:</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Vegetable!"</span><span class="op">);</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span><span class="op">;</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="jr-pending">
+<pre class="jr-pending-code"><code>String food = "banana";
+switch (food) {
+    case "apple":
+    case "banana":
+    case "cherry":
+        System.out.println("Fruit!");
+        break;
+    case "asparagus":
+    case "broccoli":
+    case "carrot":
+        System.out.println("Vegetable!");
+        break;
+}</code></pre>
+<script type="text/x-java">
+String food = "banana";
+switch (food) {
+    case "apple":
+    case "banana":
+    case "cherry":
+        System.out.println("Fruit!");
+        break;
+    case "asparagus":
+    case "broccoli":
+    case "carrot":
+        System.out.println("Vegetable!");
+        break;
+}
+</script>
+</div>
 </section>
 <section id="logical-operators" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="logical-operators"><span class="header-section-number">5.5</span> Logical Operators</h2>
@@ -537,25 +557,25 @@ window.Quarto = {
 </ul>
 <p>In order for an expression with <code class="sourceCode java"><span class="op">&amp;&amp;</span></code> to be true, both sides of the <code class="sourceCode java"><span class="op">&amp;&amp;</span></code> operator must be true. And in order for an expression with <code class="sourceCode java"><span class="op">||</span></code> to be false, both sides of the <code class="sourceCode java"><span class="op">||</span></code> operator must be false.</p>
 <p>The <code class="sourceCode java"><span class="op">&amp;&amp;</span></code> operator can be used to simplify nested <code class="sourceCode java"><span class="cf">if</span></code> statements. For example, the following code can be rewritten with a single condition:</p>
-<div class="sourceCode" id="cb14" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>x <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>y <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Both x and y are zero"</span><span class="op">);</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb15" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">// combined</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>x <span class="op">==</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> y <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Both x and y are zero"</span><span class="op">);</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>x <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>y <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Both x and y are zero"</span><span class="op">);</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">// combined</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>x <span class="op">==</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> y <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Both x and y are zero"</span><span class="op">);</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Likewise, the <code class="sourceCode java"><span class="op">||</span></code> operator can simplify chained <code class="sourceCode java"><span class="cf">if</span></code> statements. Since the branches are the same, there is no need to duplicate that code:</p>
-<div class="sourceCode" id="cb16" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>x <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Either x or y is zero"</span><span class="op">);</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>y <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Either x or y is zero"</span><span class="op">);</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb17" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">// combined</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>x <span class="op">==</span> <span class="dv">0</span> <span class="op">||</span> y <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Either x or y is zero"</span><span class="op">);</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>x <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Either x or y is zero"</span><span class="op">);</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>y <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Either x or y is zero"</span><span class="op">);</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">// combined</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>x <span class="op">==</span> <span class="dv">0</span> <span class="op">||</span> y <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Either x or y is zero"</span><span class="op">);</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then again, if the statements in the branches were different, we could not combine them into one block. But it’s useful to explore different ways of representing the same logic, especially when it’s complex.</p>
 <p><span id="shortcircuit" label="shortcircuit"></span></p>
 <p>Logical operators evaluate the second expression <em>only when necessary</em>. For example, <code class="sourceCode java"><span class="kw">true</span> <span class="op">||</span> anything</code> is always true, so Java does not need to evaluate the expression <code class="sourceCode java">anything</code>. Likewise, <code class="sourceCode java"><span class="kw">false</span> <span class="op">&amp;&amp;</span> anything</code> is always false.</p>
@@ -564,9 +584,9 @@ window.Quarto = {
 <section id="de-morgans-laws" class="level2" data-number="5.6">
 <h2 data-number="5.6" class="anchored" data-anchor-id="de-morgans-laws"><span class="header-section-number">5.6</span> De Morgan’s Laws</h2>
 <p>Sometimes you need to negate an expression containing a mix of relational and logical operators. For example, to test if <code class="sourceCode java">x</code> and <code class="sourceCode java">y</code> are both nonzero, you could write the following:</p>
-<div class="sourceCode" id="cb18" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(!(</span>x <span class="op">==</span> <span class="dv">0</span> <span class="op">||</span> y <span class="op">==</span> <span class="dv">0</span><span class="op">))</span> <span class="op">{</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Neither x nor y is zero"</span><span class="op">);</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(!(</span>x <span class="op">==</span> <span class="dv">0</span> <span class="op">||</span> y <span class="op">==</span> <span class="dv">0</span><span class="op">))</span> <span class="op">{</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Neither x nor y is zero"</span><span class="op">);</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This condition is difficult to read because of the <code class="sourceCode java"><span class="op">!</span></code> and parentheses. A better way to negate logic expressions is to apply <strong>De Morgan’s laws</strong>:</p>
 <ul>
 <li><p><code class="sourceCode java"><span class="op">!(</span>A <span class="op">&amp;&amp;</span> B<span class="op">)</span></code> &nbsp;is the same as&nbsp; <code class="sourceCode java"><span class="op">!</span>A <span class="op">||</span> <span class="op">!</span>B</code></p></li>
@@ -580,56 +600,56 @@ window.Quarto = {
 </ul>
 <p>It may help to read these examples out loud in English. For instance, “If I don’t want the case where <span class="math inline">\(x\)</span> is less than 5 and <span class="math inline">\(y\)</span> is 3, then I need <span class="math inline">\(x\)</span> to be greater than or equal to 5, or I need <span class="math inline">\(y\)</span> to be anything but 3.”</p>
 <p>Returning to the previous example, here is the revised condition. In English, it reads, “If <span class="math inline">\(x\)</span> is not zero and <span class="math inline">\(y\)</span> is not zero.” The logic is the same, and the source code is easier to read:</p>
-<div class="sourceCode" id="cb19" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>x <span class="op">!=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> y <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Neither x nor y is zero"</span><span class="op">);</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>x <span class="op">!=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> y <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Neither x nor y is zero"</span><span class="op">);</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="boolean-variables" class="level2" data-number="5.7">
 <h2 data-number="5.7" class="anchored" data-anchor-id="boolean-variables"><span class="header-section-number">5.7</span> Boolean Variables</h2>
 <p>To store a <code class="sourceCode java"><span class="kw">true</span></code> or <code class="sourceCode java"><span class="kw">false</span></code> value, you need a <code class="sourceCode java"><span class="dt">boolean</span></code> variable. You can declare and assign them like other variables. In this example, the first line is a variable declaration, the second is an assignment, and the third is both:</p>
-<div class="sourceCode" id="cb20" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> flag<span class="op">;</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>flag <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> testResult <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> flag<span class="op">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>flag <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> testResult <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Since relational and logical operators evaluate to a <code class="sourceCode java"><span class="dt">boolean</span></code> value, you can store the result of a comparison in a variable:</p>
-<div class="sourceCode" id="cb21" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> evenFlag <span class="op">=</span> <span class="op">(</span>x <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">);</span>    <span class="co">// true if x is even</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> positiveFlag <span class="op">=</span> <span class="op">(</span>x <span class="op">&gt;</span> <span class="dv">0</span><span class="op">);</span>     <span class="co">// true if x is positive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> evenFlag <span class="op">=</span> <span class="op">(</span>x <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">);</span>    <span class="co">// true if x is even</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> positiveFlag <span class="op">=</span> <span class="op">(</span>x <span class="op">&gt;</span> <span class="dv">0</span><span class="op">);</span>     <span class="co">// true if x is positive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The parentheses are unnecessary, but they make the code easier to understand. A variable defined in this way is called a <strong>flag</strong>, because it signals, or “flags”, the presence or absence of a condition.</p>
 <p>You can use flag variables as part of a conditional statement:</p>
-<div class="sourceCode" id="cb22" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>evenFlag<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"n was even when I checked it"</span><span class="op">);</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>evenFlag<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"n was even when I checked it"</span><span class="op">);</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Flags may not seem that useful at this point, but they will help simplify complex conditions later. Each part of a condition can be stored in a separate flag, and these flags can be combined with logical operators.</p>
 <p>Notice that we didn’t have to write &nbsp;<code class="sourceCode java"><span class="cf">if</span> <span class="op">(</span>evenFlag <span class="op">==</span> <span class="kw">true</span><span class="op">)</span></code>. Since <code class="sourceCode java">evenFlag</code> is a <code class="sourceCode java"><span class="dt">boolean</span></code>, it’s already a condition. To check if a flag is <code class="sourceCode java"><span class="kw">false</span></code>, we simply negate the flag:</p>
-<div class="sourceCode" id="cb23" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(!</span>evenFlag<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"n was odd when I checked it"</span><span class="op">);</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(!</span>evenFlag<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"n was odd when I checked it"</span><span class="op">);</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In general, you should never compare anything to <code class="sourceCode java"><span class="kw">true</span></code> or <code class="sourceCode java"><span class="kw">false</span></code>. Doing so makes the code more verbose and awkward to read out loud.</p>
 </section>
 <section id="boolmeth" class="level2" data-number="5.8">
 <h2 data-number="5.8" class="anchored" data-anchor-id="boolmeth"><span class="header-section-number">5.8</span> Boolean Methods</h2>
 <p>Methods can return <code class="sourceCode java"><span class="dt">boolean</span></code> values, just like any other type, which is often convenient for hiding tests inside methods. For example:</p>
-<div class="sourceCode" id="cb24" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">boolean</span> <span class="fu">isSingleDigit</span><span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>x <span class="op">&gt;</span> <span class="op">-</span><span class="dv">10</span> <span class="op">&amp;&amp;</span> x <span class="op">&lt;</span> <span class="dv">10</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">boolean</span> <span class="fu">isSingleDigit</span><span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>x <span class="op">&gt;</span> <span class="op">-</span><span class="dv">10</span> <span class="op">&amp;&amp;</span> x <span class="op">&lt;</span> <span class="dv">10</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The name of this method is <code class="sourceCode java">isSingleDigit</code>. It is common to give <code class="sourceCode java"><span class="dt">boolean</span></code> methods names that sound like yes/no questions. Since the return type is <code class="sourceCode java"><span class="dt">boolean</span></code>, the return statement has to provide a boolean expression.</p>
 <p>The code itself is straightforward, although it is longer than it needs to be. Remember that the expression <code class="sourceCode java">x <span class="op">&gt;</span> <span class="op">-</span><span class="dv">10</span> <span class="op">&amp;&amp;</span> x <span class="op">&lt;</span> <span class="dv">10</span></code> has type <code class="sourceCode java"><span class="dt">boolean</span></code>, so there is nothing wrong with returning it directly (without the <code class="sourceCode java"><span class="cf">if</span></code> statement):</p>
-<div class="sourceCode" id="cb25" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">boolean</span> <span class="fu">isSingleDigit</span><span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">&gt;</span> <span class="op">-</span><span class="dv">10</span> <span class="op">&amp;&amp;</span> x <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">boolean</span> <span class="fu">isSingleDigit</span><span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">&gt;</span> <span class="op">-</span><span class="dv">10</span> <span class="op">&amp;&amp;</span> x <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In <code class="sourceCode java">main</code>, you can invoke the method in the usual ways:</p>
-<div class="sourceCode" id="cb26" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="fu">isSingleDigit</span><span class="op">(</span><span class="dv">2</span><span class="op">));</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> bigFlag <span class="op">=</span> <span class="op">!</span><span class="fu">isSingleDigit</span><span class="op">(</span><span class="dv">17</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="fu">isSingleDigit</span><span class="op">(</span><span class="dv">2</span><span class="op">));</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> bigFlag <span class="op">=</span> <span class="op">!</span><span class="fu">isSingleDigit</span><span class="op">(</span><span class="dv">17</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The first line displays <code>true</code> because 2 is a single-digit number. The second line sets <code class="sourceCode java">bigFlag</code> to <code class="sourceCode java"><span class="kw">true</span></code>, because 17 is <em>not</em> a single-digit number.</p>
 <p>Conditional statements often invoke <code class="sourceCode java"><span class="dt">boolean</span></code> methods and use the result as the condition:</p>
-<div class="sourceCode" id="cb27" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span><span class="fu">isSingleDigit</span><span class="op">(</span>z<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"z is small"</span><span class="op">);</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"z is big"</span><span class="op">);</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span><span class="fu">isSingleDigit</span><span class="op">(</span>z<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"z is small"</span><span class="op">);</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"z is big"</span><span class="op">);</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Examples like this one almost read like English: “If is single digit z, print z is small else print z is big.”</p>
 </section>
 <section id="validate" class="level2" data-number="5.9">
@@ -637,18 +657,18 @@ window.Quarto = {
 <p>One of the most important tasks in any computer program is to <strong>validate</strong> input from the user. People often make mistakes while typing, especially on smartphones, and incorrect inputs may cause your program to fail.</p>
 <p>Even worse, someone (i.e., a <strong>hacker</strong>) may intentionally try to break into your system by entering unexpected inputs. You should never assume that users will input the right kind of data.</p>
 <p>Consider this simple program that prompts the user for a number and computes its logarithm:</p>
-<div class="sourceCode" id="cb28" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Scanner</span> in <span class="op">=</span> <span class="kw">new</span> <span class="bu">Scanner</span><span class="op">(</span><span class="bu">System</span><span class="op">.</span><span class="fu">in</span><span class="op">);</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">"Enter a number: "</span><span class="op">);</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> x <span class="op">=</span> in<span class="op">.</span><span class="fu">nextDouble</span><span class="op">();</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> y <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span><span class="op">(</span>x<span class="op">);</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"The log is "</span> <span class="op">+</span> y<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Scanner</span> in <span class="op">=</span> <span class="kw">new</span> <span class="bu">Scanner</span><span class="op">(</span><span class="bu">System</span><span class="op">.</span><span class="fu">in</span><span class="op">);</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">"Enter a number: "</span><span class="op">);</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> x <span class="op">=</span> in<span class="op">.</span><span class="fu">nextDouble</span><span class="op">();</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> y <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span><span class="op">(</span>x<span class="op">);</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"The log is "</span> <span class="op">+</span> y<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In mathematics, the natural logarithm (base <span class="math inline">\(e\)</span>) is undefined when <span class="math inline">\(x \le 0\)</span>. In Java, if you ask for <code class="sourceCode java"><span class="bu">Math</span><span class="op">.</span><span class="fu">log</span><span class="op">(-</span><span class="dv">1</span><span class="op">)</span></code>, it returns <strong>NaN</strong>, which stands for “not a number”. We can check for this condition and print an appropriate message:</p>
-<div class="sourceCode" id="cb29" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>x <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> y <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span><span class="op">(</span>x<span class="op">);</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"The log is "</span> <span class="op">+</span> y<span class="op">);</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"The log is undefined"</span><span class="op">);</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>x <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> y <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span><span class="op">(</span>x<span class="op">);</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"The log is "</span> <span class="op">+</span> y<span class="op">);</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"The log is undefined"</span><span class="op">);</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The output is better now, but there is another problem. What if the user doesn’t enter a number at all? What would happen if they typed the word “hello”, either by accident or on purpose?</p>
 <div class="small">
 <pre><code>Exception in thread "main" java.util.InputMismatchException
@@ -659,46 +679,80 @@ window.Quarto = {
 </div>
 <p>If the user inputs a <code class="sourceCode java"><span class="bu">String</span></code> when we expect a <code class="sourceCode java"><span class="dt">double</span></code>, Java reports an “input mismatch” exception. We can prevent this run-time error from happening by testing the input first.</p>
 <p>The <code class="sourceCode java"><span class="bu">Scanner</span></code> class provides <code class="sourceCode java">hasNextDouble</code>, which checks whether the next input can be interpreted as a <code class="sourceCode java"><span class="dt">double</span></code>. If not, we can display an error message:</p>
-<div class="sourceCode" id="cb31" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(!</span>in<span class="op">.</span><span class="fu">hasNextDouble</span><span class="op">())</span> <span class="op">{</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> word <span class="op">=</span> in<span class="op">.</span><span class="fu">next</span><span class="op">();</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">err</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>word <span class="op">+</span> <span class="st">"is not a number"</span><span class="op">);</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(!</span>in<span class="op">.</span><span class="fu">hasNextDouble</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> word <span class="op">=</span> in<span class="op">.</span><span class="fu">next</span><span class="op">();</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">err</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>word <span class="op">+</span> <span class="st">"is not a number"</span><span class="op">);</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In contrast to <code class="sourceCode java">in<span class="op">.</span><span class="fu">nextLine</span></code>, which returns an entire line of input, the <code class="sourceCode java">in<span class="op">.</span><span class="fu">next</span></code> method returns only the next token of input. We can use <code class="sourceCode java">in<span class="op">.</span><span class="fu">next</span></code> to show the user exactly which word they typed was not a number.</p>
 <p>This example also uses <code class="sourceCode java"><span class="bu">System</span><span class="op">.</span><span class="fu">err</span></code>, which is an <code class="sourceCode java"><span class="bu">OutputStream</span></code> for error messages and warnings. Some development environments display output to <code class="sourceCode java"><span class="bu">System</span><span class="op">.</span><span class="fu">err</span></code> with a different color or in a separate window.</p>
 </section>
 <section id="example-program" class="level2" data-number="5.10">
 <h2 data-number="5.10" class="anchored" data-anchor-id="example-program"><span class="header-section-number">5.10</span> Example Program</h2>
 <p>In this chapter, you have seen relational and logical operators, <code class="sourceCode java"><span class="cf">if</span></code> statements, boolean methods, and validating input. The following program shows how the individual code examples in the previous section fit together:</p>
-<div class="sourceCode" id="cb32" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">Scanner</span><span class="op">;</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a> <span class="co">*</span> Demonstrates input validation using if statements<span class="co">.</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a> <span class="co">*/</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Logarithm <span class="op">{</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// prompt for input</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Scanner</span> in <span class="op">=</span> <span class="kw">new</span> <span class="bu">Scanner</span><span class="op">(</span><span class="bu">System</span><span class="op">.</span><span class="fu">in</span><span class="op">);</span></span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">print</span><span class="op">(</span><span class="st">"Enter a number: "</span><span class="op">);</span></span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">// check the format</span></span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(!</span>in<span class="op">.</span><span class="fu">hasNextDouble</span><span class="op">())</span> <span class="op">{</span></span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>            <span class="bu">String</span> word <span class="op">=</span> in<span class="op">.</span><span class="fu">next</span><span class="op">();</span></span>
-<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">err</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>word <span class="op">+</span> <span class="st">" is not a number"</span><span class="op">);</span></span>
-<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span><span class="op">;</span></span>
-<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>        <span class="co">// check the range</span></span>
-<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> x <span class="op">=</span> in<span class="op">.</span><span class="fu">nextDouble</span><span class="op">();</span></span>
-<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>x <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>            <span class="dt">double</span> y <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span><span class="op">(</span>x<span class="op">);</span></span>
-<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"The log is "</span> <span class="op">+</span> y<span class="op">);</span></span>
-<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"The log is undefined"</span><span class="op">);</span></span>
-<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="jr-pending">
+<pre class="jr-pending-code"><code>import java.util.Scanner;
+
+/**
+ * Demonstrates input validation using if statements.
+ */
+public class Logarithm {
+
+    public static void main(String[] args) {
+
+        // prompt for input
+        Scanner in = new Scanner(System.in);
+        System.out.print("Enter a number: ");
+
+        // check the format
+        if (!in.hasNextDouble()) {
+            String word = in.next();
+            System.err.println(word + " is not a number");
+            return;
+        }
+
+        // check the range
+        double x = in.nextDouble();
+        if (x &gt; 0) {
+            double y = Math.log(x);
+            System.out.println("The log is " + y);
+        } else {
+            System.out.println("The log is undefined");
+        }
+    }
+}</code></pre>
+<script type="text/x-java">
+import java.util.Scanner;
+
+/**
+ * Demonstrates input validation using if statements.
+ */
+public class Logarithm {
+
+    public static void main(String[] args) {
+
+        // prompt for input
+        Scanner in = new Scanner(System.in);
+        System.out.print("Enter a number: ");
+
+        // check the format
+        if (!in.hasNextDouble()) {
+            String word = in.next();
+            System.err.println(word + " is not a number");
+            return;
+        }
+
+        // check the range
+        double x = in.nextDouble();
+        if (x > 0) {
+            double y = Math.log(x);
+            System.out.println("The log is " + y);
+        } else {
+            System.out.println("The log is undefined");
+        }
+    }
+}
+</script>
+</div>
 <p>Notice that the <code class="sourceCode java"><span class="cf">return</span></code> statement allows you to exit a method before you reach the end of it. Returning from <code class="sourceCode java">main</code> terminates the program.</p>
 <p>What started as five lines of code at the beginning of Section&nbsp;<a href="#validate" data-reference-type="ref" data-reference="validate">5.9</a> is now a 30-line program. Making programs robust (and secure) often requires a lot of additional checking, as shown in this example.</p>
 <p>It’s important to write comments every few lines to make your code easier to understand. Comments not only help other people read your code, but also help you document what you’re trying to do. If there’s a mistake in the code, finding it will be a lot easier when there are good comments.</p>
@@ -770,11 +824,11 @@ window.Quarto = {
 <p>If you have not already read Appendix&nbsp;<a href="appa.html#checkstyle" data-reference-type="ref" data-reference="checkstyle">18.5</a>, now might be a good time. It describes Checkstyle, a tool that analyzes many aspects of your source code.</p>
 <div class="exercise">
 <p><strong>Exercise 5.1</strong>. <em>Rewrite the following code by using a single <code class="sourceCode java"><span class="cf">if</span></code> statement:</em></p>
-<div class="sourceCode" id="cb33" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>x <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>x <span class="op">&lt;</span> <span class="dv">10</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"positive single digit number."</span><span class="op">);</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>x <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>x <span class="op">&lt;</span> <span class="dv">10</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"positive single digit number."</span><span class="op">);</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="exercise">
 <p><strong>Exercise 5.2</strong>. <em>Now that we have conditional statements, we can get back to the </em>Guess My Number* game from Exercise&nbsp;<a href="#guess" data-reference-type="ref" data-reference="guess">3.4</a>.*</p>
@@ -789,13 +843,13 @@ window.Quarto = {
 </div>
 <div class="exercise">
 <p><strong>Exercise 5.4</strong>. <em>Using the following variables, evaluate the logic expressions in the table that follows. Write your answers as true, false, or error.</em></p>
-<div class="sourceCode" id="cb34" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> yes <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> no <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> loVal <span class="op">=</span> <span class="op">-</span><span class="dv">999</span><span class="op">;</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> hiVal <span class="op">=</span> <span class="dv">999</span><span class="op">;</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> grade <span class="op">=</span> <span class="fl">87.5</span><span class="op">;</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> amount <span class="op">=</span> <span class="fl">50.0</span><span class="op">;</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> hello <span class="op">=</span> <span class="st">"world"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> yes <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="dt">boolean</span> no <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> loVal <span class="op">=</span> <span class="op">-</span><span class="dv">999</span><span class="op">;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> hiVal <span class="op">=</span> <span class="dv">999</span><span class="op">;</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> grade <span class="op">=</span> <span class="fl">87.5</span><span class="op">;</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> amount <span class="op">=</span> <span class="fl">50.0</span><span class="op">;</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="bu">String</span> hello <span class="op">=</span> <span class="st">"world"</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="center">
 <div class="tabular">
 <p><em>|l|l| Expression &amp; Result<br>
@@ -815,36 +869,36 @@ window.Quarto = {
 </div>
 <div class="exercise">
 <p><strong>Exercise 5.5</strong>. <em>What is the output of the following program? Determine the answer without using a computer.</em></p>
-<div class="sourceCode" id="cb35" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">boolean</span> flag1 <span class="op">=</span> <span class="fu">isHoopy</span><span class="op">(</span><span class="dv">202</span><span class="op">);</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">boolean</span> flag2 <span class="op">=</span> <span class="fu">isFrabjuous</span><span class="op">(</span><span class="dv">202</span><span class="op">);</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>flag1<span class="op">);</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>flag2<span class="op">);</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>flag1 <span class="op">&amp;&amp;</span> flag2<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"ping!"</span><span class="op">);</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>flag1 <span class="op">||</span> flag2<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"pong!"</span><span class="op">);</span></span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb36" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">boolean</span> <span class="fu">isHoopy</span><span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">boolean</span> hoopyFlag<span class="op">;</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>x <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>        hoopyFlag <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>        hoopyFlag <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hoopyFlag<span class="op">;</span></span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb37" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">boolean</span> <span class="fu">isFrabjuous</span><span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">boolean</span> frabjuousFlag<span class="op">;</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>x <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>        frabjuousFlag <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>        frabjuousFlag <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> frabjuousFlag<span class="op">;</span></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">boolean</span> flag1 <span class="op">=</span> <span class="fu">isHoopy</span><span class="op">(</span><span class="dv">202</span><span class="op">);</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">boolean</span> flag2 <span class="op">=</span> <span class="fu">isFrabjuous</span><span class="op">(</span><span class="dv">202</span><span class="op">);</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>flag1<span class="op">);</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>flag2<span class="op">);</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>flag1 <span class="op">&amp;&amp;</span> flag2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"ping!"</span><span class="op">);</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>flag1 <span class="op">||</span> flag2<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"pong!"</span><span class="op">);</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">boolean</span> <span class="fu">isHoopy</span><span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">boolean</span> hoopyFlag<span class="op">;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>x <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>        hoopyFlag <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>        hoopyFlag <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hoopyFlag<span class="op">;</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35" data-language="Java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">boolean</span> <span class="fu">isFrabjuous</span><span class="op">(</span><span class="dt">int</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">boolean</span> frabjuousFlag<span class="op">;</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>x <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>        frabjuousFlag <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>        frabjuousFlag <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> frabjuousFlag<span class="op">;</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><em>The purpose of this exercise is to make sure you understand logical operators and the flow of execution through methods.</em></p>
 </div>
 <div class="exercise">
