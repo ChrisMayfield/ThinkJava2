@@ -101,7 +101,8 @@ Each time through the loop, the program displays the value of `n`{.java}
 and then checks whether it is even or odd. If it is even, the value of
 `n`{.java} is divided by 2. If it is odd, the value is replaced by
 $3n+1$. For example, if the starting value is 3, the resulting sequence
-is 3, 10, 5, 16, 8, 4, 2, 1.
+is 3, 10, 5, 16, 8, 4, 2. (The above code will not print 1, because the
+while loop terminates when n == 1.)
 
 Since `n`{.java} sometimes increases and sometimes decreases, there is
 no obvious proof that `n`{.java} will ever reach 1 and that the program
