@@ -97,6 +97,7 @@ Numbered tasks for tracking work. Each task has a permanent number; add new task
 2. Annotated additional fences + 2 REPL examples
 3. Re-test HTML build after Task 3 edits
 
+
 ---
 
 ## Task 4: Fix empty TOC in LaTeX PDF
@@ -188,3 +189,4 @@ Empty Contents was a **failed / incomplete LaTeX build** problem, not a missing 
 1. New distrib docs + Makefile targets
 2. PDF available from GitHub; GTP mirror steps documented
 3. Board note linking Task 5 decision to which file is published
+

@@ -514,7 +514,7 @@ In the following example, `s1`{.java} and `s2`{.java} are created
 differently, but they refer to equivalent strings; that is, the two
 strings contain the same characters:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 public class Surprise {
     public static void main(String[] args) {
         String s1 = "Hi, Mom!";

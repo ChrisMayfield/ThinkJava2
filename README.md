@@ -22,21 +22,31 @@ Are you using this book in a class? We'd like to know about it! Please consider 
 *Note: Most readers won't need to build from source. The free HTML version is available online.*
 
 ### Prerequisites
-- LaTeX distribution (texlive-latex-extra, texlive-fonts-recommended on Linux)
-- Python 3.6+ for conversion scripts
-- Quarto for HTML generation
+- [Quarto](https://quarto.org/docs/get-started/) (required for `make html`; install separately, not via conda)
+- Python 3.12 for conversion scripts — use the conda env below
+- LaTeX distribution (texlive-latex-extra, texlive-fonts-recommended on Linux) for PDF
+
+### Conda environment
+```bash
+make create_environment   # or: mamba env create -f environment.yml
+conda activate ThinkJava2
+```
+
+Update later with `make update_environment`. Remove with `make delete_environment`.
+
+No JDK is required for the interactive HTML book: [java-runner](https://github.com/ChrisMayfield/java-runner) runs entirely in the browser.
 
 ### Build Commands
 ```bash
+# HTML version (Quarto) — primary interactive book path
+make html
+
 # PDF version (LaTeX)
 make pdf
 
-# HTML version (Quarto)
-make html
-
 # Legacy HTML versions
 make hevea    # static HTML
-make trinket  # interactive version
+make trinket  # interactive version (Trinket.io; being replaced by java-runner)
 ```
 
 ## Repository Structure

@@ -689,7 +689,7 @@ means the word is a doubloon.
 Pulling together the code fragments, and adding some comments and test
 cases, here's the entire program:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 public class Doubloon {
 
     public static boolean isDoubloon(String s) {

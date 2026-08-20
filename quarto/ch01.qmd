@@ -106,7 +106,7 @@ programming language is called the "Hello World" program. All it does is
 output the words `Hello, World!` to the screen. In Java, it looks like
 this:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 public class Hello {
 
     public static void main(String[] args) {
@@ -127,7 +127,7 @@ methods are made up of *statements*. A **statement** is a line of code
 that performs a basic action. In the Hello World program, this line is a
 **print statement** that displays a message to the user:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 System.out.println("Hello, World!");
 ```
 
@@ -263,7 +263,7 @@ background, so if something goes wrong you can figure out what it is.
 You can put as many statements as you like in the `main`{.java} method.
 For example, to display more than one line of output:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 public class Hello2 {
 
     public static void main(String[] args) {
@@ -287,7 +287,7 @@ tabs, etc.
 want a newline at the end, you can use `print`{.java} instead of
 `println`{.java}:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 public class Goodbye {
 
     public static void main(String[] args) {
@@ -325,7 +325,7 @@ publicclassGoodbye{
 But most other spaces are optional. For example, this program *is*
 legal:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 public class Goodbye {
 public static void main(String[] args) {
 System.out.print("Goodbye, ");
@@ -336,7 +336,7 @@ System.out.println("cruel world");
 
 The newlines are optional, too. So we could just write this:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 public class Goodbye { public static void main(String[] args)
 { System.out.print("Goodbye, "); System.out.println
 ("cruel world");}}
@@ -367,7 +367,7 @@ to them periodically as you read this book.
 It's possible to display multiple lines of output with only one line of
 code. You just have to tell Java where to put the line breaks:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 public class Hello3 {
 
     public static void main(String[] args) {
@@ -404,7 +404,7 @@ used ones are listed in Table [1.1](#tab:escape){reference-type="ref"
 reference="tab:escape"}. For example, to write quotation marks inside of
 strings, you need to escape them with a backslash:
 
-``` {.java language="Java"}
+``` {.java .javarunner language="Java"}
 System.out.println("She said \"Hello!\" to me.");
 ```
 
