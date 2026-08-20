@@ -1,9 +1,10 @@
 F=thinkjava2
 
 all:
-	pdflatex $(F).tex
-	pdflatex $(F).tex
-	pdflatex $(F).tex
+	-pdflatex -interaction=nonstopmode $(F).tex
+	-pdflatex -interaction=nonstopmode $(F).tex
+	-pdflatex -interaction=nonstopmode $(F).tex
+	@test -f $(F).pdf
 
 clean:
 	rm -f comment.cut $(F).aux $(F).idx $(F).ilg $(F).ind $(F).log $(F).out $(F).toc
