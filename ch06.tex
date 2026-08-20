@@ -102,7 +102,7 @@ while (n != 1) {
 Each time through the loop, the program displays the value of \java{n} and then checks whether it is even or odd.
 If it is even, the value of \java{n} is divided by 2.
 If it is odd, the value is replaced by $3n+1$.
-For example, if the starting value is 3, the resulting sequence is 3, 10, 5, 16, 8, 4, 2, 1.
+For example, if the starting value is 3, the resulting sequence is 3, 10, 5, 16, 8, 4, 2, (the above code will not print 1, because the while loop terminates when n == 1)
 
 Since \java{n} sometimes increases and sometimes decreases, there is no obvious proof that \java{n} will ever reach 1 and that the program will ever terminate.
 For some values of \java{n}, such as the powers of two, we can prove that it terminates.
