@@ -57,7 +57,7 @@ format:
       - assets/javarunner/javarunner.css
     include-in-header:
       - text: |
-          <script src="assets/javarunner/javarunner.js"></script>
+          <script defer src="assets/javarunner/javarunner.js"></script>
     include-before-body: header.html
     #include-after-body: footer.html
   pdf:
