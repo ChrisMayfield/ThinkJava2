@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://chrisamayfield.github.io/ThinkJava2/assets/javarunner/javarunner.css">
+  <style>
+    html, body { margin: 0; padding: 8px; }
+    .jr-pending-code {
+      background-color: #f8f9fa;
+      padding: 0.5em 0.75em;
+      border-radius: 3px;
+      border: 1px solid #e0e0e0;
+      font-size: 0.95em;
+      overflow-x: auto;
+      margin: 0 0 0.5em 0;
+    }
+    .jr-pending:has(.jr-widget) > .jr-pending-code { display: none; }
+    .jr-btn-test { display: none !important; }
+  </style>
+</head>
+<body>
+<div class="jr-pending">
+<pre class="jr-pending-code"><code>int n = 3;
+while (n != 1) {
+    System.out.println(n);
+    if (n % 2 == 0) {         // n is even
+        n = n / 2;
+    } else {                  // n is odd
+        n = 3 * n + 1;
+    }
+}</code></pre>
+<script type="text/x-java">
+int n = 3;
+while (n != 1) {
+    System.out.println(n);
+    if (n % 2 == 0) {         // n is even
+        n = n / 2;
+    } else {                  // n is odd
+        n = 3 * n + 1;
+    }
+}
+</script>
+</div>
+<script defer src="https://chrisamayfield.github.io/ThinkJava2/assets/javarunner/javarunner.js"></script>
+</body>
+</html>
