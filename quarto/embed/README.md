@@ -4,13 +4,15 @@ Minimal HTML for iframe embeds (e.g. WordPress strips inline `<script>` in post 
 
 ## Collatz example
 
-File: `collatz-conjecture.html`
+**WordPress:** Custom HTML block with an iframe. WordPress is not blocking scripts inside the iframe — if you only see static code, java-runner failed to load (check Network in devtools).
 
-After pushing to `master`, iframe URL (serves as HTML, not plain text):
+Site URL is **chrismayfield**.github.io (not chrisamayfield).
+
+### iframe (after deploy to gh-pages `embed/`)
 
 ```html
 <iframe
-  src="https://raw.githack.com/ChrisMayfield/ThinkJava2/master/quarto/embed/collatz-conjecture.html"
+  src="https://chrismayfield.github.io/ThinkJava2/embed/collatz-conjecture.html"
   width="100%"
   height="420"
   style="border:1px solid #e0e0e0;border-radius:6px;"
@@ -19,6 +21,10 @@ After pushing to `master`, iframe URL (serves as HTML, not plain text):
 </iframe>
 ```
 
-`raw.githubusercontent.com` alone does **not** work in iframes (wrong MIME type). Use [raw.githack.com](https://raw.githack.com/) or GitHub Pages.
+### Alternate iframe src
 
-java-runner assets load from the book’s GitHub Pages build (`/assets/javarunner/`).
+```html
+src="https://raw.githack.com/ChrisMayfield/ThinkJava2/master/quarto/embed/collatz-conjecture.html"
+```
+
+`raw.githubusercontent.com` alone does not render as HTML in an iframe.
