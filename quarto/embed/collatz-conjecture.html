@@ -16,6 +16,20 @@
       --jr-input-bg: #f8f9fa;
       --jr-input-border: #d0d0d0;
     }
+    .jr-repl, .jr-console { color-scheme: light; }
+    .jr-repl-input-line {
+      background: var(--jr-console-bg);
+      border-top: 1px solid var(--jr-console-separator);
+    }
+    .jr-repl-input, .jr-console-input-field {
+      background-color: var(--jr-input-bg) !important;
+      color: var(--jr-console-text) !important;
+      caret-color: var(--jr-console-text);
+      -webkit-text-fill-color: var(--jr-console-text);
+    }
+    .jr-repl-echo { color: var(--jr-console-text); }
+    .jr-editor .cm-activeLine { background-color: rgba(204, 238, 255, 0.27) !important; }
+    .jr-editor .cm-activeLineGutter { background-color: #e2f2ff !important; }
     .jr-pending-code {
       background-color: #f8f9fa;
       padding: 0.5em 0.75em;
