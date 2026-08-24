@@ -53,8 +53,8 @@ format:
     fig-cap-location: bottom
     external-links: true
     css:
-      - custom.css
       - assets/javarunner/javarunner.css
+      - custom.css
     include-in-header:
       - text: |
           <script defer src="assets/javarunner/javarunner.js"></script>
