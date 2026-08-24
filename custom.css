@@ -80,6 +80,17 @@ pre {
     display: none !important;
 }
 
+/* Light console/REPL to match the editor (overrides javarunner.css :root). */
+:root {
+    --jr-console-bg: #ffffff;
+    --jr-console-text: #1a1a1a;
+    --jr-console-input: #005a9e;
+    --jr-console-error: #c62828;
+    --jr-console-separator: #e0e0e0;
+    --jr-input-bg: #f8f9fa;
+    --jr-input-border: #d0d0d0;
+}
+
 /* Show static code until java-runner replaces the sibling <script>
    with a .jr-widget (filter emits .jr-pending wrappers). */
 .jr-pending-code {
