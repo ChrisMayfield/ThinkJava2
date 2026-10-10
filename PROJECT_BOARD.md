@@ -262,3 +262,28 @@ deferred javarunner.js runs
 2. Upstream issue for library-side optimizations (#3)
 3. Manual browser re-test of interactive editors and REPLs
 
+## Task 8: Releases (PDF on GitHub and greenteapress.com)
+
+**Status:** Ongoing (added 2026-10-10)
+
+### Released
+
+- Earlier releases: v6.5.0, v6.6.0 (PDF assets), v7.1.0 (tag `76bcced`, June 2020, no asset).
+- **v7.1.1** (2026-10-10, latest; Allen) — the fixes since v7.1.0 that were already in the August 2026 PDF (issue #30 TOC, §6.1 code sample, alt text, typo fixes), plus the ch17 alt text writing "theta" instead of θ so `make pdf` builds without errors. 372 pages; text diff vs the August PDF = version + that alt text. Same file in `thinkjava2.pdf` on master, on greenteapress.com/thinkjava7/, and in the release.
+
+### How to release a new version
+
+The pattern (GreenTeaPress `PROJECT_BOARD.md`, Task 7): the GitHub release asset is the canonical, versioned PDF; an identical copy lives on greenteapress.com (the WordPress page links that copy, which opens in the browser); the two must be the same file.
+
+1. **Bump the version** (`\newcommand{\theversion}` in `thinkjava2.tex`) and commit the source changes.
+2. **Build** in a clean copy (not in a working tree with stray files): in a clean clone, `make pdf` (pdflatex ×3; the target ignores LaTeX errors, so check `thinkjava2.log` for `^!` lines yourself). Non-ASCII characters in `\includegraphics[alt={…}]` break pdflatex (θ did, in ch17) — write them out
+3. **Check the build:** no `^!` errors or "Rerun" warnings in the log; same page count unless content changed; compare the text with the previous PDF and read every difference:
+   `diff <(pdftotext OLD.pdf - | tr -s ' \n' ' ') <(pdftotext NEW.pdf - | tr -s ' \n' ' ')` (or line-by-line `pdftotext` + `diff`); render any page that looks suspicious (`pdftoppm -f N -l N -r 60 -png`).
+   The repo tracks `thinkjava2.pdf` on master (Task 6); commit the new build with the source. `make publish-gtp` rsyncs straight to the server, which bypasses `~/GreenTeaPress`; use step 5 instead (or run `scripts/pull_gtp.sh thinkjava7` there afterwards).
+4. **Commit and push** the source (and anything the repo keeps in git: `thinkjava2.pdf`); note the full SHA: `git rev-parse HEAD`.
+5. **greenteapress.com:** `cp thinkjava2.pdf ~/GreenTeaPress/greenteapress/thinkjava7/`; in `~/GreenTeaPress`: commit, `scripts/deploy_gtp.sh -n thinkjava7/thinkjava2.pdf`, then without `-n`; check `curl -s https://greenteapress.com/thinkjava7/thinkjava2.pdf | cmp - greenteapress/thinkjava7/thinkjava2.pdf`.
+6. **GitHub release:** `gh release create vX.Y.Z ~/GreenTeaPress/greenteapress/thinkjava7/thinkjava2.pdf -R AllenDowney/ThinkJava2 --target FULL_SHA --title "Think Java 2e, version X.Y.Z" --notes-file NOTES.md --latest` (`--target` needs the **full** SHA). Verify: `curl -sL https://github.com/AllenDowney/ThinkJava2/releases/latest/download/thinkjava2.pdf | cmp - ~/GreenTeaPress/greenteapress/thinkjava7/thinkjava2.pdf`.
+7. Record the release here and in GreenTeaPress Task 7. Download counts for release assets are archived weekly by `~/GreenTeaPress/scripts/github_traffic.py`; GTP downloads appear in the weekly log report.
+
+---
+
