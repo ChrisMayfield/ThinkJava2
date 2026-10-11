@@ -43,6 +43,8 @@ filters:
 resources:
   - assets/javarunner/javarunner.js
   - assets/javarunner/javarunner.css
+  # iframe pages embedded in blog posts (allendowney.com/blog); see embed/README.md
+  - embed/*.html
 
 format:
   html:
