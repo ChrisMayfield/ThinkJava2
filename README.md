@@ -8,7 +8,7 @@ Are you using this book in a class? We'd like to know about it! Please consider 
 
 ## Reading the Book
 
-**Free HTML Version**: [Read online at GitHub Pages](https://chrisamayfield.github.io/ThinkJava2/)
+**Free HTML Version**: [Read online at GitHub Pages](https://chrismayfield.github.io/ThinkJava2/)
 
 **Free PDF**: [Download from GitHub](https://github.com/ChrisMayfield/ThinkJava2/raw/master/thinkjava2.pdf) (canonical). Stable mirror: [greenteapress.com/thinkjava7/thinkjava2.pdf](https://greenteapress.com/thinkjava7/thinkjava2.pdf).
 
