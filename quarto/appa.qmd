@@ -17,8 +17,8 @@ code quality and JUnit for testing.
 
 The easiest way to start programming in Java is to use a website that
 compiles and runs Java code in the browser. Examples include
-<https://repl.it/>, <https://trinket.io/>, <https://jdoodle.com/>, and
-others.
+<https://repl.it/>, <https://coddy.tech/playground/java>,
+<https://jdoodle.com/>, and others.
 
 If you are unable to install software on your computer (which is often
 the case in public schools and Internet cafés), you can use these online

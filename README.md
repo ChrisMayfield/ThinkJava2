@@ -1,6 +1,4 @@
-# Think Java
-
-Second Edition
+# Think Java, Second Edition
 
 **Think Java** is an introduction to computer science and programming intended for people with little or no experience. The goal is to help students learn to design and implement object-oriented solutions to non-trivial problems.
 
@@ -10,11 +8,11 @@ Are you using this book in a class? We'd like to know about it! Please consider 
 
 ## Reading the Book
 
-** Free HTML Version**: [Read online at GitHub Pages](https://chrisamayfield.github.io/ThinkJava2/)
+**Free HTML Version**: [Read online at GitHub Pages](https://chrisamayfield.github.io/ThinkJava2/)
 
-** Free PDF**: [Download from GitHub](https://github.com/ChrisMayfield/ThinkJava2/raw/master/thinkjava2.pdf) (canonical). Stable mirror: [greenteapress.com/thinkjava7/thinkjava2.pdf](https://greenteapress.com/thinkjava7/thinkjava2.pdf).
+**Free PDF**: [Download from GitHub](https://github.com/ChrisMayfield/ThinkJava2/raw/master/thinkjava2.pdf) (canonical). Stable mirror: [greenteapress.com/thinkjava7/thinkjava2.pdf](https://greenteapress.com/thinkjava7/thinkjava2.pdf).
 
-** Purchase Options** (affiliate links):
+**Purchase Options** (affiliate links):
 - [Bookshop.org](https://bookshop.org/a/98697/9781492072508) - Support independent bookstores
 - [Amazon](https://amzn.to/2BEmdAn) - Kindle and paperback editions
 
@@ -39,6 +37,7 @@ Update later with `make update_environment`. Remove with `make delete_environmen
 No JDK is required for the interactive HTML book: [java-runner](https://github.com/ChrisMayfield/java-runner) runs entirely in the browser.
 
 ### Build Commands
+
 ```bash
 # HTML version (Quarto) — primary interactive book path
 make html
@@ -66,6 +65,8 @@ make publish-gtp
 ```
 
 `publish-gtp` rsyncs **only** the PDF (no `--delete`, no HeVeA HTML). HTML for readers is Quarto on GitHub Pages.
+
+
 ## Repository Structure
 
 ```
@@ -89,4 +90,3 @@ ThinkJava2/
 Copyright (c) 2020 Allen B. Downey and Chris Mayfield.
 
 This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. See [LICENSE](LICENSE) for details.
-

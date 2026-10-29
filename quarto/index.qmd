@@ -286,7 +286,7 @@ Underwood, Isaac Sultan, Dan Rice, Robert Beard, Daniel Pierce, Michael
 Giftthaler, Chris Fox, Min Zeng, Markus Geuss, Mauricio Gonzalez, Enrico
 Sartirana, Kasem Satitwiwat, Jason Miller, Kevin Molloy, Cory
 Culbertson, Will Crawford, Shawn Brenneman, Tom Nguyen, Ala-Uddin
-Mohammad, and Pascal Croizier.
+Mohammad, Pascal Croizier, and Kevin Spektor.
 
 If you have additional comments or ideas about the text, please send
 them to:
